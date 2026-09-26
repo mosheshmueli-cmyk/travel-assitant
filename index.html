@@ -6,10 +6,14 @@
     <meta name="theme-color" content="#4F46E5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Travel Assistant App V6</title>
+    <title>Travel Assistant App V7</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
     <style>
         :root { --primary: #4F46E5; --secondary: #10B981; --bg-color: #F3F4F6; --card-bg: #FFFFFF; --text-main: #1F2937; --text-muted: #6B7280; }
         body { font-family: 'Heebo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
@@ -44,6 +48,9 @@
         .details-content { padding: 15px; border-top: 1px solid #E5E7EB; background: white; font-size: 0.95em; color: var(--text-main); line-height: 1.6; }
         .day-highlight { color: #D97706; font-weight: 800; font-size: 0.85em; margin-bottom: 5px; display: inline-block; background: #FEF3C7; padding: 2px 8px; border-radius: 12px; }
 
+        /* Map UI */
+        #interactive-map { width: 100%; height: 60vh; border-radius: 12px; z-index: 1; border: 1px solid #E5E7EB; }
+
         /* Chat UI */
         .chat-container { display: flex; flex-direction: column; height: 55vh; background: #F9FAFB; border-radius: 12px; border: 1px solid #E5E7EB; overflow: hidden; }
         .chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -54,9 +61,9 @@
         .chat-input-area input { flex-grow: 1; padding: 10px 15px; border: 1px solid #D1D5DB; border-radius: 20px; outline: none; font-family: inherit; }
         .chat-input-area button { background: var(--primary); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-right: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center;}
 
-        /* Bottom Nav */
-        .nav-bottom { position: fixed; bottom: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 100; border-top: 1px solid #E5E7EB;}
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7em; font-weight: 600; cursor: pointer; width: 25%; }
+        /* Bottom Nav (Now 5 items) */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 100; border-top: 1px solid #E5E7EB;}
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.65em; font-weight: 600; cursor: pointer; width: 20%; }
         .nav-item i { font-size: 1.3em; margin-bottom: 4px; }
         .nav-item.active { color: var(--primary); }
     </style>
@@ -71,8 +78,6 @@
         
         <!-- TAB 1: Itinerary -->
         <div id="tab-itinerary" class="tab-content active">
-            
-            <!-- Real-time Weather Widget -->
             <div class="weather-widget" id="weather-widget">
                 <div class="weather-info">
                     <h3>מזג אוויר בסיאול (זמן אמת)</h3>
@@ -80,58 +85,67 @@
                 </div>
                 <i class="fa-solid fa-location-dot" style="font-size: 2em; opacity: 0.8;"></i>
             </div>
-            
             <div class="weather-alert" id="weather-alert"></div>
 
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-book-open"></i> מסלול הטיול המלא</div>
                 
                 <details open>
-                    <summary>יום 2 (23/11): ברוכים הבאים לסיאול</summary>
+                    <summary>יום 2: סונגדו (23/11)</summary>
                     <div class="details-content">
-                        <span class="day-highlight">היום הנוכחי</span><br>
-                        לאחר נחיתה באינצ'און, נעצור בדרך לעיר באי Yeongjong או ברובע Songdo המודרני. 
-                        נטייל בפארק המרכזי היפהפה, נהנה מהליכה נינוחה לצד תעלות מים. נעצור לארוחת צהריים עצמאית. 
-                        <br><br><b>תוספת המערכת:</b> בדרך למלון בסיאול נעצור לסדנת ספא קוריאני להתרעננות. בערב נצא לארוחת ערב. 
+                        פארק סונגדו, תעלות מים, סדנת ספא קוריאני להתרעננות, וארוחת ערב לפתיחת הטיול בסיאול. 
                     </div>
                 </details>
 
                 <details>
-                    <summary>יום 3 (24/11): סיאול – מקדשים וארמונות</summary>
+                    <summary>יום 3: סיאול הקלאסית (24/11)</summary>
                     <div class="details-content">
-                        סיור בעירייה, מגדל נאמסאן לתצפית, שוק נאמדאמון, הפלגה בנהר ההאן, קניות במיונג דונג וצפייה במופע התיאטרון "נאנטה".
+                        מגדל נאמסאן לתצפית, שוק נאמדאמון, קניות במיונג דונג, ומופע נאנטה.
                     </div>
+                </details>
+
+                <details>
+                    <summary>יום 4: כפר הפולקלור (25/11)</summary>
+                    <div class="details-content">מצודת סואון (אונסק"ו), הכפר המסורתי. נסיעה למזרח ללינה בסוקצ'ו.</div>
+                </details>
+                
+                <details>
+                    <summary>יום 5: הר סאוראק (26/11)</summary>
+                    <div class="details-content">עלייה ברכבל לפסגת הר סאוראק, מקדש נקסאנסה במצוק מעל הים.</div>
                 </details>
 
                 <details style="border: 2px solid var(--primary);">
-                    <summary style="color: var(--primary); font-weight: 800;">יום 7 (28/11): בעקבות ממלכת שילה</summary>
+                    <summary style="color: var(--primary); font-weight: 800;">יום 7: שבת! (28/11)</summary>
                     <div class="details-content">
                         <div id="itinerary-day7-main">
-                            <span class="day-highlight" style="background:#E0E7FF; color: var(--primary);">מסלול מלא (קבוצה מרכזית)</span><br>
-                            ניסע לג'יונגג'ו, נבקר במוזיאון הלאומי, מצפה הכוכבים, פארק קברי המלכים. נסיעה ללינה בבוסאן.
+                            <span class="day-highlight" style="background:#E0E7FF; color: var(--primary);">קבוצה מרכזית</span><br>
+                            סיור באוטובוס לממלכת שילה בגיונגג'ו (קברי מלכים, בולוגוקסה). מעבר בערב לבוסאן.
                         </div>
-                        
                         <div id="itinerary-day7-shabbat" style="display:none;">
-                            <span class="day-highlight" style="background:#D1FAE5; color: #065F46;">מסלול מותאם (שומרי שבת)</span><br>
-                            <b>השהייה מוארכת במלון בדאגו.</b><br>
-                            סיור רגלי מונגש בגבעת צ'ונגנה ובפארק גיונגסאנג. במוצ"ש רכבת מהירה לבוסאן לחבירה לקבוצה.
+                            <span class="day-highlight" style="background:#D1FAE5; color: #065F46;">שומרי שבת</span><br>
+                            הליכה ללא נסיעה מגבעת צ'ונגנה אל פארק גיונגסאנג בדאגו. רכבת KTX לבוסאן במוצ"ש.
                         </div>
                     </div>
                 </details>
-
-                <details><summary>ימים 8-15 (המשך המסלול...)</summary><div class="details-content">
-                    בוסאן, ג'ג'ו, וחזרה לסיאול. שמור בבסיס הנתונים.
-                </div></details>
             </div>
         </div>
 
-        <!-- TAB 2: Chat Assistant -->
+        <!-- TAB 2: Map -->
+        <div id="tab-map" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-map-location-dot"></i> מפת נקודות ציון (POIs)</div>
+                <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 10px;">מפת התמצאות אינטראקטיבית עם נקודות המסלול מדרום קוריאה. לחץ על הסיכות לפרטים.</p>
+                <div id="interactive-map"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Chat Assistant -->
         <div id="tab-chat" class="tab-content">
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-robot"></i> העוזר האישי שלך</div>
                 <div class="chat-container">
                     <div class="chat-messages" id="chat-messages">
-                        <div class="msg bot">היי! אני כאן לעזור בזמן אמת. קרה משהו לא צפוי? אפשר לשאול אותי שאלות כמו: "יורד גשם, הכביש נחסם, מה עושים עכשיו?"</div>
+                        <div class="msg bot">היי! אני כאן לעזור. קרה משהו לא צפוי? (נסה: "יורד גשם, מה עושים?")</div>
                     </div>
                     <div class="chat-input-area">
                         <input type="text" id="chat-input" placeholder="הקלד כאן..." onkeypress="handleKeyPress(event)">
@@ -141,28 +155,22 @@
             </div>
         </div>
 
-        <!-- TAB 3: Accommodation -->
+        <!-- TAB 4: Accommodation -->
         <div id="tab-hotels" class="tab-content">
             <div class="card">
-                <div class="card-title"><i class="fa-solid fa-hotel"></i> ניהול לינה</div>
-                <div style="display: flex; align-items: center; padding: 15px; border: 2px dashed #D1D5DB; border-radius: 10px; margin-bottom: 15px;">
-                    <i class="fa-regular fa-building" style="font-size: 2em; color: #9CA3AF; margin-left: 15px;"></i>
-                    <div>
-                        <h4 style="margin:0 0 5px 0;">מלון בסיאול (ימים 2-3)</h4>
-                        <p style="margin:0; font-size: 0.85em; color: #666;">טרם עודכן מאופיר טורס.</p>
-                    </div>
-                </div>
+                <div class="card-title"><i class="fa-solid fa-hotel"></i> מלונות</div>
+                <p style="font-size: 0.85em;">ממתינים לעדכון סופי מחברת הנסיעות.</p>
             </div>
         </div>
 
-        <!-- TAB 4: Settings -->
+        <!-- TAB 5: Settings -->
         <div id="tab-settings" class="tab-content">
             <div class="card">
-                <div class="card-title"><i class="fa-solid fa-sliders"></i> הגדרות אילוצי קבוצה</div>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #E5E7EB;">
+                <div class="card-title"><i class="fa-solid fa-sliders"></i> ניהול אילוצים</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
                     <div>
                         <div style="font-weight: 800;">מצב שומר שבת</div>
-                        <div style="font-size: 0.8em; color: #666;">מציג מסלולי הליכה חלופיים לשבת (ימים 7, 14)</div>
+                        <div style="font-size: 0.8em; color: #666;">מחליף את ימים 7, 14 למסלולי הליכה.</div>
                     </div>
                     <label style="position: relative; display: inline-block; width: 50px; height: 28px;">
                         <input type="checkbox" id="shabbat-toggle" style="opacity: 0; width: 0; height: 0;">
@@ -178,24 +186,65 @@
     <!-- Bottom Nav -->
     <div class="nav-bottom">
         <div class="nav-item active" onclick="switchTab('tab-itinerary', this)"><i class="fa-solid fa-list-ul"></i> הלו"ז</div>
-        <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-regular fa-comments"></i> צ'אט AI</div>
+        <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
+        <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-regular fa-comments"></i> צ'אט</div>
         <div class="nav-item" onclick="switchTab('tab-hotels', this)"><i class="fa-solid fa-bed"></i> לינה</div>
         <div class="nav-item" onclick="switchTab('tab-settings', this)"><i class="fa-solid fa-gear"></i> הגדרות</div>
     </div>
 
+    <!-- Leaflet JS for Map Integration -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
     <script>
-        // Tab switching
+        let mapInitialized = false;
+
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
+            
+            // Initialize map only when its tab is opened (to prevent Leaflet rendering bugs)
+            if(tabId === 'tab-map' && !mapInitialized) {
+                initMap();
+                mapInitialized = true;
+            }
+        }
+
+        function initMap() {
+            // Map centered on South Korea
+            const map = L.map('interactive-map').setView([36.0, 127.8], 6);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            // Defining POIs from Itinerary
+            const pois = [
+                { title: 'יום 2: סונגדו סנטרל פארק', lat: 37.3925, lng: 126.6394, type: 'פארק ואגמים' },
+                { title: 'יום 3: מגדל סאול (Namsan)', lat: 37.5511, lng: 126.9882, type: 'תצפית עיר' },
+                { title: 'יום 4: מצודת סואון הוואסונג', lat: 37.2882, lng: 127.0125, type: 'היסטוריה (אונסק"ו)' },
+                { title: 'יום 5: הר סאוראק', lat: 38.1195, lng: 128.4655, type: 'טבע נוף ורכבל' },
+                { title: 'יום 6/7: דאגו (גבעת צ'ונגנה)', lat: 35.8672, lng: 128.5830, type: 'עיר מגורים / מסלול שבת' },
+                { title: 'יום 7: ממלכת שילה בגיונגג'ו', lat: 35.8396, lng: 129.2140, type: 'קברי מלכים (קבוצה רגילה)' },
+                { title: 'יום 8-9: בוסאן (שוק דגים/כפר)', lat: 35.1587, lng: 129.1604, type: 'עיר חוף פסטורלית' },
+                { title: 'יום 11: הר הגעש (ג'ג'ו)', lat: 33.4588, lng: 126.9422, type: 'פלא טבע' }
+            ];
+
+            // Add markers
+            pois.forEach(poi => {
+                L.marker([poi.lat, poi.lng]).addTo(map)
+                    .bindPopup(`<b>${poi.title}</b><br>${poi.type}`);
+            });
+            
+            // Force map resize fix after load
+            setTimeout(() => { map.invalidateSize(); }, 200);
         }
 
         // Real-time Weather Fetching (Open-Meteo API)
         async function fetchWeather() {
             try {
-                // Coordinates for Seoul
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true');
                 const data = await res.json();
                 const temp = data.current_weather.temperature;
@@ -215,15 +264,10 @@
                 if(hasAlert || code > 50) {
                     const alertDiv = document.getElementById('weather-alert');
                     alertDiv.style.display = 'block';
-                    alertDiv.innerHTML = `<strong><i class="fa-solid fa-triangle-exclamation"></i> עדכון למסלול היומי:</strong> 
-                    המערכת מזהה משקעים כעת בסיאול. שים לב כי הסיור בפארק סונגדו עלול להיות רטוב, מומלץ להיכנס למתחם ה-Tribowl המקורה או להקדים את הספא.`;
+                    alertDiv.innerHTML = `<strong><i class="fa-solid fa-triangle-exclamation"></i> עדכון למסלול היומי:</strong> המערכת מזהה משקעים. מומלץ להיכנס למתחם מקורה כגון הספא.`;
                 }
-            } catch (e) {
-                document.getElementById('weather-temp').innerText = "לא ניתן לטעון תחזית";
-            }
+            } catch (e) { document.getElementById('weather-temp').innerText = "לא ניתן לטעון תחזית"; }
         }
-        
-        // Fetch weather on load
         fetchWeather();
 
         // Chat functionality
@@ -232,26 +276,21 @@
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if (!text) return;
-
             addMsg(text, 'user');
             input.value = '';
-
             setTimeout(() => {
                 if (text.includes('גשם') || text.includes('נחסם') || text.includes('מקדש')) {
-                    addMsg('📍 <b>מנתח את הלו"ז (יום 2)...</b><br>כיוון שהכבישים חסומים או שיש גשם, אני ממליץ לשנות את המסלול מיידית. במקום הליכה בפארק סונגדו הפתוח, אפשר להיכנס למוזיאון ה-Tri-bowl המקורה. בנוסף, פניתי לנהג האוטובוס הווירטואלי - אפשר להקדים את כניסת הקבוצה לספא עכשיו במקום בצהריים. מה תעדיפו?', 'bot');
+                    addMsg('📍 <b>מנתח לו"ז...</b> מכיוון שמזג האוויר בעייתי, אני מציע לדלג על הפארק ולעבור ל-Tri-bowl המקורה. אפשר גם להקדים את הספא. מה תעדיפו?', 'bot');
                 } else {
-                    addMsg('אני מחובר ישירות ללו"ז הקבוצה. נסו לשאול אותי על תרחיש חסימת כביש או שינוי לו"ז (כמו "יורד גשם" או "כביש נחסם").', 'bot');
+                    addMsg('אני פה לכל שינוי בלו"ז. נסה לשאול אותי מה לעשות אם יורד גשם.', 'bot');
                 }
             }, 800);
         }
-
         function addMsg(text, sender) {
             const msgs = document.getElementById('chat-messages');
             const div = document.createElement('div');
-            div.className = 'msg ' + sender;
-            div.innerHTML = text;
-            msgs.appendChild(div);
-            msgs.scrollTop = msgs.scrollHeight;
+            div.className = 'msg ' + sender; div.innerHTML = text;
+            msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
         }
 
         // Shabbat Toggle Logic
@@ -260,17 +299,14 @@
             const slider = document.getElementById('slider-btn');
             const mainView = document.getElementById('itinerary-day7-main');
             const shabbatView = document.getElementById('itinerary-day7-shabbat');
-            
             if (isChecked) {
                 e.target.parentElement.children[1].style.backgroundColor = 'var(--primary)';
                 slider.style.transform = 'translateX(22px)';
-                mainView.style.display = 'none';
-                shabbatView.style.display = 'block';
+                mainView.style.display = 'none'; shabbatView.style.display = 'block';
             } else {
                 e.target.parentElement.children[1].style.backgroundColor = '#ccc';
                 slider.style.transform = 'translateX(0)';
-                mainView.style.display = 'block';
-                shabbatView.style.display = 'none';
+                mainView.style.display = 'block'; shabbatView.style.display = 'none';
             }
         });
     </script>
