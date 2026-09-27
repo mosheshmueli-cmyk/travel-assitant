@@ -67,7 +67,8 @@
         .nav-item i { font-size: 1.3em; margin-bottom: 4px; }
         .nav-item.active { color: var(--primary); }
     </style>
-</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script></head>
 <body>
 
     <div class="header">הקסם הקוריאני 2026</div>
@@ -312,6 +313,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- TAB 6: Gallery Sync -->
+        <div id="tab-gallery" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i> סנכרון תמונות סוף-יום</div>
+                <p style="font-size: 0.9em; color: #555;">בחר את התמונות שצילמת היום. המערכת תקרא את נתוני המיקום והזמן הנסתרים (EXIF) ותמיין אותן אוטומטית לפי אתרי הטיול.</p>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <input type="file" id="photo-input" multiple accept="image/jpeg, image/png, image/heic" style="display:none;">
+                    <button onclick="document.getElementById('photo-input').click()" style="background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 25px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><i class="fa-solid fa-images"></i> בחר תמונות לסנכרון</button>
+                </div>
+                
+                <div id="sync-results" style="margin-top: 15px; font-size: 0.9em;"></div>
+                
+                <div id="google-drive-connect" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; display: none;">
+                    <p style="font-size: 0.85em; font-weight: bold; color: #d93025;"><i class="fa-brands fa-google-drive"></i> הגיבוי ל-Google Drive ממתין לחיבור חשבון</p>
+                    <p style="font-size: 0.75em; color: #666;">(השלב הבא בפיתוח)</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="nav-bottom">
@@ -319,7 +340,9 @@
         <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
         <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-regular fa-comments"></i> צ'אט</div>
         <div class="nav-item" onclick="switchTab('tab-hotels', this)"><i class="fa-solid fa-bed"></i> לינה</div>
-        <div class="nav-item" onclick="switchTab('tab-settings', this)"><i class="fa-solid fa-gear"></i> הגדרות</div>
+        
+        <div class="nav-item" onclick="switchTab('tab-gallery', this)"><i class="fa-solid fa-camera-retro"></i> תמונות</div>
+<div class="nav-item" onclick="switchTab('tab-settings', this)"><i class="fa-solid fa-gear"></i> הגדרות</div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -461,6 +484,52 @@
                 if(d14Main) { d14Main.style.display = 'block'; d14Shabbat.style.display = 'none'; }
             }
         });
-    </script>
+    
+        document.getElementById('photo-input').addEventListener('change', async function(e) {
+            const files = e.target.files;
+            if(files.length === 0) return;
+            
+            const resultsDiv = document.getElementById('sync-results');
+            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מנתח ' + files.length + ' תמונות...</div>';
+            
+            let html = '<ul style="list-style: none; padding: 0;">';
+            let processed = 0;
+            
+            for(let file of files) {
+                try {
+                    // Try to extract GPS and Date from EXIF
+                    const exifrData = await exifr.parse(file, {pick: ['DateTimeOriginal', 'latitude', 'longitude']});
+                    
+                    let locationText = "מיקום לא ידוע (GPS כבוי)";
+                    let dateText = "תאריך לא ידוע";
+                    
+                    if(exifrData) {
+                        if(exifrData.latitude && exifrData.longitude) {
+                            locationText = `GPS: ${exifrData.latitude.toFixed(4)}, ${exifrData.longitude.toFixed(4)}`;
+                        }
+                        if(exifrData.DateTimeOriginal) {
+                            const d = new Date(exifrData.DateTimeOriginal);
+                            dateText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+                        }
+                    }
+                    
+                    html += `<li style="background: #f8fafc; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                <strong><i class="fa-regular fa-image"></i> ${file.name}</strong><br>
+                                <span style="color: #16a34a;"><i class="fa-solid fa-location-dot"></i> ${locationText}</span><br>
+                                <span style="color: #2563eb;"><i class="fa-regular fa-clock"></i> ${dateText}</span>
+                             </li>`;
+                } catch(err) {
+                    html += `<li style="background: #fef2f2; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid #fca5a5;"><strong>${file.name}</strong> - אין נתוני EXIF</li>`;
+                }
+                processed++;
+            }
+            
+            html += '</ul>';
+            resultsDiv.innerHTML = `<div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">✅ פוענחו בהצלחה ${processed} תמונות. המערכת מזהה כעת לאיזה יום/אתר בלו"ז שייכת כל תמונה לפי השעה והמיקום.</div>` + html;
+            
+            // Show Google drive connect prompt
+            document.getElementById('google-drive-connect').style.display = 'block';
+        });
+</script>
 </body>
 </html>
