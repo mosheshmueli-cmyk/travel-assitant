@@ -501,6 +501,7 @@
                     previewUrl: URL.createObjectURL(file),
                     locationText: "ללא נתוני מיקום",
                     dateText: "תאריך לא ידוע",
+                    hasGps: false,
                     hasError: false
                 };
                 
@@ -508,7 +509,10 @@
                     // Extract GPS explicitly
                     const gpsData = await exifr.gps(file);
                     if(gpsData && gpsData.latitude && gpsData.longitude) {
-                        photoData.locationText = `GPS: ${gpsData.latitude.toFixed(4)}, ${gpsData.longitude.toFixed(4)}`;
+                        const lat = gpsData.latitude.toFixed(5);
+                        const lng = gpsData.longitude.toFixed(5);
+                        photoData.locationText = `<a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color: #16a34a; text-decoration: underline;" title="לחץ לפתיחה בגוגל מפות">GPS: ${lat}, ${lng}</a>`;
+                        photoData.hasGps = true;
                     }
 
                     // Extract Date
@@ -517,7 +521,6 @@
                         const d = new Date(exifrData.DateTimeOriginal);
                         photoData.dateText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
                     } else if (file.lastModified) {
-                        // Fallback to file creation/modification time if EXIF date is missing
                         const d = new Date(file.lastModified);
                         photoData.dateText = `(משוער) ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
                     }
@@ -546,15 +549,16 @@
                 const bg = photo.hasError ? '#fef2f2' : '#f8fafc';
                 const border = photo.hasError ? '#fca5a5' : '#e2e8f0';
                 
-                // Show a helpful tooltip if GPS is missing
-                const noGpsTip = photo.locationText === "ללא נתוני מיקום" ? 
+                const noGpsTip = !photo.hasGps && !photo.hasError ? 
                     `<br><span style="font-size: 0.75em; color: #888;">(וואטסאפ או המצלמה הסירו את המיקום)</span>` : "";
+                
+                const locColor = photo.hasGps ? '#16a34a' : '#ea580c';
 
                 html += `<li style="background: ${bg}; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid ${border}; display: flex; gap: 12px; align-items: center;">
                             <img src="${photo.previewUrl}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="תצוגה מקדימה">
                             <div style="flex-grow: 1; overflow: hidden;">
                                 <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%; font-size: 0.9em;">${photo.name}</strong>
-                                ${!photo.hasError ? `<span style="color: ${photo.locationText.includes('GPS') ? '#16a34a' : '#ea580c'}; font-size: 0.8em;"><i class="fa-solid fa-location-dot"></i> ${photo.locationText}${noGpsTip}</span><br>
+                                ${!photo.hasError ? `<span style="color: ${locColor}; font-size: 0.8em;"><i class="fa-solid fa-location-dot"></i> ${photo.locationText}${noGpsTip}</span><br>
                                 <span style="color: #2563eb; font-size: 0.8em;"><i class="fa-regular fa-clock"></i> ${photo.dateText}</span>` : `<span style="color: #ef4444; font-size: 0.8em;">שגיאה בקריאת הקובץ</span>`}
                             </div>
                             <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; font-size: 1.3em; cursor: pointer; padding: 5px;" title="הסר תמונה"><i class="fa-solid fa-trash-can"></i></button>
