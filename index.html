@@ -586,7 +586,7 @@
     
         window.testSampleImage = async function() {
             const resultsDiv = document.getElementById('sync-results');
-            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מוריד תמונת ניסיון עם GPS...</div>';
+            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מוריד תמונת ניסיון...</div>';
             
             setTimeout(() => {
                 pendingPhotos = [];
@@ -602,10 +602,6 @@
                 pendingPhotos.push(dummyPhoto);
                 renderPhotos();
             }, 500);
-        };
-                pendingPhotos.push(dummyPhoto);
-                renderPhotos();
-            }, 800);
         };
 </script>
 </body>
