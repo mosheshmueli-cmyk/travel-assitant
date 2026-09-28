@@ -485,51 +485,79 @@
             }
         });
     
+        let pendingPhotos = [];
+
         document.getElementById('photo-input').addEventListener('change', async function(e) {
             const files = e.target.files;
             if(files.length === 0) return;
             
             const resultsDiv = document.getElementById('sync-results');
-            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מנתח ' + files.length + ' תמונות...</div>';
-            
-            let html = '<ul style="list-style: none; padding: 0;">';
-            let processed = 0;
+            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מנתח נתונים...</div>';
             
             for(let file of files) {
+                let photoData = {
+                    file: file,
+                    name: file.name,
+                    locationText: "מיקום לא ידוע (GPS כבוי)",
+                    dateText: "תאריך לא ידוע",
+                    hasError: false
+                };
+                
                 try {
-                    // Try to extract GPS and Date from EXIF
                     const exifrData = await exifr.parse(file, {pick: ['DateTimeOriginal', 'latitude', 'longitude']});
-                    
-                    let locationText = "מיקום לא ידוע (GPS כבוי)";
-                    let dateText = "תאריך לא ידוע";
-                    
                     if(exifrData) {
                         if(exifrData.latitude && exifrData.longitude) {
-                            locationText = `GPS: ${exifrData.latitude.toFixed(4)}, ${exifrData.longitude.toFixed(4)}`;
+                            photoData.locationText = `GPS: ${exifrData.latitude.toFixed(4)}, ${exifrData.longitude.toFixed(4)}`;
                         }
                         if(exifrData.DateTimeOriginal) {
                             const d = new Date(exifrData.DateTimeOriginal);
-                            dateText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+                            photoData.dateText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
                         }
                     }
-                    
-                    html += `<li style="background: #f8fafc; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                                <strong><i class="fa-regular fa-image"></i> ${file.name}</strong><br>
-                                <span style="color: #16a34a;"><i class="fa-solid fa-location-dot"></i> ${locationText}</span><br>
-                                <span style="color: #2563eb;"><i class="fa-regular fa-clock"></i> ${dateText}</span>
-                             </li>`;
                 } catch(err) {
-                    html += `<li style="background: #fef2f2; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid #fca5a5;"><strong>${file.name}</strong> - אין נתוני EXIF</li>`;
+                    photoData.hasError = true;
                 }
-                processed++;
+                pendingPhotos.push(photoData);
             }
             
-            html += '</ul>';
-            resultsDiv.innerHTML = `<div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">✅ פוענחו בהצלחה ${processed} תמונות. המערכת מזהה כעת לאיזה יום/אתר בלו"ז שייכת כל תמונה לפי השעה והמיקום.</div>` + html;
-            
-            // Show Google drive connect prompt
-            document.getElementById('google-drive-connect').style.display = 'block';
+            e.target.value = ''; // Reset input
+            renderPhotos();
         });
-</script>
+
+        function renderPhotos() {
+            const resultsDiv = document.getElementById('sync-results');
+            if(pendingPhotos.length === 0) {
+                resultsDiv.innerHTML = '';
+                document.getElementById('google-drive-connect').style.display = 'none';
+                return;
+            }
+            
+            let html = `<div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">✅ ממתינות לסנכרון: ${pendingPhotos.length} תמונות.</div>`;
+            html += '<ul style="list-style: none; padding: 0; margin: 0;">';
+            
+            pendingPhotos.forEach((photo, index) => {
+                const bg = photo.hasError ? '#fef2f2' : '#f8fafc';
+                const border = photo.hasError ? '#fca5a5' : '#e2e8f0';
+                
+                html += `<li style="background: ${bg}; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid ${border}; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong><i class="fa-regular fa-image"></i> ${photo.name}</strong><br>
+                                ${!photo.hasError ? `<span style="color: #16a34a; font-size: 0.85em;"><i class="fa-solid fa-location-dot"></i> ${photo.locationText}</span><br>
+                                <span style="color: #2563eb; font-size: 0.85em;"><i class="fa-regular fa-clock"></i> ${photo.dateText}</span>` : `<span style="color: #ef4444; font-size: 0.85em;">אין נתוני EXIF</span>`}
+                            </div>
+                            <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; font-size: 1.2em; cursor: pointer; padding: 10px;" title="הסר תמונה"><i class="fa-solid fa-trash-can"></i></button>
+                         </li>`;
+            });
+            
+            html += '</ul>';
+            resultsDiv.innerHTML = html;
+            document.getElementById('google-drive-connect').style.display = 'block';
+        }
+
+        window.removePhoto = function(index) {
+            pendingPhotos.splice(index, 1);
+            renderPhotos();
+        };
+    </script>
 </body>
 </html>
