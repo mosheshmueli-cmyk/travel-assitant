@@ -492,12 +492,13 @@
             if(files.length === 0) return;
             
             const resultsDiv = document.getElementById('sync-results');
-            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מנתח נתונים...</div>';
+            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מנתח נתונים ומכין תצוגה מקדימה...</div>';
             
             for(let file of files) {
                 let photoData = {
                     file: file,
                     name: file.name,
+                    previewUrl: URL.createObjectURL(file),
                     locationText: "מיקום לא ידוע (GPS כבוי)",
                     dateText: "תאריך לא ידוע",
                     hasError: false
@@ -539,13 +540,14 @@
                 const bg = photo.hasError ? '#fef2f2' : '#f8fafc';
                 const border = photo.hasError ? '#fca5a5' : '#e2e8f0';
                 
-                html += `<li style="background: ${bg}; margin-bottom: 8px; padding: 10px; border-radius: 8px; border: 1px solid ${border}; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <strong><i class="fa-regular fa-image"></i> ${photo.name}</strong><br>
-                                ${!photo.hasError ? `<span style="color: #16a34a; font-size: 0.85em;"><i class="fa-solid fa-location-dot"></i> ${photo.locationText}</span><br>
-                                <span style="color: #2563eb; font-size: 0.85em;"><i class="fa-regular fa-clock"></i> ${photo.dateText}</span>` : `<span style="color: #ef4444; font-size: 0.85em;">אין נתוני EXIF</span>`}
+                html += `<li style="background: ${bg}; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid ${border}; display: flex; gap: 12px; align-items: center;">
+                            <img src="${photo.previewUrl}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="תצוגה מקדימה">
+                            <div style="flex-grow: 1; overflow: hidden;">
+                                <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%; font-size: 0.9em;">${photo.name}</strong>
+                                ${!photo.hasError ? `<span style="color: #16a34a; font-size: 0.8em;"><i class="fa-solid fa-location-dot"></i> ${photo.locationText}</span><br>
+                                <span style="color: #2563eb; font-size: 0.8em;"><i class="fa-regular fa-clock"></i> ${photo.dateText}</span>` : `<span style="color: #ef4444; font-size: 0.8em;">אין נתוני EXIF</span>`}
                             </div>
-                            <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; font-size: 1.2em; cursor: pointer; padding: 10px;" title="הסר תמונה"><i class="fa-solid fa-trash-can"></i></button>
+                            <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; font-size: 1.3em; cursor: pointer; padding: 5px;" title="הסר תמונה"><i class="fa-solid fa-trash-can"></i></button>
                          </li>`;
             });
             
@@ -555,6 +557,10 @@
         }
 
         window.removePhoto = function(index) {
+            // Optional: revoke object URL to save memory
+            if(pendingPhotos[index].previewUrl) {
+                URL.revokeObjectURL(pendingPhotos[index].previewUrl);
+            }
             pendingPhotos.splice(index, 1);
             renderPhotos();
         };
