@@ -78,14 +78,20 @@
         
         <!-- TAB 1: Itinerary -->
         <div id="tab-itinerary" class="tab-content active">
-            <div class="weather-widget" id="weather-widget">
-                <div class="weather-info">
-                    <h3>מזג אוויר בסיאול (זמן אמת)</h3>
-                    <p id="weather-temp"><i class="fa-solid fa-spinner fa-spin"></i> מתחבר...</p>
+            <div id="weather-widget-container" style="background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.1em; display: flex; align-items: center; gap: 5px;"><i class="fa-solid fa-location-dot"></i> <span id="weather-location">מאתר מיקום...</span></h3>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9em; opacity: 0.9;" id="weather-desc">טוען נתוני אקלים...</p>
+                    </div>
+                    <div style="text-align: left;">
+                        <div id="weather-current-temp" style="font-size: 2.5em; font-weight: bold; line-height: 1; direction: ltr;">--°</div>
+                    </div>
                 </div>
-                <i class="fa-solid fa-location-dot" style="font-size: 2em; opacity: 0.8;"></i>
+                <div id="weather-forecast" style="display: flex; justify-content: space-between; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px;">
+                    <div style="text-align: center; width: 100%;"><i class="fa-solid fa-spinner fa-spin"></i> מתחבר ללוויין מטאורולוגי...</div>
+                </div>
             </div>
-            <div class="weather-alert" id="weather-alert"></div>
 
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-book-open"></i> מסלול הטיול המלא</div>
@@ -674,6 +680,75 @@
                 renderPhotos();
             }, 500);
         };
+
+        
+        // --- WEATHER LOGIC (Open-Meteo API - Free, No Key) ---
+        function initWeather() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude, "המיקום שלך כעת"),
+                    (err) => fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)") // Fallback
+                );
+            } else {
+                fetchWeather(37.5665, 126.9780, "סיאול");
+            }
+        }
+
+        async function fetchWeather(lat, lon, locName) {
+            try {
+                document.getElementById('weather-location').innerText = locName;
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                const currentTemp = Math.round(data.current.temperature_2m);
+                const currentCode = data.current.weather_code;
+                document.getElementById('weather-current-temp').innerText = currentTemp + '°';
+                document.getElementById('weather-desc').innerHTML = getWeatherIcon(currentCode, true) + ' ' + getWeatherDesc(currentCode);
+                
+                let forecastHTML = '';
+                const days = ["היום", "מחר", "מחרתיים"];
+                for(let i=0; i<3; i++) {
+                    const max = Math.round(data.daily.temperature_2m_max[i]);
+                    const min = Math.round(data.daily.temperature_2m_min[i]);
+                    const code = data.daily.weather_code[i];
+                    forecastHTML += `
+                        <div style="text-align: center; width: 33%; ${i<2 ? 'border-left: 1px solid rgba(255,255,255,0.3);' : ''}">
+                            <div style="font-size: 0.85em; margin-bottom: 5px; font-weight: 600;">${days[i]}</div>
+                            <div style="font-size: 1.3em; margin-bottom: 5px;">${getWeatherIcon(code)}</div>
+                            <div style="font-size: 1em; font-weight: bold; direction: ltr;">${max}° <span style="opacity:0.7; font-weight:normal; font-size:0.85em;">${min}°</span></div>
+                        </div>
+                    `;
+                }
+                document.getElementById('weather-forecast').innerHTML = forecastHTML;
+            } catch(e) {
+                console.error("Weather error", e);
+                document.getElementById('weather-desc').innerText = "לא הצלחנו לטעון נתונים";
+            }
+        }
+
+        function getWeatherIcon(code, withColor=false) {
+            if(code <= 1) return `<i class="fa-solid fa-sun" ${withColor?'style="color:#fbbf24;"':''}></i>`;
+            if(code <= 3) return `<i class="fa-solid fa-cloud-sun" ${withColor?'style="color:#fcd34d;"':''}></i>`;
+            if(code <= 49) return `<i class="fa-solid fa-cloud" ${withColor?'style="color:#e2e8f0;"':''}></i>`;
+            if(code <= 69) return `<i class="fa-solid fa-cloud-rain" ${withColor?'style="color:#93c5fd;"':''}></i>`;
+            if(code <= 79) return `<i class="fa-solid fa-snowflake" ${withColor?'style="color:#bae6fd;"':''}></i>`;
+            if(code <= 99) return `<i class="fa-solid fa-cloud-bolt" ${withColor?'style="color:#c7d2fe;"':''}></i>`;
+            return '<i class="fa-solid fa-cloud"></i>';
+        }
+
+        function getWeatherDesc(code) {
+            if(code == 0) return "שמשי ובהיר";
+            if(code == 1 || code == 2) return "מעונן חלקית";
+            if(code == 3) return "מעונן";
+            if(code >= 50 && code <= 69) return "גשום";
+            if(code >= 70 && code <= 79) return "שלג";
+            if(code >= 95) return "סופות רעמים";
+            return "רגיל";
+        }
+
+        window.addEventListener('load', initWeather);
+        // --- END WEATHER LOGIC ---
 
         // --- GOOGLE DRIVE LOGIC ---
         const CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
