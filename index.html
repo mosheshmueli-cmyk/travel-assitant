@@ -731,7 +731,7 @@
             }
             
             pendingPhotos = [];
-            resultsDiv.innerHTML = `<div style="text-align:center; color: var(--primary); font-weight: bold; font-size: 1.2em; padding: 20px; background: #e0f2fe; border-radius: 10px;"><i class="fa-solid fa-circle-check fa-2x"></i><br>איזה יופי!<br>${uploadedCount} תמונות גובו בהצלחה ל-Google Drive שלך.</div>`;
+            resultsDiv.innerHTML = `<div style="text-align:center; color: var(--primary); font-weight: bold; font-size: 1.2em; padding: 20px; background: #e0f2fe; border-radius: 10px;"><i class="fa-solid fa-circle-check fa-2x"></i><br>איזה יופי!<br>${uploadedCount} תמונות גובו בהצלחה ל-Google Drive שלך\.<br><br><a href="https://drive.google.com/" target="_blank" style="background: #0ea5e9; color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.85em; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"><i class="fa-brands fa-google-drive"></i> פתח את הדרייב עכשיו</a></div>`;
         }
 
         async function getOrCreateFolder(folderName) {
