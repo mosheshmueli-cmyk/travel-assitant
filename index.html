@@ -441,32 +441,7 @@
             setTimeout(() => { map.invalidateSize(); }, 200);
         }
 
-        async function fetchWeather() {
-            try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true');
-                const data = await res.json();
-                const temp = data.current_weather.temperature;
-                const code = data.current_weather.weathercode;
-                
-                let desc = "בהיר";
-                let icon = "fa-sun";
-                let hasAlert = false;
-                
-                if (code >= 1 && code <= 3) { desc = "מעונן חלקית"; icon = "fa-cloud-sun"; }
-                if (code >= 45 && code <= 48) { desc = "ערפל"; icon = "fa-smog"; }
-                if (code >= 51 && code <= 67) { desc = "גשם"; icon = "fa-cloud-rain"; hasAlert = true; }
-                if (code >= 71 && code <= 77) { desc = "שלג"; icon = "fa-snowflake"; hasAlert = true; }
-                
-                document.getElementById('weather-temp').innerHTML = `<i class="fa-solid ${icon}"></i> ${temp}°C (${desc})`;
-                
-                if(hasAlert || code > 50) {
-                    const alertDiv = document.getElementById('weather-alert');
-                    alertDiv.style.display = 'block';
-                    alertDiv.innerHTML = `<strong><i class="fa-solid fa-triangle-exclamation"></i> עדכון למסלול היומי:</strong> המערכת מזהה משקעים. מומלץ להיכנס למתחם מקורה כגון הספא.`;
-                }
-            } catch (e) { document.getElementById('weather-temp').innerText = "לא ניתן לטעון תחזית"; }
-        }
-        fetchWeather();
+        
 
         function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         function sendMessage() {
