@@ -68,8 +68,38 @@
         .nav-item.active { color: var(--primary); }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script></head>
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js">
+        // Restore State from localStorage on Load
+        window.addEventListener('load', () => {
+            const savedScreen = localStorage.getItem('activeScreen') || 'screen-home';
+            const savedTab = localStorage.getItem('activeTab') || 'tab-itinerary';
+            
+            showScreen(savedScreen);
+            
+            if (savedScreen === 'screen-live') {
+                // We need to visually select the right tab in the nav
+                const targetElement = document.querySelector(`.nav-item[onclick*="${savedTab}"]`);
+                switchTab(savedTab, targetElement);
+            }
+        });
+
+</script>
+    <script src="https://accounts.google.com/gsi/client" async defer>
+        // Restore State from localStorage on Load
+        window.addEventListener('load', () => {
+            const savedScreen = localStorage.getItem('activeScreen') || 'screen-home';
+            const savedTab = localStorage.getItem('activeTab') || 'tab-itinerary';
+            
+            showScreen(savedScreen);
+            
+            if (savedScreen === 'screen-live') {
+                // We need to visually select the right tab in the nav
+                const targetElement = document.querySelector(`.nav-item[onclick*="${savedTab}"]`);
+                switchTab(savedTab, targetElement);
+            }
+        });
+
+</script></head>
 <body>
     <!-- SCREEN: HOME -->
     <div id="screen-home" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f8fafc; padding: 20px;">
@@ -546,7 +576,22 @@
 <div class="nav-item" onclick="switchTab('tab-settings', this)"><i class="fa-solid fa-gear"></i> הגדרות</div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+        // Restore State from localStorage on Load
+        window.addEventListener('load', () => {
+            const savedScreen = localStorage.getItem('activeScreen') || 'screen-home';
+            const savedTab = localStorage.getItem('activeTab') || 'tab-itinerary';
+            
+            showScreen(savedScreen);
+            
+            if (savedScreen === 'screen-live') {
+                // We need to visually select the right tab in the nav
+                const targetElement = document.querySelector(`.nav-item[onclick*="${savedTab}"]`);
+                switchTab(savedTab, targetElement);
+            }
+        });
+
+</script>
     
     
     </div>
@@ -561,6 +606,7 @@
 
 
         function showScreen(screenId) {
+            localStorage.setItem('activeScreen', screenId);
             document.getElementById('screen-home').style.display = 'none';
             document.getElementById('screen-planning').style.display = 'none';
             document.getElementById('screen-live').style.display = 'none';
@@ -586,6 +632,7 @@
         }
         
         function switchTab(tabId, element) {
+            localStorage.setItem('activeTab', tabId);
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             
@@ -1104,6 +1151,21 @@
         }
         // --- END GOOGLE DRIVE LOGIC ---
 
-    </script>
+    
+        // Restore State from localStorage on Load
+        window.addEventListener('load', () => {
+            const savedScreen = localStorage.getItem('activeScreen') || 'screen-home';
+            const savedTab = localStorage.getItem('activeTab') || 'tab-itinerary';
+            
+            showScreen(savedScreen);
+            
+            if (savedScreen === 'screen-live') {
+                // We need to visually select the right tab in the nav
+                const targetElement = document.querySelector(`.nav-item[onclick*="${savedTab}"]`);
+                switchTab(savedTab, targetElement);
+            }
+        });
+
+</script>
 </body>
 </html>
