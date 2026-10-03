@@ -303,6 +303,48 @@
             </div>
         </div>
 
+        
+        <!-- TAB: Food (Vegan/Kosher) -->
+        <div id="tab-food" class="tab-content">
+            <h2 style="color: var(--primary); text-align: center;"><i class="fa-solid fa-leaf"></i> מזון ומסעדות</h2>
+            <div class="card" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-person-digging" style="font-size: 3em; color: #f59e0b; margin-bottom: 15px;"></i>
+                <h3>מאגר בבנייה</h3>
+                <p>הנתונים על מסעדות טבעוניות למהדרין ומקומות כשרים יאומתו ב-100% לפני שיוזנו לכאן, על מנת להבטיח אמינות מוחלטת.</p>
+                <p style="font-size: 0.85em; opacity: 0.7;">אין אפשרות להציג נתונים לא מאומתים כרגע.</p>
+            </div>
+        </div>
+
+        <!-- TAB: Emergency -->
+        <div id="tab-emergency" class="tab-content">
+            <h2 style="color: #ef4444; text-align: center;"><i class="fa-solid fa-truck-medical"></i> נוהל חירום</h2>
+            <div class="card" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-person-digging" style="font-size: 3em; color: #f59e0b; margin-bottom: 15px;"></i>
+                <h3>מאגר בבנייה</h3>
+                <p>רוטינות חירום, שגרירויות ובתי חולים יתווספו לכאן לאחר אימות קפדני.</p>
+            </div>
+        </div>
+
+        <!-- TAB: Alerts -->
+        <div id="tab-alerts" class="tab-content">
+            <h2 style="color: #f59e0b; text-align: center;"><i class="fa-solid fa-bell"></i> התראות מערכת</h2>
+            <div class="card" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-check-circle" style="font-size: 3em; color: #10b981; margin-bottom: 15px;"></i>
+                <h3>הכל תקין</h3>
+                <p>אין התראות אדומות או עיכובי טיסות כרגע למסלול שלך.</p>
+            </div>
+        </div>
+
+        <!-- TAB: Documents -->
+        <div id="tab-document" class="tab-content">
+            <h2 style="color: var(--primary); text-align: center;"><i class="fa-solid fa-passport"></i> כספת מסמכים</h2>
+            <div class="card" style="text-align: center; padding: 30px 20px;">
+                <i class="fa-solid fa-person-digging" style="font-size: 3em; color: #f59e0b; margin-bottom: 15px;"></i>
+                <h3>מאגר בבנייה</h3>
+                <p>כאן ירוכזו הדרכונים, כרטיסי הטיסה, ומסמכי הביטוח. המידע יוצפן ויאובטח.</p>
+            </div>
+        </div>
+
         <!-- TAB 5: Settings -->
         <div id="tab-settings" class="tab-content">
             <div class="card">
@@ -362,7 +404,24 @@
     </div>
 
     <div class="nav-bottom">
-        <div class="nav-item active" onclick="switchTab('tab-itinerary', this)"><i class="fa-solid fa-list-ul"></i> הלו"ז</div>
+        <div class="nav-item active" onclick="switchTab('tab-itinerary', this)"><i class="fa-solid fa-list-ul"></i> מסלול</div>
+        <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
+        <div class="nav-item" onclick="switchTab('tab-food', this)"><i class="fa-solid fa-leaf"></i> מזון</div>
+        <div class="nav-item" onclick="switchTab('tab-gallery', this)"><i class="fa-solid fa-camera-retro"></i> יומן</div>
+        
+        <div class="nav-item" onclick="toggleMoreMenu()"><i class="fa-solid fa-bars"></i> עוד...</div>
+    </div>
+
+    <!-- MORE MENU (Hidden by default) -->
+    <div id="more-menu" style="display: none; position: fixed; bottom: 70px; left: 10px; right: 10px; background: white; border-radius: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); padding: 15px; z-index: 1000; flex-wrap: wrap; justify-content: space-between;">
+        <div class="more-item" onclick="switchTab('tab-document', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--primary); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-passport" style="font-size: 2em; margin-bottom: 5px;"></i><br>מסמכים</div>
+        <div class="more-item" onclick="switchTab('tab-emergency', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-truck-medical" style="font-size: 2em; margin-bottom: 5px;"></i><br>חירום</div>
+        <div class="more-item" onclick="switchTab('tab-alerts', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #f59e0b; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bell" style="font-size: 2em; margin-bottom: 5px;"></i><br>התראות</div>
+        <div class="more-item" onclick="switchTab('tab-hotels', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bed" style="font-size: 2em; margin-bottom: 5px;"></i><br>מלונות</div>
+        <div class="more-item" onclick="switchTab('tab-chat', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-robot" style="font-size: 2em; margin-bottom: 5px;"></i><br>סיוע AI</div>
+        <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-gear" style="font-size: 2em; margin-bottom: 5px;"></i><br>הגדרות</div>
+        <div style="width: 44%;"></div>
+    </div>
         <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
         <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-regular fa-comments"></i> צ'אט</div>
         <div class="nav-item" onclick="switchTab('tab-hotels', this)"><i class="fa-solid fa-bed"></i> לינה</div>
@@ -376,7 +435,29 @@
     <script>
         let mapInitialized = false;
 
-        function switchTab(tabId, element) {
+        
+        function toggleMoreMenu() {
+            const menu = document.getElementById('more-menu');
+            menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+        }
+        
+        // Update switchTab to close menu and handle null element
+        const originalSwitchTab = switchTab;
+        switchTab = function(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if(element) {
+                element.classList.add('active');
+            } else {
+                // If it came from More menu, highlight the More button
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems[navItems.length - 1].classList.add('active');
+            }
+        };
+
+        function old_switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
