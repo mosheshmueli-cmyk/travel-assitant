@@ -518,21 +518,15 @@
         </div>
 
         <!-- TAB 5: Settings -->
+        <div id="tab-settings" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-gear"></i> הגדרות מערכת</h2>
+
             <div class="card">
-                <div class="card-title"><i class="fa-solid fa-sliders"></i> ניהול אילוצים</div>
+                <div class="card-title" style="margin-bottom: 15px;"><i class="fa-solid fa-sliders"></i> ניהול מצב שבת</div>
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
                     <div>
-                        <div style="font-weight: 800;">מצב שומר שבת</div>
-                        <div style="font-size: 0.8em; color: #666;">מחליף את הלו"ז בשבת (ימים 7, 14)
-                <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;" id="bug-log-section">
-                    <div style="font-weight: 800; margin-bottom: 10px; color: #b91c1c;"><i class="fa-solid fa-user-shield"></i> אזור מנהל: פנקס תקלות</div>
-                    <p style="font-size: 0.85em; color: #666; line-height: 1.4; margin-bottom: 15px;">בחר כיצד תרצה לתעד בקשות לשיפור בזמן הטיול:</p>
-                    
-                    <a href="mailto:?subject=הערות לתיקון - Travel Assistant&body=הערות לטיפול מול סאם:%0D%0A1. " style="display: block; background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; padding: 10px 15px; border-radius: 8px; width: 100%; text-align: center; text-decoration: none; font-weight: bold; margin-bottom: 10px; box-sizing: border-box;"><i class="fa-regular fa-envelope"></i> שלח למייל של עצמי</a>
-                    
-                    <a href="https://wa.me/?text=הערות לתיקון באפליקציה - קוריאה:%0A1. " target="_blank" style="display: block; background: #dcfce7; color: #166534; border: 1px solid #4ade80; padding: 10px 15px; border-radius: 8px; width: 100%; text-align: center; text-decoration: none; font-weight: bold; box-sizing: border-box;"><i class="fa-brands fa-whatsapp"></i> שלח לוואטסאפ (בחר את עצמך)</a>
-                </div>
-</div>
+                        <div style="font-weight: 800;">מצב שבת מופעל</div>
+                        <div style="font-size: 0.85em; color: #666;">השבתת צפצופים ומיקומים אוטומטיים.</div>
                     </div>
                     <label style="position: relative; display: inline-block; width: 50px; height: 28px;">
                         <input type="checkbox" id="shabbat-toggle" style="opacity: 0; width: 0; height: 0;">
@@ -541,6 +535,15 @@
                         </span>
                     </label>
                 </div>
+            </div>
+
+            <div class="card" style="margin-top: 15px;" id="bug-log-section">
+                <div style="font-weight: 800; margin-bottom: 10px; color: #b91c1c;"><i class="fa-solid fa-user-shield"></i> בקרת בן משפחה (שלומי)</div>
+                <p style="font-size: 0.85em; color: #666; line-height: 1.4; margin-bottom: 15px;">כאן ניתן לדווח על באגים ותקלות שעולות בשטח:</p>
+                
+                <a href="mailto:?subject=דיווח באג - Travel Assistant&body=אנא פרט את התקלה:%0D%0A1. " style="display: block; background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; padding: 10px 15px; border-radius: 8px; width: 100%; text-align: center; text-decoration: none; font-weight: bold; margin-bottom: 10px; box-sizing: border-box;"><i class="fa-regular fa-envelope"></i> דווח במייל</a>
+                
+                <a href="https://wa.me/?text=דיווח תקלות למערכת:%0A1. " target="_blank" style="display: block; background: #dcfce7; color: #166534; border: 1px solid #4ade80; padding: 10px 15px; border-radius: 8px; width: 100%; text-align: center; text-decoration: none; font-weight: bold; box-sizing: border-box;"><i class="fa-brands fa-whatsapp"></i> דווח בוואטסאפ</a>
             </div>
         </div>
 
