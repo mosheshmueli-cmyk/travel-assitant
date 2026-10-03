@@ -480,17 +480,47 @@
         </div>
 
         <!-- TAB: Documents -->
-        <div id="tab-document" class="tab-content">
-            <h2 style="color: var(--primary); text-align: center;"><i class="fa-solid fa-passport"></i> כספת מסמכים</h2>
-            <div class="card" style="text-align: center; padding: 30px 20px;">
-                <i class="fa-solid fa-person-digging" style="font-size: 3em; color: #f59e0b; margin-bottom: 15px;"></i>
-                <h3>מאגר בבנייה</h3>
-                <p>כאן ירוכזו הדרכונים, כרטיסי הטיסה, ומסמכי הביטוח. המידע יוצפן ויאובטח.</p>
+        <div id="tab-document" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-vault"></i> כספת מסמכים</h2>
+            
+            <div style="background: #eef2ff; color: #3730a3; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9em; text-align: justify;">
+                <i class="fa-solid fa-lock"></i> <strong>אזור מאובטח:</strong> כל המסמכים כאן זמינים לצפייה גם ללא חיבור לאינטרנט (Offline) כדי להבטיח גישה בכל מצב חירום.
             </div>
+
+            <!-- Passports -->
+            <div class="card" style="margin-bottom: 15px; border-top: 4px solid #3b82f6; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 style="margin: 0 0 5px 0; color: #1e3a8a;"><i class="fa-solid fa-passport"></i> דרכונים ואשרות</h3>
+                    <div style="font-size: 0.85em; color: var(--text-muted);">צילומי דרכון חתומים + אשרת K-ETA לקוריאה</div>
+                </div>
+                <button style="background: #3b82f6; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-eye"></i> הצג</button>
+            </div>
+
+            <!-- Flight Tickets -->
+            <div class="card" style="margin-bottom: 15px; border-top: 4px solid #10b981; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 style="margin: 0 0 5px 0; color: #064e3b;"><i class="fa-solid fa-ticket"></i> כרטיסי טיסה</h3>
+                    <div style="font-size: 0.85em; color: var(--text-muted);">כרטיסים אלקטרוניים (E-Ticket) - הלוך וחזור</div>
+                </div>
+                <button style="background: #10b981; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-eye"></i> הצג</button>
+            </div>
+
+            <!-- Insurance -->
+            <div class="card" style="margin-bottom: 15px; border-top: 4px solid #f59e0b; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h3 style="margin: 0 0 5px 0; color: #78350f;"><i class="fa-solid fa-file-medical"></i> ביטוח נסיעות</h3>
+                    <div style="font-size: 0.85em; color: var(--text-muted);">פוליסת ביטוח מורחבת + מספרי חירום</div>
+                </div>
+                <button style="background: #f59e0b; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-eye"></i> הצג</button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button style="background: white; color: var(--primary); border: 2px dashed var(--primary); padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;"><i class="fa-solid fa-plus"></i> הוסף מסמך סרוק למאגר</button>
+            </div>
+
         </div>
 
         <!-- TAB 5: Settings -->
-        <div id="tab-settings" class="tab-content">
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-sliders"></i> ניהול אילוצים</div>
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
