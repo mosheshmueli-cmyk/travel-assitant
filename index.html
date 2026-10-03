@@ -71,6 +71,53 @@
     <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script></head>
 <body>
+    <!-- SCREEN: HOME -->
+    <div id="screen-home" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f8fafc; padding: 20px;">
+        <i class="fa-solid fa-plane-departure" style="font-size: 4em; color: var(--primary); margin-bottom: 20px;"></i>
+        <h1 style="color: var(--text); margin-bottom: 30px; text-align: center;">מערכת ניהול טיולים</h1>
+        
+        <button onclick="showScreen('screen-planning')" style="width: 100%; max-width: 300px; padding: 15px; margin-bottom: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fa-solid fa-file-pen"></i> תכנון טיול חדש
+        </button>
+        
+        <button onclick="showScreen('screen-live')" style="width: 100%; max-width: 300px; padding: 15px; background: white; color: var(--primary); border: 2px solid var(--primary); border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <i class="fa-solid fa-play"></i> טיול בזמן אמת (קוריאה)
+        </button>
+    </div>
+
+    <!-- SCREEN: PLANNING (Questionnaire) -->
+    <div id="screen-planning" style="display: none; height: 100vh; background: #f8fafc; overflow-y: auto; padding-bottom: 50px;">
+        <div class="header">שאלון אפיון מטייל</div>
+        <div class="container">
+            <div class="card" style="padding: 20px;">
+                <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 20px;">אנא מלא את פרטי הטיול המבוקש. הנתונים ישמשו את המערכת לבניית מסלול מותאם אישית.</p>
+                
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">יעד ומסגרת זמן</label>
+                <input type="text" placeholder="לאן נוסעים?" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+                <input type="text" placeholder="תאריכי נסיעה משוערים" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">הרכב משתתפים</label>
+                <textarea placeholder="כמה אנשים? גילאים? (למשל: זוג מבוגרים, משפחה עם 3 ילדים)" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; height: 60px; font-family: inherit;"></textarea>
+
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">אילוצים מיוחדים</label>
+                <textarea placeholder="הגבלות רפואיות, נגישות, קצב הליכה" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; height: 60px; font-family: inherit;"></textarea>
+
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">תזונה ושבת</label>
+                <textarea placeholder="כשרות, טבעונות, שמירת שבת" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; height: 60px; font-family: inherit;"></textarea>
+
+                <button style="width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer; margin-bottom: 15px;">
+                    <i class="fa-solid fa-paper-plane"></i> שלח לאפיון ובניית מסלול
+                </button>
+                <button onclick="showScreen('screen-home')" style="width: 100%; padding: 15px; background: #e2e8f0; color: var(--text); border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
+                    חזור למסך הבית
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN: LIVE TRIP (Korea) -->
+    <div id="screen-live" style="display: none;">
+
 
     <div class="header">הקסם הקוריאני 2026</div>
 
@@ -432,7 +479,27 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <script>
+    
+    </div>
+<script>
+
+        function showScreen(screenId) {
+            document.getElementById('screen-home').style.display = 'none';
+            document.getElementById('screen-planning').style.display = 'none';
+            document.getElementById('screen-live').style.display = 'none';
+            
+            const selected = document.getElementById(screenId);
+            if(screenId === 'screen-home') {
+                selected.style.display = 'flex';
+            } else {
+                selected.style.display = 'block';
+                if(screenId === 'screen-live') {
+                    // Trigger map resize since it was hidden
+                    setTimeout(() => { if(typeof map !== 'undefined') map.invalidateSize(); }, 200);
+                }
+            }
+        }
+
         let mapInitialized = false;
 
         
