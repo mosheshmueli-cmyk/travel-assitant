@@ -601,32 +601,60 @@
                 return;
             }
             
-            let html = `<div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">✅ ממתינות לסנכרון: ${pendingPhotos.length} תמונות.</div>`;
+            let html = `<div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">ממתינות לגיבוי: ${pendingPhotos.length} תמונות</div>`;
             html += '<ul style="list-style: none; padding: 0; margin: 0;">';
             
             pendingPhotos.forEach((photo, index) => {
                 const bg = photo.hasError ? '#fef2f2' : '#f8fafc';
                 const border = photo.hasError ? '#fca5a5' : '#e2e8f0';
                 
-                const noGpsTip = !photo.hasGps && !photo.hasError ? 
-                    `<br><span style="font-size: 0.75em; color: #888;">(וואטסאפ או המצלמה הסירו את המיקום)</span>` : "";
+                let details = '';
+                if(photo.lat && photo.lon) {
+                    const mapUrl = `https://www.google.com/maps?q=${photo.lat},${photo.lon}`;
+                    details = `<div style="margin-top: 8px;"><a href="${mapUrl}" target="_blank" style="color: #0ea5e9; text-decoration: none; font-size: 0.85em; background: #e0f2fe; padding: 4px 8px; border-radius: 4px; display: inline-block;"><i class="fa-solid fa-map-location-dot"></i> מיקום מצורף (צפה במפה)</a></div>`;
+                } else if(photo.hasError) {
+                    details = `<div style="color: #ef4444; font-size: 0.85em; margin-top: 5px;"><i class="fa-solid fa-triangle-exclamation"></i> לא נמצא מיקום בתמונה</div>`;
+                } else {
+                    details = `<div style="color: #f59e0b; font-size: 0.85em; margin-top: 5px;">מיקום לא זמין</div>`;
+                }
                 
-                const locColor = photo.hasGps ? '#16a34a' : '#ea580c';
-
-                html += `<li style="background: ${bg}; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid ${border}; display: flex; gap: 12px; align-items: center;">
-                            <img src="${photo.previewUrl}" style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="תצוגה מקדימה">
-                            <div style="flex-grow: 1; overflow: hidden;">
-                                <strong style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 100%; font-size: 0.9em;">${photo.name}</strong>
-                                ${!photo.hasError ? `<span style="color: ${locColor}; font-size: 0.8em;"><i class="fa-solid fa-location-dot"></i> ${photo.locationText}${noGpsTip}</span><br>
-                                <span style="color: #2563eb; font-size: 0.8em;"><i class="fa-regular fa-clock"></i> ${photo.dateText}</span>` : `<span style="color: #ef4444; font-size: 0.8em;">שגיאה בקריאת הקובץ</span>`}
-                            </div>
-                            <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; font-size: 1.3em; cursor: pointer; padding: 5px;" title="הסר תמונה"><i class="fa-solid fa-trash-can"></i></button>
-                         </li>`;
+                html += `
+                <li style="background: ${bg}; border: 1px solid ${border}; border-radius: 8px; padding: 12px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="flex: 1; padding-left: 10px;">
+                            <div style="font-weight: bold; word-break: break-all; font-size: 0.9em;">${photo.name}</div>
+                            ${details}
+                        </div>
+                        <div>
+                            ${photo.previewUrl ? `<img src="${photo.previewUrl}" style="max-width: 70px; max-height: 70px; border-radius: 6px; border: 1px solid #ccc; object-fit: cover;">` : ''}
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="caption-${index}" placeholder="✍️ הוסף משפט תיעוד / חוויה..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9em; box-sizing: border-box;" onchange="updateCaption(${index}, this.value)">
+                    </div>
+                    <div style="text-align: left; margin-top: 10px;">
+                        <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.9em;"><i class="fa-solid fa-trash-can"></i> מחק תמונה</button>
+                    </div>
+                </li>`;
             });
             
             html += '</ul>';
             resultsDiv.innerHTML = html;
+            
+            // Restore saved captions if any exist in the array
+            pendingPhotos.forEach((photo, index) => {
+                if (photo.caption) {
+                    document.getElementById(`caption-${index}`).value = photo.caption;
+                }
+            });
+
             document.getElementById('google-drive-connect').style.display = 'block';
+        }
+
+        function updateCaption(index, value) {
+            if(pendingPhotos[index]) {
+                pendingPhotos[index].caption = value;
+            }
         }
 
         window.removePhoto = function(index) {
@@ -787,7 +815,7 @@
                 resultsDiv.innerHTML = `<div style="text-align:center; font-weight: bold;"><i class="fa-solid fa-cloud-arrow-up"></i> מגבה תמונה ${i+1} מתוך ${pendingPhotos.length}...</div>`;
                 
                 try {
-                    await uploadFile(photo.file, folderId);
+                    await uploadFile(photo.file, folderId, photo.caption);
                     uploadedCount++;
                 } catch(e) {
                     console.error("Upload failed for ", photo.name);
@@ -815,8 +843,12 @@
             return createData.id;
         }
 
-        async function uploadFile(file, parentId) {
-            const metadata = { name: file.name, parents: [parentId] };
+        async function uploadFile(file, parentId, caption) {
+            const metadata = { 
+                name: file.name, 
+                parents: [parentId],
+                description: caption || "גיבוי מהאפליקציה" 
+            };
             const form = new FormData();
             form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
             form.append('file', file);
