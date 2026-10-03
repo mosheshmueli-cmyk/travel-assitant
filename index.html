@@ -835,16 +835,41 @@
 
         
         // --- WEATHER LOGIC (Open-Meteo API - Free, No Key) ---
+        let locationResolved = false;
+        
         function initWeather() {
+            // Force a fallback if native geolocation hangs for more than 2.5 seconds
+            const fallbackTimer = setTimeout(() => {
+                if (!locationResolved) {
+                    locationResolved = true;
+                    fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)");
+                }
+            }, 2500);
+
             if (navigator.geolocation) {
-                const options = { timeout: 4000, maximumAge: 0 };
                 navigator.geolocation.getCurrentPosition(
-                    (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude, "המיקום שלך כעת"),
-                    (err) => fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)"),
-                    options
+                    (pos) => {
+                        if (!locationResolved) {
+                            locationResolved = true;
+                            clearTimeout(fallbackTimer);
+                            fetchWeather(pos.coords.latitude, pos.coords.longitude, "המיקום שלך כעת");
+                        }
+                    },
+                    (err) => {
+                        if (!locationResolved) {
+                            locationResolved = true;
+                            clearTimeout(fallbackTimer);
+                            fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)");
+                        }
+                    },
+                    { timeout: 2000, maximumAge: 0 }
                 );
             } else {
-                fetchWeather(37.5665, 126.9780, "סיאול");
+                if (!locationResolved) {
+                    locationResolved = true;
+                    clearTimeout(fallbackTimer);
+                    fetchWeather(37.5665, 126.9780, "סיאול");
+                }
             }
         }
 
