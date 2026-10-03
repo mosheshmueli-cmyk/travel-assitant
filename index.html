@@ -367,13 +367,39 @@
         </div>
 
         <!-- TAB: Emergency -->
-        <div id="tab-emergency" class="tab-content">
-            <h2 style="color: #ef4444; text-align: center;"><i class="fa-solid fa-truck-medical"></i> נוהל חירום</h2>
-            <div class="card" style="text-align: center; padding: 30px 20px;">
-                <i class="fa-solid fa-person-digging" style="font-size: 3em; color: #f59e0b; margin-bottom: 15px;"></i>
-                <h3>מאגר בבנייה</h3>
-                <p>רוטינות חירום, שגרירויות ובתי חולים יתווספו לכאן לאחר אימות קפדני.</p>
+        <div id="tab-emergency" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: #ef4444; text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-truck-medical"></i> מוקד חירום</h2>
+            
+            <!-- Panic Button -->
+            <div style="background: #ef4444; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(239,68,68,0.3);">
+                <i class="fa-solid fa-phone-volume" style="font-size: 2.5em; margin-bottom: 10px;"></i>
+                <h3 style="margin: 0 0 5px 0; font-size: 1.5em;">119</h3>
+                <p style="margin: 0; font-size: 0.9em;">אמבולנס וכיבוי אש בדרום קוריאה</p>
+                <div style="margin-top: 10px; font-size: 0.85em; opacity: 0.9;">משטרה: 112</div>
             </div>
+
+            <!-- Protocol: Flight Diversion -->
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b;">
+                <h3 style="margin-top: 0; color: #b45309;"><i class="fa-solid fa-plane-circle-exclamation"></i> נחיתת חירום / מדינת אויב</h3>
+                <p style="font-size: 0.9em; margin-bottom: 10px;">נוהל פעולה להפניית טיסה (כדוגמת מקרה סעודיה):</p>
+                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
+                    <li style="margin-bottom: 5px;"><strong>הישאר במטוס:</strong> בשום פנים ואופן לא לרדת לטרמינל אלא אם צוות האוויר מחייב זאת טקטית.</li>
+                    <li style="margin-bottom: 5px;"><strong>הצנעת סממנים:</strong> להסיר סממנים מזהים (כיתוב בעברית, כיפה, תכשיטים מזהים).</li>
+                    <li style="margin-bottom: 5px;"><strong>דרכון זר:</strong> אם ברשותך דרכון זר, להכין אותו לשליפה. לא להציג דרכון ישראלי אלא אם נדרשת.</li>
+                    <li><strong>טלפון נייד:</strong> למחוק מיד תמונות רגישות (מדים, כלי נשק) ולשלוח הודעת מיקום אחת למשפחה בארץ במידת האפשר.</li>
+                </ul>
+            </div>
+
+            <!-- Protocol: Lost Passport -->
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #3b82f6;">
+                <h3 style="margin-top: 0; color: #1d4ed8;"><i class="fa-solid fa-passport"></i> אובדן או גניבת דרכון</h3>
+                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
+                    <li style="margin-bottom: 5px;">גש מיד לתחנת המשטרה הקרובה והוצא דוח פשיעה (Police Report). חובה לשגרירות.</li>
+                    <li style="margin-bottom: 5px;">צור קשר עם שגרירות ישראל בסיאול: <strong>+82-2-3210-8500</strong>.</li>
+                    <li>הכנס ללשונית "מסמכים" באפליקציה (כספת המסמכים) והצג להם את צילום הדרכון שהכנו מראש.</li>
+                </ul>
+            </div>
+
         </div>
 
         <!-- TAB: Alerts -->
@@ -471,6 +497,8 @@
         <div class="more-item" onclick="switchTab('tab-hotels', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bed" style="font-size: 2em; margin-bottom: 5px;"></i><br>מלונות</div>
         <div class="more-item" onclick="switchTab('tab-chat', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-robot" style="font-size: 2em; margin-bottom: 5px;"></i><br>סיוע AI</div>
         <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-gear" style="font-size: 2em; margin-bottom: 5px;"></i><br>הגדרות</div>
+        <div class="more-item" onclick="hardRefresh();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold; cursor: pointer; background: #fee2e2; border-radius: 10px; padding: 5px 0;"><i class="fa-solid fa-power-off" style="font-size: 2em; margin-bottom: 5px;"></i><br>אתחל מערכת</div>
+
         <div style="width: 44%;"></div>
     </div>
         <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
