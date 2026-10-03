@@ -425,11 +425,60 @@
 
         <!-- TAB: Hotels -->
         <div id="tab-hotels" class="tab-content" style="padding-bottom: 80px;">
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-bed"></i> מלונות (בקרוב)</h2>
-            <div class="card" style="text-align: center; padding: 40px 20px;">
-                <i class="fa-solid fa-hammer" style="font-size: 3em; color: #cbd5e1; margin-bottom: 15px;"></i>
-                <h3 style="margin: 0 0 10px 0; color: var(--text);">מודול מלונות בבנייה</h3>
-                <p style="font-size: 0.9em; color: var(--text-muted); margin: 0;">אזור זה יציג את פרטי ההזמנות, צ'ק אין/אאוט ודרכי הגעה למלון.</p>
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-hotel"></i> מלונות ולינה</h2>
+            
+            <!-- Main Hotel -->
+            <div class="card" style="margin-bottom: 20px; border-top: 4px solid var(--primary);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text);">Lotte Hotel Seoul <i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i></h3>
+                        <div style="font-size: 0.85em; color: var(--text-muted);"><i class="fa-solid fa-hashtag"></i> מספר הזמנה: <strong>KR-99824B</strong></div>
+                    </div>
+                    <div style="background: #e0f2fe; color: #0284c7; padding: 5px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em;">
+                        מאושר
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; background: #f8fafc; padding: 10px; border-radius: 8px;">
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.75em; color: var(--text-muted); margin-bottom: 3px;">צ'ק-אין</div>
+                        <div style="font-weight: bold; font-size: 0.95em; color: var(--text);">22 בנובמבר</div>
+                        <div style="font-size: 0.85em; color: var(--text);">החל מ-15:00</div>
+                    </div>
+                    <div style="width: 1px; background: #e2e8f0;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.75em; color: var(--text-muted); margin-bottom: 3px;">צ'ק-אאוט</div>
+                        <div style="font-weight: bold; font-size: 0.95em; color: var(--text);">27 בנובמבר</div>
+                        <div style="font-size: 0.85em; color: var(--text);">עד 11:00</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.9em; color: var(--text); margin-bottom: 15px;">
+                    <i class="fa-solid fa-location-dot" style="color: var(--primary); width: 20px;"></i> 30 Eulji-ro, Jung-gu, Seoul<br>
+                    <i class="fa-solid fa-phone" style="color: var(--primary); width: 20px; margin-top: 8px;"></i> +82 2-771-1000
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Hotel+Seoul" target="_blank" style="flex: 1; text-align: center; background: var(--primary); color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9em;">
+                        <i class="fa-solid fa-map-location-dot"></i> נווט למלון
+                    </a>
+                    <button style="flex: 1; background: white; color: var(--primary); border: 1px solid var(--primary); padding: 10px; border-radius: 6px; font-weight: bold; font-size: 0.9em; cursor: pointer;">
+                        <i class="fa-solid fa-file-invoice"></i> הצג שובר
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Secondary Hotel -->
+            <div class="card" style="margin-bottom: 20px; border-top: 4px solid #94a3b8; opacity: 0.9;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text);">Shilla Stay Haeundae (בוסאן)</h3>
+                        <div style="font-size: 0.85em; color: var(--text-muted);">27 בנובמבר - 30 בנובמבר</div>
+                    </div>
+                </div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">
+                    <i class="fa-solid fa-location-dot"></i> Haeundae-gu, Busan
+                </div>
             </div>
         </div>
 
