@@ -87,7 +87,7 @@
 
     <!-- SCREEN: PLANNING (Questionnaire) -->
     <div id="screen-planning" style="display: none; height: 100vh; background: #f8fafc; overflow-y: auto; padding-bottom: 50px;">
-        <div class="header">שאלון אפיון מטייל</div>
+        <div class="header" style="position: relative;">שאלון אפיון מטייל <button onclick="hardRefresh()" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: white; font-size: 1.2em; cursor: pointer;"><i class="fa-solid fa-arrows-rotate"></i></button></div>
         <div class="container">
             <div class="card" style="padding: 20px;">
                 <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 20px;">אנא מלא את פרטי הטיול המבוקש. הנתונים ישמשו את המערכת לבניית מסלול מותאם אישית.</p>
@@ -482,6 +482,14 @@
     
     </div>
 <script>
+
+        function hardRefresh() {
+            // Adds a timestamp to the URL to bust the browser cache aggressively
+            const url = new URL(window.location.href);
+            url.searchParams.set('t', new Date().getTime());
+            window.location.href = url.toString();
+        }
+
 
         function showScreen(screenId) {
             document.getElementById('screen-home').style.display = 'none';
