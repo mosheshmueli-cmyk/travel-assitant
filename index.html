@@ -770,9 +770,11 @@
         // --- WEATHER LOGIC (Open-Meteo API - Free, No Key) ---
         function initWeather() {
             if (navigator.geolocation) {
+                const options = { timeout: 4000, maximumAge: 0 };
                 navigator.geolocation.getCurrentPosition(
                     (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude, "המיקום שלך כעת"),
-                    (err) => fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)") // Fallback
+                    (err) => fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)"),
+                    options
                 );
             } else {
                 fetchWeather(37.5665, 126.9780, "סיאול");
@@ -821,7 +823,8 @@
                 document.getElementById('weather-forecast').innerHTML = forecastHTML;
             } catch(e) {
                 console.error("Weather error", e);
-                document.getElementById('weather-desc').innerText = "לא הצלחנו לטעון נתונים";
+                document.getElementById('weather-desc').innerText = "שגיאה בטעינת נתונים";
+                document.getElementById('weather-tip').innerText = "לא ניתן לחשב טיפ לבוש כעת.";
             }
         }
 
