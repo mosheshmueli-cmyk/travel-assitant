@@ -559,6 +559,18 @@
         }
 
 
+        
+        function simulateAIGeneration(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI מנתח נתונים ובונה מסלול...';
+            btn.style.background = '#8b5cf6';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = 'var(--primary)';
+                showScreen('screen-live');
+            }, 2500);
+        }
+
         function showScreen(screenId) {
             
             document.getElementById('screen-home').style.display = 'none';
@@ -1032,8 +1044,11 @@
                     }
                 },
             });
-            alert('החיבור האמיתי ל-Google Drive דורש שרת ענן ומפתחות אבטחה (חלק משלב ב\').\n\nכרגע, תהליך זה מציג רק את זרימת הממשק (בחירת תמונה -> זיהוי מיקום -> כפתור סנכרון).');
-            // tokenClient.requestAccessToken();
+            
+            // Simulate Google Drive Auth and Upload for Demo
+            accessToken = "demo_token";
+            startUploadProcess();
+
         }
 
         async function startUploadProcess() {
@@ -1043,7 +1058,7 @@
             
             resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> יוצר תיקיית גיבוי בענן...</div>';
             
-            let folderId = await getOrCreateFolder("תמונות טיול - Travel Assistant");
+            let folderId = accessToken === "demo_token" ? "fake_folder_id" : await getOrCreateFolder("תיקיית טיול - Travel Assistant");
             if(!folderId) {
                 resultsDiv.innerHTML = '<div style="color:red; text-align:center;">שגיאה בגישה לדרייב. ודא שיש מספיק מקום בחשבון.</div>';
                 return;
@@ -1060,7 +1075,14 @@
                 resultsDiv.innerHTML = `<div style="text-align:center; font-weight: bold;"><i class="fa-solid fa-cloud-arrow-up"></i> מגבה תמונה ${i+1} מתוך ${pendingPhotos.length}...</div>`;
                 
                 try {
-                    await uploadFile(photo.file, folderId, photo.caption);
+                    
+                    if (accessToken === "demo_token") {
+                        // Fake upload delay
+                        await new Promise(r => setTimeout(r, 800));
+                    } else {
+                        await uploadFile(photo.file, folderId, photo.caption);
+                    }
+
                     uploadedCount++;
                 } catch(e) {
                     console.error("Upload failed for ", photo.name);
