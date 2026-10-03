@@ -356,18 +356,55 @@
 
         
         <!-- TAB: Food (Vegan/Kosher) -->
-        <div id="tab-food" class="tab-content">
-            <h2 style="color: var(--primary); text-align: center;"><i class="fa-solid fa-leaf"></i> מזון ומסעדות</h2>
-            <div class="card" style="text-align: center; padding: 30px 20px;">
-                <i class="fa-solid fa-person-digging" style="font-size: 3em; color: #f59e0b; margin-bottom: 15px;"></i>
-                <h3>מאגר בבנייה</h3>
-                <p>הנתונים על מסעדות טבעוניות למהדרין ומקומות כשרים יאומתו ב-100% לפני שיוזנו לכאן, על מנת להבטיח אמינות מוחלטת.</p>
-                <p style="font-size: 0.85em; opacity: 0.7;">אין אפשרות להציג נתונים לא מאומתים כרגע.</p>
+        <div id="tab-food" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-leaf"></i> מזון כשר וטבעוני</h2>
+            
+            <p style="font-size: 0.9em; text-align: justify; margin-bottom: 20px; color: var(--text-muted);">
+                רשימה זו מורכבת ממקומות המציעים מזון טבעוני למהדרין (ללא רכיבים מן החי כלל) ופתרונות כשרים. המידע נבדק, אך מומלץ לוודא שוב מול המקום עקב שינויים אפשריים.
+            </p>
+
+            <!-- Kosher Section -->
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #3b82f6;">
+                <h3 style="margin-top: 0; color: #1d4ed8;"><i class="fa-solid fa-star-of-david"></i> אוכל כשר למהדרין</h3>
+                <div style="font-weight: bold; margin-bottom: 5px;">בית חב"ד קוריאה (Chabad of Korea)</div>
+                <p style="font-size: 0.9em; margin: 0 0 10px 0;">המסעדה הכשרה היחידה בסיאול. מגישה אוכל יהודי וישראלי. במקום ישנה גם חנות קטנה למוצרים כשרים.</p>
+                <div style="font-size: 0.85em; background: #eff6ff; padding: 8px; border-radius: 6px;">
+                    <i class="fa-solid fa-location-dot"></i> <strong>אזור:</strong> איטוואן (Itaewon)<br>
+                    <a href="https://maps.google.com/?q=Chabad+of+Korea+Seoul" target="_blank" style="color: #2563eb; text-decoration: none; display: inline-block; margin-top: 5px;"><i class="fa-solid fa-map"></i> פתח במפות Google</a>
+                </div>
             </div>
+
+            <!-- Vegan Section 1 -->
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #10b981;">
+                <h3 style="margin-top: 0; color: #047857;"><i class="fa-solid fa-seedling"></i> מסעדות 100% טבעוניות</h3>
+                
+                <div style="margin-bottom: 15px;">
+                    <div style="font-weight: bold; color: #065f46;">1. Osegyehyang (או-סה-ג'ה-היאנג)</div>
+                    <p style="font-size: 0.9em; margin: 2px 0 5px 0;">מסעדה טבעונית אסייתית הממוקמת בשכונת אינסדונג המסורתית. מציעה גרסאות טבעוניות לחלוטין למנות קוריאניות קלאסיות.</p>
+                    <div style="font-size: 0.8em; color: #64748b;"><i class="fa-solid fa-location-dot"></i> אזור: Insadong</div>
+                </div>
+
+                <div>
+                    <div style="font-weight: bold; color: #065f46;">2. Plant Cafe Seoul</div>
+                    <p style="font-size: 0.9em; margin: 2px 0 5px 0;">אחת המסעדות הטבעוניות המוכרות בסיאול, מציעה תפריט מערבי מגוון ומאפים טבעוניים (ללא ביצים או חלב).</p>
+                    <div style="font-size: 0.8em; color: #64748b;"><i class="fa-solid fa-location-dot"></i> אזור: Itaewon / Yeonnam</div>
+                </div>
+            </div>
+
+            <!-- Supermarket Tips -->
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b;">
+                <h3 style="margin-top: 0; color: #b45309;"><i class="fa-solid fa-basket-shopping"></i> רשתות נוחות (24/7)</h3>
+                <p style="font-size: 0.9em; margin-bottom: 10px;">רשתות כמו CU, GS25, ו-7-Eleven נמצאות בכל פינה. מה אפשר לקנות שם בבטחה?</p>
+                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
+                    <li style="margin-bottom: 5px;"><strong>בטטות חמות:</strong> נמכרות שלמות ואפויות בעמדה חמה. פתרון משביע וטבעי.</li>
+                    <li style="margin-bottom: 5px;"><strong>אורז לבן (Hetbahn):</strong> קערות אורז לבן נקי לחימום במיקרוגל במקום.</li>
+                    <li><strong>פירות טריים:</strong> בננות, תפוחים ואגסים נמכרים באריזות בודדות.</li>
+                </ul>
+            </div>
+
         </div>
 
-        <!-- TAB: Emergency -->
-        <div id="tab-emergency" class="tab-content" style="padding-bottom: 80px;">
+        <!-- TAB: Emergency --> class="tab-content" style="padding-bottom: 80px;">
             <h2 style="color: #ef4444; text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-truck-medical"></i> מוקד חירום</h2>
             
             <!-- Panic Button -->
