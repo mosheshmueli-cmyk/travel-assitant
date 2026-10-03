@@ -361,160 +361,24 @@
         </div>
 
         <!-- TAB 3: Chat Assistant -->
-        <div id="tab-chat" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fa-solid fa-robot"></i> צ'אט AI</div>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="msg bot">היי! אני כאן לעזור. קרה משהו לא צפוי? (נסה: "יורד גשם, מה עושים?")</div>
-                    </div>
-                    <div class="chat-input-area">
-                        <input type="text" id="chat-input" placeholder="הקלד כאן..." onkeypress="handleKeyPress(event)">
-                        <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: Hotels -->
-        <div id="tab-hotels" class="tab-content">
-            <div class="card">
-                <div class="card-title"><i class="fa-solid fa-hotel"></i> מלונות</div>
-                <p style="font-size: 0.85em;">ממתינים לעדכון מחברת הנסיעות.</p>
-            </div>
-        </div>
-
-        
-        <!-- TAB: Food (Vegan/Kosher) -->
-        <div id="tab-food" class="tab-content" style="padding-bottom: 80px;">
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-leaf"></i> מזון כשר וטבעוני</h2>
-            
-            <p style="font-size: 0.9em; text-align: justify; margin-bottom: 20px; color: var(--text-muted);">
-                רשימה זו מורכבת ממקומות המציעים מזון טבעוני למהדרין (ללא רכיבים מן החי כלל) ופתרונות כשרים. המידע נבדק, אך מומלץ לוודא שוב מול המקום עקב שינויים אפשריים.
-            </p>
-
-            <!-- Kosher Section -->
-            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #3b82f6;">
-                <h3 style="margin-top: 0; color: #1d4ed8;"><i class="fa-solid fa-star-of-david"></i> אוכל כשר למהדרין</h3>
-                <div style="font-weight: bold; margin-bottom: 5px;">בית חב"ד קוריאה (Chabad of Korea)</div>
-                <p style="font-size: 0.9em; margin: 0 0 10px 0;">המסעדה הכשרה היחידה בסיאול. מגישה אוכל יהודי וישראלי. במקום ישנה גם חנות קטנה למוצרים כשרים.</p>
-                <div style="font-size: 0.85em; background: #eff6ff; padding: 8px; border-radius: 6px;">
-                    <i class="fa-solid fa-location-dot"></i> <strong>אזור:</strong> איטוואן (Itaewon)<br>
-                    <a href="https://maps.google.com/?q=Chabad+of+Korea+Seoul" target="_blank" style="color: #2563eb; text-decoration: none; display: inline-block; margin-top: 5px;"><i class="fa-solid fa-map"></i> פתח במפות Google</a>
-                </div>
-            </div>
-
-            <!-- Vegan Section 1 -->
-            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #10b981;">
-                <h3 style="margin-top: 0; color: #047857;"><i class="fa-solid fa-seedling"></i> מסעדות 100% טבעוניות</h3>
+        <div id="tab-chat" class="tab-content" style="padding-bottom: 80px;">
+            <div class="card" style="height: calc(100vh - 250px); display: flex; flex-direction: column;">
+                <h3 style="margin-top: 0; color: #8b5cf6; text-align: center;"><i class="fa-solid fa-robot"></i> סייען בזמן אמת (AI)</h3>
                 
-                <div style="margin-bottom: 15px;">
-                    <div style="font-weight: bold; color: #065f46;">1. Osegyehyang (או-סה-ג'ה-היאנג)</div>
-                    <p style="font-size: 0.9em; margin: 2px 0 5px 0;">מסעדה טבעונית אסייתית הממוקמת בשכונת אינסדונג המסורתית. מציעה גרסאות טבעוניות לחלוטין למנות קוריאניות קלאסיות.</p>
-                    <div style="font-size: 0.8em; color: #64748b;"><i class="fa-solid fa-location-dot"></i> אזור: Insadong</div>
+                <div style="flex-grow: 1; overflow-y: auto; background: #f8fafc; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                    
+                    <div style="align-self: flex-start; background: #e0e7ff; padding: 12px 15px; border-radius: 15px; border-top-right-radius: 0; max-width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="font-weight: bold; font-size: 0.8em; color: #4338ca; margin-bottom: 5px;">סייען בזמן אמת</div>
+                        <div style="font-size: 0.9em; line-height: 1.4;">שלום! אני הסייען החכם שלך לטיול. אני מחובר לכל המערכות (מזג אוויר, מפות, אילוצים).<br><br>אני פה לפתור כל <strong>בלת"ם</strong> או שאלה בזמן אמת. נתקעת בגשם? צריכים למצוא חלופה כשרה פתוחה? רכבת בוטלה? תשאל אותי כאן ואספק מיד פתרון חלופי מותאם אישית.</div>
+                    </div>
+
                 </div>
 
-                <div>
-                    <div style="font-weight: bold; color: #065f46;">2. Plant Cafe Seoul</div>
-                    <p style="font-size: 0.9em; margin: 2px 0 5px 0;">אחת המסעדות הטבעוניות המוכרות בסיאול, מציעה תפריט מערבי מגוון ומאפים טבעוניים (ללא ביצים או חלב).</p>
-                    <div style="font-size: 0.8em; color: #64748b;"><i class="fa-solid fa-location-dot"></i> אזור: Itaewon / Yeonnam</div>
+                <div style="display: flex; gap: 10px;">
+                    <button style="background: #8b5cf6; color: white; border: none; width: 45px; border-radius: 50%; cursor: pointer; flex-shrink: 0; box-shadow: 0 2px 4px rgba(139,92,246,0.3);"><i class="fa-solid fa-paper-plane"></i></button>
+                    <input type="text" placeholder="תאר את הבעיה או הבלת'ם כאן..." style="flex-grow: 1; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 25px; font-family: inherit; font-size: 0.95em; outline: none;">
                 </div>
             </div>
-
-            <!-- Supermarket Tips -->
-            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b;">
-                <h3 style="margin-top: 0; color: #b45309;"><i class="fa-solid fa-basket-shopping"></i> רשתות נוחות (24/7)</h3>
-                <p style="font-size: 0.9em; margin-bottom: 10px;">רשתות כמו CU, GS25, ו-7-Eleven נמצאות בכל פינה. מה אפשר לקנות שם בבטחה?</p>
-                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
-                    <li style="margin-bottom: 5px;"><strong>בטטות חמות:</strong> נמכרות שלמות ואפויות בעמדה חמה. פתרון משביע וטבעי.</li>
-                    <li style="margin-bottom: 5px;"><strong>אורז לבן (Hetbahn):</strong> קערות אורז לבן נקי לחימום במיקרוגל במקום.</li>
-                    <li><strong>פירות טריים:</strong> בננות, תפוחים ואגסים נמכרים באריזות בודדות.</li>
-                </ul>
-            </div>
-
-        </div>
-
-        <!-- TAB: Emergency -->
-        <div id="tab-emergency" class="tab-content" style="padding-bottom: 80px;">
-            <h2 style="color: #ef4444; text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-truck-medical"></i> מוקד חירום</h2>
-            
-            <div style="background: #ef4444; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(239,68,68,0.3);">
-                <i class="fa-solid fa-phone-volume" style="font-size: 2.5em; margin-bottom: 10px;"></i>
-                <h3 style="margin: 0 0 5px 0; font-size: 1.5em;">119</h3>
-                <p style="margin: 0; font-size: 0.9em;">אמבולנס וכיבוי אש בדרום קוריאה</p>
-                <div style="margin-top: 10px; font-size: 0.85em; opacity: 0.9;">משטרה: 112</div>
-            </div>
-
-            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b;">
-                <h3 style="margin-top: 0; color: #b45309;"><i class="fa-solid fa-plane-circle-exclamation"></i> נחיתת חירום / מדינת אויב</h3>
-                <p style="font-size: 0.9em; margin-bottom: 10px;">נוהל פעולה להפניית טיסה (כדוגמת מקרה סעודיה):</p>
-                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
-                    <li style="margin-bottom: 5px;"><strong>הישאר במטוס:</strong> בשום פנים ואופן לא לרדת לטרמינל אלא אם צוות האוויר מחייב זאת.</li>
-                    <li style="margin-bottom: 5px;"><strong>הצנעת סממנים:</strong> להסיר סממנים מזהים (עברית, כיפה, תכשיטים).</li>
-                    <li style="margin-bottom: 5px;"><strong>דרכון זר:</strong> אם ברשותך דרכון זר, להכין אותו לשליפה. לא להציג דרכון ישראלי.</li>
-                    <li><strong>טלפון נייד:</strong> למחוק תמונות רגישות (מדים, נשק) ולשלוח הודעת מיקום למשפחה.</li>
-                </ul>
-            </div>
-
-            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #3b82f6;">
-                <h3 style="margin-top: 0; color: #1d4ed8;"><i class="fa-solid fa-passport"></i> אובדן או גניבת דרכון</h3>
-                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
-                    <li style="margin-bottom: 5px;">גש מיד לתחנת המשטרה הקרובה והוצא דוח פשיעה (Police Report).</li>
-                    <li style="margin-bottom: 5px;">צור קשר עם שגרירות ישראל בסיאול: <strong>+82-2-3210-8500</strong>.</li>
-                    <li>הכנס ללשונית "מסמכים" באפליקציה והצג את צילום הדרכון שהכנו מראש.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- TAB: Alerts -->
-        <div id="tab-alerts" class="tab-content">
-            <h2 style="color: #f59e0b; text-align: center;"><i class="fa-solid fa-bell"></i> התראות מערכת</h2>
-            <div class="card" style="text-align: center; padding: 30px 20px;">
-                <i class="fa-solid fa-check-circle" style="font-size: 3em; color: #10b981; margin-bottom: 15px;"></i>
-                <h3>הכל תקין</h3>
-                <p>אין התראות אדומות או עיכובי טיסות כרגע למסלול שלך.</p>
-            </div>
-        </div>
-
-        <!-- TAB: Documents -->
-        <div id="tab-document" class="tab-content" style="padding-bottom: 80px;">
-            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-vault"></i> כספת מסמכים</h2>
-            
-            <div style="background: #eef2ff; color: #3730a3; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9em; text-align: justify;">
-                <i class="fa-solid fa-lock"></i> <strong>אזור מאובטח:</strong> כל המסמכים כאן זמינים לצפייה גם ללא חיבור לאינטרנט (Offline) כדי להבטיח גישה בכל מצב חירום.
-            </div>
-
-            <!-- Passports -->
-            <div class="card" style="margin-bottom: 15px; border-top: 4px solid #3b82f6; display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <h3 style="margin: 0 0 5px 0; color: #1e3a8a;"><i class="fa-solid fa-passport"></i> דרכונים ואשרות</h3>
-                    <div style="font-size: 0.85em; color: var(--text-muted);">צילומי דרכון חתומים + אשרת K-ETA לקוריאה</div>
-                </div>
-                <button style="background: #3b82f6; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-eye"></i> הצג</button>
-            </div>
-
-            <!-- Flight Tickets -->
-            <div class="card" style="margin-bottom: 15px; border-top: 4px solid #10b981; display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <h3 style="margin: 0 0 5px 0; color: #064e3b;"><i class="fa-solid fa-ticket"></i> כרטיסי טיסה</h3>
-                    <div style="font-size: 0.85em; color: var(--text-muted);">כרטיסים אלקטרוניים (E-Ticket) - הלוך וחזור</div>
-                </div>
-                <button style="background: #10b981; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-eye"></i> הצג</button>
-            </div>
-
-            <!-- Insurance -->
-            <div class="card" style="margin-bottom: 15px; border-top: 4px solid #f59e0b; display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <h3 style="margin: 0 0 5px 0; color: #78350f;"><i class="fa-solid fa-file-medical"></i> ביטוח נסיעות</h3>
-                    <div style="font-size: 0.85em; color: var(--text-muted);">פוליסת ביטוח מורחבת + מספרי חירום</div>
-                </div>
-                <button style="background: #f59e0b; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-eye"></i> הצג</button>
-            </div>
-            
-            <div style="text-align: center; margin-top: 20px;">
-                <button style="background: white; color: var(--primary); border: 2px dashed var(--primary); padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;"><i class="fa-solid fa-plus"></i> הוסף מסמך סרוק למאגר</button>
-            </div>
-
         </div>
 
         <!-- TAB 5: Settings -->
@@ -592,11 +456,11 @@
         <div class="more-item" onclick="switchTab('tab-emergency', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-truck-medical" style="font-size: 2em; margin-bottom: 5px;"></i><br>חירום</div>
         <div class="more-item" onclick="switchTab('tab-alerts', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #f59e0b; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bell" style="font-size: 2em; margin-bottom: 5px;"></i><br>התראות</div>
         <div class="more-item" onclick="switchTab('tab-hotels', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bed" style="font-size: 2em; margin-bottom: 5px;"></i><br>מלונות</div>
-        <div class="more-item" onclick="switchTab('tab-chat', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-robot" style="font-size: 2em; margin-bottom: 5px;"></i><br>סיוע AI</div>
-        <div class="more-item" onclick="showScreen('screen-home'); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--primary); font-size: 0.8em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-house" style="font-size: 2em; margin-bottom: 5px;"></i><br>מסך הבית</div>
-        <div class="more-item" onclick="hardRefresh();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold; cursor: pointer; background: #fee2e2; border-radius: 10px; padding: 5px 0;"><i class="fa-solid fa-power-off" style="font-size: 2em; margin-bottom: 5px;"></i><br>אתחל מערכת</div>
-
         
+        <div class="more-item" onclick="switchTab('tab-chat', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #8b5cf6; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-robot" style="font-size: 2em; margin-bottom: 5px;"></i><br>סייען בזמן אמת</div>
+        <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-sliders" style="font-size: 2em; margin-bottom: 5px;"></i><br>הגדרות</div>
+        <div class="more-item" onclick="showScreen('screen-home'); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #2563eb; font-size: 0.8em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-house" style="font-size: 2em; margin-bottom: 5px;"></i><br>מסך הבית</div>
+        <div class="more-item" onclick="hardRefresh();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold; cursor: pointer; background: #fee2e2; border-radius: 10px; padding: 5px 0;"><i class="fa-solid fa-power-off" style="font-size: 2em; margin-bottom: 5px;"></i><br>אתחול</div>
     </div>
         <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
         <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-regular fa-comments"></i> צ'אט</div>
