@@ -434,10 +434,10 @@
 
         </div>
 
-        <!-- TAB: Emergency --> class="tab-content" style="padding-bottom: 80px;">
+        <!-- TAB: Emergency -->
+        <div id="tab-emergency" class="tab-content" style="padding-bottom: 80px;">
             <h2 style="color: #ef4444; text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-truck-medical"></i> מוקד חירום</h2>
             
-            <!-- Panic Button -->
             <div style="background: #ef4444; color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(239,68,68,0.3);">
                 <i class="fa-solid fa-phone-volume" style="font-size: 2.5em; margin-bottom: 10px;"></i>
                 <h3 style="margin: 0 0 5px 0; font-size: 1.5em;">119</h3>
@@ -445,28 +445,25 @@
                 <div style="margin-top: 10px; font-size: 0.85em; opacity: 0.9;">משטרה: 112</div>
             </div>
 
-            <!-- Protocol: Flight Diversion -->
             <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b;">
                 <h3 style="margin-top: 0; color: #b45309;"><i class="fa-solid fa-plane-circle-exclamation"></i> נחיתת חירום / מדינת אויב</h3>
                 <p style="font-size: 0.9em; margin-bottom: 10px;">נוהל פעולה להפניית טיסה (כדוגמת מקרה סעודיה):</p>
                 <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
-                    <li style="margin-bottom: 5px;"><strong>הישאר במטוס:</strong> בשום פנים ואופן לא לרדת לטרמינל אלא אם צוות האוויר מחייב זאת טקטית.</li>
-                    <li style="margin-bottom: 5px;"><strong>הצנעת סממנים:</strong> להסיר סממנים מזהים (כיתוב בעברית, כיפה, תכשיטים מזהים).</li>
-                    <li style="margin-bottom: 5px;"><strong>דרכון זר:</strong> אם ברשותך דרכון זר, להכין אותו לשליפה. לא להציג דרכון ישראלי אלא אם נדרשת.</li>
-                    <li><strong>טלפון נייד:</strong> למחוק מיד תמונות רגישות (מדים, כלי נשק) ולשלוח הודעת מיקום אחת למשפחה בארץ במידת האפשר.</li>
+                    <li style="margin-bottom: 5px;"><strong>הישאר במטוס:</strong> בשום פנים ואופן לא לרדת לטרמינל אלא אם צוות האוויר מחייב זאת.</li>
+                    <li style="margin-bottom: 5px;"><strong>הצנעת סממנים:</strong> להסיר סממנים מזהים (עברית, כיפה, תכשיטים).</li>
+                    <li style="margin-bottom: 5px;"><strong>דרכון זר:</strong> אם ברשותך דרכון זר, להכין אותו לשליפה. לא להציג דרכון ישראלי.</li>
+                    <li><strong>טלפון נייד:</strong> למחוק תמונות רגישות (מדים, נשק) ולשלוח הודעת מיקום למשפחה.</li>
                 </ul>
             </div>
 
-            <!-- Protocol: Lost Passport -->
             <div class="card" style="margin-bottom: 15px; border-right: 4px solid #3b82f6;">
                 <h3 style="margin-top: 0; color: #1d4ed8;"><i class="fa-solid fa-passport"></i> אובדן או גניבת דרכון</h3>
                 <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
-                    <li style="margin-bottom: 5px;">גש מיד לתחנת המשטרה הקרובה והוצא דוח פשיעה (Police Report). חובה לשגרירות.</li>
+                    <li style="margin-bottom: 5px;">גש מיד לתחנת המשטרה הקרובה והוצא דוח פשיעה (Police Report).</li>
                     <li style="margin-bottom: 5px;">צור קשר עם שגרירות ישראל בסיאול: <strong>+82-2-3210-8500</strong>.</li>
-                    <li>הכנס ללשונית "מסמכים" באפליקציה (כספת המסמכים) והצג להם את צילום הדרכון שהכנו מראש.</li>
+                    <li>הכנס ללשונית "מסמכים" באפליקציה והצג את צילום הדרכון שהכנו מראש.</li>
                 </ul>
             </div>
-
         </div>
 
         <!-- TAB: Alerts -->
@@ -583,7 +580,7 @@
         <div class="nav-item" onclick="switchTab('tab-food', this)"><i class="fa-solid fa-leaf"></i> מזון</div>
         <div class="nav-item" onclick="switchTab('tab-gallery', this)"><i class="fa-solid fa-camera-retro"></i> יומן</div>
         
-        <div class="nav-item" onclick="toggleMoreMenu()"><i class="fa-solid fa-bars"></i> עוד...</div>
+        <div class="nav-item" onclick="toggleMoreMenu()"><i class="fa-solid fa-bars"></i> מערכת</div>
     </div>
 
     <!-- MORE MENU (Hidden by default) -->
