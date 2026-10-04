@@ -1136,7 +1136,7 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         // --- END WEATHER LOGIC ---
 
         // --- GOOGLE DRIVE LOGIC ---
-        const CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
+        const OAUTH_CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
         let tokenClient;
         let accessToken = null;
@@ -1280,7 +1280,7 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
 
         // --- GOOGLE OAUTH REDIRECT FLOW ---
         let googleAccessToken = null;
-        const CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
+        const OAUTH_CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
         const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
         const SCOPE = 'https://www.googleapis.com/auth/drive.file';
 
@@ -1309,7 +1309,7 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
 
         function authGoogle() {
             let authUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
-            authUrl += '?client_id=' + encodeURIComponent(CLIENT_ID);
+            authUrl += '?client_id=' + encodeURIComponent(OAUTH_CLIENT_ID);
             authUrl += '&redirect_uri=' + encodeURIComponent(REDIRECT_URI);
             authUrl += '&response_type=token';
             authUrl += '&scope=' + encodeURIComponent(SCOPE);
