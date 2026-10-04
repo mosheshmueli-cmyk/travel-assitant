@@ -1244,7 +1244,48 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         
 
 
-        function logoutGoogle() {
+        
+        let tokenClient;
+        function initGoogleAuth() {
+            try {
+                tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com',
+                    scope: 'https://www.googleapis.com/auth/drive.file',
+                    callback: (response) => {
+                        if (response.error !== undefined) {
+                            console.error(response);
+                            alert('שגיאה בהתחברות לגוגל');
+                            return;
+                        }
+                        googleAccessToken = response.access_token;
+                        document.getElementById('google-auth-status').innerHTML = '✅ מחובר ל-Google Drive';
+                        document.getElementById('google-auth-status').style.color = '#10b981';
+                        document.getElementById('google-auth-btn').style.display = 'none';
+                        document.getElementById('google-logout-btn').style.display = 'block';
+                        
+                        let quickStatus = document.getElementById('google-auth-status-quick');
+                        if (quickStatus) { quickStatus.innerHTML = '✅ מחובר ל-Google Drive'; quickStatus.style.color = '#10b981'; }
+                        let quickBtn = document.getElementById('google-auth-btn-quick');
+                        if (quickBtn) { quickBtn.style.display = 'none'; }
+                        let quickLogout = document.getElementById('google-logout-btn-quick');
+                        if (quickLogout) { quickLogout.style.display = 'block'; }
+                        alert('התחברת בהצלחה! האפליקציה כעת מסונכרנת עם הדרייב שלך.');
+                    }
+                });
+                console.log("Google Auth Initialized successfully");
+            } catch (e) {
+                console.error("Error initializing google auth", e);
+            }
+        }
+
+        function authGoogle() {
+            if (tokenClient) {
+                tokenClient.requestAccessToken({prompt: 'consent'});
+            } else {
+                alert("מערכת גוגל עדיין נטענת, נסה שוב בעוד שניה.");
+            }
+        }
+function logoutGoogle() {
             if (googleAccessToken) {
                 google.accounts.oauth2.revoke(googleAccessToken, () => {
                     console.log('Token revoked');
