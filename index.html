@@ -662,7 +662,8 @@
         }
 
         function initMap() {
-            const map = L.map('interactive-map').setView([36.0, 127.8], 6);
+            // Initialize map focused on Seoul
+            const map = L.map('interactive-map', {zoomControl: false}).setView([37.5665, 126.9780], 12);
             
             // Replaced OSM with Google Maps Tiles (Hebrew Localized hl=iw)
             L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=iw&x={x}&y={y}&z={z}', {
@@ -670,54 +671,94 @@
                 maxZoom: 18
             }).addTo(map);
 
-            const pois = [
-                { 
-                    title: "יום 2: סונגדו סנטרל פארק", lat: 37.3925, lng: 126.6394, type: "פארק ואגמים",
-                    desc: "פארק ציבורי בשטח 101 דונם בעיר סונגדו.<br>תוכנן בהשראת הסנטרל פארק בניו יורק ומשלב תעלת מי ים.<br>משמש מרכז פנאי ונופש ומוקף מבני מסחר ומגורים." 
-                },
-                { 
-                    title: "יום 3: מגדל סאול (Namsan)", lat: 37.5511, lng: 126.9882, type: "תצפית עיר",
-                    desc: "מגדל תקשורת ותצפית בגובה 236 מטרים על הר נאמסאן.<br>נבנה ב-1971 ומהווה את הנקודה הגבוהה ביותר בסיאול.<br>משמש אנטנת שידור מרכזית ומציע תצפית 360 מעלות."
-                },
-                { 
-                    title: "יום 4: מצודת סואון הוואסונג", lat: 37.2882, lng: 127.0125, type: "היסטוריה (אונסק\"ו)",
-                    desc: "מבצר מהמאה ה-18 שנבנה על ידי מלך שושלת ג'וסון.<br>חומותיו משתרעות לאורך כ-5.7 קילומטרים סביב מרכז סואון.<br>הוכרז כאתר מורשת עולמית של אונסק\"ו בשנת 1997."
-                },
-                { 
-                    title: "יום 5: הר סאוראק", lat: 38.1195, lng: 128.4655, type: "טבע נוף ורכבל",
-                    desc: "ההר השלישי בגובהו בקוריאה הדרומית (1,708 מטרים).<br>השמורה מתאפיינת בתצורות סלע גרניט וביערות נשירים.<br>כוללת רכבל המגיע לפסגה ומספר מקדשים בודהיסטים."
-                },
-                { 
-                    title: "יום 6/7: דאגו (גבעת צ'ונגנה)", lat: 35.8672, lng: 128.5830, type: "עיר מגורים / מסלול שבת",
-                    desc: "מוקד תרבותי והיסטורי במרכז העיר דאגו.<br>מרכז מבנים היסטוריים מתקופת המיסיון המערבי בקוריאה.<br>נקודת המוצא למסלול הליכה עירוני העובר באתרים לשימור."
-                },
-                { 
-                    title: "יום 7: ממלכת שילה בגיונגג'ו", lat: 35.8396, lng: 129.2140, type: "קברי מלכים (קבוצה רגילה)",
-                    desc: "עיר חוף דרום-מזרחית, בירתה ההיסטורית של ממלכת שילה.<br>מרכזת עשרות תלי קבורה מלכותיים ומקדשים בודהיסטים.<br>מוכרת כ'מוזיאון ללא קירות' עקב ריבוי האתרים הארכאולוגיים."
-                },
-                { 
-                    title: "יום 8-9: בוסאן (שוק דגים/כפר)", lat: 35.1587, lng: 129.1604, type: "עיר חוף פסטורלית",
-                    desc: "עיר הנמל הגדולה ביותר בקוריאה הדרומית.<br>מרכז מסחר ימי המשלב שווקי דגים פעילים ורצועות חוף.<br>מוקדי העניין כוללים את כפר התרבות גמצ'און וחוף האונדאה."
-                },
-                { 
-                    title: "יום 11: הר הגעש (ג'ג'ו)", lat: 33.4588, lng: 126.9422, type: "פלא טבע",
-                    desc: "חרוט אפר געשי (טוף) הנוצר מהתפרצות תת-ימית.<br>מתנשא לגובה 182 מטרים בקצה המזרחי של האי ג'ג'ו.<br>מכיל לוע בצורת קערה ומוכר כאתר מורשת עולמית."
-                }
+            // Add Zoom Control to Bottom Left (to not overlap with our floating buttons)
+            L.control.zoom({position: 'bottomleft'}).addTo(map);
+
+            // Day 1 Simulation Route
+            const day1Route = [
+                { title: "1. נמל תעופה אינצ'ון", lat: 37.4602, lng: 126.4407, type: "נחיתה" },
+                { title: "2. Lotte Hotel Seoul", lat: 37.5665, lng: 126.9810, type: "צ'ק אין" },
+                { title: "3. שכונת Insa-dong", lat: 37.5743, lng: 126.9858, type: "סיור ואוכל" },
+                { title: "4. מגדל N Seoul", lat: 37.5511, lng: 126.9882, type: "תצפית לילה" }
             ];
 
-            pois.forEach(poi => {
-                L.marker([poi.lat, poi.lng]).addTo(map)
-                    .bindPopup(`<div style="direction:rtl; text-align:right; font-family:'Heebo',sans-serif; min-width:200px;">
-                        <b style="color:var(--primary); font-size:1.1em;">${poi.title}</b><br>
-                        <p style="font-size:0.9em; margin-top:8px; margin-bottom:0; line-height:1.5; color:#374151;">${poi.desc}</p>
-                    </div>`);
+            const routeCoords = [];
+
+            // Add numbered markers
+            day1Route.forEach((poi, index) => {
+                routeCoords.push([poi.lat, poi.lng]);
+                
+                // Create a custom numbered icon
+                const numberedIcon = L.divIcon({
+                    className: 'custom-number-icon',
+                    html: `<div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index + 1}</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+
+                const marker = L.marker([poi.lat, poi.lng], {icon: numberedIcon}).addTo(map);
+                
+                marker.bindPopup(`
+                    <div style="text-align: right; direction: rtl;">
+                        <h4 style="margin: 0 0 5px 0; color: var(--primary);">${poi.title}</h4>
+                        <p style="margin: 0; font-size: 0.9em; color: #555;">${poi.type}</p>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${poi.lat},${poi.lng}" target="_blank" style="display: block; margin-top: 10px; background: #2563eb; color: white; text-align: center; padding: 5px; border-radius: 4px; text-decoration: none; font-size: 0.9em;"><i class="fa-solid fa-directions"></i> נווט לכאן</a>
+                    </div>
+                `);
             });
-            setTimeout(() => { map.invalidateSize(); }, 200);
+
+            // Draw a polyline connecting the route
+            const routeLine = L.polyline(routeCoords, {
+                color: '#3b82f6',
+                weight: 4,
+                opacity: 0.7,
+                dashArray: '10, 10' // dotted line for route
+            }).addTo(map);
+
+            // Fit map to the route bounds
+            map.fitBounds(routeLine.getBounds(), {padding: [50, 50]});
+
+            // Add "Locate Me" button
+            const locateControl = L.control({position: 'topright'});
+            locateControl.onAdd = function() {
+                const div = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                div.innerHTML = `<button onclick="locateUser()" style="background: white; border: none; width: 40px; height: 40px; border-radius: 5px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: #2563eb; font-size: 1.2em;"><i class="fa-solid fa-crosshairs"></i></button>`;
+                return div;
+            };
+            locateControl.addTo(map);
+
+            // Global variable to hold user marker
+            window.userMarker = null;
+            window.appMap = map; // Save globally so we can access it
         }
 
-        
-
-        function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+        function locateUser() {
+            if (navigator.geolocation) {
+                // Show a tiny loading toast or just let the map spin
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    
+                    if (window.userMarker) {
+                        window.userMarker.setLatLng([lat, lng]);
+                    } else {
+                        // Create a distinct blue dot for the user
+                        const userIcon = L.divIcon({
+                            className: 'custom-user-icon',
+                            html: `<div style="background: #3b82f6; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>`,
+                            iconSize: [22, 22],
+                            iconAnchor: [11, 11]
+                        });
+                        window.userMarker = L.marker([lat, lng], {icon: userIcon, zIndexOffset: 1000}).addTo(window.appMap);
+                        window.userMarker.bindPopup('<div style="direction: rtl;">אתה כאן</div>');
+                    }
+                    window.appMap.flyTo([lat, lng], 15, {duration: 1.5});
+                }, () => {
+                    alert("לא ניתן לקבל את המיקום שלך. בדוק הגדרות GPS.");
+                });
+            }
+        }
+function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         function sendMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
