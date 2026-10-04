@@ -1279,13 +1279,19 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         }
 
         function authGoogle() {
+            // Lazy initialization to avoid race conditions
+            if (!tokenClient && typeof google !== 'undefined' && google.accounts) {
+                initGoogleAuth();
+            }
+            
             if (tokenClient) {
                 tokenClient.requestAccessToken({prompt: 'consent'});
             } else {
-                alert("מערכת גוגל עדיין נטענת, נסה שוב בעוד שניה.");
+                alert("מערכת גוגל עדיין נטענת או חסומה על ידי הדפדפן (חוסם חלונות קופצים). נסה שוב בעוד שניה.");
             }
         }
-function logoutGoogle() {
+
+        function logoutGoogle() {
             if (googleAccessToken) {
                 google.accounts.oauth2.revoke(googleAccessToken, () => {
                     console.log('Token revoked');
