@@ -135,20 +135,16 @@
         
         <!-- TAB 1: Itinerary -->
         <div id="tab-itinerary" class="tab-content active">
-            <div id="weather-widget-container" style="background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div id="weather-widget-container" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div id="weather-current-temp" style="font-size: 1.4em; font-weight: bold; color: var(--primary); direction: ltr;">--°C</div>
                     <div>
-                        <h3 style="margin: 0; font-size: 1.1em; display: flex; align-items: center; gap: 5px;"><i class="fa-solid fa-location-dot"></i> <span id="weather-location">מאתר מיקום...</span></h3>
-                        <p style="margin: 5px 0 0 0; font-size: 0.9em; opacity: 0.9;" id="weather-desc">טוען נתוני אקלים...</p>
-                    </div>
-                    <div id="weather-tip" style="margin-top: 10px; font-size: 0.85em; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 15px; display: inline-block;">ממתין לנתונים...</div>
-                    <div style="text-align: left;">
-                        <div id="weather-current-temp" style="font-size: 2.5em; font-weight: bold; line-height: 1; direction: ltr;">--°</div>
+                        <div style="font-size: 0.9em; font-weight: bold; color: var(--text);"><i class="fa-solid fa-location-dot" style="color: #64748b;"></i> <span id="weather-location">טוען...</span></div>
+                        <div style="font-size: 0.8em; color: var(--text-muted);" id="weather-desc">ממתין לנתונים</div>
                     </div>
                 </div>
-                <div id="weather-forecast" style="display: flex; justify-content: space-between; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px;">
-                    <div style="text-align: center; width: 100%;"><i class="fa-solid fa-spinner fa-spin"></i> מתחבר ללוויין מטאורולוגי...</div>
-                </div>
+                <div id="weather-tip" style="font-size: 0.8em; background: #f1f5f9; color: #64748b; padding: 4px 8px; border-radius: 12px; display: none;"></div>
+                <div id="weather-forecast" style="display: none;"></div>
             </div>
 
             <div class="card">
