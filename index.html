@@ -1278,37 +1278,67 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
             }
         }
 
+        // --- GOOGLE OAUTH REDIRECT FLOW ---
+        let googleAccessToken = null;
+        const CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
+        const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
+        const SCOPE = 'https://www.googleapis.com/auth/drive.file';
+
+        window.addEventListener('load', () => {
+            const hash = window.location.hash;
+            if (hash && hash.includes('access_token=')) {
+                const params = new URLSearchParams(hash.substring(1));
+                googleAccessToken = params.get('access_token');
+                window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+                
+                let s1 = document.getElementById('google-auth-status');
+                if(s1) { s1.innerHTML = '✅ מחובר ל-Google Drive'; s1.style.color = '#10b981'; }
+                let b1 = document.getElementById('google-auth-btn');
+                if(b1) { b1.style.display = 'none'; }
+                let l1 = document.getElementById('google-logout-btn');
+                if(l1) { l1.style.display = 'block'; }
+                
+                let s2 = document.getElementById('google-auth-status-quick');
+                if(s2) { s2.innerHTML = '✅ מחובר ל-Google Drive'; s2.style.color = '#10b981'; }
+                let b2 = document.getElementById('google-auth-btn-quick');
+                if(b2) { b2.style.display = 'none'; }
+                let l2 = document.getElementById('google-logout-btn-quick');
+                if(l2) { l2.style.display = 'block'; }
+            }
+        });
+
         function authGoogle() {
-            // Lazy initialization to avoid race conditions
-            if (!tokenClient && typeof google !== 'undefined' && google.accounts) {
-                initGoogleAuth();
-            }
-            
-            if (tokenClient) {
-                tokenClient.requestAccessToken({prompt: 'consent'});
-            } else {
-                alert("מערכת גוגל עדיין נטענת או חסומה על ידי הדפדפן (חוסם חלונות קופצים). נסה שוב בעוד שניה.");
-            }
+            let authUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+            authUrl += '?client_id=' + encodeURIComponent(CLIENT_ID);
+            authUrl += '&redirect_uri=' + encodeURIComponent(REDIRECT_URI);
+            authUrl += '&response_type=token';
+            authUrl += '&scope=' + encodeURIComponent(SCOPE);
+            authUrl += '&include_granted_scopes=true';
+            authUrl += '&prompt=consent';
+            window.location.href = authUrl;
         }
 
         function logoutGoogle() {
             if (googleAccessToken) {
-                google.accounts.oauth2.revoke(googleAccessToken, () => {
-                    console.log('Token revoked');
-                });
+                fetch('https://oauth2.googleapis.com/revoke?token=' + googleAccessToken, {
+                    method: 'POST',
+                    headers: {'Content-type': 'application/x-www-form-urlencoded'}
+                }).then(() => console.log('Revoked'));
             }
             googleAccessToken = null;
-            document.getElementById('google-auth-status').innerHTML = '❌ לא מחובר';
-            document.getElementById('google-auth-status').style.color = '#ef4444';
-            document.getElementById('google-auth-btn').style.display = 'block';
-            document.getElementById('google-logout-btn').style.display = 'none';
+            let s1 = document.getElementById('google-auth-status');
+            if(s1) { s1.innerHTML = '❌ לא מחובר'; s1.style.color = '#ef4444'; }
+            let b1 = document.getElementById('google-auth-btn');
+            if(b1) { b1.style.display = 'block'; }
+            let l1 = document.getElementById('google-logout-btn');
+            if(l1) { l1.style.display = 'none'; }
 
-            let quickStatus = document.getElementById('google-auth-status-quick');
-            if (quickStatus) { quickStatus.innerHTML = '❌ לא מחובר'; quickStatus.style.color = '#ef4444'; }
-            let quickBtn = document.getElementById('google-auth-btn-quick');
-            if (quickBtn) { quickBtn.style.display = 'block'; }
-            let quickLogout = document.getElementById('google-logout-btn-quick');
-            if (quickLogout) { quickLogout.style.display = 'none'; }
+            let s2 = document.getElementById('google-auth-status-quick');
+            if(s2) { s2.innerHTML = '❌ לא מחובר'; s2.style.color = '#ef4444'; }
+            let b2 = document.getElementById('google-auth-btn-quick');
+            if(b2) { b2.style.display = 'block'; }
+            let l2 = document.getElementById('google-logout-btn-quick');
+            if(l2) { l2.style.display = 'none'; }
             alert('נותקת בהצלחה מחשבון הגוגל שלך.');
         }
 </script>
