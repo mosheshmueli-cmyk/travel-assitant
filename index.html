@@ -589,13 +589,23 @@
 
     <!-- MORE MENU (Hidden by default) -->
     <div id="more-menu" style="display: none; position: fixed; bottom: 70px; left: 10px; right: 10px; background: white; border-radius: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); padding: 15px; z-index: 1000; flex-wrap: wrap; justify-content: space-between;">
-        <div class="more-item" onclick="switchTab('tab-hotels', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--primary); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bed" style="font-size: 2em; margin-bottom: 5px;"></i><br>מלונות</div>
+        
+        <div id="quick-google-auth" style="width: 100%; text-align: center; margin-bottom: 15px; padding: 10px; background: #f0f9ff; border-radius: 10px; border: 1px solid #bae6fd;">
+            <div style="font-weight: bold; font-size: 0.9em; margin-bottom: 8px; color: #0369a1;"><i class="fa-brands fa-google"></i> חיבור מהיר לדרייב</div>
+            <button id="google-auth-btn-quick" onclick="authGoogle()" style="background: #4285F4; color: white; padding: 8px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; cursor: pointer;">התחבר עכשיו</button>
+            <button id="google-logout-btn-quick" onclick="logoutGoogle()" style="background: #ef4444; color: white; padding: 8px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; cursor: pointer; display: none;">התנתק מגוגל</button>
+            <div id="google-auth-status-quick" style="font-size: 0.8em; margin-top: 5px; color: #ef4444; font-weight: bold;">❌ לא מחובר</div>
+        </div>
+<div class="more-item" onclick="switchTab('tab-hotels', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--primary); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bed" style="font-size: 2em; margin-bottom: 5px;"></i><br>מלונות</div>
         <div class="more-item" onclick="switchTab('tab-food', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #10b981; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-utensils" style="font-size: 2em; margin-bottom: 5px;"></i><br>מזון</div>
         <div class="more-item" onclick="switchTab('tab-document', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #3b82f6; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-passport" style="font-size: 2em; margin-bottom: 5px;"></i><br>מסמכים</div>
         <div class="more-item" onclick="switchTab('tab-alerts', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #f59e0b; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bell" style="font-size: 2em; margin-bottom: 5px;"></i><br>התראות</div>
         
         <div class="more-item" onclick="switchTab('tab-emergency', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-truck-medical" style="font-size: 2em; margin-bottom: 5px;"></i><br>חירום</div>
-        <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-sliders" style="font-size: 2em; margin-bottom: 5px;"></i><br>הגדרות</div>
+        <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><span class="fa-stack" style="font-size: 1.2em; margin-bottom: 5px; width: 2em; height: 1.5em; margin-top: -5px;">
+    <i class="fa-solid fa-gear fa-stack-2x" style="color: var(--text);"></i>
+    <span class="fa-stack-1x" style="color: white; font-family: Arial, sans-serif; font-size: 0.65em; font-weight: bold; margin-top: 1px;">TA</span>
+</span><br>הגדרות</div>
         <div class="more-item" onclick="showScreen('screen-home'); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #2563eb; font-size: 0.8em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-house" style="font-size: 2em; margin-bottom: 5px;"></i><br>ראשי</div>
         <div class="more-item" onclick="hardRefresh();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold; cursor: pointer; background: #fee2e2; border-radius: 10px; padding: 5px 0;"><i class="fa-solid fa-power-off" style="font-size: 2em; margin-bottom: 5px;"></i><br>אתחול</div>
     </div>
@@ -1242,6 +1252,13 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
             document.getElementById('google-auth-status').style.color = '#ef4444';
             document.getElementById('google-auth-btn').style.display = 'block';
             document.getElementById('google-logout-btn').style.display = 'none';
+
+            let quickStatus = document.getElementById('google-auth-status-quick');
+            if (quickStatus) { quickStatus.innerHTML = '❌ לא מחובר'; quickStatus.style.color = '#ef4444'; }
+            let quickBtn = document.getElementById('google-auth-btn-quick');
+            if (quickBtn) { quickBtn.style.display = 'block'; }
+            let quickLogout = document.getElementById('google-logout-btn-quick');
+            if (quickLogout) { quickLogout.style.display = 'none'; }
             alert('נותקת בהצלחה מחשבון הגוגל שלך.');
         }
 </script>
