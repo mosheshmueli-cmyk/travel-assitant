@@ -519,6 +519,7 @@
                     <p style="font-size: 0.9em; color: #64748b; margin-bottom: 15px;">חיבור מאובטח כדי לשמור ולטעון את מסלולי הטיול והמסמכים שלך ישירות מהדרייב האישי.</p>
                     <div id="google-auth-status" style="margin-bottom: 15px; font-weight: bold; color: #ef4444;">❌ לא מחובר</div>
                     <button id="google-auth-btn" onclick="authGoogle()" style="background: #4285F4; color: white; padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; cursor: pointer;"><i class="fa-brands fa-google"></i> התחבר לחשבון גוגל</button>
+                    <button id="google-logout-btn" onclick="logoutGoogle()" style="background: #ef4444; color: white; padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; cursor: pointer; display: none; margin-top: 10px;"><i class="fa-solid fa-arrow-right-from-bracket"></i> התנתק מחשבון גוגל</button>
                 </div>
 
 
@@ -1229,6 +1230,20 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
     
         
 
+
+        function logoutGoogle() {
+            if (googleAccessToken) {
+                google.accounts.oauth2.revoke(googleAccessToken, () => {
+                    console.log('Token revoked');
+                });
+            }
+            googleAccessToken = null;
+            document.getElementById('google-auth-status').innerHTML = '❌ לא מחובר';
+            document.getElementById('google-auth-status').style.color = '#ef4444';
+            document.getElementById('google-auth-btn').style.display = 'block';
+            document.getElementById('google-logout-btn').style.display = 'none';
+            alert('נותקת בהצלחה מחשבון הגוגל שלך.');
+        }
 </script>
 </body>
 </html>
