@@ -135,17 +135,7 @@
         
         <!-- TAB 1: Itinerary -->
         <div id="tab-itinerary" class="tab-content active">
-            <div id="weather-widget-container" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div id="weather-current-temp" style="font-size: 1.4em; font-weight: bold; color: var(--primary); direction: ltr;">--°C</div>
-                    <div>
-                        <div style="font-size: 0.9em; font-weight: bold; color: var(--text);"><i class="fa-solid fa-location-dot" style="color: #64748b;"></i> <span id="weather-location">טוען...</span></div>
-                        <div style="font-size: 0.8em; color: var(--text-muted);" id="weather-desc">ממתין לנתונים</div>
-                    </div>
-                </div>
-                <div id="weather-tip" style="font-size: 0.8em; background: #f1f5f9; color: #64748b; padding: 4px 8px; border-radius: 12px; display: none;"></div>
-                <div id="weather-forecast" style="display: none;"></div>
-            </div>
+            
 
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-book-open"></i> מסלול הטיול המלא</div>
@@ -396,6 +386,24 @@
         <!-- TAB: Alerts -->
         <div id="tab-alerts" class="tab-content" style="padding-bottom: 80px;">
             <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-bell"></i> התראות ועדכונים</h2>
+
+            <!-- Rich Weather Widget with Operative Tip -->
+            <div id="weather-widget-container" style="background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.2em; display: flex; align-items: center; gap: 5px;"><i class="fa-solid fa-location-dot"></i> <span id="weather-location">טוען מיקום...</span></h3>
+                        <p style="margin: 5px 0 0 0; font-size: 1em; opacity: 0.9;" id="weather-desc">מחפש נתונים...</p>
+                    </div>
+                    <div style="text-align: left;">
+                        <div id="weather-current-temp" style="font-size: 2.8em; font-weight: bold; line-height: 1; direction: ltr;">--°</div>
+                    </div>
+                </div>
+                <div id="weather-tip" style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px; font-size: 0.95em; display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+                    <i class="fa-solid fa-shirt" style="font-size: 1.5em;"></i> <span>טיפ מעשי: מתעדכן...</span>
+                </div>
+                <div id="weather-forecast" style="display: none;"></div>
+            </div>
+
             <div style="background: #ecfdf5; color: #047857; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9em; text-align: center; border: 1px solid #34d399;">
                 <i class="fa-solid fa-circle-check"></i> <strong>מערכת מעודכנת:</strong> כל הנתונים מסונכרנים לזמן אמת.
             </div>
@@ -560,11 +568,6 @@
 
     <div class="nav-bottom">
         <div class="nav-item active" onclick="switchTab('tab-itinerary', this)"><i class="fa-solid fa-list-ul"></i> מסלול</div>
-        <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
-        <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-solid fa-robot"></i> סייען AI</div>
-        <div class="nav-item" onclick="switchTab('tab-gallery', this)"><i class="fa-solid fa-camera-retro"></i> גלריה</div>
-        <div class="nav-item" onclick="toggleMoreMenu()"><i class="fa-solid fa-bars"></i> מערכת</div>
-    </div>
 
     <!-- MORE MENU (Hidden by default) -->
     <div id="more-menu" style="display: none; position: fixed; bottom: 70px; left: 10px; right: 10px; background: white; border-radius: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); padding: 15px; z-index: 1000; flex-wrap: wrap; justify-content: space-between;">
@@ -577,14 +580,6 @@
         <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-sliders" style="font-size: 2em; margin-bottom: 5px;"></i><br>הגדרות</div>
         <div class="more-item" onclick="showScreen('screen-home'); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #2563eb; font-size: 0.8em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-house" style="font-size: 2em; margin-bottom: 5px;"></i><br>ראשי</div>
         <div class="more-item" onclick="hardRefresh();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold; cursor: pointer; background: #fee2e2; border-radius: 10px; padding: 5px 0;"><i class="fa-solid fa-power-off" style="font-size: 2em; margin-bottom: 5px;"></i><br>אתחול</div>
-    </div>
-
-        <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
-        <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-regular fa-comments"></i> צ'אט</div>
-        <div class="nav-item" onclick="switchTab('tab-hotels', this)"><i class="fa-solid fa-bed"></i> לינה</div>
-        
-        <div class="nav-item" onclick="switchTab('tab-gallery', this)"><i class="fa-solid fa-camera-retro"></i> תמונות</div>
-<div class="nav-item" onclick="switchTab('tab-settings', this)"><i class="fa-solid fa-gear"></i> הגדרות</div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
