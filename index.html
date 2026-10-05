@@ -252,8 +252,8 @@
             <h1 style="font-family: Arial, sans-serif; font-weight: 800; letter-spacing: -0.5px;">Travel Assistant</h1>
             <p>ברוך הבא, משה</p>
         </div>
-        <div class="profile-icon">
-            <i class="fa-solid fa-user"></i>
+        <div class="profile-icon" onclick="logoutApp()" style="cursor:pointer; background:#fee2e2; color:#ef4444;" title="שמור וסגור">
+            <i class="fa-solid fa-door-open"></i>
         </div>
     </div>
 
@@ -359,7 +359,19 @@
             <div id="map-container" style="width: 100%; height: calc(100vh - 65px); z-index: 1;"></div>
         </div>
 
+
+        <!-- ================= EXIT SCREEN ================= -->
+        <div id="screen-exit" class="screen">
+            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height: 80vh; text-align:center; padding:20px;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 4em; color: #10b981; margin-bottom:20px;"></i>
+                <h2 style="color:#1e293b; margin-bottom: 5px;">שמור וסגור</h2>
+                <p style="color:#64748b; font-size:1.1em; line-height: 1.5;">כל הזיכרונות והמסמכים שלך <br>מגובים ושמורים בבטחה בענן.</p>
+                <p style="color:#0f172a; font-weight:800; margin-top:30px; background: #e2e8f0; padding: 10px 20px; border-radius: 20px;">ניתן לסגור את האפליקציה.</p>
+            </div>
+        </div>
+
     </div> <!-- End of screen-container -->
+
     <div id="toast">המסך בבנייה (שלב 2)</div>
 
     <script>
@@ -401,7 +413,26 @@ function showToast() {
             setTimeout(() => toast.classList.remove('toast-visible'), 3000);
         }
 
+        
+        function logoutApp() {
+            // Security: Clear the memory
+            accessToken = null;
+            selectedFile = null;
+            
+            // Reset URL so token doesn't linger in address bar
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // Reset UI for next time
+            document.getElementById('auth-section').style.display = 'block';
+            document.getElementById('auth-success').style.display = 'none';
+            document.getElementById('preview-section').style.display = 'none';
+            
+            // Show safe exit screen
+            switchScreen('screen-exit');
+        }
+
         // --- Google Drive Config ---
+
         const OAUTH_CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
         const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
         const SCOPES = 'https://www.googleapis.com/auth/drive.file';
