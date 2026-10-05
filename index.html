@@ -645,6 +645,10 @@
         }
 
         function showScreen(screenId) {
+            // Auto close the popup menu if open
+            const mm = document.getElementById('more-menu');
+            if (mm) mm.style.display = 'none';
+
             
             document.getElementById('screen-home').style.display = 'none';
             document.getElementById('screen-planning').style.display = 'none';
