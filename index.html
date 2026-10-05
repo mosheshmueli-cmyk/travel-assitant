@@ -404,18 +404,15 @@ function showToast() {
             // Security: Clear the memory
             accessToken = null;
             selectedFile = null;
-            window.history.replaceState({}, document.title, window.location.pathname);
             
             // Reset UI for next time
             document.getElementById('auth-section').style.display = 'block';
             document.getElementById('auth-success').style.display = 'none';
             document.getElementById('preview-section').style.display = 'none';
-            
-            // Try to close the window (works in some environments/PWA)
-            window.close();
-            
-            // If browser blocks closing, just return to home screen and show toast
             switchScreen('screen-home');
+            
+            // Brilliant UX trick: Force a hard refresh from the server to bypass PWA cache!
+            window.location.href = window.location.pathname + '?refresh=' + new Date().getTime();
         }
 
         // --- Google Drive Config ---
