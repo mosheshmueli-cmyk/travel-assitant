@@ -393,10 +393,12 @@
         }
 
         // --- Upload Logic ---
-        async function getOrCreateFolder(folderName) {
+        async function getOrCreateFolder(folderName, parentId = null) {
             try {
-                // Search for folder
-                const q = `name='${folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+                let q = `name='${folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+                if (parentId) {
+                    q += ` and '${parentId}' in parents`;
+                }
                 let searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&spaces=drive`, {
                     headers: { 'Authorization': `Bearer ${accessToken}` }
                 });
@@ -406,17 +408,21 @@
                     return searchData.files[0].id;
                 }
                 
-                // Create folder if not found
+                let body = {
+                    name: folderName,
+                    mimeType: 'application/vnd.google-apps.folder'
+                };
+                if (parentId) {
+                    body.parents = [parentId];
+                }
+
                 let createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        name: folderName,
-                        mimeType: 'application/vnd.google-apps.folder'
-                    })
+                    body: JSON.stringify(body)
                 });
                 let createData = await createRes.json();
                 return createData.id;
@@ -426,7 +432,16 @@
             }
         }
 
-        async function startUpload() {
+        async function getNestedFolderId() {
+            let rootId = await getOrCreateFolder("TA");
+            if (!rootId) return null;
+            let tripId = await getOrCreateFolder("KORIA", rootId);
+            if (!tripId) return null;
+            let photosId = await getOrCreateFolder("PHOTOS", tripId);
+            return photosId;
+        }
+
+        async function startUpload() { {
             if (!accessToken) {
                 alert("יש להתחבר ל-Google Drive קודם!");
                 return;
@@ -441,7 +456,7 @@
             statusDiv.style.color = '#3b82f6';
 
             try {
-                let folderId = await getOrCreateFolder("Travel Assistant - South Korea");
+                let folderId = await getNestedFolderId();
                 if (!folderId) throw new Error("Could not create/find folder");
 
                 const metadata = {
