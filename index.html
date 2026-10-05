@@ -257,22 +257,22 @@
 
     <div class="screen-container">
         
-                <!-- ================= HOME SCREEN ================= -->
+                        <!-- ================= HOME SCREEN ================= -->
         <div id="screen-home" class="screen active">
             <div class="grid-container">
                 <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
                     <i class="fa-solid fa-map-location-dot"></i><span>ניווט במפה דינמית</span>
                 </div>
-                <div class="nav-btn color-route" onclick="showToast()">
+                <div class="nav-btn color-route" onclick="switchScreen('screen-route')">
                     <i class="fa-solid fa-route"></i><span>תיק הטיול</span>
                 </div>
-                <div class="nav-btn color-emergency" onclick="showToast()">
+                <div class="nav-btn color-emergency" onclick="switchScreen('screen-emergency')">
                     <i class="fa-solid fa-kit-medical"></i><span>חירום</span>
                 </div>
-                <div class="nav-btn color-logistics" onclick="showToast()">
+                <div class="nav-btn color-logistics" onclick="switchScreen('screen-logistics')">
                     <i class="fa-solid fa-concierge-bell"></i><span>לינה ומזון</span>
                 </div>
-                <div class="nav-btn color-alerts" onclick="showToast()">
+                <div class="nav-btn color-alerts" onclick="switchScreen('screen-alerts')">
                     <i class="fa-solid fa-bell"></i><span>התראות בלת"ם</span>
                 </div>
                 <div class="nav-btn color-docs" onclick="switchScreen('screen-docs')">
@@ -281,7 +281,7 @@
                 <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
                     <i class="fa-solid fa-camera-retro"></i><span>יומן מסע</span>
                 </div>
-                <div class="nav-btn color-ai" onclick="showToast()">
+                <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
                     <i class="fa-solid fa-robot"></i><span>סייען AI</span>
                 </div>
             </div>
@@ -356,7 +356,63 @@
         </div>
 
 
-            </div> <!-- End of screen-container -->
+        
+        <!-- ================= ROUTE SCREEN ================= -->
+        <div id="screen-route" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>תיק הטיול</h2>
+            </div>
+            <div class="content-padding">
+                <p style="color: #64748b;">כאן יופיע הלו"ז המתוכנן, המסלול היומי וכל התכנון המקדים.</p>
+            </div>
+        </div>
+
+        <!-- ================= EMERGENCY SCREEN ================= -->
+        <div id="screen-emergency" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>חירום</h2>
+            </div>
+            <div class="content-padding">
+                <p style="color: #64748b;">כאן יופיעו מספרי חירום (משטרה, אמבולנס בחו"ל), שגרירות ישראל וביטוחים.</p>
+            </div>
+        </div>
+
+        <!-- ================= LOGISTICS SCREEN ================= -->
+        <div id="screen-logistics" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>לינה ומזון</h2>
+            </div>
+            <div class="content-padding">
+                <p style="color: #64748b;">כאן יופיעו פרטי ההזמנות של המלונות, מסעדות כשרות ודיור.</p>
+            </div>
+        </div>
+
+        <!-- ================= ALERTS SCREEN ================= -->
+        <div id="screen-alerts" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>התראות בלת"ם</h2>
+            </div>
+            <div class="content-padding">
+                <p style="color: #64748b;">כאן יופיעו התראות מזג אוויר, ביטולי טיסות ושינויים בלתי צפויים.</p>
+            </div>
+        </div>
+
+        <!-- ================= AI SCREEN ================= -->
+        <div id="screen-ai" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>סייען AI</h2>
+            </div>
+            <div class="content-padding">
+                <p style="color: #64748b;">כאן יהיה צ'אט או ממשק קולי כדי לשאול את ה-AI שאלות על היעד בזמן אמת.</p>
+            </div>
+        </div>
+
+    </div> <!-- End of screen-container -->
 
     <div id="toast">המסך בבנייה (שלב 2)</div>
 
