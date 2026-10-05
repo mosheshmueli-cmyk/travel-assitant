@@ -1128,8 +1128,1139 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         // --- GOOGLE DRIVE LOGIC ---
         const OLD_OAUTH_CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
         const OLD_SCOPES = 'https://www.googleapis.com/auth/drive.file';
-        let oldTokenClient;
-         // consolidated
+                 // consolidated
+
+        <!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4F46E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+    <title>Travel AI Assistant</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    
+    <style>
+        :root { --primary: #4F46E5; --secondary: #10B981; --bg-color: #F3F4F6; --card-bg: #FFFFFF; --text-main: #1F2937; --text-muted: #6B7280; }
+        body { font-family: 'Heebo', sans-serif; margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
+        
+        .header {
+            background: linear-gradient(rgba(79, 70, 229, 0.9), rgba(59, 130, 246, 0.9)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Seoul_skyline_from_Namsan_Tower.jpg/800px-Seoul_skyline_from_Namsan_Tower.jpg') center/cover;
+            color: white; padding: 25px 15px; text-align: center; font-size: 1.5em; font-weight: 800;
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        
+
+        .container { padding: 20px 15px; padding-bottom: 90px; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; padding-bottom: 80px; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
+        .card-title { font-size: 1.2em; font-weight: 800; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; }
+        .card-title i { margin-left: 10px; }
+
+        /* Weather Widget */
+        .weather-widget { background: linear-gradient(135deg, #38BDF8, #0284C7); color: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .weather-info h3 { margin: 0; font-size: 1em; opacity: 0.9; font-weight: 400; }
+        .weather-info p { margin: 5px 0 0 0; font-size: 1.4em; font-weight: 800; }
+        .weather-alert { background: #FEF2F2; color: #991B1B; border: 1px solid #FCA5A5; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9em; display: none; }
+
+        /* Accordions */
+        details { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+        summary { padding: 15px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--primary); }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: transform 0.3s; }
+        details[open] summary::after { transform: rotate(180deg); }
+        .details-content { padding: 15px; border-top: 1px solid #E5E7EB; background: white; font-size: 0.95em; color: var(--text-main); line-height: 1.6; }
+        .site-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+        .day-highlight { color: #D97706; font-weight: 800; font-size: 0.85em; margin-bottom: 10px; display: inline-block; background: #FEF3C7; padding: 2px 8px; border-radius: 12px; }
+
+        /* Map UI */
+        #interactive-map { width: 100%; height: 60vh; border-radius: 12px; z-index: 1; border: 1px solid #E5E7EB; }
+
+        /* Chat UI */
+        .chat-container { display: flex; flex-direction: column; height: 55vh; background: #F9FAFB; border-radius: 12px; border: 1px solid #E5E7EB; overflow: hidden; }
+        .chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.95em; line-height: 1.4; }
+        .msg.bot { background: white; align-self: flex-start; border: 1px solid #E5E7EB; border-bottom-left-radius: 0; }
+        .msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 0; }
+        .chat-input-area { display: flex; padding: 10px; background: white; border-top: 1px solid #E5E7EB; }
+        .chat-input-area input { flex-grow: 1; padding: 10px 15px; border: 1px solid #D1D5DB; border-radius: 20px; outline: none; font-family: inherit; }
+        .chat-input-area button { background: var(--primary); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-right: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center;}
+
+        /* Bottom Nav */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); z-index: 100; border-top: 1px solid #E5E7EB;}
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.65em; font-weight: 600; cursor: pointer; width: 20%; }
+        .nav-item i { font-size: 1.3em; margin-bottom: 4px; }
+        .nav-item.active { color: var(--primary); }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js">
+        
+
+</script>
+    <script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleAuth()">
+        
+
+</script></head>
+<body>
+    <!-- SCREEN: HOME -->
+    <div id="screen-home" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f8fafc; padding: 20px;">
+        <i class="fa-solid fa-plane-departure" style="font-size: 4em; color: var(--primary); margin-bottom: 20px;"></i>
+        <h1 style="color: var(--text); margin-bottom: 30px; text-align: center;">מערכת ניהול טיולים</h1>
+        <div id="app-version" style="color: #94a3b8; font-size: 14px; margin-bottom: 20px; font-weight: bold;">v15 (Dev)</div>
+        
+        <button onclick="showScreen('screen-planning')" style="width: 100%; max-width: 300px; padding: 15px; margin-bottom: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fa-solid fa-file-pen"></i> תכנון טיול חדש
+        </button>
+        
+        <button onclick="showScreen('screen-live')" style="width: 100%; max-width: 300px; padding: 15px; background: white; color: var(--primary); border: 2px solid var(--primary); border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <i class="fa-solid fa-play"></i> טיול בזמן אמת (קוריאה)
+        </button>
+    </div>
+
+    <!-- SCREEN: PLANNING (Questionnaire) -->
+    <div id="screen-planning" style="display: none; height: 100vh; background: #f8fafc; overflow-y: auto; padding-bottom: 50px;">
+        <div class="header" style="position: relative;">שאלון אפיון מטייל <button onclick="hardRefresh()" style="position: absolute; right: 15px; top: 15px; background: none; border: none; color: white; font-size: 1.2em; cursor: pointer;"><i class="fa-solid fa-arrows-rotate"></i></button></div>
+        <div class="container">
+            <div class="card" style="padding: 20px;">
+                <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 20px;">אנא מלא את פרטי הטיול המבוקש. הנתונים ישמשו את המערכת לבניית מסלול מותאם אישית.</p>
+                
+                
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">יעד ומסגרת זמן</label>
+                <input type="text" placeholder="לאן נוסעים?" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+                <input type="text" placeholder="תאריכי נסיעה משוערים" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+                
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;"><i class="fa-solid fa-plane"></i> פרטי טיסות (אופציונלי)</label>
+                <input type="text" placeholder="מספר טיסה הלוך (למשל KE958)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+                <input type="text" placeholder="שעת המראה, טרמינל, שער" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+<label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">הרכב משתתפים</label>
+                <textarea placeholder="כמה אנשים? גילאים? (למשל: זוג מבוגרים, משפחה עם 3 ילדים)" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; height: 60px; font-family: inherit;"></textarea>
+
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">אילוצים מיוחדים</label>
+                <textarea placeholder="הגבלות רפואיות, נגישות, קצב הליכה" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; height: 60px; font-family: inherit;"></textarea>
+
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em;">תזונה ושבת</label>
+                <textarea placeholder="כשרות, טבעונות, שמירת שבת" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; height: 60px; font-family: inherit;"></textarea>
+
+                <button style="width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer; margin-bottom: 15px;">
+                    <i class="fa-solid fa-paper-plane"></i> שלח לאפיון ובניית מסלול
+                </button>
+                <button onclick="showScreen('screen-home')" style="width: 100%; padding: 15px; background: #e2e8f0; color: var(--text); border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer;">
+                    חזור למסך הבית
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN: LIVE TRIP (Korea) -->
+    <div id="screen-live" style="display: none;">
+
+
+    <div class="header">הקסם הקוריאני 2026</div>
+
+    <div class="container">
+        
+        <!-- TAB 1: Itinerary -->
+        <div id="tab-itinerary" class="tab-content active">
+            
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-book-open"></i> מסלול הטיול המלא</div>
+
+                <details>
+                    <summary>יום 1: תל אביב - סיאול (22/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Ben_Gurion_Airport_Terminal_3.jpg/500px-Ben_Gurion_Airport_Terminal_3.jpg" class="site-img" alt="TLV Airport">
+                        <b>טיסת Korean Air (KE958) מנתב"ג לסיאול</b><br>
+                        <div style="background: #f1f5f9; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 0.9em; border-right: 3px solid #3b82f6;">
+                            <div style="margin-bottom: 5px;"><strong>המראה:</strong> 22/11, 08:30 (טרמינל 3)</div>
+                            <div style="margin-bottom: 5px;"><strong>נחיתה:</strong> 23/11, 06:15 (טרמינל 2, אינצ'ון)</div>
+                            <div><strong>מספר הזמנה:</strong> <span style="font-family: monospace; background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">KRA-99281</span></div>
+                        </div>
+                        <div style="color: #ef4444; font-size: 0.85em; margin-top: 8px; font-weight: bold;"><i class="fa-solid fa-clock"></i> יש להתייצב בדלפקי הצ'ק-אין עד השעה 05:30.</div>
+                    </div>
+                </details>
+
+                <details open>
+                    <summary>יום 2: סונגדו סנטרל פארק (23/11)</summary>
+                    <div class="details-content">
+                        <span class="day-highlight">היום הנוכחי</span><br>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Songdo_Central_Park_in_2021.jpg/500px-Songdo_Central_Park_in_2021.jpg" class="site-img" alt="Songdo Park">
+                        <b>פארק סונגדו (Songdo Central Park)</b><br>
+                        פארק ירוק ועצום בלב העיר החכמה סונגדו, השואב השראה מהסנטרל פארק בניו יורק. 
+                        במרכזו תעלות מי ים שבהן שטות מוניות מים, והוא מוקף באדריכלות עתידנית מרהיבה. 
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 3: סיאול הקלאסית (24/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/%EA%B4%91%ED%99%94%EB%AC%B8_%EC%9B%94%EB%8C%80.jpg/500px-%EA%B4%91%ED%99%94%EB%AC%B8_%EC%9B%94%EB%8C%80.jpg" class="site-img" alt="Seoul Palace">
+                        <b>מגדל נאמסאן והעיר העתיקה</b><br>
+                        היום מוקדש לניגודים של סיאול: נתחיל בתצפית פנורמית עוצרת נשימה ממגדל נאמסאן המשקיף על כל העיר.
+                        בהמשך נסייר בשווקים המסורתיים (כמו שוק נאמדאמון), נשוט על נהר ההאן, 
+                        ונקנח בערב תרבותי עם מופע ה"נאנטה" הקצבי והמפורסם.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 4: כפר הפולקלור ומצודת סואון (25/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Hwaseong_Fortress%2C_Suwon%2C_Gyeonggi-do%2C_Republic_of_Korea_%282%29.jpg/500px-Hwaseong_Fortress%2C_Suwon%2C_Gyeonggi-do%2C_Republic_of_Korea_%282%29.jpg" class="site-img" alt="Suwon Fortress">
+                        <b>מצודת הוואסונג (מורשת אונסק"ו)</b><br>
+                        מבצר ענק ומרשים מהמאה ה-18 שנבנה על ידי המלך ג'ונגג'ו. חומותיו הארוכות מקיפות את מרכז העיר.
+                        לאחר מכן נבקר בכפר הפולקלור – מוזיאון פתוח וחי המשחזר כפר קוריאני מסורתי מתקופת שושלת ג'וסון.
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>יום 5: שמורת הר סאוראק (26/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Dinosaur_Ridge_of_Seoraksan.jpg/500px-Dinosaur_Ridge_of_Seoraksan.jpg" class="site-img" alt="Seoraksan">
+                        <b>הפארק הלאומי סאוראקסאן</b><br>
+                        הפארק הלאומי היפה והמפורסם ביותר בדרום קוריאה. מתאפיין בצוקי גרניט משוננים ודרמטיים.
+                        נעלה ברכבל אל אחת הפסגות לתצפית מרשימה, ונבקר במקדש נקסאנסה הייחודי על הים.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 6: ביאופג'וסה והאינסה (27/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Beopjusa_Palsangjeon.jpg/500px-Beopjusa_Palsangjeon.jpg" class="site-img" alt="Beopjusa">
+                        <b>מקדש ביאופג'וסה (Beopjusa)</b><br>
+                        ביקור בפארק הלאומי סוקריסאן ובמקדש הבודהיסטי המכיל את פגודת העץ הגבוהה בקוריאה.
+                        משם נמשיך למקדש האינסה ונראה את הטריפיטקה קוריאנה (81 אלף לוחות עץ בודהיסטים).
+                    </div>
+                </details>
+
+                <details style="border: 2px solid var(--primary);">
+                    <summary style="color: var(--primary); font-weight: 800;">יום 7: שבת! ממלכת שילה (28/11)</summary>
+                    <div class="details-content">
+                        <div id="itinerary-day7-main">
+                            <span class="day-highlight" style="background:#E0E7FF; color: var(--primary);">מסלול קבוצה מרכזית</span><br>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Lotus_Flower_Bridge_and_Seven_Treasure_Bridge_at_Bulguksa_in_Gyeongju%2C_Korea.jpg/500px-Lotus_Flower_Bridge_and_Seven_Treasure_Bridge_at_Bulguksa_in_Gyeongju%2C_Korea.jpg" class="site-img" alt="Gyeongju">
+                            <b>גיונגג'ו (Gyeongju) - מוזיאון ללא גבולות</b><br>
+                            נסיעה באוטובוס לבירתה העתיקה של ממלכת שילה. נבקר בפארק תלי הקבורה של המלכים, 
+                            במצפה הכוכבים העתיק במזרח אסיה, ובמקדש בולוגוקסה המפואר. בערב מעבר לבוסאן.
+                        </div>
+                        <div id="itinerary-day7-shabbat" style="display:none;">
+                            <span class="day-highlight" style="background:#D1FAE5; color: #065F46;">מסלול שומרי שבת</span><br>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/%EB%8C%80%EA%B5%AC%EA%B4%91%EC%97%AD%EC%8B%9C_%EC%8B%9C%EA%B0%80%EC%A7%80.jpg/500px-%EB%8C%80%EA%B5%AC%EA%B4%91%EC%97%AD%EC%8B%9C_%EC%8B%9C%EA%B0%80%EC%A7%80.jpg" class="site-img" alt="Daegu Walking">
+                            <b>סיור עירוני רגלי בדאגו (Daegu)</b><br>
+                            הישארות במלון ויציאה לסיור רגלי ללא נסיעות! נטייל אל גבעת צ'ונגנה ההיסטורית,
+                            נחצה את סמטאות תרבות מזרח-מערב אל עבר פארק גיונגסאנג-גאמיונג הפסטורלי.
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 8: בוסאן ויונגדוסאן (29/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Busan_Skyline.jpg/500px-Busan_Skyline.jpg" class="site-img" alt="Busan">
+                        <b>העיר השנייה בגודלה בקוריאה</b><br>
+                        תצפית ממגדל בוסאן, סיור בשוק הדגים הגדול במדינה, שוק קוקג'ה המסורתי ורחובות אוכל.
+                        חווית ספא קוריאני מסורתי לקינוח.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 9: בוסאן - ארמון הדרקון וגמצ'און (30/11)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Haedong_Yonggungsa_20130616.jpg/500px-Haedong_Yonggungsa_20130616.jpg" class="site-img" alt="Yonggungsa">
+                        <b>מקדש ארמון הדרקון (Yonggungsa)</b><br>
+                        מקדש בודהיסטי מרהיב היושב ממש על קו החוף. בהמשך נבקר בבית אפק, גשר הזכוכית אריוקדו
+                        ונסייר בסמטאות הצבעוניות של כפר התרבות גמצ'און (סנטוריני הקוריאנית).
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 10: טיסה לאי ג'ג'ו (1/12)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Jeju_island_south_korea.jpg/500px-Jeju_island_south_korea.jpg" class="site-img" alt="Jeju Island">
+                        <b>האי הגעשי ג'ג'ו (Jeju)</b><br>
+                        טיסה למוקד הנופש המפורסם בקוריאה. נבקר במוזיאון התה, בגנים הבוטניים יאומיג'י,
+                        בצוקי הבזלת המשושים ג'וסנגג'אולי ונסיים בתצפית במפל צ'אנג'יאון המואר.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 11: פלאי הטבע של ג'ג'ו (2/12)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Seongsan_Ilchulbong_Jeju.jpg/500px-Seongsan_Ilchulbong_Jeju.jpg" class="site-img" alt="Seongsan">
+                        <b>סאנרייז פיק ונשות הים</b><br>
+                        ביקור בכפר המסורתי סאונגאפ, מפגש (במידת האפשר) עם "הנשים הצוללות" המסורתיות,
+                        וטיפוס על הלוע הגעשי המפורסם Seongsan Ilchulbong המשקיף אל האי.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 12: פארק האלים וחזרה לסיאול (3/12)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Jeju_hallim_park.jpg/500px-Jeju_hallim_park.jpg" class="site-img" alt="Hallim Park">
+                        <b>פארק האלים ושוק דונגמון</b><br>
+                        סיור בפארק הבוטני המרהיב, הכולל גני אבן, בונסאי ומערות אבן גיר.
+                        קניות אחרונות בשוק המקורה בג'ג'ו וטיסה חזרה לבירה סיאול.
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 13: האזור המפורז (DMZ) וגנגנם (4/12)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/JSA-north-south.jpg/500px-JSA-north-south.jpg" class="site-img" alt="DMZ">
+                        <b>הגבול השמור בעולם</b><br>
+                        סיור מרתק לאזור המפורז בין קוריאה הצפונית לדרומית. נבקר בפארק השלום ובתצפית אובוסן.
+                        אחר הצהריים - קניות ברובע גנגנם היוקרתי ועלייה לתצפית ממגדל לוטה.
+                    </div>
+                </details>
+
+                <details style="border: 2px solid var(--primary);">
+                    <summary style="color: var(--primary); font-weight: 800;">יום 14: שבת! סיאול העתיקה (5/12)</summary>
+                    <div class="details-content">
+                        <div id="itinerary-day14-main">
+                            <span class="day-highlight" style="background:#E0E7FF; color: var(--primary);">מסלול קבוצה מרכזית</span><br>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Gyeongbokgung_Palace_in_Seoul.jpg/500px-Gyeongbokgung_Palace_in_Seoul.jpg" class="site-img" alt="Seoul Bukchon">
+                            <b>ארמון גיאונגבוקגונג וכפר בוקצ'ון</b><br>
+                            נצטייד בתחפושות קוריאניות וניכנס לארמון המלכותי המפואר של שושלת ג'וסון.
+                            משם נסייר בסמטאות כפר ההאנוק בוקצ'ון ונקנח בקניות אחרונות לקראת הטיסה.
+                        </div>
+                        <div id="itinerary-day14-shabbat" style="display:none;">
+                            <span class="day-highlight" style="background:#D1FAE5; color: #065F46;">מסלול שומרי שבת</span><br>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Seoul_Cheonggyecheon_stream.jpg/500px-Seoul_Cheonggyecheon_stream.jpg" class="site-img" alt="Seoul Shabbat">
+                            <b>סיור עירוני בשבת</b><br>
+                            סיור רגלי מונחה באזור המלון, הכולל את תעלת צ'ונגגיהצ'ון המפורסמת ופארק העירייה.
+                            זמן חופשי והצטרפות לקבוצה במוצאי שבת.
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>יום 15: נחיתה בישראל (6/12)</summary>
+                    <div class="details-content">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Ben_Gurion_Airport_Terminal_3_Check-in_Hall_04.jpg/500px-Ben_Gurion_Airport_Terminal_3_Check-in_Hall_04.jpg" class="site-img" alt="TLV Airport 2">
+                        <b>חזרה הביתה</b><br>
+                        טיסת לילה מסיאול (יציאה אחרי חצות), ונחיתה בנמל התעופה בן גוריון. תם המסע!
+                    </div>
+                </details>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: Map -->
+        <div id="tab-map" class="tab-content">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-map-location-dot"></i> המפה האינטראקטיבית (עברית)</div>
+                <p style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 10px;">מפה בעברית עם פריסת האטרקציות העיקריות לאורך הטיול.</p>
+                <div id="interactive-map"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Chat Assistant -->
+        
+        <!-- TAB: Food -->
+        <div id="tab-food" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-utensils"></i> מסעדות ואוכל</h2>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid var(--primary);">
+                <h3 style="margin-top: 0; color: var(--primary);">Osegyehyang (טבעוני)</h3>
+                <p style="font-size: 0.9em; margin-bottom: 10px;">מסעדה טבעונית פופולרית בשכונת Insa-dong. מציעה גרסאות טבעוניות למנות קוריאניות מסורתיות.</p>
+                <div style="font-size: 0.85em; color: var(--text-muted);"><i class="fa-solid fa-location-dot"></i> Insa-dong, Seoul</div>
+            </div>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid var(--primary);">
+                <h3 style="margin-top: 0; color: var(--primary);">בית חב"ד קוריאה (כשר)</h3>
+                <p style="font-size: 0.9em; margin-bottom: 10px;">ארוחות שבת ופעלויות. ניתן להזמין מראש ארוחות כשרות לימי חול ולקחת לטיולים.</p>
+                <div style="font-size: 0.85em; color: var(--text-muted);"><i class="fa-solid fa-location-dot"></i> Itaewon, Seoul</div>
+            </div>
+        </div>
+
+        <!-- TAB: Documents -->
+        <div id="tab-document" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-passport"></i> כספת מסמכים</h2>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <div style="flex: 1; background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <i class="fa-solid fa-passport" style="font-size: 2em; color: #3b82f6; margin-bottom: 10px;"></i>
+                    <div style="font-weight: bold; font-size: 0.9em;">דרכונים</div>
+                    <div style="font-size: 0.75em; color: #64748b;">2 קבצים</div>
+                </div>
+                <div style="flex: 1; background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <i class="fa-solid fa-plane-ticket" style="font-size: 2em; color: #10b981; margin-bottom: 10px;"></i>
+                    <div style="font-weight: bold; font-size: 0.9em;">כרטיסי טיסה</div>
+                    <div style="font-size: 0.75em; color: #64748b;">1 קובץ</div>
+                </div>
+                <div style="flex: 1; background: white; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <i class="fa-solid fa-file-medical" style="font-size: 2em; color: #ef4444; margin-bottom: 10px;"></i>
+                    <div style="font-weight: bold; font-size: 0.9em;">ביטוחים</div>
+                    <div style="font-size: 0.75em; color: #64748b;">1 קובץ</div>
+                </div>
+            </div>
+            <button style="background: #f8fafc; color: var(--primary); border: 2px dashed var(--primary); padding: 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.3s;"><i class="fa-solid fa-file-arrow-up" style="font-size: 1.5em; margin-bottom: 10px; display: block;"></i> גרור לכאן מסמך (PDF, Word) או לחץ להעלאה</button>
+        </div>
+
+        <!-- TAB: Emergency -->
+        <div id="tab-emergency" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: #ef4444; text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-truck-medical"></i> מוקדי חירום</h2>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #ef4444;">
+                <h3 style="margin-top: 0; color: #b91c1c;"><i class="fa-solid fa-hospital"></i> בית חולים ומרפאה פרטית</h3>
+                <p style="font-size: 0.9em; margin-bottom: 10px;">במקרה של פציעה או צורך רפואי דחוף, מומלץ לגשת לבית חולים עם מחלקה בינלאומית (דוברת אנגלית):</p>
+                <div style="font-weight: bold; margin-bottom: 5px; color: var(--text);">Severance Hospital (סינצ'ון, סיאול)</div>
+                <ul style="font-size: 0.9em; padding-right: 20px; margin: 0; color: var(--text);">
+                    <li style="margin-bottom: 5px;">מפעיל מרפאה בינלאומית מצוינת לתיירים.</li>
+                    <li style="margin-bottom: 5px;"><strong>טלפון חירום רפואי:</strong> 119</li>
+                    <li>מומלץ לפתוח פנייה מול חברת ביטוח הנסיעות לקבלת התחייבות כספית.</li>
+                </ul>
+            </div>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b;">
+                <h3 style="margin-top: 0; color: #b45309;"><i class="fa-solid fa-passport"></i> אובדן דרכון</h3>
+                <div style="font-size: 0.9em; margin-bottom: 10px;">שגרירות ישראל בסיאול:</div>
+                <div style="background: #fef3c7; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 1.1em; text-align: left; margin-bottom: 10px; direction: ltr;">+82-2-3210-8500</div>
+                <p style="font-size: 0.85em; margin: 0; color: var(--text-muted);">יש להגיע לשגרירות עם העתק מודפס מהכספת ותמונת פספורט. משטרת תיירות: 112.</p>
+            </div>
+        </div>
+
+        <!-- TAB: Alerts -->
+        <div id="tab-alerts" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-bell"></i> התראות ועדכונים</h2>
+
+            <!-- Rich Weather Widget with Operative Tip -->
+            <div id="weather-widget-container" style="background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); color: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.2em; display: flex; align-items: center; gap: 5px;"><i class="fa-solid fa-location-dot"></i> <span id="weather-location">טוען מיקום...</span></h3>
+                        <p style="margin: 5px 0 0 0; font-size: 1em; opacity: 0.9;" id="weather-desc">מחפש נתונים...</p>
+                    </div>
+                    <div style="text-align: left;">
+                        <div id="weather-current-temp" style="font-size: 2.8em; font-weight: bold; line-height: 1; direction: ltr;">--°</div>
+                    </div>
+                </div>
+                <div id="weather-tip" style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px; font-size: 0.95em; display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+                    <i class="fa-solid fa-shirt" style="font-size: 1.5em;"></i> <span>טיפ מעשי: מתעדכן...</span>
+                </div>
+                <div id="weather-forecast" style="display: none;"></div>
+            </div>
+
+            <div style="background: #ecfdf5; color: #047857; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9em; text-align: center; border: 1px solid #34d399;">
+                <i class="fa-solid fa-circle-check"></i> <strong>מערכת מעודכנת:</strong> כל הנתונים מסונכרנים לזמן אמת.
+            </div>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #10b981; position: relative;">
+                <div style="position: absolute; top: 15px; left: 15px; color: #10b981;"><i class="fa-solid fa-plane-departure"></i></div>
+                <h3 style="margin: 0 0 5px 0; color: #064e3b; font-size: 1.1em;">עדכון טיסת Korean Air</h3>
+                <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 5px;">היום, 08:30</div>
+                <p style="font-size: 0.9em; margin: 0; color: var(--text);">טיסה KE958 מנתב"ג לסיאול מאושרת ויוצאת בזמן. שער העלייה למטוס יפורסם 3 שעות לפני ההמראה.</p>
+            </div>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #f59e0b; position: relative;">
+                <div style="position: absolute; top: 15px; left: 15px; color: #f59e0b;"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
+                <h3 style="margin: 0 0 5px 0; color: #b45309; font-size: 1.1em;">התראת מזג אוויר</h3>
+                <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 5px;">אתמול, 19:45</div>
+                <p style="font-size: 0.9em; margin: 0; color: var(--text);">צפי לגשם משמעותי במרכז סיאול בימים הקרובים. מומלץ להחזיק מטריות קומפקטיות בהישג יד.</p>
+            </div>
+            <div class="card" style="margin-bottom: 15px; border-right: 4px solid #ef4444; position: relative;">
+                <div style="position: absolute; top: 15px; left: 15px; color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h3 style="margin: 0 0 5px 0; color: #991b1b; font-size: 1.1em;">עומסי תנועה - מרכז העיר</h3>
+                <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 5px;">אתמול, 14:00</div>
+                <p style="font-size: 0.9em; margin: 0; color: var(--text);">הפגנה מתוכננת באזור כיכר Gwanghwamun. מומלץ להסתמך על הרכבת התחתית (Subway).</p>
+            </div>
+        </div>
+
+        <!-- TAB: Hotels -->
+        <div id="tab-hotels" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-hotel"></i> מלונות ולינה</h2>
+            
+            <!-- Main Hotel -->
+            <div class="card" style="margin-bottom: 20px; border-top: 4px solid var(--primary);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text);">Lotte Hotel Seoul <i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i><i class="fa-solid fa-star" style="color: #fbbf24; font-size: 0.8em;"></i></h3>
+                        <div style="font-size: 0.85em; color: var(--text-muted);"><i class="fa-solid fa-hashtag"></i> מספר הזמנה: <strong>KR-99824B</strong></div>
+                    </div>
+                    <div style="background: #e0f2fe; color: #0284c7; padding: 5px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em;">
+                        מאושר
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; background: #f8fafc; padding: 10px; border-radius: 8px;">
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.75em; color: var(--text-muted); margin-bottom: 3px;">צ'ק-אין</div>
+                        <div style="font-weight: bold; font-size: 0.95em; color: var(--text);">22 בנובמבר</div>
+                        <div style="font-size: 0.85em; color: var(--text);">החל מ-15:00</div>
+                    </div>
+                    <div style="width: 1px; background: #e2e8f0;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.75em; color: var(--text-muted); margin-bottom: 3px;">צ'ק-אאוט</div>
+                        <div style="font-weight: bold; font-size: 0.95em; color: var(--text);">27 בנובמבר</div>
+                        <div style="font-size: 0.85em; color: var(--text);">עד 11:00</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.9em; color: var(--text); margin-bottom: 15px;">
+                    <i class="fa-solid fa-location-dot" style="color: var(--primary); width: 20px;"></i> 30 Eulji-ro, Jung-gu, Seoul<br>
+                    <i class="fa-solid fa-phone" style="color: var(--primary); width: 20px; margin-top: 8px;"></i> +82 2-771-1000
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Hotel+Seoul" target="_blank" style="flex: 1; text-align: center; background: var(--primary); color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9em;">
+                        <i class="fa-solid fa-map-location-dot"></i> נווט למלון
+                    </a>
+                    <button style="flex: 1; background: white; color: var(--primary); border: 1px solid var(--primary); padding: 10px; border-radius: 6px; font-weight: bold; font-size: 0.9em; cursor: pointer;">
+                        <i class="fa-solid fa-file-invoice"></i> הצג שובר
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Secondary Hotel -->
+            <div class="card" style="margin-bottom: 20px; border-top: 4px solid #94a3b8; opacity: 0.9;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text);">Shilla Stay Haeundae (בוסאן)</h3>
+                        <div style="font-size: 0.85em; color: var(--text-muted);">27 בנובמבר - 30 בנובמבר</div>
+                    </div>
+                </div>
+                <div style="font-size: 0.85em; color: var(--text-muted);">
+                    <i class="fa-solid fa-location-dot"></i> Haeundae-gu, Busan
+                </div>
+            </div>
+        </div>
+
+<div id="tab-chat" class="tab-content" style="padding-bottom: 80px;">
+            <div class="card" style="height: calc(100vh - 250px); display: flex; flex-direction: column;">
+                <h3 style="margin-top: 0; color: #8b5cf6; text-align: center;"><i class="fa-solid fa-robot"></i> סייען בזמן אמת (AI)</h3>
+                
+                <div style="flex-grow: 1; overflow-y: auto; background: #f8fafc; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                    
+                    <div style="align-self: flex-start; background: #e0e7ff; padding: 12px 15px; border-radius: 15px; border-top-right-radius: 0; max-width: 85%; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="font-weight: bold; font-size: 0.8em; color: #4338ca; margin-bottom: 5px;">סייען בזמן אמת</div>
+                        <div style="font-size: 0.9em; line-height: 1.4;">שלום! אני הסייען החכם שלך לטיול. אני מחובר לכל המערכות (מזג אוויר, מפות, אילוצים).<br><br>אני פה לפתור כל <strong>בלת"ם</strong> או שאלה בזמן אמת. נתקעת בגשם? צריכים למצוא חלופה כשרה פתוחה? רכבת בוטלה? תשאל אותי כאן ואספק מיד פתרון חלופי מותאם אישית.</div>
+                    </div>
+
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button style="background: #8b5cf6; color: white; border: none; width: 45px; border-radius: 50%; cursor: pointer; flex-shrink: 0; box-shadow: 0 2px 4px rgba(139,92,246,0.3);"><i class="fa-solid fa-paper-plane"></i></button>
+                    <input type="text" placeholder="תאר את הבעיה או הבלת'ם כאן..." style="flex-grow: 1; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 25px; font-family: inherit; font-size: 0.95em; outline: none;">
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Settings -->
+        <div id="tab-settings" class="tab-content" style="padding-bottom: 80px;">
+            <h2 style="color: var(--primary); text-align: center; margin-bottom: 20px;"><span class="fa-stack" style="font-size: 0.8em; margin-bottom: 5px; width: 2em; height: 1.5em; margin-top: -5px;">
+    <i class="fa-solid fa-gear fa-stack-2x" style="color: #2563eb;"></i>
+    <span class="fa-stack-1x" style="color: white; font-family: Arial, sans-serif; font-size: 0.65em; font-weight: bold; margin-top: 1px;">TA</span>
+</span> הגדרות מערכת</h2>
+                <div class="card" style="margin-top: 15px;">
+                    <h3><i class="fa-brands fa-google" style="color: #4285F4;"></i> סנכרון ענן (Google Drive)</h3>
+                    <p style="font-size: 0.9em; color: #64748b; margin-bottom: 15px;">חיבור מאובטח כדי לשמור ולטעון את מסלולי הטיול והמסמכים שלך ישירות מהדרייב האישי.</p>
+                    <div id="google-auth-status" style="margin-bottom: 15px; font-weight: bold; color: #ef4444;">❌ לא מחובר</div>
+                    <a id="google-auth-btn" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com&redirect_uri=https%3A//mosheshmueli-cmyk.github.io/travel-assitant/&response_type=token&scope=https%3A//www.googleapis.com/auth/drive.file&include_granted_scopes=true&prompt=consent" style="display: block; text-align: center; background: #4285F4; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-size: 1.1em; font-weight: bold; width: 100%; text-decoration: none; box-sizing: border-box; margin-bottom: 10px;"><i class="fa-brands fa-google"></i> התחבר לחשבון גוגל</a>
+                    <button id="google-logout-btn" onclick="logoutGoogle()" style="background: #ef4444; color: white; padding: 10px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; cursor: pointer; display: none; margin-top: 10px;"><i class="fa-solid fa-arrow-right-from-bracket"></i> התנתק מחשבון גוגל</button>
+                </div>
+
+
+            <div class="card">
+                <div class="card-title" style="margin-bottom: 15px;"><i class="fa-solid fa-sliders"></i> ניהול מצב שבת</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
+                    <div>
+                        <div style="font-weight: 800;">מצב שבת מופעל</div>
+                        <div style="font-size: 0.85em; color: #666;">השבתת צפצופים ומיקומים אוטומטיים.</div>
+                    </div>
+                    <label style="position: relative; display: inline-block; width: 50px; height: 28px;">
+                        <input type="checkbox" id="shabbat-toggle" style="opacity: 0; width: 0; height: 0;">
+                        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 34px; transition: .4s;">
+                            <span style="position: absolute; content: ''; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; border-radius: 50%; transition: .4s;" id="slider-btn"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 15px;" id="bug-log-section">
+                <div style="font-weight: 800; margin-bottom: 10px; color: #b91c1c;"><i class="fa-solid fa-user-shield"></i> בקרת בן משפחה (שלומי)</div>
+                <p style="font-size: 0.85em; color: #666; line-height: 1.4; margin-bottom: 15px;">כאן ניתן לדווח על באגים ותקלות שעולות בשטח:</p>
+                
+                <a href="mailto:?subject=דיווח באג - Travel Assistant&body=אנא פרט את התקלה:%0D%0A1. " style="display: block; background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; padding: 10px 15px; border-radius: 8px; width: 100%; text-align: center; text-decoration: none; font-weight: bold; margin-bottom: 10px; box-sizing: border-box;"><i class="fa-regular fa-envelope"></i> דווח במייל</a>
+                
+                <a href="https://wa.me/?text=דיווח תקלות למערכת:%0A1. " target="_blank" style="display: block; background: #dcfce7; color: #166534; border: 1px solid #4ade80; padding: 10px 15px; border-radius: 8px; width: 100%; text-align: center; text-decoration: none; font-weight: bold; box-sizing: border-box;"><i class="fa-brands fa-whatsapp"></i> דווח בוואטסאפ</a>
+            </div>
+        </div>
+
+        <!-- TAB 6: Gallery Sync -->
+        <div id="tab-gallery" class="tab-content" style="padding-bottom: 150px;">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i> סנכרון תמונות סוף-יום</div>
+                <p style="font-size: 0.9em; color: #555;">בחר את התמונות שצילמת היום. המערכת תקרא את נתוני המיקום והזמן הנסתרים (EXIF) ותמיין אותן אוטומטית לפי אתרי הטיול.</p>
+                
+                <div style="text-align: center; margin: 20px 0; display: flex; flex-direction: column; gap: 15px; align-items: center;">
+                    <input type="file" id="live-photo-input" accept="image/*" capture="environment" style="display:none;">
+                    <button onclick="takeLivePhoto()" style="background: #16a34a; color: white; border: none; padding: 12px 20px; border-radius: 25px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 80%; max-width: 300px;"><i class="fa-solid fa-camera"></i> צלם תמונה עכשיו</button>
+                    
+                    <input type="file" id="photo-input" multiple accept="image/jpeg, image/png, image/heic" style="display:none;">
+                    <button onclick="document.getElementById('photo-input').click()" style="background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 25px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 80%; max-width: 300px;"><i class="fa-solid fa-images"></i> העלה מהגלריה</button>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <button onclick="testSampleImage()" style="background: none; border: 1px underline #2563eb; color: #2563eb; cursor: pointer; font-size: 0.9em; padding: 5px;">
+                        <i class="fa-solid fa-flask"></i> לחץ כאן לבדיקת המערכת עם תמונת ניסיון (שיש בה GPS)
+                    </button>
+                </div>
+
+                
+                <div id="sync-results" style="margin-top: 15px; font-size: 0.9em;"></div>
+                
+                <div id="google-drive-connect" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; text-align: center; display: none;">
+                    <button onclick="syncPhotos()" style="background: #4285F4; color: white; border: none; padding: 12px 20px; border-radius: 25px; font-size: 1.1em; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%;"><i class="fa-brands fa-google-drive"></i> גיבוי לדרייב ל-Google Drive</button>
+                    <p style="font-size: 0.8em; color: #666; margin-top: 10px;">לחיצה על הכפתור תעלה את התמונות לתיקיית "תמונות טיול - Travel Assistant" בענן שלך.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bottom">
+        <div class="nav-item active" onclick="switchTab('tab-itinerary', this)"><i class="fa-solid fa-list-ul"></i> מסלול</div>
+        <div class="nav-item" onclick="switchTab('tab-map', this)"><i class="fa-solid fa-map"></i> מפה</div>
+        <div class="nav-item" onclick="switchTab('tab-chat', this)"><i class="fa-solid fa-robot"></i> סייען AI</div>
+        <div class="nav-item" onclick="switchTab('tab-gallery', this)"><i class="fa-solid fa-camera-retro"></i> תיעוד</div>
+        <div class="nav-item" onclick="toggleMoreMenu()"><i class="fa-solid fa-bars"></i> מערכת</div>
+    </div>
+
+    <!-- MORE MENU (Hidden by default) -->
+    <div id="more-menu" style="display: none; position: fixed; bottom: 70px; left: 10px; right: 10px; background: white; border-radius: 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); padding: 15px; z-index: 1000; flex-wrap: wrap; justify-content: space-between;">
+        
+        <div id="quick-google-auth" style="width: 100%; text-align: center; margin-bottom: 15px; padding: 10px; background: #f0f9ff; border-radius: 10px; border: 1px solid #bae6fd;">
+            <div style="font-weight: bold; font-size: 0.9em; margin-bottom: 8px; color: #0369a1;"><i class="fa-brands fa-google"></i> חיבור מהיר לדרייב</div>
+            <a id="google-auth-btn-quick" href="https://accounts.google.com/o/oauth2/v2/auth?client_id=256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com&redirect_uri=https%3A//mosheshmueli-cmyk.github.io/travel-assitant/&response_type=token&scope=https%3A//www.googleapis.com/auth/drive.file&include_granted_scopes=true&prompt=consent" style="display: block; text-align: center; background: #4285F4; color: white; padding: 8px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; text-decoration: none; box-sizing: border-box; margin-bottom: 10px;">התחבר עכשיו</a>
+            <button id="google-logout-btn-quick" onclick="logoutGoogle()" style="background: #ef4444; color: white; padding: 8px 15px; border-radius: 6px; border: none; font-weight: bold; width: 100%; cursor: pointer; display: none;">התנתק מגוגל</button>
+            <div id="google-auth-status-quick" style="font-size: 0.8em; margin-top: 5px; color: #ef4444; font-weight: bold;">❌ לא מחובר</div>
+        </div>
+<div class="more-item" onclick="switchTab('tab-hotels', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--primary); font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bed" style="font-size: 2em; margin-bottom: 5px;"></i><br>מלונות</div>
+        <div class="more-item" onclick="switchTab('tab-food', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #10b981; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-utensils" style="font-size: 2em; margin-bottom: 5px;"></i><br>מזון</div>
+        <div class="more-item" onclick="switchTab('tab-document', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #3b82f6; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-passport" style="font-size: 2em; margin-bottom: 5px;"></i><br>מסמכים</div>
+        <div class="more-item" onclick="switchTab('tab-alerts', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #f59e0b; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-bell" style="font-size: 2em; margin-bottom: 5px;"></i><br>התראות</div>
+        
+        <div class="more-item" onclick="switchTab('tab-emergency', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold;"><i class="fa-solid fa-truck-medical" style="font-size: 2em; margin-bottom: 5px;"></i><br>חירום</div>
+        <div class="more-item" onclick="switchTab('tab-settings', null); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: var(--text); font-size: 0.8em; font-weight: bold;"><span class="fa-stack" style="font-size: 0.8em; margin-bottom: 5px; width: 2em; height: 1.5em; margin-top: -5px;">
+    <i class="fa-solid fa-gear fa-stack-2x" style="color: #2563eb;"></i>
+    <span class="fa-stack-1x" style="color: white; font-family: Arial, sans-serif; font-size: 0.65em; font-weight: bold; margin-top: 1px;">TA</span>
+</span><br>הגדרות</div>
+        <div class="more-item" onclick="showScreen('screen-home'); toggleMoreMenu();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #2563eb; font-size: 0.8em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-house" style="font-size: 2em; margin-bottom: 5px;"></i><br>ראשי</div>
+        <div class="more-item" onclick="hardRefresh();" style="width: 22%; text-align: center; margin-bottom: 15px; color: #ef4444; font-size: 0.8em; font-weight: bold; cursor: pointer; background: #fee2e2; border-radius: 10px; padding: 5px 0;"><i class="fa-solid fa-power-off" style="font-size: 2em; margin-bottom: 5px;"></i><br>אתחול</div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+        
+
+</script>
+    
+    
+    </div>
+<script>
+
+        function hardRefresh() {
+            // Adds a timestamp to the URL to bust the browser cache aggressively
+            const url = new URL(window.location.href);
+            url.searchParams.set('t', new Date().getTime());
+            window.location.href = url.toString();
+        }
+
+
+        
+        function simulateAIGeneration(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> AI מנתח נתונים ובונה מסלול...';
+            btn.style.background = '#8b5cf6';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = 'var(--primary)';
+                showScreen('screen-live');
+            }, 2500);
+        }
+
+        function showScreen(screenId) {
+            // Auto close the popup menu if open
+            const mm = document.getElementById('more-menu');
+            if (mm) mm.style.display = 'none';
+
+            
+            document.getElementById('screen-home').style.display = 'none';
+            document.getElementById('screen-planning').style.display = 'none';
+            document.getElementById('screen-live').style.display = 'none';
+            
+            const selected = document.getElementById(screenId);
+            if(screenId === 'screen-home') {
+                selected.style.display = 'flex';
+            } else {
+                selected.style.display = 'block';
+                if(screenId === 'screen-live') {
+                    // Trigger map resize since it was hidden
+                    setTimeout(() => { if(typeof map !== 'undefined') map.invalidateSize(); }, 200);
+                }
+            }
+        }
+
+        let mapInitialized = false;
+
+        
+        function toggleMoreMenu() {
+            const menu = document.getElementById('more-menu');
+            menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+        }
+        
+        function switchTab(tabId, element) {
+            // Auto close the popup menu if open
+            const mm = document.getElementById('more-menu');
+            if (mm) mm.style.display = 'none';
+
+            
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if(element) {
+                element.classList.add('active');
+            } else {
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems[navItems.length - 1].classList.add('active');
+            }
+            
+            if(tabId === 'tab-map' && !mapInitialized) {
+                initMap();
+                mapInitialized = true;
+            }
+        }
+
+        function initMap() {
+            // Initialize map focused on Seoul
+            const map = L.map('interactive-map', {zoomControl: false}).setView([37.5665, 126.9780], 12);
+            
+            // Replaced OSM with Google Maps Tiles (Hebrew Localized hl=iw)
+            L.tileLayer('https://mt1.google.com/vt/lyrs=m&hl=iw&x={x}&y={y}&z={z}', {
+                attribution: '&copy; Google Maps',
+                maxZoom: 18
+            }).addTo(map);
+
+            // Add Zoom Control to Bottom Left (to not overlap with our floating buttons)
+            L.control.zoom({position: 'bottomleft'}).addTo(map);
+
+            // Day 1 Simulation Route
+            const day1Route = [
+                { title: "1. נמל תעופה אינצ'ון", lat: 37.4602, lng: 126.4407, type: "נחיתה" },
+                { title: "2. Lotte Hotel Seoul", lat: 37.5665, lng: 126.9810, type: "צ'ק אין" },
+                { title: "3. שכונת Insa-dong", lat: 37.5743, lng: 126.9858, type: "סיור ואוכל" },
+                { title: "4. מגדל N Seoul", lat: 37.5511, lng: 126.9882, type: "תצפית לילה" }
+            ];
+
+            const routeCoords = [];
+
+            // Add numbered markers
+            day1Route.forEach((poi, index) => {
+                routeCoords.push([poi.lat, poi.lng]);
+                
+                // Create a custom numbered icon
+                const numberedIcon = L.divIcon({
+                    className: 'custom-number-icon',
+                    html: `<div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index + 1}</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+
+                const marker = L.marker([poi.lat, poi.lng], {icon: numberedIcon}).addTo(map);
+                
+                marker.bindPopup(`
+                    <div style="text-align: right; direction: rtl;">
+                        <h4 style="margin: 0 0 5px 0; color: var(--primary);">${poi.title}</h4>
+                        <p style="margin: 0; font-size: 0.9em; color: #555;">${poi.type}</p>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${poi.lat},${poi.lng}" target="_blank" style="display: block; margin-top: 10px; background: #2563eb; color: white; text-align: center; padding: 5px; border-radius: 4px; text-decoration: none; font-size: 0.9em;"><i class="fa-solid fa-directions"></i> נווט לכאן</a>
+                    </div>
+                `);
+            });
+
+            // Draw a polyline connecting the route
+            const routeLine = L.polyline(routeCoords, {
+                color: '#3b82f6',
+                weight: 4,
+                opacity: 0.7,
+                dashArray: '10, 10' // dotted line for route
+            }).addTo(map);
+
+            // Fit map to the route bounds
+            map.fitBounds(routeLine.getBounds(), {padding: [50, 50]});
+
+            // Add "Locate Me" button
+            const locateControl = L.control({position: 'topright'});
+            locateControl.onAdd = function() {
+                const div = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                div.innerHTML = `<button onclick="locateUser()" style="background: white; border: none; width: 40px; height: 40px; border-radius: 5px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: #2563eb; font-size: 1.2em;"><i class="fa-solid fa-crosshairs"></i></button>`;
+                return div;
+            };
+            locateControl.addTo(map);
+
+            // Global variable to hold user marker
+            window.userMarker = null;
+            window.appMap = map; // Save globally so we can access it
+        }
+
+        function locateUser() {
+            if (navigator.geolocation) {
+                // Show a tiny loading toast or just let the map spin
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    
+                    if (window.userMarker) {
+                        window.userMarker.setLatLng([lat, lng]);
+                    } else {
+                        // Create a distinct blue dot for the user
+                        const userIcon = L.divIcon({
+                            className: 'custom-user-icon',
+                            html: `<div style="background: #3b82f6; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>`,
+                            iconSize: [22, 22],
+                            iconAnchor: [11, 11]
+                        });
+                        window.userMarker = L.marker([lat, lng], {icon: userIcon, zIndexOffset: 1000}).addTo(window.appMap);
+                        window.userMarker.bindPopup('<div style="direction: rtl;">אתה כאן</div>');
+                    }
+                    window.appMap.flyTo([lat, lng], 15, {duration: 1.5});
+                }, () => {
+                    alert("לא ניתן לקבל את המיקום שלך. בדוק הגדרות GPS.");
+                });
+            }
+        }
+function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            addMsg(text, 'user');
+            input.value = '';
+            setTimeout(() => {
+                if (text.includes('גשם') || text.includes('נחסם') || text.includes('מקדש')) {
+                    addMsg('📍 <b>מנתח לו"ז...</b> מכיוון שמזג האוויר בעייתי, אני מציע לדלג על הפארק ולעבור ל-Tri-bowl המקורה. אפשר גם להקדים את הספא. מה תעדיפו?', 'bot');
+                } else {
+                    addMsg('אני פה לכל שינוי בלו"ז. נסה לשאול אותי מה לעשות אם יורד גשם.', 'bot');
+                }
+            }, 800);
+        }
+        function addMsg(text, sender) {
+            const msgs = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = 'msg ' + sender; div.innerHTML = text;
+            msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        document.getElementById('shabbat-toggle').addEventListener('change', function(e) {
+            const isChecked = e.target.checked;
+            const slider = document.getElementById('slider-btn');
+            const d7Main = document.getElementById('itinerary-day7-main');
+            const d7Shabbat = document.getElementById('itinerary-day7-shabbat');
+            const d14Main = document.getElementById('itinerary-day14-main');
+            const d14Shabbat = document.getElementById('itinerary-day14-shabbat');
+            if (isChecked) {
+                e.target.parentElement.children[1].style.backgroundColor = 'var(--primary)';
+                slider.style.transform = 'translateX(22px)';
+                if(d7Main) { d7Main.style.display = 'none'; d7Shabbat.style.display = 'block'; }
+                if(d14Main) { d14Main.style.display = 'none'; d14Shabbat.style.display = 'block'; }
+            } else {
+                e.target.parentElement.children[1].style.backgroundColor = '#ccc';
+                slider.style.transform = 'translateX(0)';
+                if(d7Main) { d7Main.style.display = 'block'; d7Shabbat.style.display = 'none'; }
+                if(d14Main) { d14Main.style.display = 'block'; d14Shabbat.style.display = 'none'; }
+            }
+        });
+    
+        let pendingPhotos = [];
+
+        let liveLocation = null;
+
+        window.takeLivePhoto = function() {
+            // Remove GPS blocking - open camera immediately! EXIF will handle location in Phase 2.
+            document.getElementById('live-photo-input').click();
+        };
+
+        document.getElementById('live-photo-input').addEventListener('change', function(e) {
+            const files = e.target.files;
+            if(files.length === 0) return;
+            
+            const file = files[0];
+            const d = new Date();
+            const dateStr = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+            
+            let photoData = {
+                file: file,
+                name: "צילום בזמן אמת",
+                previewUrl: URL.createObjectURL(file),
+                locationText: "ללא נתוני מיקום",
+                dateText: dateStr,
+                hasGps: false,
+                hasError: false
+            };
+            
+            if(liveLocation) {
+                const lat = liveLocation.lat.toFixed(5);
+                const lng = liveLocation.lng.toFixed(5);
+                photoData.locationText = `<a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color: #16a34a; text-decoration: underline;" title="לחץ לפתיחה בגוגל מפות">GPS: ${lat}, ${lng}</a>`;
+                photoData.hasGps = true;
+                liveLocation = null; // reset
+            }
+            
+            pendingPhotos.push(photoData);
+            e.target.value = ''; // Reset input
+            renderPhotos();
+        });
+
+        document.getElementById('photo-input').addEventListener('change', async function(e) {
+            const files = e.target.files;
+            if(files.length === 0) return;
+            
+            const resultsDiv = document.getElementById('sync-results');
+            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מנתח נתונים ומכין תצוגה מקדימה...</div>';
+            
+            for(let file of files) {
+                let photoData = {
+                    file: file,
+                    name: file.name,
+                    previewUrl: URL.createObjectURL(file),
+                    locationText: "ללא נתוני מיקום",
+                    dateText: "תאריך לא ידוע",
+                    hasGps: false,
+                    hasError: false
+                };
+                
+                try {
+                    // Extract GPS explicitly
+                    const gpsData = await exifr.gps(file);
+                    if(gpsData && gpsData.latitude && gpsData.longitude) {
+                        const lat = gpsData.latitude.toFixed(5);
+                        const lng = gpsData.longitude.toFixed(5);
+                        photoData.locationText = `<a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" style="color: #16a34a; text-decoration: underline;" title="לחץ לפתיחה בגוגל מפות">GPS: ${lat}, ${lng}</a>`;
+                        photoData.hasGps = true;
+                    }
+
+                    // Extract Date
+                    const exifrData = await exifr.parse(file);
+                    if(exifrData && exifrData.DateTimeOriginal) {
+                        const d = new Date(exifrData.DateTimeOriginal);
+                        photoData.dateText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+                    } else if (file.lastModified) {
+                        const d = new Date(file.lastModified);
+                        photoData.dateText = `(משוער) ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+                    }
+                } catch(err) {
+                    photoData.hasError = true;
+                }
+                pendingPhotos.push(photoData);
+            }
+            
+            e.target.value = ''; // Reset input
+            renderPhotos();
+        });
+
+        function renderPhotos() {
+            const resultsDiv = document.getElementById('sync-results');
+            if(pendingPhotos.length === 0) {
+                resultsDiv.innerHTML = '';
+                document.getElementById('google-drive-connect').style.display = 'none';
+                return;
+            }
+            
+            let html = `<div style="font-weight: bold; margin-bottom: 10px; color: var(--primary);">ממתינות לגיבוי: ${pendingPhotos.length} תמונות</div>`;
+            html += '<ul style="list-style: none; padding: 0; margin: 0;">';
+            
+            pendingPhotos.forEach((photo, index) => {
+                const bg = photo.hasError ? '#fef2f2' : '#f8fafc';
+                const border = photo.hasError ? '#fca5a5' : '#e2e8f0';
+                
+                let details = '';
+                if(photo.lat && photo.lon) {
+                    const mapUrl = `https://www.google.com/maps?q=${photo.lat},${photo.lon}`;
+                    details = `<div style="margin-top: 8px;"><a href="${mapUrl}" target="_blank" style="color: #0ea5e9; text-decoration: none; font-size: 0.85em; background: #e0f2fe; padding: 4px 8px; border-radius: 4px; display: inline-block;"><i class="fa-solid fa-map-location-dot"></i> מיקום מצורף (צפה במפה)</a></div>`;
+                } else if(photo.hasError) {
+                    details = `<div style="color: #ef4444; font-size: 0.85em; margin-top: 5px;"><i class="fa-solid fa-triangle-exclamation"></i> לא נמצא מיקום בתמונה</div>`;
+                } else {
+                    details = `<div style="color: #f59e0b; font-size: 0.85em; margin-top: 5px;">מיקום לא זמין</div>`;
+                }
+                
+                html += `
+                <li style="background: ${bg}; border: 1px solid ${border}; border-radius: 8px; padding: 12px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="flex: 1; padding-left: 10px;">
+                            <div style="font-weight: bold; word-break: break-all; font-size: 0.9em;">${photo.name}</div>
+                            ${details}
+                        </div>
+                        <div>
+                            ${photo.previewUrl ? `<img src="${photo.previewUrl}" style="max-width: 70px; max-height: 70px; border-radius: 6px; border: 1px solid #ccc; object-fit: cover;">` : ''}
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="caption-${index}" placeholder="✍️ הוסף משפט תיעוד / חוויה..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9em; box-sizing: border-box;" onchange="updateCaption(${index}, this.value)">
+                    </div>
+                    <div style="text-align: left; margin-top: 10px;">
+                        <button onclick="removePhoto(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.9em;"><i class="fa-solid fa-trash-can"></i> מחק תמונה</button>
+                    </div>
+                </li>`;
+            });
+            
+            html += '</ul>';
+            resultsDiv.innerHTML = html;
+            
+            // Restore saved captions if any exist in the array
+            pendingPhotos.forEach((photo, index) => {
+                if (photo.caption) {
+                    document.getElementById(`caption-${index}`).value = photo.caption;
+                }
+            });
+
+            document.getElementById('google-drive-connect').style.display = 'block';
+        }
+
+        function updateCaption(index, value) {
+            if(pendingPhotos[index]) {
+                pendingPhotos[index].caption = value;
+            }
+        }
+
+        window.removePhoto = function(index) {
+            if(pendingPhotos[index].previewUrl) {
+                URL.revokeObjectURL(pendingPhotos[index].previewUrl);
+            }
+            pendingPhotos.splice(index, 1);
+            renderPhotos();
+        };
+    
+        window.testSampleImage = async function() {
+            const resultsDiv = document.getElementById('sync-results');
+            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מוריד תמונת ניסיון...</div>';
+            
+            setTimeout(() => {
+                pendingPhotos = [];
+                const dummyPhoto = {
+                    file: {},
+                    name: "test_street_photo.jpg",
+                    previewUrl: "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=300&q=80",
+                    locationText: `<a href="https://www.google.com/maps/search/?api=1&query=37.5796,126.9770" target="_blank" style="color: #16a34a; text-decoration: underline;" title="לחץ לפתיחה בגוגל מפות">GPS: 37.5796, 126.9770</a>`,
+                    dateText: "28/9/2026 14:30",
+                    hasGps: true,
+                    hasError: false
+                };
+                pendingPhotos.push(dummyPhoto);
+                renderPhotos();
+            }, 500);
+        };
+
+        
+        // --- WEATHER LOGIC (Open-Meteo API - Free, No Key) ---
+        let locationResolved = false;
+        
+        function initWeather() {
+            // Force a fallback if native geolocation hangs for more than 2.5 seconds
+            const fallbackTimer = setTimeout(() => {
+                if (!locationResolved) {
+                    locationResolved = true;
+                    fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)");
+                }
+            }, 2500);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        if (!locationResolved) {
+                            locationResolved = true;
+                            clearTimeout(fallbackTimer);
+                            fetchWeather(pos.coords.latitude, pos.coords.longitude, "המיקום שלך כעת");
+                        }
+                    },
+                    (err) => {
+                        if (!locationResolved) {
+                            locationResolved = true;
+                            clearTimeout(fallbackTimer);
+                            fetchWeather(37.5665, 126.9780, "סיאול (מיקום משוער)");
+                        }
+                    },
+                    { timeout: 2000, maximumAge: 0 }
+                );
+            } else {
+                if (!locationResolved) {
+                    locationResolved = true;
+                    clearTimeout(fallbackTimer);
+                    fetchWeather(37.5665, 126.9780, "סיאול");
+                }
+            }
+        }
+
+        async function fetchWeather(lat, lon, locName) {
+            try {
+                document.getElementById('weather-location').innerText = locName;
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                const currentTemp = Math.round(data.current.temperature_2m);
+                const currentCode = data.current.weather_code;
+                document.getElementById('weather-current-temp').innerText = currentTemp + '°';
+                document.getElementById('weather-desc').innerHTML = getWeatherIcon(currentCode, true) + ' ' + getWeatherDesc(currentCode);
+                
+                let tip = "";
+                if(currentTemp < 5) tip = "קפוא 🥶 חובה מעיל עבה, כפפות וכובע!";
+                else if(currentTemp <= 10) tip = "קר מאוד 🧥 להצטייד במעיל וביגוד חם";
+                else if(currentTemp <= 16) tip = "קריר 🧥 מומלץ סוודר או ג'קט";
+                else if(currentTemp <= 22) tip = "נעים 👕 ביגוד ארוך וקל";
+                else tip = "חם 🩳 ביגוד קצר וקל";
+
+                if(currentCode >= 50 && currentCode <= 69) tip += " • לקחת מטרייה ☔";
+                if(currentCode >= 70 && currentCode <= 79) tip += " • צפי לשלג ⛄";
+                
+                document.getElementById('weather-tip').innerHTML = `<strong>טיפ לבוש:</strong> ${tip}`;
+
+                
+                let forecastHTML = '';
+                const days = ["היום", "מחר", "מחרתיים"];
+                for(let i=0; i<3; i++) {
+                    const max = Math.round(data.daily.temperature_2m_max[i]);
+                    const min = Math.round(data.daily.temperature_2m_min[i]);
+                    const code = data.daily.weather_code[i];
+                    forecastHTML += `
+                        <div style="text-align: center; width: 33%; ${i<2 ? 'border-left: 1px solid rgba(255,255,255,0.3);' : ''}">
+                            <div style="font-size: 0.85em; margin-bottom: 5px; font-weight: 600;">${days[i]}</div>
+                            <div style="font-size: 1.3em; margin-bottom: 5px;">${getWeatherIcon(code)}</div>
+                            <div style="font-size: 1em; font-weight: bold; direction: ltr;">${max}° <span style="opacity:0.7; font-weight:normal; font-size:0.85em;">${min}°</span></div>
+                        </div>
+                    `;
+                }
+                document.getElementById('weather-forecast').innerHTML = forecastHTML;
+            } catch(e) {
+                console.error("Weather error", e);
+                document.getElementById('weather-desc').innerText = "שגיאה בטעינת נתונים";
+                document.getElementById('weather-tip').innerText = "לא ניתן לחשב טיפ לבוש כעת.";
+            }
+        }
+
+        function getWeatherIcon(code, withColor=false) {
+            if(code <= 1) return `<i class="fa-solid fa-sun" ${withColor?'style="color:#fbbf24;"':''}></i>`;
+            if(code <= 3) return `<i class="fa-solid fa-cloud-sun" ${withColor?'style="color:#fcd34d;"':''}></i>`;
+            if(code <= 49) return `<i class="fa-solid fa-cloud" ${withColor?'style="color:#e2e8f0;"':''}></i>`;
+            if(code <= 69) return `<i class="fa-solid fa-cloud-rain" ${withColor?'style="color:#93c5fd;"':''}></i>`;
+            if(code <= 79) return `<i class="fa-solid fa-snowflake" ${withColor?'style="color:#bae6fd;"':''}></i>`;
+            if(code <= 99) return `<i class="fa-solid fa-cloud-bolt" ${withColor?'style="color:#c7d2fe;"':''}></i>`;
+            return '<i class="fa-solid fa-cloud"></i>';
+        }
+
+        function getWeatherDesc(code) {
+            if(code == 0) return "שמשי ובהיר";
+            if(code == 1 || code == 2) return "מעונן חלקית";
+            if(code == 3) return "מעונן";
+            if(code >= 50 && code <= 69) return "גשום";
+            if(code >= 70 && code <= 79) return "שלג";
+            if(code >= 95) return "סופות רעמים";
+            return "רגיל";
+        }
+
+        window.addEventListener('load', initWeather);
+        // --- END WEATHER LOGIC ---
+
+        // --- GOOGLE DRIVE LOGIC ---
+        const OLD_OAUTH_CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
+        const OLD_SCOPES = 'https://www.googleapis.com/auth/drive.file';
+                 // consolidated
 
         function handleAuthClick() {
             if(pendingPhotos.length === 0) {
@@ -1244,17 +2375,7 @@ async function startUploadProcess() {
 
         
         let newTokenClient;
-        function initGoogleAuth() {
-            try {
-                tokenClient = google.accounts.oauth2.initTokenClient({
-                    client_id: '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com',
-                    scope: 'https://www.googleapis.com/auth/drive.file',
-                    callback: (response) => {
-                        if (response.error !== undefined) {
-                            console.error(response);
-                            alert('שגיאה בהתחברות לגוגל');
-                            return;
-                        }
+        
                         accessToken = response.access_token;
                         document.getElementById('google-auth-status').innerHTML = '✅ מחובר ל-Google Drive';
                         document.getElementById('google-auth-status').style.color = '#10b981';
