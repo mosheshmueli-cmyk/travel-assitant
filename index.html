@@ -240,6 +240,10 @@
             bottom: 30px !important;
         }
     </style>
+
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -278,8 +282,8 @@
                 <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
                     <i class="fa-solid fa-camera-retro"></i><span>יומן מסע</span>
                 </div>
-                <div class="nav-btn color-map" onclick="showToast()">
-                    <i class="fa-solid fa-map-location-dot"></i><span>מפה דינמית</span>
+                <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
+                    <i class="fa-solid fa-map-location-dot"></i><span>ניווט במפה דינמית</span>
                 </div>
                 <div class="nav-btn color-ai" onclick="showToast()">
                     <i class="fa-solid fa-robot"></i><span>סייען AI</span>
@@ -344,19 +348,54 @@
             </div>
         </div>
 
-    </div>
 
+        <!-- ================= MAP SCREEN ================= -->
+        <div id="screen-map" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>ניווט במפה דינמית</h2>
+            </div>
+            
+            <div id="map-container" style="width: 100%; height: calc(100vh - 65px); z-index: 1;"></div>
+        </div>
+
+    </div> <!-- End of screen-container -->
     <div id="toast">המסך בבנייה (שלב 2)</div>
 
     <script>
+        
+        let dynamicMap = null;
+        
+        function initMap() {
+            if (!dynamicMap) {
+                // Initialize map centered on Rome (Colosseum approx)
+                dynamicMap = L.map('map-container').setView([41.8902, 12.4922], 14);
+                
+                // Add OpenStreetMap tiles (Free, highly dynamic, no API key needed)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap'
+                }).addTo(dynamicMap);
+                
+                // Add a sample marker for Rome
+                L.marker([41.8902, 12.4922]).addTo(dynamicMap)
+                    .bindPopup('<b style="font-family:Heebo;">רומא, איטליה</b><br>נקודת פתיחה לדוגמה.').openPopup();
+            }
+            // Timeout ensures map renders correctly after the div becomes visible
+            setTimeout(() => { dynamicMap.invalidateSize(); }, 200);
+        }
+
         // --- Navigation ---
         function switchScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             window.scrollTo(0, 0);
+            
+            if (screenId === 'screen-map') {
+                initMap();
+            }
         }
-
-        function showToast() {
+function showToast() {
             const toast = document.getElementById('toast');
             toast.classList.add('toast-visible');
             setTimeout(() => toast.classList.remove('toast-visible'), 3000);
