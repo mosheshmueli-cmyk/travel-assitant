@@ -844,19 +844,6 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
             // Remove GPS blocking - open camera immediately! EXIF will handle location in Phase 2.
             document.getElementById('live-photo-input').click();
         };
-                        resultsDiv.innerHTML = '';
-                        // Open the camera
-                        document.getElementById('live-photo-input').click();
-                    },
-                    (error) => {
-                        resultsDiv.innerHTML = '<div style="color:red; text-align:center;">שגיאה: לא ניתן לגשת למיקום. אנא אשר הרשאת מיקום לדפדפן.</div>';
-                    },
-                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-                );
-            } else {
-                resultsDiv.innerHTML = '<div style="color:red; text-align:center;">הדפדפן שלך אינו תומך בשירותי מיקום.</div>';
-            }
-        };
 
         document.getElementById('live-photo-input').addEventListener('change', function(e) {
             const files = e.target.files;
