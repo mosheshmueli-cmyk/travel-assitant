@@ -1129,7 +1129,7 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         const OLD_OAUTH_CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
         const OLD_SCOPES = 'https://www.googleapis.com/auth/drive.file';
         let oldTokenClient;
-        let accessToken = null;
+         // consolidated
 
         function handleAuthClick() {
             if(pendingPhotos.length === 0) {
@@ -1255,7 +1255,7 @@ async function startUploadProcess() {
                             alert('שגיאה בהתחברות לגוגל');
                             return;
                         }
-                        googleAccessToken = response.access_token;
+                        accessToken = response.access_token;
                         document.getElementById('google-auth-status').innerHTML = '✅ מחובר ל-Google Drive';
                         document.getElementById('google-auth-status').style.color = '#10b981';
                         document.getElementById('google-auth-btn').style.display = 'none';
@@ -1277,7 +1277,7 @@ async function startUploadProcess() {
         }
 
         // --- GOOGLE OAUTH REDIRECT FLOW ---
-        let googleAccessToken = null;
+        
         const OAUTH_CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
         const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
         const SCOPE = 'https://www.googleapis.com/auth/drive.file';
@@ -1286,7 +1286,7 @@ async function startUploadProcess() {
             const hash = window.location.hash;
             if (hash && hash.includes('access_token=')) {
                 const params = new URLSearchParams(hash.substring(1));
-                googleAccessToken = params.get('access_token');
+                accessToken = params.get('access_token');
                 window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
                 
                 let s1 = document.getElementById('google-auth-status');
@@ -1317,13 +1317,13 @@ async function startUploadProcess() {
         }
 
         function logoutGoogle() {
-            if (googleAccessToken) {
-                fetch('https://oauth2.googleapis.com/revoke?token=' + googleAccessToken, {
+            if (accessToken) {
+                fetch('https://oauth2.googleapis.com/revoke?token=' + accessToken, {
                     method: 'POST',
                     headers: {'Content-type': 'application/x-www-form-urlencoded'}
                 }).then(() => console.log('Revoked'));
             }
-            googleAccessToken = null;
+            accessToken = null;
             let s1 = document.getElementById('google-auth-status');
             if(s1) { s1.innerHTML = '❌ לא מחובר'; s1.style.color = '#ef4444'; }
             let b1 = document.getElementById('google-auth-btn');
