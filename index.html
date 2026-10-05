@@ -27,6 +27,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .header {
@@ -36,6 +37,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .header-titles h1 {
@@ -63,13 +65,35 @@
             font-size: 1.2em;
         }
 
+        .screen-container {
+            flex-grow: 1;
+            position: relative;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            min-height: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
             padding-bottom: 50px;
         }
 
@@ -106,14 +130,95 @@
         }
 
         /* Specific Colors */
-        .color-emergency i { color: #ef4444; } /* Red */
-        .color-food i { color: #f59e0b; } /* Orange */
-        .color-hotels i { color: #3b82f6; } /* Blue */
-        .color-alerts i { color: #eab308; } /* Yellow */
-        .color-docs i { color: #10b981; } /* Green */
-        .color-route i { color: #8b5cf6; } /* Purple */
-        .color-map i { color: #ec4899; } /* Pink */
-        .color-ai i { color: #0ea5e9; } /* Cyan */
+        .color-emergency i { color: #ef4444; }
+        .color-food i { color: #f59e0b; }
+        .color-hotels i { color: #3b82f6; }
+        .color-alerts i { color: #eab308; }
+        .color-docs i { color: #10b981; }
+        .color-route i { color: #8b5cf6; }
+        .color-map i { color: #ec4899; }
+        .color-ai i { color: #0ea5e9; }
+
+        /* Inner Screen Elements */
+        .top-bar {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.1em;
+            color: #0284c7;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+        }
+
+        .top-bar h2 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: left;
+            font-size: 1.2em;
+            color: #1e293b;
+            padding-right: 15px;
+        }
+
+        .content-padding {
+            padding: 20px;
+        }
+
+        /* UI Buttons */
+        .btn-large {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 15px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-google { background: #4285F4; }
+        .btn-camera { background: #10b981; }
+        .btn-upload { background: #3b82f6; }
+
+        .btn-large:active { opacity: 0.9; transform: scale(0.98); }
+
+        .preview-box {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .preview-box img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            object-fit: contain;
+        }
 
         /* Under Construction Toast */
         #toast {
@@ -134,7 +239,6 @@
         .toast-visible {
             bottom: 30px !important;
         }
-
     </style>
 </head>
 <body>
@@ -149,65 +253,224 @@
         </div>
     </div>
 
-    <div class="grid-container">
-        <!-- Live Trip (Route) -->
-        <div class="nav-btn color-route" onclick="showToast()">
-            <i class="fa-solid fa-route"></i>
-            <span>מסלול חי</span>
-        </div>
+    <div class="screen-container">
         
-        <!-- Emergency -->
-        <div class="nav-btn color-emergency" onclick="showToast()">
-            <i class="fa-solid fa-kit-medical"></i>
-            <span>חירום רפואי</span>
+        <!-- ================= HOME SCREEN ================= -->
+        <div id="screen-home" class="screen active">
+            <div class="grid-container">
+                <div class="nav-btn color-route" onclick="showToast()">
+                    <i class="fa-solid fa-route"></i><span>מסלול חי</span>
+                </div>
+                <div class="nav-btn color-emergency" onclick="showToast()">
+                    <i class="fa-solid fa-kit-medical"></i><span>חירום רפואי</span>
+                </div>
+                <div class="nav-btn color-food" onclick="showToast()">
+                    <i class="fa-solid fa-utensils"></i><span>מזון וכשרות</span>
+                </div>
+                <div class="nav-btn color-hotels" onclick="showToast()">
+                    <i class="fa-solid fa-bed"></i><span>מלונות</span>
+                </div>
+                <div class="nav-btn color-alerts" onclick="showToast()">
+                    <i class="fa-solid fa-bell"></i><span>התראות בלת"ם</span>
+                </div>
+                <div class="nav-btn color-docs" onclick="switchScreen('screen-docs')">
+                    <i class="fa-solid fa-passport"></i><span>מסמכים</span>
+                </div>
+                <div class="nav-btn color-map" onclick="showToast()">
+                    <i class="fa-solid fa-map-location-dot"></i><span>מפה חיה</span>
+                </div>
+                <div class="nav-btn color-ai" onclick="showToast()">
+                    <i class="fa-solid fa-robot"></i><span>סייען AI</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Food -->
-        <div class="nav-btn color-food" onclick="showToast()">
-            <i class="fa-solid fa-utensils"></i>
-            <span>מזון וכשרות</span>
+        <!-- ================= DOCS SCREEN ================= -->
+        <div id="screen-docs" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>מסמכים וצילום</h2>
+            </div>
+            
+            <div class="content-padding">
+                <p style="color: #64748b; font-size: 0.9em; margin-top: 0; margin-bottom: 20px;">
+                    כאן תוכל לצלם מסמכים חשובים, קבלות, או מידע רפואי, ולגבות אותם ישירות לענן.
+                </p>
+
+                <!-- Auth Section -->
+                <div id="auth-section">
+                    <a id="btn-google-login" href="#" class="btn-large btn-google">
+                        <i class="fa-brands fa-google"></i> התחבר ל-Google Drive
+                    </a>
+                </div>
+                
+                <div id="auth-success" style="display:none; color: #10b981; background: #d1fae5; padding: 12px; border-radius: 8px; text-align:center; font-weight: 600; margin-bottom: 20px;">
+                    <i class="fa-solid fa-check-circle"></i> מחובר ל-Google Drive
+                </div>
+
+                <!-- Camera Action -->
+                <button class="btn-large btn-camera" onclick="document.getElementById('camera-input').click()">
+                    <i class="fa-solid fa-camera"></i> פתח מצלמה
+                </button>
+                <input type="file" id="camera-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
+                
+                <!-- Preview & Upload Section -->
+                <div id="preview-section" class="preview-box" style="display: none;">
+                    <img id="image-preview" src="">
+                    <button id="btn-upload" class="btn-large btn-upload" onclick="startUpload()">
+                        <i class="fa-brands fa-google-drive"></i> גיבוי לדרייב (קוריאה)
+                    </button>
+                    <div id="upload-status" style="font-weight: 600; margin-top: 10px;"></div>
+                </div>
+
+            </div>
         </div>
 
-        <!-- Hotels -->
-        <div class="nav-btn color-hotels" onclick="showToast()">
-            <i class="fa-solid fa-bed"></i>
-            <span>מלונות</span>
-        </div>
-
-        <!-- Alerts -->
-        <div class="nav-btn color-alerts" onclick="showToast()">
-            <i class="fa-solid fa-bell"></i>
-            <span>התראות בלת"ם</span>
-        </div>
-
-        <!-- Documents -->
-        <div class="nav-btn color-docs" onclick="showToast()">
-            <i class="fa-solid fa-passport"></i>
-            <span>מסמכים</span>
-        </div>
-
-        <!-- Map -->
-        <div class="nav-btn color-map" onclick="showToast()">
-            <i class="fa-solid fa-map-location-dot"></i>
-            <span>מפה חיה</span>
-        </div>
-
-        <!-- AI Assistant -->
-        <div class="nav-btn color-ai" onclick="showToast()">
-            <i class="fa-solid fa-robot"></i>
-            <span>סייען AI</span>
-        </div>
     </div>
 
     <div id="toast">המסך בבנייה (שלב 2)</div>
 
     <script>
+        // --- Navigation ---
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
         function showToast() {
             const toast = document.getElementById('toast');
             toast.classList.add('toast-visible');
-            setTimeout(() => {
-                toast.classList.remove('toast-visible');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('toast-visible'), 3000);
+        }
+
+        // --- Google Drive Config ---
+        const OAUTH_CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
+        const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
+        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+        let accessToken = null;
+        let selectedFile = null;
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set up Google OAuth URL
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${OAUTH_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(SCOPES)}&include_granted_scopes=true&prompt=consent`;
+            document.getElementById('btn-google-login').href = authUrl;
+
+            // Check if returning from Google Auth
+            const hash = window.location.hash;
+            if (hash && hash.includes('access_token=')) {
+                const params = new URLSearchParams(hash.substring(1));
+                accessToken = params.get('access_token');
+                
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                // Update UI to show connected state
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('auth-success').style.display = 'block';
+                
+                // Automatically open Docs screen since that's where they were
+                switchScreen('screen-docs');
+            }
+        });
+
+        // --- File Handling ---
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            selectedFile = file;
+
+            // Show Preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('image-preview').src = e.target.result;
+                document.getElementById('preview-section').style.display = 'block';
+                document.getElementById('upload-status').innerHTML = ''; // reset status
+                document.getElementById('btn-upload').style.display = 'flex'; // show upload btn again
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // --- Upload Logic ---
+        async function getOrCreateFolder(folderName) {
+            try {
+                // Search for folder
+                const q = `name='${folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+                let searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&spaces=drive`, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                let searchData = await searchRes.json();
+                
+                if (searchData.files && searchData.files.length > 0) {
+                    return searchData.files[0].id;
+                }
+                
+                // Create folder if not found
+                let createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: folderName,
+                        mimeType: 'application/vnd.google-apps.folder'
+                    })
+                });
+                let createData = await createRes.json();
+                return createData.id;
+            } catch (e) {
+                console.error("Folder error:", e);
+                return null;
+            }
+        }
+
+        async function startUpload() {
+            if (!accessToken) {
+                alert("יש להתחבר ל-Google Drive קודם!");
+                return;
+            }
+            if (!selectedFile) return;
+
+            const statusDiv = document.getElementById('upload-status');
+            const btnUpload = document.getElementById('btn-upload');
+            
+            btnUpload.style.display = 'none';
+            statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#3b82f6"></i> מגבה תמונה...';
+            statusDiv.style.color = '#3b82f6';
+
+            try {
+                let folderId = await getOrCreateFolder("Travel Assistant - South Korea");
+                if (!folderId) throw new Error("Could not create/find folder");
+
+                const metadata = {
+                    name: `Doc_${new Date().getTime()}_${selectedFile.name}`,
+                    parents: [folderId]
+                };
+
+                const form = new FormData();
+                form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+                form.append('file', selectedFile);
+
+                let res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${accessToken}` },
+                    body: form
+                });
+
+                if (res.ok) {
+                    statusDiv.innerHTML = '<i class="fa-solid fa-check-circle"></i> גובה בהצלחה!';
+                    statusDiv.style.color = '#10b981';
+                } else {
+                    throw new Error("Upload failed");
+                }
+            } catch (error) {
+                console.error(error);
+                statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> שגיאה בהעלאה.';
+                statusDiv.style.color = '#ef4444';
+                btnUpload.style.display = 'flex'; // allow retry
+            }
         }
     </script>
 </body>
