@@ -364,17 +364,7 @@
         </div>
 
 
-        <!-- ================= EXIT SCREEN ================= -->
-        <div id="screen-exit" class="screen">
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height: 80vh; text-align:center; padding:20px;">
-                <i class="fa-solid fa-shield-halved" style="font-size: 4em; color: #10b981; margin-bottom:20px;"></i>
-                <h2 style="color:#1e293b; margin-bottom: 5px;">שמור וסגור</h2>
-                <p style="color:#64748b; font-size:1.1em; line-height: 1.5;">החשבון מנותק כעת מהענן.<br>החיבור ננעל בהצלחה.</p>
-                <p style="color:#0f172a; font-weight:800; margin-top:30px; background: #e2e8f0; padding: 10px 20px; border-radius: 20px;">ניתן לסגור את האפליקציה.</p>
-            </div>
-        </div>
-
-    </div> <!-- End of screen-container -->
+            </div> <!-- End of screen-container -->
 
     <div id="toast">המסך בבנייה (שלב 2)</div>
 
@@ -422,8 +412,6 @@ function showToast() {
             // Security: Clear the memory
             accessToken = null;
             selectedFile = null;
-            
-            // Reset URL so token doesn't linger in address bar
             window.history.replaceState({}, document.title, window.location.pathname);
             
             // Reset UI for next time
@@ -431,8 +419,18 @@ function showToast() {
             document.getElementById('auth-success').style.display = 'none';
             document.getElementById('preview-section').style.display = 'none';
             
-            // Show safe exit screen
-            switchScreen('screen-exit');
+            // Try to close the window (works in some environments/PWA)
+            window.close();
+            
+            // If browser blocks closing, just return to home screen and show toast
+            switchScreen('screen-home');
+            const toast = document.getElementById('toast');
+            toast.innerText = 'החיבור ננעל. ניתן לצאת מהאפליקציה.';
+            toast.classList.add('toast-visible');
+            setTimeout(() => {
+                toast.classList.remove('toast-visible');
+                toast.innerText = 'המסך בבנייה (שלב 2)';
+            }, 3000);
         }
 
         // --- Google Drive Config ---
