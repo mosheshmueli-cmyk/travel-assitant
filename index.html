@@ -1136,9 +1136,9 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         // --- END WEATHER LOGIC ---
 
         // --- GOOGLE DRIVE LOGIC ---
-        const OAUTH_CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
-        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
-        let tokenClient;
+        const OLD_OAUTH_CLIENT_ID = '138196875880-vn6qi5nj34otlv9ejggvhroqr9l82spm.apps.googleusercontent.com';
+        const OLD_SCOPES = 'https://www.googleapis.com/auth/drive.file';
+        let oldTokenClient;
         let accessToken = null;
 
         function handleAuthClick() {
@@ -1146,7 +1146,7 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
                 alert("אין תמונות לגיבוי!");
                 return;
             }
-            tokenClient = google.accounts.oauth2.initTokenClient({
+            oldTokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: CLIENT_ID,
                 scope: SCOPES,
                 callback: (tokenResponse) => {
@@ -1245,7 +1245,7 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
 
 
         
-        let tokenClient;
+        let newTokenClient;
         function initGoogleAuth() {
             try {
                 tokenClient = google.accounts.oauth2.initTokenClient({
