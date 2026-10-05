@@ -130,14 +130,14 @@
         }
 
         /* Specific Colors */
-        .color-emergency i { color: #ef4444; }
-        .color-food i { color: #f59e0b; }
-        .color-hotels i { color: #3b82f6; }
-        .color-alerts i { color: #eab308; }
-        .color-docs i { color: #10b981; }
-        .color-route i { color: #8b5cf6; }
-        .color-map i { color: #ec4899; }
-        .color-ai i { color: #0ea5e9; }
+        .color-route i { color: #8b5cf6; } /* Purple */
+        .color-emergency i { color: #ef4444; } /* Red */
+        .color-logistics i { color: #f59e0b; } /* Orange */
+        .color-alerts i { color: #eab308; } /* Yellow */
+        .color-docs i { color: #10b981; } /* Green */
+        .color-diary i { color: #0ea5e9; } /* Cyan - Journey Diary */
+        .color-map i { color: #ec4899; } /* Pink */
+        .color-ai i { color: #3b82f6; } /* Blue */
 
         /* Inner Screen Elements */
         .top-bar {
@@ -197,7 +197,7 @@
         }
 
         .btn-google { background: #4285F4; }
-        .btn-camera { background: #10b981; }
+        .btn-camera { background: #0ea5e9; }
         .btn-upload { background: #3b82f6; }
 
         .btn-large:active { opacity: 0.9; transform: scale(0.98); }
@@ -259,22 +259,24 @@
         <div id="screen-home" class="screen active">
             <div class="grid-container">
                 <div class="nav-btn color-route" onclick="showToast()">
-                    <i class="fa-solid fa-route"></i><span>מסלול מתוכנן</span>
+                    <i class="fa-solid fa-route"></i><span>תיק הטיול</span>
                 </div>
                 <div class="nav-btn color-emergency" onclick="showToast()">
                     <i class="fa-solid fa-kit-medical"></i><span>חירום רפואי</span>
                 </div>
-                <div class="nav-btn color-food" onclick="showToast()">
-                    <i class="fa-solid fa-utensils"></i><span>מזון וכשרות</span>
-                </div>
-                <div class="nav-btn color-hotels" onclick="showToast()">
-                    <i class="fa-solid fa-bed"></i><span>מלונות</span>
+                <!-- Merged button -->
+                <div class="nav-btn color-logistics" onclick="showToast()">
+                    <i class="fa-solid fa-concierge-bell"></i><span>לינה ומזון</span>
                 </div>
                 <div class="nav-btn color-alerts" onclick="showToast()">
                     <i class="fa-solid fa-bell"></i><span>התראות בלת"ם</span>
                 </div>
                 <div class="nav-btn color-docs" onclick="switchScreen('screen-docs')">
                     <i class="fa-solid fa-passport"></i><span>מסמכים</span>
+                </div>
+                <!-- New Journey Diary Button -->
+                <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
+                    <i class="fa-solid fa-camera-retro"></i><span>יומן מסע</span>
                 </div>
                 <div class="nav-btn color-map" onclick="showToast()">
                     <i class="fa-solid fa-map-location-dot"></i><span>מפה חיה</span>
@@ -289,18 +291,34 @@
         <div id="screen-docs" class="screen">
             <div class="top-bar">
                 <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>מסמכים וצילום</h2>
+                <h2>מסמכים (מנהלה)</h2>
+            </div>
+            
+            <div class="content-padding">
+                <p style="color: #64748b; font-size: 0.95em;">
+                    ספריית המסמכים הסטטית של הטיול: כרטיסי טיסה, דרכונים, ויזות ומרשמי תרופות. 
+                    <br><br>
+                    (המסך נמצא בבנייה - שלב 2)
+                </p>
+            </div>
+        </div>
+
+        <!-- ================= DIARY SCREEN ================= -->
+        <div id="screen-diary" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2>יומן מסע</h2>
             </div>
             
             <div class="content-padding">
                 <p style="color: #64748b; font-size: 0.9em; margin-top: 0; margin-bottom: 20px;">
-                    כאן תוכל לצלם מסמכים חשובים, קבלות, או מידע רפואי, ולגבות אותם ישירות לענן.
+                    כאן אתה יוצר ומתעד את הטיול בזמן אמת. צלם חוויות והן יגובו ישירות לתיקיית TA/KORIA/PHOTOS בענן.
                 </p>
 
                 <!-- Auth Section -->
                 <div id="auth-section">
                     <a id="btn-google-login" href="#" class="btn-large btn-google">
-                        <i class="fa-brands fa-google"></i> התחבר ל-Google Drive
+                        <i class="fa-brands fa-google"></i> חיבור ענן (לגיבוי התמונות)
                     </a>
                 </div>
                 
@@ -310,7 +328,7 @@
 
                 <!-- Camera Action -->
                 <button class="btn-large btn-camera" onclick="document.getElementById('camera-input').click()">
-                    <i class="fa-solid fa-camera"></i> פתח מצלמה
+                    <i class="fa-solid fa-camera"></i> תיעוד חוויה (מצלמה)
                 </button>
                 <input type="file" id="camera-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
                 
@@ -318,7 +336,7 @@
                 <div id="preview-section" class="preview-box" style="display: none;">
                     <img id="image-preview" src="">
                     <button id="btn-upload" class="btn-large btn-upload" onclick="startUpload()">
-                        <i class="fa-brands fa-google-drive"></i> גיבוי לדרייב (קוריאה)
+                        <i class="fa-solid fa-cloud-arrow-up"></i> גיבוי לתמונות (TA/KORIA/PHOTOS)
                     </button>
                     <div id="upload-status" style="font-weight: 600; margin-top: 10px;"></div>
                 </div>
@@ -370,8 +388,8 @@
                 document.getElementById('auth-section').style.display = 'none';
                 document.getElementById('auth-success').style.display = 'block';
                 
-                // Automatically open Docs screen since that's where they were
-                switchScreen('screen-docs');
+                // Automatically open Diary screen since that's where they authenticate for photos
+                switchScreen('screen-diary');
             }
         });
 
@@ -441,7 +459,7 @@
             return photosId;
         }
 
-        async function startUpload() { {
+        async function startUpload() {
             if (!accessToken) {
                 alert("יש להתחבר ל-Google Drive קודם!");
                 return;
@@ -452,15 +470,15 @@
             const btnUpload = document.getElementById('btn-upload');
             
             btnUpload.style.display = 'none';
-            statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#3b82f6"></i> מגבה תמונה...';
+            statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#3b82f6"></i> מגבה תמונה בענן...';
             statusDiv.style.color = '#3b82f6';
 
             try {
                 let folderId = await getNestedFolderId();
-                if (!folderId) throw new Error("Could not create/find folder");
+                if (!folderId) throw new Error("Could not create/find nested folders");
 
                 const metadata = {
-                    name: `Doc_${new Date().getTime()}_${selectedFile.name}`,
+                    name: `Journey_${new Date().getTime()}_${selectedFile.name}`,
                     parents: [folderId]
                 };
 
@@ -475,7 +493,7 @@
                 });
 
                 if (res.ok) {
-                    statusDiv.innerHTML = '<i class="fa-solid fa-check-circle"></i> גובה בהצלחה!';
+                    statusDiv.innerHTML = '<i class="fa-solid fa-check-circle"></i> נשמר בהצלחה ב- TA/KORIA/PHOTOS';
                     statusDiv.style.color = '#10b981';
                 } else {
                     throw new Error("Upload failed");
