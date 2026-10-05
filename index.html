@@ -675,6 +675,10 @@
         }
         
         function switchTab(tabId, element) {
+            // Auto close the popup menu if open
+            const mm = document.getElementById('more-menu');
+            if (mm) mm.style.display = 'none';
+
             
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
@@ -837,16 +841,9 @@ function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         let liveLocation = null;
 
         window.takeLivePhoto = function() {
-            const resultsDiv = document.getElementById('sync-results');
-            resultsDiv.innerHTML = '<div style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> מאתר מיקום מדויק...</div>';
-            
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        liveLocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
+            // Remove GPS blocking - open camera immediately! EXIF will handle location in Phase 2.
+            document.getElementById('live-photo-input').click();
+        };
                         resultsDiv.innerHTML = '';
                         // Open the camera
                         document.getElementById('live-photo-input').click();
