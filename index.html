@@ -257,22 +257,18 @@
 
     <div class="screen-container">
         
-        <!-- ================= HOME SCREEN ================= -->
+                <!-- ================= HOME SCREEN ================= -->
         <div id="screen-home" class="screen active">
             <div class="grid-container">
-
-
-
-
-
-
-
-
-</div>
+                <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
+                    <i class="fa-solid fa-map-location-dot"></i><span>ניווט במפה דינמית</span>
+                </div>
+                <div class="nav-btn color-route" onclick="showToast()">
+                    <i class="fa-solid fa-route"></i><span>תיק הטיול</span>
+                </div>
                 <div class="nav-btn color-emergency" onclick="showToast()">
                     <i class="fa-solid fa-kit-medical"></i><span>חירום</span>
                 </div>
-                <!-- Merged button -->
                 <div class="nav-btn color-logistics" onclick="showToast()">
                     <i class="fa-solid fa-concierge-bell"></i><span>לינה ומזון</span>
                 </div>
@@ -282,12 +278,8 @@
                 <div class="nav-btn color-docs" onclick="switchScreen('screen-docs')">
                     <i class="fa-solid fa-passport"></i><span>מסמכים</span>
                 </div>
-                <!-- New Journey Diary Button -->
                 <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
                     <i class="fa-solid fa-camera-retro"></i><span>יומן מסע</span>
-                </div>
-                <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
-                    <i class="fa-solid fa-map-location-dot"></i><span>ניווט במפה דינמית</span>
                 </div>
                 <div class="nav-btn color-ai" onclick="showToast()">
                     <i class="fa-solid fa-robot"></i><span>סייען AI</span>
