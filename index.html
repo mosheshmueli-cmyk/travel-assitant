@@ -424,13 +424,6 @@ function showToast() {
             
             // If browser blocks closing, just return to home screen and show toast
             switchScreen('screen-home');
-            const toast = document.getElementById('toast');
-            toast.innerText = 'החיבור ננעל. ניתן לצאת מהאפליקציה.';
-            toast.classList.add('toast-visible');
-            setTimeout(() => {
-                toast.classList.remove('toast-visible');
-                toast.innerText = 'המסך בבנייה (שלב 2)';
-            }, 3000);
         }
 
         // --- Google Drive Config ---
