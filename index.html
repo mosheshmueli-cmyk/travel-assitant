@@ -497,18 +497,53 @@
             </div>
         </div>
 
-        <!-- ================= ALERTS SCREEN ================= -->
+                <!-- ================= ALERTS SCREEN ================= -->
         <div id="screen-alerts" class="screen">
-            <div class="top-bar">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>התראות בלת"ם</h2>
+            <div class="top-bar" style="background: #f97316;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;">התראות בלת"ם</h2>
             </div>
-            <div class="content-padding">
-                <p style="color: #64748b;">כאן יופיעו התראות מזג אוויר, ביטולי טיסות ושינויים בלתי צפויים.</p>
+            <div class="content-padding" style="padding-bottom: 80px;">
+                <p style="text-align:center; color: #c2410c; font-weight: bold; margin-bottom: 20px;"><i class="fa-solid fa-satellite-dish"></i> סריקת נתונים חיה...</p>
+
+                <!-- High Priority Alert -->
+                <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; margin-bottom: 15px; border-right: 5px solid #ef4444; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: bold; color: #991b1b;"><i class="fa-solid fa-cloud-showers-heavy"></i> שינוי מזג אוויר צפוי</span>
+                        <span style="font-size: 0.75em; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">לפני 5 דק'</span>
+                    </div>
+                    <p style="margin: 0; font-size: 0.9em; color: #475569; line-height: 1.4;">
+                        גשם כבד צפוי להתחיל בשעה 14:00 באזור השוק (איפה שאתה מתוכנן להיות). 
+                        <b>המלצת המערכת:</b> להקדים את ארוחת הצהריים ולהיכנס למסעדה מקורה עכשיו.
+                    </p>
+                </div>
+
+                <!-- Medium Priority Alert -->
+                <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; margin-bottom: 15px; border-right: 5px solid #f59e0b; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: bold; color: #b45309;"><i class="fa-solid fa-train"></i> עיכוב בתחבורה ציבורית</span>
+                        <span style="font-size: 0.75em; color: #d97706; background: #fef3c7; padding: 2px 6px; border-radius: 4px;">לפני שעה</span>
+                    </div>
+                    <p style="margin: 0; font-size: 0.9em; color: #475569; line-height: 1.4;">
+                        תקלה בקו התחתית הירוק (Line 2). ייתכנו עיכובים של 20 דקות. אם אתה יוצא לכיוון המוזיאון, מומלץ לקחת מונית עכשיו כדי לא לאחר לסיור שהוזמן.
+                    </p>
+                </div>
+
+                <!-- Info Alert -->
+                <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; margin-bottom: 15px; border-right: 5px solid #0ea5e9; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: bold; color: #0369a1;"><i class="fa-solid fa-plane-circle-check"></i> סטטוס טיסה</span>
+                        <span style="font-size: 0.75em; color: #0284c7; background: #e0f2fe; padding: 2px 6px; border-radius: 4px;">היום בבוקר</span>
+                    </div>
+                    <p style="margin: 0; font-size: 0.9em; color: #475569; line-height: 1.4;">
+                        טיסת אל-על חזרה לארץ (LY082) מתוכננת לצאת בזמן. שער העלייה למטוס עודכן ל-G45.
+                    </p>
+                </div>
+
             </div>
         </div>
 
-                        <!-- ================= AI SCREEN ================= -->
+        <!-- ================= AI SCREEN ================= -->
         <div id="screen-ai" class="screen">
             <div class="top-bar">
                 <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
