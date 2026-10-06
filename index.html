@@ -580,7 +580,57 @@
 
     </div> <!-- End of screen-container -->
 
-    <div id="toast">המסך בבנייה (שלב 2)</div>
+    <div id="toast">המסך בבנייה (שלב 2)        <!-- ================= DOCS SCREEN ================= -->
+        <div id="screen-docs" class="screen">
+            <div class="top-bar" style="background: #475569;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;">מסמכים אישיים</h2>
+            </div>
+            
+            <div class="content-padding" style="padding-bottom: 20px;">
+                <p style="text-align:center; color: #64748b; font-size: 0.9em; margin-bottom: 20px;">
+                    <i class="fa-solid fa-shield-halved"></i> זמין גם ללא חיבור לאינטרנט (Offline)
+                </p>
+
+                <!-- Passport -->
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #e2e8f0; color: #334155; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0;">
+                        <i class="fa-solid fa-passport"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <h3 style="margin: 0; color: #1e293b; font-size: 1.1em;">דרכון</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.85em;">תוקף: 12/2029</p>
+                    </div>
+                    <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-download"></i></button>
+                </div>
+
+                <!-- Flight Tickets -->
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #e0f2fe; color: #0284c7; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0;">
+                        <i class="fa-solid fa-plane-ticket"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <h3 style="margin: 0; color: #1e293b; font-size: 1.1em;">כרטיס טיסה חזור</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.85em;">LY082 - ברקוד להצגה</p>
+                    </div>
+                    <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-qrcode"></i></button>
+                </div>
+
+                <!-- Insurance -->
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
+                    <div style="background: #dcfce7; color: #16a34a; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0;">
+                        <i class="fa-solid fa-file-medical"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <h3 style="margin: 0; color: #1e293b; font-size: 1.1em;">ביטוח רפואי מורחב</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.85em;">פוליסה מס' 983726</p>
+                    </div>
+                    <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-file-pdf"></i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script>
         
