@@ -279,7 +279,7 @@
     <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: white; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;">
         <button onclick="window.location.href=window.location.href.split('?')[0]+'?t='+new Date().getTime()" style="background: #22c55e; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <span><i class="fa-solid fa-arrows-rotate"></i> רענן</span>
-            <span style="font-size: 0.75em; opacity: 0.9;">V3.3</span>
+            <span style="font-size: 0.75em; opacity: 0.9;">V3.4</span>
         </button>
         
         <div style="font-weight: bold; color: #334155; text-align: center;">
@@ -672,10 +672,11 @@
 
                 <!-- Camera/Upload Buttons -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
-                    <button style="background: #0ea5e9; color: white; border: none; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2); cursor: pointer;" onclick="alert('סימולציה: פותח מצלמה... התמונה תישמר ליומן האפליקציה בלבד.')">
+                    <label style="background: #0ea5e9; color: white; border: none; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2); cursor: pointer; text-align: center;">
                         <i class="fa-solid fa-camera" style="font-size: 2em; margin-bottom: 10px;"></i>
                         צלם עכשיו
-                    </button>
+                        <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="alert('מעולה! התמונה נקלטה. בשלב הבא של הפיתוח היא תופיע מיד ביומן המסע.')">
+                    </label>
                     <button style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;" onclick="alert('סימולציה: פותח פנקס טקסט מהיר...')">
                         <i class="fa-solid fa-pen-clip" style="font-size: 2em; margin-bottom: 10px;"></i>
                         כתוב פתק
