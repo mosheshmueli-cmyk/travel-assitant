@@ -285,7 +285,7 @@
                     <i class="fa-solid fa-robot"></i><span>סייען AI</span>
                 </div>
             </div>
-            <div style="text-align: center; color: #94a3b8; font-size: 0.85em; padding-bottom: 20px;" id="app-version">גרסה 2.1</div>
+            <div style="text-align: center; color: #94a3b8; font-size: 0.85em; padding-bottom: 20px;" id="app-version">גרסה 2.2</div>
         </div>
 
         <!-- ================= DOCS SCREEN ================= -->
@@ -385,14 +385,57 @@
             </div>
         </div>
 
-        <!-- ================= EMERGENCY SCREEN ================= -->
+                <!-- ================= EMERGENCY SCREEN ================= -->
         <div id="screen-emergency" class="screen">
-            <div class="top-bar">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>חירום</h2>
+            <div class="top-bar" style="background: #ef4444;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;">מרכז חירום</h2>
             </div>
-            <div class="content-padding">
-                <p style="color: #64748b;">כאן יופיעו מספרי חירום (משטרה, אמבולנס בחו"ל), שגרירות ישראל וביטוחים.</p>
+            <div class="content-padding" style="padding-bottom: 80px;">
+                <p style="text-align:center; color: #ef4444; font-weight: bold; margin-top: 0;"><i class="fa-solid fa-location-dot"></i> מיקום נוכחי: סיאול, קוריאה</p>
+                
+                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">מספרי חירום מקומיים</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                    <a href="tel:119" style="background: #fee2e2; border: 1px solid #fca5a5; padding: 15px 5px; border-radius: 12px; text-align: center; text-decoration: none; color: #991b1b; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <i class="fa-solid fa-truck-medical" style="font-size: 1.5em; margin-bottom: 5px;"></i>אמבולנס (119)
+                    </a>
+                    <a href="tel:112" style="background: #e0f2fe; border: 1px solid #7dd3fc; padding: 15px 5px; border-radius: 12px; text-align: center; text-decoration: none; color: #075985; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <i class="fa-solid fa-shield-halved" style="font-size: 1.5em; margin-bottom: 5px;"></i>משטרה (112)
+                    </a>
+                    <a href="tel:119" style="background: #ffedd5; border: 1px solid #fdba74; padding: 15px 5px; border-radius: 12px; text-align: center; text-decoration: none; color: #9a3412; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        <i class="fa-solid fa-fire" style="font-size: 1.5em; margin-bottom: 5px;"></i>מכבי אש (119)
+                    </a>
+                </div>
+
+                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">שירותים רפואיים וסיוע</h3>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="padding: 12px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center;">
+                        <i class="fa-solid fa-hospital" style="color: #ef4444; font-size: 1.2em; margin-left: 15px;"></i>
+                        <div>
+                            <div style="font-weight: bold; color: #1e293b;">בי"ח קרוב: Seoul National</div>
+                            <div style="font-size: 0.85em; color: #64748b;">מרחק: 2.3 ק"מ | פתוח 24/7</div>
+                        </div>
+                    </div>
+                    <div style="padding: 12px; display: flex; align-items: center;">
+                        <i class="fa-solid fa-building-flag" style="color: #3b82f6; font-size: 1.2em; margin-left: 15px;"></i>
+                        <div>
+                            <div style="font-weight: bold; color: #1e293b;">שגרירות ישראל בסיאול</div>
+                            <div style="font-size: 0.85em; color: #64748b;">טלפון חוץ חירום: +82-2-3210-8500</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">פרוטוקולי אסון ואזהרות</h3>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+                    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-right: 4px solid #f59e0b; padding: 12px; border-radius: 8px;">
+                        <div style="font-weight: bold; color: #b45309; margin-bottom: 4px;"><i class="fa-solid fa-house-crack"></i> הנחיות רעידת אדמה</div>
+                        <div style="font-size: 0.85em; color: #475569;">צאו לשטח פתוח. התרחקו מבניינים וחוטי חשמל. בתוך מבנה - כנסו מתחת לשולחן כבד.</div>
+                    </div>
+                    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-right: 4px solid #0ea5e9; padding: 12px; border-radius: 8px;">
+                        <div style="font-weight: bold; color: #0369a1; margin-bottom: 4px;"><i class="fa-solid fa-water"></i> התראת צונאמי (אזורי חוף)</div>
+                        <div style="font-size: 0.85em; color: #475569;">נועו מיד לאזור גבוה (מעל 30 מטר) או עולו לקומה 3 ומעלה בבניין בטון.</div>
+                    </div>
+                </div>
             </div>
         </div>
 
