@@ -262,7 +262,7 @@
     <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: white; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;">
         <button onclick="window.location.href=window.location.href.split('?')[0]+'?t='+new Date().getTime()" style="background: #22c55e; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <span><i class="fa-solid fa-arrows-rotate"></i> רענן</span>
-            <span style="font-size: 0.75em; opacity: 0.9;">V2.8</span>
+            <span style="font-size: 0.75em; opacity: 0.9;">V3.0</span>
         </button>
         
         <div style="font-weight: bold; color: #334155; text-align: center;">
@@ -639,6 +639,46 @@
                     <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-file-pdf"></i></button>
                 </div>
 
+            </div>
+        </div>
+            <!-- ================= DIARY SCREEN ================= -->
+        <div id="screen-diary" class="screen">
+            <div class="top-bar" style="background: #0ea5e9;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;">יומן מסע אישי</h2>
+            </div>
+            
+            <div class="content-padding" style="padding-bottom: 20px;">
+                <p style="text-align:center; color: #64748b; font-size: 0.9em; margin-bottom: 20px;">
+                    תיעוד חוויות וזיכרונות שנשמרים ישירות לתיק הטיול (מגובה בענן)
+                </p>
+
+                <!-- Camera/Upload Buttons -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                    <button style="background: #0ea5e9; color: white; border: none; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2); cursor: pointer;" onclick="alert('סימולציה: פותח מצלמה... התמונה תישמר ליומן האפליקציה בלבד.')">
+                        <i class="fa-solid fa-camera" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        צלם עכשיו
+                    </button>
+                    <button style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;" onclick="alert('סימולציה: פותח פנקס טקסט מהיר...')">
+                        <i class="fa-solid fa-pen-clip" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        כתוב פתק
+                    </button>
+                </div>
+
+                <!-- Feed -->
+                <h3 style="color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 15px;">הזיכרונות שלי מכאן</h3>
+                
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #64748b; font-size: 0.85em;">
+                        <span><i class="fa-solid fa-location-dot"></i> קניון COEX</span>
+                        <span><i class="fa-regular fa-clock"></i> היום, 14:30</span>
+                    </div>
+                    <div style="background: #f1f5f9; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 2em; margin-bottom: 10px;">
+                        <i class="fa-solid fa-image"></i>
+                    </div>
+                    <p style="margin: 0; color: #1e293b; font-size: 1.05em; font-weight: bold;">הדוכן של הקימצ'י ליד המטרו</p>
+                    <p style="margin: 5px 0 0 0; color: #475569; font-size: 0.95em;">היה מדהים, לא לשכוח לחזור לפה ביום האחרון!</p>
+                </div>
             </div>
         </div>
     </div>
