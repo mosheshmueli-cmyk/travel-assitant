@@ -285,7 +285,7 @@
                     <i class="fa-solid fa-robot"></i><span>סייען AI</span>
                 </div>
             </div>
-            <div style="text-align: center; color: #94a3b8; font-size: 0.85em; padding-bottom: 20px;" id="app-version">גרסה 2.3</div>
+            <div style="text-align: center; color: #94a3b8; font-size: 0.85em; padding-bottom: 20px;" id="app-version">גרסה 2.4</div>
         </div>
 
         <!-- ================= DOCS SCREEN ================= -->
@@ -444,14 +444,56 @@
             </div>
         </div>
 
-        <!-- ================= LOGISTICS SCREEN ================= -->
+                <!-- ================= LOGISTICS SCREEN ================= -->
         <div id="screen-logistics" class="screen">
-            <div class="top-bar">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>לינה ומזון</h2>
+            <div class="top-bar" style="background: #eab308;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:#451a03;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:#451a03;">לינה ומזון</h2>
             </div>
-            <div class="content-padding">
-                <p style="color: #64748b;">כאן יופיעו פרטי ההזמנות של המלונות, מסעדות כשרות ודיור.</p>
+            <div class="content-padding" style="padding-bottom: 80px;">
+                <p style="text-align:center; color: #713f12; font-size: 0.9em; margin-bottom: 20px;">הלוגיסטיקה הקשיחה שלך, נגישה תמיד (גם ללא אינטרנט).</p>
+
+                <!-- Hotel Section -->
+                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;"><i class="fa-solid fa-bed" style="color: #ca8a04;"></i> המלון הנוכחי</h3>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
+                    <div style="background: #fef08a; padding: 10px 15px; font-weight: bold; color: #713f12; border-bottom: 1px solid #fde047;">
+                        Lotte Hotel Seoul (5 כוכבים)
+                    </div>
+                    <div style="padding: 15px;">
+                        <p style="margin: 0 0 5px 0; color: #475569; font-size: 0.9em;"><b>צ'ק אין:</b> 12 באוקטובר, 15:00</p>
+                        <p style="margin: 0 0 15px 0; color: #475569; font-size: 0.9em;"><b>צ'ק אאוט:</b> 17 באוקטובר, 11:00</p>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; border-radius: 6px; color: #334155; font-weight: bold;">
+                                <i class="fa-solid fa-map-location-dot" style="color: #3b82f6;"></i> נווט למלון
+                            </button>
+                            <button style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; border-radius: 6px; color: #334155; font-weight: bold;">
+                                <i class="fa-solid fa-file-pdf" style="color: #ef4444;"></i> הצג שובר
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Food Section -->
+                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;"><i class="fa-solid fa-utensils" style="color: #ea580c;"></i> אפשרויות מזון (מותאם להעדפותיך)</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-right: 4px solid #ea580c;">
+                        <div style="font-weight: bold; color: #1e293b; margin-bottom: 4px;">Balwoo Gongyang (טבעוני)</div>
+                        <div style="font-size: 0.85em; color: #64748b; margin-bottom: 8px;"><i class="fa-solid fa-person-walking"></i> 7 דק' הליכה מהמלון שלך</div>
+                        <div style="font-size: 0.85em; color: #475569; line-height: 1.4;">
+                            מסעדה המבוססת על אוכל נזירים בודהיסטי. אידיאלית לארוחת ערב בריאה. שוריינה עבורך למחר ב-19:00.
+                        </div>
+                    </div>
+
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-right: 4px solid #3b82f6;">
+                        <div style="font-weight: bold; color: #1e293b; margin-bottom: 4px;">בית חב"ד סיאול (כשר)</div>
+                        <div style="font-size: 0.85em; color: #64748b; margin-bottom: 8px;"><i class="fa-solid fa-taxi"></i> 15 דק' נסיעה במונית</div>
+                        <div style="font-size: 0.85em; color: #475569; line-height: 1.4;">
+                            זמין עבור ארוחות שבת. מומלץ ליצור קשר יום מראש להזמנת ארוחות ארוזות לטיול.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
