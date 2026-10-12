@@ -825,7 +825,10 @@
             
             if (screenId === 'screen-map') {
                 initMap();
-                locateUser(true);
+                setTimeout(() => { if (dynamicMap) dynamicMap.invalidateSize(); }, 50);
+                setTimeout(() => { if (dynamicMap) dynamicMap.invalidateSize(); }, 250);
+                setTimeout(() => { if (dynamicMap) dynamicMap.invalidateSize(); }, 600);
+                locateUser(false); // Non-blocking locate, does not force freeze
             } else if (screenId === 'screen-diary') {
                 renderDiaryFeed();
             }
