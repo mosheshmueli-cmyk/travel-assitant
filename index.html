@@ -8,75 +8,51 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Travel Assistant">
     
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap');
-        
         * {
             box-sizing: border-box;
-            font-family: 'Heebo', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #f8fafc;
             margin: 0;
             padding: 0;
-            background-color: #f8fafc;
-            color: #0f172a;
-            height: 100vh;
+            color: #1e293b;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
         .header {
-            padding: 30px 20px 20px 20px;
+            padding: 12px 16px;
             background: #ffffff;
             border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
-        }
-
-        .header-titles h1 {
-            margin: 0;
-            font-size: 1.5em;
-            font-weight: 800;
-            color: #1e293b;
-        }
-
-        .header-titles p {
-            margin: 5px 0 0 0;
-            color: #64748b;
-            font-size: 0.9em;
-        }
-
-        .profile-icon {
-            width: 45px;
-            height: 45px;
-            background: #e0f2fe;
-            color: #0284c7;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .screen-container {
             flex-grow: 1;
             position: relative;
-            width: 100%;
             overflow-y: auto;
         }
 
         .screen {
             display: none;
-            width: 100%;
-            min-height: 100%;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.2s ease-in-out;
         }
         
         .screen.active {
@@ -84,33 +60,35 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Home Grid */
+        /* Home Grid: 6 Large Buttons (2 Columns x 3 Rows) */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 20px;
-            padding-bottom: 50px;
+            gap: 14px;
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .nav-btn {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 20px;
-            padding: 15px 8px;
+            padding: 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             color: #334155;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            transition: transform 0.15s, box-shadow 0.15s;
             cursor: pointer;
+            min-height: 120px;
         }
 
         .nav-btn:active {
@@ -119,809 +97,757 @@
         }
 
         .nav-btn i {
-            font-size: 1.8em;
-            margin-bottom: 12px;
+            font-size: 2.2em;
+            margin-bottom: 10px;
         }
 
         .nav-btn span {
-            font-weight: 600;
-            font-size: 0.85em;
+            font-weight: 700;
+            font-size: 1.05em;
             text-align: center;
+            line-height: 1.25;
         }
 
-        /* Specific Colors */
-        .color-route i { color: #8b5cf6; } /* Purple */
-        .color-emergency i { color: #ef4444; } /* Red */
-        .color-logistics i { color: #f59e0b; } /* Orange */
-        .color-alerts i { color: #eab308; } /* Yellow */
-        .color-docs i { color: #10b981; } /* Green */
-        .color-diary i { color: #0ea5e9; } /* Cyan - Journey Diary */
-        .color-map i { color: #ec4899; } /* Pink */
-        .color-ai i { color: #3b82f6; } /* Blue */
+        /* Specific Button Colors */
+        .color-map i { color: #ec4899; } /* Pink / Live Map */
+        .color-route i { color: #8b5cf6; } /* Purple / Route & Docs */
+        .color-alerts i { color: #f59e0b; } /* Orange-Yellow / Alerts */
+        .color-emergency i { color: #ef4444; } /* Red / Emergency */
+        .color-diary i { color: #0ea5e9; } /* Cyan / Journey Diary */
+        .color-ai i { color: #3b82f6; } /* Blue / AI & Logistics */
 
-        /* Inner Screen Elements */
+        /* Top Bar for Screens */
         .top-bar {
-            padding: 15px 20px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
-            background: #f8fafc;
+            gap: 12px;
+            background: white;
             border-bottom: 1px solid #e2e8f0;
             position: sticky;
             top: 0;
-            z-index: 10;
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 1.1em;
-            color: #0284c7;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0;
+            z-index: 20;
         }
 
         .top-bar h2 {
             margin: 0;
             flex-grow: 1;
-            text-align: left;
             font-size: 1.2em;
-            color: #1e293b;
-            padding-right: 15px;
+            font-weight: 800;
+        }
+
+        .back-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: inherit;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .content-padding {
-            padding: 20px;
+            padding: 16px;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
-        /* UI Buttons */
-        .btn-large {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            margin-bottom: 15px;
-            color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .btn-google { background: #4285F4; }
-        .btn-camera { background: #0ea5e9; }
-        .btn-upload { background: #3b82f6; }
-
-        .btn-large:active { opacity: 0.9; transform: scale(0.98); }
-
-        .preview-box {
-            background: white;
-            padding: 12px;
-            border-radius: 15px;
-            border: 1px solid #e2e8f0;
-            margin-top: 15px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
-        .preview-box img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            object-fit: contain;
-        }
-
-        /* Under Construction Toast */
-        #toast {
-            position: fixed;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: bottom 0.3s;
-            z-index: 1000;
-            white-space: nowrap;
-        }
-        
-        .toast-visible {
-            bottom: 30px !important;
-        }
-    
-        
+        /* Ringing Animation */
         @keyframes ring {
             0% { transform: rotate(0); }
             10% { transform: rotate(15deg); }
             20% { transform: rotate(-15deg); }
-            30% { transform: rotate(10deg); }
-            40% { transform: rotate(-10deg); }
-            50% { transform: rotate(5deg); }
-            60% { transform: rotate(-5deg); }
-            70% { transform: rotate(0); }
+            30% { transform: rotate(12deg); }
+            40% { transform: rotate(-12deg); }
+            50% { transform: rotate(0); }
             100% { transform: rotate(0); }
         }
         .ringing-bell {
-            animation: ring 2s infinite;
+            animation: ring 2s infinite ease-in-out;
+            transform-origin: top center;
             display: inline-block;
         }
 
-        /* --- ACCESSIBILITY OVERRIDES (User Feedback from Field) --- */
-        body { font-size: 110%; }
-        .nav-btn span { font-size: 1.15em !important; font-weight: 800 !important; }
-        .nav-btn i { font-size: 2.2em !important; margin-bottom: 8px; }
-        p, span, li, b { font-size: 1.1em; line-height: 1.5; }
-        h1, h2, h3 { font-size: 1.4em; font-weight: 800; }
-        .top-bar h2 { font-size: 1.3em !important; }
-        .header-titles h1 { font-size: 1.8em !important; }
-        /* -------------------------------------------------------- */
+        /* Tab Switcher */
+        .tab-switcher {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 10px;
+            padding: 3px;
+            margin-bottom: 16px;
+            gap: 3px;
+        }
 
+        .tab-btn {
+            flex: 1;
+            padding: 10px 8px;
+            border: none;
+            background: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: inherit;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #1e293b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
     </style>
 
     <!-- Leaflet Map CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMDI4NGM3IiBkPSJNMzgyLjcgMzEuOGMtMTEuMyAyLjktMjAuNiAxMS40LTI0LjIgMjIuN0wzMDcgMTU2LjRjLTEuOCAzLjgtNS41IDYuNy05LjggNy41bC0xMjkuNCAyMS42Yy0xOC40IDMuMS0zMi4yIDE4LjgtMzEuNCAzNy40bC42IDEwYy40IDcuMSAzLjIgMTQgNy44IDE5LjRsMTA2LjUgMTA2LjVjNC43IDQuNyAxMC45IDcuNSAxNy41IDguMmwxMTEgMTFjNy40LjggMTQuNCA0LjUgMTkgMTAuM2w3MS41IDgzYzEwLjEgMTEuNyAyNiA1IDMwLjYtOS42TDUxMiAxNjh6Ii8+PC9zdmc+">
 </head>
 <body>
 
-    <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: white; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;">
-        <button onclick="window.location.href=window.location.href.split('?')[0]+'?t='+new Date().getTime()" style="background: #22c55e; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <!-- Header -->
+    <div class="header">
+        <button onclick="window.location.href=window.location.href.split('?')[0]+'?t='+new Date().getTime()" style="background: #22c55e; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <span><i class="fa-solid fa-arrows-rotate"></i> רענן</span>
-            <span style="font-size: 0.75em; opacity: 0.9;">V4.0</span>
+            <span style="font-size: 0.7em; opacity: 0.9;">V4.2</span>
         </button>
         
         <div style="font-weight: bold; color: #334155; text-align: center;">
-            <div style="font-size: 1.1em; letter-spacing: -0.5px;">Travel Assistant</div>
-            <div style="font-size: 0.8em; color: #64748b;">סייען טיולים</div>
+            <div style="font-size: 1.15em; letter-spacing: -0.5px;">Travel Assistant</div>
+            <div style="font-size: 0.8em; color: #64748b;">סייען טיולים אישי</div>
         </div>
 
-        <button onclick="window.close(); window.location.href='about:blank';" style="background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <button onclick="window.close(); window.location.href='about:blank';" style="background: #ef4444; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <span><i class="fa-solid fa-power-off"></i> יציאה</span>
-            <span style="font-size: 0.75em; opacity: 0.9;">סגירה</span>
+            <span style="font-size: 0.7em; opacity: 0.9;">סגירה</span>
         </button>
     </div>
-        
 
+    <!-- Main Screens Container -->
     <div class="screen-container">
         
-                        <!-- ================= HOME SCREEN ================= -->
+        <!-- ================= 1. HOME SCREEN (6 BUTTONS GRID) ================= -->
         <div id="screen-home" class="screen active">
             <div class="grid-container">
-                <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
-                    <i class="fa-solid fa-map-location-dot"></i><span>ניווט במפה דינמית</span>
-                </div>
+                <!-- שורה 1: ימין = תיק טיול ומסמכים | שמאל = מסלול טיול בזמן אמת -->
                 <div class="nav-btn color-route" onclick="switchScreen('screen-route')">
-                    <i class="fa-solid fa-route"></i><span>תיק הטיול</span>
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>תיק טיול ומסמכים</span>
                 </div>
+                <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>מסלול טיול בזמן אמת</span>
+                </div>
+
+                <!-- שורה 2: ימין = חירום | שמאל = התראות -->
                 <div class="nav-btn color-emergency" onclick="switchScreen('screen-emergency')">
-                    <i class="fa-solid fa-kit-medical"></i><span>חירום</span>
-                </div>
-                <div class="nav-btn color-logistics" onclick="switchScreen('screen-logistics')">
-                    <div><i class="fa-solid fa-bed"></i> <i class="fa-solid fa-utensils" style="margin-right: 8px;"></i></div><span>לינה ומזון</span>
+                    <i class="fa-solid fa-kit-medical"></i>
+                    <span>חירום</span>
                 </div>
                 <div class="nav-btn color-alerts" onclick="switchScreen('screen-alerts')">
-                    <i class="fa-solid fa-bell ringing-bell"></i><span>התראות בלת"ם</span>
+                    <i class="fa-solid fa-bell ringing-bell"></i>
+                    <span>התראות</span>
                 </div>
-                <div class="nav-btn color-docs" onclick="switchScreen('screen-docs')">
-                    <i class="fa-solid fa-passport"></i><span>מסמכים</span>
+
+                <!-- שורה 3: ימין = סייען AI (כולל לינה ומזון) | שמאל = יומן מסע -->
+                <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>סייען AI</span>
                 </div>
                 <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
-                    <i class="fa-solid fa-camera-retro"></i><span>יומן מסע</span>
-                </div>
-                <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
-                    <i class="fa-solid fa-robot"></i><span>סייען AI</span>
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <span>יומן מסע</span>
                 </div>
             </div>
             
-        </div>
-
-        <!-- ================= DOCS SCREEN ================= -->
-        <div id="screen-docs" class="screen">
-            <div class="top-bar">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>מסמכים (מנהלה)</h2>
-            </div>
-            
-            <div class="content-padding">
-                <p style="color: #64748b; font-size: 0.85em;">
-                    ספריית המסמכים הסטטית של הטיול: כרטיסי טיסה, דרכונים, ויזות ומרשמי תרופות. 
-                    <br><br>
-                    (המסך נמצא בבנייה - שלב 2)
-                </p>
+            <div style="text-align: center; color: #94a3b8; font-size: 0.85em; margin-top: 10px;">
+                <i class="fa-solid fa-location-dot"></i> יעד פעיל: הכנה לטיול נתניה (הדמיה) + קוריאה הדרומית
             </div>
         </div>
 
-        <!-- ================= DIARY SCREEN ================= -->
-        <div id="screen-diary" class="screen">
-            <div class="top-bar">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>יומן מסע</h2>
-            </div>
-            
-            <div class="content-padding">
-                <p style="color: #64748b; font-size: 0.9em; margin-top: 0; margin-bottom: 20px;">
-                    כאן אתה יוצר ומתעד את הטיול בזמן אמת. צלם חוויות והן יגובו ישירות לתיקיית TA/KORIA/PHOTOS בענן.
-                </p>
-
-                <!-- Auth Section -->
-                <div id="auth-section">
-                    <a id="btn-google-login" href="#" class="btn-large btn-google">
-                        <i class="fa-brands fa-google"></i> חיבור ענן (לגיבוי התמונות)
-                    </a>
-                </div>
-                
-                <div id="auth-success" style="display:none; color: #10b981; background: #d1fae5; padding: 12px; border-radius: 8px; text-align:center; font-weight: 600; margin-bottom: 20px;">
-                    <i class="fa-solid fa-check-circle"></i> מחובר ל-Google Drive
-                </div>
-
-                <!-- Camera Action -->
-                <button class="btn-large btn-camera" onclick="document.getElementById('camera-input').click()">
-                    <i class="fa-solid fa-camera"></i> תיעוד חוויה (מצלמה)
-                </button>
-                <input type="file" id="camera-input" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-                
-                <!-- Preview & Upload Section -->
-                <div id="preview-section" class="preview-box" style="display: none;">
-                    <img id="image-preview" src="">
-                    <button id="btn-upload" class="btn-large btn-upload" onclick="startUpload()">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> גיבוי לתמונות (TA/KORIA/PHOTOS)
-                    </button>
-                    <div id="upload-status" style="font-weight: 600; margin-top: 10px;"></div>
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- ================= MAP SCREEN ================= -->
+        <!-- ================= 2. LIVE MAP SCREEN ================= -->
         <div id="screen-map" class="screen">
-            <div class="top-bar">
+            <div class="top-bar" style="background: #fdf2f8;">
                 <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>ניווט במפה דינמית</h2>
+                <h2 style="color: #9d174d;"><i class="fa-solid fa-map-location-dot"></i> מסלול טיול בזמן אמת</h2>
+            </div>
+
+            <!-- GPS Control Bar -->
+            <div style="background: white; padding: 10px 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                <div id="gps-status-text" style="font-size: 0.88em; color: #0284c7; font-weight: bold;">
+                    <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום נוכחי בישראל...
+                </div>
+                <button onclick="locateUser()" style="background: #ec4899; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(236,72,153,0.3);">
+                    <i class="fa-solid fa-crosshairs"></i> המיקום שלי
+                </button>
+            </div>
+
+            <!-- Focus Selector: Netanya vs Korea vs My GPS -->
+            <div style="background: #f8fafc; padding: 8px 16px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 8px; overflow-x: auto;">
+                <button onclick="locateUser()" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; white-space: nowrap;">📍 מיקום GPS חי</button>
+                <button onclick="focusNetanya()" style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; white-space: nowrap;">🏖️ טיול מחר: נתניה</button>
+                <button onclick="focusSeoul()" style="background: #f5f3ff; border: 1px solid #ddd6fe; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; white-space: nowrap;">🏯 סיאול (קוריאה)</button>
             </div>
             
-            <div id="map-container" style="width: 100%; height: calc(100vh - 65px); z-index: 1;"></div>
+            <div id="map-container" style="width: 100%; height: calc(100vh - 170px); z-index: 1;"></div>
         </div>
 
-
-        
-                <!-- ================= ROUTE SCREEN ================= -->
+        <!-- ================= 3. ROUTE & DOCS SCREEN ================= -->
         <div id="screen-route" class="screen">
-            <div class="top-bar">
+            <div class="top-bar" style="background: #f5f3ff;">
                 <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>תיק הטיול (טיוטה)</h2>
+                <h2 style="color: #6d28d9;"><i class="fa-solid fa-folder-open"></i> תיק טיול ומסמכים</h2>
             </div>
-            <div class="content-padding" style="padding-bottom: 80px;">
-                <p style="color: #64748b; font-size: 0.9em;">(דוגמה לתרגום סיעור מוחות לתוך תיק הטיול)</p>
-                <div style="background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 15px;">
-                    <h3 style="margin-top:0; color: #0f172a;"><i class="fa-solid fa-bullseye" style="color:#8b5cf6;"></i> קוריאה: חוויות אותנטיות</h3>
-                    <ul style="padding-right: 20px; color: #334155; line-height: 1.6;">
-                        <li><b>חץ וקשת:</b> התנסות ליד הארמון בלי לשרוף יום.</li>
-                        <li><b>סדנת תה (Dado):</b> הפוגה מרגיעה ובריאה אחרי ארוחת צהריים.</li>
-                        <li><b>זריחה בהר:</b> חווית טבע מוקדמת.</li>
-                        <li><b>סדנת יופי (K-Beauty):</b> טיפוח קוריאני.</li>
-                    </ul>
+            
+            <div class="content-padding" style="padding-bottom: 50px;">
+                <!-- Tab switcher: Itinerary vs Documents -->
+                <div class="tab-switcher">
+                    <button class="tab-btn active" onclick="showRouteSubTab('tab-itinerary')"><i class="fa-solid fa-route"></i> מסלול הטיול (נתניה וקוריאה)</button>
+                    <button class="tab-btn" onclick="showRouteSubTab('tab-documents')"><i class="fa-solid fa-passport"></i> מסמכים אישיים ומנהלה</button>
                 </div>
 
-                <div style="background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 15px;">
-                    <h3 style="margin-top:0; color: #0f172a;"><i class="fa-solid fa-plane" style="color:#0ea5e9;"></i> לוגיסטיקה: משולש הזהב</h3>
-                    <p style="margin:0; color: #334155; line-height: 1.6;">
-                        התחבורה מתבססת על האיזון: <b>הכי זול + הכי בטוח + הכי מהיר</b>.
+                <!-- Sub Tab: Itinerary -->
+                <div id="tab-itinerary">
+                    <!-- Tomorrow Netanya Prep -->
+                    <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-weight: 800; color: #9d174d; font-size: 1.1em;"><i class="fa-solid fa-flag-checkered"></i> הכנה לטיול מחר: נתניה (הדמיית שטח)</span>
+                            <span style="background: #ec4899; color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold;">בדיקת מערכת</span>
+                        </div>
+                        <p style="margin: 0 0 12px 0; color: #475569; font-size: 0.9em; line-height: 1.5;">
+                            מסלול בדיקה מותאם לקראת הטיול לקוריאה: הליכה נוחה, נגישות מלאה, נוף וחניות מוסדרות.
+                        </p>
+                        
+                        <!-- Station 1 -->
+                        <div style="background: white; border-radius: 10px; padding: 12px; margin-bottom: 10px; border-right: 4px solid #ec4899;">
+                            <div style="font-weight: bold; color: #1e293b;">1. טיילת הראשונים ומעלית הים (חוף סירונית)</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-clock"></i> שהייה מומלצת: 45 דק' | <i class="fa-solid fa-square-parking"></i> חניה צמודה בטיילת</div>
+                            <div style="font-size: 0.85em; color: #334155;">ירידה נוחה במעלית שקופה ישירות לחוף, מתאים לחלוטין לנגישות והליכה מתונה.</div>
+                        </div>
+
+                        <!-- Station 2 -->
+                        <div style="background: white; border-radius: 10px; padding: 12px; margin-bottom: 10px; border-right: 4px solid #3b82f6;">
+                            <div style="font-weight: bold; color: #1e293b;">2. כיכר העצמאות והמזרקה האינטראקטיבית</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-clock"></i> שהייה מומלצת: שעה | <i class="fa-solid fa-utensils"></i> שפע בתי קפה ומסעדות כשרות</div>
+                            <div style="font-size: 0.85em; color: #334155;">מדרחוב שטוח, ספסלים מוצלים, הפסקת קפה והתרעננות.</div>
+                        </div>
+
+                        <!-- Station 3 -->
+                        <div style="background: white; border-radius: 10px; padding: 12px; border-right: 4px solid #10b981;">
+                            <div style="font-weight: bold; color: #1e293b;">3. שמורת האירוסים וטיילת המצוק הדרומי</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-clock"></i> שהייה מומלצת: 40 דק' | <i class="fa-solid fa-shoe-prints"></i> שביל עץ מונגש</div>
+                            <div style="font-size: 0.85em; color: #334155;">מסלול טבע קל מול הים, פתוח ורחב ללא עליות תלולות.</div>
+                        </div>
+                    </div>
+
+                    <!-- Korea Trip Blueprint -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                        <h3 style="margin-top:0; color: #6d28d9;"><i class="fa-solid fa-plane-departure"></i> קוריאה הדרומית (22-11-26) - תיק היעד</h3>
+                        <ul style="padding-right: 20px; color: #334155; line-height: 1.6; font-size: 0.9em; margin: 0;\">
+                            <li><b>24 גמלאים צעירים ברוחם:</b> דגש על נוחות, מרחקי הליכה קצרים מחניות לאתרים ומנוחה.</li>
+                            <li><b>חוויות מקומיות:</b> סדנת תה Dado, חץ וקשת מסורתי, והופעות תרבות.</li>
+                            <li><b>אילוצי ברזל:</b> התאמה מלאה לשומרי שבת וכשרות.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sub Tab: Documents -->
+                <div id="tab-documents" style="display: none;">
+                    <p style="text-align:center; color: #64748b; font-size: 0.88em; margin-bottom: 16px;">
+                        <i class="fa-solid fa-shield-halved" style="color:#10b981;"></i> מסמכי הטיול מאובטחים וזמינים גם ללא אינטרנט (Offline).
                     </p>
+
+                    <!-- Passport Card -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 14px;">
+                        <div style="background: #e2e8f0; color: #334155; width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4em; flex-shrink: 0;">
+                            <i class="fa-solid fa-passport"></i>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <div style="font-weight: bold; color: #1e293b;">דרכון ישראלי (ביומטרי)</div>
+                            <div style="color: #64748b; font-size: 0.82em;">תוקף: 12/2029 | מספר: 24891002</div>
+                        </div>
+                        <button onclick="alert('הצגת תמונת דרכון שמורה במכשיר')" style="background: none; border: none; color: #0284c7; font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+
+                    <!-- Flight Card -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 14px;">
+                        <div style="background: #e0f2fe; color: #0284c7; width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4em; flex-shrink: 0;">
+                            <i class="fa-solid fa-plane"></i>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <div style="font-weight: bold; color: #1e293b;">כרטיסי טיסה (אל על / קוריאן)</div>
+                            <div style="color: #64748b; font-size: 0.82em;">LY082 | טרמינל 3 | כרטיס אלקטרוני</div>
+                        </div>
+                        <button onclick="alert('ברקוד העלייה למטוס מוצג למסך')" style="background: none; border: none; color: #0284c7; font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-qrcode"></i></button>
+                    </div>
+
+                    <!-- Insurance Card -->
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 12px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 14px;">
+                        <div style="background: #dcfce7; color: #16a34a; width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4em; flex-shrink: 0;">
+                            <i class="fa-solid fa-file-medical"></i>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <div style="font-weight: bold; color: #1e293b;">פוליסת ביטוח רפואי מורחבת</div>
+                            <div style="color: #64748b; font-size: 0.82em;">כיסוי מלא + ביטול ובלת\"מים | חיוג מוקד 24/7</div>
+                        </div>
+                        <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: none; border: none; color: #16a34a; font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-phone"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
 
-                        <!-- ================= EMERGENCY SCREEN ================= -->
+        <!-- ================= 4. EMERGENCY SCREEN ================= -->
         <div id="screen-emergency" class="screen">
             <div class="top-bar" style="background: #ef4444;">
-                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color:white;">מרכז חירום</h2>
-            </div>
-            <div class="content-padding" style="padding-bottom: 80px;">
-                <p style="text-align:center; color: #ef4444; font-weight: bold; margin-top: 0;"><i class="fa-solid fa-crosshairs"></i> מיקום מזוהה: קניון COEX, סיאול</p>
-                
-                <div style="background: #fee2e2; border: 2px solid #ef4444; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2); overflow: hidden;">
-                    <div style="background: #ef4444; color: white; padding: 10px; font-weight: bold; font-size: 1.1em; display: flex; align-items: center;">
-                        <i class="fa-solid fa-triangle-exclamation" style="margin-left: 10px; font-size: 1.2em;"></i> הכוונת AI (סימולציית אמת)
-                    </div>
-                    <div style="padding: 15px;">
-                        <p style="margin: 0 0 10px 0; color: #7f1d1d; font-weight: bold; font-size: 1.1em;">רעידת אדמה הורגשה באזורך.</p>
-                        <div style="background: white; padding: 10px; border-radius: 8px; border-right: 4px solid #ef4444;">
-                            <p style="margin: 0 0 8px 0; font-weight: bold; color: #1e293b;">הוראות מיידיות "לך":</p>
-                            <ol style="margin: 0; padding-right: 20px; color: #334155; line-height: 1.6; font-size: 0.95em; font-weight: bold;">
-                                <li>צא מהחנות עכשיו. אל תשתמש במעלית!</li>
-                                <li>פנה שמאלה לכיוון יציאה מס' 3 (חפש מולך את השלט המואר של "Starbucks").</li>
-                                <li>בחוץ, חצה את הכביש הישר לפארק. התרחק מהבניין המרכזי עם הזכוכיות.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">כוחות הצלה (חיוג בנגיעה)</h3>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
-                    <a href="tel:119" style="background: #fee2e2; border: 1px solid #fca5a5; padding: 15px 5px; border-radius: 12px; text-align: center; text-decoration: none; color: #991b1b; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <i class="fa-solid fa-truck-medical" style="font-size: 1.5em; margin-bottom: 5px;"></i>אמבולנס
-                    </a>
-                    <a href="tel:112" style="background: #e0f2fe; border: 1px solid #7dd3fc; padding: 15px 5px; border-radius: 12px; text-align: center; text-decoration: none; color: #075985; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <i class="fa-solid fa-shield-halved" style="font-size: 1.5em; margin-bottom: 5px;"></i>משטרה
-                    </a>
-                    <a href="tel:119" style="background: #ffedd5; border: 1px solid #fdba74; padding: 15px 5px; border-radius: 12px; text-align: center; text-decoration: none; color: #9a3412; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <i class="fa-solid fa-fire" style="font-size: 1.5em; margin-bottom: 5px;"></i>מכבי אש
-                    </a>
-                </div>
-
-                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">רפואה וקונסוליה</h3>
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="padding: 12px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center;">
-                        <i class="fa-solid fa-hospital" style="color: #ef4444; font-size: 1.2em; margin-left: 15px;"></i>
-                        <div>
-                            <div style="font-weight: bold; color: #1e293b;">בי"ח קרוב: Seoul National</div>
-                            <div style="font-size: 0.85em; color: #64748b;">מרחק: 2.3 ק"מ | הליכה: 25 דק'</div>
-                        </div>
-                    </div>
-                    <div style="padding: 12px; display: flex; align-items: center;">
-                        <i class="fa-solid fa-building-flag" style="color: #3b82f6; font-size: 1.2em; margin-left: 15px;"></i>
-                        <div>
-                            <div style="font-weight: bold; color: #1e293b;">שגרירות ישראל בסיאול</div>
-                            <div style="font-size: 0.85em; color: #64748b;">טלפון משרד: +82-2-3210-8500</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-                <!-- ================= LOGISTICS SCREEN ================= -->
-        <div id="screen-logistics" class="screen">
-            <div class="top-bar" style="background: #eab308;">
-                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:#451a03;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color:#451a03;">לינה ומזון</h2>
-            </div>
-            <div class="content-padding" style="padding-bottom: 80px;">
-                <p style="text-align:center; color: #713f12; font-size: 0.9em; margin-bottom: 20px;">הלוגיסטיקה הקשיחה שלך, נגישה תמיד (גם ללא אינטרנט).</p>
-
-                <!-- Hotel Section -->
-                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;"><i class="fa-solid fa-bed" style="color: #ca8a04;"></i> המלון הנוכחי</h3>
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
-                    <div style="background: #fef08a; padding: 10px 15px; font-weight: bold; color: #713f12; border-bottom: 1px solid #fde047;">
-                        Lotte Hotel Seoul (5 כוכבים)
-                    </div>
-                    <div style="padding: 15px;">
-                        <p style="margin: 0 0 5px 0; color: #475569; font-size: 0.9em;"><b>צ'ק אין:</b> 12 באוקטובר, 15:00</p>
-                        <p style="margin: 0 0 15px 0; color: #475569; font-size: 0.9em;"><b>צ'ק אאוט:</b> 17 באוקטובר, 11:00</p>
-                        
-                        <div style="display: flex; gap: 10px;">
-                            <button style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; border-radius: 6px; color: #334155; font-weight: bold;">
-                                <i class="fa-solid fa-map-location-dot" style="color: #3b82f6;"></i> נווט למלון
-                            </button>
-                            <button style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px; border-radius: 6px; color: #334155; font-weight: bold;">
-                                <i class="fa-solid fa-file-pdf" style="color: #ef4444;"></i> הצג שובר
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Food Section -->
-                <h3 style="color: #334155; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;"><i class="fa-solid fa-utensils" style="color: #ea580c;"></i> אפשרויות מזון (מותאם להעדפותיך)</h3>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-right: 4px solid #ea580c;">
-                        <div style="font-weight: bold; color: #1e293b; margin-bottom: 4px;">Balwoo Gongyang (טבעוני)</div>
-                        <div style="font-size: 0.85em; color: #64748b; margin-bottom: 8px;"><i class="fa-solid fa-person-walking"></i> 7 דק' הליכה מהמלון שלך</div>
-                        <div style="font-size: 0.85em; color: #475569; line-height: 1.4;">
-                            מסעדה המבוססת על אוכל נזירים בודהיסטי. אידיאלית לארוחת ערב בריאה. שוריינה עבורך למחר ב-19:00.
-                        </div>
-                    </div>
-
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-right: 4px solid #3b82f6;">
-                        <div style="font-weight: bold; color: #1e293b; margin-bottom: 4px;">בית חב"ד סיאול (כשר)</div>
-                        <div style="font-size: 0.85em; color: #64748b; margin-bottom: 8px;"><i class="fa-solid fa-taxi"></i> 15 דק' נסיעה במונית</div>
-                        <div style="font-size: 0.85em; color: #475569; line-height: 1.4;">
-                            זמין עבור ארוחות שבת. מומלץ ליצור קשר יום מראש להזמנת ארוחות ארוזות לטיול.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-                <!-- ================= KOSHER & VEGAN SCANNER ================= -->
-                <h3 style="color: #334155; margin-top: 25px; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;">
-                    <i class="fa-solid fa-leaf" style="color: #22c55e;"></i> סורק מזון (כשר וטבעוני)
-                </h3>
-                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; margin-bottom: 20px; padding: 15px; box-shadow: 0 4px 6px rgba(34, 197, 94, 0.1);">
-                    <p style="margin-top: 0; color: #166534; font-size: 0.9em; text-align: center;">זיהוי מיידי של מוצרים כשרים/טבעוניים בסופרמרקט (מבוסס מערכת "זה כשר")</p>
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <button onclick="window.open('https://wa.me/972559943899', '_blank')" style="background: #22c55e; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <i class="fa-solid fa-barcode"></i> סרוק ברקוד לבוט הוואטסאפ
-                        </button>
-                        <button onclick="window.open('https://kosher.global/zekasher/', '_blank')" style="background: #ffffff; color: #166534; border: 2px solid #22c55e; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                            <i class="fa-solid fa-earth-asia"></i> חפש במאגר דרום קוריאה
-                        </button>
-                    </div>
-                </div>
-            </div>
-        <!-- ================= ALERTS SCREEN ================= -->
-        <div id="screen-alerts" class="screen">
-            <div class="top-bar" style="background: #f97316;">
-                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color:white;">התראות בלת"ם</h2>
-            </div>
-            <div class="content-padding" style="padding-bottom: 80px;">
-                <p style="text-align:center; color: #c2410c; font-weight: bold; margin-bottom: 20px;"><i class="fa-solid fa-satellite-dish"></i> סריקת נתונים חיה...</p>
-
-                <!-- High Priority Alert -->
-                <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; margin-bottom: 15px; border-right: 5px solid #ef4444; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="font-weight: bold; color: #991b1b;"><i class="fa-solid fa-cloud-showers-heavy"></i> שינוי מזג אוויר צפוי</span>
-                        <span style="font-size: 0.75em; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">לפני 5 דק'</span>
-                    </div>
-                    <p style="margin: 0; font-size: 0.9em; color: #475569; line-height: 1.4;">
-                        גשם כבד צפוי להתחיל בשעה 14:00 באזור השוק (איפה שאתה מתוכנן להיות). 
-                        <b>המלצת המערכת:</b> להקדים את ארוחת הצהריים ולהיכנס למסעדה מקורה עכשיו.
-                    </p>
-                </div>
-
-                <!-- Medium Priority Alert -->
-                <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; margin-bottom: 15px; border-right: 5px solid #f59e0b; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="font-weight: bold; color: #b45309;"><i class="fa-solid fa-train"></i> עיכוב בתחבורה ציבורית</span>
-                        <span style="font-size: 0.75em; color: #d97706; background: #fef3c7; padding: 2px 6px; border-radius: 4px;">לפני שעה</span>
-                    </div>
-                    <p style="margin: 0; font-size: 0.9em; color: #475569; line-height: 1.4;">
-                        תקלה בקו התחתית הירוק (Line 2). ייתכנו עיכובים של 20 דקות. אם אתה יוצא לכיוון המוזיאון, מומלץ לקחת מונית עכשיו כדי לא לאחר לסיור שהוזמן.
-                    </p>
-                </div>
-
-                <!-- Info Alert -->
-                <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; margin-bottom: 15px; border-right: 5px solid #0ea5e9; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="font-weight: bold; color: #0369a1;"><i class="fa-solid fa-plane-circle-check"></i> סטטוס טיסה</span>
-                        <span style="font-size: 0.75em; color: #0284c7; background: #e0f2fe; padding: 2px 6px; border-radius: 4px;">היום בבוקר</span>
-                    </div>
-                    <p style="margin: 0; font-size: 0.9em; color: #475569; line-height: 1.4;">
-                        טיסת אל-על חזרה לארץ (LY082) מתוכננת לצאת בזמן. שער העלייה למטוס עודכן ל-G45.
-                    </p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ================= AI SCREEN ================= -->
-        <div id="screen-ai" class="screen">
-            <div class="top-bar">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2>סייען AI (בזמן אמת)</h2>
-            </div>
-            <div class="content-padding">
-                <p style="color: #64748b; font-size: 0.9em; margin-bottom: 20px;">
-                    התכנון כבר נעשה מראש בבית. תפקיד הסייען כאן הוא ללוות אותך ולפתור בעיות <b>בזמן אמת</b> בשטח.
-                </p>
-                <div style="background: #e0f2fe; padding: 15px; border-radius: 12px; border-right: 4px solid #0284c7; margin-bottom: 15px;">
-                    <p style="margin: 0; color: #0369a1; font-weight: bold; font-size: 0.95em;"><i class="fa-solid fa-robot"></i> מה אפשר לבקש ממנו בשטח?</p>
-                    <ul style="padding-right: 20px; color: #0c4a6e; line-height: 1.6; font-size: 0.9em; margin-top: 8px;">
-                        <li><b>בלת"ם:</b> "התחיל פתאום גשם, תמצא לנו מוזיאון מקורה קרוב אלינו עכשיו."</li>
-                        <li><b>תרגום והתמצאות:</b> "תצלם את התפריט/השלט הקוריאני הזה ותסביר לי מה כתוב בו."</li>
-                        <li><b>הזדמנויות כאן ועכשיו:</b> "אנחנו עומדים עכשיו מחוץ לארמון ויש לנו חצי שעה פנויה, מה כדאי לעשות ממש פה ברדיוס הקרוב?"</li>
-                    </ul>
-                </div>
-                <button class="btn-large" style="background: #0284c7; color: white;">
-                    <i class="fa-solid fa-microphone"></i> לחץ כדי להתייעץ
-                </button>
-            </div>
-        </div>
-
-    </div> <!-- End of screen-container -->
-
-    <div id="toast">המסך בבנייה (שלב 2)        <!-- ================= DOCS SCREEN ================= -->
-        <div id="screen-docs" class="screen">
-            <div class="top-bar" style="background: #475569;">
-                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color:white;">מסמכים אישיים</h2>
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white; background: rgba(255,255,255,0.2); border: none;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;"><i class="fa-solid fa-kit-medical"></i> מרכז חירום והצלה</h2>
             </div>
             
-            <div class="content-padding" style="padding-bottom: 20px;">
-                <p style="text-align:center; color: #64748b; font-size: 0.9em; margin-bottom: 20px;">
-                    <i class="fa-solid fa-shield-halved"></i> זמין גם ללא חיבור לאינטרנט (Offline)
-                </p>
-
-                <!-- Passport -->
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
-                    <div style="background: #e2e8f0; color: #334155; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0;">
-                        <i class="fa-solid fa-passport"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <h3 style="margin: 0; color: #1e293b; font-size: 1.1em;">דרכון</h3>
-                        <p style="margin: 0; color: #64748b; font-size: 0.85em;">תוקף: 12/2029</p>
-                    </div>
-                    <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-download"></i></button>
-                </div>
-
-                <!-- Flight Tickets -->
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
-                    <div style="background: #e0f2fe; color: #0284c7; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0;">
-                        <i class="fa-solid fa-plane-ticket"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <h3 style="margin: 0; color: #1e293b; font-size: 1.1em;">כרטיס טיסה חזור</h3>
-                        <p style="margin: 0; color: #64748b; font-size: 0.85em;">LY082 - ברקוד להצגה</p>
-                    </div>
-                    <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-qrcode"></i></button>
-                </div>
-
-                <!-- Insurance -->
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 15px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px;">
-                    <div style="background: #dcfce7; color: #16a34a; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; flex-shrink: 0;">
-                        <i class="fa-solid fa-file-medical"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <h3 style="margin: 0; color: #1e293b; font-size: 1.1em;">ביטוח רפואי מורחב</h3>
-                        <p style="margin: 0; color: #64748b; font-size: 0.85em;">פוליסה מס' 983726</p>
-                    </div>
-                    <button style="background: none; border: none; color: #0284c7; font-size: 1.5em; cursor: pointer;"><i class="fa-solid fa-file-pdf"></i></button>
-                </div>
-
-            </div>
-        </div>
-            <!-- ================= DIARY SCREEN ================= -->
-        <div id="screen-diary" class="screen">
-            <div class="top-bar" style="background: #0ea5e9;">
-                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color:white;">יומן מסע אישי</h2>
-            </div>
-            
-            <div class="content-padding" style="padding-bottom: 20px;">
-                <p style="text-align:center; color: #64748b; font-size: 0.9em; margin-bottom: 20px;">
-                    תיעוד חוויות וזיכרונות שנשמרים ישירות לתיק הטיול (מגובה בענן)
-                </p>
-
-                <!-- Camera/Upload Buttons -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
-                    <label style="background: #0ea5e9; color: white; border: none; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2); cursor: pointer; text-align: center;">
-                        <i class="fa-solid fa-camera" style="font-size: 2em; margin-bottom: 10px;"></i>
-                        צלם עכשיו
-                        <input type="file" accept="image/*" capture="environment" style="display: none;" onchange="alert('מעולה! התמונה נקלטה. בשלב הבא של הפיתוח היא תופיע מיד ביומן המסע.')">
-                    </label>
-                    <button style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 20px; border-radius: 12px; font-size: 1.1em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer;" onclick="alert('סימולציה: פותח פנקס טקסט מהיר...')">
-                        <i class="fa-solid fa-pen-clip" style="font-size: 2em; margin-bottom: 10px;"></i>
-                        כתוב פתק
+            <div class="content-padding" style="padding-bottom: 40px;">
+                <!-- Local Emergency Numbers -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                    <button onclick="window.location.href='tel:100'" style="background: #fee2e2; border: 2px solid #ef4444; color: #991b1b; padding: 16px; border-radius: 14px; font-weight: bold; font-size: 1.1em; cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+                        <i class="fa-solid fa-shield" style="font-size: 1.8em; margin-bottom: 6px; color:#ef4444;"></i>
+                        משטרה (100)
+                    </button>
+                    <button onclick="window.location.href='tel:101'" style="background: #fee2e2; border: 2px solid #ef4444; color: #991b1b; padding: 16px; border-radius: 14px; font-weight: bold; font-size: 1.1em; cursor: pointer; display: flex; flex-direction: column; align-items: center;">
+                        <i class="fa-solid fa-truck-medical" style="font-size: 1.8em; margin-bottom: 6px; color:#ef4444;"></i>
+                        מד"א / אמבולנס (101)
                     </button>
                 </div>
 
-                <!-- Feed -->
-                <h3 style="color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 15px;">הזיכרונות שלי מכאן</h3>
-                
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #64748b; font-size: 0.85em;">
-                        <span><i class="fa-solid fa-location-dot"></i> קניון COEX</span>
-                        <span><i class="fa-regular fa-clock"></i> היום, 14:30</span>
+                <!-- Two-way Voice Emergency Interpreter -->
+                <div style="background: white; border: 1px solid #fecaca; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(239,68,68,0.06);">
+                    <h3 style="margin-top:0; color: #991b1b;"><i class="fa-solid fa-headset"></i> מתורגמן חירום קולי דו-כיווני</h3>
+                    <p style="font-size: 0.88em; color: #475569; line-height: 1.5; margin-bottom: 12px;">
+                        בלחיצת כפתור המערכת פותחת תקשורת קולית מול שוטר, פרמדיק או נהג מקומי ומתרגמת ישירות לשפתו ובחזרה.
+                    </p>
+                    <button onclick="alert('הפעלת מתורגמן חירום: שלום, אני זקוק לסיוע רפואי דחוף!')" style="width: 100%; background: #ef4444; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <i class="fa-solid fa-microphone-lines"></i> הפעל מתורגמן חירום עכשיו
+                    </button>
+                </div>
+
+                <!-- Quick shortcut to World Health Map -->
+                <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-weight: bold; color: #92400e;"><i class="fa-solid fa-heart-pulse"></i> מפת בריאות עולמית וחיסונים</div>
+                        <div style="font-size: 0.82em; color: #78350f;">בדיקת אזורי מלריה, דלקת קרום המוח ואזורים נקיים</div>
                     </div>
-                    <div style="background: #f1f5f9; height: 150px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 2em; margin-bottom: 10px;">
-                        <i class="fa-solid fa-image"></i>
-                    </div>
-                    <p style="margin: 0; color: #1e293b; font-size: 1.05em; font-weight: bold;">הדוכן של הקימצ'י ליד המטרו</p>
-                    <p style="margin: 5px 0 0 0; color: #475569; font-size: 0.95em;">היה מדהים, לא לשכוח לחזור לפה ביום האחרון!</p>
+                    <button onclick="switchScreen('screen-alerts')" style="background: #f59e0b; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">בדוק</button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- ================= 5. ALERTS & WORLD HEALTH SCREEN ================= -->
+        <div id="screen-alerts" class="screen">
+            <div class="top-bar" style="background: #f59e0b;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white; background: rgba(255,255,255,0.2); border: none;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;"><i class="fa-solid fa-bell"></i> התראות בלת"ם ובריאות</h2>
+            </div>
+
+            <div class="content-padding" style="padding-bottom: 50px;">
+                <!-- ================= WORLD HEALTH MAP SECTION ================= -->
+                <div id="world-health-section" style="background: white; border: 2px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 22px; box-shadow: 0 4px 6px rgba(0,0,0,0.04);">
+                    <h3 style="margin-top:0; color: #0f172a; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-earth-americas" style="color: #0284c7;"></i>
+                        מפת בריאות עולמית ואזהרות מסע
+                    </h3>
+                    <p style="color: #64748b; font-size: 0.85em; margin-top: 0; margin-bottom: 12px;">
+                        סיווג רפואי רשמי ליעדי הטיול – מניעת מחלות, חיסונים והנחיות התגוננות:
+                    </p>
+
+                    <!-- Health Color Coding -->
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Green Zone -->
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 6px solid #22c55e; border-radius: 10px; padding: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-weight: 800; color: #166534;">🟢 אזור נקי (ירוק)</span>
+                                <span style="font-size: 0.75em; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px; font-weight: bold;">בטוח לחלוטין</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #1e293b; line-height: 1.4;">
+                                <b>יעדים:</b> ישראל, מערב אירופה, סיאול ודרום קוריאה (אזורים עירוניים).<br>
+                                <b>הנחיות:</b> אין צורך בטיפול מונע ייעודי. חיסוני שגרה סטנדרטיים בלבד.
+                            </div>
+                        </div>
+
+                        <!-- Yellow Zone: Malaria -->
+                        <div style="background: #fefce8; border: 1px solid #fef08a; border-right: 6px solid #eab308; border-radius: 10px; padding: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-weight: 800; color: #854d0e;">🟡 אזור צהוב - סכנת מלריה</span>
+                                <span style="font-size: 0.75em; background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 4px; font-weight: bold;">דרוש טיפול מונע</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #1e293b; line-height: 1.4;">
+                                <b>יעדים:</b> אזורים כפריים וטרופיים (אסיה, אפריקה, מקטעי יער מסוימים).<br>
+                                <b>הנחיות:</b> חובת נטילת כדורי מלרון (Malarone), שימוש קבוע בתכשיר דוחה יתושים (DEET 30%+), ולינה בחדרים מרושתים/ממוזגים.
+                            </div>
+                        </div>
+
+                        <!-- Orange Zone: Meningitis -->
+                        <div style="background: #fff7ed; border: 1px solid #fed7aa; border-right: 6px solid #f97316; border-radius: 10px; padding: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-weight: 800; color: #9a3412;">🟠 אזור כתום - דלקת קרום המוח</span>
+                                <span style="font-size: 0.75em; background: #ffedd5; color: #c2410c; padding: 2px 8px; border-radius: 4px; font-weight: bold;">חובת חיסון</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #1e293b; line-height: 1.4;">
+                                <b>יעדים:</b> "חגורת המנינגיטיס", יעדי התקהלות המונית ואזורי סיכון מוגדרים.<br>
+                                <b>הנחיות:</b> חובת קבלת חיסון מרובע (MenACWY) לפחות 10 ימים לפני הכניסה לאזור.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Friction Alerts -->
+                <h3 style="color: #9a3412; margin-bottom: 12px;"><i class="fa-solid fa-triangle-exclamation"></i> התראות שטח חיות (בלת"ם)</h3>
+                
+                <!-- Weather alert -->
+                <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; margin-bottom: 12px; border-right: 5px solid #ef4444; padding: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: bold; color: #991b1b;"><i class="fa-solid fa-cloud-showers-heavy"></i> מזג אוויר ורוחות בחוף</span>
+                        <span style="font-size: 0.75em; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">רלוונטי למחר</span>
+                    </div>
+                    <p style="margin: 0; font-size: 0.88em; color: #475569; line-height: 1.4;">
+                        טמפרטורה נעימה (24°C), אך רוחות ערות מורגשות על קו המצוק בטיילת נתניה. מומלץ להצטייד בעליונית קלה.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 6. AI ASSISTANT & LOGISTICS (FOOD/HOTELS) ================= -->
+        <div id="screen-ai" class="screen">
+            <div class="top-bar" style="background: #3b82f6;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white; background: rgba(255,255,255,0.2); border: none;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;"><i class="fa-solid fa-robot"></i> סייען AI ולינה ומזון</h2>
+            </div>
+            
+            <div class="content-padding" style="padding-bottom: 50px;">
+                <!-- ================= KOSHER BARCODE SCANNER SECTION ================= -->
+                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(34, 197, 94, 0.12);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <i class="fa-solid fa-barcode" style="font-size: 1.6em; color: #16a34a;"></i>
+                        <span style="font-weight: 800; color: #166534; font-size: 1.15em;">בדיקת ברקוד מוצר (זיהוי כשרות)</span>
+                    </div>
+                    <p style="margin-top: 0; color: #15803d; font-size: 0.88em; line-height: 1.4;">
+                        סרוק ברקוד של מוצר מזון בסופרמרקט לבדיקה מיידית מול מאגרי הכשרות הבינלאומיים (מבוסס מערכת "זה כשר"):
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button onclick="window.open('https://wa.me/972559943899', '_blank')" style="background: #22c55e; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 1.3em;"></i> סרוק ברקוד לבוט הוואטסאפ של "זה כשר"
+                        </button>
+                        <button onclick="window.open('https://kosher.global/zekasher/', '_blank')" style="background: white; color: #166534; border: 2px solid #22c55e; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fa-solid fa-magnifying-glass"></i> חיפוש מוצר במאגר כשרות בינלאומי
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Food & Restaurants Section -->
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                    <h3 style="margin-top:0; color: #ea580c;"><i class="fa-solid fa-utensils"></i> מסעדות ומזון מותאם</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="background: #fff7ed; padding: 10px 14px; border-radius: 8px; border-right: 4px solid #ea580c;">
+                            <div style="font-weight: bold; color: #1e293b;">נתניה: מסעדת אל גאוצ'ו / היקב (כשר למהדרין)</div>
+                            <div style="font-size: 0.82em; color: #64748b;">טיילת נתניה, מרחק הליכה קצר מהכיכר</div>
+                        </div>
+                        <div style="background: #eff6ff; padding: 10px 14px; border-radius: 8px; border-right: 4px solid #3b82f6;">
+                            <div style="font-weight: bold; color: #1e293b;">סיאול: בית חב"ד קוריאה (ארוחות כשרות)</div>
+                            <div style="font-size: 0.82em; color: #64748b;">הזמנת ארוחות ארוזות וסעודות שבת מראש</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-Time AI Conversational Assistant -->
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 16px;">
+                    <h3 style="margin-top:0; color: #1d4ed8;"><i class="fa-solid fa-comment-dots"></i> התייעצות חיה עם סייען ה-AI</h3>
+                    <p style="font-size: 0.88em; color: #334155; line-height: 1.5; margin-bottom: 14px;">
+                        לפתרון בלת"ם בשטח, תרגום תפריטים, הכוונה לחניה קרובה או המלצה מיידית:
+                    </p>
+                    <button onclick="alert('סייען ה-AI מאזין: במה אוכל לעזור לך עכשיו בשטח?')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-solid fa-microphone"></i> דבר עם סייען ה-AI
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 7. JOURNEY DIARY SCREEN (REAL PHOTO CAPTURE & STORAGE) ================= -->
+        <div id="screen-diary" class="screen">
+            <div class="top-bar" style="background: #0ea5e9;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white; background: rgba(255,255,255,0.2); border: none;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <h2 style="color:white;"><i class="fa-solid fa-camera-retro"></i> יומן מסע אמיתי</h2>
+            </div>
+            
+            <div class="content-padding" style="padding-bottom: 50px;">
+                <p style="text-align:center; color: #64748b; font-size: 0.9em; margin-top: 0; margin-bottom: 16px;">
+                    צלם חוויות ורשמים ישירות מהשטח. כל התמונות והזיכרונות נשמרים במכשיר ומגובים ביומן!
+                </p>
+
+                <!-- Hidden inputs for Camera and Gallery -->
+                <input type="file" id="diary-camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handleRealPhoto(event)">
+                <input type="file" id="diary-gallery-input" accept="image/*" style="display:none;" onchange="handleRealPhoto(event)">
+
+                <!-- Capture Buttons -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 16px; border-radius: 14px; font-size: 1.05em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(14, 165, 233, 0.25); cursor: pointer;">
+                        <i class="fa-solid fa-camera" style="font-size: 1.8em; margin-bottom: 6px;"></i>
+                        צלם במצלמה
+                    </button>
+                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 16px; border-radius: 14px; font-size: 1.05em; font-weight: bold; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                        <i class="fa-solid fa-images" style="font-size: 1.8em; margin-bottom: 6px;"></i>
+                        בחר מגלריה
+                    </button>
+                </div>
+
+                <!-- Google Drive Connect (Optional Backup) -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.85em; color: #475569;"><i class="fa-brands fa-google"></i> גיבוי תמונות בענן Drive</span>
+                    <a id="btn-google-login" href="#" style="color: #0ea5e9; font-weight: bold; font-size: 0.85em; text-decoration: none;">התחבר</a>
+                </div>
+
+                <!-- Memories Feed -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">
+                    <h3 style="margin: 0; color: #1e293b;"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> הזיכרונות שנשמרו</h3>
+                    <span id="diary-count" style="font-size: 0.85em; color: #64748b; font-weight: bold;">0 תמונות</span>
+                </div>
+
+                <!-- Feed Container -->
+                <div id="diary-feed-container" style="display: flex; flex-direction: column; gap: 14px;">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End screen-container -->
 
     <script>
-        
+        // ================= NAVIGATION =================
+        function switchScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(screenId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+            
+            if (screenId === 'screen-map') {
+                initMap();
+                locateUser();
+            } else if (screenId === 'screen-diary') {
+                renderDiaryFeed();
+            }
+        }
+
+        function showRouteSubTab(tabId) {
+            document.getElementById('tab-itinerary').style.display = (tabId === 'tab-itinerary') ? 'block' : 'none';
+            document.getElementById('tab-documents').style.display = (tabId === 'tab-documents') ? 'block' : 'none';
+            
+            document.querySelectorAll('.tab-switcher .tab-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', (tabId === 'tab-itinerary' && idx === 0) || (tabId === 'tab-documents' && idx === 1));
+            });
+        }
+
+        // ================= REAL LIVE GPS MAP =================
         let dynamicMap = null;
-        
+        let userMarker = null;
+        let accuracyCircle = null;
+        let netanyaMarkers = [];
+
         function initMap() {
             if (!dynamicMap) {
-                // Initialize map centered on Rome (Colosseum approx)
-                dynamicMap = L.map('map-container').setView([41.8902, 12.4922], 14);
+                // Default center to Netanya (prep for tomorrow!)
+                dynamicMap = L.map('map-container').setView([32.3292, 34.8553], 14);
                 
-                // Add OpenStreetMap tiles (Free, highly dynamic, no API key needed)
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© OpenStreetMap'
                 }).addTo(dynamicMap);
-                
-                // Add a sample marker for Rome
-                L.marker([41.8902, 12.4922]).addTo(dynamicMap)
-                    .bindPopup('<b style="font-family:Heebo;">רומא, איטליה</b><br>נקודת פתיחה לדוגמה.').openPopup();
+
+                // Add Netanya prep points
+                const points = [
+                    { lat: 32.3275, lng: 34.8510, title: 'טיילת הראשונים ומעלית הים (סירונית)', desc: 'נקודת תצפית, חניה מסודרת, מעלית מונגשת לחוף.' },
+                    { lat: 32.3292, lng: 34.8553, title: 'כיכר העצמאות החדשה', desc: 'מזרקה אינטראקטיבית, מדרחוב, בתי קפה ומסעדות כשרות.' },
+                    { lat: 32.2858, lng: 34.8465, title: 'שמורת האירוסים וחוף פולג', desc: 'מסלול הליכה טבעי קל ומונגש.' }
+                ];
+
+                points.forEach((pt, i) => {
+                    const m = L.marker([pt.lat, pt.lng]).addTo(dynamicMap)
+                        .bindPopup(`<b>${i+1}. ${pt.title}</b><br>${pt.desc}`);
+                    netanyaMarkers.push(m);
+                });
             }
-            // Timeout ensures map renders correctly after the div becomes visible
             setTimeout(() => { dynamicMap.invalidateSize(); }, 200);
         }
 
-        // --- Navigation ---
-        function switchScreen(screenId) {
-            // Clear ringing animation if alerts screen is opened
-            if (screenId === 'screen-alerts') {
-                const bell = document.querySelector('.color-alerts .fa-bell');
-                if (bell && bell.classList.contains('ringing-bell')) {
-                    bell.classList.remove('ringing-bell');
-                }
+        function locateUser() {
+            const statusText = document.getElementById('gps-status-text');
+            if (!navigator.geolocation) {
+                if (statusText) statusText.innerHTML = '<span style="color:#ef4444;">דפדפן זה אינו תומך ב-GPS</span>';
+                return;
             }
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            window.scrollTo(0, 0);
-            
-            if (screenId === 'screen-map') {
-                initMap();
+
+            if (statusText) statusText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום מדויק בזמן אמת...';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const acc = position.coords.accuracy;
+
+                    if (dynamicMap) {
+                        dynamicMap.setView([lat, lng], 16);
+
+                        if (userMarker) dynamicMap.removeLayer(userMarker);
+                        if (accuracyCircle) dynamicMap.removeLayer(accuracyCircle);
+
+                        userMarker = L.circleMarker([lat, lng], {
+                            radius: 10,
+                            color: '#ffffff',
+                            fillColor: '#2563eb',
+                            fillOpacity: 1,
+                            weight: 3
+                        }).addTo(dynamicMap).bindPopup('<b>📍 אתה נמצא כאן עכשיו!</b><br>מיקום GPS בזמן אמת.').openPopup();
+
+                        accuracyCircle = L.circle([lat, lng], {
+                            radius: acc,
+                            color: '#3b82f6',
+                            fillColor: '#93c5fd',
+                            fillOpacity: 0.2
+                        }).addTo(dynamicMap);
+                    }
+
+                    if (statusText) {
+                        statusText.innerHTML = `<span style="color:#16a34a;"><i class="fa-solid fa-circle-check"></i> זוהה מיקום חי (דיוק ${Math.round(acc)} מ')</span>`;
+                    }
+                },
+                (error) => {
+                    console.warn('Geolocation warning:', error.message);
+                    if (statusText) {
+                        statusText.innerHTML = '<span style="color:#d97706;">מתמקד באזור נתניה (טיול מחר)</span>';
+                    }
+                    if (dynamicMap) dynamicMap.setView([32.3292, 34.8553], 14);
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        function focusNetanya() {
+            if (dynamicMap) {
+                dynamicMap.setView([32.3280, 34.8530], 14);
+                if (netanyaMarkers[0]) netanyaMarkers[0].openPopup();
             }
         }
-function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('toast-visible');
-            setTimeout(() => toast.classList.remove('toast-visible'), 3000);
-        }
 
-        
-        function logoutApp() {
-            // Security: Clear the memory
-            accessToken = null;
-            selectedFile = null;
-            
-            // Reset UI for next time
-            document.getElementById('auth-section').style.display = 'block';
-            document.getElementById('auth-success').style.display = 'none';
-            document.getElementById('preview-section').style.display = 'none';
-            switchScreen('screen-home');
-            
-            // Brilliant UX trick: Force a hard refresh from the server to bypass PWA cache!
-            window.location.href = window.location.pathname + '?refresh=' + new Date().getTime();
-        }
-
-        // --- Google Drive Config ---
-
-        const OAUTH_CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
-        const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
-        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
-        let accessToken = null;
-        let selectedFile = null;
-
-        // Initialize App
-        window.addEventListener('DOMContentLoaded', () => {
-            // Set up Google OAuth URL
-            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${OAUTH_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(SCOPES)}&include_granted_scopes=true&prompt=consent`;
-            document.getElementById('btn-google-login').href = authUrl;
-
-            // Check if returning from Google Auth
-            const hash = window.location.hash;
-            if (hash && hash.includes('access_token=')) {
-                const params = new URLSearchParams(hash.substring(1));
-                accessToken = params.get('access_token');
-                
-                // Clean URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-                
-                // Update UI to show connected state
-                document.getElementById('auth-section').style.display = 'none';
-                document.getElementById('auth-success').style.display = 'block';
-                
-                // Automatically open Diary screen since that's where they authenticate for photos
-                switchScreen('screen-diary');
+        function focusSeoul() {
+            if (dynamicMap) {
+                dynamicMap.setView([37.5665, 126.9780], 14);
+                L.popup().setLatLng([37.5665, 126.9780])
+                    .setContent('<b>סיאול, דרום קוריאה</b><br>יעד הטיול 22-11-26').openOn(dynamicMap);
             }
-        });
+        }
 
-        // --- File Handling ---
-        function handleFileSelect(event) {
+        // ================= REAL PHOTO DIARY (STORAGE + CAPTURE) =================
+        function getDiaryEntries() {
+            try {
+                return JSON.parse(localStorage.getItem('travel_assistant_diary') || '[]');
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function saveDiaryEntries(entries) {
+            localStorage.setItem('travel_assistant_diary', JSON.stringify(entries));
+        }
+
+        function handleRealPhoto(event) {
             const file = event.target.files[0];
             if (!file) return;
-            selectedFile = file;
 
-            // Show Preview
             const reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById('image-preview').src = e.target.result;
-                document.getElementById('preview-section').style.display = 'block';
-                document.getElementById('upload-status').innerHTML = ''; // reset status
-                document.getElementById('btn-upload').style.display = 'flex'; // show upload btn again
-            }
+                const base64Data = e.target.result;
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+                const dateStr = now.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+                
+                const note = prompt('הוסף תיאור קצר לחוויה (לדוגמה: טיילת נתניה, חוף סירונית, קוריאה):', 'חוויה מהדרך') || 'חוויה מהדרך';
+
+                const newEntry = {
+                    id: 'diary_' + Date.now(),
+                    image: base64Data,
+                    note: note,
+                    time: `${dateStr}, ${timeStr}`,
+                    location: 'ישראל'
+                };
+
+                const entries = getDiaryEntries();
+                entries.unshift(newEntry);
+                saveDiaryEntries(entries);
+                renderDiaryFeed();
+                alert('התמונה נשמרה בהצלחה ביומן המסע שלך!');
+            };
             reader.readAsDataURL(file);
         }
 
-        // --- Upload Logic ---
-        async function getOrCreateFolder(folderName, parentId = null) {
-            try {
-                let q = `name='${folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
-                if (parentId) {
-                    q += ` and '${parentId}' in parents`;
-                }
-                let searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&spaces=drive`, {
-                    headers: { 'Authorization': `Bearer ${accessToken}` }
-                });
-                let searchData = await searchRes.json();
-                
-                if (searchData.files && searchData.files.length > 0) {
-                    return searchData.files[0].id;
-                }
-                
-                let body = {
-                    name: folderName,
-                    mimeType: 'application/vnd.google-apps.folder'
-                };
-                if (parentId) {
-                    body.parents = [parentId];
-                }
-
-                let createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(body)
-                });
-                let createData = await createRes.json();
-                return createData.id;
-            } catch (e) {
-                console.error("Folder error:", e);
-                return null;
-            }
+        function deleteDiaryEntry(id) {
+            if (!confirm('האם למחוק תמונה זו מיומן המסע?')) return;
+            let entries = getDiaryEntries();
+            entries = entries.filter(item => item.id !== id);
+            saveDiaryEntries(entries);
+            renderDiaryFeed();
         }
 
-        async function getNestedFolderId() {
-            let rootId = await getOrCreateFolder("TA");
-            if (!rootId) return null;
-            let tripId = await getOrCreateFolder("KORIA", rootId);
-            if (!tripId) return null;
-            let photosId = await getOrCreateFolder("PHOTOS", tripId);
-            return photosId;
-        }
+        function renderDiaryFeed() {
+            const container = document.getElementById('diary-feed-container');
+            const countEl = document.getElementById('diary-count');
+            if (!container) return;
 
-        async function startUpload() {
-            if (!accessToken) {
-                alert("יש להתחבר ל-Google Drive קודם!");
+            const entries = getDiaryEntries();
+            if (countEl) countEl.innerText = `${entries.length} תמונות`;
+
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 30px; background: white; border-radius: 12px; border: 1px dashed #cbd5e1; color: #94a3b8;">
+                        <i class="fa-solid fa-camera" style="font-size: 2.5em; margin-bottom: 10px;"></i>
+                        <p style="margin: 0; font-weight: bold;">עדיין אין תמונות ביומן.</p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.85em;">לחץ על 'צלם במצלמה' כדי לתעד את התחנה הראשונה!</p>
+                    </div>
+                `;
                 return;
             }
-            if (!selectedFile) return;
 
-            const statusDiv = document.getElementById('upload-status');
-            const btnUpload = document.getElementById('btn-upload');
-            
-            btnUpload.style.display = 'none';
-            statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#3b82f6"></i> מגבה תמונה בענן...';
-            statusDiv.style.color = '#3b82f6';
-
-            try {
-                let folderId = await getNestedFolderId();
-                if (!folderId) throw new Error("Could not create/find nested folders");
-
-                const metadata = {
-                    name: `Journey_${new Date().getTime()}_${selectedFile.name}`,
-                    parents: [folderId]
-                };
-
-                const form = new FormData();
-                form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-                form.append('file', selectedFile);
-
-                let res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${accessToken}` },
-                    body: form
-                });
-
-                if (res.ok) {
-                    statusDiv.innerHTML = '<i class="fa-solid fa-check-circle"></i> נשמר בהצלחה ב- TA/KORIA/PHOTOS';
-                    statusDiv.style.color = '#10b981';
-                } else {
-                    throw new Error("Upload failed");
-                }
-            } catch (error) {
-                console.error(error);
-                statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> שגיאה בהעלאה.';
-                statusDiv.style.color = '#ef4444';
-                btnUpload.style.display = 'flex'; // allow retry
-            }
+            container.innerHTML = entries.map(item => `
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+                    <img src="${item.image}" style="width: 100%; max-height: 280px; object-fit: cover; display: block;">
+                    <div style="padding: 12px 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.82em; color: #64748b;">
+                            <span><i class="fa-solid fa-location-dot"></i> ${item.location}</span>
+                            <span><i class="fa-regular fa-clock"></i> ${item.time}</span>
+                        </div>
+                        <p style="margin: 0 0 10px 0; color: #1e293b; font-weight: bold; font-size: 0.95em;">${item.note}</p>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button onclick="deleteDiaryEntry('${item.id}')" style="background: #fee2e2; border: none; color: #ef4444; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; cursor: pointer;">
+                                <i class="fa-solid fa-trash"></i> מחק
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
+
+        // ================= GOOGLE DRIVE OAUTH URL =================
+        const OAUTH_CLIENT_ID = '256549779083-6rsf9tdi943onl3iiv27u09frvrvitdt.apps.googleusercontent.com';
+        const REDIRECT_URI = 'https://mosheshmueli-cmyk.github.io/travel-assitant/';
+        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${OAUTH_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(SCOPES)}&include_granted_scopes=true&prompt=consent`;
+            const loginBtn = document.getElementById('btn-google-login');
+            if (loginBtn) loginBtn.href = authUrl;
+
+            // Render existing memories if any
+            renderDiaryFeed();
+        });
     </script>
 </body>
 </html>
