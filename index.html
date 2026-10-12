@@ -64,14 +64,28 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Home Grid: 6 Large Buttons (2 Columns x 3 Rows) */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        /* 
+           HOME SCREEN TWO-COLUMN PHYSICAL LAYOUT:
+           Direction LTR guarantees:
+           - Column 1 is physically on the LEFT (Admin, Emergency, AI)
+           - Column 2 is physically on the RIGHT (Live Map, Alerts, Diary under right thumb!)
+        */
+        .home-columns-container {
+            display: flex;
+            flex-direction: row;
+            direction: ltr !important; /* Absolute physical left vs right */
             gap: 14px;
             padding: 16px;
             max-width: 600px;
             margin: 0 auto;
+        }
+
+        .column-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            direction: rtl; /* Hebrew content inside buttons */
         }
 
         .nav-btn {
@@ -201,6 +215,32 @@
             color: #1e293b;
             box-shadow: 0 2px 4px rgba(0,0,0,0.06);
         }
+
+        /* Map styling & distance drawer */
+        #map-container {
+            width: 100%;
+            height: calc(100vh - 220px);
+            z-index: 1;
+        }
+
+        .distance-card-sheet {
+            background: white;
+            border-top: 2px solid #e2e8f0;
+            padding: 12px 16px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        /* Pulse animation for User GPS Pin */
+        @keyframes userPulse {
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.4; }
+            100% { transform: scale(0.9); opacity: 1; }
+        }
+        .pulse-ring {
+            animation: userPulse 2s infinite ease-in-out;
+        }
     </style>
 
     <!-- Leaflet Map CSS & JS -->
@@ -213,7 +253,7 @@
     <div class="header">
         <button onclick="window.location.href=window.location.href.split('?')[0]+'?t='+new Date().getTime()" style="background: #22c55e; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <span><i class="fa-solid fa-arrows-rotate"></i> רענן</span>
-            <span style="font-size: 0.7em; opacity: 0.9;">V4.2</span>
+            <span style="font-size: 0.7em; opacity: 0.9;">V4.3</span>
         </button>
         
         <div style="font-weight: bold; color: #334155; text-align: center;">
@@ -230,38 +270,42 @@
     <!-- Main Screens Container -->
     <div class="screen-container">
         
-        <!-- ================= 1. HOME SCREEN (6 BUTTONS GRID) ================= -->
+        <!-- ================= 1. HOME SCREEN (ABSOLUTE PHYSICAL COLUMNS) ================= -->
         <div id="screen-home" class="screen active">
-            <div class="grid-container">
-                <!-- שורה 1: ימין = מסלול טיול בזמן אמת | שמאל = תיק טיול ומסמכים -->
-                <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
-                    <i class="fa-solid fa-map-location-dot"></i>
-                    <span>מסלול טיול בזמן אמת</span>
-                </div>
-                <div class="nav-btn color-route" onclick="switchScreen('screen-route')">
-                    <i class="fa-solid fa-folder-open"></i>
-                    <span>תיק טיול ומסמכים</span>
-                </div>
-
-                <!-- שורה 2: ימין = התראות | שמאל = חירום -->
-                <div class="nav-btn color-alerts" onclick="switchScreen('screen-alerts')">
-                    <i class="fa-solid fa-bell ringing-bell"></i>
-                    <span>התראות</span>
-                </div>
-                <div class="nav-btn color-emergency" onclick="switchScreen('screen-emergency')">
-                    <i class="fa-solid fa-kit-medical"></i>
-                    <span>חירום</span>
+            <div class="home-columns-container">
+                
+                <!-- עמודה שמאלית (שמאל המסך) -->
+                <div class="column-side" id="col-left">
+                    <div class="nav-btn color-route" onclick="switchScreen('screen-route')">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>תיק טיול ומסמכים</span>
+                    </div>
+                    <div class="nav-btn color-emergency" onclick="switchScreen('screen-emergency')">
+                        <i class="fa-solid fa-kit-medical"></i>
+                        <span>חירום</span>
+                    </div>
+                    <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
+                        <i class="fa-solid fa-robot"></i>
+                        <span>סייען AI</span>
+                    </div>
                 </div>
 
-                <!-- שורה 3: ימין = יומן מסע | שמאל = סייען AI -->
-                <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
-                    <i class="fa-solid fa-camera-retro"></i>
-                    <span>יומן מסע</span>
+                <!-- עמודה ימנית (ימין המסך - ישירות תחת האגודל הימני בהליכה!) -->
+                <div class="column-side" id="col-right">
+                    <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span>מסלול טיול בזמן אמת</span>
+                    </div>
+                    <div class="nav-btn color-alerts" onclick="switchScreen('screen-alerts')">
+                        <i class="fa-solid fa-bell ringing-bell"></i>
+                        <span>התראות</span>
+                    </div>
+                    <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
+                        <i class="fa-solid fa-camera-retro"></i>
+                        <span>יומן מסע</span>
+                    </div>
                 </div>
-                <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
-                    <i class="fa-solid fa-robot"></i>
-                    <span>סייען AI</span>
-                </div>
+
             </div>
             
             <div style="text-align: center; color: #94a3b8; font-size: 0.85em; margin-top: 10px;">
@@ -269,31 +313,48 @@
             </div>
         </div>
 
-        <!-- ================= 2. LIVE MAP SCREEN ================= -->
+        <!-- ================= 2. LIVE MAP SCREEN (LIVE GPS & ROUTE DISTANCES) ================= -->
         <div id="screen-map" class="screen">
             <div class="top-bar" style="background: #fdf2f8;">
                 <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
                 <h2 style="color: #9d174d;"><i class="fa-solid fa-map-location-dot"></i> מסלול טיול בזמן אמת</h2>
             </div>
 
-            <!-- GPS Control Bar -->
-            <div style="background: white; padding: 10px 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-                <div id="gps-status-text" style="font-size: 0.88em; color: #0284c7; font-weight: bold;">
-                    <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום נוכחי בישראל...
+            <!-- Live GPS Status & Direct Center Buttons -->
+            <div style="background: white; padding: 10px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                <div id="gps-status-text" style="font-size: 0.88em; color: #0284c7; font-weight: bold; flex-grow: 1;">
+                    <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS חי...
                 </div>
-                <button onclick="locateUser()" style="background: #ec4899; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(236,72,153,0.3);">
+                <button onclick="locateUser(true)" style="background: #2563eb; color: white; border: none; padding: 7px 12px; border-radius: 8px; font-weight: bold; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(37,99,235,0.3); white-space: nowrap;">
                     <i class="fa-solid fa-crosshairs"></i> המיקום שלי
+                </button>
+                <button onclick="fitFullRoute()" style="background: #8b5cf6; color: white; border: none; padding: 7px 12px; border-radius: 8px; font-weight: bold; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(139,92,246,0.3); white-space: nowrap;">
+                    <i class="fa-solid fa-route"></i> כל המסלול
                 </button>
             </div>
 
-            <!-- Focus Selector: Netanya vs Korea vs My GPS -->
-            <div style="background: #f8fafc; padding: 8px 16px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 8px; overflow-x: auto;">
-                <button onclick="locateUser()" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; white-space: nowrap;">📍 מיקום GPS חי</button>
-                <button onclick="focusNetanya()" style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; white-space: nowrap;">🏖️ טיול מחר: נתניה</button>
-                <button onclick="focusSeoul()" style="background: #f5f3ff; border: 1px solid #ddd6fe; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; white-space: nowrap;">🏯 סיאול (קוריאה)</button>
+            <!-- Focus Quick Links -->
+            <div style="background: #f8fafc; padding: 8px 14px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 6px; overflow-x: auto;">
+                <button onclick="focusStation(0)" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 4px 10px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">1. רכבת נתניה</button>
+                <button onclick="focusStation(1)" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 4px 10px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">2. טיילת ומעלית הים</button>
+                <button onclick="focusStation(2)" style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; padding: 4px 10px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">3. כיכר העצמאות</button>
+                <button onclick="focusStation(3)" style="background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 4px 10px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">4. השוק המקורה</button>
             </div>
             
-            <div id="map-container" style="width: 100%; height: calc(100vh - 170px); z-index: 1;"></div>
+            <!-- Map Element -->
+            <div id="map-container"></div>
+
+            <!-- Route Stations & Distances Drawer -->
+            <div class="distance-card-sheet">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-weight: 800; font-size: 0.95em; color: #1e293b;"><i class="fa-solid fa-signs-post" style="color:#8b5cf6;"></i> תחנות המסלול והמרחקים ביניהן:</span>
+                    <span style="font-size: 0.8em; background: #f3e8ff; color: #7e22ce; padding: 2px 8px; border-radius: 6px; font-weight: bold;">סה"כ 5.75 ק"מ</span>
+                </div>
+                
+                <div id="stations-distance-list" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
         </div>
 
         <!-- ================= 3. ROUTE & DOCS SCREEN ================= -->
@@ -312,7 +373,7 @@
 
                 <!-- Sub Tab: Itinerary -->
                 <div id="tab-itinerary">
-                    <!-- Tomorrow Netanya Prep -->
+                    <!-- Tomorrow Netanya Schedule -->
                     <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                             <span style="font-weight: 800; color: #9d174d; font-size: 1.1em;"><i class="fa-solid fa-flag-checkered"></i> תוכנית טיול מחר: נתניה (תחבורה ציבורית)</span>
@@ -338,7 +399,7 @@
                                 <span style="font-weight: bold; color: #1e293b;">2. טיילת הראשונים ומעלית החוף (סירונית)</span>
                                 <span style="font-size: 0.75em; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: bold;">10:35 - 11:30</span>
                             </div>
-                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-bus"></i> אוטובוס קו 16/25 מהרכבת | בריזת בוקר מרעננת</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-bus"></i> אוטובוס קו 16/25 מהרכבת (2.4 ק"מ) | בריזת בוקר</div>
                             <div style="font-size: 0.85em; color: #334155;">ירידה נוחה במעלית שקופה פנורמית ישירות לחוף סירונית, הליכה מתונה מול הגלים.</div>
                         </div>
 
@@ -348,7 +409,7 @@
                                 <span style="font-weight: bold; color: #1e293b;">3. כיכר העצמאות החדשה וקפה בוקר</span>
                                 <span style="font-size: 0.75em; background: #fdf2f8; color: #be185d; padding: 2px 6px; border-radius: 4px; font-weight: bold;">11:30 - 12:15</span>
                             </div>
-                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-mug-hot"></i> עולים במעלית חזרה למצוק | מזרקה אינטראקטיבית</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-mug-hot"></i> עולים במעלית חזרה (600 מטר הליכה) | מזרקה</div>
                             <div style="font-size: 0.85em; color: #334155;">ספסלים מוצלים, אווירה תוססת, קפה ומנוחה נעימה.</div>
                         </div>
 
@@ -358,7 +419,7 @@
                                 <span style="font-weight: bold; color: #1e293b;">4. השוק המקורה - צל צהריים, קניות וארוחה</span>
                                 <span style="font-size: 0.75em; background: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 4px; font-weight: bold;">12:15 - 14:30</span>
                             </div>
-                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-shield-halved"></i> מדרחוב הרצל המוצל אל השוק | מוגן מחום הצהריים</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-shield-halved"></i> 650 מטר במדרחוב הרצל המוצל | מוגן מחום הצהריים</div>
                             <div style="font-size: 0.85em; color: #334155;">סיור בין הדוכנים, קניות פירות ומעדנים הביתה, וארוחת צהריים בשרית וכשרה למהדרין.</div>
                         </div>
 
@@ -368,7 +429,7 @@
                                 <span style="font-weight: bold; color: #1e293b;">5. קינוח וחזרה קלה ברכבת</span>
                                 <span style="font-size: 0.75em; background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 4px; font-weight: bold;">14:30 - 15:30</span>
                             </div>
-                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-bag-shopping"></i> הקניות ביד | אוטובוס קצר (6 דק') ישירות לרכבת</div>
+                            <div style="font-size: 0.85em; color: #64748b; margin: 4px 0;"><i class="fa-solid fa-bag-shopping"></i> הקניות ביד | אוטובוס קצר (2.1 ק"מ, 6 דק') ישירות לרכבת</div>
                             <div style="font-size: 0.85em; color: #334155;">עלייה לרכבת חזרה דרומה רעננים ושבעים.</div>
                         </div>
                     </div>
@@ -376,7 +437,7 @@
                     <!-- Korea Trip Blueprint -->
                     <div style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
                         <h3 style="margin-top:0; color: #6d28d9;"><i class="fa-solid fa-plane-departure"></i> קוריאה הדרומית (22-11-26) - תיק היעד</h3>
-                        <ul style="padding-right: 20px; color: #334155; line-height: 1.6; font-size: 0.9em; margin: 0;\">
+                        <ul style="padding-right: 20px; color: #334155; line-height: 1.6; font-size: 0.9em; margin: 0;">
                             <li><b>24 גמלאים צעירים ברוחם:</b> דגש על נוחות, מרחקי הליכה קצרים מחניות לאתרים ומנוחה.</li>
                             <li><b>חוויות מקומיות:</b> סדנת תה Dado, חץ וקשת מסורתי, והופעות תרבות.</li>
                             <li><b>אילוצי ברזל:</b> התאמה מלאה לשומרי שבת וכשרות.</li>
@@ -421,7 +482,7 @@
                         </div>
                         <div style="flex-grow: 1;">
                             <div style="font-weight: bold; color: #1e293b;">פוליסת ביטוח רפואי מורחבת</div>
-                            <div style="color: #64748b; font-size: 0.82em;">כיסוי מלא + ביטול ובלת\"מים | חיוג מוקד 24/7</div>
+                            <div style="color: #64748b; font-size: 0.82em;">כיסוי מלא + ביטול ובלת"מים | חיוג מוקד 24/7</div>
                         </div>
                         <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: none; border: none; color: #16a34a; font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-phone"></i></button>
                     </div>
@@ -535,11 +596,11 @@
                 <!-- Weather alert -->
                 <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; margin-bottom: 12px; border-right: 5px solid #ef4444; padding: 14px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-weight: bold; color: #991b1b;"><i class="fa-solid fa-cloud-showers-heavy"></i> מזג אוויר ורוחות בחוף</span>
-                        <span style="font-size: 0.75em; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">רלוונטי למחר</span>
+                        <span style="font-weight: bold; color: #991b1b;"><i class="fa-solid fa-cloud-sun"></i> מזג אוויר ורוחות בחוף נתניה</span>
+                        <span style="font-size: 0.75em; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">תחזית למחר</span>
                     </div>
                     <p style="margin: 0; font-size: 0.88em; color: #475569; line-height: 1.4;">
-                        טמפרטורה נעימה (24°C), אך רוחות ערות מורגשות על קו המצוק בטיילת נתניה. מומלץ להצטייד בעליונית קלה.
+                        טמפרטורה נוחה של 24°C עם בריזת בוקר בטיילת הראשונים. בשעות הצהריים מומלצת השהייה בשוק המקורה והמוצל.
                     </p>
                 </div>
             </div>
@@ -661,7 +722,7 @@
             
             if (screenId === 'screen-map') {
                 initMap();
-                locateUser();
+                locateUser(true);
             } else if (screenId === 'screen-diary') {
                 renderDiaryFeed();
             }
@@ -676,103 +737,200 @@
             });
         }
 
-        // ================= REAL LIVE GPS MAP =================
+        // ================= REAL LIVE GPS & ROUTE DISTANCES ENGINE =================
         let dynamicMap = null;
         let userMarker = null;
         let accuracyCircle = null;
+        let routePolyline = null;
         let netanyaMarkers = [];
+        let currentPosition = null;
+
+        const STATIONS = [
+            { id: 1, lat: 32.3262, lng: 34.8698, title: 'תחנת רכבת נתניה (מרכז)', desc: '10:25 הגעה ברכבת 238 ומפגש חברים', nextDist: '2.4 ק"מ (אוטובוס 16/25)' },
+            { id: 2, lat: 32.3275, lng: 34.8510, title: 'טיילת הראשונים ומעלית החוף (סירונית)', desc: '10:35 ירידה במעלית השקופה, בריזת בוקר וים', nextDist: '600 מטר (הליכה רגלית נוחה)' },
+            { id: 3, lat: 32.3292, lng: 34.8553, title: 'כיכר העצמאות החדשה', desc: '11:30 מזרקה אינטראקטיבית, מדרחוב וקפה ראשון', nextDist: '650 מטר (מדרחוב הרצל המוצל)' },
+            { id: 4, lat: 32.3271, lng: 34.8596, title: 'השוק העירוני המקורה', desc: '12:15 צל צהריים, סיור דוכנים, קניות וארוחה כשרה', nextDist: '2.1 ק"מ (אוטובוס חזרה לרכבת)' }
+        ];
 
         function initMap() {
             if (!dynamicMap) {
-                // Default center to Netanya (prep for tomorrow!)
-                dynamicMap = L.map('map-container').setView([32.3292, 34.8553], 14);
+                // Initialize map centered on Netanya
+                dynamicMap = L.map('map-container').setView([32.3280, 34.8560], 14);
                 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© OpenStreetMap'
                 }).addTo(dynamicMap);
 
-                // Add Netanya prep points
-                const points = [
-                    { lat: 32.3262, lng: 34.8698, title: 'תחנת רכבת נתניה (מרכז)', desc: '10:25 הגעה ברכבת 238 ומפגש 3 החברים.' },
-                    { lat: 32.3275, lng: 34.8510, title: 'טיילת הראשונים ומעלית החוף (סירונית)', desc: '10:35 ירידה במעלית השקופה, בריזת בוקר וקו המים.' },
-                    { lat: 32.3292, lng: 34.8553, title: 'כיכר העצמאות החדשה', desc: '11:30 מזרקה אינטראקטיבית, מדרחוב וקפה ראשון.' },
-                    { lat: 32.3271, lng: 34.8596, title: 'השוק העירוני המקורה', desc: '12:15 צל צהריים, סיור דוכנים, קניות וארוחה כשרה.' }
-                ];
+                // Add route stations markers
+                STATIONS.forEach((st) => {
+                    const iconHtml = `<div style="background:#8b5cf6; color:white; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; border:2px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.3); font-size:14px;">${st.id}</div>`;
+                    const customIcon = L.divIcon({
+                        className: 'station-pin',
+                        html: iconHtml,
+                        iconSize: [28, 28],
+                        iconAnchor: [14, 14]
+                    });
 
-                points.forEach((pt, i) => {
-                    const m = L.marker([pt.lat, pt.lng]).addTo(dynamicMap)
-                        .bindPopup(`<b>${i+1}. ${pt.title}</b><br>${pt.desc}`);
+                    const m = L.marker([st.lat, st.lng], { icon: customIcon }).addTo(dynamicMap)
+                        .bindPopup(`<b>תחנה ${st.id}: ${st.title}</b><br>${st.desc}<br><b style="color:#7c3aed;">מרחק לתחנה הבאה:</b> ${st.nextDist}`);
                     netanyaMarkers.push(m);
                 });
+
+                // Connect stations with a visible, attractive polyline
+                const latlngs = STATIONS.map(s => [s.lat, s.lng]);
+                latlngs.push([STATIONS[0].lat, STATIONS[0].lng]); // Return loop to train
+                
+                routePolyline = L.polyline(latlngs, {
+                    color: '#8b5cf6',
+                    weight: 5,
+                    dashArray: '8, 8',
+                    opacity: 0.85
+                }).addTo(dynamicMap);
+
+                // Start continuous watching for live GPS position
+                startContinuousGps();
+                renderStationsList();
             }
             setTimeout(() => { dynamicMap.invalidateSize(); }, 200);
         }
 
-        function locateUser() {
-            const statusText = document.getElementById('gps-status-text');
-            if (!navigator.geolocation) {
-                if (statusText) statusText.innerHTML = '<span style="color:#ef4444;">דפדפן זה אינו תומך ב-GPS</span>';
-                return;
-            }
-
-            if (statusText) statusText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום מדויק בזמן אמת...';
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    const acc = position.coords.accuracy;
-
-                    if (dynamicMap) {
-                        dynamicMap.setView([lat, lng], 16);
-
-                        if (userMarker) dynamicMap.removeLayer(userMarker);
-                        if (accuracyCircle) dynamicMap.removeLayer(accuracyCircle);
-
-                        userMarker = L.circleMarker([lat, lng], {
-                            radius: 10,
-                            color: '#ffffff',
-                            fillColor: '#2563eb',
-                            fillOpacity: 1,
-                            weight: 3
-                        }).addTo(dynamicMap).bindPopup('<b>📍 אתה נמצא כאן עכשיו!</b><br>מיקום GPS בזמן אמת.').openPopup();
-
-                        accuracyCircle = L.circle([lat, lng], {
-                            radius: acc,
-                            color: '#3b82f6',
-                            fillColor: '#93c5fd',
-                            fillOpacity: 0.2
-                        }).addTo(dynamicMap);
-                    }
-
-                    if (statusText) {
-                        statusText.innerHTML = `<span style="color:#16a34a;"><i class="fa-solid fa-circle-check"></i> זוהה מיקום חי (דיוק ${Math.round(acc)} מ')</span>`;
-                    }
+        function startContinuousGps() {
+            if (!navigator.geolocation) return;
+            navigator.geolocation.watchPosition(
+                (pos) => {
+                    updateUserGpsOnMap(pos, false);
                 },
-                (error) => {
-                    console.warn('Geolocation warning:', error.message);
-                    if (statusText) {
-                        statusText.innerHTML = '<span style="color:#d97706;">מתמקד באזור נתניה (טיול מחר)</span>';
-                    }
-                    if (dynamicMap) dynamicMap.setView([32.3292, 34.8553], 14);
+                (err) => {
+                    console.warn('GPS watch error:', err.message);
                 },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 5000 }
             );
         }
 
-        function focusNetanya() {
+        function locateUser(centerMap = false) {
+            const statusText = document.getElementById('gps-status-text');
+            if (!navigator.geolocation) {
+                if (statusText) statusText.innerHTML = '<span style="color:#ef4444;">מכשיר זה אינו תומך ב-GPS</span>';
+                return;
+            }
+
+            if (statusText) statusText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS חי...';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    updateUserGpsOnMap(position, centerMap);
+                },
+                (error) => {
+                    console.warn('GPS Error:', error.message);
+                    if (statusText) {
+                        statusText.innerHTML = '<span style="color:#d97706;"><i class="fa-solid fa-location-dot"></i> מציג מסלול נתניה (הפעל מיקום בדפדפן)</span>';
+                    }
+                    if (dynamicMap) dynamicMap.setView([32.3280, 34.8560], 14);
+                },
+                { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+            );
+        }
+
+        function updateUserGpsOnMap(position, centerMap = false) {
+            currentPosition = position;
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const acc = position.coords.accuracy;
+            const statusText = document.getElementById('gps-status-text');
+
             if (dynamicMap) {
-                dynamicMap.setView([32.3280, 34.8530], 14);
-                if (netanyaMarkers[0]) netanyaMarkers[0].openPopup();
+                if (centerMap) {
+                    dynamicMap.setView([lat, lng], 16);
+                }
+
+                if (userMarker) dynamicMap.removeLayer(userMarker);
+                if (accuracyCircle) dynamicMap.removeLayer(accuracyCircle);
+
+                // Custom pulsing blue GPS marker
+                const userPinHtml = `
+                    <div style="position:relative; width:22px; height:22px;">
+                        <div style="width:20px; height:20px; background:#2563eb; border:3px solid #ffffff; border-radius:50%; box-shadow:0 0 10px rgba(37,99,235,0.8);"></div>
+                        <div class="pulse-ring" style="position:absolute; top:-6px; left:-6px; width:32px; height:32px; border:2px solid #3b82f6; border-radius:50%;"></div>
+                    </div>
+                `;
+
+                const userPinIcon = L.divIcon({
+                    className: 'user-pin-marker',
+                    html: userPinHtml,
+                    iconSize: [22, 22],
+                    iconAnchor: [11, 11]
+                });
+
+                // Calculate distance to Netanya train station
+                const distToNetanyaMeters = L.latLng(lat, lng).distanceTo(L.latLng(STATIONS[0].lat, STATIONS[0].lng));
+                const distToNetanyaKm = (distToNetanyaMeters / 1000).toFixed(1);
+
+                userMarker = L.marker([lat, lng], { icon: userPinIcon }).addTo(dynamicMap)
+                    .bindPopup(`<b>📍 אתה נמצא כאן עכשיו!</b><br>דיוק: ${Math.round(acc)} מטרים<br>מרחק מנתניה: <b>${distToNetanyaKm} ק"מ</b>`);
+
+                if (centerMap) userMarker.openPopup();
+
+                accuracyCircle = L.circle([lat, lng], {
+                    radius: acc,
+                    color: '#3b82f6',
+                    fillColor: '#93c5fd',
+                    fillOpacity: 0.15,
+                    weight: 1
+                }).addTo(dynamicMap);
+
+                if (statusText) {
+                    statusText.innerHTML = `<span style="color:#16a34a;"><i class="fa-solid fa-circle-check"></i> מיקומך זוהה! (מרחק מנתניה: ${distToNetanyaKm} ק"מ)</span>`;
+                }
+
+                renderStationsList(); // Update live distance from user to stations
             }
         }
 
-        function focusSeoul() {
-            if (dynamicMap) {
-                dynamicMap.setView([37.5665, 126.9780], 14);
-                L.popup().setLatLng([37.5665, 126.9780])
-                    .setContent('<b>סיאול, דרום קוריאה</b><br>יעד הטיול 22-11-26').openOn(dynamicMap);
+        function renderStationsList() {
+            const container = document.getElementById('stations-distance-list');
+            if (!container) return;
+
+            let html = '';
+            STATIONS.forEach((st, idx) => {
+                let userDistStr = '';
+                if (currentPosition) {
+                    const uLat = currentPosition.coords.latitude;
+                    const uLng = currentPosition.coords.longitude;
+                    const dM = L.latLng(uLat, uLng).distanceTo(L.latLng(st.lat, st.lng));
+                    if (dM < 1000) {
+                        userDistStr = `<span style="color:#2563eb; font-weight:bold;">📍 ${Math.round(dM)} מ' ממך</span>`;
+                    } else {
+                        userDistStr = `<span style="color:#2563eb; font-weight:bold;">📍 ${(dM/1000).toFixed(1)} ק"מ ממך</span>`;
+                    }
+                }
+
+                html += `
+                    <div onclick="focusStation(${idx})" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                        <div>
+                            <span style="font-weight:bold; color:#1e293b;">${st.id}. ${st.title}</span><br>
+                            <span style="font-size:0.8em; color:#64748b;">⬅️ לתחנה הבאה: ${st.nextDist}</span>
+                        </div>
+                        <div style="font-size:0.82em; text-align:left;">
+                            ${userDistStr}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function focusStation(index) {
+            if (dynamicMap && STATIONS[index]) {
+                const st = STATIONS[index];
+                dynamicMap.setView([st.lat, st.lng], 16);
+                if (netanyaMarkers[index]) netanyaMarkers[index].openPopup();
+            }
+        }
+
+        function fitFullRoute() {
+            if (dynamicMap && routePolyline) {
+                dynamicMap.fitBounds(routePolyline.getBounds(), { padding: [30, 30] });
             }
         }
 
@@ -800,7 +958,7 @@
                 const timeStr = now.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
                 const dateStr = now.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
                 
-                const note = prompt('הוסף תיאור קצר לחוויה (לדוגמה: טיילת נתניה, חוף סירונית, קוריאה):', 'חוויה מהדרך') || 'חוויה מהדרך';
+                const note = prompt('הוסף תיאור קצר לחוויה (לדוגמה: שוק נתניה המקורה, טיילת סירונית, הרכבת):', 'חוויה מהדרך') || 'חוויה מהדרך';
 
                 const newEntry = {
                     id: 'diary_' + Date.now(),
@@ -840,7 +998,7 @@
                     <div style="text-align: center; padding: 30px; background: white; border-radius: 12px; border: 1px dashed #cbd5e1; color: #94a3b8;">
                         <i class="fa-solid fa-camera" style="font-size: 2.5em; margin-bottom: 10px;"></i>
                         <p style="margin: 0; font-weight: bold;">עדיין אין תמונות ביומן.</p>
-                        <p style="margin: 5px 0 0 0; font-size: 0.85em;">לחץ על 'צלם במצלמה' כדי לתעד את התחנה הראשונה!</p>
+                        <p style="margin: 5px 0 0 0; font-size: 0.85em;">לחץ על 'צלם במצלמה' כדי לתעד את התחנה הראשונה מחר!</p>
                     </div>
                 `;
                 return;
