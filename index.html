@@ -233,34 +233,34 @@
         <!-- ================= 1. HOME SCREEN (6 BUTTONS GRID) ================= -->
         <div id="screen-home" class="screen active">
             <div class="grid-container">
-                <!-- שורה 1: ימין = תיק טיול ומסמכים | שמאל = מסלול טיול בזמן אמת -->
-                <div class="nav-btn color-route" onclick="switchScreen('screen-route')">
-                    <i class="fa-solid fa-folder-open"></i>
-                    <span>תיק טיול ומסמכים</span>
-                </div>
+                <!-- שורה 1: ימין (אגודל שטח) = מסלול טיול בזמן אמת | שמאל = תיק טיול ומסמכים -->
                 <div class="nav-btn color-map" onclick="switchScreen('screen-map')">
                     <i class="fa-solid fa-map-location-dot"></i>
                     <span>מסלול טיול בזמן אמת</span>
                 </div>
-
-                <!-- שורה 2: ימין = חירום | שמאל = התראות -->
-                <div class="nav-btn color-emergency" onclick="switchScreen('screen-emergency')">
-                    <i class="fa-solid fa-kit-medical"></i>
-                    <span>חירום</span>
+                <div class="nav-btn color-route" onclick="switchScreen('screen-route')">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>תיק טיול ומסמכים</span>
                 </div>
+
+                <!-- שורה 2: ימין (אגודל שטח) = התראות | שמאל = חירום -->
                 <div class="nav-btn color-alerts" onclick="switchScreen('screen-alerts')">
                     <i class="fa-solid fa-bell ringing-bell"></i>
                     <span>התראות</span>
                 </div>
-
-                <!-- שורה 3: ימין = סייען AI (כולל לינה ומזון) | שמאל = יומן מסע -->
-                <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
-                    <i class="fa-solid fa-robot"></i>
-                    <span>סייען AI</span>
+                <div class="nav-btn color-emergency" onclick="switchScreen('screen-emergency')">
+                    <i class="fa-solid fa-kit-medical"></i>
+                    <span>חירום</span>
                 </div>
+
+                <!-- שורה 3: ימין (אגודל שטח) = יומן מסע | שמאל = סייען AI -->
                 <div class="nav-btn color-diary" onclick="switchScreen('screen-diary')">
                     <i class="fa-solid fa-camera-retro"></i>
                     <span>יומן מסע</span>
+                </div>
+                <div class="nav-btn color-ai" onclick="switchScreen('screen-ai')">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>סייען AI</span>
                 </div>
             </div>
             
