@@ -581,7 +581,7 @@
         <div id="screen-map" class="screen">
             <div class="top-bar" style="background: #fdf2f8; padding: 8px 14px; gap: 10px;">
                 <button class="back-btn" onclick="switchScreen('screen-home')" style="padding: 6px 12px; font-size: 0.9em;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <span style="color: #9d174d; font-weight: 800; font-size: 1.05em;"><i class="fa-solid fa-map-location-dot"></i> מפה חיה בזמן אמת</span>
+                <span style="color: #9d174d; font-weight: 800; font-size: 1.05em;"><i class="fa-solid fa-map-location-dot"></i> מפה בזמן אמת</span>
             </div>
 
             <!-- Live GPS Status & Quick Tools -->
@@ -2505,9 +2505,6 @@
                     dynamicMap.setView([lat, lng], 16);
                 }
 
-                if (userMarker) dynamicMap.removeLayer(userMarker);
-                if (accuracyCircle) dynamicMap.removeLayer(accuracyCircle);
-
                 let targetStation = (activeTargetIndex !== null && STATIONS[activeTargetIndex]) ? STATIONS[activeTargetIndex] : null;
 
                 if (!targetStation) {
@@ -2567,29 +2564,53 @@
                     iconAnchor: [19, 19]
                 });
 
-                userMarker = L.marker([lat, lng], { icon: userPinIcon }).addTo(dynamicMap)
-                    .bindPopup(`
-                        <div style="font-family:Heebo; font-size:13px; text-align:right;" dir="rtl">
-                            <b style="color:#2563eb;">📍 מיקומך הנוכחי בזמן אמת</b><br>
-                            <div>🎯 יעד נוכחי: <b>${targetStation.title}</b></div>
-                            <div style="font-size:11px; color:#0369a1;">📍 ${targetStation.address}</div>
-                            <div>📏 מרחק ליעד: <b style="color:#16a34a;">${distStr}</b></div>
-                            <div>⏱️ זמן הגעה משוער: <b style="color:#2563eb;">${etaStr}</b></div>
-                            <div>🧭 מצב מפה: <b>${isHeadingUp ? 'כיוון נסיעה (מסתובב)' : 'צפון קבוע'}</b></div>
-                            <div>🧭 זווית כיוון: <b>${Math.round(displayAngle)}°</b></div>
-                            <div style="font-size:11px; color:#64748b; margin-top:4px;">דיוק GPS: ${Math.round(acc)} מטר</div>
+                const popupHtml = `
+                    <div style="font-family:Heebo, sans-serif; font-size:13px; text-align:right; min-width:210px;" dir="rtl">
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">
+                            <b style="color:#2563eb; font-size:1.05em;"><i class="fa-solid fa-location-crosshairs"></i> מיקומך הנוכחי</b>
+                            <button onclick="if(userMarker) userMarker.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
                         </div>
-                    `);
+                        <div style="margin-bottom:3px;">🎯 יעד פעיל: <b>${targetStation.title}</b></div>
+                        <div style="font-size:11px; color:#0369a1; margin-bottom:4px;">📍 ${targetStation.address}</div>
+                        <div style="margin-bottom:2px;">📏 מרחק ליעד: <b style="color:#16a34a;">${distStr}</b></div>
+                        <div style="margin-bottom:2px;">⏱️ זמן הגעה: <b style="color:#2563eb;">${etaStr}</b></div>
+                        <div style="margin-bottom:2px;">🧭 מצב מפה: <b>${isHeadingUp ? 'כיוון נסיעה' : 'צפון קבוע'} (${Math.round(displayAngle)}°)</b></div>
+                        <div style="font-size:11px; color:#64748b; margin-top:4px;">דיוק GPS: ${Math.round(acc)} מטר</div>
+                        <div style="margin-top:10px; text-align:center;">
+                            <button onclick="if(userMarker) userMarker.closePopup();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:5px 14px; font-weight:bold; font-size:12px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
+                                סיימתי לקרוא - סגור בועה
+                            </button>
+                        </div>
+                    </div>
+                `;
 
-                if (centerMap) userMarker.openPopup();
+                let isPopupOpen = false;
+                if (userMarker) {
+                    isPopupOpen = userMarker.isPopupOpen();
+                    userMarker.setLatLng([lat, lng]);
+                    userMarker.setIcon(userPinIcon);
+                    userMarker.setPopupContent(popupHtml);
+                } else {
+                    userMarker = L.marker([lat, lng], { icon: userPinIcon }).addTo(dynamicMap)
+                        .bindPopup(popupHtml, { autoClose: false, closeOnClick: false });
+                }
 
-                accuracyCircle = L.circle([lat, lng], {
-                    radius: acc,
-                    color: '#3b82f6',
-                    fillColor: '#93c5fd',
-                    fillOpacity: 0.15,
-                    weight: 1
-                }).addTo(dynamicMap);
+                if (centerMap || isPopupOpen) {
+                    userMarker.openPopup();
+                }
+
+                if (accuracyCircle) {
+                    accuracyCircle.setLatLng([lat, lng]);
+                    accuracyCircle.setRadius(acc);
+                } else {
+                    accuracyCircle = L.circle([lat, lng], {
+                        radius: acc,
+                        color: '#3b82f6',
+                        fillColor: '#93c5fd',
+                        fillOpacity: 0.15,
+                        weight: 1
+                    }).addTo(dynamicMap);
+                }
 
                 if (statusText) {
                     statusText.innerHTML = `
