@@ -518,7 +518,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.5.2
+                גרסה 4.5.5
             </span>
         </div>
     </header>
@@ -725,6 +725,69 @@
                                 <div style="color: #64748b; font-size: 0.85em;">תרופות קבועות באנגלית + אישור טיסה</div>
                             </div>
                             <button onclick="alert('הצגת מרשמים רפואיים באנגלית')" style="background: #fffbeb; border: 1px solid #fde68a; color: #b45309; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-eye"></i> צפה</button>
+                        </div>
+
+                        <!-- 5. Pre-Trip Health Preparations & Vaccines (Planning at Home / Office - NOT Baltam!) -->
+                        <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; margin-top: 12px; padding: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="background: #e0f2fe; color: #0284c7; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0;">
+                                        <i class="fa-solid fa-syringe"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 800; color: #0f172a; font-size: 1.05em;">הכנות בריאותיות וחיסונים טרם יציאה</div>
+                                        <div style="color: #64748b; font-size: 0.82em;">תכנון מקדים בבית/משרד (עוגן קשיח - איננו בלת"ם)</div>
+                                    </div>
+                                </div>
+                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">תכנון מראש</span>
+                            </div>
+
+                            <!-- Filter pills for Pre-Trip Health Map -->
+                            <div style="display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap;">
+                                <button onclick="filterHealthMap('all')" id="pill-all" style="background: #0284c7; color: white; border: none; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">הכל</button>
+                                <button onclick="filterHealthMap('clean')" id="pill-clean" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">🟢 אזורים נקיים</button>
+                                <button onclick="filterHealthMap('malaria')" id="pill-malaria" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">🟡 אזורי מלריה</button>
+                                <button onclick="filterHealthMap('meningitis')" id="pill-meningitis" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">🟠 דלקת קרום המוח</button>
+                            </div>
+
+                            <!-- Destination Health Cards -->
+                            <div id="health-cards-container" style="display: flex; flex-direction: column; gap: 6px;">
+                                <!-- Clean Area Card: Israel & Netanya -->
+                                <div class="health-card" data-zone="clean" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 4px solid #22c55e; border-radius: 8px; padding: 8px 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <b style="color: #166534; font-size: 0.9em;">🟢 ישראל ונתניה - אזור נקי</b>
+                                        <span style="font-size: 0.7em; color: #15803d; font-weight: bold;">ללא סיכון</span>
+                                    </div>
+                                    <div style="font-size: 0.8em; color: #166534; margin-top: 2px;">אין צורך בחיסונים מיוחדים או בכדורים מונעים. שתיית מים מרובה.</div>
+                                </div>
+
+                                <!-- Clean Area Card: South Korea (Seoul) -->
+                                <div class="health-card" data-zone="clean" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 4px solid #22c55e; border-radius: 8px; padding: 8px 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <b style="color: #166534; font-size: 0.9em;">🟢 סיאול, קוריאה הדרומית - אזור נקי</b>
+                                        <span style="font-size: 0.7em; color: #15803d; font-weight: bold;">רפואה מתקדמת</span>
+                                    </div>
+                                    <div style="font-size: 0.8em; color: #166534; margin-top: 2px;">תברואה ורפואה מערבית מובילה בעולם. חיסוני שגרה בלבד (טטנוס, שפעת).</div>
+                                </div>
+
+                                <!-- Malaria Card: Yellow Zone -->
+                                <div class="health-card" data-zone="malaria" style="background: #fefce8; border: 1px solid #fef08a; border-right: 4px solid #eab308; border-radius: 8px; padding: 8px 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <b style="color: #854d0e; font-size: 0.9em;">🟡 אזור מלריה (הודו, אפריקה, אמזונס)</b>
+                                        <span style="font-size: 0.7em; color: #a16207; font-weight: bold;">חובת טיפול מונע</span>
+                                    </div>
+                                    <div style="font-size: 0.8em; color: #854d0e; margin-top: 2px;">כדורי מלרון (Malarone) יום לפני היציאה ועד 7 ימים אחרי, בתוספת דוחה יתושים DEET 30%+.</div>
+                                </div>
+
+                                <!-- Meningitis Card: Orange Zone -->
+                                <div class="health-card" data-zone="meningitis" style="background: #fff7ed; border: 1px solid #fed7aa; border-right: 4px solid #ea580c; border-radius: 8px; padding: 8px 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <b style="color: #9a3412; font-size: 0.9em;">🟠 חגורת דלקת קרום המוח (אפריקה המשוונית)</b>
+                                        <span style="font-size: 0.7em; color: #c2410c; font-weight: bold;">חובת חיסון</span>
+                                    </div>
+                                    <div style="font-size: 0.8em; color: #9a3412; margin-top: 2px;">חיסון מנינגוקוק מרובע (MenACWY) לפחות 10 ימים טרם יציאה. פנקס חיסונים בינלאומי חובה.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1111,102 +1174,203 @@
                     </button>
                 </div>
 
-                <!-- Quick shortcut to World Health Map -->
-                <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div style="font-weight: bold; color: #92400e;"><i class="fa-solid fa-heart-pulse"></i> מפת בריאות עולמית וחיסונים</div>
-                        <div style="font-size: 0.82em; color: #78350f;">בדיקת אזורי מלריה, דלקת קרום המוח ואזורים נקיים</div>
+                <!-- Shortcuts: Live Baltam Alerts & Pre-Trip Health Dossier -->
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 900; color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-triangle-exclamation"></i> התראות בלת"ם שטח חיות בזמן אמת</div>
+                            <div style="font-size: 0.82em; color: #7f1d1d;">התפרצות קורונה, חסימת שבילים, עומס חום קיצוני בשטח</div>
+                        </div>
+                        <button onclick="switchScreen('screen-alerts')" style="background: #ea580c; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח בלת"ם</button>
                     </div>
-                    <button onclick="switchScreen('screen-alerts')" style="background: #f59e0b; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">בדוק</button>
+
+                    <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 900; color: #1e40af; font-size: 0.95em;"><i class="fa-solid fa-heart-pulse"></i> מפת בריאות עולמית וחיסונים טרם יציאה</div>
+                            <div style="font-size: 0.82em; color: #1e3a8a;">סיווג רפואי עולמי, כדורי מלרון וחיסוני שגרה (תיק טיול)</div>
+                        </div>
+                        <button onclick="switchScreen('screen-route')" style="background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח מסמכים</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= 5. ALERTS & WORLD HEALTH SCREEN ================= -->
+        <!-- ================= 5. LIVE BALTAM (ON-TRIP REAL-TIME UNFORESEEN INCIDENTS) SCREEN ================= -->
         <div id="screen-alerts" class="screen">
-            <div class="top-bar" style="background: #f59e0b;">
+            <div class="top-bar" style="background: #ea580c;">
                 <button class="back-btn" onclick="switchScreen('screen-home')" style="color:white; background: rgba(255,255,255,0.2); border: none;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color:white;"><i class="fa-solid fa-bell"></i> התראות בלת"ם ובריאות</h2>
+                <h2 style="color:white;"><i class="fa-solid fa-triangle-exclamation"></i> התראות בלת"ם שטח בזמן אמת</h2>
             </div>
 
             <div class="content-padding" style="padding-bottom: 50px;">
-                <!-- World Health Map Section -->
-                <div id="world-health-section" style="background: white; border: 2px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 22px; box-shadow: 0 4px 6px rgba(0,0,0,0.04);">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">
-                        <i class="fa-solid fa-earth-americas" style="font-size: 1.6em; color: #0284c7;"></i>
-                        <div>
-                            <h3 style="margin: 0; color: #0f172a; font-size: 1.15em;">מפת בריאות עולמית וחיסונים</h3>
-                            <div style="font-size: 0.8em; color: #64748b;">סיווג רפואי רשמי ליעדי הטיול (ירוק, צהוב מלריה, כתום דלקת קרום המוח)</div>
-                        </div>
+                
+                <!-- Educational Clarification Banner -->
+                <div style="background: #fff7ed; border-right: 5px solid #ea580c; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;">
+                    <div style="font-weight: 900; color: #9a3412; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-shield-virus"></i> דוקטרינת בלת"ם שטח (On-Trip Live Incident)
                     </div>
-
-                    <!-- Filter pills -->
-                    <div style="display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap;">
-                        <button onclick="filterHealthMap('all')" id="pill-all" style="background: #0284c7; color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.82em; font-weight: bold; cursor: pointer;">הכל (עולמי)</button>
-                        <button onclick="filterHealthMap('clean')" id="pill-clean" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.82em; font-weight: bold; cursor: pointer;">🟢 אזורים נקיים</button>
-                        <button onclick="filterHealthMap('malaria')" id="pill-malaria" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.82em; font-weight: bold; cursor: pointer;">🟡 אזורי מלריה</button>
-                        <button onclick="filterHealthMap('meningitis')" id="pill-meningitis" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.82em; font-weight: bold; cursor: pointer;">🟠 דלקת קרום המוח</button>
-                    </div>
-
-                    <!-- Destination Health Cards -->
-                    <div id="health-cards-container" style="display: flex; flex-direction: column; gap: 10px;">
-                        <!-- Clean Area Card: Israel & Netanya -->
-                        <div class="health-card" data-zone="clean" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 5px solid #22c55e; border-radius: 10px; padding: 12px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                <span style="font-weight: 800; color: #166534; font-size: 0.95em;">🟢 ישראל ונתניה - אזור נקי</span>
-                                <span style="background: #dcfce7; color: #15803d; font-size: 0.72em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">ללא סיכון חריג</span>
-                            </div>
-                            <p style="margin: 0; font-size: 0.82em; color: #166534; line-height: 1.4;">
-                                אין צורך בחיסונים מיוחדים או בכדורים מונעים. יש להקפיד על שתיית מים מרובה והגנה מהשמש בטיילת הראשונים ובמעלית סירונית.
-                            </p>
-                        </div>
-
-                        <!-- Clean Area Card: South Korea (Seoul) -->
-                        <div class="health-card" data-zone="clean" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 5px solid #22c55e; border-radius: 10px; padding: 12px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                <span style="font-weight: 800; color: #166534; font-size: 0.95em;">🟢 סיאול, קוריאה הדרומית - אזור נקי</span>
-                                <span style="background: #dcfce7; color: #15803d; font-size: 0.72em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">בטוח לחלוטין</span>
-                            </div>
-                            <p style="margin: 0; font-size: 0.82em; color: #166534; line-height: 1.4;">
-                                רמת תברואה ורפואה מערבית מתקדמת ביותר. מים ראויים לשתייה. חיסוני שגרה בלבד (טטנוס, שפעת עונתית מומלצת).
-                            </p>
-                        </div>
-
-                        <!-- Malaria Card: Yellow Zone -->
-                        <div class="health-card" data-zone="malaria" style="background: #fefce8; border: 1px solid #fef08a; border-right: 5px solid #eab308; border-radius: 10px; padding: 12px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                <span style="font-weight: 800; color: #854d0e; font-size: 0.95em;">🟡 אזור מלריה (הודו, אפריקה, אמזונס)</span>
-                                <span style="background: #fef9c3; color: #a16207; font-size: 0.72em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">חובת טיפול מונע</span>
-                            </div>
-                            <p style="margin: 0; font-size: 0.82em; color: #854d0e; line-height: 1.4;">
-                                נדרש מרשם רופא לכדורי מלרון (Malarone) יום לפני ההגעה ועד 7 ימים לאחר העזיבה. חובת מריחת דוחה יתושים (DEET 30%+) וביגוד ארוך בשעות הערב.
-                            </p>
-                        </div>
-
-                        <!-- Meningitis Card: Orange Zone -->
-                        <div class="health-card" data-zone="meningitis" style="background: #fff7ed; border: 1px solid #fed7aa; border-right: 5px solid #ea580c; border-radius: 10px; padding: 12px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                <span style="font-weight: 800; color: #9a3412; font-size: 0.95em;">🟠 חגורת דלקת קרום המוח (אפריקה המשוונית / סהרה)</span>
-                                <span style="background: #ffedd5; color: #c2410c; font-size: 0.72em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">חובת חיסון</span>
-                            </div>
-                            <p style="margin: 0; font-size: 0.82em; color: #9a3412; line-height: 1.4;">
-                                חובת חיסון מנינגוקוק מרובע (MenACWY) לפחות 10 ימים טרם יציאה. תוקף החיסון ל-5 שנים. הצגת פנקס חיסונים בינלאומי בכניסה למדינות היעד.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live Field Alerts -->
-                <h3 style="color: #9a3412; margin-bottom: 12px;"><i class="fa-solid fa-triangle-exclamation"></i> התראות שטח חיות (בלת"ם)</h3>
-                <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; margin-bottom: 12px; border-right: 5px solid #ef4444; padding: 14px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="font-weight: bold; color: #991b1b;"><i class="fa-solid fa-cloud-sun"></i> מזג אוויר ורוחות בחוף נתניה</span>
-                        <span style="font-size: 0.75em; color: #ef4444; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">תחזית נוכחית</span>
-                    </div>
-                    <p style="margin: 0; font-size: 0.88em; color: #475569; line-height: 1.4;">
-                        טמפרטורה נוחה של 24°C עם בריזת בוקר בטיילת הראשונים. בשעות הצהריים מומלצת השהייה בשוק המקורה והמוצל.
+                    <p style="margin: 4px 0 0; font-size: 0.85em; color: #7c2d12; line-height: 1.45;">
+                        התראות אלו מופעלות <b>אך ורק על אירועים בלתי צפויים המתפרצים בשטח בזמן אמת</b> (חיסונים ובדיקות שגרה הוכנו מראש בבית בתיק הטיול). המערכת מספקת הנחיות חדות, כרטיס נהג מקומי וחלופות מסלול בטוחות.
                     </p>
                 </div>
+
+                <!-- Scenario Selector for Field Simulation & Testing -->
+                <div style="background: white; border: 2px solid #fed7aa; border-radius: 12px; padding: 12px; margin-bottom: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+                    <label style="display: block; font-weight: 900; color: #9a3412; font-size: 0.95em; margin-bottom: 6px;">
+                        <i class="fa-solid fa-satellite-dish"></i> בחר תרחיש שטח לבדיקה והדמיה חיה:
+                    </label>
+                    <select id="baltam-scenario-selector" onchange="switchBaltamScenario(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #ea580c; font-family: 'Heebo', sans-serif; font-size: 0.95em; font-weight: 800; color: #0f172a; background: white;">
+                        <option value="korea_covid" selected>🔴 קוריאה: התפרצות קורונה חיה באזור סיאול בו אתם שוהים כעת!</option>
+                        <option value="netanya_heat">🟠 נתניה: עומס חום קיצוני (36°C) בטיילת הראשונים</option>
+                        <option value="trail_fire">🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא</option>
+                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                    </select>
+                </div>
+
+                <!-- SCENARIO 1: LIVE KOREA COVID OUTBREAK (THE USER'S BENCHMARK BALTAM) -->
+                <div id="baltam-card-korea_covid" class="baltam-scenario-card" style="display: block;">
+                    <div style="background: #fef2f2; border: 2px solid #ef4444; border-right: 6px solid #b91c1c; border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(239,68,68,0.15);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="background: #b91c1c; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.85em; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-triangle-exclamation fa-beat"></i> בלת"ם שטח פעיל בזמן אמת
+                            </span>
+                            <span style="font-size: 0.8em; font-weight: 800; color: #991b1b;">
+                                רובע יונגסאן, סיאול (1.2 ק"מ מהמלון)
+                            </span>
+                        </div>
+
+                        <h3 style="margin: 6px 0 10px; color: #991b1b; font-size: 1.2em;">
+                            🚨 התראה: האזור בו אתם מטיילים כעת נגוע בהתפרצות קורונה!
+                        </h3>
+
+                        <p style="margin: 0 0 14px 0; font-size: 0.9em; color: #7f1d1d; line-height: 1.5; font-weight: 600;">
+                            זוהה מוקד תחלואה חריג של נגיף קורונה בחללים סגורים ברובע איטוואן/יונגסאן. להלן נוהל פעולה מיידי וממוקד לקבוצת הגמלאים:
+                        </p>
+
+                        <!-- Action Checklist: Focused, Non-Generic -->
+                        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88em;">
+                            
+                            <!-- 1. Masking Instruction -->
+                            <div style="background: white; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 12px;">
+                                <b style="color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-head-side-mask"></i> 1. חובת עטיית מסכות KF94 / N95 מיידית:</b>
+                                <div style="color: #334155; margin-top: 4px;">
+                                    חובה לעטות מסכה בכל נסיעה ברכבת תחתית, אוטובוסים ומבנים סגורים. הצטיידו במסיכות בחנות הנוחות <b>CU / GS25</b> במרחק 40 מטר מדלת מלון המילטון (מחיר כ-1,500 וון למסכה).
+                                </div>
+                            </div>
+
+                            <!-- 2. Nearest International Clinic with Instant Taxi Card -->
+                            <div style="background: white; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                    <b style="color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-hospital-user"></i> 2. מרפאה בינלאומית מוסמכת לבדיקות וטיפול:</b>
+                                    <button onclick="showCustomTaxiCard('연세대학교 신촌세브란스병원 국제진료센터 (Severance Hospital International Health Clinic)', '50-1 Yonsei-ro, Seodaemun-gu, Seoul', 37.5623, 126.9408)" style="background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                        <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
+                                    </button>
+                                </div>
+                                <div style="color: #334155; margin-top: 4px;">
+                                    <b>Severance International Health Clinic (סוורנס יונסיי)</b> - רופאים דוברי אנגלית, מחלקת קורונה בינלאומית, מרחק 1.8 ק"מ. טלפון חירום: <b>02-2228-5800</b>.
+                                </div>
+                            </div>
+
+                            <!-- 3. Rerouting to Open Air Attractions -->
+                            <div style="background: white; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 12px;">
+                                <b style="color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-route"></i> 3. ניתוב מסלול חלופי לאוויר הפתוח (ללא תחושת החמצה):</b>
+                                <div style="color: #334155; margin-top: 4px;">
+                                    ביטול סיור בקניוני מיונגדונג הצפופים והחלפתו בטיילת פארק נמסאן המוצלת (Namsan Trail) ובגני נהר האן הפתוחים והמאווררים.
+                                </div>
+                            </div>
+
+                            <!-- 4. Insurance & Emergency Call -->
+                            <div style="background: white; border: 1px solid #fca5a5; border-radius: 10px; padding: 10px 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                    <b style="color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-phone-volume"></i> 4. מוקד ביטוח רפואי ורופא מלווה:</b>
+                                    <button onclick="alert('חיוג ישיר למוקד חירום ביטוח רפואי בינלאומי: +972-3-5551234 (זמין 24/7)')" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 900; font-size: 0.85em; cursor: pointer;">
+                                        <i class="fa-solid fa-phone"></i> חיוג חירום לביטוח
+                                    </button>
+                                </div>
+                                <div style="color: #334155; margin-top: 4px;">
+                                    דיווח מוקדם לסוכן הביטוח פותח מיידית כיסוי מלא להוצאות בידוד, בדיקות PCR והארכת שהייה במידת הצורך.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCENARIO 2: LIVE NETANYA EXTREME HEATWAVE BALTAM -->
+                <div id="baltam-card-netanya_heat" class="baltam-scenario-card" style="display: none;">
+                    <div style="background: #fff7ed; border: 2px solid #f97316; border-right: 6px solid #ea580c; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="background: #ea580c; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.85em;">
+                                🟠 בלת"ם שטח: עומס חום קיצוני
+                            </span>
+                            <span style="font-size: 0.8em; font-weight: 800; color: #9a3412;">
+                                חוף נתניה וטיילת הראשונים (36°C)
+                            </span>
+                        </div>
+                        <h3 style="margin: 6px 0 10px; color: #9a3412; font-size: 1.15em;">
+                            ☀️ קרינת שמש קיצונית ועומס חום כבד בשעות 11:30 - 15:00
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88em; color: #334155;">
+                            <div style="background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px;">
+                                <b>🚶 התאמת מסלול מיידית:</b> קיצור ההליכה על הטיילת הפתוחה. ירידה במעלית סירונית המוצלת לשהייה ליד המים המוצלים.
+                            </div>
+                            <div style="background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px;">
+                                <b>🍉 הקדמת שוק נתניה המקורה:</b> מעבר מוקדם לשוק המקורה ברחוב שוהם 10 (ממוזג ומוצל) והפסקת צהריים ממושכת.
+                            </div>
+                            <div style="background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px;">
+                                <b>💧 משטר שתייה:</b> שתיית 0.5 ליטר מים כל 40 דקות לקבוצה.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCENARIO 3: LIVE ISRAEL TRAIL DETOUR BALTAM -->
+                <div id="baltam-card-trail_fire" class="baltam-scenario-card" style="display: none;">
+                    <div style="background: #fef2f2; border: 2px solid #ef4444; border-right: 6px solid #dc2626; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="background: #dc2626; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.85em;">
+                                🔴 בלת"ם שטח: חסימת מקטע שביל ישראל
+                            </span>
+                            <span style="font-size: 0.8em; font-weight: 800; color: #991b1b;">
+                                מקטע שער הגיא - בר בהר
+                            </span>
+                        </div>
+                        <h3 style="margin: 6px 0 10px; color: #991b1b; font-size: 1.15em;">
+                            ⚠️ התראה חיה: חסימת שביל עקב שריפת חורש / הצפה מקומית
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88em; color: #334155;">
+                            <div style="background: white; border: 1px solid #fecaca; border-radius: 8px; padding: 10px;">
+                                <b>🧭 הפעלת נתיב מילוט SOS:</b> סטייה מיידית דרומה לכיוון צומת מחסיה וכביש 3855.
+                            </div>
+                            <div style="background: white; border: 1px solid #fecaca; border-radius: 8px; padding: 10px;">
+                                <b>🔋 חיסכון קיצוני בסוללה:</b> המערכת משהה GPS בכיס ומציגה נ.צ מדויק בלחיצה לחבירה לרכב חילוץ.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCENARIO 4: ROUTINE SAFE MODE -->
+                <div id="baltam-card-routine" class="baltam-scenario-card" style="display: none;">
+                    <div style="background: #f0fdf4; border: 2px solid #86efac; border-right: 6px solid #16a34a; border-radius: 14px; padding: 18px; text-align: center;">
+                        <i class="fa-solid fa-circle-check" style="font-size: 2.2em; color: #16a34a; margin-bottom: 8px;"></i>
+                        <h3 style="margin: 0 0 6px; color: #166534; font-size: 1.2em;">אין התראות בלת"ם פעילות באזורכם</h3>
+                        <p style="margin: 0; font-size: 0.9em; color: #14532d; line-height: 1.5;">
+                            השטח ירוק ונקי ברדיוס של 50 ק"מ. כל הצירים פתוחים, תנאי מזג האוויר תקינים, ואין אירועי חירום פעילים.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Shortcut to Pre-Trip Health Planning Dossier -->
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
+                    <div>
+                        <div style="font-weight: 800; color: #1e293b; font-size: 0.9em;"><i class="fa-solid fa-folder-open" style="color:#6d28d9;"></i> זקוק לחיסונים שהוכנו טרם יציאה?</div>
+                        <div style="font-size: 0.8em; color: #64748b;">סיווג רפואי עולמי וחיסוני שגרה שמורים בתיק הטיול המקורי</div>
+                    </div>
+                    <button onclick="switchScreen('screen-route')" style="background: #8b5cf6; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
+                        פתח תיק טיול
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -2538,6 +2702,17 @@
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
+                }
+            });
+        }
+
+        // ================= LIVE BALTAM SCENARIO SWITCHER =================
+        function switchBaltamScenario(scenario) {
+            const scenarios = ['korea_covid', 'netanya_heat', 'trail_fire', 'routine'];
+            scenarios.forEach(sc => {
+                const card = document.getElementById('baltam-card-' + sc);
+                if (card) {
+                    card.style.display = (sc === scenario) ? 'block' : 'none';
                 }
             });
         }
