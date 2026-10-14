@@ -27,11 +27,11 @@
         }
 
         :root {
-            --app-font-scale: 120%;
+            --app-font-scale: 100%;
         }
 
         html {
-            font-size: 120%; /* Large, crisp, highly legible base */
+            font-size: 100%; /* Large, crisp, highly legible base */
         }
 
         @media (min-width: 900px) {
@@ -100,9 +100,9 @@
             display: flex;
             flex-direction: row;
             direction: ltr !important;
-            gap: 20px;
-            padding: 24px 20px;
-            max-width: 1050px;
+            gap: 14px;
+            padding: 16px;
+            max-width: 620px;
             margin: 0 auto;
             width: 100%;
         }
@@ -111,25 +111,25 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px;
             direction: rtl; /* Text inside buttons in Hebrew */
         }
 
         .nav-btn {
             background: #ffffff;
-            border: 2px solid #cbd5e1;
-            border-radius: 24px;
-            padding: 28px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            color: #0f172a;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+            color: #1e293b;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
             transition: transform 0.15s, box-shadow 0.15s;
             cursor: pointer;
-            min-height: 165px;
+            min-height: 125px;
         }
 
         .nav-btn:active {
@@ -138,15 +138,15 @@
         }
 
         .nav-btn i {
-            font-size: 3.4em;
-            margin-bottom: 12px;
+            font-size: 2.3em;
+            margin-bottom: 8px;
         }
 
         .nav-btn span {
-            font-weight: 900;
-            font-size: 1.45em;
+            font-weight: 800;
+            font-size: 1.1em;
             text-align: center;
-            line-height: 1.3;
+            line-height: 1.25;
         }
 
         /* Specific Button Colors */
@@ -540,9 +540,9 @@
 
         <!-- ================= 2. LIVE MAP SCREEN ================= -->
         <div id="screen-map" class="screen">
-            <div class="top-bar" style="background: #fdf2f8;">
-                <button class="back-btn" onclick="switchScreen('screen-home')"><i class="fa-solid fa-arrow-right"></i> חזור</button>
-                <h2 style="color: #9d174d;"><i class="fa-solid fa-map-location-dot"></i> מסלול טיול בזמן אמת</h2>
+            <div class="top-bar" style="background: #fdf2f8; padding: 8px 14px; gap: 10px;">
+                <button class="back-btn" onclick="switchScreen('screen-home')" style="padding: 6px 12px; font-size: 0.9em;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <span style="color: #9d174d; font-weight: 800; font-size: 1.05em;"><i class="fa-solid fa-map-location-dot"></i> מפה חיה בזמן אמת</span>
             </div>
 
             <!-- Live GPS Status & Quick Tools -->
@@ -585,22 +585,30 @@
                 </div>
                 <div id="map-container"></div>
 
-                <!-- Live Real-Time Navigation HUD Bar Floating over Map -->
-                <div id="live-nav-hud" style="position: absolute; bottom: 12px; left: 12px; right: 12px; background: rgba(255, 255, 255, 0.97); border: 3px solid #2563eb; border-radius: 18px; padding: 14px 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.25); z-index: 999; display: flex; justify-content: space-between; align-items: center;" dir="rtl">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="background: #2563eb; color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+                <!-- Live Real-Time Navigation HUD Bar Floating over Map with Close Button -->
+                <div id="live-nav-hud" style="position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.98); border: 2px solid #2563eb; border-radius: 14px; padding: 10px 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 999; display: flex; justify-content: space-between; align-items: center;" dir="rtl">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="background: #2563eb; color: white; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
                             <i class="fa-solid fa-location-arrow"></i>
                         </div>
                         <div>
-                            <div style="font-size: 15px; color: #64748b; font-weight: 800;">יעד פעיל בזמן אמת:</div>
-                            <div id="hud-target-name" style="font-weight: 900; font-size: 20px; color: #0f172a;">1. רכבת נתניה (מרכז)</div>
+                            <div style="font-size: 12px; color: #64748b; font-weight: bold;">יעד פעיל:</div>
+                            <div id="hud-target-name" style="font-weight: 900; font-size: 15px; color: #0f172a;">1. רכבת נתניה (מרכז)</div>
                         </div>
                     </div>
-                    <div style="text-align: left;">
-                        <div id="hud-distance" style="font-weight: 900; font-size: 24px; color: #16a34a;">-- מטר</div>
-                        <div id="hud-eta" style="font-size: 18px; font-weight: 900; color: #2563eb;">-- דקות</div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="text-align: left;">
+                            <div id="hud-distance" style="font-weight: 900; font-size: 17px; color: #16a34a;">-- מטר</div>
+                            <div id="hud-eta" style="font-size: 13px; font-weight: bold; color: #2563eb;">-- דקות</div>
+                        </div>
+                        <button onclick="toggleLiveHud(false)" title="סגור בועה כדי לראות את כל המפה" style="background: #f1f5f9; border: 1px solid #cbd5e1; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; font-weight: bold; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
                     </div>
                 </div>
+
+                <!-- Floating mini pill button to restore HUD when closed -->
+                <button id="btn-reopen-hud" onclick="toggleLiveHud(true)" style="display: none; position: absolute; bottom: 12px; right: 12px; background: #2563eb; color: white; border: 2px solid white; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 998; cursor: pointer;">
+                    🎯 הצג מד ניווט (<span id="reopen-hud-dist">--</span>)
+                </button>
             </div>
 
             <!-- Route Stations & Distances Drawer -->
@@ -636,207 +644,271 @@
                     </div>
                     <div class="accordion-content">
                         <!-- Passport Card -->
-                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; margin-bottom: 14px; padding: 16px; display: flex; align-items: center; gap: 16px;">
-                            <div style="background: #e2e8f0; color: #0f172a; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
+                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
+                            <div style="background: #e2e8f0; color: #0f172a; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
                                 <i class="fa-solid fa-passport"></i>
                             </div>
-                            <div style="flex-grow: 1;">
-                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">דרכון ישראלי (ביומטרי)</div>
-                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">תוקף: 12/2029 | מספר: 24891002</div>
+                            <div style="flex-grow: 1; min-width: 0;">
+                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">דרכון ישראלי (ביומטרי)</div>
+                                <div style="color: #64748b; font-size: 0.85em;">תוקף: 12/2029 | מספר: 24891002</div>
                             </div>
-                            <button onclick="alert('הצגת תמונת דרכון שמורה במכשיר')" style="background: none; border: none; color: #0284c7; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="alert('הצגת תמונת דרכון שמורה במכשיר')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-eye"></i> צפה</button>
                         </div>
 
                         <!-- Flight Card -->
-                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; margin-bottom: 14px; padding: 16px; display: flex; align-items: center; gap: 16px;">
-                            <div style="background: #e0f2fe; color: #0284c7; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
+                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
+                            <div style="background: #e0f2fe; color: #0284c7; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
-                            <div style="flex-grow: 1;">
-                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">כרטיסי טיסה (אל על / קוריאן)</div>
-                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">LY082 | טרמינל 3 | כרטיס אלקטרוני שמור</div>
+                            <div style="flex-grow: 1; min-width: 0;">
+                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">כרטיסי טיסה (אל על / קוריאן)</div>
+                                <div style="color: #64748b; font-size: 0.85em;">LY082 | טרמינל 3 | כרטיס אלקטרוני</div>
                             </div>
-                            <button onclick="alert('ברקוד העלייה למטוס מוצג למסך')" style="background: none; border: none; color: #0284c7; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-qrcode"></i></button>
+                            <button onclick="alert('ברקוד העלייה למטוס מוצג למסך')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-qrcode"></i> ברקוד</button>
                         </div>
 
                         <!-- Insurance Card -->
-                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; margin-bottom: 14px; padding: 16px; display: flex; align-items: center; gap: 16px;">
-                            <div style="background: #dcfce7; color: #16a34a; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
+                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
+                            <div style="background: #dcfce7; color: #16a34a; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
                                 <i class="fa-solid fa-file-medical"></i>
                             </div>
-                            <div style="flex-grow: 1;">
-                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">פוליסת ביטוח רפואי מורחבת</div>
-                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">כיסוי מלא ובלתמים | מוקד 24/7</div>
+                            <div style="flex-grow: 1; min-width: 0;">
+                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">פוליסת ביטוח רפואי מורחבת</div>
+                                <div style="color: #64748b; font-size: 0.85em;">כיסוי מלא ובלתמים | מוקד 24/7</div>
                             </div>
-                            <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: none; border: none; color: #16a34a; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-phone"></i></button>
+                            <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-phone"></i> חיוג</button>
                         </div>
 
                         <!-- Medical Prescriptions -->
-                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px;">
-                            <div style="background: #fef3c7; color: #b45309; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
+                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
+                            <div style="background: #fef3c7; color: #b45309; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
                                 <i class="fa-solid fa-prescription-bottle-medical"></i>
                             </div>
-                            <div style="flex-grow: 1;">
-                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">מרשמים ואישורים רפואיים</div>
-                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">תרופות קבועות באנגלית ואישור רופא לטיסה</div>
+                            <div style="flex-grow: 1; min-width: 0;">
+                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">מרשמים ואישורים רפואיים</div>
+                                <div style="color: #64748b; font-size: 0.85em;">תרופות קבועות באנגלית + אישור טיסה</div>
                             </div>
-                            <button onclick="alert('הצגת מרשמים רפואיים באנגלית')" style="background: none; border: none; color: #b45309; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="alert('הצגת מרשמים רפואיים באנגלית')" style="background: #fffbeb; border: 1px solid #fde68a; color: #b45309; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-eye"></i> צפה</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- ACCORDION 2: מסלול הטיול המפורט וזמני שהייה -->
-                <div class="accordion-item" id="acc-itinerary-details">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-itinerary-details')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-route" style="color:#0284c7; margin-left:8px;"></i> 2. מסלול הטיול המפורט וזמני שהייה</span>
+                <!-- ACCORDION 2: מסלולי הטיול המפורטים (בחירת מסלול מתוך רשימה נפתחת) -->
+                <div class="accordion-item" id="acc-detailed-itinerary">
+                    <div class="accordion-header" onclick="toggleAccordion('acc-detailed-itinerary')">
+                        <span style="color: #1e293b;"><i class="fa-solid fa-map-location-dot" style="color:#2563eb; margin-left:8px;"></i> 2. מסלולי הטיול המפורטים (תיק מסלול)</span>
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
-                        <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 10px; padding: 12px; margin-bottom: 12px;">
-                            <div style="font-weight: bold; color: #9d174d; font-size: 0.95em;"><i class="fa-solid fa-train-subway"></i> יום סימולציה: תחבורה ציבורית לנתניה</div>
-                            <div style="font-size: 0.82em; color: #475569; margin-top: 4px;">כל תחנות האוטובוס, רציפי הרכבת, זמני המעבר והשהייה מסוכמים וממוספרים.</div>
+                        
+                        <!-- Dropdown Trip Selector -->
+                        <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
+                            <label style="display: block; font-weight: 900; color: #1e40af; font-size: 1.05em; margin-bottom: 6px;">
+                                <i class="fa-solid fa-compass"></i> בחר יעד / מסלול להצגה מפורטת:
+                            </label>
+                            <select id="trip-itinerary-selector" onchange="switchTripDocument(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #3b82f6; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: white;">
+                                <option value="netanya" selected>📍 נתניה (טיול הדמיה ובדיקות שטח בתחבורה ציבורית)</option>
+                                <option value="korea">✈️ קוריאה הדרומית (22-11-2026) - 24 גמלאים צעירים ברוחם</option>
+                                <option value="israel_trail">🥾 שביל ישראל (28-10-2026) - מסע שטח, מקטעים ונקודות מים</option>
+                            </select>
                         </div>
 
-                        <div style="overflow-x: auto;">
-                            <table class="itinerary-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 25px;">#</th>
-                                        <th>מקום / תחנה</th>
-                                        <th>התניידות</th>
-                                        <th>מרחק</th>
-                                        <th>זמן מעבר</th>
-                                        <th>זמן שהייה/פעילות</th>
-                                        <th>דגשים (הנחיות שטח)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><b style="color:#2563eb;">0</b></td>
-                                        <td><b style="color:#2563eb;">נקודת יציאה מהבית (שדרות העצמאות 93, אשדוד)</b></td>
-                                        <td>ברגל לתחנת העצמאות/הציונות</td>
-                                        <td>180 מטר</td>
-                                        <td>3 דקות הליכה</td>
-                                        <td><b style="color:#2563eb;">08:30</b> (יציאה מהדלת)</td>
-                                        <td>יציאה רגועה מהבית לתחנת האוטובוס.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b style="color:#2563eb;">🚏</b></td>
-                                        <td><b style="color:#2563eb;">תחנת אוטובוס (כיוון רכבת עד הלום)</b></td>
-                                        <td>קו 1 (או 23) אפיקים - <b>תחנה 13143</b></td>
-                                        <td>ציר מנחם בגין (דרומה לרכבת)</td>
-                                        <td>20 דקות נסיעה</td>
-                                        <td>08:35 - 08:55</td>
-                                        <td><b>בצד של העצמאות 93 (ללא חציית כביש!):</b> עולים בתחנה בצד המזרחי לכיוון דרום/רכבת. אין לעבור לצד השני!</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b style="color:#16a34a;">🚶</b></td>
-                                        <td><b style="color:#16a34a;">הגעה לרכבת + מקדם ביטחון</b></td>
-                                        <td>הליכה מהמסוף לרציף</td>
-                                        <td>120 מטר</td>
-                                        <td>4 דקות</td>
-                                        <td>08:55 - 09:05</td>
-                                        <td>כניסה בשערים, כרטוס והגעה רגועה לרציף!</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>1</b></td>
-                                        <td><b>רכבת אשדוד עד הלום</b></td>
-                                        <td>רכבת מס' 238</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>יציאה: 09:08</td>
-                                        <td>עולים לרכבת ברציף הנכון.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>2</b></td>
-                                        <td><b>תחנת יבנה מזרח</b></td>
-                                        <td>רכבת מס' 238</td>
-                                        <td>-</td>
-                                        <td>11 דקות</td>
-                                        <td>איסוף: 09:19</td>
-                                        <td>החבר עולה לאותה הרכבת.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>3</b></td>
-                                        <td><b>תחנת רכבת נתניה (מרכז)</b></td>
-                                        <td>ירידה ברציף 2</td>
-                                        <td>55 קילומטר מאשדוד</td>
-                                        <td>66 דקות</td>
-                                        <td>הגעה: 10:25 (15 דק' התארגנות)</td>
-                                        <td>יציאה ביציאה הראשית של הרכבת מערבה.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b style="color:#ea580c;">🚏</b></td>
-                                        <td><b style="color:#ea580c;">מסוף אוטובוסים רכבת נתניה</b></td>
-                                        <td>קו 16 (או 25) - <b>קוד תחנה 37124</b></td>
-                                        <td>רציף אוטובוס מערב</td>
-                                        <td>2 דקות הליכה</td>
-                                        <td>10:40 - 10:45</td>
-                                        <td><b>עלייה לאוטובוס 16/25:</b> קו עירוני מהיר ישירות לכיוון הים והטיילת.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b style="color:#ea580c;">🚏</b></td>
-                                        <td><b style="color:#ea580c;">תחנת ירידה: דוד המלך / שדרות חן</b></td>
-                                        <td>דוד המלך 6 - <b>קוד תחנה 39251</b></td>
-                                        <td>2.5 קילומטר</td>
-                                        <td>8 דקות נסיעה</td>
-                                        <td>10:45 - 10:55</td>
-                                        <td><b>ירידה בתחנה 39251:</b> הליכה ישרה של 180 מטר בלבד (2 דק') למעלית סירונית וטיילת הראשונים.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>4</b></td>
-                                        <td><b>טיילת הראשונים ומעלית סירונית</b></td>
-                                        <td>הליכה מישורית</td>
-                                        <td>180 מטר מהתחנה</td>
-                                        <td>2 דקות הליכה</td>
-                                        <td>10:55 - 12:00</td>
-                                        <td>נוף לים, ירידה במעלית השקופה, בריזת בוקר נעימה.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>5</b></td>
-                                        <td><b>כיכר העצמאות (האינטראקטיבית)</b></td>
-                                        <td>הליכה לאורך הטיילת</td>
-                                        <td>350 מטר</td>
-                                        <td>5 דקות הליכה</td>
-                                        <td>12:00 - 12:45</td>
-                                        <td>מזרקות, מסכי ענק, בתי קפה ומנוחה.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>6</b></td>
-                                        <td><b>השוק המקורה (נתניה)</b></td>
-                                        <td>רחוב שוהם 10 / היהלום</td>
-                                        <td>650 מטר מהכיכר</td>
-                                        <td>8 דקות הליכה</td>
-                                        <td>12:45 - 14:05</td>
-                                        <td><b>מוצל וקריר בשעות החום:</b> ארוחת צהריים מומלצת ב'התוניסאי שלנו' ברחוב היהלום 8 (פריקסה מהדרין).</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>🚏</b></td>
-                                        <td><b>תחנת אוטובוס לרכבת</b><br><span style="font-size:0.8em; color:#0284c7;">שד' ויצמן 16 (קוד 39270)</span></td>
-                                        <td>שד' ויצמן ליד שער הגיא</td>
-                                        <td>70 מטר מהשוק</td>
-                                        <td>1 דקת הליכה</td>
-                                        <td>14:05 - 14:15</td>
-                                        <td>תחנה צמודה ליציאה המזרחית של השוק. קו 16/25 לרכבת.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>8</b></td>
-                                        <td><b>נסיעה חזרה לרכבת נתניה</b></td>
-                                        <td>באוטובוס 16/25</td>
-                                        <td>2.1 קילומטר</td>
-                                        <td>7 דקות נסיעה</td>
-                                        <td>14:15 - 14:35</td>
-                                        <td>הקניות ביד. כניסה לרציף, עלייה לרכבת.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <!-- 1. NETANYA ITINERARY DOCUMENT -->
+                        <div id="itinerary-doc-netanya" class="trip-itinerary-doc">
+                            <div style="background: #fff7ed; border-right: 4px solid #ea580c; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; font-size: 0.9em; color: #9a3412;">
+                                <b>נתניה - טיול הדמיה:</b> שילוב רכבת, הליכה מישורית, ירידה במעלית הים, ושהייה בשוק המקורה בשעות החום.
+                            </div>
+                            <div style="overflow-x: auto;">
+                                <table class="itinerary-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 25px;">#</th>
+                                            <th>מקום / תחנה</th>
+                                            <th>התניידות</th>
+                                            <th>מרחק</th>
+                                            <th>זמן מעבר</th>
+                                            <th>זמן שהייה</th>
+                                            <th>דגשים בשטח</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b style="color:#2563eb;">0</b></td>
+                                            <td><b>יציאה מהבית (שד' העצמאות 93 אשדוד)</b></td>
+                                            <td>ברגל לתחנת העצמאות/הציונות</td>
+                                            <td>180 מטר</td>
+                                            <td>3 דקות</td>
+                                            <td>08:30 יציאה</td>
+                                            <td>יציאה רגועה מהבית לתחנה בצד המזרחי.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b style="color:#2563eb;">🚏</b></td>
+                                            <td><b>אוטובוס לרכבת (תחנה 13143)</b></td>
+                                            <td>קו 1 / 23 אפיקים</td>
+                                            <td>מנחם בגין לרכבת</td>
+                                            <td>20 דקות</td>
+                                            <td>08:35 - 08:55</td>
+                                            <td>עולים בצד של העצמאות 93 ללא חציית כביש!</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b style="color:#16a34a;">🚶</b></td>
+                                            <td><b>הגעה לרציף + מקדם ביטחון</b></td>
+                                            <td>הליכה מהמסוף לרציף</td>
+                                            <td>120 מטר</td>
+                                            <td>4 דקות</td>
+                                            <td>08:55 - 09:05</td>
+                                            <td>כניסה בשערים והגעה רגועה לרציף 1.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>1</b></td>
+                                            <td><b>רכבת אשדוד עד הלום</b></td>
+                                            <td>רכבת מס 238</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>יציאה: 09:08</td>
+                                            <td>נסיעה צפונה.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>2</b></td>
+                                            <td><b>תחנת יבנה מזרח</b></td>
+                                            <td>רכבת מס 238</td>
+                                            <td>-</td>
+                                            <td>11 דקות</td>
+                                            <td>09:19</td>
+                                            <td>החבר עולה לאותה הרכבת.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>3</b></td>
+                                            <td><b>תחנת רכבת נתניה (מרכז)</b></td>
+                                            <td>ירידה ברציף 2</td>
+                                            <td>55 קילומטר</td>
+                                            <td>66 דקות</td>
+                                            <td>הגעה: 10:25</td>
+                                            <td>יציאה ראשית מערבה למסוף האוטובוסים.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b style="color:#ea580c;">🚏</b></td>
+                                            <td><b>מסוף אוטובוסים רכבת נתניה</b></td>
+                                            <td>קו 16/25 (תחנה 37124)</td>
+                                            <td>רציף מערבי</td>
+                                            <td>2 דקות</td>
+                                            <td>10:40 - 10:45</td>
+                                            <td>עלייה לאוטובוס לכיוון הטיילת.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b style="color:#ea580c;">🚏</b></td>
+                                            <td><b>ירידה: דוד המלך / שדרות חן</b></td>
+                                            <td>קו 16/25 (תחנה 39251)</td>
+                                            <td>2.5 קילומטר</td>
+                                            <td>8 דקות</td>
+                                            <td>10:53 ירידה</td>
+                                            <td>הליכה מישורית קצרה (180 מטר) למעלית.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>4</b></td>
+                                            <td><b>טיילת הראשונים ומעלית סירונית</b></td>
+                                            <td>הליכה מישורית</td>
+                                            <td>180 מטר</td>
+                                            <td>2 דקות</td>
+                                            <td>10:55 - 12:00</td>
+                                            <td>נוף לים, ירידה במעלית השקופה, בריזה ומנוחה.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>5</b></td>
+                                            <td><b>כיכר העצמאות (האינטראקטיבית)</b></td>
+                                            <td>הליכה בטיילת</td>
+                                            <td>350 מטר</td>
+                                            <td>5 דקות</td>
+                                            <td>12:00 - 12:45</td>
+                                            <td>מזרקות, מסכים ובתי קפה בצל.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>6</b></td>
+                                            <td><b>השוק המקורה (נתניה)</b></td>
+                                            <td>רחוב שוהם 10 / היהלום</td>
+                                            <td>650 מטר</td>
+                                            <td>8 דקות</td>
+                                            <td>12:45 - 14:05</td>
+                                            <td>מוצל וקריר בשעות החום. פריקסה ב'התוניסאי שלנו'.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>🚏</b></td>
+                                            <td><b>תחנת אוטובוס לרכבת (39270)</b></td>
+                                            <td>שדרות ויצמן 16</td>
+                                            <td>70 מטר מהשוק</td>
+                                            <td>1 דקה</td>
+                                            <td>14:05 - 14:15</td>
+                                            <td>אוטובוס 16/25 חזרה לרכבת.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <!-- Korea Blueprint note -->
-                        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; margin-top: 14px;">
-                            <div style="font-weight: bold; color: #1e293b;"><i class="fa-solid fa-plane-departure" style="color:#6d28d9;"></i> תיק היעד הבא: קוריאה הדרומית (22-11-26)</div>
-                            <div style="font-size: 0.82em; color: #475569; margin-top: 4px;">24 גמלאים צעירים ברוחם. דגש על נוחות, מרחקי הליכה קצרים מחניות לאתרים, סדנת תה Dado, חץ וקשת מסורתי, והתאמה מלאה לכשרות ושבת.</div>
+                        <!-- 2. KOREA ITINERARY DOCUMENT -->
+                        <div id="itinerary-doc-korea" class="trip-itinerary-doc" style="display: none;">
+                            <div style="background: #f5f3ff; border: 2px solid #c4b5fd; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <h4 style="margin: 0; color: #5b21b6; font-size: 1.15em;"><i class="fa-solid fa-plane"></i> מסלול קוריאה הדרומית (22-11-2026 עד 03-12-2026)</h4>
+                                    <span style="background: #ede9fe; color: #6d28d9; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">12 יום מלאים</span>
+                                </div>
+                                <p style="margin: 0; font-size: 0.9em; color: #4c1d95; line-height: 1.5;">
+                                    <b>פרופיל הקבוצה:</b> 24 גמלאים צעירים ברוחם. דגש על נוחות מירבית, אוטובוס צמוד עם מינימום הליכה מחניות לאתרים (עד 400 מטר), שמירת שבת אחת בלבד במלון מרכזי בסיאול סמוך לבית חבד, ומזון כשר/טבעוני נקי.
+                                </p>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #2563eb;">ימים 1-3: סיאול המודרנית וההיסטורית</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">נחיתה באינצ'ון, העברה באוטובוס תיירותי למלון. ארמון Gyeongbokgung (חילופי משמרות, כניסה נגישה ללא מדרגות), כפר Bukchon Hanok, וסדנת תה מסורתית Dado.</div>
+                                </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #ea580c;">ימים 4-5: סדנת חץ וקשת וספא מסורתי</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סדנת חץ וקשת קוריאני מסורתי (Gakgung) בהדרכה פרטית לקבוצה, טיפולי ספא ומרחצאות חמים (Jjimjilbang איכותי), והתאוששות.</div>
+                                </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #16a34a;">ימים 6-7: שבת בסיאול (בית חב"ד איטוואן)</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מלון בטווח הליכה מישורי (300 מטר) מבית חבד. תפילות וסעודות שבת מלאות וכשרות למהדרין. שבת רגועה וחברתית לקבוצה.</div>
+                                </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #7c3aed;">ימים 8-10: רכבת KTX מהירה לבוסאן והר באי גוגו</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">נסיעה חלקה ברכבת קליע KTX (רציף מונגש במעליות), שוק הדגים Jagalchi, תצפית זריחה בהר באמצעות רכבל מוסדר, וטיילת החוף Haeundae.</div>
+                                </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #0284c7;">ימים 11-12: חזרה לסיאול וטיסה הביתה</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">קניות אחרונות במדרחוב Insadong, ארוחת פרידה חגיגית, ונסיעה ישירה לנמל התעופה אינצ'ון לטיסת אל-על חזרה לישראל.</div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- 3. ISRAEL TRAIL ITINERARY DOCUMENT -->
+                        <div id="itinerary-doc-israel_trail" class="trip-itinerary-doc" style="display: none;">
+                            <div style="background: #fefce8; border: 2px solid #fef08a; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <h4 style="margin: 0; color: #854d0e; font-size: 1.15em;"><i class="fa-solid fa-person-hiking"></i> שביל ישראל (28-10-2026) - תיק מבצעי לשטח</h4>
+                                    <span style="background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">מסע רגלי מאומת</span>
+                                </div>
+                                <p style="margin: 0; font-size: 0.9em; color: #713f12; line-height: 1.5;">
+                                    <b>ניהול משאבים קריטי:</b> הטמנות מים יומיות, נקודות מילוט חירום לכל מקטע, נוהל 'התברברתי' (Off-Route SOS), והפעלת מצב חיסכון קיצוני בסוללה (השהיית GPS בכיס - 8 עד 10 שעות הליכה רצופות).
+                                </p>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #166534;">מקטע א': שער הגיא - בר בהר - נס הרים (16 ק"מ)</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">עלייה מתונה בחורש מוצל, נקודת מילוט בצומת מחסיה, הצטיידות במים בבר-בהר. חניון לילה מוסדר נס הרים.</div>
+                                </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #2563eb;">מקטע ב': נס הרים - עין קובי - צור הדסה (14 ק"מ)</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מעיינות הרי יהודה, הליכה לאורך נחל רפאים, בדיקת קליטה סלולרית ונקודת איסוף רכב בצור הדסה.</div>
+                                </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #ea580c;">דגש אנרגיה וסוללה בשטח:</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">המערכת משהה דגימת GPS כשהטלפון בכיס ומעירה את המיקום רק בפתיחת המסך. חובה להצטייד בסוללת גיבוי 10,000mAh.</div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -1077,82 +1149,166 @@
             </div>
             
             <div class="content-padding" style="padding-bottom: 50px;">
-                <!-- Kosher Barcode Scanner -->
-                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 18px; box-shadow: 0 4px 8px rgba(34, 197, 94, 0.12);">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <i class="fa-solid fa-barcode" style="font-size: 1.5em; color: #16a34a;"></i>
-                        <span style="font-weight: 800; color: #166534; font-size: 1.05em;">בדיקת ברקוד מוצר (זיהוי כשרות)</span>
-                    </div>
-                    <p style="margin-top: 0; color: #15803d; font-size: 0.85em; line-height: 1.4; margin-bottom: 10px;">
-                        סריקת ברקוד בסופרמרקט לבדיקה מיידית מול מאגרי כשרות בינלאומיים (מערכת "זה כשר"):
-                    </p>
-                    <div style="display: flex; gap: 8px;">
-                        <button onclick="window.open('https://wa.me/972559943899', '_blank')" style="flex: 1; background: #22c55e; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            <i class="fa-brands fa-whatsapp"></i> בוט וואטסאפ
-                        </button>
-                        <button onclick="window.open('https://kosher.global/zekasher/', '_blank')" style="flex: 1; background: white; color: #166534; border: 1px solid #22c55e; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                            <i class="fa-solid fa-magnifying-glass"></i> מאגר עולמי
-                        </button>
-                    </div>
+                
+                <!-- Category Selector Dropdown: Prevents stretching across endless pages! -->
+                <div style="background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 900; color: #1d4ed8; font-size: 1.05em; margin-bottom: 6px;">
+                        <i class="fa-solid fa-layer-group"></i> בחר תחום סיוע להצגה ממוקדת:
+                    </label>
+                    <select id="ai-main-category-selector" onchange="switchAiSection(this.value)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 2px solid #2563eb; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 800; color: #0f172a; background: white;">
+                        <option value="section-food" selected>🍽️ מזון ומסעדות מותאמות (כשר, טבעוני, צליאק, ברקודים)</option>
+                        <option value="section-hotels">🏨 לינה ומלונות נגישים ומותאמים</option>
+                        <option value="section-transit">🚌 התניידות, תחבורה וכרטיסי נהג מקומי</option>
+                        <option value="section-chat">💬 סייען AI לשטח (צ'אט, צילום שלטים וקול)</option>
+                    </select>
                 </div>
 
-                <!-- GLOBAL CULINARY & RESTAURANTS ENGINE (ITEM 3.7) -->
-                <div style="background: white; border: 1px solid #fed7aa; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(234, 88, 12, 0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h3 style="margin: 0; color: #ea580c; font-size: 1.1em;"><i class="fa-solid fa-utensils"></i> מנוע מסעדות ומזון מותאם</h3>
-                        <span style="font-size: 0.75em; background: #fff7ed; color: #c2410c; padding: 2px 6px; border-radius: 6px; font-weight: bold;">עולמי בזמן אמת</span>
-                    </div>
-
-                    <!-- Filter pills for food -->
-                    <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px;">
-                        <button onclick="filterFood('all')" id="food-filter-all" class="food-filter-btn" style="background: #ea580c; color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; white-space: nowrap;">הכל</button>
-                        <button onclick="filterFood('kosher_badatz')" id="food-filter-kosher_badatz" class="food-filter-btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; white-space: nowrap;">🥩 כשר למהדרין</button>
-                        <button onclick="filterFood('vegan')" id="food-filter-vegan" class="food-filter-btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; white-space: nowrap;">🥗 טבעוני / צמחוני</button>
-                        <button onclick="filterFood('gluten_free')" id="food-filter-gluten_free" class="food-filter-btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; cursor: pointer; white-space: nowrap;">🌾 ללא גלוטן (צליאק)</button>
-                    </div>
-
-                    <!-- Dynamic Restaurant Cards Container -->
-                    <div id="food-cards-container">
-                        <!-- Populated dynamically by JS -->
-                    </div>
-                </div>
-
-                <!-- DUAL AI CONVERSATIONAL ASSISTANT: TEXT + PHOTO + VOICE (ITEM 3.8) -->
-                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 16px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h3 style="margin: 0; color: #1d4ed8; font-size: 1.1em;"><i class="fa-solid fa-headset"></i> סייען ה-AI לשטח (צ'אט, צילום וקול)</h3>
-                        <span style="font-size: 0.75em; background: #dbeafe; color: #1e40af; padding: 2px 6px; border-radius: 6px; font-weight: bold;">זמין 24/7</span>
-                    </div>
-
-                    <p style="font-size: 0.85em; color: #334155; margin-top: 0; margin-bottom: 10px; line-height: 1.4;">
-                        כתוב שאלה, צלם שלט רחוב או תפריט זר לפענוח מיידי, או נהל שיחה קולית:
-                    </p>
-
-                    <!-- Interactive Chat History Box -->
-                    <div id="ai-chat-messages" class="chat-messages-container">
-                        <div class="chat-msg ai">
-                            שלום משה! אני כאן איתך בשטח. תוכל להקליד כל שאלה על מסלול הטיול, לבקש הכוונה למסעדה כשרה, או להעלות צילום של שלט רחוב לזיהוי מיקומך.
+                <!-- 1. FOOD & RESTAURANTS SECTION -->
+                <div id="ai-sec-food" class="ai-category-section">
+                    <!-- Kosher Barcode Scanner -->
+                    <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 18px; box-shadow: 0 4px 8px rgba(34, 197, 94, 0.12);">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                            <i class="fa-solid fa-barcode" style="font-size: 1.5em; color: #16a34a;"></i>
+                            <span style="font-weight: 800; color: #166534; font-size: 1.05em;">בדיקת ברקוד מוצר (זיהוי כשרות)</span>
+                        </div>
+                        <p style="margin-top: 0; color: #15803d; font-size: 0.85em; line-height: 1.4; margin-bottom: 10px;">
+                            סריקת ברקוד בסופרמרקט לבדיקה מיידית מול מאגרי כשרות בינלאומיים (מערכת 'זה כשר'):
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="window.open('https://wa.me/972559943899', '_blank')" style="flex: 1; background: #22c55e; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <i class="fa-brands fa-whatsapp"></i> בוט וואטסאפ
+                            </button>
+                            <button onclick="window.open('https://kosher.global/zekasher/', '_blank')" style="flex: 1; background: white; color: #166534; border: 1px solid #22c55e; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <i class="fa-solid fa-magnifying-glass"></i> מאגר עולמי
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Hidden file input for AI snapshot analysis -->
-                    <input type="file" id="ai-photo-input" accept="image/*" capture="environment" style="display:none;" onchange="handleAiPhotoUpload(event)">
+                    <!-- GLOBAL CULINARY & RESTAURANTS ENGINE (ITEM 3.7) -->
+                    <div style="background: white; border: 1px solid #fed7aa; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(234, 88, 12, 0.05);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h3 style="margin: 0; color: #ea580c; font-size: 1.1em;"><i class="fa-solid fa-utensils"></i> מסעדות ומזון מותאם</h3>
+                            <span style="font-size: 0.75em; background: #fff7ed; color: #c2410c; padding: 2px 6px; border-radius: 6px; font-weight: bold;">עולמי בזמן אמת</span>
+                        </div>
 
-                    <!-- Chat Input Bar -->
-                    <div style="display: flex; gap: 6px; margin-bottom: 10px;">
-                        <input type="text" id="ai-chat-input" placeholder="הקלד שאלה או בקשת הכוונה..." style="flex: 1; padding: 10px 12px; border: 1px solid #94a3b8; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.9em;" onkeypress="if(event.key === 'Enter') sendAiMessage()">
-                        <button onclick="document.getElementById('ai-photo-input').click()" title="צלם שלט רחוב או מקום לפענוח" style="background: white; border: 1px solid #3b82f6; color: #2563eb; width: 42px; border-radius: 10px; cursor: pointer; font-size: 1.1em; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa-solid fa-camera"></i>
-                        </button>
-                        <button onclick="sendAiMessage()" style="background: #2563eb; color: white; border: none; padding: 0 16px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa-solid fa-paper-plane"></i>
+                        <!-- Filter pills for food -->
+                        <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px;">
+                            <button onclick="filterFood('all')" id="food-filter-all" class="food-filter-btn" style="background: #ea580c; color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; cursor: pointer; white-space: nowrap;">הכל</button>
+                            <button onclick="filterFood('kosher_badatz')" id="food-filter-kosher_badatz" class="food-filter-btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; cursor: pointer; white-space: nowrap;">🥩 כשר למהדרין</button>
+                            <button onclick="filterFood('vegan')" id="food-filter-vegan" class="food-filter-btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; cursor: pointer; white-space: nowrap;">🥗 טבעוני / צמחוני</button>
+                            <button onclick="filterFood('gluten_free')" id="food-filter-gluten_free" class="food-filter-btn" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: bold; cursor: pointer; white-space: nowrap;">🌾 ללא גלוטן (צליאק)</button>
+                        </div>
+
+                        <!-- Dynamic Restaurant Cards Container -->
+                        <div id="food-cards-container">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. HOTELS & ACCESSIBLE ACCOMMODATION SECTION -->
+                <div id="ai-sec-hotels" class="ai-category-section" style="display: none;">
+                    <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                        <h3 style="margin-top: 0; color: #1e3a8a;"><i class="fa-solid fa-hotel"></i> מלונות ולינה נגישה ומאושרת</h3>
+                        <p style="font-size: 0.88em; color: #475569; line-height: 1.4;">
+                            כל המלונות נבחרו בקפידה עם מעליות רחבות, גישה ללא מדרגות רבות, וקירבה למוקדי שבת ותחבורה:
+                        </p>
+                        
+                        <!-- Hotel Card 1: Netanya -->
+                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <b style="color: #0f172a; font-size: 1.05em;">מלון איילנד נתניה (טיילת הראשונים)</b>
+                                    <div style="font-size: 0.82em; color: #64748b;">שדרות בן עמי 10, נתניה | נוף ישיר לים</div>
+                                </div>
+                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נגישות מלאה</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מעליות שבת, חניה צמודה לאוטובוס, מרחק 200 מטר ממעלית החוף.</div>
+                            <button onclick="showCustomTaxiCard('מלון איילנד נתניה', 'שדרות בן עמי 10, נתניה', 32.3150, 34.8480)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
+                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג
+                            </button>
+                        </div>
+
+                        <!-- Hotel Card 2: Seoul -->
+                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <b style="color: #0f172a; font-size: 1.05em;">מלון המילטון סיאול (Hamilton Hotel Seoul)</b>
+                                    <div style="font-size: 0.82em; color: #64748b;">Itaewon-ro 179, Yongsan-gu, Seoul</div>
+                                </div>
+                                <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">צמוד לבית חב"ד</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מרחק הליכה קצר ומישורי (250 מטר) מבית חב"ד, מפתח שבת רגיל לפי דרישה מראש, גישה ישירה לתחנת מטרו.</div>
+                            <button onclick="showCustomTaxiCard('Hamilton Hotel Itaewon', '179 Itaewon-ro, Yongsan-gu, Seoul', 37.5345, 126.9940)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
+                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. TRANSIT & TRANSPORTATION SECTION -->
+                <div id="ai-sec-transit" class="ai-category-section" style="display: none;">
+                    <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
+                        <h3 style="margin-top: 0; color: #0284c7;"><i class="fa-solid fa-bus-simple"></i> התניידות, תחבורה והסעות לקבוצה</h3>
+                        <p style="font-size: 0.88em; color: #475569; line-height: 1.4;">
+                            הסדרי תחבורה קבוצתית וציבורית עם מקדמי ביטחון ללא לחץ וללא ריצות ברציפים:
+                        </p>
+
+                        <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 10px; background: #f0f9ff;">
+                            <b style="color: #0369a1;">🚌 אוטובוס תיירות צמוד (קוריאה הדרומית)</b>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">אוטובוס VIP עם תא מטען רחב, הורדה והעלאה בנקודות הקרובות ביותר לפתחי האתרים, כולל מים קרים לנוסעים.</div>
+                        </div>
+
+                        <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 10px; background: #f0fdf4;">
+                            <b style="color: #15803d;">🚆 רכבות קליע מהירות KTX (סיאול - בוסאן)</b>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">כרטיסים קבוצתיים שמורים בקרון 3, עלייה רגועה ברציף מעליות, זמן נסיעה שעתיים ו-15 דקות במהירות 300 קמ"ש.</div>
+                        </div>
+
+                        <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; background: #fff7ed;">
+                            <b style="color: #c2410c;">🚏 קווי אוטובוס עירוניים בנתניה (16 ו-25)</b>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">יציאה ממסוף רכבת נתניה מערב (רציף 37124) ישירות למעלית הים ולטיילת כל 10 דקות בימי חול.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. DUAL AI CONVERSATIONAL ASSISTANT: TEXT + PHOTO + VOICE (ITEM 3.8) -->
+                <div id="ai-sec-chat" class="ai-category-section" style="display: none;">
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h3 style="margin: 0; color: #1d4ed8; font-size: 1.1em;"><i class="fa-solid fa-headset"></i> סייען ה-AI לשטח (צ'אט, צילום וקול)</h3>
+                            <span style="font-size: 0.75em; background: #dbeafe; color: #1e40af; padding: 2px 6px; border-radius: 6px; font-weight: bold;">זמין 24/7</span>
+                        </div>
+
+                        <p style="font-size: 0.85em; color: #334155; margin-top: 0; margin-bottom: 10px; line-height: 1.4;">
+                            כתוב שאלה, צלם שלט רחוב או תפריט זר לפענוח מיידי, או נהל שיחה קולית:
+                        </p>
+
+                        <!-- Interactive Chat History Box -->
+                        <div id="ai-chat-messages" class="chat-messages-container">
+                            <div class="chat-msg ai">
+                                שלום משה! אני כאן איתך בשטח. תוכל להקליד כל שאלה על מסלול הטיול, לבקש הכוונה למסעדה כשרה, או להעלות צילום של שלט רחוב לזיהוי מיקומך.
+                            </div>
+                        </div>
+
+                        <!-- Hidden file input for AI snapshot analysis -->
+                        <input type="file" id="ai-photo-input" accept="image/*" capture="environment" style="display:none;" onchange="handleAiPhotoUpload(event)">
+
+                        <!-- Chat Input Bar -->
+                        <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+                            <input type="text" id="ai-chat-input" placeholder="הקלד שאלה או בקשת הכוונה..." style="flex: 1; padding: 10px 12px; border: 1px solid #94a3b8; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.9em;" onkeypress="if(event.key === 'Enter') sendAiMessage()">
+                            <button onclick="document.getElementById('ai-photo-input').click()" title="צלם שלט רחוב או מקום לפענוח" style="background: white; border: 1px solid #3b82f6; color: #2563eb; width: 42px; border-radius: 10px; cursor: pointer; font-size: 1.1em; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <button onclick="sendAiMessage()" style="background: #2563eb; color: white; border: none; padding: 0 16px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+
+                        <!-- Voice Interaction Button -->
+                        <button onclick="alert('סייען ה-AI מאזין: במה אוכל לעזור לך עכשיו בשטח?')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-microphone"></i> שיחה קולית עם סייען ה-AI
                         </button>
                     </div>
-
-                    <!-- Voice Interaction Button -->
-                    <button onclick="alert('סייען ה-AI מאזין: במה אוכל לעזור לך עכשיו בשטח?')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <i class="fa-solid fa-microphone"></i> שיחה קולית עם סייען ה-AI
-                    </button>
                 </div>
             </div>
         </div>
@@ -1206,7 +1362,7 @@
 
     <script>
                 // ================= DYNAMIC FONT ZOOM CONTROLLER (FOR LARGE SCREENS & 42-INCH DISPLAYS) =================
-        let currentFontScale = parseInt(localStorage.getItem('travel_assistant_font_scale') || '125');
+        let currentFontScale = parseInt(localStorage.getItem('travel_assistant_font_scale') || '100');
 
         function applyFontScale() {
             document.documentElement.style.fontSize = currentFontScale + '%';
@@ -1218,6 +1374,40 @@
             applyFontScale();
         }
         applyFontScale();
+
+        // ================= CONTROLLERS FOR REFINED USER WORKFLOW =================
+        function toggleLiveHud(show) {
+            const hud = document.getElementById('live-nav-hud');
+            const btn = document.getElementById('btn-reopen-hud');
+            if (hud) hud.style.display = show ? 'flex' : 'none';
+            if (btn) btn.style.display = show ? 'none' : 'block';
+        }
+
+        function switchTripDocument(tripKey) {
+            document.querySelectorAll('.trip-itinerary-doc').forEach(el => el.style.display = 'none');
+            const target = document.getElementById('itinerary-doc-' + tripKey);
+            if (target) {
+                target.style.display = 'block';
+            }
+        }
+
+        function switchAiSection(sectionKey) {
+            document.querySelectorAll('.ai-category-section').forEach(el => el.style.display = 'none');
+            if (sectionKey === 'section-food') {
+                const el = document.getElementById('ai-sec-food');
+                if (el) el.style.display = 'block';
+                renderFoodCards();
+            } else if (sectionKey === 'section-hotels') {
+                const el = document.getElementById('ai-sec-hotels');
+                if (el) el.style.display = 'block';
+            } else if (sectionKey === 'section-transit') {
+                const el = document.getElementById('ai-sec-transit');
+                if (el) el.style.display = 'block';
+            } else if (sectionKey === 'section-chat') {
+                const el = document.getElementById('ai-sec-chat');
+                if (el) el.style.display = 'block';
+            }
+        }
 
         // ================= NAVIGATION =================
         function switchScreen(screenId) {
@@ -2152,6 +2342,8 @@
                 if (hudTargetName) hudTargetName.innerText = targetStation.title;
                 if (hudDistance) hudDistance.innerText = distStr;
                 if (hudEta) hudEta.innerText = etaStr;
+                const reopenDist = document.getElementById('reopen-hud-dist');
+                if (reopenDist) reopenDist.innerText = distStr;
 
                 renderStationsList();
             }
