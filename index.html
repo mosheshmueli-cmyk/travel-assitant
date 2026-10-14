@@ -411,19 +411,24 @@
             </div>
 
             <!-- Live GPS Status & Quick Tools -->
-            <div style="background: white; padding: 8px 12px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 6px;">
-                <div id="gps-status-text" style="font-size: 0.85em; color: #0284c7; font-weight: bold; flex-grow: 1;">
+            <div style="background: white; padding: 8px 12px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <div id="gps-status-text" style="font-size: 0.85em; color: #0284c7; font-weight: bold; flex-grow: 1; min-width: 150px;">
                     <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS חי...
                 </div>
-                <button onclick="toggleMapOrientation()" id="btn-orientation-mode" title="לחץ לשינוי מצב: צפון קבוע / מסתובב עם כיוון התנועה" style="background: #0ea5e9; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                    <i class="fa-solid fa-compass"></i> <span id="orientation-label">כיוון תנועה</span>
-                </button>
-                <button onclick="locateUser(true)" style="background: #2563eb; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                    <i class="fa-solid fa-crosshairs"></i> המיקום שלי
-                </button>
-                <button onclick="fitFullRoute()" style="background: #8b5cf6; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                    <i class="fa-solid fa-route"></i> כל המסלול
-                </button>
+                <div style="display: flex; gap: 5px; align-items: center;">
+                    <button onclick="rescueOffRoute()" title="התברברתי / איבדתי את הדרך - חזרה מיידית למסלול הקרוב" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; box-shadow: 0 1px 3px rgba(239,68,68,0.3);">
+                        <i class="fa-solid fa-life-ring"></i> התברברתי
+                    </button>
+                    <button onclick="toggleMapOrientation()" id="btn-orientation-mode" title="לחץ לשינוי מצב: צפון קבוע / מסתובב עם כיוון התנועה" style="background: #0ea5e9; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                        <i class="fa-solid fa-compass"></i> <span id="orientation-label">כיוון תנועה</span>
+                    </button>
+                    <button onclick="locateUser(true)" style="background: #2563eb; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                        <i class="fa-solid fa-crosshairs"></i> המיקום שלי
+                    </button>
+                    <button onclick="fitFullRoute()" style="background: #8b5cf6; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                        <i class="fa-solid fa-route"></i> כל המסלול
+                    </button>
+                </div>
             </div>
 
             <!-- Station Quick Selector -->
@@ -1059,8 +1064,9 @@
                                 <div style="color:#7c3aed; font-weight:bold; font-size:12px; margin-bottom:8px;">
                                     ⬅️ לקטע הבא: ${st.nextDist}
                                 </div>
-                                <div style="display:flex; gap:6px;">
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
                                     <button onclick="setTargetStation(${idx})" style="background:#2563eb; color:white; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:11px;">🎯 כוון אותי לכאן</button>
+                                    <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:11px;">🚖 כרטיס לנהג</button>
                                     <a href="https://www.google.com/maps/dir/?api=1&destination=${st.lat},${st.lng}" target="_blank" style="background:#059669; color:white; padding:4px 8px; border-radius:4px; text-decoration:none; font-weight:bold; font-size:11px;">🗺️ ניווט חי</a>
                                 </div>
                             </div>
@@ -1085,17 +1091,139 @@
             setTimeout(() => { dynamicMap.invalidateSize(); }, 200);
         }
 
+        let gpsWatchId = null;
+
         function startContinuousGps() {
-            if (!navigator.geolocation) return;
-            navigator.geolocation.watchPosition(
+            if (!navigator.geolocation || gpsWatchId !== null) return;
+            gpsWatchId = navigator.geolocation.watchPosition(
                 (pos) => {
                     updateUserGpsOnMap(pos, false);
                 },
                 (err) => {
                     console.warn('GPS watch error:', err.message);
                 },
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 5000 }
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
             );
+        }
+
+        function stopContinuousGps() {
+            if (gpsWatchId !== null && navigator.geolocation) {
+                navigator.geolocation.clearWatch(gpsWatchId);
+                gpsWatchId = null;
+            }
+        }
+
+        // Automatic Battery Saver: Sleep GPS antenna when phone screen is locked or in pocket!
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopContinuousGps(); // Battery saver: freeze GPS antenna when screen is off!
+            } else {
+                startContinuousGps(); // Wake up instantly when screen is unlocked!
+                locateUser(false);
+            }
+        });
+
+        function rescueOffRoute() {
+            if (!currentPosition) {
+                locateUser(true);
+                alert("מאתר מיקום GPS לחילוץ מהתברברות... המתן מספר שניות.");
+                return;
+            }
+            const lat = currentPosition.coords.latitude;
+            const lng = currentPosition.coords.longitude;
+
+            let closestIndex = 0;
+            let minDistance = Infinity;
+
+            STATIONS.forEach((st, idx) => {
+                const d = L.latLng(lat, lng).distanceTo(L.latLng(st.lat, st.lng));
+                if (d < minDistance) {
+                    minDistance = d;
+                    closestIndex = idx;
+                }
+            });
+
+            const target = STATIONS[closestIndex];
+            setTargetStation(closestIndex);
+
+            const distStr = (minDistance < 1000) ? `${Math.round(minDistance)} מטר` : `${(minDistance / 1000).toFixed(2)} קילומטר`;
+            const walkMin = Math.max(1, Math.round(minDistance / (4.5 * 1000 / 60)));
+
+            const modalHtml = `
+                <div style="background:#fef2f2; border:2px solid #ef4444; border-radius:12px; padding:14px; text-align:right;" dir="rtl">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:900; color:#dc2626; font-size:1.1em;"><i class="fa-solid fa-triangle-exclamation"></i> חילוץ מהתברברות (SOS)</span>
+                        <span style="background:#dc2626; color:white; font-size:0.75em; padding:2px 8px; border-radius:12px; font-weight:bold;">נעול למסלול</span>
+                    </div>
+                    <p style="margin:4px 0 10px 0; font-size:0.88em; color:#1e293b; line-height:1.4;">
+                        חץ הכיוון סובב אוטומטית ומצביע עם הפנים אל הנקודה הקרובה ביותר במסלול:<br>
+                        <b>📍 ${target.title}</b> (${target.address})
+                    </p>
+                    <div style="background:white; border:1px solid #fecaca; border-radius:8px; padding:8px 10px; margin-bottom:12px; font-size:0.85em;">
+                        📏 מרחק הליכה לחזרה למסלול: <b style="color:#16a34a;">${distStr}</b><br>
+                        ⏱️ זמן הליכה משוער: <b style="color:#2563eb;">${walkMin} דקות</b>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${target.lat},${target.lng}&travelmode=walking" target="_blank" style="flex:1; background:#16a34a; color:white; padding:8px; border-radius:8px; text-align:center; text-decoration:none; font-weight:bold; font-size:0.85em;">
+                            <i class="fa-solid fa-person-walking"></i> נווט רגלית חזרה
+                        </a>
+                        <button onclick="document.getElementById('sos-modal-overlay').remove()" style="flex:1; background:#475569; color:white; border:none; padding:8px; border-radius:8px; font-weight:bold; font-size:0.85em; cursor:pointer;">
+                            הבנתי, המפה מנחה אותי
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            let overlay = document.getElementById('sos-modal-overlay');
+            if (overlay) overlay.remove();
+
+            overlay = document.createElement('div');
+            overlay.id = 'sos-modal-overlay';
+            overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; padding:16px;';
+            overlay.innerHTML = `<div style="max-width:400px; width:100%;">${modalHtml}</div>`;
+            document.body.appendChild(overlay);
+        }
+
+        function showTaxiCard(idx) {
+            const st = STATIONS[idx];
+            if (!st) return;
+
+            const taxiHtml = `
+                <div style="background:white; border-radius:16px; padding:18px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.25);" dir="rtl">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+                        <span style="font-weight:900; color:#1e293b; font-size:1em;"><i class="fa-solid fa-taxi" style="color:#f59e0b;"></i> כרטיס לנהג מקומי / עובר אורח</span>
+                        <button onclick="document.getElementById('taxi-card-overlay').remove()" style="background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:16px; cursor:pointer; color:#64748b;">✕</button>
+                    </div>
+                    
+                    <div style="margin:10px 0; background:#f8fafc; border:2px dashed #94a3b8; border-radius:12px; padding:14px;">
+                        <div style="font-size:0.8em; color:#64748b; margin-bottom:4px;">הראה לנהג המונית או למקומי:</div>
+                        <div style="font-size:1.35em; font-weight:900; color:#0f172a; margin-bottom:6px;">${st.title}</div>
+                        <div style="font-size:1.05em; font-weight:700; color:#2563eb; direction:ltr;">${st.address}</div>
+                    </div>
+
+                    <p style="font-size:0.82em; color:#475569; margin:8px 0;">
+                        <b>הנחיית נהג:</b> אנא קח אותי לכתובת זו / Please take me to this address
+                    </p>
+
+                    <div style="display:flex; gap:8px; margin-top:14px;">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${st.lat},${st.lng}" target="_blank" style="flex:1; background:#2563eb; color:white; padding:10px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.85em;">
+                            <i class="fa-solid fa-location-arrow"></i> פתח ניווט חי
+                        </a>
+                        <button onclick="document.getElementById('taxi-card-overlay').remove()" style="flex:1; background:#e2e8f0; color:#1e293b; border:none; padding:10px; border-radius:8px; font-weight:bold; font-size:0.85em; cursor:pointer;">
+                            סגור
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            let overlay = document.getElementById('taxi-card-overlay');
+            if (overlay) overlay.remove();
+
+            overlay = document.createElement('div');
+            overlay.id = 'taxi-card-overlay';
+            overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; padding:16px;';
+            overlay.innerHTML = `<div style="max-width:380px; width:100%;">${taxiHtml}</div>`;
+            document.body.appendChild(overlay);
         }
 
         function locateUser(centerMap = false) {
@@ -1316,9 +1444,14 @@
                         </div>
                         <div style="font-size:0.8em; text-align:left; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
                             ${userDistStr}
-                            <button onclick="setTargetStation(${idx})" style="background:${isTarget ? '#16a34a' : '#2563eb'}; color:white; border:none; padding:3px 7px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer;">
-                                ${isTarget ? 'יעד נבחר' : '🎯 נווט'}
-                            </button>
+                            <div style="display:flex; gap:4px;">
+                                <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:3px 7px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer;" title="כרטיס לנהג מקומי">
+                                    🚖 נהג
+                                </button>
+                                <button onclick="setTargetStation(${idx})" style="background:${isTarget ? '#16a34a' : '#2563eb'}; color:white; border:none; padding:3px 7px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer;">
+                                    ${isTarget ? 'יעד נבחר' : '🎯 נווט'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
