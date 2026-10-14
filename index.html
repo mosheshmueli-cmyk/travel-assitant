@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.8.3
+                גרסה 4.8.4
             </span>
         </div>
     </header>
@@ -714,8 +714,8 @@
                     </select>
                 </div>
 
-                <!-- Company Trip Documents Integration Banner (User Requirement) -->
-                <div style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #8b5cf6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(139,92,246,0.12);">
+                <!-- Company Trip Documents Integration Banner (Visible ONLY for Korea) -->
+                <div id="ophir-contract-banner" style="display: none; background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #8b5cf6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(139,92,246,0.12);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
                         <span style="font-weight: 900; color: #5b21b6; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
                             <i class="fa-solid fa-file-invoice" style="color: #7c3aed; font-size: 1.3em;"></i>
@@ -729,8 +729,8 @@
                         <b>שובץ במלואו בתיק תכנון הלקוח:</b> חוברת המסלול הרשמית של אופיר טורס "הקסם הקוריאני" (22/11 עד 06/12), כרטיסי טיסה מדויקים של Ethiopian Airlines (ET 419/672/673/418), 2 טיסות פנים, 2 שבתות כהלכתן, והתחייבות החברה להתאמה קפדנית ל-42 גמלאים מעל גיל 75.
                     </div>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button onclick="document.getElementById('custom-doc-file').click()" style="background: #7c3aed; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> העלה מסמך חברה נוסף (PDF/וורד)
+                        <button onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="background: #7c3aed; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> העלה חוברת מסלול נוספת (PDF)
                         </button>
                         <button onclick="document.getElementById('acc-detailed-itinerary').classList.add('open'); document.getElementById('trip-itinerary-selector').value='korea'; switchTripDocument('korea'); document.getElementById('acc-detailed-itinerary').scrollIntoView({behavior:'smooth'});" style="background: white; color: #6d28d9; border: 1.5px solid #8b5cf6; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-list-check"></i> צפה בלוח הזמנים של החברה
@@ -738,130 +738,152 @@
                     </div>
                 </div>
 
-                <!-- ACCORDION 1: מסמכים אישיים ומנהלה -->
-                <div class="accordion-item open" id="acc-personal-docs">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-personal-docs')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-passport" style="color:#6d28d9; margin-left:8px;"></i> 1. מסמכים אישיים ומנהלה</span>
+                <!-- ACCORDION 1: שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד) -->
+                <div class="accordion-item open" id="acc-client-needs">
+                    <div class="accordion-header" onclick="toggleAccordion('acc-client-needs')">
+                        <span style="color: #1e293b;"><i class="fa-solid fa-clipboard-list" style="color:#ea580c; margin-left:8px;"></i> 1. שאלון רישום דרישות והעדפות (12 שאלות היסוד)</span>
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
-                        <!-- Passport Card -->
-                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
-                            <div style="background: #e2e8f0; color: #0f172a; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
-                                <i class="fa-solid fa-passport"></i>
+                        <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:18px; margin-bottom:18px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:900; color:#9a3412; font-size:1.3em;"><i class="fa-solid fa-plane-departure"></i> יעד הטיול המוגדר:</span>
+                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:6px 14px; border-radius:10px; font-size:1.15em; font-weight:900;">קוריאה הדרומית - אופיר טורס</span>
                             </div>
-                            <div style="flex-grow: 1; min-width: 0;">
-                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">דרכון ישראלי (ביומטרי)</div>
-                                <div style="color: #64748b; font-size: 0.85em;">תוקף: 12/2029 | מספר: 24891002</div>
-                            </div>
-                            <button onclick="alert('הצגת תמונת דרכון שמורה במכשיר')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-eye"></i> צפה</button>
+                            <p style="margin:8px 0 0 0; font-size:1.1em; color:#7c2d12; line-height:1.5;">הגדרת היעד, התאריכים, ההעדפות, הכשרות והנגישות עבור הטיול הפעיל.</p>
                         </div>
 
-                        <!-- Flight Card -->
-                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
-                            <div style="background: #e0f2fe; color: #0284c7; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
-                                <i class="fa-solid fa-plane"></i>
+                        <!-- 12 Questions Form -->
+                        <div style="display:flex; flex-direction:column; gap:16px; font-size:1.15em;">
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">1. נקודת מוצא ויציאה:</label>
+                                <input type="text" id="q_origin" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="שדרות העצמאות 93, אשדוד / נתבג טרמינל 3">
                             </div>
-                            <div style="flex-grow: 1; min-width: 0;">
-                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">כרטיסי טיסה: אופיר טורס (Ethiopian Airlines)</div>
-                                <div style="color: #64748b; font-size: 0.85em;">ET419/672 (הלוך), ET673/418 (חזור) + 2 טיסות פנים</div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">2. מדינה / יעד מבוקש:</label>
+                                <input type="text" id="q_destination" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)">
                             </div>
-                            <button onclick="alert('פרטי טיסות אופיר טורס - הקסם הקוריאני:\n\n✈️ הלוך:\n• ET 419: תל אביב (14:40) -> אדיס אבבה (19:55)\n• ET 672: אדיס אבבה (22:35) -> סיאול אינצ\'און (15:45 למחרת)\n\n✈️ טיסות פנים:\n• בוסאן (PUS) -> אי ג\'ג\'ו (CJU)\n• אי ג\'ג\'ו (CJU) -> סיאול גימפו (GMP)\n\n✈️ חזור:\n• ET 673: סיאול אינצ\'און (00:10) -> אדיס אבבה (07:25)\n• ET 418: אדיס אבבה (10:30) -> תל אביב (13:35)')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-ticket"></i> כרטיסים</button>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">3. אופי ומטרת הטיול:</label>
+                                <input type="text" id="q_character" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">4. הרכב וכמות המטיילים:</label>
+                                <input type="text" id="q_group" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">5. משך הטיול בימים:</label>
+                                <input type="text" id="q_duration" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="15 ימים מלאים (כולל 2 שבתות!)">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">6. תאריך יציאה מתוכנן:</label>
+                                <input type="text" id="q_date" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">7. תקציב מתוכנן:</label>
+                                <input type="text" id="q_budget" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">8. אתרים, סדנאות ופעילויות חובה:</label>
+                                <textarea id="q_activities" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור ג'וסון, שמורת הר סאוראק, מקדש ביאופג'וסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגג'ו (שילה), בוסאן (שוק דגים ג'גאלצ'י, גמצ'און), אי ג'ג'ו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצ'ון, אינסדונג).</textarea>
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">9. העדפות תחבורה:</label>
+                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת (מכניסת שבת ועד מוצאי שבת). כל הפעילות רגלית בלבד!">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">10. סוגי לינה מועדפים:</label>
+                                <input type="text" id="q_hotels" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">11. העדפות כשרות ומזון:</label>
+                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.">
+                            </div>
+                            <div>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">12. אילוצים ובקשות מיוחדות:</label>
+                                <textarea id="q_constraints" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל.</textarea>
+                            </div>
                         </div>
 
-                        <!-- Insurance Card -->
-                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
-                            <div style="background: #dcfce7; color: #16a34a; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
-                                <i class="fa-solid fa-shield-halved"></i>
-                            </div>
-                            <div style="flex-grow: 1; min-width: 0;">
-                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">פוליסת ביטוח פספורטכארד (PassportCard)</div>
-                                <div style="color: #64748b; font-size: 0.85em;">כיסוי מורחב קוריאה 22/11-06/12 | כרטיס אדום</div>
-                            </div>
-                            <button onclick="alert('פוליסת PassportCard קוריאה:\nמוקד חירום בינלאומי: +972-9-8920930\nוואטסאפ מוקד פספורטכארד: +972-50-670-2000\nכרטיס מגנטי אדום לתשלום במקום ללא השתתפות עצמית')" style="background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-phone"></i> חיוג</button>
-                        </div>
+                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:20px; background:#ea580c; color:white; border:none; padding:18px; border-radius:14px; font-weight:900; font-size:1.3em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 6px 18px rgba(234,88,12,0.3);">
+                            <i class="fa-solid fa-floppy-disk"></i> שמור שאלון ועדכן תיק טיול
+                        </button>
+                    </div>
+                </div>
 
-                        <!-- Medical Prescriptions -->
-                        <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
-                            <div style="background: #fef3c7; color: #b45309; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
-                                <i class="fa-solid fa-prescription-bottle-medical"></i>
-                            </div>
-                            <div style="flex-grow: 1; min-width: 0;">
-                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">מרשמים ואישורים רפואיים</div>
-                                <div style="color: #64748b; font-size: 0.85em;">תרופות קבועות באנגלית + אישור טיסה</div>
-                            </div>
-                            <button onclick="alert('הצגת מרשמים רפואיים באנגלית')" style="background: #fffbeb; border: 1px solid #fde68a; color: #b45309; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-eye"></i> צפה</button>
-                        </div>
+                <!-- ACCORDION 2: הוספת מסמכים וקבצים אישיים ומסמכי טיול מאורגן -->
+                <div class="accordion-item" id="acc-custom-files">
+                    <div class="accordion-header" onclick="toggleAccordion('acc-custom-files')">
+                        <span style="color: #1e293b;"><i class="fa-solid fa-cloud-arrow-up" style="color:#10b981; margin-left:8px;"></i> 2. תיק מסמכים (העלאת חוברת מסלול מאורגן ומסמכים אישיים)</span>
+                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p style="font-size: 0.9em; color: #475569; margin-top: 0; line-height: 1.5;">
+                            <b>תיק מסמכים אופליין מלא:</b> העלה לכאן את מסמכי הטיול המאורגן (חוברת מסלול מהסוכנות, שוברים וכרטיסים) וכן מסמכים אישיים (דרכון, ביטוח, מרשמים). הכל נשמר מאובטח במכשיר וזמין גם ללא אינטרנט בשטח ובחו"ל!
+                        </p>
 
-                        <!-- 5. Pre-Trip Health Preparations & Vaccines (Planning at Home / Office - NOT Baltam!) -->
-                        <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; margin-top: 12px; padding: 12px;">
+                        <!-- Hidden File Input for all uploads -->
+                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf" onchange="handleCustomDocUpload(event)">
+
+                        <!-- Block 1: Organized Tour Documents -->
+                        <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <div style="background: #e0f2fe; color: #0284c7; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0;">
-                                        <i class="fa-solid fa-syringe"></i>
-                                    </div>
-                                    <div>
-                                        <div style="font-weight: 800; color: #0f172a; font-size: 1.05em;">הכנות בריאותיות וחיסונים טרם יציאה</div>
-                                        <div style="color: #64748b; font-size: 0.82em;">תכנון מקדים בבית/משרד (עוגן קשיח - איננו בלת"ם)</div>
-                                    </div>
+                                <div style="font-weight: 900; color: #166534; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-solid fa-briefcase"></i> א. מסמכי טיול מאורגן (מחברת הנסיעות / סוכנות)
                                 </div>
-                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">תכנון מראש</span>
+                                <span style="background: #dcfce7; color: #15803d; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">טיול מאורגן</span>
                             </div>
-
-                            <!-- Filter pills for Pre-Trip Health Map -->
-                            <div style="display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap;">
-                                <button onclick="filterHealthMap('all')" id="pill-all" style="background: #0284c7; color: white; border: none; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">הכל</button>
-                                <button onclick="filterHealthMap('clean')" id="pill-clean" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">🟢 אזורים נקיים</button>
-                                <button onclick="filterHealthMap('malaria')" id="pill-malaria" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">🟡 אזורי מלריה</button>
-                                <button onclick="filterHealthMap('meningitis')" id="pill-meningitis" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 16px; font-size: 0.78em; font-weight: bold; cursor: pointer;">🟠 דלקת קרום המוח</button>
+                            <div style="font-size: 0.82em; color: #14532d; margin-bottom: 10px; line-height: 1.4;">
+                                העלה קובץ PDF או תמונה של חוברת המסלול מאופיר טורס/פגסוס/וכו', שובר הזמנה, או כרטיסים קבוצתיים:
                             </div>
-
-                            <!-- Destination Health Cards -->
-                            <div id="health-cards-container" style="display: flex; flex-direction: column; gap: 6px;">
-                                <!-- Clean Area Card: Israel & Netanya -->
-                                <div class="health-card" data-zone="clean" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 4px solid #22c55e; border-radius: 8px; padding: 8px 10px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <b style="color: #166534; font-size: 0.9em;">🟢 ישראל ונתניה - אזור נקי</b>
-                                        <span style="font-size: 0.7em; color: #15803d; font-weight: bold;">ללא סיכון</span>
-                                    </div>
-                                    <div style="font-size: 0.8em; color: #166534; margin-top: 2px;">אין צורך בחיסונים מיוחדים או בכדורים מונעים. שתיית מים מרובה.</div>
-                                </div>
-
-                                <!-- Clean Area Card: South Korea (Seoul) -->
-                                <div class="health-card" data-zone="clean" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-right: 4px solid #22c55e; border-radius: 8px; padding: 8px 10px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <b style="color: #166534; font-size: 0.9em;">🟢 סיאול, קוריאה הדרומית - אזור נקי</b>
-                                        <span style="font-size: 0.7em; color: #15803d; font-weight: bold;">רפואה מתקדמת</span>
-                                    </div>
-                                    <div style="font-size: 0.8em; color: #166534; margin-top: 2px;">תברואה ורפואה מערבית מובילה בעולם. חיסוני שגרה בלבד (טטנוס, שפעת).</div>
-                                </div>
-
-                                <!-- Malaria Card: Yellow Zone -->
-                                <div class="health-card" data-zone="malaria" style="background: #fefce8; border: 1px solid #fef08a; border-right: 4px solid #eab308; border-radius: 8px; padding: 8px 10px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <b style="color: #854d0e; font-size: 0.9em;">🟡 אזור מלריה (הודו, אפריקה, אמזונס)</b>
-                                        <span style="font-size: 0.7em; color: #a16207; font-weight: bold;">חובת טיפול מונע</span>
-                                    </div>
-                                    <div style="font-size: 0.8em; color: #854d0e; margin-top: 2px;">כדורי מלרון (Malarone) יום לפני היציאה ועד 7 ימים אחרי, בתוספת דוחה יתושים DEET 30%+.</div>
-                                </div>
-
-                                <!-- Meningitis Card: Orange Zone -->
-                                <div class="health-card" data-zone="meningitis" style="background: #fff7ed; border: 1px solid #fed7aa; border-right: 4px solid #ea580c; border-radius: 8px; padding: 8px 10px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <b style="color: #9a3412; font-size: 0.9em;">🟠 חגורת דלקת קרום המוח (אפריקה המשוונית)</b>
-                                        <span style="font-size: 0.7em; color: #c2410c; font-weight: bold;">חובת חיסון</span>
-                                    </div>
-                                    <div style="font-size: 0.8em; color: #9a3412; margin-top: 2px;">חיסון מנינגוקוק מרובע (MenACWY) לפחות 10 ימים טרם יציאה. פנקס חיסונים בינלאומי חובה.</div>
-                                </div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="flex: 1; min-width: 140px; background: #15803d; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(21,128,61,0.25);">
+                                    <i class="fa-solid fa-file-pdf"></i> העלה חוברת מסלול
+                                </button>
+                                <button onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="flex: 1; min-width: 140px; background: #059669; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(5,150,105,0.25);">
+                                    <i class="fa-solid fa-receipt"></i> העלה שובר / כרטיס קבוצתי
+                                </button>
                             </div>
+                        </div>
+
+                        <!-- Block 2: Personal Documents -->
+                        <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="font-weight: 900; color: #1e40af; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-solid fa-id-card"></i> ב. מסמכים אישיים ורפואיים (לכל מטייל)
+                                </div>
+                                <span style="background: #dbeafe; color: #1d4ed8; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">מסמכים אישיים</span>
+                            </div>
+                            <div style="font-size: 0.82em; color: #1e3a8a; margin-bottom: 10px; line-height: 1.4;">
+                                העלה צילום דרכון בתוקף, פוליסת ביטוח נסיעות, או מרשמי תרופות חיוניות לשמירה מאובטחת במכשיר:
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
+                                <button onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: #2563eb; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
+                                    <i class="fa-solid fa-passport"></i> צילום דרכון
+                                </button>
+                                <button onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: #0284c7; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(2,132,199,0.25);">
+                                    <i class="fa-solid fa-shield-halved"></i> ביטוח רפואי
+                                </button>
+                                <button onclick="triggerDocUpload('personal', 'מרשמים רפואיים ותרופות')" style="background: #d97706; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(217,119,6,0.25);">
+                                    <i class="fa-solid fa-prescription-bottle-medical"></i> מרשמים ותרופות
+                                </button>
+                                <button onclick="triggerDocUpload('personal', 'מסמך אישי נוסף')" style="background: #475569; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(71,85,105,0.25);">
+                                    <i class="fa-solid fa-paperclip"></i> מסמך אחר
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Documents Feed List Container -->
+                        <div id="custom-docs-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Populated dynamically by JS -->
                         </div>
                     </div>
                 </div>
 
-                <!-- ACCORDION 2: מסלולי הטיול המפורטים (בחירת מסלול מתוך רשימה נפתחת) -->
+                <!-- ACCORDION 3: מסלולי הטיול המפורטים (בחירת מסלול מתוך רשימה נפתחת) -->
                 <div class="accordion-item" id="acc-detailed-itinerary">
                     <div class="accordion-header" onclick="toggleAccordion('acc-detailed-itinerary')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-map-location-dot" style="color:#2563eb; margin-left:8px;"></i> 2. מסלולי הטיול המפורטים (תיק מסלול)</span>
+                        <span style="color: #1e293b;"><i class="fa-solid fa-map-location-dot" style="color:#2563eb; margin-left:8px;"></i> 3. מסלולי הטיול המפורטים (לוח זמנים, תחנות ושבת)</span>
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
@@ -1272,147 +1294,6 @@
                     </div>
                 </div>
 
-                <!-- ACCORDION 3: שאלון דרישות והעדפות הלקוח (12 שאלות היסוד) -->
-                <div class="accordion-item" id="acc-client-needs">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-client-needs')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-clipboard-list" style="color:#ea580c; margin-left:8px;"></i> 3. שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד)</span>
-                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:18px; margin-bottom:18px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-weight:900; color:#9a3412; font-size:1.3em;"><i class="fa-solid fa-plane-departure"></i> יעד הטיול המוגדר:</span>
-                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:6px 14px; border-radius:10px; font-size:1.15em; font-weight:900;">הקסם הקוריאני (אופיר טורס) - 15 ימים, 42 מטיילים, 2 שבתות</span>
-                            </div>
-                            <p style="margin:8px 0 0 0; font-size:1.1em; color:#7c2d12; line-height:1.5;">שאלון מובנה מלא של סייען הנסיעות המעודכן ישירות מתוך חוזה אופיר טורס (הקסם הקוריאני 15 ימים).</p>
-                        </div>
-
-                        <!-- 12 Questions Form -->
-                        <div style="display:flex; flex-direction:column; gap:16px; font-size:1.15em;">
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">1. נקודת מוצא ויציאה:</label>
-                                <input type="text" id="q_origin" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="שדרות העצמאות 93, אשדוד / נתבג טרמינל 3">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">2. מדינה / יעד מבוקש:</label>
-                                <input type="text" id="q_destination" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">3. אופי ומטרת הטיול:</label>
-                                <input type="text" id="q_character" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">4. הרכב וכמות המטיילים:</label>
-                                <input type="text" id="q_group" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">5. משך הטיול בימים:</label>
-                                <input type="text" id="q_duration" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="15 ימים מלאים (כולל 2 שבתות!)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">6. תאריך יציאה מתוכנן:</label>
-                                <input type="text" id="q_date" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">7. תקציב מתוכנן:</label>
-                                <input type="text" id="q_budget" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">8. אתרים, סדנאות ופעילויות חובה:</label>
-                                <textarea id="q_activities" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור ג'וסון, שמורת הר סאוראק, מקדש ביאופג'וסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגג'ו (שילה), בוסאן (שוק דגים ג'גאלצ'י, גמצ'און), אי ג'ג'ו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצ'ון, אינסדונג).</textarea>
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">9. העדפות תחבורה:</label>
-                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת (מכניסת שבת ועד מוצאי שבת). כל הפעילות רגלית בלבד!">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">10. סוגי לינה מועדפים:</label>
-                                <input type="text" id="q_hotels" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">11. העדפות כשרות ומזון:</label>
-                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">12. אילוצים ובקשות מיוחדות:</label>
-                                <textarea id="q_constraints" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל.</textarea>
-                            </div>
-                        </div>
-
-                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:20px; background:#ea580c; color:white; border:none; padding:18px; border-radius:14px; font-weight:900; font-size:1.3em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 6px 18px rgba(234,88,12,0.3);">
-                            <i class="fa-solid fa-floppy-disk"></i> שמור שאלון ועדכן תיק טיול
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ACCORDION 4: הוספת מסמכים וקבצים אישיים ומסמכי טיול מאורגן -->
-                <div class="accordion-item" id="acc-custom-files">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-custom-files')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-cloud-arrow-up" style="color:#10b981; margin-left:8px;"></i> 4. העלאת מסמכים: טיול מאורגן (חוברת/שובר) ומסמכים אישיים</span>
-                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <p style="font-size: 0.9em; color: #475569; margin-top: 0; line-height: 1.5;">
-                            <b>תיק מסמכים אופליין מלא:</b> העלה לכאן את מסמכי הטיול המאורגן (חוברת מסלול מהסוכנות, שוברים וכרטיסים) וכן מסמכים אישיים (דרכון, ביטוח, מרשמים). הכל נשמר מאובטח במכשיר וזמין גם ללא אינטרנט בשטח ובחו"ל!
-                        </p>
-
-                        <!-- Hidden File Input for all uploads -->
-                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf" onchange="handleCustomDocUpload(event)">
-
-                        <!-- Block 1: Organized Tour Documents -->
-                        <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <div style="font-weight: 900; color: #166534; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-briefcase"></i> א. מסמכי טיול מאורגן (מחברת הנסיעות / סוכנות)
-                                </div>
-                                <span style="background: #dcfce7; color: #15803d; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">טיול מאורגן</span>
-                            </div>
-                            <div style="font-size: 0.82em; color: #14532d; margin-bottom: 10px; line-height: 1.4;">
-                                העלה קובץ PDF או תמונה של חוברת המסלול מאופיר טורס/פגסוס/וכו', שובר הזמנה, או כרטיסים קבוצתיים:
-                            </div>
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="flex: 1; min-width: 140px; background: #15803d; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(21,128,61,0.25);">
-                                    <i class="fa-solid fa-file-pdf"></i> העלה חוברת מסלול
-                                </button>
-                                <button onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="flex: 1; min-width: 140px; background: #059669; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(5,150,105,0.25);">
-                                    <i class="fa-solid fa-receipt"></i> העלה שובר / כרטיס קבוצתי
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Block 2: Personal Documents -->
-                        <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <div style="font-weight: 900; color: #1e40af; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-id-card"></i> ב. מסמכים אישיים ורפואיים (לכל מטייל)
-                                </div>
-                                <span style="background: #dbeafe; color: #1d4ed8; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">מסמכים אישיים</span>
-                            </div>
-                            <div style="font-size: 0.82em; color: #1e3a8a; margin-bottom: 10px; line-height: 1.4;">
-                                העלה צילום דרכון בתוקף, פוליסת ביטוח נסיעות, או מרשמי תרופות חיוניות לשמירה מאובטחת במכשיר:
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-                                <button onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: #2563eb; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
-                                    <i class="fa-solid fa-passport"></i> צילום דרכון
-                                </button>
-                                <button onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: #0284c7; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(2,132,199,0.25);">
-                                    <i class="fa-solid fa-shield-halved"></i> ביטוח רפואי
-                                </button>
-                                <button onclick="triggerDocUpload('personal', 'מרשמים רפואיים ותרופות')" style="background: #d97706; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(217,119,6,0.25);">
-                                    <i class="fa-solid fa-prescription-bottle-medical"></i> מרשמים ותרופות
-                                </button>
-                                <button onclick="triggerDocUpload('personal', 'מסמך אישי נוסף')" style="background: #475569; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(71,85,105,0.25);">
-                                    <i class="fa-solid fa-paperclip"></i> מסמך אחר
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Documents Feed List Container -->
-                        <div id="custom-docs-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
-                            <!-- Populated dynamically by JS -->
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -1534,10 +1415,10 @@
 
                     <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
                         <div>
-                            <div style="font-weight: 900; color: #1e40af; font-size: 0.95em;"><i class="fa-solid fa-heart-pulse"></i> מפת בריאות עולמית וחיסונים טרם יציאה</div>
-                            <div style="font-size: 0.82em; color: #1e3a8a;">סיווג רפואי עולמי, כדורי מלרון וחיסוני שגרה (תיק טיול)</div>
+                            <div style="font-weight: 900; color: #1e40af; font-size: 0.95em;"><i class="fa-solid fa-folder-open"></i> תיק טיול, מסמכים וביטוח רפואי</div>
+                            <div style="font-size: 0.82em; color: #1e3a8a;">צפייה בפוליסת הביטוח, מרשמים ומסמכי הנסיעה השמורים</div>
                         </div>
-                        <button onclick="switchScreen('screen-route')" style="background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח מסמכים</button>
+                        <button onclick="switchScreen('screen-route')" style="background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח תיק טיול</button>
                     </div>
                 </div>
             </div>
@@ -1552,13 +1433,13 @@
 
             <div class="content-padding" style="padding-bottom: 50px;">
                 
-                <!-- Educational Clarification Banner -->
+                <!-- Guidance Banner -->
                 <div style="background: #fff7ed; border-right: 5px solid #ea580c; border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;">
                     <div style="font-weight: 900; color: #9a3412; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-shield-virus"></i> דוקטרינת בלת"ם שטח (On-Trip Live Incident)
+                        <i class="fa-solid fa-satellite-dish"></i> התראות שטח בזמן אמת (בלת"ם)
                     </div>
                     <p style="margin: 4px 0 0; font-size: 0.85em; color: #7c2d12; line-height: 1.45;">
-                        התראות אלו מופעלות <b>אך ורק על אירועים בלתי צפויים המתפרצים בשטח בזמן אמת</b> (חיסונים ובדיקות שגרה הוכנו מראש בבית בתיק הטיול). המערכת מספקת הנחיות חדות, כרטיס נהג מקומי וחלופות מסלול בטוחות.
+                        התראות מיידיות על אירועים בלתי צפויים בשטח (עיכובי טיסות, עומס חום קיצוני או שינויי צירים) עם פתרון והנחיות פעולה מיידיות.
                     </p>
                 </div>
 
@@ -1767,11 +1648,11 @@
                     </div>
                 </div>
 
-                <!-- Shortcut to Pre-Trip Health Planning Dossier -->
+                <!-- Shortcut to Route Dossier -->
                 <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-top: 18px;">
                     <div>
-                        <div style="font-weight: 800; color: #1e293b; font-size: 0.9em;"><i class="fa-solid fa-folder-open" style="color:#6d28d9;"></i> זקוק לחיסונים שהוכנו טרם יציאה?</div>
-                        <div style="font-size: 0.8em; color: #64748b;">סיווג רפואי עולמי וחיסוני שגרה שמורים בתיק הטיול המקורי</div>
+                        <div style="font-weight: 800; color: #1e293b; font-size: 0.9em;"><i class="fa-solid fa-folder-open" style="color:#6d28d9;"></i> חזרה לתיק התכנון והמסמכים</div>
+                        <div style="font-size: 0.8em; color: #64748b;">צפייה בשאלון ההעדפות, מסמכי הנסיעה ולוח הזמנים</div>
                     </div>
                     <button onclick="switchScreen('screen-route')" style="background: #8b5cf6; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
                         פתח תיק טיול
@@ -2888,8 +2769,51 @@
             const k = tripKey || currentTripKey;
             try {
                 let docs = JSON.parse(localStorage.getItem('travel_assistant_custom_docs_' + k));
-                if (!docs && k === 'korea') {
-                    docs = JSON.parse(localStorage.getItem('travel_assistant_custom_docs') || '[]');
+                if ((!docs || docs.length === 0) && k === 'korea') {
+                    const legacy = localStorage.getItem('travel_assistant_custom_docs');
+                    if (legacy && JSON.parse(legacy).length > 0) {
+                        docs = JSON.parse(legacy);
+                    } else {
+                        docs = [
+                            {
+                                id: 'doc_korea_booklet',
+                                name: 'חוברת מסלול רשמית - הקסם הקוריאני 15 ימים (אופיר טורס)',
+                                category: 'organized',
+                                docType: 'חוברת מסלול סוכנות',
+                                time: '22/11/2026',
+                                fileName: 'ophir_tours_korea_official.pdf',
+                                data: '#'
+                            },
+                            {
+                                id: 'doc_korea_flights',
+                                name: 'כרטיסי טיסה קבוצתיים - אתיופיאן איירליינס (ET 419 / 672 / 673 / 418)',
+                                category: 'organized',
+                                docType: 'שובר סוכנות / כרטיסים',
+                                time: '22/11/2026',
+                                fileName: 'ethiopian_airlines_tickets.pdf',
+                                data: '#'
+                            },
+                            {
+                                id: 'doc_korea_passport',
+                                name: 'צילום דרכון ישראלי (ביומטרי)',
+                                category: 'personal',
+                                docType: 'צילום דרכון',
+                                time: 'בתוקף עד 12/2029',
+                                fileName: 'passport_biometric.pdf',
+                                data: '#'
+                            },
+                            {
+                                id: 'doc_korea_insurance',
+                                name: 'פוליסת ביטוח רפואי מורחב (PassportCard) - קוריאה',
+                                category: 'personal',
+                                docType: 'פוליסת ביטוח נסיעות',
+                                time: '22/11/2026 - 06/12/2026',
+                                fileName: 'passportcard_policy_korea.pdf',
+                                data: '#'
+                            }
+                        ];
+                        try { localStorage.setItem('travel_assistant_custom_docs_korea', JSON.stringify(docs)); } catch(e) {}
+                    }
                 }
                 return docs || [];
             } catch(e) {
@@ -4303,6 +4227,12 @@
                     const dynBadge = document.getElementById('dynamic-trip-doc-badge');
                     if (dynBadge) dynBadge.innerText = trip.stageLabel || '📋 שלב תכנון (גמיש)';
                 }
+            }
+
+            // Toggle Ophir Tours banner (only relevant for Korea)
+            const ophirBanner = document.getElementById('ophir-contract-banner');
+            if (ophirBanner) {
+                ophirBanner.style.display = (tripKey === 'korea') ? 'block' : 'none';
             }
 
             // Update Questionnaire Header if present
