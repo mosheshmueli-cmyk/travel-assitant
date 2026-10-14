@@ -791,31 +791,76 @@
                     </div>
                 </div>
 
-                <!-- ACCORDION 3: שאלון דרישות והעדפות הלקוח -->
+                <!-- ACCORDION 3: שאלון דרישות והעדפות הלקוח (12 שאלות היסוד) -->
                 <div class="accordion-item" id="acc-client-needs">
                     <div class="accordion-header" onclick="toggleAccordion('acc-client-needs')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-clipboard-list" style="color:#ea580c; margin-left:8px;"></i> 3. מסמך דרישות והעדפות הלקוח</span>
+                        <span style="color: #1e293b;"><i class="fa-solid fa-clipboard-list" style="color:#ea580c; margin-left:8px;"></i> 3. שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד)</span>
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
-                        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88em; color: #334155;">
-                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                <div style="font-weight: bold; color: #166534;"><i class="fa-solid fa-utensils"></i> כשרות ומזון</div>
-                                <div>העדפה מוחלטת לכשרות למהדרין (בד"ץ / רבנות מוכרת), בדיקת ברקודים בחו"ל, ומנות צמחוניות/טבעוניות נקיות בעת חוסר חלופות בשר כשר.</div>
+                        <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:12px; margin-bottom:14px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-weight:900; color:#9a3412; font-size:1em;"><i class="fa-solid fa-plane-departure"></i> שם הטיול הפעיל:</span>
+                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:3px 8px; border-radius:6px; font-size:0.85em; font-weight:bold;">קוריאה הדרומית (22-11-26)</span>
                             </div>
-                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                <div style="font-weight: bold; color: #1d4ed8;"><i class="fa-solid fa-person-walking"></i> קצב הליכה ונגישות</div>
-                                <div>מרחק הליכה ברצף מוגבל לעד 400–600 מטר ללא מנוחה. חובת זמינות מעליות (כגון מעלית סירונית בנתניה או מעליות תחנות רכבת תחתית בסיאול).</div>
+                            <p style="margin:4px 0 0 0; font-size:0.82em; color:#7c2d12;">שאלון מובנה מלא של סייען הנסיעות לאיסוף כל הפרטים, היעדים, הרצונות, וההעדפות שיוצרים טיול מוגדר.</p>
+                        </div>
+
+                        <!-- 12 Questions Form -->
+                        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.85em;">
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">1. נקודת מוצא ויציאה:</label>
+                                <input type="text" id="q_origin" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="שדרות העצמאות 93, אשדוד / נתבג">
                             </div>
-                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                <div style="font-weight: bold; color: #9333ea;"><i class="fa-solid fa-star-of-david"></i> שמירת שבת ומועדים</div>
-                                <div>עצירה מוחלטת מיום שישי בצהריים עד מוצאי שבת, מלונות סמוכים לבית חב"ד או עם מפתח מכני (ללא מעגלים אלקטרוניים בשבת).</div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">2. מדינה / יעד מבוקש:</label>
+                                <input type="text" id="q_destination" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="קוריאה הדרומית (הכנה בשטח: נתניה)">
                             </div>
-                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                <div style="font-weight: bold; color: #b45309;"><i class="fa-solid fa-sun"></i> תנאי אקלים ומזג אוויר</div>
-                                <div>הסטת פעילויות חוץ לשעות הבוקר הנעימות, שהייה במתחמים מקורים וממוזגים (שוק מקורה, מוזיאונים) בשעות החום.</div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">3. אופי ומטרת הטיול:</label>
+                                <input type="text" id="q_character" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="24 גמלאים צעירים ברוחם, טיול כיפי חברתי ומגוון, נופש ותרבות">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">4. הרכב וכמות המטיילים:</label>
+                                <input type="text" id="q_group" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="קבוצה של 24 איש (גמלאים צעירים ברוחם)">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">5. משך הטיול בימים:</label>
+                                <input type="text" id="q_duration" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="12 יום (כולל טיסות הלוך ושוב)">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">6. תאריך יציאה מתוכנן:</label>
+                                <input type="text" id="q_date" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="22-11-2026 (יום ראשון מנתבג)">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">7. תקציב מתוכנן:</label>
+                                <input type="text" id="q_budget" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="סטנדרט איכותי סביר לקבוצת גמלאים">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">8. אתרים, סדנאות ופעילויות חובה:</label>
+                                <textarea id="q_activities" rows="2" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;">סדנת חץ וקשת מסורתי, סדנת תה Dado, ספא ויופי, זריחה בהר באי גוגו, ובארץ: טיילת ומעלית סירונית</textarea>
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">9. העדפות תחבורה:</label>
+                                <input type="text" id="q_transit" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="אוטובוס צמוד לקבוצה, רכבות מהירות, מרחק חניה קצר לאתרים">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">10. סוגי לינה מועדפים:</label>
+                                <input type="text" id="q_hotels" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="מלונות 4-5 כוכבים, גישה מלאה למעליות ללא מדרגות רבות">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">11. העדפות כשרות ומזון:</label>
+                                <input type="text" id="q_food" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="כשר למהדרין (בדץ), מזון צמחוני/טבעוני נקי, בדיקת ברקודים">
+                            </div>
+                            <div>
+                                <label style="font-weight:bold; color:#1e293b;">12. אילוצים ובקשות מיוחדות:</label>
+                                <textarea id="q_constraints" rows="2" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;">יציאה ביום ראשון (שבת אחת בלבד בטיול), הגבלת הליכה רצופה עד 400-500 מטר, חובת מעליות ושהייה בצל בשעות החום</textarea>
                             </div>
                         </div>
+
+                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:14px; background:#ea580c; color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; font-size:0.95em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <i class="fa-solid fa-floppy-disk"></i> שמור שאלון ועדכן תיק טיול
+                        </button>
                     </div>
                 </div>
 
@@ -1133,6 +1178,7 @@
             }
             if (screenId === 'screen-route') {
                 renderCustomDocsList();
+                loadTripQuestionnaire();
             }
         }
 
@@ -1521,11 +1567,58 @@
             `).join('');
         }
 
+        // ================= TRIP QUESTIONNAIRE LOGIC (12 QUESTIONS) =================
+        function saveTripQuestionnaire() {
+            const data = {
+                origin: document.getElementById('q_origin').value,
+                destination: document.getElementById('q_destination').value,
+                character: document.getElementById('q_character').value,
+                group: document.getElementById('q_group').value,
+                duration: document.getElementById('q_duration').value,
+                date: document.getElementById('q_date').value,
+                budget: document.getElementById('q_budget').value,
+                activities: document.getElementById('q_activities').value,
+                transit: document.getElementById('q_transit').value,
+                hotels: document.getElementById('q_hotels').value,
+                food: document.getElementById('q_food').value,
+                constraints: document.getElementById('q_constraints').value
+            };
+            localStorage.setItem('travel_assistant_trip_questionnaire', JSON.stringify(data));
+            const tripName = document.getElementById('q-active-trip-name');
+            if (tripName && data.destination) tripName.innerText = data.destination;
+            alert('השאלון נשמר בהצלחה! כל הנתונים, היעדים וההעדפות מעודכנים בתיק הטיול.');
+        }
+
+        function loadTripQuestionnaire() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('travel_assistant_trip_questionnaire'));
+                if (saved) {
+                    if (saved.origin) document.getElementById('q_origin').value = saved.origin;
+                    if (saved.destination) {
+                        document.getElementById('q_destination').value = saved.destination;
+                        const tripName = document.getElementById('q-active-trip-name');
+                        if (tripName) tripName.innerText = saved.destination;
+                    }
+                    if (saved.character) document.getElementById('q_character').value = saved.character;
+                    if (saved.group) document.getElementById('q_group').value = saved.group;
+                    if (saved.duration) document.getElementById('q_duration').value = saved.duration;
+                    if (saved.date) document.getElementById('q_date').value = saved.date;
+                    if (saved.budget) document.getElementById('q_budget').value = saved.budget;
+                    if (saved.activities) document.getElementById('q_activities').value = saved.activities;
+                    if (saved.transit) document.getElementById('q_transit').value = saved.transit;
+                    if (saved.hotels) document.getElementById('q_hotels').value = saved.hotels;
+                    if (saved.food) document.getElementById('q_food').value = saved.food;
+                    if (saved.constraints) document.getElementById('q_constraints').value = saved.constraints;
+                }
+            } catch(e) {}
+        }
+
         // ================= DYNAMIC LEAFLET MAP =================
         let dynamicMap = null;
         let userMarker = null;
         let accuracyCircle = null;
         let routePolyline = null;
+        let activeLegPolyline = null;
         let stationMarkers = [];
         let currentPosition = null;
         let activeTargetIndex = null;
@@ -1632,6 +1725,13 @@
                             🚖 כרטיס לנהג
                         </button>
                     </div>
+                    ${(idx < STATIONS.length - 1) ? `
+                        <div style="margin-top:6px;">
+                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:7px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;">
+                                ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
+                            </button>
+                        </div>
+                    ` : ''}
                 </div>
             `;
 
@@ -1653,6 +1753,49 @@
             if (currentPosition) {
                 updateUserGpsOnMap(currentPosition, false);
             }
+        }
+
+        function routeToNextStation(fromIdx) {
+            const nextIdx = fromIdx + 1;
+            if (nextIdx >= STATIONS.length) return;
+
+            const currSt = STATIONS[fromIdx];
+            const nextSt = STATIONS[nextIdx];
+
+            activeTargetIndex = nextIdx;
+
+            if (activeLegPolyline && dynamicMap) {
+                dynamicMap.removeLayer(activeLegPolyline);
+            }
+
+            if (dynamicMap) {
+                activeLegPolyline = L.polyline([
+                    [currSt.lat, currSt.lng],
+                    [nextSt.lat, nextSt.lng]
+                ], {
+                    color: '#10b981',
+                    weight: 6,
+                    opacity: 0.95,
+                    dashArray: '6, 6'
+                }).addTo(dynamicMap);
+
+                dynamicMap.fitBounds(L.latLngBounds([
+                    [currSt.lat, currSt.lng],
+                    [nextSt.lat, nextSt.lng]
+                ]), { padding: [60, 60] });
+            }
+
+            openStationLivePopup(nextIdx);
+
+            const legDist = L.latLng(currSt.lat, currSt.lng).distanceTo(L.latLng(nextSt.lat, nextSt.lng));
+            const legDistStr = (legDist < 1000) ? `${Math.round(legDist)} מטר` : `${(legDist / 1000).toFixed(2)} קילומטר`;
+
+            const hudTargetName = document.getElementById('hud-target-name');
+            const hudDistance = document.getElementById('hud-distance');
+            const hudEta = document.getElementById('hud-eta');
+            if (hudTargetName) hudTargetName.innerText = `מעבר: אל ${nextSt.title}`;
+            if (hudDistance) hudDistance.innerText = legDistStr;
+            if (hudEta) hudEta.innerText = nextSt.walkingDist || `${Math.max(1, Math.round(legDist / (4.5 * 1000 / 60)))} דקות`;
         }
 
         // ================= BEARING & DISTANCE CALCULATIONS =================
@@ -2197,6 +2340,7 @@
             renderDiaryFeed();
             renderFoodCards();
             renderCustomDocsList();
+            loadTripQuestionnaire();
         });
     </script>
 </body>
