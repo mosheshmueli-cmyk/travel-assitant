@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.8.2
+                גרסה 4.8.3
             </span>
         </div>
     </header>
@@ -706,11 +706,11 @@
                         </button>
                     </div>
                     <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #8b5cf6; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: #fdf4ff;">
-                        <option value="korea">✈️ קסם קוריאה (אופיר טורס) - 15 ימים | 42 מטיילים | 2 שבתות</option>
-                        <option value="rome">🏛️ רומא ופירנצה (איטליה) - שבוע קלאסי | אתרי מורשת, ותיקן ורכבות</option>
-                        <option value="uzbekistan">🕌 אוזבקיסטן (דרך המשי) - טשקנט, סמרקנד, בוכרה וחיווה</option>
-                        <option value="netanya">🏖️ נתניה (הדמיית שטח ובדיקות בתחבורה ציבורית)</option>
-                        <option value="israel_trail">🥾 שביל ישראל (הרי ירושלים) - סטף, עין חנדק ועין כרם</option>
+                        <option value="korea">🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - כרטיסי טיסה נעולים]</option>
+                        <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון (גמיש)]</option>
+                        <option value="israel_trail_north">🥾 שביל ישראל בצפון [📋 בקנה / שלב תכנון]</option>
+                        <option value="ashkelon">🏖️ אשקלון [📋 בקנה / שלב תכנון]</option>
+                        <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
                     </select>
                 </div>
 
@@ -2097,13 +2097,6 @@
             if (btn) btn.style.display = show ? 'none' : 'block';
         }
 
-        function switchTripDocument(tripKey) {
-            document.querySelectorAll('.trip-itinerary-doc').forEach(el => el.style.display = 'none');
-            const target = document.getElementById('itinerary-doc-' + tripKey);
-            if (target) {
-                target.style.display = 'block';
-            }
-        }
 
         function switchAiSection(sectionKey) {
             const selector = document.getElementById('ai-main-category-selector');
@@ -3043,9 +3036,36 @@
             };
             const saveKey = 'travel_assistant_trip_' + currentTripKey + '_questionnaire';
             localStorage.setItem(saveKey, JSON.stringify(data));
+
+            // If this is a custom trip, synchronize trip object and persistent storage
+            if (currentTripKey.startsWith('custom_') && TRIPS_DATABASE[currentTripKey]) {
+                if (data.destination) TRIPS_DATABASE[currentTripKey].name = data.destination;
+                if (data.date || data.duration) TRIPS_DATABASE[currentTripKey].dates = (data.date && data.duration) ? `${data.date} (${data.duration})` : (data.date || data.duration);
+                if (data.group) TRIPS_DATABASE[currentTripKey].group = data.group;
+                
+                try {
+                    let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                    const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
+                    if (idx !== -1) {
+                        custom[idx].name = TRIPS_DATABASE[currentTripKey].name;
+                        custom[idx].dates = TRIPS_DATABASE[currentTripKey].dates;
+                        custom[idx].group = TRIPS_DATABASE[currentTripKey].group;
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                    }
+                } catch(e) {}
+            }
+
+            // Sync all selectors & banners
+            if (typeof renderAllTripSelectors === 'function') renderAllTripSelectors();
+            if (typeof renderCustomTripsInModal === 'function') renderCustomTripsInModal();
             const tripName = document.getElementById('q-active-trip-name');
             if (tripName && data.destination) tripName.innerText = data.destination;
-            alert(`השאלון נשמר בהצלחה! כל הנתונים, היעדים וההעדפות מעודכנים בתיק הטיול (${TRIPS_DATABASE[currentTripKey]?.name || 'הפעיל'}).`);
+            const homePill = document.getElementById('home-active-trip-display');
+            if (homePill && TRIPS_DATABASE[currentTripKey]) homePill.innerText = TRIPS_DATABASE[currentTripKey].name;
+            const pill = document.getElementById('active-trip-pill');
+            if (pill && TRIPS_DATABASE[currentTripKey]) pill.innerText = TRIPS_DATABASE[currentTripKey].name;
+
+            alert(`✅ שאלון הטיול עודכן ונשמר בהצלחה!\nכל הנתונים, ההעדפות והמסמכים של "${TRIPS_DATABASE[currentTripKey]?.name || 'הטיול'}" שמורים במכשיר ומעודכנים בתיק הטיול.`);
         }
 
         function loadTripQuestionnaire() {
@@ -4185,28 +4205,20 @@
             const loginBtn = document.getElementById('btn-google-login');
             if (loginBtn) loginBtn.href = authUrl;
 
+            // Load all custom trips into TRIPS_DATABASE
+            loadCustomTrips();
+
+            // Populate all select dropdowns with custom + system trips
+            renderAllTripSelectors();
+
+            // Populate custom trips section in modal
+            renderCustomTripsInModal();
+
             // Sync active trip across all controls
             if (TRIPS_DATABASE[currentTripKey]) {
-                const homePill = document.getElementById('home-active-trip-display');
-                if (homePill) homePill.innerText = TRIPS_DATABASE[currentTripKey].name;
-                const homeStage = document.getElementById('home-active-trip-stage');
-                if (homeStage) {
-                    homeStage.innerText = TRIPS_DATABASE[currentTripKey].stageLabel || '📋 שלב תכנון';
-                    if (TRIPS_DATABASE[currentTripKey].stage === 'completed') {
-                        homeStage.style.background = '#0284c7';
-                    } else if (TRIPS_DATABASE[currentTripKey].stage === 'active') {
-                        homeStage.style.background = '#10b981';
-                    } else {
-                        homeStage.style.background = '#4338ca';
-                    }
-                }
-                const pill = document.getElementById('active-trip-pill');
-                if (pill) pill.innerText = TRIPS_DATABASE[currentTripKey].name;
-                const routeSel = document.getElementById('route-main-trip-selector');
-                if (routeSel) routeSel.value = currentTripKey;
-                const itinSel = document.getElementById('trip-itinerary-selector');
-                if (itinSel) itinSel.value = currentTripKey;
-                switchTripDocument(currentTripKey);
+                selectTripAndApply(currentTripKey);
+            } else {
+                selectTripAndApply('korea');
             }
 
             renderDiaryFeed();
@@ -4214,8 +4226,51 @@
             renderCustomDocsList();
             loadTripQuestionnaire();
             renderFeedbackList();
-            renderCustomTripsInModal();
         });
+
+        // Master function to populate both trip dropdowns dynamically
+        function renderAllTripSelectors() {
+            let customTrips = [];
+            try {
+                customTrips = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+            } catch(e) {}
+
+            let customOptionsHtml = '';
+            if (customTrips.length > 0) {
+                customOptionsHtml = `<optgroup label="📋 הטיולים המתוכננים שלי (נפתחו במערכת)">` +
+                    customTrips.map(ct => {
+                        const k = ct.key || ct.id;
+                        return `<option value="${k}">📋 ${ct.name} [תכנון אישי]</option>`;
+                    }).join('') +
+                `</optgroup>`;
+            }
+
+            const systemOptionsHtml = `
+                <optgroup label="🌍 יעדי המערכת (בתכנון ובקנה)">
+                    <option value="korea">🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - כרטיסי טיסה נעולים]</option>
+                    <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון (גמיש)]</option>
+                    <option value="israel_trail_north">🥾 שביל ישראל בצפון [📋 בקנה / שלב תכנון]</option>
+                    <option value="ashkelon">🏖️ אשקלון [📋 בקנה / שלב תכנון]</option>
+                </optgroup>
+                <optgroup label="🏁 סביבת בדיקות שהסתיימה">
+                    <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
+                </optgroup>
+            `;
+
+            const fullHtml = customOptionsHtml + systemOptionsHtml;
+
+            const itinSel = document.getElementById('trip-itinerary-selector');
+            if (itinSel) {
+                itinSel.innerHTML = fullHtml;
+                if (currentTripKey && TRIPS_DATABASE[currentTripKey]) itinSel.value = currentTripKey;
+            }
+
+            const routeSel = document.getElementById('route-main-trip-selector');
+            if (routeSel) {
+                routeSel.innerHTML = fullHtml;
+                if (currentTripKey && TRIPS_DATABASE[currentTripKey]) routeSel.value = currentTripKey;
+            }
+        }
     
         // ================= TRIP SELECTION & MULTI-DESTINATION LOGIC =================
         function openTripSelectorModal() {
@@ -4286,27 +4341,83 @@
             } catch(e) {}
 
             if (customTrips.length === 0) {
-                listContainer.innerHTML = '';
+                listContainer.innerHTML = `
+                    <div style="background: white; border: 1.5px dashed #a7f3d0; border-radius: 12px; padding: 14px; text-align: center; color: #64748b; font-size: 0.85em;">
+                        <i class="fa-solid fa-folder-open" style="font-size: 1.6em; color: #10b981; margin-bottom: 4px;"></i>
+                        <div style="font-weight: bold; color: #065f46;">עדיין לא פתחת טיולים אישיים נוספים.</div>
+                        <div style="margin-top: 4px;">לחץ על <b>"תכנן יעד חדש"</b> לפתיחת תכנון יעד אישי נוסף.</div>
+                    </div>
+                `;
                 return;
             }
 
             listContainer.innerHTML = customTrips.map(ct => {
                 const tripKey = ct.key || ct.id;
+                const isActive = (tripKey === currentTripKey);
                 return `
-                    <div onclick="selectTripAndApply('${tripKey}')" style="border: 2px solid #10b981; background: #ecfdf5; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-weight: 900; font-size: 1.02em; color: #065f46;">${ct.name}</span>
+                    <div style="border: 2px solid ${isActive ? '#059669' : '#10b981'}; background: ${isActive ? '#d1fae5' : '#ecfdf5'}; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 2px 6px rgba(16,185,129,0.15);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-weight: 900; font-size: 1.05em; color: #065f46;">${ct.name}</span>
+                                ${isActive ? '<span style="background: #047857; color: white; font-size: 0.72em; padding: 1px 6px; border-radius: 6px; font-weight: bold;">⭐ טיול פעיל כעת</span>' : ''}
+                            </div>
                             <span style="background: #059669; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">${ct.stageLabel || '📋 שלב תכנון'}</span>
                         </div>
-                        <div style="font-size: 0.82em; color: #047857;">
+                        <div style="font-size: 0.84em; color: #047857; font-weight: 600;">
                             👥 ${ct.group || 'קבוצה'} | 📅 ${ct.dates || 'בתכנון'}
                         </div>
-                        <div style="font-size: 0.78em; color: #64748b;">
+                        <div style="font-size: 0.8em; color: #475569; line-height: 1.4;">
                             ${ct.description || 'תיק תכנון אישי שנפתח במערכת'}
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 6px; border-top: 1px solid #a7f3d0; padding-top: 8px;">
+                            <button onclick="selectTripAndContinuePlanning('${tripKey}')" style="flex: 1; background: #059669; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(5,150,105,0.25);">
+                                <i class="fa-solid fa-pen-to-square"></i> בחר והמשך תכנון
+                            </button>
+                            <button onclick="deleteCustomTrip('${tripKey}', event)" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 8px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="מחק תיק טיול">
+                                <i class="fa-solid fa-trash"></i> מחק
+                            </button>
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function selectTripAndContinuePlanning(tripKey) {
+            selectTripAndApply(tripKey);
+            switchScreen('screen-route');
+            const acc = document.getElementById('acc-client-needs');
+            if (acc && !acc.classList.contains('active') && !acc.classList.contains('open')) {
+                toggleAccordion('acc-client-needs');
+            }
+            setTimeout(() => {
+                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+        }
+
+        function deleteCustomTrip(tripKey, event) {
+            if (event) event.stopPropagation();
+            const trip = TRIPS_DATABASE[tripKey];
+            const tripName = trip ? trip.name : 'הטיול';
+            if (!confirm(`האם אתה בטוח שברצונך למחוק את תיק התכנון של "${tripName}"?`)) return;
+
+            try {
+                let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                custom = custom.filter(t => (t.key || t.id) !== tripKey);
+                localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                localStorage.removeItem('travel_assistant_trip_' + tripKey + '_questionnaire');
+                localStorage.removeItem('travel_assistant_custom_docs_' + tripKey);
+                delete TRIPS_DATABASE[tripKey];
+            } catch(e) {}
+
+            if (currentTripKey === tripKey) {
+                currentTripKey = 'korea';
+                try { localStorage.setItem('travel_assistant_active_trip', 'korea'); } catch(e) {}
+            }
+
+            renderAllTripSelectors();
+            renderCustomTripsInModal();
+            selectTripAndApply(currentTripKey);
+            alert(`תיק התכנון של "${tripName}" נמחק בהצלחה.`);
         }
 
         function toggleAgencyInput(isOrg) {
@@ -4381,17 +4492,11 @@
             };
             localStorage.setItem('travel_assistant_trip_' + tripKey + '_questionnaire', JSON.stringify(initialQuestionnaire));
 
-            // Add option to select dropdowns
-            const itinSel = document.getElementById('trip-itinerary-selector');
-            if (itinSel) {
-                const opt = document.createElement('option');
-                opt.value = tripKey;
-                opt.innerText = `${displayTitle} [📋 שלב תכנון]`;
-                itinSel.appendChild(opt);
-            }
+            // Synchronize all dropdown selectors across application
+            renderAllTripSelectors();
+            renderCustomTripsInModal();
 
             closeNewTripModal();
-            renderCustomTripsInModal();
 
             // Select this trip as active
             selectTripAndApply(tripKey);
@@ -4399,7 +4504,7 @@
             // Navigate to Route Screen and open Questionnaire to start planning
             switchScreen('screen-route');
             const acc = document.getElementById('acc-client-needs');
-            if (acc && !acc.classList.contains('active')) {
+            if (acc && !acc.classList.contains('active') && !acc.classList.contains('open')) {
                 toggleAccordion('acc-client-needs');
             }
             setTimeout(() => {
@@ -4435,10 +4540,14 @@
             }
 
             // Update Route Main Selector & Itinerary Selector
+            if (typeof renderAllTripSelectors === 'function') renderAllTripSelectors();
             const routeSel = document.getElementById('route-main-trip-selector');
             if (routeSel) routeSel.value = tripKey;
             const itinSel = document.getElementById('trip-itinerary-selector');
             if (itinSel) itinSel.value = tripKey;
+
+            // Update modal active badges
+            if (typeof renderCustomTripsInModal === 'function') renderCustomTripsInModal();
 
             // Switch the itinerary document in route screen
             switchTripDocument(tripKey);
@@ -4913,6 +5022,21 @@
                     </div>
                 </div>
 
+                <!-- Custom Trips Container (Dynamic - PROMINENT AT TOP) -->
+                <div id="custom-trips-section" style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 12px; margin-bottom: 4px;">
+                    <div style="font-weight: 900; color: #065f46; font-size: 1.02em; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fa-solid fa-folder-plus"></i> 📋 הטיולים המתוכננים שלי (נפתחו במערכת):</span>
+                        <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 5px 12px; border-radius: 8px; font-weight: 900; font-size: 0.8em; cursor: pointer; box-shadow: 0 2px 4px rgba(16,185,129,0.25);">
+                            <i class="fa-solid fa-plus"></i> תכנן יעד חדש
+                        </button>
+                    </div>
+                    <div id="custom-trips-modal-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                </div>
+
+                <div style="font-weight: 900; color: #1e40af; font-size: 0.95em; margin-top: 6px; margin-bottom: 2px;">
+                    <i class="fa-solid fa-earth-americas"></i> יעדי המערכת (בתכנון ובקנה):
+                </div>
+
                 <!-- Trip 1: Korea (Ophir Tours) -->
                 <div onclick="selectTripAndApply('korea')" style="border: 2px solid #818cf8; background: #f5f3ff; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -4983,8 +5107,6 @@
                     </div>
                 </div>
 
-                <!-- Custom Trips Container (Dynamic) -->
-                <div id="custom-trips-modal-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
 
                 <!-- Create New Trip Prompt Card -->
                 <div onclick="openNewTripModal()" style="border: 2px dashed #10b981; background: #ecfdf5; border-radius: 14px; padding: 14px; cursor: pointer; text-align: center; transition: all 0.2s;">
