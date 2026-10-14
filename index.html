@@ -700,22 +700,37 @@
                                 <i class="fa-solid fa-plane"></i>
                             </div>
                             <div style="flex-grow: 1; min-width: 0;">
-                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">כרטיסי טיסה (אל על / קוריאן)</div>
-                                <div style="color: #64748b; font-size: 0.85em;">LY082 | טרמינל 3 | כרטיס אלקטרוני</div>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">כרטיסי טיסה: אופיר טורס (Ethiopian Airlines)</div>
+                                <div style="color: #64748b; font-size: 0.85em;">ET419/672 (הלוך), ET673/418 (חזור) + 2 טיסות פנים</div>
                             </div>
-                            <button onclick="alert('ברקוד העלייה למטוס מוצג למסך')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-qrcode"></i> ברקוד</button>
+                            <button onclick="alert('פרטי טיסות אופיר טורס - הקסם הקוריאני:
+
+✈️ הלוך:
+• ET 419: תל אביב (14:40) -> אדיס אבבה (19:55)
+• ET 672: אדיס אבבה (22:35) -> סיאול אינצ'און (15:45 למחרת)
+
+✈️ טיסות פנים:
+• בוסאן (PUS) -> אי ג'ג'ו (CJU)
+• אי ג'ג'ו (CJU) -> סיאול גימפו (GMP)
+
+✈️ חזור:
+• ET 673: סיאול אינצ'און (00:10) -> אדיס אבבה (07:25)
+• ET 418: אדיס אבבה (10:30) -> תל אביב (13:35)')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-ticket"></i> כרטיסים</button>
                         </div>
 
                         <!-- Insurance Card -->
                         <div style="background: white; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 10px;">
                             <div style="background: #dcfce7; color: #16a34a; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
-                                <i class="fa-solid fa-file-medical"></i>
+                                <i class="fa-solid fa-shield-halved"></i>
                             </div>
                             <div style="flex-grow: 1; min-width: 0;">
-                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">פוליסת ביטוח רפואי מורחבת</div>
-                                <div style="color: #64748b; font-size: 0.85em;">כיסוי מלא ובלתמים | מוקד 24/7</div>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">פוליסת ביטוח פספורטכארד (PassportCard)</div>
+                                <div style="color: #64748b; font-size: 0.85em;">כיסוי מורחב קוריאה 22/11-06/12 | כרטיס אדום</div>
                             </div>
-                            <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-phone"></i> חיוג</button>
+                            <button onclick="alert('פוליסת PassportCard קוריאה:
+מוקד חירום בינלאומי: +972-9-8920930
+וואטסאפ מוקד פספורטכארד: +972-50-670-2000
+כרטיס מגנטי אדום לתשלום במקום ללא השתתפות עצמית')" style="background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-phone"></i> חיוג</button>
                         </div>
 
                         <!-- Medical Prescriptions -->
@@ -810,7 +825,7 @@
                             </label>
                             <select id="trip-itinerary-selector" onchange="switchTripDocument(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #3b82f6; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: white;">
                                 <option value="netanya" selected>📍 נתניה (טיול הדמיה ובדיקות שטח בתחבורה ציבורית)</option>
-                                <option value="korea">✈️ קסם קוריאה (אופיר טורס) - יציאה: 22-11-2026 (תאריך נקוב בחוברת: 24/11)</option>
+                                <option value="korea">✈️ הקסם הקוריאני (אופיר טורס) - 15 ימים | 42 מטיילים | 2 שבתות</option>
                                 <option value="israel_trail">🥾 שביל ישראל (28-10-2026) - מסע שטח, מקטעים ונקודות מים</option>
                             </select>
                         </div>
@@ -951,67 +966,107 @@
                         <div id="itinerary-doc-korea" class="trip-itinerary-doc" style="display: none;">
                             <div style="background: #f5f3ff; border: 2px solid #c4b5fd; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-                                    <h4 style="margin: 0; color: #5b21b6; font-size: 1.15em;"><i class="fa-solid fa-plane"></i> מסלול "קסם קוריאה" - אופיר טורס (יציאה בפועל: 22-11-2026 עד 03-12-2026 | תאריך נקוב: 24-11-2026)</h4>
-                                    <span style="background: #ede9fe; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">טיול מאורגן אמיתי - 12 יום מלאים</span>
+                                    <h4 style="margin: 0; color: #5b21b6; font-size: 1.15em;"><i class="fa-solid fa-plane"></i> מסלול "הקסם הקוריאני" - אופיר טורס (15 ימים מלאים | 42 מטיילים | 2 שבתות)</h4>
+                                    <span style="background: #ede9fe; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">חוזה רשמי: 42 מטיילים | 15 ימים</span>
                                 </div>
                                 <p style="margin: 0; font-size: 0.9em; color: #4c1d95; line-height: 1.5;">
-                                    <b>טיול מאורגן אמיתי של חברת אופיר טורס:</b> יציאה מנתב"ג ביום ראשון 22/11/2026 (הקדמת יציאה ביומיים מתאריך החוברת 24/11, על מנת שהמסע כולו יכלול שבת אחת בלבד). קבוצה של 24 גמלאים צעירים ברוחם. דגש על נוחות מירבית, אוטובוס תיירות צמוד, מרחקי הליכה קצרים ומדודים (עד 400 מטר מחניות לאתרים), שבת בעוגן מרכזי בסיאול סמוך לבית חב"ד, ומזון כשר וצמחוני נקי.
+                                    <b>המסלול הרשמי המלא מתוך החוזה של חברת אופיר טורס:</b> מסע מקיף של 15 ימים ברחבי קוריאה הדרומית עבור קבוצה של 42 מטיילים משלמים (גמלאים ומבוגרים מעל גיל 75). החברה התחייבה רשמית להתאמת משך המסלול ורמת הקושי, אוטובוס תיירים נוח וממוזג צמוד, אוזניות שמע אישיות לכל מטייל, מרחקי הליכה מדודים (עד 400 מ' מחניות לאתרים), וליווי צמוד של מדריך מקצועי מבית אופיר טורס ומדריך מקומי. המסע כולל <b>2 שבתות מלאות</b>: שבת ראשונה בדאייגו ושבת שנייה בסיאול.
                                 </p>
                             </div>
 
                             <div style="display: flex; flex-direction: column; gap: 10px;">
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #2563eb;">ימים 1-3: טיסה מנתב"ג, נחיתה בסיאול והיכרות עם עיר הבירה</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">נחיתה בנמל התעופה אינצ'ון (Incheon) והעברה נוחה באוטובוס תיירות ממוזג למלון. ביקור בארמון המלכותי גיונגבוקגונג (Gyeongbokgung) כולל צפייה בטקס חילופי המשמרות הצבעוני (מסלול מונגש ומישורי ללא מדרגות), כפר הבתים המסורתיים בוקצ'ון (Bukchon Hanok Village), סדנת תה קוריאני מסורתית (Dado), ומדרחוב האמנים והגלריות אינסדונג (Insadong).</div>
+                                    <b style="color: #2563eb;">יום 1 (יום א'): תל אביב – סיאול (דרך יעד ביניים)</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מפגש בנמל התעופה בן גוריון לקראת טיסה לקוריאה הדרומית דרך אדיס אבבה (טיסות Ethiopian Airlines ET419 הממריאה ב-14:40 וטיסת המשך ET672 הממריאה ב-22:35).</div>
                                 </div>
+
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #ea580c;">ימים 4-5: טיסת פנים לאי ג'ג'ו (Jeju Island) - פלא הטבע העולמי</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">טיסת פנים מנמל התעופה גימפו (Gimpo) לאי הגעשי ג'ג'ו. זריחה מרהיבה בפסגת הר הגעש סונגסאן אילצ'ולבונג (Seongsan Ilchulbong - שביל הליכה מוסדר עם מעקות ותצפית), מצוקי עמודי הבזלת ומשושי הלבה ג'וסאנגג'אולי (Jusangjeolli), מפל צ'אונג'ייה (Cheonjiyeon) הזורם לערוץ מוצל, ומוזיאון התה הירוק O'Sulloc.</div>
+                                    <b style="color: #2563eb;">יום 2 (יום ב'): ברוכים הבאים לסיאול - עיר העתיד הירוקה Songdo</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">נחיתה בנמל התעופה אינצ'און (15:45). עצירה בדרך לעיר באי Yeongjong-do או ברובע Songdo המודרני – עיר העתיד הירוקה של קוריאה. סיור נינוח בפארק המרכזי המעוצב בהשראת הסנטרל פארק לצד תעלות מים וגורדי שחקים. נסיעה למלון בסיאול לקבלת חדרים, התארגנות ומנוחה, וארוחת ערב פתיחה חגיגית. לינה בסיאול.</div>
                                 </div>
-                                <!-- DAYS 6-7: SHABBAT IN SEOUL WITH WALKING TOUR & A4 PRINT -->
-                                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px; margin-top: 4px;">
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #2563eb;">יום 3 (יום ג'): סיאול – מקדשים, ארמונות, שייט על נהר ההאן ומופע נאנטה</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור דרך בניין העירייה והפארק הצמוד, כיכר גוואנגוואמון המרשימה (600 שנות היסטוריה ותרבות), עלייה לתצפית במגדל סיאול בהר נאמסאן (N-Seoul Tower מתנשא לגובה 237 מ'), סיור בשוק המקומי הענק נאמדאמון (מעל ומתחת לקרקע), שייט מרגיע על נהר ההאן, סיור ברובע הקניות היוקרתי מיונגדונג, וצפייה במופע התיאטרון והתיפוף המפורסם נאנטה (Nanta Show). לינה בסיאול.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #ea580c;">יום 4 (יום ד'): סואון וכפר הפולקלור – מסיאול לסוקצ'ו</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">יציאה מסיאול אל מצודת סואון הוואסונג (Suwon Hwaseong) – אתר מורשת עולמי של אונסק"ו. המשך לביקור בכפר הפולקלור הקוריאני מתקופת שושלת ג'וסון – מוזיאון חי של 250 בתים מסורתיים אותנטיים, צפייה בשחקנים המציגים חיי יומיום, הכנת כלים חקלאיים, קימצ'י, ומופעי אקרובטיקה וריקוד מסורתי. נסיעה למלון בסוקצ'ו (Sokcho). לינה בסוקצ'ו.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #ea580c;">יום 5 (יום ה'): שמורת הר סאוראק, מקדש נקסאנסה וצ'יאונגז'ו</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">שמורת הטבע הר סאוראק (Seoraksan) – ביקור במקדש שינהאונגסה ופסל בודהה הענק, עלייה ברכבל לפסגת ההר ותצפית מרהיבה על ים יפן וחורבות מצודת גואנגאאום סאנג. ביקור בשוק סוקצ'ו הססגוני (טעימת לחם האורז המיוחד). המשך למקדש נקסאנסה (Naksansa) המרהיב הניצב על צוק מול הים. נסיעה למלון בעיר צ'יאונגז'ו (Cheongju). לינה בצ'יאונגז'ו.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #166534;">יום 6 (יום ו' - ערב שבת ראשונה): ביאופג'וסה, מקדש האינסה והגעה לדאייגו</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור בפארק הלאומי סוקריסאן ובמקדש הבודהיסטי ביאופג'וסה (נוסד ב-553, פגודת העץ הגבוהה בקוריאה ופסל בודהה המוזהב). המשך להאפצ'ואן לביקור במקדש האינסה (Haeinsa) שבו אוצר הטריפיטקה קוריאנה – 81,000 לוחות עץ עתיקים בני 800 שנה שנשמרו באופן מופלא ביער שליו. נסיעה למלון בעיר דאייגו (Daegu). התארגנות מוקדמת לשבת. הדלקת נרות שבת בדאייגו: 16:57.</div>
+                                </div>
+
+                                <!-- SHABBAT 1: DAEGU WITH A4 PRINT -->
+                                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> ימים 6-7: שבת קודש בסיאול וטיול רגלי סביב המלון (שבת אחת בלבד במסע)</b>
-                                        <button onclick="openShabbatPrintModal('korea')" style="background: #15803d; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,101,52,0.25);">
-                                            <i class="fa-solid fa-print"></i> 🖨️ הדפס דף טיול לשבת (A4)
+                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> יום 7 (שבת קודש ראשונה – דאייגו): מנוחת שבת וסיור רגלי סביב המלון</b>
+                                        <button onclick="openShabbatPrintModal('korea_shabbat1')" style="background: #15803d; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,101,52,0.25);">
+                                            <i class="fa-solid fa-print"></i> 🖨️ הדפס דף שבת דאייגו (A4)
                                         </button>
                                     </div>
-                                    <div style="font-size: 0.88em; color: #14532d; line-height: 1.5; margin-bottom: 10px;">
-                                        <b>רדיוס הליכה מישורי מותאם לגמלאים:</b> 250 מטר עד 1.1 קילומטר סביב המלון.  
-                                        <b>הנחיית שבת (ללא הפעלת טלפון):</b> מדפיסים ביום שישי טרם שבת דף A4 מרוכז עם מפת מסלול, תחנות, מרחקים מדויקים ודגשים הלכתיים. הטלפון נשאר כבוי בחדר!
+                                    <div style="font-size: 0.88em; color: #14532d; line-height: 1.5;">
+                                        <b>שבת ראשונה במסע בעיר דאייגו:</b> הדלקת נרות: 16:57 | מוצאי שבת: 17:57. תפילות, סעודות שבת ומנוחה מלאה מותאמת לגמלאים. סיור רגלי נינוח סביב המלון ללא הפעלת טלפונים. הדפסת דף מסלול A4 ביום שישי. לינה בדאייגו / בוסאן.
                                     </div>
+                                </div>
 
-                                    <!-- Shabbat Walking Stages -->
-                                    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85em;">
-                                        <div style="background: white; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                                            <b style="color: #166534;">🏨 עוגן המלון: Hamilton Hotel Itaewon</b>
-                                            <div style="color: #475569;">מפתח שבת מכני (ללא כרטיס אלקטרוני), מעלית קומה נמוכה, דלתות כניסה ידניות לצד המסתובבות.</div>
-                                        </div>
-                                        <div style="background: white; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                                            <b style="color: #2563eb;">📍 תחנה 1: בית חב"ד סיאול - 250 מטר (3 דקות הליכה)</b>
-                                            <div style="color: #475569;">Itaewon-ro 211-17. קבלת שבת 17:30, שחרית 10:00, סעודות שבת גלאט כשרות מלאות.</div>
-                                        </div>
-                                        <div style="background: white; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                                            <b style="color: #0284c7;">🌳 תחנה 2: טיילת פארק נמסאן המוצלת (Namsan Trail) - 650 מטר (9 דקות הליכה)</b>
-                                            <div style="color: #475569;">שביל מישורי רחב, עצי אלון ואורן, ספסלי מנוחה מוצלים ותצפית פתוחה לסיאול. ללא עליות מדרגות.</div>
-                                        </div>
-                                        <div style="background: white; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                                            <b style="color: #7c3aed;">🏡 תחנה 3: רובע האנאם-דונג הפסטורלי (Hannam-dong) - 450 מטר</b>
-                                            <div style="color: #475569;">רחובות שקטים ללא תנועה סואנת, גינות ציבוריות מטופחות, אווירת שבת חברתית רגועה לקבוצה.</div>
-                                        </div>
-                                        <div style="background: white; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                                            <b style="color: #b45309;">🔄 תחנה 4: חזרה מעגלית נינוחה למלון לסעודה שלישית והבדלה</b>
-                                            <div style="color: #475569;">סך כל הסיבוב: כ-1.8 קילומטר בהליכה רגועה ומפוצלת. חזרה בטוחה לפני שקיעה.</div>
-                                        </div>
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #7c3aed;">יום 8 (יום א'): ממלכת שילה הקדומה (גיונגג'ו) והגעה לבוסאן</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור בגיונגג'ו – בירת ממלכת שילה הקדומה. ביקור במוזיאון הלאומי, שרידי ארמון הקיץ, מצפה הכוכבים העתיק Cheomseongdae, ופארק קברי המלכים ותל הקבורה הפתוח. חוויית טקס תה קוריאני מסורתי בבית תה. ביקור במערת סאוקגוראם (Seokguram Grotto) מול הים המזרחי ומקדש בולגוקסה (Bulguksa - אתרי מורשת עולמית של אונסק"ו). נסיעה למלון בעיר בוסאן (Busan). לינה בבוסאן.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #7c3aed;">יום 9 (יום ב'): בוסאן (חלק 1) – מגדל בוסאן, שוק הדגים ג'גאלצ'י וספא מסורתי</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">תצפית פנורמית ממגדל בוסאן בפארק יונגדוסאן (הר ראש הדרקון), סיור מודרך בשוק הדגים הגדול ביותר בקוריאה – שוק ג'גאלצ'י (Jagalchi), שוק קוקג'ה (Gukje) המסורתי, כיכר BIFF ומאכלי רחוב מקומיים. ביקור במרכז קניות ענק עם אפשרות לספא קוריאני מסורתי (Jjimjilbang) להתרעננות. לינה בבוסאן.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #7c3aed;">יום 10 (יום ג'): בוסאן (חלק 2) – מקדש הדרקון, גשר הזכוכית, כפר גמצ'און ורכבל</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור במקדש ארמון הדרקון (Haedong Yonggungsa) הניצב ישירות על קו החוף, ביקור ב"בית אפק" (Nurimaru APEC House) באי דונגבאקסום בין עצי אורן, צעידה על גשר הזכוכית השקוף אוריוקדו מעל המצוק, מעבר מעל גשר היהלומים (Gwangan Bridge באורך 7,420 מ'), סיור בסמטאות הציוריות של כפר האמנות והתרבות גמצ'און (Gamcheon), ורכבל סונגדו מעל המפרץ עם פארק הנסיך הקטן. לינה בבוסאן.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #0284c7;">יום 11 (יום ד'): טיסת פנים מבוסאן לאי ג'ג'ו (Jeju Island) - פלאי הטבע</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">נסיעה לשדה התעופה של בוסאן וטיסת פנים לאי הגעשי ג'ג'ו. ביקור במוזיאון התה המסורתי O'Sulloc כולל טעימת תה ירוק בגנים, ביקור בגנים הבוטניים יאומיג'י (Yeomiji), צוק עמודי הבזלת ומשושי הלבה ג'וסאנגג'אולי (Jusangjeolli) הנראים כאילו נחצבו בידי אדם, ומפל צ'אנג'יאון (Cheonjiyeon) הנשפך לבריכה קסומה. לינה בעיר ג'ג'ו.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #0284c7;">יום 12 (יום ה'): אי ג'ג'ו – כפר סאונגאפ, הנשים הצוללות וסאנרייז פיק</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור בכפר המסורתי האותנטי סאונגאפ (Seongeup - מורשת תרבותית עם תושבים מקומיים), מופע טאקוונדו (אם מתאפשר), סיפור ומפגש בחוף "הנשים הצוללות" (Haenyeo הצוללות ללא בלוני חמצן לשליית פירות ים), לוע הר הגעש סאנרייז פיק (Seongsan Ilchulbong) עם תצפית עוצרת נשימה, ורצועת החוף המפורסמת סופג'יקוג'י (Seopjikoji). לינה בג'ג'ו.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <b style="color: #166534;">יום 13 (יום ו' - ערב שבת שנייה): פארק האלים, שוק דונגמון וטיסה לסיאול</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור בפארק האלים (Hallim Park - 100,000 מ"ר של גני בונסאי, גן מים, גן טרופי ומערות לבה), בילוי בשוק המקורה דונגמון (Dongmun Market) בג'ג'ו. טיסת פנים מג'ג'ו לסיאול (נמל התעופה גימפו). העברה למלון בסיאול והתארגנות מהירה לשבת קודש שנייה. הדלקת נרות שבת בסיאול: 16:56.</div>
+                                </div>
+
+                                <!-- SHABBAT 2: SEOUL WITH A4 PRINT -->
+                                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> יום 14 (שבת קודש שנייה – סיאול): ארמון גיונגבוק, כפר בוקצ'ון ואינסדונג</b>
+                                        <button onclick="openShabbatPrintModal('korea_shabbat2')" style="background: #15803d; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,101,52,0.25);">
+                                            <i class="fa-solid fa-print"></i> 🖨️ הדפס דף שבת סיאול (A4)
+                                        </button>
+                                    </div>
+                                    <div style="font-size: 0.88em; color: #14532d; line-height: 1.5; margin-bottom: 8px;">
+                                        <b>שבת שנייה בסיאול:</b> הדלקת נרות: 16:56 | מוצאי שבת: 17:56. תפילות וסעודות שבת. סיור רגלי מותאם לשבת בארמון המלכותי גיונגבוקגונג (Gyeongbokgung - כניסה בתלבושות מסורתיות, חילופי משמרות ללא מדרגות), כפר הבתים המסורתיים בוקצ'ון (Bukchon Hanok), ומדרחוב האמנים והעתיקות אינסדונג (Insadong), ובמידת הזמן דונגדאמון פלאזה (DDP).
+                                    </div>
+                                    <div style="font-size: 0.85em; color: #0f172a; background: white; padding: 8px 10px; border-radius: 8px; border: 1px solid #bbf7d0;">
+                                        <b>מוצאי שבת (17:56):</b> חזרה למלון להתארגנות, פינוי חדרים ואריזה, ונסיעה ישירה לנמל התעופה אינצ'ון לקראת טיסת לילה (00:10).
                                     </div>
                                 </div>
+
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #7c3aed;">ימים 8-10: רכבת מהירה KTX לעיר החוף בוסאן (Busan)</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">נסיעה חלקה ברכבת קליע מהירה KTX (רציף מונגש במעליות). סיור בשוק הדגים הססגוני ג'גאלצ'י (Jagalchi), כפר האמנות והתרבות הציורי גמצ'און (Gamcheon Culture Village), טיילת החוף הייאונדה (Haeundae Beach) והגשר הימי גוואנגן (Gwangan Bridge), ומקדש Haedong Yonggungsa הצופה אל האוקיינוס.</div>
-                                </div>
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #0284c7;">ימים 11-12: מבצר סוואן (Hwaseong Fortress), חזרה לסיאול וטיסה הביתה</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור במבצר סוואן המלכותי המוקף חומה אדירה (אתר מורשת עולמי של אונסק"ו), חזרה לסיאול לקניות אחרונות והתרעננות, ארוחת פרידה חגיגית, ונסיעה ישירה לנמל התעופה אינצ'ון לטיסת חזרה ישירה/סדירה לנתב"ג.</div>
+                                    <b style="color: #0284c7;">יום 15 (יום א'): טיסות חזרה ארצה ונחיתה בישראל</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">טיסת לילה Ethiopian Airlines ET673 מאינצ'ון (00:10) לאדיס אבבה (07:25), טיסת המשך ET418 (10:30) ונחיתה בנמל התעופה בן גוריון בשעה 13:35 בצהריים. תם ונשלם מסע הקסם הקוריאני!</div>
                                 </div>
                             </div>
                         </div>
@@ -1057,60 +1112,60 @@
                         <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:18px; margin-bottom:18px;">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-weight:900; color:#9a3412; font-size:1.3em;"><i class="fa-solid fa-plane-departure"></i> יעד הטיול המוגדר:</span>
-                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:6px 14px; border-radius:10px; font-size:1.15em; font-weight:900;">קסם קוריאה (אופיר טורס) - יציאה: 22-11-2026</span>
+                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:6px 14px; border-radius:10px; font-size:1.15em; font-weight:900;">הקסם הקוריאני (אופיר טורס) - 15 ימים, 42 מטיילים, 2 שבתות</span>
                             </div>
-                            <p style="margin:8px 0 0 0; font-size:1.1em; color:#7c2d12; line-height:1.5;">שאלון מובנה מלא של סייען הנסיעות לאיסוף כל הפרטים, היעדים, הרצונות, וההעדפות שיוצרים טיול מוגדר.</p>
+                            <p style="margin:8px 0 0 0; font-size:1.1em; color:#7c2d12; line-height:1.5;">שאלון מובנה מלא של סייען הנסיעות המעודכן ישירות מתוך חוזה אופיר טורס (הקסם הקוריאני 15 ימים).</p>
                         </div>
 
                         <!-- 12 Questions Form -->
                         <div style="display:flex; flex-direction:column; gap:16px; font-size:1.15em;">
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">1. נקודת מוצא ויציאה:</label>
-                                <input type="text" id="q_origin" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="שדרות העצמאות 93, אשדוד / נתבג">
+                                <input type="text" id="q_origin" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="שדרות העצמאות 93, אשדוד / נתבג טרמינל 3">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">2. מדינה / יעד מבוקש:</label>
-                                <input type="text" id="q_destination" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קוריאה הדרומית | טיול מאורגן: קסם קוריאה (אופיר טורס)">
+                                <input type="text" id="q_destination" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">3. אופי ומטרת הטיול:</label>
-                                <input type="text" id="q_character" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="24 גמלאים צעירים ברוחם, טיול כיפי חברתי ומגוון, נופש ותרבות">
+                                <input type="text" id="q_character" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">4. הרכב וכמות המטיילים:</label>
-                                <input type="text" id="q_group" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קבוצה של 24 איש (גמלאים צעירים ברוחם)">
+                                <input type="text" id="q_group" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">5. משך הטיול בימים:</label>
-                                <input type="text" id="q_duration" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="12 יום (כולל טיסות הלוך ושוב)">
+                                <input type="text" id="q_duration" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="15 ימים מלאים (כולל 2 שבתות!)">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">6. תאריך יציאה מתוכנן:</label>
-                                <input type="text" id="q_date" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="22-11-2026 (יום ראשון מנתבג | תאריך נקוב בחוברת: 24-11-2026)">
+                                <input type="text" id="q_date" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">7. תקציב מתוכנן:</label>
-                                <input type="text" id="q_budget" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="סטנדרט איכותי סביר לקבוצת גמלאים">
+                                <input type="text" id="q_budget" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">8. אתרים, סדנאות ופעילויות חובה:</label>
-                                <textarea id="q_activities" rows="2" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">סדנת חץ וקשת מסורתי (Gakgung), סדנת תה Dado, ספא ויופי מסורתי, זריחה בהר באי ג'וג'ו, שבת בסיאול סמוך לבית חב"ד</textarea>
+                                <textarea id="q_activities" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור ג'וסון, שמורת הר סאוראק, מקדש ביאופג'וסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגג'ו (שילה), בוסאן (שוק דגים ג'גאלצ'י, גמצ'און), אי ג'ג'ו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצ'ון, אינסדונג).</textarea>
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">9. העדפות תחבורה:</label>
-                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="אוטובוס צמוד לקבוצה, רכבות מהירות, מרחק חניה קצר לאתרים">
+                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד, רכבלים ושייט">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">10. סוגי לינה מועדפים:</label>
-                                <input type="text" id="q_hotels" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="מלונות 4-5 כוכבים, גישה מלאה למעליות ללא מדרגות רבות">
+                                <input type="text" id="q_hotels" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">11. העדפות כשרות ומזון:</label>
-                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="כשר למהדרין (בדץ), מזון צמחוני/טבעוני נקי, בדיקת ברקודים">
+                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="כשר / צמחוני נקי, 2 שבתות מוסדרות, בדיקת ברקודים">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">12. אילוצים ובקשות מיוחדות:</label>
-                                <textarea id="q_constraints" rows="2" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">יציאה ביום ראשון (שבת אחת בלבד בטיול), הגבלת הליכה רצופה עד 400-500 מטר, חובת מעליות ושהייה בצל בשעות החום</textarea>
+                                <textarea id="q_constraints" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). התאמה מחמירה לגמלאים מעל גיל 75: הגבלת הליכה רצופה (עד 400 מ'), מעליות, אוזניות שמע אישיות לכל מטייל.</textarea>
                             </div>
                         </div>
 
@@ -1655,14 +1710,18 @@
             const hotelNameEl = document.getElementById('shabbat-hotel-name');
             const hotelAddrEl = document.getElementById('shabbat-hotel-addr');
 
-            if (tripKey === 'korea') {
-                if (titleEl) titleEl.innerText = 'סיאול, קוריאה הדרומית (28-11-2026)';
-                if (hotelNameEl) hotelNameEl.innerText = 'Hamilton Hotel Seoul (מלון המילטון איטוואן)';
-                if (hotelAddrEl) hotelAddrEl.innerText = '179 Itaewon-ro, Yongsan-gu, Seoul (서울 용산구 이태원로 179)';
+            if (tripKey === 'korea_shabbat1') {
+                if (titleEl) titleEl.innerText = "דאייגו, קוריאה הדרומית (שבת ראשונה - יום 7 | הדלקה: 16:57, מוצאי שבת: 17:57)";
+                if (hotelNameEl) hotelNameEl.innerText = "מלון הקבוצה בדאייגו (Daegu Hotel - כניסה נגישה)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "Daegu City Center (רדיוס הליכה מישורי סביב המלון והפארק הסמוך)";
+            } else if (tripKey === 'korea_shabbat2' || tripKey === 'korea') {
+                if (titleEl) titleEl.innerText = "סיאול, קוריאה הדרומית (שבת שנייה - יום 14 | הדלקה: 16:56, מוצאי שבת: 17:56)";
+                if (hotelNameEl) hotelNameEl.innerText = "מלון הקבוצה בסיאול (סמוך לארמון גיונגבוקגונג ואינסדונג)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "Seoul City Center (סיור רגלי: ארמון גיאונגבוק, כפר בוקצון האנוק, אינסדונג ו-DDP)";
             } else if (tripKey === 'netanya') {
-                if (titleEl) titleEl.innerText = 'נתניה, ישראל (טיילת הראשונים ומעלית סירונית)';
-                if (hotelNameEl) hotelNameEl.innerText = 'מלון איילנד נתניה (טיילת הראשונים)';
-                if (hotelAddrEl) hotelAddrEl.innerText = 'שדרות בן עמי 10, נתניה';
+                if (titleEl) titleEl.innerText = "נתניה, ישראל (טיילת הראשונים ומעלית סירונית)";
+                if (hotelNameEl) hotelNameEl.innerText = "מלון איילנד נתניה (טיילת הראשונים)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "שדרות בן עמי 10, נתניה";
             }
 
             modal.style.display = 'block';
@@ -2110,6 +2169,21 @@
             try {
                 const saved = JSON.parse(localStorage.getItem('travel_assistant_trip_questionnaire'));
                 if (saved) {
+                    // Auto-migrate to official 15-day Ofir Tours contract (42 travelers, 2 Shabbatot)
+                    if (saved.group && (saved.group.includes('24') || saved.duration?.includes('12') || !saved.destination?.includes('הקסם הקוריאני'))) {
+                        saved.destination = 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)';
+                        saved.character = '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)';
+                        saved.group = 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)';
+                        saved.duration = '15 ימים מלאים (כולל 2 שבתות!)';
+                        saved.date = '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)';
+                        saved.budget = '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)';
+                        saved.activities = "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).";
+                        saved.transit = "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד, רכבלים ושייט";
+                        saved.hotels = "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר";
+                        saved.food = "כשר / צמחוני נקי, 2 שבתות מוסדרות, בדיקת ברקודים";
+                        saved.constraints = "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). התאמה מחמירה לגמלאים מעל גיל 75: הגבלת הליכה רצופה (עד 400 מטר), מעליות, אוזניות שמע אישיות לכל מטייל.";
+                        localStorage.setItem('travel_assistant_trip_questionnaire', JSON.stringify(saved));
+                    }
                     if (saved.origin) document.getElementById('q_origin').value = saved.origin;
                     if (saved.destination) {
                         document.getElementById('q_destination').value = saved.destination;
