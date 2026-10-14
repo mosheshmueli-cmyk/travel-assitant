@@ -671,9 +671,29 @@
             </div>
             
             <div class="content-padding" style="padding-bottom: 50px;">
-                <p style="text-align:center; color: #64748b; font-size: 0.88em; margin-bottom: 16px;">
-                    <i class="fa-solid fa-shield-halved" style="color:#10b981;"></i> תיק הטיול המלא זמין מקומית ללא צורך באינטרנט (Offline First).
-                </p>
+                <!-- Company Trip Documents Integration Banner (User Requirement) -->
+                <div style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #8b5cf6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(139,92,246,0.12);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+                        <span style="font-weight: 900; color: #5b21b6; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-file-invoice" style="color: #7c3aed; font-size: 1.3em;"></i>
+                            תיק תכנון טיול לקוח: מסמכי חברת הטיולים (אופיר טורס)
+                        </span>
+                        <span style="background: #ede9fe; color: #6d28d9; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.8em;">
+                            חוזה מאושר: 42 מטיילים | 15 ימים
+                        </span>
+                    </div>
+                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5; margin-bottom: 10px;">
+                        <b>שובץ במלואו בתיק תכנון הלקוח:</b> חוברת המסלול הרשמית של אופיר טורס "הקסם הקוריאני" (22/11 עד 06/12), כרטיסי טיסה מדויקים של Ethiopian Airlines (ET 419/672/673/418), 2 טיסות פנים, 2 שבתות כהלכתן, והתחייבות החברה להתאמה קפדנית ל-42 גמלאים מעל גיל 75.
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button onclick="document.getElementById('custom-doc-file').click()" style="background: #7c3aed; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> העלה מסמך חברה נוסף (PDF/וורד)
+                        </button>
+                        <button onclick="document.getElementById('acc-detailed-itinerary').classList.add('open'); document.getElementById('trip-itinerary-selector').value='korea'; switchTripDocument('korea'); document.getElementById('acc-detailed-itinerary').scrollIntoView({behavior:'smooth'});" style="background: white; color: #6d28d9; border: 1.5px solid #8b5cf6; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-list-check"></i> צפה בלוח הזמנים של החברה
+                        </button>
+                    </div>
+                </div>
 
                 <!-- ACCORDION 1: מסמכים אישיים ומנהלה -->
                 <div class="accordion-item open" id="acc-personal-docs">
@@ -1186,7 +1206,7 @@
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">9. העדפות תחבורה:</label>
-                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד, רכבלים ושייט">
+                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת (מכניסת שבת ועד מוצאי שבת). כל הפעילות רגלית בלבד!">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">10. סוגי לינה מועדפים:</label>
@@ -1194,11 +1214,11 @@
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">11. העדפות כשרות ומזון:</label>
-                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="כשר / צמחוני נקי, 2 שבתות מוסדרות, בדיקת ברקודים">
+                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.">
                             </div>
                             <div>
                                 <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">12. אילוצים ובקשות מיוחדות:</label>
-                                <textarea id="q_constraints" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). התאמה מחמירה לגמלאים מעל גיל 75: הגבלת הליכה רצופה (עד 400 מ'), מעליות, אוזניות שמע אישיות לכל מטייל.</textarea>
+                                <textarea id="q_constraints" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: הרחבת טווח ורדיוס הסיור הרגלי מ-500 מטר עד 3 ק"מ רדיוס סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל.</textarea>
                             </div>
                         </div>
 
@@ -1533,23 +1553,120 @@
             
             <div class="content-padding" style="padding-bottom: 50px;">
                 
-                <!-- Category Selector Dropdown: Prevents stretching across endless pages! -->
-                <div style="background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px;">
-                    <label style="display: block; font-weight: 900; color: #1d4ed8; font-size: 1.05em; margin-bottom: 6px;">
+                <!-- Category Selector Dropdown (User Requirement: 1. התניידות ותחבורה  2. מזון מוצרים ומסעדות  3. לינה) -->
+                <div style="background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px;">
+                    <label style="display: block; font-weight: 900; color: #1d4ed8; font-size: 1em; margin-bottom: 6px;">
                         <i class="fa-solid fa-layer-group"></i> בחר תחום סיוע להצגה ממוקדת:
                     </label>
-                    <select id="ai-main-category-selector" onchange="switchAiSection(this.value)" style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 2px solid #2563eb; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 800; color: #0f172a; background: white;">
-                        <option value="section-food" selected>🍽️ מזון ומסעדות מותאמות (כשר, טבעוני, צליאק, ברקודים)</option>
-                        <option value="section-hotels">🏨 לינה ומלונות נגישים ומותאמים</option>
-                        <option value="section-transit">🚌 התניידות, תחבורה וכרטיסי נהג מקומי</option>
-                        <option value="section-chat">💬 סייען AI לשטח (צ'אט, צילום שלטים וקול)</option>
+                    <select id="ai-main-category-selector" onchange="switchAiSection(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 2px solid #2563eb; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: white;">
+                        <option value="section-transit" selected>🚌 1. התניידות ותחבורה</option>
+                        <option value="section-food">🍽️ 2. מזון מוצרים ומסעדות</option>
+                        <option value="section-hotels">🏨 3. לינה</option>
                     </select>
                 </div>
 
-                <!-- 1. FOOD & RESTAURANTS SECTION -->
-                <div id="ai-sec-food" class="ai-category-section">
+                <!-- 3 Large Action Buttons (Thumb Ergonomics) -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+                    <button id="ai-btn-transit" onclick="switchAiSection('section-transit')" style="background: #2563eb; color: white; border: 2px solid #1d4ed8; border-radius: 12px; padding: 12px 4px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(37,99,235,0.25);">
+                        <i class="fa-solid fa-bus-simple" style="font-size: 1.4em;"></i>
+                        <span>1. התניידות ותחבורה</span>
+                    </button>
+                    <button id="ai-btn-food" onclick="switchAiSection('section-food')" style="background: white; color: #334155; border: 2px solid #cbd5e1; border-radius: 12px; padding: 12px 4px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-utensils" style="font-size: 1.4em; color: #ea580c;"></i>
+                        <span>2. מזון ומסעדות</span>
+                    </button>
+                    <button id="ai-btn-hotels" onclick="switchAiSection('section-hotels')" style="background: white; color: #334155; border: 2px solid #cbd5e1; border-radius: 12px; padding: 12px 4px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-hotel" style="font-size: 1.4em; color: #0284c7;"></i>
+                        <span>3. לינה</span>
+                    </button>
+                </div>
+
+                <!-- SMART AI FIELD ASSISTANT (QUICK BAR - TEXT + SNAPSHOT + VOICE) -->
+                <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px 12px; margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-size: 0.85em; font-weight: 900; color: #1e40af;"><i class="fa-solid fa-headset"></i> שאל את סייען ה-AI (התניידות, מזון ולינה):</span>
+                        <span style="font-size: 0.72em; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: bold;">זמין 24/7 בשטח</span>
+                    </div>
+                    <!-- Hidden file input for AI snapshot analysis -->
+                    <input type="file" id="ai-photo-input" accept="image/*" capture="environment" style="display:none;" onchange="handleAiPhotoUpload(event)">
+                    <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+                        <input type="text" id="ai-chat-input" placeholder="שאל שאלה על קווי תחבורה, כשרות או מלון..." style="flex: 1; padding: 8px 12px; border: 1px solid #94a3b8; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.88em;" onkeypress="if(event.key === 'Enter') sendAiMessage()">
+                        <button onclick="document.getElementById('ai-photo-input').click()" title="צלם שלט רחוב או מוצר לפענוח" style="background: white; border: 1px solid #3b82f6; color: #2563eb; width: 38px; border-radius: 8px; cursor: pointer; font-size: 1em; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
+                        <button onclick="sendAiMessage()" style="background: #2563eb; color: white; border: none; padding: 0 14px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div id="ai-chat-messages" class="chat-messages-container" style="max-height: 110px; overflow-y: auto; background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; font-size: 0.82em; margin-bottom: 6px;">
+                        <div class="chat-msg ai" style="color: #334155;">
+                            שלום משה! אני כאן לעזור לך בהתניידות ותחבורה, איתור מסעדות כשרות וטבעוניות, ופרטי המלונות. במה אוכל לסייע?
+                        </div>
+                    </div>
+                    <button onclick="alert('סייען ה-AI מאזין: במה אוכל לעזור לך עכשיו בהתניידות, מזון או לינה?')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 8px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="fa-solid fa-microphone"></i> שיחה קולית עם סייען ה-AI
+                    </button>
+                </div>
+
+                <!-- 1. TRANSIT & TRANSPORTATION SECTION (DEFAULT VISIBLE) -->
+                <div id="ai-sec-transit" class="ai-category-section" style="display: block;">
+                    <!-- Strict Shabbat Notice -->
+                    <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+                        <div style="display: flex; align-items: center; gap: 8px; font-weight: 900; color: #b91c1c; font-size: 0.95em;">
+                            <i class="fa-solid fa-ban"></i> הקפדה מוחלטת: אי-התניידות ברכב ותחבורה בשישי-שבת!
+                        </div>
+                        <div style="font-size: 0.85em; color: #7f1d1d; margin-top: 4px; line-height: 1.4;">
+                            מכניסת השבת ביום שישי ועד מוצאי שבת, אין שום שימוש ברכב, אוטובוס או רכבת. כל הפעילות סביב המלונות הינה רגלית בלבד (טווח מורחב עד 3 ק"מ סביב המלון).
+                        </div>
+                    </div>
+
+                    <!-- Flights Card -->
+                    <div style="background: white; border: 1.5px solid #93c5fd; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(37,99,235,0.06);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 4px;">
+                            <b style="color: #1e40af; font-size: 1.05em;"><i class="fa-solid fa-plane-departure"></i> טיסות בינלאומיות וקונקשן (Ethiopian Airlines)</b>
+                            <button onclick="switchScreen('screen-alerts'); switchBaltamScenario('flight_delay');" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8em; cursor: pointer;">
+                                <i class="fa-solid fa-satellite-dish"></i> בדיקת מכ"ם עיכובים
+                            </button>
+                        </div>
+                        <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">
+                            • <b>הלוך (22/11):</b> ET 419 מנתב"ג (14:40) ✈️ אדיס אבבה (19:55). קונקשן 2:40 שעות. טיסת ET 672 (22:35) ✈️ סיאול אינצ'און (15:45 למחרת).<br>
+                            • <b>טיסות פנים:</b> בוסאן (PUS) -> אי ג'ג'ו (CJU) | אי ג'ג'ו (CJU) -> סיאול גימפו (GMP).<br>
+                            • <b>חזור (06/12):</b> ET 673 מסיאול (00:10) ✈️ אדיס אבבה (07:25). קונקשן 3:05 שעות. טיסת ET 418 (10:30) ✈️ נתב"ג (13:35).
+                        </div>
+                    </div>
+
+                    <!-- Ground Transit: VIP Bus & KTX Bullet Trains -->
+                    <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-bottom: 14px;">
+                        <h4 style="margin: 0 0 8px 0; color: #0284c7; font-size: 1.05em;"><i class="fa-solid fa-bus-simple"></i> הסעות קרקעיות ורכבות מהירות</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;">
+                            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
+                                <b style="color: #0369a1;">🚌 אוטובוס תיירות צמוד VIP (קוריאה הדרומית):</b>
+                                <div style="color: #334155; margin-top: 2px;">אוטובוס ממוזג ונוח צמוד לכל 42 המטיילים, הורדה והעלאה בפתחי האתרים, תא מטען רחב ומים קרים.</div>
+                            </div>
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
+                                <b style="color: #15803d;">🚆 רכבת קליע KTX (סיאול - בוסאן):</b>
+                                <div style="color: #334155; margin-top: 2px;">מקומות שמורים בקרון 3, עלייה רגועה ברציף מעליות, מהירות 300 קמ"ש ללא טלטולים.</div>
+                            </div>
+                            <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
+                                <b style="color: #c2410c;">🚏 קווי אוטובוס עירוניים בנתניה (16 ו-25):</b>
+                                <div style="color: #334155; margin-top: 2px;">יציאה ממסוף רכבת נתניה מערב (רציף 37124) ישירות למעלית הים ולטיילת כל 10 דקות בימי חול.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. FOOD & RESTAURANTS SECTION -->
+                <div id="ai-sec-food" class="ai-category-section" style="display: none;">
+                    <!-- Assistance Prompt Card -->
+                    <div style="background: #fff7ed; border: 1.5px solid #fdba74; border-radius: 12px; padding: 10px 12px; margin-bottom: 14px;">
+                        <b style="color: #c2410c; font-size: 0.95em;"><i class="fa-solid fa-hand-holding-heart"></i> סיוע ייעודי באיתור מזון ומסעדות כשרות וטבעוניות:</b>
+                        <div style="font-size: 0.85em; color: #7c2d12; margin-top: 3px; line-height: 1.4;">
+                            הסייען מספק מענה מותאם אישית: איתור מסעדות כשרות למהדרין (בד"ץ / גלאט), מסעדות צמחוניות וטבעוניות נקיות, וזיהוי כשרות מוצרים בסופרמרקטים בינלאומיים.
+                        </div>
+                    </div>
+
                     <!-- Kosher Barcode Scanner -->
-                    <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 18px; box-shadow: 0 4px 8px rgba(34, 197, 94, 0.12);">
+                    <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 16px; box-shadow: 0 4px 8px rgba(34, 197, 94, 0.12);">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                             <i class="fa-solid fa-barcode" style="font-size: 1.5em; color: #16a34a;"></i>
                             <span style="font-weight: 800; color: #166534; font-size: 1.05em;">בדיקת ברקוד מוצר (זיהוי כשרות)</span>
@@ -1589,22 +1706,56 @@
                     </div>
                 </div>
 
-                <!-- 2. HOTELS & ACCESSIBLE ACCOMMODATION SECTION -->
+                <!-- 3. HOTELS & ACCESSIBLE ACCOMMODATION SECTION -->
                 <div id="ai-sec-hotels" class="ai-category-section" style="display: none;">
                     <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
                         <h3 style="margin-top: 0; color: #1e3a8a;"><i class="fa-solid fa-hotel"></i> מלונות ולינה נגישה ומאושרת</h3>
                         <p style="font-size: 0.88em; color: #475569; line-height: 1.4;">
-                            כל המלונות נבחרו בקפידה עם מעליות רחבות, גישה ללא מדרגות רבות, וקירבה למוקדי שבת ותחבורה:
+                            כל המלונות במסע נבחרו בקפידה עם מעליות רחבות, גישה ללא מדרגות, וקירבה למוקדי שבת ותחבורה:
                         </p>
                         
-                        <!-- Hotel Card 1: Netanya -->
+                        <!-- Hotel Card 1: Hamilton Seoul -->
+                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <b style="color: #0f172a; font-size: 1.05em;">מלון המילטון סיאול (Hamilton Hotel Seoul)</b>
+                                    <div style="font-size: 0.82em; color: #64748b;">179 Itaewon-ro, Yongsan-gu, Seoul</div>
+                                </div>
+                                <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">צמוד לבית חב"ד</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
+                                מרחק הליכה קצר ומישורי (250 מטר) מבית חב"ד. מפתח שבת מכני רגיל בקבלה, כניסה צדדית עם דלת ידנית (ללא חיישנים), קומות נמוכות.
+                            </div>
+                            <button onclick="showCustomTaxiCard('Hamilton Hotel Itaewon', '179 Itaewon-ro, Yongsan-gu, Seoul', 37.5345, 126.9940)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
+                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
+                            </button>
+                        </div>
+
+                        <!-- Hotel Card 2: Daegu -->
+                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <b style="color: #0f172a; font-size: 1.05em;">מלון הקבוצה בדאייגו (Daegu City Center Hotel)</b>
+                                    <div style="font-size: 0.82em; color: #64748b;">Daegu Central District | שבת ראשונה</div>
+                                </div>
+                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נגישות מלאה</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
+                                כניסה מישורית, מעליות רחבות, חניה צמודה לאוטובוס הקבוצה. סמוך למסלול סיור רגלי מורחב לשבת ברדיוס עד 3 ק"מ.
+                            </div>
+                            <button onclick="showCustomTaxiCard('Daegu Hotel Center', 'Daegu, Jung-gu', 35.8714, 128.6014)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
+                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
+                            </button>
+                        </div>
+
+                        <!-- Hotel Card 3: Netanya -->
                         <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
                             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                                 <div>
                                     <b style="color: #0f172a; font-size: 1.05em;">מלון איילנד נתניה (טיילת הראשונים)</b>
                                     <div style="font-size: 0.82em; color: #64748b;">שדרות בן עמי 10, נתניה | נוף ישיר לים</div>
                                 </div>
-                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נגישות מלאה</span>
+                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">מעלית שבת</span>
                             </div>
                             <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מעליות שבת, חניה צמודה לאוטובוס, מרחק 200 מטר ממעלית החוף.</div>
                             <button onclick="showCustomTaxiCard('מלון איילנד נתניה', 'שדרות בן עמי 10, נתניה', 32.3150, 34.8480)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
@@ -1612,85 +1763,16 @@
                             </button>
                         </div>
 
-                        <!-- Hotel Card 2: Seoul -->
-                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <b style="color: #0f172a; font-size: 1.05em;">מלון המילטון סיאול (Hamilton Hotel Seoul)</b>
-                                    <div style="font-size: 0.82em; color: #64748b;">Itaewon-ro 179, Yongsan-gu, Seoul</div>
-                                </div>
-                                <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">צמוד לבית חב"ד</span>
-                            </div>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מרחק הליכה קצר ומישורי (250 מטר) מבית חב"ד, מפתח שבת רגיל לפי דרישה מראש, גישה ישירה לתחנת מטרו.</div>
-                            <button onclick="showCustomTaxiCard('Hamilton Hotel Itaewon', '179 Itaewon-ro, Yongsan-gu, Seoul', 37.5345, 126.9940)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
-                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. TRANSIT & TRANSPORTATION SECTION -->
-                <div id="ai-sec-transit" class="ai-category-section" style="display: none;">
-                    <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
-                        <h3 style="margin-top: 0; color: #0284c7;"><i class="fa-solid fa-bus-simple"></i> התניידות, תחבורה והסעות לקבוצה</h3>
-                        <p style="font-size: 0.88em; color: #475569; line-height: 1.4;">
-                            הסדרי תחבורה קבוצתית וציבורית עם מקדמי ביטחון ללא לחץ וללא ריצות ברציפים:
-                        </p>
-
-                        <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 10px; background: #f0f9ff;">
-                            <b style="color: #0369a1;">🚌 אוטובוס תיירות צמוד (קוריאה הדרומית)</b>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">אוטובוס VIP עם תא מטען רחב, הורדה והעלאה בנקודות הקרובות ביותר לפתחי האתרים, כולל מים קרים לנוסעים.</div>
-                        </div>
-
-                        <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 10px; background: #f0fdf4;">
-                            <b style="color: #15803d;">🚆 רכבות קליע מהירות KTX (סיאול - בוסאן)</b>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">כרטיסים קבוצתיים שמורים בקרון 3, עלייה רגועה ברציף מעליות, זמן נסיעה שעתיים ו-15 דקות במהירות 300 קמ"ש.</div>
-                        </div>
-
-                        <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; background: #fff7ed;">
-                            <b style="color: #c2410c;">🚏 קווי אוטובוס עירוניים בנתניה (16 ו-25)</b>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">יציאה ממסוף רכבת נתניה מערב (רציף 37124) ישירות למעלית הים ולטיילת כל 10 דקות בימי חול.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. DUAL AI CONVERSATIONAL ASSISTANT: TEXT + PHOTO + VOICE (ITEM 3.8) -->
-                <div id="ai-sec-chat" class="ai-category-section" style="display: none;">
-                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <h3 style="margin: 0; color: #1d4ed8; font-size: 1.1em;"><i class="fa-solid fa-headset"></i> סייען ה-AI לשטח (צ'אט, צילום וקול)</h3>
-                            <span style="font-size: 0.75em; background: #dbeafe; color: #1e40af; padding: 2px 6px; border-radius: 6px; font-weight: bold;">זמין 24/7</span>
-                        </div>
-
-                        <p style="font-size: 0.85em; color: #334155; margin-top: 0; margin-bottom: 10px; line-height: 1.4;">
-                            כתוב שאלה, צלם שלט רחוב או תפריט זר לפענוח מיידי, או נהל שיחה קולית:
-                        </p>
-
-                        <!-- Interactive Chat History Box -->
-                        <div id="ai-chat-messages" class="chat-messages-container">
-                            <div class="chat-msg ai">
-                                שלום משה! אני כאן איתך בשטח. תוכל להקליד כל שאלה על מסלול הטיול, לבקש הכוונה למסעדה כשרה, או להעלות צילום של שלט רחוב לזיהוי מיקומך.
+                        <!-- Shabbat Guidelines in Hotels -->
+                        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 10px 12px; margin-top: 12px;">
+                            <b style="color: #1d4ed8; font-size: 0.9em;"><i class="fa-solid fa-key"></i> נוהל שבת מעשי בבתי מלון בחו"ל:</b>
+                            <div style="font-size: 0.82em; color: #1e40af; margin-top: 4px; line-height: 1.45;">
+                                1. <b>מפתח פיזי מכני:</b> בקשו בקבלה בעת הצ'ק-אין מפתח ידני עבור שומרי שבת.<br>
+                                2. <b>דלתות כניסה:</b> השתמשו בדלתות צדדיות ידניות או המתינו לכניסת אורח מקומי.<br>
+                                3. <b>קומות נמוכות:</b> הקבוצה משובצת בקומות 2-3 למניעת צורך בשימוש במעלית בשבת.
                             </div>
                         </div>
 
-                        <!-- Hidden file input for AI snapshot analysis -->
-                        <input type="file" id="ai-photo-input" accept="image/*" capture="environment" style="display:none;" onchange="handleAiPhotoUpload(event)">
-
-                        <!-- Chat Input Bar -->
-                        <div style="display: flex; gap: 6px; margin-bottom: 10px;">
-                            <input type="text" id="ai-chat-input" placeholder="הקלד שאלה או בקשת הכוונה..." style="flex: 1; padding: 10px 12px; border: 1px solid #94a3b8; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.9em;" onkeypress="if(event.key === 'Enter') sendAiMessage()">
-                            <button onclick="document.getElementById('ai-photo-input').click()" title="צלם שלט רחוב או מקום לפענוח" style="background: white; border: 1px solid #3b82f6; color: #2563eb; width: 42px; border-radius: 10px; cursor: pointer; font-size: 1.1em; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa-solid fa-camera"></i>
-                            </button>
-                            <button onclick="sendAiMessage()" style="background: #2563eb; color: white; border: none; padding: 0 16px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                        </div>
-
-                        <!-- Voice Interaction Button -->
-                        <button onclick="alert('סייען ה-AI מאזין: במה אוכל לעזור לך עכשיו בשטח?')" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                            <i class="fa-solid fa-microphone"></i> שיחה קולית עם סייען ה-AI
-                        </button>
                     </div>
                 </div>
             </div>
@@ -1775,24 +1857,49 @@
         }
 
         function switchAiSection(sectionKey) {
+            const selector = document.getElementById('ai-main-category-selector');
+            if (selector && selector.value !== sectionKey) {
+                selector.value = sectionKey;
+            }
+            
+            const tabs = [
+                { key: 'transit', id: 'ai-btn-transit', activeBg: '#2563eb', activeBorder: '#1d4ed8' },
+                { key: 'food', id: 'ai-btn-food', activeBg: '#ea580c', activeBorder: '#c2410c' },
+                { key: 'hotels', id: 'ai-btn-hotels', activeBg: '#0284c7', activeBorder: '#0369a1' }
+            ];
+
+            tabs.forEach(t => {
+                const btn = document.getElementById(t.id);
+                if (btn) {
+                    if (sectionKey === 'section-' + t.key) {
+                        btn.style.background = t.activeBg;
+                        btn.style.color = 'white';
+                        btn.style.borderColor = t.activeBorder;
+                        btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+                    } else {
+                        btn.style.background = 'white';
+                        btn.style.color = '#334155';
+                        btn.style.borderColor = '#cbd5e1';
+                        btn.style.boxShadow = 'none';
+                    }
+                }
+            });
+
             document.querySelectorAll('.ai-category-section').forEach(el => el.style.display = 'none');
-            if (sectionKey === 'section-food') {
+            
+            if (sectionKey === 'section-transit') {
+                const el = document.getElementById('ai-sec-transit');
+                if (el) el.style.display = 'block';
+            } else if (sectionKey === 'section-food') {
                 const el = document.getElementById('ai-sec-food');
                 if (el) el.style.display = 'block';
                 renderFoodCards();
             } else if (sectionKey === 'section-hotels') {
                 const el = document.getElementById('ai-sec-hotels');
                 if (el) el.style.display = 'block';
-            } else if (sectionKey === 'section-transit') {
-                const el = document.getElementById('ai-sec-transit');
-                if (el) el.style.display = 'block';
-            } else if (sectionKey === 'section-chat') {
-                const el = document.getElementById('ai-sec-chat');
-                if (el) el.style.display = 'block';
             }
         }
 
-        
         // ================= UNIVERSAL SHABBAT PRINT CONTROLLER =================
         function openShabbatPrintModal(tripKey) {
             const modal = document.getElementById('shabbat-print-modal');
@@ -1805,15 +1912,15 @@
             if (tripKey === 'korea_shabbat1') {
                 if (titleEl) titleEl.innerText = "דאייגו, קוריאה הדרומית (שבת ראשונה - יום 7 | הדלקה: 16:57, מוצאי שבת: 17:57)";
                 if (hotelNameEl) hotelNameEl.innerText = "מלון הקבוצה בדאייגו (Daegu Hotel - כניסה נגישה)";
-                if (hotelAddrEl) hotelAddrEl.innerText = "Daegu City Center (רדיוס הליכה מישורי סביב המלון והפארק הסמוך)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "Daegu City Center (רדיוס הליכה מורחב עד 3 קמ סביב המלון)";
             } else if (tripKey === 'korea_shabbat2' || tripKey === 'korea') {
                 if (titleEl) titleEl.innerText = "סיאול, קוריאה הדרומית (שבת שנייה - יום 14 | הדלקה: 16:56, מוצאי שבת: 17:56)";
-                if (hotelNameEl) hotelNameEl.innerText = "מלון הקבוצה בסיאול (סמוך לארמון גיונגבוקגונג ואינסדונג)";
-                if (hotelAddrEl) hotelAddrEl.innerText = "Seoul City Center (סיור רגלי: ארמון גיאונגבוק, כפר בוקצון האנוק, אינסדונג ו-DDP)";
+                if (hotelNameEl) hotelNameEl.innerText = "מלון המילטון איטוואן סיאול (Hamilton Hotel Seoul)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "179 Itaewon-ro, Yongsan-gu, Seoul (רדיוס הליכה מורחב עד 3 קמ סביב המלון)";
             } else if (tripKey === 'netanya') {
                 if (titleEl) titleEl.innerText = "נתניה, ישראל (טיילת הראשונים ומעלית סירונית)";
                 if (hotelNameEl) hotelNameEl.innerText = "מלון איילנד נתניה (טיילת הראשונים)";
-                if (hotelAddrEl) hotelAddrEl.innerText = "שדרות בן עמי 10, נתניה";
+                if (hotelAddrEl) hotelAddrEl.innerText = "שדרות בן עמי 10, נתניה (סיור רגלי לאורך מצוק הים ברדיוס עד 3 קמ)";
             }
 
             modal.style.display = 'block';
@@ -1843,7 +1950,8 @@
                 stopContinuousGps();
             }
             if (screenId === 'screen-ai') {
-                renderFoodCards();
+                const curVal = document.getElementById('ai-main-category-selector')?.value || 'section-transit';
+                switchAiSection(curVal);
             }
             if (screenId === 'screen-route') {
                 renderCustomDocsList();
@@ -2261,8 +2369,8 @@
             try {
                 const saved = JSON.parse(localStorage.getItem('travel_assistant_trip_questionnaire'));
                 if (saved) {
-                    // Auto-migrate to official 15-day Ofir Tours contract (42 travelers, 2 Shabbatot)
-                    if (saved.group && (saved.group.includes('24') || saved.duration?.includes('12') || !saved.destination?.includes('הקסם הקוריאני'))) {
+                    // Auto-migrate to official 15-day Ofir Tours contract (42 travelers, 2 Shabbatot, 3km radius)
+                    if (saved.group && (saved.group.includes('24') || saved.duration?.includes('12') || !saved.constraints?.includes('3 קמ') || !saved.destination?.includes('הקסם הקוריאני'))) {
                         saved.destination = 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)';
                         saved.character = '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)';
                         saved.group = 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)';
@@ -2270,10 +2378,10 @@
                         saved.date = '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)';
                         saved.budget = '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)';
                         saved.activities = "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).";
-                        saved.transit = "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד, רכבלים ושייט";
+                        saved.transit = "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת מכניסת שבת ועד מוצאי שבת. כל הפעילות רגלית בלבד!";
                         saved.hotels = "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר";
-                        saved.food = "כשר / צמחוני נקי, 2 שבתות מוסדרות, בדיקת ברקודים";
-                        saved.constraints = "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). התאמה מחמירה לגמלאים מעל גיל 75: הגבלת הליכה רצופה (עד 400 מטר), מעליות, אוזניות שמע אישיות לכל מטייל.";
+                        saved.food = "סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.";
+                        saved.constraints = "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: הרחבת טווח ורדיוס הסיור הרגלי מ-500 מטר עד 3 קמ רדיוס סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל.";
                         localStorage.setItem('travel_assistant_trip_questionnaire', JSON.stringify(saved));
                     }
                     if (saved.origin) document.getElementById('q_origin').value = saved.origin;
@@ -3332,68 +3440,70 @@
                     </div>
                 </div>
 
-                <!-- Schematic Walking Diagram -->
+                <!-- Schematic Walking Diagram (3km Extended Radius) -->
                 <div style="border:2px dashed #94a3b8; border-radius:10px; padding:10px; background:#f8fafc; margin-bottom:12px; text-align:center;">
-                    <div style="font-size:0.85em; font-weight:bold; color:#475569; margin-bottom:6px;">🗺️ תרשים מסלול רגלי סכמטי מעגלי לשבת (רדיוס מישורי מותאם לקבוצת הגמלאים):</div>
-                    <div style="display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; font-weight:bold; font-size:0.95em; gap:6px;">
+                    <div style="font-size:0.85em; font-weight:bold; color:#475569; margin-bottom:6px;">🗺️ תרשים מסלול רגלי סכמטי מעגלי לשבת (רדיוס מורחב עד 3 ק"מ סביב המלון - איסור רכבים בשבת):</div>
+                    <div id="shabbat-diagram-container" style="display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; font-weight:bold; font-size:0.88em; gap:6px;">
                         <span style="background:#dbeafe; padding:4px 8px; border-radius:6px; color:#1e40af;">[מלון המילטון]</span>
                         <span>── 250 מ' (3 דק') ──►</span>
                         <span style="background:#dcfce7; padding:4px 8px; border-radius:6px; color:#15803d;">[בית חב"ד סיאול]</span>
-                        <span>── 650 מ' (9 דק') ──►</span>
-                        <span style="background:#e0f2fe; padding:4px 8px; border-radius:6px; color:#0369a1;">[טיילת נמסאן המוצלת]</span>
-                        <span>── 450 מ' (6 דק') ──►</span>
+                        <span>── 950 מ' (14 דק') ──►</span>
+                        <span style="background:#e0f2fe; padding:4px 8px; border-radius:6px; color:#0369a1;">[טיילת פארק נמסאן]</span>
+                        <span>── 800 מ' (12 דק') ──►</span>
+                        <span style="background:#fef3c7; padding:4px 8px; border-radius:6px; color:#b45309;">[פארק מורשת האנאוק]</span>
+                        <span>── 600 מ' (9 דק') ──►</span>
                         <span style="background:#f3e8ff; padding:4px 8px; border-radius:6px; color:#7e22ce;">[רובע האנאם הירוק]</span>
-                        <span>── 500 מ' ──►</span>
+                        <span>── 400 מ' (6 דק') ──►</span>
                         <span style="background:#dbeafe; padding:4px 8px; border-radius:6px; color:#1e40af;">[חזרה למלון]</span>
                     </div>
                 </div>
 
-                <!-- Detailed Walking Table -->
-                <table style="width:100%; border-collapse:collapse; font-size:0.9em; margin-bottom:12px;" border="1" bordercolor="#cbd5e1">
+                <!-- Detailed Walking Table (3km Circuit) -->
+                <table style="width:100%; border-collapse:collapse; font-size:0.88em; margin-bottom:12px;" border="1" bordercolor="#cbd5e1">
                     <thead>
                         <tr style="background:#f1f5f9; color:#1e293b; font-weight:bold;">
                             <th style="padding:6px 8px; width:30px;">#</th>
-                            <th style="padding:6px 8px;">תחנה ויעד</th>
+                            <th style="padding:6px 8px;">תחנה ויעד (רדיוס מורחב עד 3 ק"מ)</th>
                             <th style="padding:6px 8px; width:70px;">מרחק</th>
                             <th style="padding:6px 8px; width:75px;">זמן הליכה</th>
-                            <th style="padding:6px 8px;">דגשים, מנוחה בצל והנחיות</th>
+                            <th style="padding:6px 8px;">דגשים, מנוחה בצל והנחיות נגישות לגמלאים</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="shabbat-table-body">
                         <tr>
                             <td style="padding:6px 8px; text-align:center;"><b>1</b></td>
-                            <td style="padding:6px 8px;"><b>מלון -> בית חב"ד קוריאה</b></td>
+                            <td style="padding:6px 8px;"><b>מלון המילטון -> בית חב"ד קוריאה</b></td>
                             <td style="padding:6px 8px; text-align:center;">250 מטר</td>
                             <td style="padding:6px 8px; text-align:center;">3 דקות</td>
-                            <td style="padding:6px 8px;">הליכה ישרה ברחוב איטוואן. כניסה מישורית ללא מדרגות. קבלת שבת 17:30, סעודת שבת גלאט כשר.</td>
+                            <td style="padding:6px 8px;">הליכה ישרה ברחוב איטוואן. כניסה מישורית ללא מדרגות. קבלת שבת 17:30, שחרית 10:00, סעודות שבת גלאט כשר.</td>
                         </tr>
                         <tr>
                             <td style="padding:6px 8px; text-align:center;"><b>2</b></td>
-                            <td style="padding:6px 8px;"><b>תפילת שחרית וסעודת יום</b></td>
-                            <td style="padding:6px 8px; text-align:center;">-</td>
-                            <td style="padding:6px 8px; text-align:center;">-</td>
-                            <td style="padding:6px 8px;">שחרית 10:00 בבוקר בבית חב"ד, קידוש וסעודה חגיגית לקבוצה.</td>
+                            <td style="padding:6px 8px;"><b>טיילת פארק נמסאן המוצלת (Namsan Trail)</b></td>
+                            <td style="padding:6px 8px; text-align:center;">950 מטר</td>
+                            <td style="padding:6px 8px; text-align:center;">14 דקות</td>
+                            <td style="padding:6px 8px;">שביל אספלט רחב, חורשת אלונים מוצלת, שפע ספסלי ישיבה ומנוחה כל 150 מ'. תצפיות פנורמיות על סיאול.</td>
                         </tr>
                         <tr>
                             <td style="padding:6px 8px; text-align:center;"><b>3</b></td>
-                            <td style="padding:6px 8px;"><b>טיילת פארק נמסאן המוצלת</b></td>
-                            <td style="padding:6px 8px; text-align:center;">650 מטר</td>
-                            <td style="padding:6px 8px; text-align:center;">9 דקות</td>
-                            <td style="padding:6px 8px;">שביל אספלט נוח, חורשת אלונים מוצלת, שפע ספסלי ישיבה ומנוחה. תצפית פנורמית על סיאול ללא מאמץ.</td>
+                            <td style="padding:6px 8px;"><b>פארק מורשת ותרבות האנאוק נמסאנגול</b></td>
+                            <td style="padding:6px 8px; text-align:center;">800 מטר</td>
+                            <td style="padding:6px 8px; text-align:center;">12 דקות</td>
+                            <td style="padding:6px 8px;">מתחם מישורי מרוצף ללא רכבים, בתי עץ מסורתיים, פינות צל רבות וביתנים מוצלים למנוחת חברים.</td>
                         </tr>
                         <tr>
                             <td style="padding:6px 8px; text-align:center;"><b>4</b></td>
-                            <td style="padding:6px 8px;"><b>רובע האנאם-דונג (Hannam-dong)</b></td>
-                            <td style="padding:6px 8px; text-align:center;">450 מטר</td>
-                            <td style="padding:6px 8px; text-align:center;">6 דקות</td>
-                            <td style="padding:6px 8px;">אזור שקט ללא תנועת רכבים סואנת, בתים נמוכים וגינה ציבורית נעימה למנוחת חברים.</td>
+                            <td style="padding:6px 8px;"><b>רובע האנאם-דונג הירוק וסמטת העתיקות</b></td>
+                            <td style="padding:6px 8px; text-align:center;">600 מטר</td>
+                            <td style="padding:6px 8px; text-align:center;">9 דקות</td>
+                            <td style="padding:6px 8px;">אזור שקט ושליו, פארק שכונתי מוצל ונעים, הליכה מתונה ללא שיפועים חדים.</td>
                         </tr>
                         <tr>
                             <td style="padding:6px 8px; text-align:center;"><b>5</b></td>
-                            <td style="padding:6px 8px;"><b>חזרה למלון המילטון</b></td>
-                            <td style="padding:6px 8px; text-align:center;">500 מטר</td>
-                            <td style="padding:6px 8px; text-align:center;">7 דקות</td>
-                            <td style="padding:6px 8px;">חזרה נינוחה למלון לסעודה שלישית, מנוחה ותפילת ערבית והבדלה (צאת שבת: 18:02).</td>
+                            <td style="padding:6px 8px;"><b>חזרה מעגלית למלון המילטון</b></td>
+                            <td style="padding:6px 8px; text-align:center;">400 מטר</td>
+                            <td style="padding:6px 8px; text-align:center;">6 דקות</td>
+                            <td style="padding:6px 8px;">חזרה נינוחה לסעודה שלישית, מנוחה, ערבית והבדלה (17:56). סה"כ רדיוס היקפי מורחב עד 3 ק"מ מותאם לגמלאים 75+.</td>
                         </tr>
                     </tbody>
                 </table>
