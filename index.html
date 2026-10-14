@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.8.4
+                גרסה 4.8.5
             </span>
         </div>
     </header>
@@ -714,6 +714,52 @@
                     </select>
                 </div>
 
+                <!-- STAGE PIPELINE CONTROLLER BANNER (STAGED WORKFLOW TO READY STATUS) -->
+                <div id="trip-stage-pipeline-card" style="background: white; border: 2px solid #3b82f6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(59,130,246,0.12);" dir="rtl">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-weight: 900; color: #1e3a8a; font-size: 1.05em;"><i class="fa-solid fa-list-check" style="color: #2563eb;"></i> שלבי תכנון ואישור הטיול לקראת יציאה:</span>
+                        </div>
+                        <span id="pipeline-current-stage-badge" style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 8px; font-weight: 900; font-size: 0.85em;">
+                            📋 שלב תכנון
+                        </span>
+                    </div>
+
+                    <!-- 3-Step Visual Progress Stepper -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+                        <div id="step-pill-1" onclick="goToPlanningStep(1)" style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer;">
+                            <div style="font-size: 0.75em; color: #1d4ed8; font-weight: 800;">שלב 1</div>
+                            <div style="font-size: 0.88em; font-weight: 900; color: #1e40af; margin-top: 2px;">📝 1. שאלון דרישות</div>
+                            <div id="step-pill-1-status" style="font-size: 0.72em; color: #16a34a; font-weight: 800; margin-top: 2px;">✓ מולא ונשמר</div>
+                        </div>
+                        <div id="step-pill-2" onclick="goToPlanningStep(2)" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer;">
+                            <div style="font-size: 0.75em; color: #15803d; font-weight: 800;">שלב 2</div>
+                            <div style="font-size: 0.88em; font-weight: 900; color: #166534; margin-top: 2px;">📁 2. העלאת מסמכים</div>
+                            <div id="step-pill-2-status" style="font-size: 0.72em; color: #15803d; font-weight: 800; margin-top: 2px;">מסמכים שמורים</div>
+                        </div>
+                        <div id="step-pill-3" onclick="goToPlanningStep(3)" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer;">
+                            <div style="font-size: 0.75em; color: #64748b; font-weight: 800;">שלב 3</div>
+                            <div style="font-size: 0.88em; font-weight: 900; color: #334155; margin-top: 2px;">🗺️ 3. מסלול מפורט</div>
+                            <div id="step-pill-3-status" style="font-size: 0.72em; color: #64748b; font-weight: 800; margin-top: 2px;">ממתין לאישור</div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Stage Action Box -->
+                    <div id="pipeline-action-box" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+                        <div id="pipeline-action-desc" style="font-size: 0.86em; color: #334155; line-height: 1.5;">
+                            לאחר מילוי השאלון והעלאת חוברת המסלול והמסמכים, לחץ כאן להפקת המסלול המפורט ומעבר לסטטוס <b>ממתין ליציאה</b>.
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button id="btn-finalize-trip" onclick="finalizeTripToReadyStage()" style="flex: 1; min-width: 220px; background: #059669; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.3);">
+                                <i class="fa-solid fa-plane-departure"></i> אשר מסמכים והעבר לסטטוס "🛫 ממתין ליציאה"!
+                            </button>
+                            <button id="btn-reopen-planning" onclick="reopenTripToPlanningStage()" style="display: none; background: white; color: #4338ca; border: 1.5px solid #818cf8; padding: 10px 14px; border-radius: 10px; font-weight: 800; font-size: 0.88em; cursor: pointer;">
+                                <i class="fa-solid fa-pen-to-square"></i> חזור לשלב תכנון לעריכת מסמכים
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Company Trip Documents Integration Banner (Visible ONLY for Korea) -->
                 <div id="ophir-contract-banner" style="display: none; background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #8b5cf6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(139,92,246,0.12);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
@@ -877,6 +923,19 @@
                         <div id="custom-docs-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
                             <!-- Populated dynamically by JS -->
                         </div>
+
+                        <!-- Complete Staged Upload Button -->
+                        <div style="margin-top: 16px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; text-align: center;">
+                            <div style="font-weight: 900; color: #166534; font-size: 1.05em; margin-bottom: 4px;">
+                                🎉 סיימת להעלות את מסמכי הטיול?
+                            </div>
+                            <div style="font-size: 0.85em; color: #14532d; margin-bottom: 10px;">
+                                בלחיצה אחת, כל הנתונים והמסמכים יסונכרנו, יוצג לוח הזמנים המפורט והטיול יועבר לסטטוס <b>🛫 ממתין ליציאה</b>.
+                            </div>
+                            <button onclick="finalizeTripToReadyStage()" style="width: 100%; background: #059669; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(5,150,105,0.3);">
+                                <i class="fa-solid fa-plane-departure"></i> הפק מסלול סופי ועבור לסטטוס "🛫 ממתין ליציאה"
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -887,6 +946,22 @@
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
+
+                        <!-- CELEBRATION READY STATUS BANNER -->
+                        <div id="ready-status-celebration-banner" style="display: none; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                <span style="font-weight: 900; color: #065f46; font-size: 1.15em; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i>
+                                    הטיול מוכן במלואו! סטטוס: 🛫 ממתין ליציאה
+                                </span>
+                                <span style="background: #047857; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.85em;">
+                                    🛫 מוכן להמראה
+                                </span>
+                            </div>
+                            <div style="font-size: 0.88em; color: #064e3b; margin-top: 6px; line-height: 1.5;">
+                                כל השאלונים מולאו, מסמכי הנסיעה שמורים במכשיר, ולוח הזמנים המפורט מטה נעול וממתין למועד היציאה לשטח.
+                            </div>
+                        </div>
                         
                         <!-- Dropdown Trip Selector -->
                         <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
@@ -2524,6 +2599,17 @@
                     if (k) TRIPS_DATABASE[k] = trip;
                 });
             } catch(e) {}
+
+            // Restore saved stages for system trips (e.g. korea)
+            ['korea', 'rome', 'israel_trail_north', 'ashkelon'].forEach(k => {
+                const savedStage = localStorage.getItem('travel_assistant_trip_stage_' + k);
+                if (savedStage && TRIPS_DATABASE[k]) {
+                    TRIPS_DATABASE[k].stage = savedStage;
+                    if (savedStage === 'ready') {
+                        TRIPS_DATABASE[k].stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
+                    }
+                }
+            });
         }
         loadCustomTrips();
 
@@ -2903,6 +2989,7 @@
             }
 
             container.innerHTML = html;
+            if (typeof updatePipelineDisplay === 'function') updatePipelineDisplay();
         }
 
         function renderSingleDocCard(d) {
@@ -2988,6 +3075,7 @@
             if (homePill && TRIPS_DATABASE[currentTripKey]) homePill.innerText = TRIPS_DATABASE[currentTripKey].name;
             const pill = document.getElementById('active-trip-pill');
             if (pill && TRIPS_DATABASE[currentTripKey]) pill.innerText = TRIPS_DATABASE[currentTripKey].name;
+            if (typeof updatePipelineDisplay === 'function') updatePipelineDisplay();
 
             alert(`✅ שאלון הטיול עודכן ונשמר בהצלחה!\nכל הנתונים, ההעדפות והמסמכים של "${TRIPS_DATABASE[currentTripKey]?.name || 'הטיול'}" שמורים במכשיר ומעודכנים בתיק הטיול.`);
         }
@@ -4164,17 +4252,25 @@
                 customOptionsHtml = `<optgroup label="📋 הטיולים המתוכננים שלי (נפתחו במערכת)">` +
                     customTrips.map(ct => {
                         const k = ct.key || ct.id;
-                        return `<option value="${k}">📋 ${ct.name} [תכנון אישי]</option>`;
+                        const isReady = (ct.stage === 'ready');
+                        const icon = isReady ? '🛫' : '📋';
+                        const stageDesc = isReady ? 'ממתין ליציאה' : 'תכנון אישי';
+                        return `<option value="${k}">${icon} ${ct.name} [${stageDesc}]</option>`;
                     }).join('') +
                 `</optgroup>`;
             }
 
+            const koreaStageLabel = (TRIPS_DATABASE['korea']?.stage === 'ready') ? '🛫 ממתין ליציאה (מוכן להמראה!)' : '📋 שלב תכנון - כרטיסי טיסה נעולים';
+            const romeStageLabel = (TRIPS_DATABASE['rome']?.stage === 'ready') ? '🛫 ממתין ליציאה' : '📋 שלב תכנון (גמיש)';
+            const trailStageLabel = (TRIPS_DATABASE['israel_trail_north']?.stage === 'ready') ? '🛫 ממתין ליציאה' : '📋 בקנה / שלב תכנון';
+            const ashkelonStageLabel = (TRIPS_DATABASE['ashkelon']?.stage === 'ready') ? '🛫 ממתין ליציאה' : '📋 בקנה / שלב תכנון';
+
             const systemOptionsHtml = `
                 <optgroup label="🌍 יעדי המערכת (בתכנון ובקנה)">
-                    <option value="korea">🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - כרטיסי טיסה נעולים]</option>
-                    <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון (גמיש)]</option>
-                    <option value="israel_trail_north">🥾 שביל ישראל בצפון [📋 בקנה / שלב תכנון]</option>
-                    <option value="ashkelon">🏖️ אשקלון [📋 בקנה / שלב תכנון]</option>
+                    <option value="korea">🇰🇷 קוריאה הדרומית - אופיר טורס [${koreaStageLabel}]</option>
+                    <option value="rome">🏛️ רומא ופירנצה (איטליה) [${romeStageLabel}]</option>
+                    <option value="israel_trail_north">🥾 שביל ישראל בצפון [${trailStageLabel}]</option>
+                    <option value="ashkelon">🏖️ אשקלון [${ashkelonStageLabel}]</option>
                 </optgroup>
                 <optgroup label="🏁 סביבת בדיקות שהסתיימה">
                     <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
@@ -4212,27 +4308,34 @@
             const docs = document.querySelectorAll('.trip-itinerary-doc');
             docs.forEach(d => d.style.display = 'none');
 
-            const targetDoc = document.getElementById('itinerary-doc-' + tripKey);
+            const trip = TRIPS_DATABASE[tripKey];
+            const isKorea = (tripKey === 'korea' || (trip && (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea'))));
+
+            let targetDoc = document.getElementById('itinerary-doc-' + tripKey);
+            if (!targetDoc && isKorea) {
+                targetDoc = document.getElementById('itinerary-doc-korea');
+            }
+
             if (targetDoc) {
                 targetDoc.style.display = 'block';
             } else {
                 const dynDoc = document.getElementById('itinerary-doc-dynamic');
                 if (dynDoc) {
                     dynDoc.style.display = 'block';
-                    const trip = TRIPS_DATABASE[tripKey] || { name: tripKey, description: 'תיק תכנון טיול חדש', stageLabel: '📋 שלב תכנון (גמיש)' };
+                    const tripObj = trip || { name: tripKey, description: 'תיק תכנון טיול חדש', stageLabel: '📋 שלב תכנון (גמיש)' };
                     const dynTitle = document.getElementById('dynamic-trip-doc-title');
-                    if (dynTitle) dynTitle.innerHTML = `<i class="fa-solid fa-map-pin"></i> ${trip.name} - תיק תכנון`;
+                    if (dynTitle) dynTitle.innerHTML = `<i class="fa-solid fa-map-pin"></i> ${tripObj.name} - תיק תכנון ומסלול`;
                     const dynDesc = document.getElementById('dynamic-trip-doc-desc');
-                    if (dynDesc) dynDesc.innerText = trip.description || 'תיק תכנון טיול חדש';
+                    if (dynDesc) dynDesc.innerText = tripObj.description || 'תיק תכנון טיול חדש';
                     const dynBadge = document.getElementById('dynamic-trip-doc-badge');
-                    if (dynBadge) dynBadge.innerText = trip.stageLabel || '📋 שלב תכנון (גמיש)';
+                    if (dynBadge) dynBadge.innerText = tripObj.stageLabel || '📋 שלב תכנון (גמיש)';
                 }
             }
 
-            // Toggle Ophir Tours banner (only relevant for Korea)
+            // Toggle Ophir Tours banner (relevant for Korea or custom Korea trips)
             const ophirBanner = document.getElementById('ophir-contract-banner');
             if (ophirBanner) {
-                ophirBanner.style.display = (tripKey === 'korea') ? 'block' : 'none';
+                ophirBanner.style.display = isKorea ? 'block' : 'none';
             }
 
             // Update Questionnaire Header if present
@@ -4258,6 +4361,28 @@
             if (input) {
                 input.value = name;
                 input.focus();
+            }
+            if (name.includes('קוריאה') || name.toLowerCase().includes('korea')) {
+                const start = document.getElementById('new-trip-input-start');
+                const end = document.getElementById('new-trip-input-end');
+                const group = document.getElementById('new-trip-input-group');
+                const count = document.getElementById('new-trip-input-count');
+                const notes = document.getElementById('new-trip-input-notes');
+                if (start) start.value = '2026-11-22';
+                if (end) end.value = '2026-12-06';
+                if (group) group.value = 'קבוצה מאורגנת';
+                if (count) count.value = '42';
+                if (notes) notes.value = 'מסלול הקסם הקוריאני (15 ימים, 42 מטיילים, 2 שבתות בדאייגו ובסיאול, התאמה קפדנית לגמלאים מעל גיל 75).';
+            } else if (name.includes('אשקלון')) {
+                const group = document.getElementById('new-trip-input-group');
+                const count = document.getElementById('new-trip-input-count');
+                const notes = document.getElementById('new-trip-input-notes');
+                if (group) group.value = 'קבוצת חברים / גמלאים';
+                if (count) count.value = '4';
+                if (notes) notes.value = 'סיור רכבת, גן לאומי תל אשקלון, מרינה בינלאומית, מדרחוב מגדל, נגישות מלאה.';
+            } else if (name.includes('שביל ישראל')) {
+                const notes = document.getElementById('new-trip-input-notes');
+                if (notes) notes.value = 'מקטעי הר מירון, נחל דישון ושמורת הבניאס, הטמנת מים, נוהל חילוץ.';
             }
         }
 
@@ -4374,8 +4499,9 @@
             const isShabbat = document.getElementById('new-trip-chk-shabbat')?.checked;
             const isAccess = document.getElementById('new-trip-chk-access')?.checked;
 
+            const isKoreaTrip = tripName.includes('קוריאה') || tripName.toLowerCase().includes('korea');
             const tripKey = 'custom_' + Date.now();
-            const dateStr = (startVal && endVal) ? `${startVal} עד ${endVal}` : 'מועד ייקבע בהמשך';
+            const dateStr = (startVal && endVal) ? `${startVal} עד ${endVal}` : (isKoreaTrip ? '22/11/2026 עד 06/12/2026 (15 ימים)' : 'מועד ייקבע בהמשך');
             const displayTitle = tripName;
 
             const newTripObj = {
@@ -4387,9 +4513,9 @@
                 dates: dateStr,
                 group: `${groupVal} (${countVal} מטיילים)`,
                 description: `${notesVal ? notesVal + ' | ' : ''}כשרות: ${isKosher ? 'שמירה מלאה' : 'רגיל'}, שבת: ${isShabbat ? 'שמירת שבת' : 'רגיל'}, נגישות: ${isAccess ? 'מלאה' : 'רגילה'}`,
-                center: [32.0853, 34.7818],
+                center: isKoreaTrip ? [37.5665, 126.9780] : [32.0853, 34.7818],
                 zoom: 12,
-                stations: [
+                stations: isKoreaTrip ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'].stations)) : [
                     { title: 'נקודת יציאה מהבית (Personal Origin)', lat: 32.0853, lng: 34.7818, stay: '15 דק', stopCode: null },
                     { title: `${tripName} - אתר פתיחה מתוכנן`, lat: 32.0880, lng: 34.7850, stay: '120 דק', stopCode: null }
                 ]
@@ -4405,20 +4531,28 @@
                 localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(saved));
             } catch(e) {}
 
+            // Seed sample docs if Korea
+            if (isKoreaTrip) {
+                const sampleKoreaDocs = getCustomDocs('korea');
+                if (sampleKoreaDocs && sampleKoreaDocs.length > 0) {
+                    saveCustomDocs(JSON.parse(JSON.stringify(sampleKoreaDocs)), tripKey);
+                }
+            }
+
             // Initialize isolated questionnaire for this new trip
             const initialQuestionnaire = {
-                origin: 'נקודת מוצא אישית מהבית / נתב"ג',
+                origin: isKoreaTrip ? 'שדרות העצמאות 93 אשדוד ➔ נתב"ג טרמינל 3' : 'נקודת מוצא אישית מהבית',
                 destination: displayTitle,
                 character: `${groupVal} (${countVal} מטיילים)`,
                 group: `${groupVal} (${countVal} מטיילים)`,
-                duration: (startVal && endVal) ? `${startVal} עד ${endVal}` : 'לפי תוכנית המסע',
+                duration: (startVal && endVal) ? `${startVal} עד ${endVal}` : (isKoreaTrip ? '15 ימים מלאים' : 'לפי תוכנית המסע'),
                 date: dateStr,
-                budget: 'בתכנון',
-                activities: `${tripName}: אתרים מרכזיים, מורשת ונוף`,
-                transit: 'טיסות, רכבות, אוטובוסים או רכב שכור',
-                hotels: 'מלונות נגישים במיקום מרכזי',
+                budget: isKoreaTrip ? 'חוזה סגור אופיר טורס' : 'בתכנון',
+                activities: isKoreaTrip ? 'סיאול, סוואן, הר סוראק, דאייגו (שבת 1), גיונגג\'ו, בוסאן, האי ג\'ג\'ו, סיאול (שבת 2)' : `${tripName}: אתרים מרכזיים, מורשת ונוף`,
+                transit: isKoreaTrip ? 'טיסות בינלאומיות אתיופיאן איירליינס, 2 טיסות פנים, אוטובוס תיירות צמוד VIP' : 'רכבות, אוטובוסים או רכב שכור',
+                hotels: isKoreaTrip ? 'מלונות נגישים במיקום מרכזי (המילטון סיאול סמוך לחב"ד, דאייגו סנטר)' : 'מלונות נגישים במיקום מרכזי',
                 food: isKosher ? 'שמירת כשרות מלאה / מסעדות כשרות מהדרין וסריקת מוצרים' : 'רגיל',
-                constraints: `${isShabbat ? 'שמירת שבת מלאה (מלון במרחק הליכה, מפתח מכני). ' : ''}${isAccess ? 'נגישות מלאה ללא מדרגות ומעליות. ' : ''}${notesVal}`
+                constraints: `${isShabbat ? '2 שבתות מלאות במסלול (אי-התניידות ברכב, סיור רגלי עד 3 ק"מ, דפי A4 מודפסים מראש). ' : ''}${isAccess ? 'התאמה מלאה לגמלאים מעל גיל 75, הגבלת קטעי הליכה, מעליות ואוזניות שמע אישיות. ' : ''}${notesVal}`
             };
             localStorage.setItem('travel_assistant_trip_' + tripKey + '_questionnaire', JSON.stringify(initialQuestionnaire));
 
@@ -4464,6 +4598,8 @@
                     homeStage.style.background = '#0284c7';
                 } else if (TRIPS_DATABASE[tripKey].stage === 'active') {
                     homeStage.style.background = '#10b981';
+                } else if (TRIPS_DATABASE[tripKey].stage === 'ready') {
+                    homeStage.style.background = '#059669';
                 } else {
                     homeStage.style.background = '#4338ca';
                 }
@@ -4483,6 +4619,7 @@
             switchTripDocument(tripKey);
             renderCustomDocsList();
             loadTripQuestionnaire();
+            updatePipelineDisplay();
 
             closeTripSelectorModal();
 
@@ -4530,6 +4667,153 @@
                 if (userMarker) {
                     userMarker.openPopup();
                 }
+            }
+        }
+
+        // ================= STAGED WORKFLOW CONTROLLER (PLANNING -> READY STAGE) =================
+        function finalizeTripToReadyStage() {
+            const trip = TRIPS_DATABASE[currentTripKey];
+            if (!trip) return;
+
+            trip.stage = 'ready';
+            trip.stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
+
+            // Save to localStorage
+            if (currentTripKey.startsWith('custom_')) {
+                try {
+                    let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                    const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
+                    if (idx !== -1) {
+                        custom[idx].stage = 'ready';
+                        custom[idx].stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                    }
+                } catch(e) {}
+            } else {
+                localStorage.setItem('travel_assistant_trip_stage_' + currentTripKey, 'ready');
+            }
+
+            // Refresh UI
+            selectTripAndApply(currentTripKey);
+
+            // Open Accordion 3 (Detailed Itinerary) and close Accordions 1 and 2
+            const acc1 = document.getElementById('acc-client-needs');
+            const acc2 = document.getElementById('acc-custom-files');
+            const acc3 = document.getElementById('acc-detailed-itinerary');
+
+            if (acc1) acc1.classList.remove('open');
+            if (acc2) acc2.classList.remove('open');
+            if (acc3) acc3.classList.add('open');
+
+            updatePipelineDisplay();
+
+            setTimeout(() => {
+                if (acc3) acc3.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+
+            alert(`🎉 מזל טוב! כל נתוני ומסמכי הטיול של "${trip.name}" נקלטו בהצלחה במערכת.\nהסטטוס עודכן ל: "🛫 ממתין ליציאה (מוכן להמראה!)" והמסלול המפורט פתוח לפניך!`);
+        }
+
+        function reopenTripToPlanningStage() {
+            const trip = TRIPS_DATABASE[currentTripKey];
+            if (!trip) return;
+
+            trip.stage = 'planning';
+            trip.stageLabel = '📋 שלב תכנון (גמיש)';
+
+            if (currentTripKey.startsWith('custom_')) {
+                try {
+                    let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                    const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
+                    if (idx !== -1) {
+                        custom[idx].stage = 'planning';
+                        custom[idx].stageLabel = '📋 שלב תכנון (גמיש)';
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                    }
+                } catch(e) {}
+            } else {
+                localStorage.removeItem('travel_assistant_trip_stage_' + currentTripKey);
+            }
+
+            selectTripAndApply(currentTripKey);
+            updatePipelineDisplay();
+            alert(`הטיול הוחזר לשלב תכנון לצורך עריכת מסמכים והעדפות נוספות.`);
+        }
+
+        function goToPlanningStep(stepNum) {
+            if (stepNum === 1) {
+                const acc = document.getElementById('acc-client-needs');
+                if (acc && !acc.classList.contains('open')) acc.classList.add('open');
+                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
+            } else if (stepNum === 2) {
+                const acc = document.getElementById('acc-custom-files');
+                if (acc && !acc.classList.contains('open')) acc.classList.add('open');
+                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
+            } else if (stepNum === 3) {
+                const acc = document.getElementById('acc-detailed-itinerary');
+                if (acc && !acc.classList.contains('open')) acc.classList.add('open');
+                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function updatePipelineDisplay() {
+            const trip = TRIPS_DATABASE[currentTripKey];
+            if (!trip) return;
+
+            const isReady = (trip.stage === 'ready');
+            const stageBadge = document.getElementById('pipeline-current-stage-badge');
+            if (stageBadge) {
+                if (isReady) {
+                    stageBadge.innerText = '🛫 ממתין ליציאה (מוכן להמראה!)';
+                    stageBadge.style.background = '#dcfce7';
+                    stageBadge.style.color = '#15803d';
+                } else {
+                    stageBadge.innerText = trip.stageLabel || '📋 שלב תכנון';
+                    stageBadge.style.background = '#e0f2fe';
+                    stageBadge.style.color = '#0369a1';
+                }
+            }
+
+            // Step 3 pill
+            const step3 = document.getElementById('step-pill-3');
+            const step3Status = document.getElementById('step-pill-3-status');
+            if (step3 && step3Status) {
+                if (isReady) {
+                    step3.style.background = '#ecfdf5';
+                    step3.style.borderColor = '#10b981';
+                    step3Status.innerText = '✓ מאושר וממתין';
+                    step3Status.style.color = '#10b981';
+                } else {
+                    step3.style.background = '#f8fafc';
+                    step3.style.borderColor = '#cbd5e1';
+                    step3Status.innerText = 'ממתין לאישור';
+                    step3Status.style.color = '#64748b';
+                }
+            }
+
+            // Buttons toggle
+            const btnFinalize = document.getElementById('btn-finalize-trip');
+            const btnReopen = document.getElementById('btn-reopen-planning');
+            const actionDesc = document.getElementById('pipeline-action-desc');
+            const celebBanner = document.getElementById('ready-status-celebration-banner');
+
+            if (btnFinalize) btnFinalize.style.display = isReady ? 'none' : 'flex';
+            if (btnReopen) btnReopen.style.display = isReady ? 'inline-block' : 'none';
+            if (celebBanner) celebBanner.style.display = isReady ? 'block' : 'none';
+
+            if (actionDesc) {
+                if (isReady) {
+                    actionDesc.innerHTML = `<span style="color:#15803d; font-weight:800;">✅ שלב התכנון הושלם! הטיול מאושר ובסטטוס <b>🛫 ממתין ליציאה</b>. המסלול המפורט מוצג באקורדיון 3 מטה.</span>`;
+                } else {
+                    actionDesc.innerHTML = `לאחר מילוי השאלון והעלאת חוברת המסלול והמסמכים, לחץ כאן להפקת המסלול המפורט ומעבר לסטטוס <b>ממתין ליציאה</b>.`;
+                }
+            }
+
+            // Update docs count in Step 2 pill
+            const docs = getCustomDocs();
+            const step2Status = document.getElementById('step-pill-2-status');
+            if (step2Status) {
+                step2Status.innerText = docs.length > 0 ? `(${docs.length} מסמכים שמורים)` : 'העלה מסמכים';
             }
         }
 
@@ -5084,10 +5368,11 @@
                 <div>
                     <label style="font-size: 0.82em; font-weight: 800; color: #475569; display: block; margin-bottom: 6px;">בחירה מהירה של יעדים בקנה:</label>
                     <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <span onclick="setQuickNewTripName('🇰🇷 קוריאה הדרומית - אופיר טורס')" style="background: #f5f3ff; color: #6d28d9; padding: 4px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; border: 1.5px solid #c4b5fd;">🇰🇷 קוריאה הדרומית (מאורגן)</span>
                         <span onclick="setQuickNewTripName('🥾 שביל ישראל בצפון')" style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #bae6fd;">🥾 שביל ישראל בצפון</span>
                         <span onclick="setQuickNewTripName('🏖️ אשקלון - ים ומורשת')" style="background: #fef3c7; color: #92400e; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #fde68a;">🏖️ אשקלון</span>
-                        <span onclick="setQuickNewTripName('🗾 יפן (טוקיו וקיוטו)')" style="background: #fce7f3; color: #9d174d; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #fbcfe8;">🗾 יפן</span>
-                        <span onclick="setQuickNewTripName('🏔️ שוויץ והאלפים')" style="background: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #bfdbfe;">🏔️ שוויץ</span>
+                        <span onclick="setQuickNewTripName('🏛️ רומא ופירנצה (איטליה)')" style="background: #fdf2f8; color: #9d174d; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #fbcfe8;">🏛️ איטליה</span>
+                        <span onclick="setQuickNewTripName('🗾 יפן (טוקיו וקיוטו)')" style="background: #fdf4ff; color: #86198f; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #f0abfc;">🗾 יפן</span>
                     </div>
                 </div>
 
