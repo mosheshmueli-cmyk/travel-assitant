@@ -26,26 +26,48 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        :root {
+            --app-font-scale: 120%;
+        }
+
+        html {
+            font-size: 120%; /* Large, crisp, highly legible base */
+        }
+
+        @media (min-width: 900px) {
+            html {
+                font-size: 135%; /* Laptop & medium monitors */
+            }
+        }
+
+        @media (min-width: 1400px) {
+            html {
+                font-size: 155%; /* Giant 42-inch screens & 4K displays */
+            }
+        }
+
         body {
             font-family: 'Heebo', sans-serif;
             background-color: #f8fafc;
             margin: 0;
             padding: 0;
-            color: #1e293b;
+            color: #0f172a; /* Maximum high contrast */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            font-size: 1.05rem;
+            line-height: 1.5;
         }
 
         .header {
-            padding: 12px 16px;
+            padding: 16px 24px;
             background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 2px solid #cbd5e1;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .screen-container {
@@ -78,35 +100,36 @@
             display: flex;
             flex-direction: row;
             direction: ltr !important;
-            gap: 14px;
-            padding: 16px;
-            max-width: 600px;
+            gap: 20px;
+            padding: 24px 20px;
+            max-width: 1050px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .column-side {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 20px;
             direction: rtl; /* Text inside buttons in Hebrew */
         }
 
         .nav-btn {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 20px 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 24px;
+            padding: 28px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            color: #334155;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            color: #0f172a;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
             transition: transform 0.15s, box-shadow 0.15s;
             cursor: pointer;
-            min-height: 120px;
+            min-height: 165px;
         }
 
         .nav-btn:active {
@@ -115,15 +138,15 @@
         }
 
         .nav-btn i {
-            font-size: 2.2em;
-            margin-bottom: 10px;
+            font-size: 3.4em;
+            margin-bottom: 12px;
         }
 
         .nav-btn span {
-            font-weight: 700;
-            font-size: 1.05em;
+            font-weight: 900;
+            font-size: 1.45em;
             text-align: center;
-            line-height: 1.25;
+            line-height: 1.3;
         }
 
         /* Specific Button Colors */
@@ -136,41 +159,48 @@
 
         /* Top Bar for Screens */
         .top-bar {
-            padding: 14px 18px;
+            padding: 16px 22px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             background: white;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 2px solid #cbd5e1;
             position: sticky;
             top: 0;
             z-index: 20;
         }
 
+        .top-bar h2 {
+            font-size: 1.4em;
+            font-weight: 900;
+            margin: 0;
+        }
+
         .back-btn {
             background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-weight: 700;
+            border: 2px solid #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.1em;
             cursor: pointer;
-            color: #334155;
+            color: #0f172a;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .content-padding {
-            padding: 16px;
-            max-width: 800px;
+            padding: 24px 20px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         /* ================= MAP & HEADING-UP STYLING ================= */
         #map-viewport {
             width: 100%;
-            height: calc(100vh - 240px);
-            min-height: 380px;
+            height: calc(100vh - 280px);
+            min-height: 420px;
             position: relative;
             overflow: hidden;
             background: #e2e8f0;
@@ -190,14 +220,14 @@
         /* Interactive Floating Compass Rose */
         .compass-rose {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            width: 52px;
-            height: 52px;
+            top: 18px;
+            left: 18px;
+            width: 60px;
+            height: 60px;
             background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #0284c7;
+            border: 3px solid #0284c7;
             border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -210,26 +240,26 @@
         .compass-arrow-north {
             width: 0;
             height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-bottom: 16px solid #ef4444; /* Red needle points to True North */
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 20px solid #ef4444; /* Red needle points to True North */
             transform-origin: 50% 100%;
             transition: transform 0.3s ease-out;
         }
 
         .compass-text-n {
-            font-size: 10px;
+            font-size: 13px;
             font-weight: 900;
             color: #ef4444;
-            margin-top: 1px;
+            margin-top: 2px;
             line-height: 1;
         }
 
         .pulse-ring {
-            border: 3px solid #3b82f6;
-            -webkit-border-radius: 30px;
-            height: 28px;
-            width: 28px;
+            border: 4px solid #3b82f6;
+            -webkit-border-radius: 36px;
+            height: 36px;
+            width: 36px;
             position: absolute;
             left: -4px;
             top: -4px;
@@ -247,11 +277,11 @@
         /* Drawer for Stations & Distances */
         .distance-card-sheet {
             background: white;
-            border-top: 2px solid #e2e8f0;
-            padding: 10px 14px;
-            max-height: 180px;
+            border-top: 3px solid #cbd5e1;
+            padding: 14px 18px;
+            max-height: 240px;
             overflow-y: auto;
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
             z-index: 10;
             position: relative;
         }
@@ -259,25 +289,25 @@
         /* ================= ACCORDION STYLING ================= */
         .accordion-item {
             background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            margin-bottom: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 16px;
+            margin-bottom: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
             transition: all 0.2s ease;
         }
 
         .accordion-header {
-            padding: 14px 16px;
+            padding: 18px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             background: #ffffff;
             user-select: none;
-            font-weight: 800;
-            font-size: 1em;
-            color: #1e293b;
+            font-weight: 900;
+            font-size: 1.25em;
+            color: #0f172a;
         }
 
         .accordion-header:hover {
@@ -286,15 +316,17 @@
 
         .accordion-header .chevron-icon {
             transition: transform 0.25s ease;
-            color: #94a3b8;
-            font-size: 0.9em;
+            color: #64748b;
+            font-size: 1.1em;
         }
 
         .accordion-content {
             display: none;
-            padding: 16px;
-            border-top: 1px solid #f1f5f9;
+            padding: 22px;
+            border-top: 2px solid #f1f5f9;
             background: #fafafa;
+            font-size: 1.1em;
+            line-height: 1.6;
         }
 
         .accordion-item.open .accordion-content {
@@ -313,76 +345,76 @@
         .itinerary-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85em;
+            font-size: 1.1em;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
         }
 
         .itinerary-table th, .itinerary-table td {
-            padding: 10px 12px;
+            padding: 14px 16px;
             border-bottom: 1px solid #e2e8f0;
             text-align: right;
         }
 
         .itinerary-table th {
             background: #f1f5f9;
-            color: #475569;
-            font-weight: 700;
+            color: #1e293b;
+            font-weight: 900;
         }
 
         /* ================= FOOD & CULINARY CARDS ================= */
         .food-card {
             background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            margin-bottom: 14px;
+            margin-bottom: 18px;
         }
 
         .food-card-img {
             width: 100%;
-            height: 150px;
+            height: 200px;
             object-fit: cover;
             display: block;
         }
 
         .food-card-body {
-            padding: 14px;
+            padding: 18px;
         }
 
         .badge-kosher {
             background: #dcfce7;
             color: #15803d;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.78em;
-            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 900;
         }
 
         /* ================= AI CHAT STYLING ================= */
         .chat-messages-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            max-height: 240px;
+            gap: 12px;
+            max-height: 300px;
             overflow-y: auto;
-            padding: 12px;
+            padding: 16px;
             background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 14px;
+            margin-bottom: 14px;
         }
 
         .chat-msg {
-            padding: 10px 14px;
-            border-radius: 12px;
+            padding: 12px 18px;
+            border-radius: 14px;
             max-width: 88%;
-            font-size: 0.88em;
-            line-height: 1.45;
+            font-size: 1.1em;
+            line-height: 1.55;
         }
 
         .chat-msg.user {
@@ -395,10 +427,22 @@
         .chat-msg.ai {
             align-self: flex-end;
             background: #ffffff;
-            color: #1e293b;
+            color: #0f172a;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
             border-bottom-left-radius: 2px;
+        }
+
+        /* Inputs and Buttons Global */
+        input[type="text"], textarea, select {
+            font-family: 'Heebo', sans-serif;
+            font-size: 1.15em;
+            color: #0f172a;
+            line-height: 1.45;
+        }
+
+        button {
+            font-family: 'Heebo', sans-serif;
         }
 
         /* Bell ringing animation */
@@ -427,13 +471,18 @@
 
     <!-- Main Header -->
     <header class="header">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-compass" style="font-size: 1.5em; color: #2563eb;"></i>
-            <span style="font-weight: 800; font-size: 1.25em; letter-spacing: -0.5px;">Travel Assistant</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-compass" style="font-size: 1.8em; color: #2563eb;"></i>
+            <span style="font-weight: 900; font-size: 1.35em; letter-spacing: -0.5px;">Travel Assistant</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
-            <span style="font-size: 0.75em; background: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 8px; font-weight: bold;">
-                גרסה 4.5
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 12px; padding: 3px 8px; gap: 4px;">
+                <span style="font-size: 0.9em; font-weight: 900; color: #334155; margin-left: 4px;">כיתוב:</span>
+                <button onclick="changeFontSize(-1)" title="הקטן כיתוב" style="background: white; border: 1px solid #94a3b8; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer; color:#0f172a;">A-</button>
+                <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
+            </div>
+            <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
+                גרסה 4.5.2
             </span>
         </div>
     </header>
@@ -537,19 +586,19 @@
                 <div id="map-container"></div>
 
                 <!-- Live Real-Time Navigation HUD Bar Floating over Map -->
-                <div id="live-nav-hud" style="position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.95); border: 2px solid #2563eb; border-radius: 14px; padding: 10px 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 999; display: flex; justify-content: space-between; align-items: center;" dir="rtl">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="background: #2563eb; color: white; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
+                <div id="live-nav-hud" style="position: absolute; bottom: 12px; left: 12px; right: 12px; background: rgba(255, 255, 255, 0.97); border: 3px solid #2563eb; border-radius: 18px; padding: 14px 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.25); z-index: 999; display: flex; justify-content: space-between; align-items: center;" dir="rtl">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="background: #2563eb; color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
                             <i class="fa-solid fa-location-arrow"></i>
                         </div>
                         <div>
-                            <div style="font-size: 11px; color: #64748b; font-weight: bold;">יעד פעיל בזמן אמת:</div>
-                            <div id="hud-target-name" style="font-weight: 900; font-size: 14px; color: #0f172a;">1. רכבת נתניה (מרכז)</div>
+                            <div style="font-size: 15px; color: #64748b; font-weight: 800;">יעד פעיל בזמן אמת:</div>
+                            <div id="hud-target-name" style="font-weight: 900; font-size: 20px; color: #0f172a;">1. רכבת נתניה (מרכז)</div>
                         </div>
                     </div>
                     <div style="text-align: left;">
-                        <div id="hud-distance" style="font-weight: 900; font-size: 16px; color: #16a34a;">-- מטר</div>
-                        <div id="hud-eta" style="font-size: 12px; font-weight: bold; color: #2563eb;">-- דקות</div>
+                        <div id="hud-distance" style="font-weight: 900; font-size: 24px; color: #16a34a;">-- מטר</div>
+                        <div id="hud-eta" style="font-size: 18px; font-weight: 900; color: #2563eb;">-- דקות</div>
                     </div>
                 </div>
             </div>
@@ -587,51 +636,51 @@
                     </div>
                     <div class="accordion-content">
                         <!-- Passport Card -->
-                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; padding: 12px; display: flex; align-items: center; gap: 12px;">
-                            <div style="background: #e2e8f0; color: #334155; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; flex-shrink: 0;">
+                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; margin-bottom: 14px; padding: 16px; display: flex; align-items: center; gap: 16px;">
+                            <div style="background: #e2e8f0; color: #0f172a; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
                                 <i class="fa-solid fa-passport"></i>
                             </div>
                             <div style="flex-grow: 1;">
-                                <div style="font-weight: bold; color: #1e293b; font-size: 0.95em;">דרכון ישראלי (ביומטרי)</div>
-                                <div style="color: #64748b; font-size: 0.8em;">תוקף: 12/2029 | מספר: 24891002</div>
+                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">דרכון ישראלי (ביומטרי)</div>
+                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">תוקף: 12/2029 | מספר: 24891002</div>
                             </div>
-                            <button onclick="alert('הצגת תמונת דרכון שמורה במכשיר')" style="background: none; border: none; color: #0284c7; font-size: 1.3em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="alert('הצגת תמונת דרכון שמורה במכשיר')" style="background: none; border: none; color: #0284c7; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
                         </div>
 
                         <!-- Flight Card -->
-                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; padding: 12px; display: flex; align-items: center; gap: 12px;">
-                            <div style="background: #e0f2fe; color: #0284c7; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; flex-shrink: 0;">
+                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; margin-bottom: 14px; padding: 16px; display: flex; align-items: center; gap: 16px;">
+                            <div style="background: #e0f2fe; color: #0284c7; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
                                 <i class="fa-solid fa-plane"></i>
                             </div>
                             <div style="flex-grow: 1;">
-                                <div style="font-weight: bold; color: #1e293b; font-size: 0.95em;">כרטיסי טיסה (אל על / קוריאן)</div>
-                                <div style="color: #64748b; font-size: 0.8em;">LY082 | טרמינל 3 | כרטיס אלקטרוני שמור</div>
+                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">כרטיסי טיסה (אל על / קוריאן)</div>
+                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">LY082 | טרמינל 3 | כרטיס אלקטרוני שמור</div>
                             </div>
-                            <button onclick="alert('ברקוד העלייה למטוס מוצג למסך')" style="background: none; border: none; color: #0284c7; font-size: 1.3em; cursor: pointer;"><i class="fa-solid fa-qrcode"></i></button>
+                            <button onclick="alert('ברקוד העלייה למטוס מוצג למסך')" style="background: none; border: none; color: #0284c7; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-qrcode"></i></button>
                         </div>
 
                         <!-- Insurance Card -->
-                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; padding: 12px; display: flex; align-items: center; gap: 12px;">
-                            <div style="background: #dcfce7; color: #16a34a; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; flex-shrink: 0;">
+                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; margin-bottom: 14px; padding: 16px; display: flex; align-items: center; gap: 16px;">
+                            <div style="background: #dcfce7; color: #16a34a; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
                                 <i class="fa-solid fa-file-medical"></i>
                             </div>
                             <div style="flex-grow: 1;">
-                                <div style="font-weight: bold; color: #1e293b; font-size: 0.95em;">פוליסת ביטוח רפואי מורחבת</div>
-                                <div style="color: #64748b; font-size: 0.8em;">כיסוי מלא + ביטול ובלת"מים | מוקד 24/7</div>
+                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">פוליסת ביטוח רפואי מורחבת</div>
+                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">כיסוי מלא ובלתמים | מוקד 24/7</div>
                             </div>
-                            <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: none; border: none; color: #16a34a; font-size: 1.3em; cursor: pointer;"><i class="fa-solid fa-phone"></i></button>
+                            <button onclick="alert('פוליסת ביטוח: מוקד חירום +972-3-5551234')" style="background: none; border: none; color: #16a34a; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-phone"></i></button>
                         </div>
 
                         <!-- Medical Prescriptions -->
-                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px;">
-                            <div style="background: #fef3c7; color: #b45309; width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3em; flex-shrink: 0;">
+                        <div style="background: white; border: 2px solid #cbd5e1; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 16px;">
+                            <div style="background: #fef3c7; color: #b45309; width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8em; flex-shrink: 0;">
                                 <i class="fa-solid fa-prescription-bottle-medical"></i>
                             </div>
                             <div style="flex-grow: 1;">
-                                <div style="font-weight: bold; color: #1e293b; font-size: 0.95em;">מרשמים ואישורים רפואיים</div>
-                                <div style="color: #64748b; font-size: 0.8em;">תרופות קבועות באנגלית + אישור רופא לטיסה</div>
+                                <div style="font-weight: 900; color: #0f172a; font-size: 1.25em;">מרשמים ואישורים רפואיים</div>
+                                <div style="color: #475569; font-size: 1.05em; font-weight:600; margin-top:2px;">תרופות קבועות באנגלית ואישור רופא לטיסה</div>
                             </div>
-                            <button onclick="alert('הצגת מרשמים רפואיים באנגלית')" style="background: none; border: none; color: #b45309; font-size: 1.3em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="alert('הצגת מרשמים רפואיים באנגלית')" style="background: none; border: none; color: #b45309; font-size: 1.7em; cursor: pointer;"><i class="fa-solid fa-eye"></i></button>
                         </div>
                     </div>
                 </div>
@@ -798,67 +847,67 @@
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
-                        <div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:12px; margin-bottom:14px;">
+                        <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:18px; margin-bottom:18px;">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-weight:900; color:#9a3412; font-size:1em;"><i class="fa-solid fa-plane-departure"></i> שם הטיול הפעיל:</span>
-                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:3px 8px; border-radius:6px; font-size:0.85em; font-weight:bold;">קוריאה הדרומית (22-11-26)</span>
+                                <span style="font-weight:900; color:#9a3412; font-size:1.3em;"><i class="fa-solid fa-plane-departure"></i> יעד הטיול המוגדר:</span>
+                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:6px 14px; border-radius:10px; font-size:1.15em; font-weight:900;">קוריאה הדרומית (22-11-26)</span>
                             </div>
-                            <p style="margin:4px 0 0 0; font-size:0.82em; color:#7c2d12;">שאלון מובנה מלא של סייען הנסיעות לאיסוף כל הפרטים, היעדים, הרצונות, וההעדפות שיוצרים טיול מוגדר.</p>
+                            <p style="margin:8px 0 0 0; font-size:1.1em; color:#7c2d12; line-height:1.5;">שאלון מובנה מלא של סייען הנסיעות לאיסוף כל הפרטים, היעדים, הרצונות, וההעדפות שיוצרים טיול מוגדר.</p>
                         </div>
 
                         <!-- 12 Questions Form -->
-                        <div style="display:flex; flex-direction:column; gap:10px; font-size:0.85em;">
+                        <div style="display:flex; flex-direction:column; gap:16px; font-size:1.15em;">
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">1. נקודת מוצא ויציאה:</label>
-                                <input type="text" id="q_origin" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="שדרות העצמאות 93, אשדוד / נתבג">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">1. נקודת מוצא ויציאה:</label>
+                                <input type="text" id="q_origin" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="שדרות העצמאות 93, אשדוד / נתבג">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">2. מדינה / יעד מבוקש:</label>
-                                <input type="text" id="q_destination" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="קוריאה הדרומית (הכנה בשטח: נתניה)">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">2. מדינה / יעד מבוקש:</label>
+                                <input type="text" id="q_destination" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קוריאה הדרומית (הכנה בשטח: נתניה)">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">3. אופי ומטרת הטיול:</label>
-                                <input type="text" id="q_character" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="24 גמלאים צעירים ברוחם, טיול כיפי חברתי ומגוון, נופש ותרבות">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">3. אופי ומטרת הטיול:</label>
+                                <input type="text" id="q_character" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="24 גמלאים צעירים ברוחם, טיול כיפי חברתי ומגוון, נופש ותרבות">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">4. הרכב וכמות המטיילים:</label>
-                                <input type="text" id="q_group" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="קבוצה של 24 איש (גמלאים צעירים ברוחם)">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">4. הרכב וכמות המטיילים:</label>
+                                <input type="text" id="q_group" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קבוצה של 24 איש (גמלאים צעירים ברוחם)">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">5. משך הטיול בימים:</label>
-                                <input type="text" id="q_duration" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="12 יום (כולל טיסות הלוך ושוב)">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">5. משך הטיול בימים:</label>
+                                <input type="text" id="q_duration" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="12 יום (כולל טיסות הלוך ושוב)">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">6. תאריך יציאה מתוכנן:</label>
-                                <input type="text" id="q_date" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="22-11-2026 (יום ראשון מנתבג)">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">6. תאריך יציאה מתוכנן:</label>
+                                <input type="text" id="q_date" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="22-11-2026 (יום ראשון מנתבג)">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">7. תקציב מתוכנן:</label>
-                                <input type="text" id="q_budget" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="סטנדרט איכותי סביר לקבוצת גמלאים">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">7. תקציב מתוכנן:</label>
+                                <input type="text" id="q_budget" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="סטנדרט איכותי סביר לקבוצת גמלאים">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">8. אתרים, סדנאות ופעילויות חובה:</label>
-                                <textarea id="q_activities" rows="2" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;">סדנת חץ וקשת מסורתי, סדנת תה Dado, ספא ויופי, זריחה בהר באי גוגו, ובארץ: טיילת ומעלית סירונית</textarea>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">8. אתרים, סדנאות ופעילויות חובה:</label>
+                                <textarea id="q_activities" rows="2" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">סדנת חץ וקשת מסורתי, סדנת תה Dado, ספא ויופי, זריחה בהר באי גוגו, ובארץ: טיילת ומעלית סירונית</textarea>
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">9. העדפות תחבורה:</label>
-                                <input type="text" id="q_transit" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="אוטובוס צמוד לקבוצה, רכבות מהירות, מרחק חניה קצר לאתרים">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">9. העדפות תחבורה:</label>
+                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="אוטובוס צמוד לקבוצה, רכבות מהירות, מרחק חניה קצר לאתרים">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">10. סוגי לינה מועדפים:</label>
-                                <input type="text" id="q_hotels" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="מלונות 4-5 כוכבים, גישה מלאה למעליות ללא מדרגות רבות">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">10. סוגי לינה מועדפים:</label>
+                                <input type="text" id="q_hotels" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="מלונות 4-5 כוכבים, גישה מלאה למעליות ללא מדרגות רבות">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">11. העדפות כשרות ומזון:</label>
-                                <input type="text" id="q_food" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;" value="כשר למהדרין (בדץ), מזון צמחוני/טבעוני נקי, בדיקת ברקודים">
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">11. העדפות כשרות ומזון:</label>
+                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="כשר למהדרין (בדץ), מזון צמחוני/טבעוני נקי, בדיקת ברקודים">
                             </div>
                             <div>
-                                <label style="font-weight:bold; color:#1e293b;">12. אילוצים ובקשות מיוחדות:</label>
-                                <textarea id="q_constraints" rows="2" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-family:Heebo;">יציאה ביום ראשון (שבת אחת בלבד בטיול), הגבלת הליכה רצופה עד 400-500 מטר, חובת מעליות ושהייה בצל בשעות החום</textarea>
+                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">12. אילוצים ובקשות מיוחדות:</label>
+                                <textarea id="q_constraints" rows="2" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">יציאה ביום ראשון (שבת אחת בלבד בטיול), הגבלת הליכה רצופה עד 400-500 מטר, חובת מעליות ושהייה בצל בשעות החום</textarea>
                             </div>
                         </div>
 
-                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:14px; background:#ea580c; color:white; border:none; padding:12px; border-radius:10px; font-weight:bold; font-size:0.95em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:20px; background:#ea580c; color:white; border:none; padding:18px; border-radius:14px; font-weight:900; font-size:1.3em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 6px 18px rgba(234,88,12,0.3);">
                             <i class="fa-solid fa-floppy-disk"></i> שמור שאלון ועדכן תיק טיול
                         </button>
                     </div>
@@ -899,14 +948,14 @@
             
             <div class="content-padding" style="padding-bottom: 40px;">
                 <!-- Local Emergency Numbers -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                    <button onclick="window.location.href='tel:100'" style="background: #fee2e2; border: 2px solid #ef4444; color: #991b1b; padding: 16px; border-radius: 14px; font-weight: bold; font-size: 1.1em; cursor: pointer; display: flex; flex-direction: column; align-items: center;">
-                        <i class="fa-solid fa-shield" style="font-size: 1.8em; margin-bottom: 6px; color:#ef4444;"></i>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                    <button onclick="alert('מחייג למשטרת ישראל / מוקד 100...')" style="background: #1e3a8a; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3); cursor: pointer;">
+                        <i class="fa-solid fa-shield-halved" style="font-size: 2.4em; margin-bottom: 10px; color:#60a5fa;"></i>
                         משטרה (100)
                     </button>
-                    <button onclick="window.location.href='tel:101'" style="background: #fee2e2; border: 2px solid #ef4444; color: #991b1b; padding: 16px; border-radius: 14px; font-weight: bold; font-size: 1.1em; cursor: pointer; display: flex; flex-direction: column; align-items: center;">
-                        <i class="fa-solid fa-truck-medical" style="font-size: 1.8em; margin-bottom: 6px; color:#ef4444;"></i>
-                        מד"א / אמבולנס (101)
+                    <button onclick="alert('מחייג למדא / מוקד 101...')" style="background: #991b1b; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(153, 27, 27, 0.3); cursor: pointer;">
+                        <i class="fa-solid fa-truck-medical" style="font-size: 2.4em; margin-bottom: 10px; color:#ef4444;"></i>
+                        מדא / אמבולנס (101)
                     </button>
                 </div>
 
@@ -1125,13 +1174,13 @@
                 <input type="file" id="diary-gallery-input" accept="image/*" style="display:none;" onchange="handleRealPhoto(event)">
 
                 <!-- Capture Buttons -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 16px; border-radius: 14px; font-size: 1.05em; font-weight: bold; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 6px rgba(14, 165, 233, 0.25); cursor: pointer;">
-                        <i class="fa-solid fa-camera" style="font-size: 1.8em; margin-bottom: 6px;"></i>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3); cursor: pointer;">
+                        <i class="fa-solid fa-camera" style="font-size: 2.4em; margin-bottom: 10px;"></i>
                         צלם במצלמה
                     </button>
-                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 16px; border-radius: 14px; font-size: 1.05em; font-weight: bold; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
-                        <i class="fa-solid fa-images" style="font-size: 1.8em; margin-bottom: 6px;"></i>
+                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0ea5e9; border: 3px solid #0ea5e9; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
+                        <i class="fa-solid fa-images" style="font-size: 2.4em; margin-bottom: 10px;"></i>
                         בחר מגלריה
                     </button>
                 </div>
@@ -1156,6 +1205,20 @@
     </div> <!-- End screen-container -->
 
     <script>
+                // ================= DYNAMIC FONT ZOOM CONTROLLER (FOR LARGE SCREENS & 42-INCH DISPLAYS) =================
+        let currentFontScale = parseInt(localStorage.getItem('travel_assistant_font_scale') || '125');
+
+        function applyFontScale() {
+            document.documentElement.style.fontSize = currentFontScale + '%';
+            localStorage.setItem('travel_assistant_font_scale', currentFontScale);
+        }
+
+        function changeFontSize(delta) {
+            currentFontScale = Math.min(220, Math.max(90, currentFontScale + delta * 15));
+            applyFontScale();
+        }
+        applyFontScale();
+
         // ================= NAVIGATION =================
         function switchScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1401,42 +1464,41 @@
                     const d = L.latLng(userLat, userLng).distanceTo(L.latLng(r.lat, r.lng));
                     const distLabel = (d < 1000) ? `${Math.round(d)} מטר` : `${(d/1000).toFixed(1)} קילומטר`;
                     const walkMins = Math.max(1, Math.round(d / 75));
-                    distHtml = `<div style="font-size:0.8em; color:#16a34a; font-weight:bold; margin-top:4px;"><i class="fa-solid fa-person-walking"></i> ${distLabel} ממך (~${walkMins} דקות הליכה)</div>`;
+                    distHtml = `<div style="font-size:1.15em; color:#16a34a; font-weight:900; margin-top:6px;"><i class="fa-solid fa-person-walking"></i> ${distLabel} ממך (~${walkMins} דקות הליכה)</div>`;
                 }
 
                 return `
                     <div class="food-card">
                         <div style="position:relative;">
                             <img src="${r.image}" class="food-card-img" alt="${r.name}">
-                            <div style="position:absolute; top:10px; right:10px; display:flex; gap:6px;">
+                            <div style="position:absolute; top:12px; right:12px; display:flex; gap:8px;">
                                 <span class="badge-kosher"><i class="fa-solid fa-certificate"></i> ${r.kosher.includes('מהדרין') ? 'כשר למהדרין' : 'כשר / טבעוני'}</span>
                             </div>
                         </div>
                         <div class="food-card-body">
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
-                                <h4 style="margin:0; font-size:1.05em; color:#0f172a;">${r.name}</h4>
-                                <span style="font-size:0.85em; font-weight:bold; color:#d97706;"><i class="fa-solid fa-star"></i> ${r.rating}</span>
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+                                <h4 style="margin:0; font-size:1.35em; font-weight:900; color:#0f172a;">${r.name}</h4>
+                                <span style="font-size:1.15em; font-weight:900; color:#d97706;"><i class="fa-solid fa-star"></i> ${r.rating}</span>
                             </div>
-                            <div style="font-size:0.82em; color:#64748b; margin-bottom:6px;"><i class="fa-solid fa-location-dot"></i> ${r.address} (${r.city})</div>
-                            <div style="background:#fff7ed; border-right:3px solid #ea580c; padding:6px 10px; border-radius:6px; font-size:0.82em; color:#9a3412; margin-bottom:8px;">
+                            <div style="font-size:1.1em; color:#475569; margin-bottom:8px; font-weight:600;"><i class="fa-solid fa-location-dot"></i> ${r.address} (${r.city})</div>
+                            <div style="background:#fff7ed; border-right:4px solid #ea580c; padding:10px 14px; border-radius:8px; font-size:1.15em; color:#9a3412; margin-bottom:10px; font-weight:700;">
                                 <b>מנת דגל מומלצת:</b> ${r.dish}
                             </div>
-                            <div style="font-size:0.78em; color:#475569; margin-bottom:8px;">
+                            <div style="font-size:1.05em; color:#334155; margin-bottom:10px;">
                                 <span><i class="fa-regular fa-clock"></i> ${r.hours}</span> | <span>${r.kosher}</span>
                             </div>
                             ${distHtml}
-                            <div style="display:flex; gap:8px; margin-top:10px;">
-                                <button onclick="showCustomTaxiCard('${r.name}', '${r.address}', ${r.lat}, ${r.lng})" style="flex:1; background:#f8fafc; border:1px solid #cbd5e1; color:#1e293b; padding:8px; border-radius:8px; font-size:0.8em; font-weight:bold; cursor:pointer;">
+                            <div style="display:flex; gap:10px; margin-top:14px;">
+                                <button onclick="showCustomTaxiCard('${r.name}', '${r.address}', ${r.lat}, ${r.lng})" style="flex:1; background:#f8fafc; border:2px solid #cbd5e1; color:#0f172a; padding:12px; border-radius:10px; font-size:1.1em; font-weight:900; cursor:pointer;">
                                     <i class="fa-solid fa-taxi" style="color:#f59e0b;"></i> כרטיס לנהג
                                 </button>
-                                <button onclick="navigateToRestaurant(${r.lat}, ${r.lng}, '${r.name}')" style="flex:1; background:#ea580c; border:none; color:white; padding:8px; border-radius:8px; font-size:0.8em; font-weight:bold; cursor:pointer;">
+                                <button onclick="navigateToRestaurant(${r.lat}, ${r.lng}, '${r.name}')" style="flex:1; background:#ea580c; border:none; color:white; padding:12px; border-radius:10px; font-size:1.1em; font-weight:900; cursor:pointer;">
                                     <i class="fa-solid fa-location-arrow"></i> הצג במפה ונווט
                                 </button>
                             </div>
                         </div>
                     </div>
-                `;
-            }).join('');
+                `;}).join('');
         }
 
         function navigateToRestaurant(lat, lng, name) {
@@ -1700,34 +1762,34 @@
                     transitMode = "ברגל";
                 }
                 
-                liveDistHtml = `<b style="color:#16a34a; font-size:15px;">${dStr}</b>`;
-                liveEtaHtml = `<b style="color:#2563eb; font-size:13px;">${etaMinutes} דקות (${transitMode})</b>`;
+                liveDistHtml = `<b style="color:#16a34a; font-size:20px;">${dStr}</b>`;
+                liveEtaHtml = `<b style="color:#2563eb; font-size:18px;">${etaMinutes} דקות (${transitMode})</b>`;
             }
 
-            const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:11px; margin-top:2px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
+            const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:4px 8px; border-radius:6px; font-weight:900; font-size:14px; margin-top:4px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
 
             const popupContent = `
-                <div style="font-family:Heebo; font-size:13px; text-align:right;" dir="rtl">
-                    <b style="color:#0f172a; font-size:14px;">${st.title}</b>
-                    <div style="color:#0369a1; font-size:11px; margin:2px 0;">📍 ${st.address}</div>
+                <div style="font-family:Heebo; font-size:17px; text-align:right; min-width:280px;" dir="rtl">
+                    <b style="color:#0f172a; font-size:20px;">${st.title}</b>
+                    <div style="color:#0369a1; font-size:15px; margin:4px 0;">📍 ${st.address}</div>
                     ${stopCodeHtml}
                     
-                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px; margin:8px 0;">
-                        <div style="font-size:12px; color:#166534;">📏 מרחק נוכחי ממיקומך: ${liveDistHtml}</div>
-                        ${liveEtaHtml ? `<div style="font-size:12px; color:#1e40af; margin-top:3px;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
+                    <div style="background:#f0fdf4; border:2px solid #bbf7d0; border-radius:12px; padding:12px; margin:10px 0;">
+                        <div style="font-size:16px; color:#166534; font-weight:bold;">📏 מרחק נוכחי ממיקומך: ${liveDistHtml}</div>
+                        ${liveEtaHtml ? `<div style="font-size:16px; color:#1e40af; margin-top:6px; font-weight:bold;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
                     </div>
 
-                    <div style="display:flex; gap:6px; margin-top:8px;">
-                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:6px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;">
-                            🎯 נווט ליעד זה
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:900; cursor:pointer;">
+                            🎯 נווט ליעד
                         </button>
-                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:6px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;">
+                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:900; cursor:pointer;">
                             🚖 כרטיס לנהג
                         </button>
                     </div>
                     ${(idx < STATIONS.length - 1) ? `
-                        <div style="margin-top:6px;">
-                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:7px 10px; border-radius:6px; font-size:11px; font-weight:bold; cursor:pointer;">
+                        <div style="margin-top:8px;">
+                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:12px 14px; border-radius:10px; font-size:15px; font-weight:900; cursor:pointer;">
                                 ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
                             </button>
                         </div>
@@ -1893,27 +1955,27 @@
 
         function showCustomTaxiCard(title, address, lat, lng) {
             const taxiHtml = `
-                <div style="background:white; border-radius:16px; padding:18px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,0.25);" dir="rtl">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
-                        <span style="font-weight:900; color:#1e293b; font-size:1em;"><i class="fa-solid fa-taxi" style="color:#f59e0b;"></i> כרטיס לנהג מקומי / עובר אורח</span>
-                        <button onclick="document.getElementById('taxi-card-overlay').remove()" style="background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:16px; cursor:pointer; color:#64748b;">✕</button>
+                <div style="background:white; border-radius:20px; padding:24px; text-align:center; box-shadow:0 12px 35px rgba(0,0,0,0.3);" dir="rtl">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:10px;">
+                        <span style="font-weight:900; color:#1e293b; font-size:1.25em;"><i class="fa-solid fa-taxi" style="color:#f59e0b;"></i> כרטיס לנהג מקומי / עובר אורח</span>
+                        <button onclick="document.getElementById('taxi-card-overlay').remove()" style="background:#f1f5f9; border:none; width:38px; height:38px; border-radius:50%; font-size:20px; cursor:pointer; color:#64748b; font-weight:900;">✕</button>
                     </div>
                     
-                    <div style="margin:10px 0; background:#f8fafc; border:2px dashed #94a3b8; border-radius:12px; padding:14px;">
-                        <div style="font-size:0.8em; color:#64748b; margin-bottom:4px;">הראה לנהג המונית או למקומי:</div>
-                        <div style="font-size:1.35em; font-weight:900; color:#0f172a; margin-bottom:6px;">${title}</div>
-                        <div style="font-size:1.05em; font-weight:700; color:#2563eb; direction:ltr;">${address}</div>
+                    <div style="margin:14px 0; background:#f8fafc; border:3px dashed #94a3b8; border-radius:16px; padding:20px;">
+                        <div style="font-size:1.1em; color:#64748b; margin-bottom:6px; font-weight:bold;">הראה לנהג המונית או למקומי:</div>
+                        <div style="font-size:1.8em; font-weight:900; color:#0f172a; margin-bottom:10px; line-height:1.3;">${title}</div>
+                        <div style="font-size:1.4em; font-weight:800; color:#2563eb; direction:ltr; line-height:1.4;">${address}</div>
                     </div>
 
-                    <p style="font-size:0.82em; color:#475569; margin:8px 0;">
+                    <p style="font-size:1.1em; color:#334155; margin:12px 0; font-weight:600; line-height:1.5;">
                         <b>הנחיית נהג:</b> אנא קח אותי לכתובת זו / Please take me to this address
                     </p>
 
-                    <div style="display:flex; gap:8px; margin-top:14px;">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank" style="flex:1; background:#2563eb; color:white; padding:10px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.85em;">
+                    <div style="display:flex; gap:12px; margin-top:18px;">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank" style="flex:1; background:#2563eb; color:white; padding:14px; border-radius:12px; text-decoration:none; font-weight:900; font-size:1.15em; text-align:center;">
                             <i class="fa-solid fa-location-arrow"></i> פתח ניווט חי
                         </a>
-                        <button onclick="document.getElementById('taxi-card-overlay').remove()" style="flex:1; background:#e2e8f0; color:#1e293b; border:none; padding:10px; border-radius:8px; font-weight:bold; font-size:0.85em; cursor:pointer;">
+                        <button onclick="document.getElementById('taxi-card-overlay').remove()" style="flex:1; background:#e2e8f0; color:#0f172a; border:none; padding:14px; border-radius:12px; font-weight:900; font-size:1.15em; cursor:pointer;">
                             סגור
                         </button>
                     </div>
@@ -1925,8 +1987,8 @@
 
             overlay = document.createElement('div');
             overlay.id = 'taxi-card-overlay';
-            overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; padding:16px;';
-            overlay.innerHTML = `<div style="max-width:380px; width:100%;">${taxiHtml}</div>`;
+            overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.65); display:flex; align-items:center; justify-content:center; z-index:9999; padding:20px;';
+            overlay.innerHTML = `<div style="max-width:580px; width:100%;">${taxiHtml}</div>`;
             document.body.appendChild(overlay);
         }
 
@@ -2113,14 +2175,14 @@
                 const bgStyle = isTarget ? 'background:#eff6ff; border:1px solid #bfdbfe;' : 'background:#f8fafc; border:1px solid #e2e8f0;';
 
                 return `
-                    <div style="${bgStyle} border-radius:8px; padding:6px 10px; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="${bgStyle} border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                         <div style="flex-grow:1; cursor:pointer;" onclick="setTargetStation(${idx})">
-                            <span style="font-weight:bold; color:#1e293b;">${st.title}</span>
-                            <div style="font-size:0.75em; color:#64748b;">${st.address}</div>
+                            <span style="font-weight:900; font-size:1.15em; color:#0f172a;">${st.title}</span>
+                            <div style="font-size:0.95em; color:#64748b; margin-top:2px;">${st.address}</div>
                         </div>
-                        <div style="text-align:left; display:flex; align-items:center; gap:8px;">
-                            <div style="font-size:0.8em;">${distHtml}</div>
-                            <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:4px 6px; border-radius:6px; font-size:0.75em; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                        <div style="text-align:left; display:flex; align-items:center; gap:12px;">
+                            <div style="font-size:1.15em; font-weight:bold;">${distHtml}</div>
+                            <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:8px 12px; border-radius:10px; font-size:0.95em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
                         </div>
                     </div>
                 `;
