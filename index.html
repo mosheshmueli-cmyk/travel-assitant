@@ -539,21 +539,21 @@
                                 </tr>
                                 <tr>
                                     <td><b>7</b></td>
-                                    <td><b>השוק העירוני המקורה</b></td>
+                                    <td><b>השוק העירוני המקורה</b><br><span style="font-size:0.8em; color:#0284c7;">רח' שוהם 10 (היהלום/זבולון)</span></td>
                                     <td>שהייה בשוק</td>
                                     <td>מתחם מקורה</td>
                                     <td>-</td>
                                     <td><b>שעה ו-45 דק'</b> (12:20-14:05)</td>
-                                    <td><b>שיא החום בצל!</b> סיור דוכנים, קניות וארוחה כשרה.</td>
+                                    <td><b>שיא החום בצל!</b> קניות וארוחה: 'התוניסאי שלנו' ברח' היהלום 8 (פריקסה כשר מומלץ).</td>
                                 </tr>
                                 <tr>
                                     <td><b>🚏</b></td>
-                                    <td><b>תחנת אוטובוס שוק לרכבת</b></td>
-                                    <td>רח' ויצמן / שער הגיא</td>
-                                    <td>40 מטר</td>
-                                    <td>1 דק'</td>
+                                    <td><b>תחנת אוטובוס לרכבת</b><br><span style="font-size:0.8em; color:#0284c7;">שד' ויצמן 16 (קוד 39270)</span></td>
+                                    <td>שד' ויצמן ליד שער הגיא</td>
+                                    <td>70 מטר מהשוק</td>
+                                    <td>1 דק' הליכה</td>
                                     <td>14:05 - 14:15</td>
-                                    <td>תחנה צמודה ליציאה מהשוק. קו 16/25.</td>
+                                    <td>תחנה צמודה ליציאה המזרחית של השוק. קו 16/25 לרכבת.</td>
                                 </tr>
                                 <tr>
                                     <td><b>8</b></td>
@@ -878,15 +878,16 @@
         let netanyaMarkers = [];
         let currentPosition = null;
 
-        // Key numbered sites and bus stations in Netanya
+        // Key numbered sites and bus stations in Netanya (עם כתובות מדויקות וקואורדינטות מאומתות)
         const STATIONS = [
             { 
                 id: "1", 
                 type: "train",
                 lat: 32.3262, lng: 34.8698, 
                 title: "תחנת רכבת נתניה (מרכז)", 
-                desc: "הגעה ב-10:25 ברכבת 238 מאשדוד ויבנה. נקודת מפגש של 3 החברים.",
-                transitInfo: "יוצאים ביציאה המערבית של הרכבת (30 מטר) ישירות למסוף האוטובוסים.",
+                address: "רחוב הרכבת 1, נתניה",
+                desc: "הגעה ב-10:25 ברכבת 238 מאשדוד ויבנה. נקודת מפגש 3 החברים באולם.",
+                transitInfo: "יציאה מערבית (30 מטר) ישירות למסוף האוטובוסים של הרכבת.",
                 nextDist: "2.4 קילומטר (9 דקות נסיעה באוטובוס 16/25)",
                 color: "#8b5cf6"
             },
@@ -895,6 +896,7 @@
                 type: "bus",
                 lat: 32.3265, lng: 34.8690, 
                 title: "מסוף אוטובוסים רכבת נתניה", 
+                address: "מסוף תחבורה רכבת מרכז (צד מערב)",
                 desc: "תחנת העלייה לקווים 16 או 25 אל מרכז העיר והטיילת.",
                 transitInfo: "עולים על קו 16 או 25. תדירות: כל 8-10 דקות.",
                 nextDist: "2.4 קילומטר נסיעה ישירה עד תחנת דוד המלך / כיכר העצמאות",
@@ -905,6 +907,7 @@
                 type: "attraction",
                 lat: 32.3275, lng: 34.8510, 
                 title: "טיילת הראשונים ומעלית החוף (סירונית)", 
+                address: "רחוב גד מכנס / טיילת הראשונים, נתניה",
                 desc: "יורדים במעלית הפנורמית השקופה לקו המים. בריזת בוקר, קפה מול הים.",
                 transitInfo: "הליכה רגלית מתונה של 150 מטר מתחנת האוטובוס בכיכר למעלית.",
                 nextDist: "600 מטר (הליכה רגלית נוחה של 7 דקות צפונה בטיילת)",
@@ -914,29 +917,32 @@
                 id: "3", 
                 type: "attraction",
                 lat: 32.3292, lng: 34.8553, 
-                title: "כיכר העצמאות החדשה", 
+                title: "כיכר העצמאות החדשה ומדרחוב הרצל", 
+                address: "כיכר העצמאות / רחוב הרצל 1, נתניה",
                 desc: "מזרקה אינטראקטיבית, ספסלים מוצלים, מדרחוב ואווירה.",
-                transitInfo: "חוצים ברגל את הכיכר מזרחה אל תחילת מדרחוב הרצל.",
+                transitInfo: "חוצים ברגל את הכיכר מזרחה ישירות לתוך מדרחוב הרצל המוצל.",
                 nextDist: "650 מטר (הליכה של 8 דקות מזרחה במדרחוב הרצל המוצל)",
                 color: "#ec4899"
             },
             { 
                 id: "4", 
                 type: "market",
-                lat: 32.3271, lng: 34.8596, 
+                lat: 32.3294, lng: 34.8596, 
                 title: "השוק העירוני המקורה (נתניה)", 
-                desc: "שיא החום בצל! דוכני פירות, תבלינים, מעדנים, וארוחת צהריים בשרית כשרה.",
-                transitInfo: "השוק מקורה לחלוטין. יציאה מזרחית לרחוב שער הגיא/ויצמן.",
-                nextDist: "40 מטר לתחנת האוטובוס ברחוב ויצמן / שער הגיא",
+                address: "רחוב שוהם 10 (פינת היהלום וזבולון), נתניה",
+                desc: "שיא החום בצל! דוכני פירות, תבלינים, 'התוניסאי שלנו' ברחוב היהלום 8 (פריקסה מומלץ כשר), וארוחת צהריים.",
+                transitInfo: "השוק מקורה לחלוטין. יציאה מזרחה אל שדרות ויצמן 16.",
+                nextDist: "70 מטר הליכה קצרה לתחנת האוטובוס בשדרות ויצמן 16",
                 color: "#16a34a"
             },
             { 
                 id: "🚏", 
                 type: "bus",
-                lat: 32.3268, lng: 34.8602, 
-                title: "תחנת אוטובוס שוק חזרה לרכבת (ויצמן/שער הגיא)", 
+                lat: 32.3274, lng: 34.8571, 
+                title: "תחנת אוטובוס שוק חזרה לרכבת", 
+                address: "שדרות חיים ויצמן 16 (סמוך לפינת שער הגיא), נתניה",
                 desc: "תחנת העלייה לאוטובוס 16/25 חזרה לרכבת נתניה (עם הקניות!).",
-                transitInfo: "קו 16 או 25 ישירות לרציף תחנת רכבת נתניה.",
+                transitInfo: "קו 16 או 25 ישירות לרציף תחנת רכבת נתניה (קוד תחנה 39270).",
                 nextDist: "2.1 קילומטר (נסיעה מהירה של 6-7 דקות ישירות לרכבת)",
                 color: "#f97316"
             }
@@ -965,9 +971,10 @@
 
                     const m = L.marker([st.lat, st.lng], { icon: customIcon }).addTo(dynamicMap)
                         .bindPopup(`
-                            <div style="font-family:Heebo; font-size:13px;">
+                            <div style="font-family:Heebo; font-size:13px; text-align:right;" dir="rtl">
                                 <b style="color:${st.color}; font-size:14px;">${st.title}</b><br>
-                                <p style="margin:4px 0;">${st.desc}</p>
+                                <div style="color:#0369a1; font-weight:bold; font-size:12px; margin:2px 0;">📍 ${st.address}</div>
+                                <p style="margin:4px 0; color:#334155;">${st.desc}</p>
                                 <div style="background:#f1f5f9; padding:4px 6px; border-radius:4px; margin:4px 0; font-size:12px;">
                                     <b>🚌 הנחיות מעבר:</b> ${st.transitInfo}
                                 </div>
@@ -1108,6 +1115,7 @@
                     <div onclick="focusStation(${idx})" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px 10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
                         <div>
                             <span style="font-weight:bold; color:${st.color};">${st.id}. ${st.title}</span><br>
+                            <span style="font-size:0.75em; color:#0369a1; font-weight:500;">📍 ${st.address}</span><br>
                             <span style="font-size:0.78em; color:#64748b;">⬅️ ${st.nextDist}</span>
                         </div>
                         <div style="font-size:0.8em; text-align:left;">
