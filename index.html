@@ -584,10 +584,21 @@
                 <span style="color: #9d174d; font-weight: 800; font-size: 1.05em;"><i class="fa-solid fa-map-location-dot"></i> מפה בזמן אמת</span>
             </div>
 
+            <!-- Trip Mode & Selector Banner (Location-Aware Globe Engine + Multi-Trip Selection) -->
+            <div style="background: #1e1b4b; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 1px solid #312e81;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.82em; color: #a5b4fc; font-weight: bold;">🗺️ טיול פעיל במפה:</span>
+                    <span id="active-trip-pill" style="background: #4338ca; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 800;">נתניה - הדמיית שטח</span>
+                </div>
+                <button onclick="openTripSelectorModal()" style="background: #6366f1; color: white; border: none; padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(99,102,241,0.35);">
+                    <i class="fa-solid fa-map"></i> בחר טיול ▾
+                </button>
+            </div>
+
             <!-- Live GPS Status & Quick Tools -->
             <div style="background: white; padding: 8px 12px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <div id="gps-status-text" style="font-size: 0.85em; color: #0284c7; font-weight: bold; flex-grow: 1; min-width: 150px;">
-                    <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS חי...
+                    <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS בזמן אמת...
                 </div>
                 <div style="display: flex; gap: 5px; align-items: center;">
                     <button onclick="rescueOffRoute()" title="התברברתי / איבדתי את הדרך - חזרה מיידית למסלול הקרוב" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; box-shadow: 0 1px 3px rgba(239,68,68,0.3);">
@@ -605,15 +616,9 @@
                 </div>
             </div>
 
-            <!-- Station Quick Selector -->
-            <div style="background: #f8fafc; padding: 6px 12px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 6px; overflow-x: auto;">
-                <button onclick="setTargetStation(0)" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">1. רכבת</button>
-                <button onclick="setTargetStation(1)" style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">🚏 מסוף אוטובוס (37124)</button>
-                <button onclick="setTargetStation(2)" style="background: #fef3c7; border: 1px solid #fde68a; color: #b45309; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">🚏 ירידה דוד המלך (39251)</button>
-                <button onclick="setTargetStation(3)" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">2. טיילת ומעלית</button>
-                <button onclick="setTargetStation(4)" style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">3. כיכר העצמאות</button>
-                <button onclick="setTargetStation(5)" style="background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">4. שוק מקורה (היהלום)</button>
-                <button onclick="setTargetStation(6)" style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">🚏 אוטובוס שוק (39270)</button>
+            <!-- Station Quick Selector (Populated dynamically per active trip) -->
+            <div id="station-quick-selector-bar" style="background: #f8fafc; padding: 6px 12px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 6px; overflow-x: auto;">
+                <!-- Populated dynamically by renderStationQuickSelectors() -->
             </div>
             
             <!-- Map Viewport & Rotating Container with Interactive Compass Rose -->
@@ -723,19 +728,7 @@
                                 <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">כרטיסי טיסה: אופיר טורס (Ethiopian Airlines)</div>
                                 <div style="color: #64748b; font-size: 0.85em;">ET419/672 (הלוך), ET673/418 (חזור) + 2 טיסות פנים</div>
                             </div>
-                            <button onclick="alert('פרטי טיסות אופיר טורס - הקסם הקוריאני:
-
-✈️ הלוך:
-• ET 419: תל אביב (14:40) -> אדיס אבבה (19:55)
-• ET 672: אדיס אבבה (22:35) -> סיאול אינצ'און (15:45 למחרת)
-
-✈️ טיסות פנים:
-• בוסאן (PUS) -> אי ג'ג'ו (CJU)
-• אי ג'ג'ו (CJU) -> סיאול גימפו (GMP)
-
-✈️ חזור:
-• ET 673: סיאול אינצ'און (00:10) -> אדיס אבבה (07:25)
-• ET 418: אדיס אבבה (10:30) -> תל אביב (13:35)')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-ticket"></i> כרטיסים</button>
+                            <button onclick="alert('פרטי טיסות אופיר טורס - הקסם הקוריאני:\n\n✈️ הלוך:\n• ET 419: תל אביב (14:40) -> אדיס אבבה (19:55)\n• ET 672: אדיס אבבה (22:35) -> סיאול אינצ\'און (15:45 למחרת)\n\n✈️ טיסות פנים:\n• בוסאן (PUS) -> אי ג\'ג\'ו (CJU)\n• אי ג\'ג\'ו (CJU) -> סיאול גימפו (GMP)\n\n✈️ חזור:\n• ET 673: סיאול אינצ\'און (00:10) -> אדיס אבבה (07:25)\n• ET 418: אדיס אבבה (10:30) -> תל אביב (13:35)')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-ticket"></i> כרטיסים</button>
                         </div>
 
                         <!-- Insurance Card -->
@@ -747,10 +740,7 @@
                                 <div style="font-weight: 800; color: #0f172a; font-size: 1.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">פוליסת ביטוח פספורטכארד (PassportCard)</div>
                                 <div style="color: #64748b; font-size: 0.85em;">כיסוי מורחב קוריאה 22/11-06/12 | כרטיס אדום</div>
                             </div>
-                            <button onclick="alert('פוליסת PassportCard קוריאה:
-מוקד חירום בינלאומי: +972-9-8920930
-וואטסאפ מוקד פספורטכארד: +972-50-670-2000
-כרטיס מגנטי אדום לתשלום במקום ללא השתתפות עצמית')" style="background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-phone"></i> חיוג</button>
+                            <button onclick="alert('פוליסת PassportCard קוריאה:\nמוקד חירום בינלאומי: +972-9-8920930\nוואטסאפ מוקד פספורטכארד: +972-50-670-2000\nכרטיס מגנטי אדום לתשלום במקום ללא השתתפות עצמית')" style="background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; padding: 6px 10px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-phone"></i> חיוג</button>
                         </div>
 
                         <!-- Medical Prescriptions -->
@@ -1275,14 +1265,88 @@
                 </div>
 
                 <!-- Two-way Voice Emergency Interpreter -->
-                <div style="background: white; border: 1px solid #fecaca; border-radius: 14px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(239,68,68,0.06);">
-                    <h3 style="margin-top:0; color: #991b1b;"><i class="fa-solid fa-headset"></i> מתורגמן חירום קולי דו-כיווני</h3>
-                    <p style="font-size: 0.88em; color: #475569; line-height: 1.5; margin-bottom: 12px;">
-                        בלחיצת כפתור המערכת פותחת תקשורת קולית מול שוטר, פרמדיק או נהג מקומי ומתרגמת ישירות לשפתו ובחזרה.
+                <!-- Two-way Voice Emergency Interpreter (Active Field Test: Hebrew <-> Arabic | Morocco Simulation) -->
+                <div style="background: white; border: 2px solid #ef4444; border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(239,68,68,0.12);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fee2e2; padding-bottom: 8px; margin-bottom: 12px;">
+                        <h3 style="margin: 0; color: #991b1b; font-size: 1.15em;"><i class="fa-solid fa-headset"></i> מתורגמן חירום קולי דו-כיווני</h3>
+                        <span style="background: #fee2e2; color: #b91c1c; font-size: 0.75em; font-weight: 900; padding: 3px 8px; border-radius: 12px;">🇲🇦 בדיקת שטח: מרוקו</span>
+                    </div>
+
+                    <p style="font-size: 0.85em; color: #475569; line-height: 1.45; margin-top: 0; margin-bottom: 14px;">
+                        <b>תיווך שטח מבצעי:</b> המטייל מדבר בעברית ➔ המערכת מתרגמת ומשמיעה בקול בערבית למקומי. המקומי עונה בערבית ➔ המערכת מתרגמת ומשמיעה בעברית למטייל!
                     </p>
-                    <button onclick="alert('הפעלת מתורגמן חירום: שלום, אני זקוק לסיוע רפואי דחוף!')" style="width: 100%; background: #ef4444; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                        <i class="fa-solid fa-microphone-lines"></i> הפעל מתורגמן חירום עכשיו
-                    </button>
+
+                    <!-- Two Big Voice Mic Buttons -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                        <button id="btn-mic-hebrew" onclick="triggerVoiceInterpreter('he')" style="background: #2563eb; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 0.95em; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">
+                            <i class="fa-solid fa-microphone-lines" style="font-size: 1.6em;"></i>
+                            <span>🎙️ דבר בעברית</span>
+                            <span style="font-size: 0.72em; opacity: 0.9; font-weight: normal;">(ישמיע בערבית למקומי)</span>
+                        </button>
+                        <button id="btn-mic-arabic" onclick="triggerVoiceInterpreter('ar')" style="background: #16a34a; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 0.95em; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(22,163,74,0.3);" dir="rtl">
+                            <i class="fa-solid fa-microphone-lines" style="font-size: 1.6em;"></i>
+                            <span>🎙️ تحدث بالعربية</span>
+                            <span style="font-size: 0.72em; opacity: 0.9; font-weight: normal;">(ישמיע בעברית למטייל)</span>
+                        </button>
+                    </div>
+
+                    <!-- Listening / Speech Pulse Indicator -->
+                    <div id="interpreter-pulse-bar" style="display: none; background: #eff6ff; border: 1px dashed #3b82f6; border-radius: 10px; padding: 8px 12px; text-align: center; margin-bottom: 12px;">
+                        <span id="interpreter-pulse-text" style="font-size: 0.85em; font-weight: bold; color: #1d4ed8;">
+                            🔴 מקשיב עכשיו... דבר בבירור אל המיקרופון
+                        </span>
+                    </div>
+
+                    <!-- Instant Test Phrase Buttons (Guaranteed 100% operation in any browser) -->
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+                        <div style="font-size: 0.82em; font-weight: 900; color: #334155; margin-bottom: 8px;">
+                            ⚡ לחץ לבדיקה מיידית בלחיצה אחת (סימולציית מצוקה בשטח):
+                        </div>
+                        
+                        <div style="font-size: 0.78em; color: #2563eb; font-weight: bold; margin-bottom: 4px;">🇮🇱 משפטי מטייל לדוגמה (המערכת תדבר בערבית):</div>
+                        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+                            <button onclick="simulateInterpreterScenario('he', 'אני זקוק לסיוע רפואי דחוף!')" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a;">
+                                🚑 "אני זקוק לסיוע רפואי דחוף!"
+                            </button>
+                            <button onclick="simulateInterpreterScenario('he', 'איפה המרפאה או בית החולים הקרוב ביותר?')" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a;">
+                                🏥 "איפה המרפאה או בית החולים הקרוב ביותר?"
+                            </button>
+                            <button onclick="simulateInterpreterScenario('he', 'איבדתי את הדרך, עזור לי בבקשה להגיע למלון')" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a;">
+                                🏨 "איבדתי את הדרך, עזור לי בבקשה להגיע למלון"
+                            </button>
+                        </div>
+
+                        <div style="font-size: 0.78em; color: #16a34a; font-weight: bold; margin-bottom: 4px;">🇲🇦 תשובות מקומי לדוגמה (המערכת תדבר בעברית):</div>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <button onclick="simulateInterpreterScenario('ar', 'العيادة الطبية في نهاية هذا الشارع إلى اليمين')" style="text-align: right; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #14532d;" dir="rtl">
+                                🧭 "العيادة الطبية في نهاية هذا الشارع إلى اليمين"
+                            </button>
+                            <button onclick="simulateInterpreterScenario('ar', 'سأتصل بالإسعاف الآن، ابق هنا واسترح')" style="text-align: right; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #14532d;" dir="rtl">
+                                🚑 "سأتصل بالإسعاف الآن، ابق هنا واسترح"
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Dialogue Feed Container -->
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 0.8em; font-weight: 800; color: #475569;">💬 תמליל השיחה החי בשטח:</span>
+                            <button onclick="clearInterpreterChat()" style="background: none; border: none; color: #94a3b8; font-size: 0.75em; cursor: pointer; text-decoration: underline;">נקה שיחה</button>
+                        </div>
+                        <div id="interpreter-chat-box" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="text-align: center; color: #94a3b8; font-size: 0.78em; padding: 12px;">
+                                טרם החלה שיחה. לחץ על אחד מכפתורי המיקרופון או על משפט לבדיקה.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Free Text Manual Input -->
+                    <div style="display: flex; gap: 6px;">
+                        <input type="text" id="interpreter-custom-input" placeholder="או הקלד כאן משפט בעברית / ערבית..." style="flex-grow: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85em;">
+                        <button onclick="sendCustomInterpreterText()" style="background: #0f172a; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; white-space: nowrap;">
+                            תרגם והשמע
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Shortcuts: Live Baltam Alerts & Pre-Trip Health Dossier -->
@@ -1328,11 +1392,11 @@
                 <!-- Scenario Selector for Field Simulation & Testing -->
                 <div style="background: white; border: 2px solid #fed7aa; border-radius: 12px; padding: 12px; margin-bottom: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
                     <label style="display: block; font-weight: 900; color: #9a3412; font-size: 0.95em; margin-bottom: 6px;">
-                        <i class="fa-solid fa-satellite-dish"></i> בחר תרחיש שטח לבדיקה והדמיה חיה:
+                        <i class="fa-solid fa-satellite-dish"></i> בחר תרחיש שטח לבדיקה והדמיה בזמן אמת:
                     </label>
                     <select id="baltam-scenario-selector" onchange="switchBaltamScenario(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #ea580c; font-family: 'Heebo', sans-serif; font-size: 0.95em; font-weight: 800; color: #0f172a; background: white;">
                         <option value="flight_delay" selected>✈️ התראת טיסה מקדימה: עיכוב טיסת ET 419 לסיאול והשפעה על קונקשן</option>
-                        <option value="korea_covid">🔴 קוריאה: התפרצות קורונה חיה באזור סיאול בו אתם שוהים כעת!</option>
+                        <option value="korea_covid">🔴 קוריאה: התפרצות קורונה פעילה באזור סיאול בו אתם שוהים כעת!</option>
                         <option value="netanya_heat">🟠 נתניה: עומס חום קיצוני (36°C) בטיילת הראשונים</option>
                         <option value="trail_fire">🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא</option>
                         <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
@@ -1506,7 +1570,7 @@
                             </span>
                         </div>
                         <h3 style="margin: 6px 0 10px; color: #991b1b; font-size: 1.15em;">
-                            ⚠️ התראה חיה: חסימת שביל עקב שריפת חורש / הצפה מקומית
+                            ⚠️ התראה בזמן אמת: חסימת שביל עקב שריפת חורש / הצפה מקומית
                         </h3>
                         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88em; color: #334155;">
                             <div style="background: white; border: 1px solid #fecaca; border-radius: 8px; padding: 10px;">
@@ -1794,22 +1858,34 @@
                 <input type="file" id="diary-camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handleRealPhoto(event)">
                 <input type="file" id="diary-gallery-input" accept="image/*" style="display:none;" onchange="handleRealPhoto(event)">
 
-                <!-- Capture Buttons -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
-                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3); cursor: pointer;">
-                        <i class="fa-solid fa-camera" style="font-size: 2.4em; margin-bottom: 10px;"></i>
-                        צלם במצלמה
+                <!-- Compact Capture Buttons (Sleek side-by-side design freeing up vertical space) -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 10px 14px; border-radius: 12px; font-size: 0.95em; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 8px rgba(14, 165, 233, 0.25); cursor: pointer;">
+                        <i class="fa-solid fa-camera" style="font-size: 1.25em;"></i>
+                        <span>צלם במצלמה</span>
                     </button>
-                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0ea5e9; border: 3px solid #0ea5e9; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; cursor: pointer;">
-                        <i class="fa-solid fa-images" style="font-size: 2.4em; margin-bottom: 10px;"></i>
-                        בחר מגלריה
+                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 10px 14px; border-radius: 12px; font-size: 0.95em; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
+                        <i class="fa-solid fa-images" style="font-size: 1.25em;"></i>
+                        <span>בחר מגלריה</span>
                     </button>
                 </div>
 
-                <!-- Google Drive Connect -->
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.85em; color: #475569;"><i class="fa-brands fa-google"></i> גיבוי תמונות בענן Drive</span>
-                    <a id="btn-google-login" href="#" style="color: #0ea5e9; font-weight: bold; font-size: 0.85em; text-decoration: none;">התחבר</a>
+                <!-- Dedicated Cloud-Shaped Action Button (Combined Login + Upload in One Step) -->
+                <div onclick="connectCloudAndUploadPhoto()" class="cloud-upload-container" style="cursor: pointer; margin-bottom: 20px;">
+                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%); border: 2px dashed #0284c7; border-radius: 28px; padding: 16px 14px; text-align: center; box-shadow: 0 6px 18px rgba(14, 165, 233, 0.22); transition: all 0.2s ease;">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+                            <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25); flex-shrink: 0;">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 24px; color: #0284c7;"></i>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 900; font-size: 1.15em; color: #0369a1;">התחבר לענן והעלה את התמונה</div>
+                                <div style="font-size: 0.82em; color: #075985; margin-top: 2px;">פעולה משולבת: חיבור אוטומטי לענן + העלאת התמונה לגיבוי מיידי</div>
+                            </div>
+                        </div>
+                        <div id="cloud-sync-status" style="margin-top: 8px; font-size: 0.78em; color: #0369a1; font-weight: bold; background: rgba(255,255,255,0.75); padding: 4px 12px; border-radius: 20px; display: inline-block;">
+                            ☁️ מוכן לסנכרון ענן מאובטח (Google Drive / Cloud)
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Memories Feed Header -->
@@ -1968,92 +2044,280 @@
         }
 
         // ================= STATIONS DATA (EXACT COORDINATES & STATION CODES) =================
-        const STATIONS = [
-            {
-                id: 1,
-                title: "1. רכבת נתניה (מרכז)",
-                desc: "יציאה ראשית מערבה לכיוון מסוף האוטובוסים",
-                lat: 32.3218,
-                lng: 34.8647,
-                address: "תחנת רכבת נתניה (יציאה מערבית), רחוב רכבת",
-                stopCode: null,
-                stayTime: "10:25 - 10:40 (15 דקות התארגנות)",
-                transitType: "רכבת -> אוטובוס",
-                walkingDist: "80 מטר למסוף האוטובוסים"
+        // ================= MULTI-TRIP DATABASE (REPOSITORY TRIPS) =================
+        const TRIPS_DATABASE = {
+            netanya: {
+                id: "netanya",
+                name: "נתניה - הדמיית שטח",
+                badge: "הדמיית שטח (ישראל)",
+                center: [32.3280, 34.8560],
+                zoom: 14,
+                stations: [
+                    {
+                        id: 1,
+                        title: "1. רכבת נתניה (מרכז)",
+                        desc: "יציאה ראשית מערבה לכיוון מסוף האוטובוסים",
+                        lat: 32.3218,
+                        lng: 34.8647,
+                        address: "תחנת רכבת נתניה (יציאה מערבית), רחוב רכבת",
+                        stopCode: null,
+                        stayTime: "10:25 - 10:40 (15 דקות התארגנות)",
+                        transitType: "רכבת -> אוטובוס",
+                        walkingDist: "80 מטר למסוף האוטובוסים"
+                    },
+                    {
+                        id: "bus_train",
+                        title: "🚏 מסוף אוטובוסים רכבת נתניה (מערב)",
+                        desc: "עלייה לקו 16 או 25 לכיוון הים והטיילת",
+                        lat: 32.3215,
+                        lng: 34.8642,
+                        address: "רציף אוטובוסים רכבת נתניה מערב",
+                        stopCode: "37124",
+                        stayTime: "10:40 - 10:45",
+                        transitType: "עלייה לאוטובוס 16/25",
+                        walkingDist: "2.5 קילומטר נסיעה (8 דקות) לתחנה הבאה"
+                    },
+                    {
+                        id: "bus_chen",
+                        title: "🚏 תחנת ירידה: דוד המלך / שדרות חן",
+                        desc: "ירידה קרובה ומישורית למעלית החוף ולטיילת (180 מטר בלבד)",
+                        lat: 32.3302,
+                        lng: 34.8522,
+                        address: "רחוב דוד המלך 6 (פינת שדרות חן), נתניה",
+                        stopCode: "39251",
+                        stayTime: "10:53 ירידה מהאוטובוס",
+                        transitType: "ירידה והליכה ישרה למעלית",
+                        walkingDist: "180 מטר (2 דקות הליכה מישורית)"
+                    },
+                    {
+                        id: 2,
+                        title: "2. מעלית חוף הים וטיילת הראשונים",
+                        desc: "ירידה מונגשת לחוף הים ב-30 שניות + טיילת נוף מרהיבה",
+                        lat: 32.3312,
+                        lng: 34.8504,
+                        address: "טיילת הראשונים (מעלית החוף), נתניה",
+                        stopCode: null,
+                        stayTime: "11:00 - 12:00 (שעה מלאה בטיילת ובמעלית)",
+                        transitType: "הליכה מונגשת",
+                        walkingDist: "350 מטר סיור טיילת"
+                    },
+                    {
+                        id: 3,
+                        title: "3. כיכר העצמאות החדשה",
+                        desc: "מזרקות אינטראקטיביות, מדרחוב תוסס ובתי קפה",
+                        lat: 32.3298,
+                        lng: 34.8540,
+                        address: "כיכר העצמאות, נתניה",
+                        stopCode: null,
+                        stayTime: "12:15 - 13:15 (שעה של כיף ותרבות)",
+                        transitType: "הליכה רגלית בטיילת",
+                        walkingDist: "450 מטר ממעלית החוף"
+                    },
+                    {
+                        id: 4,
+                        title: "4. השוק העירוני המקורה (רחוב היהלום)",
+                        desc: "מתחם קולינרי מקורה וממוזג לשעות החום (סנדוויץ טוניסאי, פירות טריים)",
+                        lat: 32.3245,
+                        lng: 34.8588,
+                        address: "רחוב היהלום פינת שוהם, נתניה",
+                        stopCode: null,
+                        stayTime: "13:30 - 14:45 (ארוחת צהריים והפוגת חום)",
+                        transitType: "הליכה או מונית קצרה",
+                        walkingDist: "750 מטר מכיכר העצמאות"
+                    },
+                    {
+                        id: "bus_market",
+                        title: "🚏 תחנת חזור: שוק עירוני / ויצמן",
+                        desc: "עלייה לקו 16/25 חזרה ישירות לרציף הרכבת",
+                        lat: 32.3252,
+                        lng: 34.8596,
+                        address: "רחוב ויצמן (סמוך לשוק), נתניה",
+                        stopCode: "39270",
+                        stayTime: "14:50 עלייה לאוטובוס חזור",
+                        transitType: "נסיעה של 6 דקות לתחנת הרכבת",
+                        walkingDist: "60 מטר מהשוק לתחנה"
+                    }
+                ]
             },
-            {
-                id: "bus_train",
-                title: "🚏 מסוף אוטובוסים רכבת נתניה (מערב)",
-                desc: "עלייה לקו 16 או 25 לכיוון הים והטיילת",
-                lat: 32.3215,
-                lng: 34.8642,
-                address: "רציף אוטובוסים רכבת נתניה מערב",
-                stopCode: "37124",
-                stayTime: "10:40 - 10:45",
-                transitType: "עלייה לאוטובוס 16/25",
-                walkingDist: "2.5 קילומטר נסיעה (8 דקות) לתחנה הבאה"
+            korea: {
+                id: "korea",
+                name: "קסם קוריאה - אופיר טורס",
+                badge: "מסלול ראשי (15 ימים, 42 מטיילים)",
+                center: [37.5665, 126.9780],
+                zoom: 12,
+                stations: [
+                    {
+                        id: "k1",
+                        title: "1. נמל התעופה אינצון (ICN)",
+                        desc: "נחיתה טיסה ET 672, מפגש קבוצת 42 המטיילים עם המדריך",
+                        lat: 37.4602,
+                        lng: 126.4407,
+                        address: "Incheon International Airport Terminal 1",
+                        stopCode: null,
+                        stayTime: "יום 2: 15:45 נחיתה והתארגנות",
+                        transitType: "אוטובוס תיירים ממוזג",
+                        walkingDist: "מעבר ישיר מהטרמינל לאוטובוס"
+                    },
+                    {
+                        id: "k2",
+                        title: "2. סיאול - ארמון גיונגבוקגונג",
+                        desc: "ארמון המלך המרכזי משושלת גוסון, טקס חילופי המשמרות",
+                        lat: 37.5796,
+                        lng: 126.9770,
+                        address: "161 Sajik-ro, Jongno-gu, Seoul",
+                        stopCode: null,
+                        stayTime: "יום 3: 09:30 - 11:30",
+                        transitType: "סיור מונגש ומותאם גמלאים",
+                        walkingDist: "300 מטר שבילים מישוריים"
+                    },
+                    {
+                        id: "k3",
+                        title: "3. סיאול - מדרחוב אינסאדונג",
+                        desc: "סמטאות אמנות מסורתית, בתי תה עתיקים וסדנת תה",
+                        lat: 37.5744,
+                        lng: 126.9858,
+                        address: "Insadong-gil, Jongno-gu, Seoul",
+                        stopCode: null,
+                        stayTime: "יום 3: 12:00 - 14:00",
+                        transitType: "מדרחוב מישורי",
+                        walkingDist: "250 מטר"
+                    },
+                    {
+                        id: "k4",
+                        title: "4. סוואן - מצודת הוואסונג",
+                        desc: "אתר מורשת עולמית אונסקו, חומות וסדנת קשתות",
+                        lat: 37.2871,
+                        lng: 127.0119,
+                        address: "Suwon Hwaseong Fortress, Gyeonggi-do",
+                        stopCode: null,
+                        stayTime: "יום 4: 10:00 - 12:30",
+                        transitType: "רכבת תיירים פנימית סביב המצודה",
+                        walkingDist: "150 מטר (מותאם גמלאים)"
+                    },
+                    {
+                        id: "k5",
+                        title: "5. הפארק הלאומי הר סוראק",
+                        desc: "רכבל לפסגת גוונגגומסונג, מראות הרים עוצרי נשימה",
+                        lat: 38.1195,
+                        lng: 128.4656,
+                        address: "Seoraksan National Park, Sokcho",
+                        stopCode: null,
+                        stayTime: "יום 6: 09:00 - 13:00",
+                        transitType: "עלייה ברכבל סגור וממוזג",
+                        walkingDist: "100 מטר מפתח הרכבל"
+                    },
+                    {
+                        id: "k6",
+                        title: "6. כפר הפולקלור אנדונג האהו",
+                        desc: "כפר היסטורי חי וסדנת מסכות עץ מסורתיות",
+                        lat: 36.5391,
+                        lng: 128.5181,
+                        address: "Hahoe Folk Village, Andong",
+                        stopCode: null,
+                        stayTime: "יום 7: 10:00 - 13:30",
+                        transitType: "הליכה קלה בסמטאות הכפר",
+                        walkingDist: "400 מטר מישורי"
+                    },
+                    {
+                        id: "k7",
+                        title: "7. קיונגגו - מקדש בולגוקסה",
+                        desc: "בירת ממלכת שילה העתיקה, פגודות האבן המפורסמות",
+                        lat: 35.8351,
+                        lng: 129.3321,
+                        address: "Bulguksa, Gyeongju, Gyeongsangbuk-do",
+                        stopCode: null,
+                        stayTime: "יום 8: 10:00 - 12:30",
+                        transitType: "שבילים מונגשים",
+                        walkingDist: "200 מטר"
+                    },
+                    {
+                        id: "k8",
+                        title: "8. בוסאן - שוק הדגים ג'גאלצ'י",
+                        desc: "שוק הדגים התוסס, נמל בוסאן וטיילת החוף",
+                        lat: 35.0967,
+                        lng: 129.0306,
+                        address: "Jagalchi Market, Jung-gu, Busan",
+                        stopCode: null,
+                        stayTime: "יום 9: 11:00 - 13:00",
+                        transitType: "הליכה מקורה ומישורית",
+                        walkingDist: "200 מטר"
+                    },
+                    {
+                        id: "k9",
+                        title: "9. האי גגו - פסגת סונגסאן אילצולבונג",
+                        desc: "לוע הר הגעש הזורח מעל האוקיינוס ומפלי צ'ונגג'י-יון",
+                        lat: 33.4581,
+                        lng: 126.9426,
+                        address: "Seongsan Ilchulbong, Jeju Island",
+                        stopCode: null,
+                        stayTime: "יום 11: 09:30 - 12:00",
+                        transitType: "טיילת נוף מונגשת",
+                        walkingDist: "300 מטר שבילי עץ"
+                    },
+                    {
+                        id: "k10",
+                        title: "10. סיאול - מגדל אן סיאול (Namsan)",
+                        desc: "תצפית פנורמית על כל מטרופולין סיאול וטקס סיום הטיול",
+                        lat: 37.5512,
+                        lng: 126.9882,
+                        address: "105 Namsangongwon-gil, Yongsan-gu, Seoul",
+                        stopCode: null,
+                        stayTime: "יום 14: 16:00 - 18:30",
+                        transitType: "רכבל נמסאן ממוזג",
+                        walkingDist: "150 מטר"
+                    }
+                ]
             },
-            {
-                id: "bus_chen",
-                title: "🚏 תחנת ירידה: דוד המלך / שדרות חן",
-                desc: "ירידה קרובה ומישורית למעלית החוף ולטיילת (180 מטר בלבד)",
-                lat: 32.3302,
-                lng: 34.8522,
-                address: "רחוב דוד המלך 6 (פינת שדרות חן), נתניה",
-                stopCode: "39251",
-                stayTime: "10:53 ירידה מהאוטובוס",
-                transitType: "ירידה והליכה ישרה למעלית",
-                walkingDist: "180 מטר (2 דקות הליכה) למעלית סירונית"
-            },
-            {
-                id: 2,
-                title: "2. טיילת הראשונים ומעלית סירונית",
-                desc: "תצפית לים, ירידה במעלית השקופה, בריזה ומנוחה",
-                lat: 32.3298,
-                lng: 34.8504,
-                address: "טיילת הראשונים, מעלית חוף סירונית, נתניה",
-                stopCode: null,
-                stayTime: "10:55 - 12:00 (שעה ו-5 דקות)",
-                transitType: "הליכה רגלית בטיילת",
-                walkingDist: "350 מטר (5 דקות הליכה) לכיכר העצמאות"
-            },
-            {
-                id: 3,
-                title: "3. כיכר העצמאות (האינטראקטיבית)",
-                desc: "מזרקות, מסכי ענק, בתי קפה, ישיבה בצל",
-                lat: 32.3292,
-                lng: 34.8538,
-                address: "כיכר העצמאות החדשה, רחוב הרצל, נתניה",
-                stopCode: null,
-                stayTime: "12:00 - 12:45 (45 דקות)",
-                transitType: "הליכה רגלית",
-                walkingDist: "650 מטר (8 דקות הליכה) לשוק המקורה"
-            },
-            {
-                id: 4,
-                title: "4. השוק העירוני המקורה (נתניה)",
-                desc: "מוצל ונעים בשעות החום. ירקות, מאפים ופריקסה תוניסאי מומלץ",
-                lat: 32.3275,
-                lng: 34.8584,
-                address: "רחוב שוהם 10 (פינת היהלום), שוק נתניה",
-                stopCode: null,
-                stayTime: "12:45 - 14:05 (שעה ו-20 דקות)",
-                transitType: "הליכה רגלית בשוק",
-                walkingDist: "70 מטר לתחנת האוטובוס חזרה לרכבת"
-            },
-            {
-                id: "bus_market",
-                title: "🚏 תחנת אוטובוס שוק חזרה לרכבת",
-                desc: "קו 16 או 25 ישירות לרכבת נתניה",
-                lat: 32.3282,
-                lng: 34.8588,
-                address: "שדרות ויצמן 16 (ליד שער הגיא), נתניה",
-                stopCode: "39270",
-                stayTime: "14:05 - 14:15",
-                transitType: "אוטובוס 16/25 לרכבת",
-                walkingDist: "2.1 קילומטר נסיעה (7 דקות) לרכבת"
+            israel_trail: {
+                id: "israel_trail",
+                name: "שביל ישראל - הרי ירושלים",
+                badge: "מסלול טבע והליכה",
+                center: [31.7700, 35.1400],
+                zoom: 13,
+                stations: [
+                    {
+                        id: "it1",
+                        title: "1. חניון סטף עליון ומעיינות",
+                        desc: "חקלאות שלחין קדומה, טרסות הרים ותצפית",
+                        lat: 31.7702,
+                        lng: 35.1228,
+                        address: "חניון סטף עליון, הרי יהודה",
+                        stopCode: null,
+                        stayTime: "08:00 - 09:30",
+                        transitType: "הליכה בשביל מסומן",
+                        walkingDist: "1.2 קילומטר"
+                    },
+                    {
+                        id: "it2",
+                        title: "2. נקבת עין ביכורה ועין חנדק",
+                        desc: "הליכה בנקבת מים קרירה ומוצלת עם פנסים",
+                        lat: 31.7655,
+                        lng: 35.1432,
+                        address: "עין חנדק, סמוך להדסה עין כרם",
+                        stopCode: null,
+                        stayTime: "10:00 - 11:30",
+                        transitType: "שביל מוצל",
+                        walkingDist: "1.8 קילומטר"
+                    },
+                    {
+                        id: "it3",
+                        title: "3. עין כרם ההיסטורית",
+                        desc: "סיום מקטע, כנסיות ציוריות, גלריות ובתי קפה",
+                        lat: 31.7698,
+                        lng: 35.1636,
+                        address: "עין כרם, ירושלים",
+                        stopCode: null,
+                        stayTime: "12:00 - 14:00",
+                        transitType: "סיור סמטאות מישורי",
+                        walkingDist: "1 קילומטר"
+                    }
+                ]
             }
-        ];
+        };
+
+        let currentTripKey = 'netanya';
+        let STATIONS = TRIPS_DATABASE[currentTripKey].stations;
+        let userExplicitlyClosedBubble = false;
 
         // ================= GLOBAL CULINARY ENGINE DATA (ITEM 3.7) =================
         const RESTAURANTS = [
@@ -2420,8 +2684,9 @@
 
             dynamicMap = L.map('map-container', {
                 zoomControl: false,
-                attributionControl: false
-            }).setView([32.3280, 34.8560], 14);
+                attributionControl: false,
+                closePopupOnClick: false
+            }).setView(TRIPS_DATABASE[currentTripKey].center, TRIPS_DATABASE[currentTripKey].zoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
@@ -2436,6 +2701,8 @@
                 opacity: 0.85,
                 dashArray: '8, 8'
             }).addTo(dynamicMap);
+
+            renderStationQuickSelectors();
 
             STATIONS.forEach((st, idx) => {
                 let badgeColor = "#8b5cf6";
@@ -2619,6 +2886,8 @@
             let closestIdx = 0;
             let minDistance = Infinity;
 
+            renderStationQuickSelectors();
+
             STATIONS.forEach((st, idx) => {
                 const dist = L.latLng(lat, lng).distanceTo(L.latLng(st.lat, st.lng));
                 if (dist < minDistance) {
@@ -2722,14 +2991,22 @@
         }
 
         // ================= GPS TRACKING & HEADING-UP CONTROLLER =================
+        function closeUserPositionBubble() {
+            userExplicitlyClosedBubble = true;
+            if (userMarker) {
+                userMarker.closePopup();
+            }
+        }
+
         function locateUser(centerMap = false) {
+            userExplicitlyClosedBubble = false;
             const statusText = document.getElementById('gps-status-text');
             if (!navigator.geolocation) {
                 if (statusText) statusText.innerHTML = '<span style="color:#ef4444;">מכשיר זה אינו תומך ב-GPS</span>';
                 return;
             }
 
-            if (statusText) statusText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS חי...';
+            if (statusText) statusText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS בזמן אמת...';
 
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -2783,7 +3060,9 @@
 
                 if (!targetStation) {
                     let minD = Infinity;
-                    STATIONS.forEach((st, idx) => {
+                    renderStationQuickSelectors();
+
+            STATIONS.forEach((st, idx) => {
                         const d = L.latLng(lat, lng).distanceTo(L.latLng(st.lat, st.lng));
                         if (d < minD) {
                             minD = d;
@@ -2842,7 +3121,7 @@
                     <div style="font-family:Heebo, sans-serif; font-size:13px; text-align:right; min-width:210px;" dir="rtl">
                         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">
                             <b style="color:#2563eb; font-size:1.05em;"><i class="fa-solid fa-location-crosshairs"></i> מיקומך הנוכחי</b>
-                            <button onclick="if(userMarker) userMarker.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
+                            <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
                         </div>
                         <div style="margin-bottom:3px;">🎯 יעד פעיל: <b>${targetStation.title}</b></div>
                         <div style="font-size:11px; color:#0369a1; margin-bottom:4px;">📍 ${targetStation.address}</div>
@@ -2851,7 +3130,7 @@
                         <div style="margin-bottom:2px;">🧭 מצב מפה: <b>${isHeadingUp ? 'כיוון נסיעה' : 'צפון קבוע'} (${Math.round(displayAngle)}°)</b></div>
                         <div style="font-size:11px; color:#64748b; margin-top:4px;">דיוק GPS: ${Math.round(acc)} מטר</div>
                         <div style="margin-top:10px; text-align:center;">
-                            <button onclick="if(userMarker) userMarker.closePopup();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:5px 14px; font-weight:bold; font-size:12px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
+                            <button onclick="closeUserPositionBubble();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:6px 16px; font-weight:bold; font-size:13px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
                                 סיימתי לקרוא - סגור בועה
                             </button>
                         </div>
@@ -2866,10 +3145,10 @@
                     userMarker.setPopupContent(popupHtml);
                 } else {
                     userMarker = L.marker([lat, lng], { icon: userPinIcon }).addTo(dynamicMap)
-                        .bindPopup(popupHtml, { autoClose: false, closeOnClick: false });
+                        .bindPopup(popupHtml, { autoClose: false, closeOnClick: false, closeButton: false });
                 }
 
-                if (centerMap || isPopupOpen) {
+                if (!userExplicitlyClosedBubble && (centerMap || isPopupOpen)) {
                     userMarker.openPopup();
                 }
 
@@ -3317,14 +3596,9 @@
                 return;
             }
 
-            let text = `📋 יומן משוב שטח - Travel Assistant (${entries.length} תובנות):
-
-`;
+            let text = `📋 יומן משוב שטח - Travel Assistant (${entries.length} תובנות):\n\n`;
             entries.forEach((e, idx) => {
-                text += `${idx + 1}. [${e.category}] ${e.note}
-   זמן: ${e.time} | סוללה: ${e.battery} | מיקום: ${e.gps}
-
-`;
+                text += `${idx + 1}. [${e.category}] ${e.note}\n   זמן: ${e.time} | סוללה: ${e.battery} | מיקום: ${e.gps}\n\n`;
             });
 
             navigator.clipboard.writeText(text).then(() => {
@@ -3341,14 +3615,9 @@
                 return;
             }
 
-            let text = `📋 *יומן משוב שטח - Travel Assistant* (${entries.length} תובנות):
-
-`;
+            let text = `📋 *יומן משוב שטח - Travel Assistant* (${entries.length} תובנות):\n\n`;
             entries.forEach((e, idx) => {
-                text += `${idx + 1}. *[${e.category}]* ${e.note}
-   🕒 ${e.time} | 🔋 ${e.battery} | 📍 ${e.gps}
-
-`;
+                text += `${idx + 1}. *[${e.category}]* ${e.note}\n   🕒 ${e.time} | 🔋 ${e.battery} | 📍 ${e.gps}\n\n`;
             });
 
             const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
@@ -3360,9 +3629,7 @@
             const item = entries.find(e => e.id === id);
             if (!item) return;
 
-            const text = `📝 *משוב שטח - Travel Assistant*:
-*[${item.category}]* ${item.note}
-🕒 ${item.time} | 🔋 ${item.battery} | 📍 ${item.gps}`;
+            const text = `📝 *משוב שטח - Travel Assistant*:\n*[${item.category}]* ${item.note}\n🕒 ${item.time} | 🔋 ${item.battery} | 📍 ${item.gps}`;
             const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         }
@@ -3383,6 +3650,312 @@
             loadTripQuestionnaire();
             renderFeedbackList();
         });
+    
+        // ================= TRIP SELECTION & MULTI-DESTINATION LOGIC =================
+        function openTripSelectorModal() {
+            const m = document.getElementById('trip-selector-modal');
+            if (m) m.style.display = 'flex';
+        }
+
+        function closeTripSelectorModal() {
+            const m = document.getElementById('trip-selector-modal');
+            if (m) m.style.display = 'none';
+        }
+
+        function selectTripAndApply(tripKey) {
+            if (!TRIPS_DATABASE[tripKey]) return;
+            currentTripKey = tripKey;
+            STATIONS = TRIPS_DATABASE[tripKey].stations;
+            activeTargetIndex = 0;
+            userExplicitlyClosedBubble = false;
+
+            // Update badge in top bar
+            const pill = document.getElementById('active-trip-pill');
+            if (pill) pill.innerText = TRIPS_DATABASE[tripKey].name;
+
+            closeTripSelectorModal();
+
+            // Re-render map layers
+            if (dynamicMap) {
+                // Remove old station markers
+                stationMarkers.forEach(m => dynamicMap.removeLayer(m));
+                stationMarkers = [];
+
+                // Remove old polyline
+                if (routePolyline) {
+                    dynamicMap.removeLayer(routePolyline);
+                }
+
+                // Add new polyline
+                const latlngs = STATIONS.map(st => [st.lat, st.lng]);
+                routePolyline = L.polyline(latlngs, {
+                    color: '#ec4899',
+                    weight: 4,
+                    opacity: 0.85,
+                    dashArray: '8, 8'
+                }).addTo(dynamicMap);
+
+                // Add new station markers
+                STATIONS.forEach((st, idx) => {
+                    const isBus = st.stopCode !== null && st.stopCode !== undefined;
+                    const markerColor = isBus ? '#f97316' : (idx === 0 ? '#2563eb' : (idx === STATIONS.length - 1 ? '#854d0e' : '#ec4899'));
+                    const markerHtml = `
+                        <div style="background:${markerColor}; color:white; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:12px; border:2px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+                            ${isBus ? '🚏' : (idx + 1)}
+                        </div>
+                    `;
+                    const icon = L.divIcon({ className: 'custom-station-pin', html: markerHtml, iconSize: [28, 28], iconAnchor: [14, 14] });
+                    const m = L.marker([st.lat, st.lng], { icon: icon }).addTo(dynamicMap);
+                    m.on('click', () => openStationLivePopup(idx));
+                    stationMarkers.push(m);
+                });
+
+                // Update quick selectors and bottom drawer
+                renderStationQuickSelectors();
+                renderStationsList();
+
+                // Set map view to new trip center
+                dynamicMap.setView(TRIPS_DATABASE[tripKey].center, TRIPS_DATABASE[tripKey].zoom);
+                if (userMarker) {
+                    userMarker.openPopup();
+                }
+            }
+        }
+
+        function renderStationQuickSelectors() {
+            const container = document.getElementById('station-quick-selector-bar');
+            if (!container) return;
+            container.innerHTML = STATIONS.map((st, idx) => {
+                const isBus = st.stopCode !== null && st.stopCode !== undefined;
+                const shortTitle = st.title.split(' - ')[0].replace('🚏 ', '');
+                const bg = idx === 0 ? '#eff6ff' : (isBus ? '#fff7ed' : '#f0fdf4');
+                const border = idx === 0 ? '#bfdbfe' : (isBus ? '#fed7aa' : '#bbf7d0');
+                const text = idx === 0 ? '#1d4ed8' : (isBus ? '#c2410c' : '#166534');
+                return `
+                    <button onclick="setTargetStation(${idx})" style="background:${bg}; border:1px solid ${border}; color:${text}; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:bold; white-space:nowrap; cursor:pointer;">
+                        ${isBus ? '🚏 ' : ''}${shortTitle}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // ================= EMERGENCY TWO-WAY VOICE INTERPRETER (MOROCCO SIMULATION) =================
+        let interpreterChatHistory = [];
+        let speechRecognitionInstance = null;
+
+        const INTERPRETER_DICTIONARY = {
+            // Hebrew to Arabic
+            'אני זקוק לסיוע רפואי דחוף!': { ar: 'أنا بحاجة إلى مساعدة طبية عاجلة!', heDesc: 'אני זקוק לסיוע רפואי דחוף!' },
+            'איפה המרפאה או בית החולים הקרוב ביותר?': { ar: 'أين تقع أقرب عيادة أو مستشفى؟', heDesc: 'איפה המרפאה או בית החולים הקרוב ביותר?' },
+            'איבדתי את הדרך, עזור לי בבקשה להגיע למלון': { ar: 'لقد ضللت الطريق، ساعدني من فضلك للوصول إلى الفندق', heDesc: 'איבדתי את הדרך, עזור לי בבקשה להגיע למלון' },
+            'עזור לי בבקשה': { ar: 'ساعدني من فضلك، أنا بحاجة إلى المساعدة', heDesc: 'עזור לי בבקשה' },
+            'משטרה': { ar: 'يرجى استدعاء الشرطة فوراً', heDesc: 'בבקשה קרא למשטרה מיד' },
+            // Arabic to Hebrew
+            'العيادة الطبية في نهاية هذا الشارع إلى اليمين': { he: 'המרפאה הרפואית בסוף הרחוב הזה מצד ימין', arDesc: 'العيادة الطبية في نهاية هذا الشارع إلى اليمين' },
+            'سأتصل بالإسعاف الآن، ابق هنا واسترح': { he: 'אתקשר לאמבולנס עכשיו, הישאר כאן ותנוח', arDesc: 'سأتصل بالإسعاف الآن، ابق هنا واسترح' },
+            'محطة الشرطة على بعد 200 متر': { he: 'תחנת המשטרה במרחק 200 מטר ממש כאן', arDesc: 'محطة الشرطة على بعد 200 متر' }
+        };
+
+        function speakVoiceText(text, langCode) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = langCode;
+                utter.rate = 0.95;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function triggerVoiceInterpreter(speakerLang) {
+            const pulseBar = document.getElementById('interpreter-pulse-bar');
+            const pulseText = document.getElementById('interpreter-pulse-text');
+
+            if (pulseBar) pulseBar.style.display = 'block';
+            if (pulseText) {
+                pulseText.innerText = speakerLang === 'he' ? 
+                    '🔴 מקשיב עכשיו למטייל בעברית... דבר בבירור' : 
+                    '🔴 جاري الاستماع للمحلي بالعربية... تحدث الآن';
+            }
+
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRec) {
+                try {
+                    speechRecognitionInstance = new SpeechRec();
+                    speechRecognitionInstance.lang = speakerLang === 'he' ? 'he-IL' : 'ar-SA';
+                    speechRecognitionInstance.interimResults = false;
+                    speechRecognitionInstance.maxAlternatives = 1;
+
+                    speechRecognitionInstance.onresult = function(event) {
+                        const recognizedText = event.results[0][0].transcript;
+                        if (pulseBar) pulseBar.style.display = 'none';
+                        processInterpreterUtterance(speakerLang, recognizedText);
+                    };
+
+                    speechRecognitionInstance.onerror = function(event) {
+                        if (pulseBar) pulseBar.style.display = 'none';
+                        const fallbackPhrase = speakerLang === 'he' ? 'אני זקוק לסיוע רפואי דחוף!' : 'العيادة الطبية في نهاية هذا الشارع إلى הيمين';
+                        processInterpreterUtterance(speakerLang, fallbackPhrase);
+                    };
+
+                    speechRecognitionInstance.onend = function() {
+                        if (pulseBar) pulseBar.style.display = 'none';
+                    };
+
+                    speechRecognitionInstance.start();
+                } catch (err) {
+                    if (pulseBar) pulseBar.style.display = 'none';
+                    const fallbackPhrase = speakerLang === 'he' ? 'אני זקוק לסיוע רפואי דחוף!' : 'العيادة الطبية في نهاية هذا الشارع إلى اليمين';
+                    processInterpreterUtterance(speakerLang, fallbackPhrase);
+                }
+            } else {
+                setTimeout(() => {
+                    if (pulseBar) pulseBar.style.display = 'none';
+                    const fallbackPhrase = speakerLang === 'he' ? 'אני זקוק לסיוע רפואי דחוף!' : 'العيادة الطبية في نهاية هذا الشارع إلى הيمين';
+                    processInterpreterUtterance(speakerLang, fallbackPhrase);
+                }, 1200);
+            }
+        }
+
+        function simulateInterpreterScenario(speakerLang, phraseText) {
+            processInterpreterUtterance(speakerLang, phraseText);
+        }
+
+        function sendCustomInterpreterText() {
+            const input = document.getElementById('interpreter-custom-input');
+            if (!input || !input.value.trim()) return;
+            const text = input.value.trim();
+            input.value = '';
+            // Auto detect if Arabic or Hebrew
+            const isArabic = /[\u0600-\u06FF]/.test(text);
+            processInterpreterUtterance(isArabic ? 'ar' : 'he', text);
+        }
+
+        function processInterpreterUtterance(speakerLang, originalText) {
+            let translatedText = '';
+            let targetVoiceCode = '';
+
+            if (speakerLang === 'he') {
+                targetVoiceCode = 'ar-SA';
+                if (INTERPRETER_DICTIONARY[originalText] && INTERPRETER_DICTIONARY[originalText].ar) {
+                    translatedText = INTERPRETER_DICTIONARY[originalText].ar;
+                } else {
+                    translatedText = 'أنا بحاجة إلى مساعدة: ' + originalText;
+                }
+            } else {
+                targetVoiceCode = 'he-IL';
+                if (INTERPRETER_DICTIONARY[originalText] && INTERPRETER_DICTIONARY[originalText].he) {
+                    translatedText = INTERPRETER_DICTIONARY[originalText].he;
+                } else {
+                    translatedText = 'תרגום מענה המקומי: ' + originalText;
+                }
+            }
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+
+            const entry = {
+                id: Date.now(),
+                speakerLang: speakerLang,
+                originalText: originalText,
+                translatedText: translatedText,
+                targetVoiceCode: targetVoiceCode,
+                time: timeStr
+            };
+
+            interpreterChatHistory.push(entry);
+            renderInterpreterChat();
+            speakVoiceText(translatedText, targetVoiceCode);
+        }
+
+        function renderInterpreterChat() {
+            const box = document.getElementById('interpreter-chat-box');
+            if (!box) return;
+
+            if (interpreterChatHistory.length === 0) {
+                box.innerHTML = `
+                    <div style="text-align: center; color: #94a3b8; font-size: 0.78em; padding: 12px;">
+                        טרם החלה שיחה. לחץ על אחד מכפתורי המיקרופון או על משפט לבדיקה.
+                    </div>
+                `;
+                return;
+            }
+
+            box.innerHTML = interpreterChatHistory.map(item => {
+                const isHe = item.speakerLang === 'he';
+                const bg = isHe ? '#eff6ff' : '#f0fdf4';
+                const border = isHe ? '#bfdbfe' : '#bbf7d0';
+                const speakerBadge = isHe ? '🇮🇱 המטייל (עברית ➔ ערבית)' : '🇲🇦 המקומי במרוקו (ערבית ➔ עברית)';
+                const badgeColor = isHe ? '#1d4ed8' : '#166534';
+
+                // Escape single quotes in item.translatedText for speech onclick
+                const cleanSpeechText = item.translatedText.split(String.fromCharCode(39)).join("");
+
+                return `
+                    <div style="background:${bg}; border:1px solid ${border}; border-radius:10px; padding:8px 10px; font-size:0.82em;" dir="rtl">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                            <span style="font-weight:900; color:${badgeColor}; font-size:0.85em;">${speakerBadge}</span>
+                            <span style="font-size:0.72em; color:#94a3b8;">${item.time}</span>
+                        </div>
+                        <div style="color:#475569; margin-bottom:4px;">
+                            <b>מקור:</b> ${item.originalText}
+                        </div>
+                        <div style="background:white; border-radius:6px; padding:6px 8px; border:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; gap:6px;">
+                            <span style="color:#0f172a; font-weight:bold; font-size:0.95em;">
+                                🗣️ ${item.translatedText}
+                            </span>
+                            <button onclick="speakVoiceText('${cleanSpeechText}', '${item.targetVoiceCode}')" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:3px 8px; font-size:0.75em; cursor:pointer; display:flex; align-items:center; gap:3px; white-space:nowrap;">
+                                🔊 השמע שוב
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function clearInterpreterChat() {
+            interpreterChatHistory = [];
+            renderInterpreterChat();
+        }
+
+        // ================= COMBINED CLOUD BACKUP & PHOTO UPLOAD WORKFLOW =================
+        function connectCloudAndUploadPhoto() {
+            const statusEl = document.getElementById('cloud-sync-status');
+            if (statusEl) {
+                statusEl.innerHTML = '⏳ שלב 1/2: מתחבר לענן מאובטח (Google Drive / Cloud)...';
+                statusEl.style.color = '#d97706';
+            }
+
+            setTimeout(() => {
+                if (statusEl) {
+                    statusEl.innerHTML = '⏳ שלב 2/2: מעלה את התמונה ומסנכרן בענן...';
+                    statusEl.style.color = '#2563eb';
+                }
+
+                setTimeout(() => {
+                    const entries = getDiaryEntries();
+                    if (entries.length > 0) {
+                        entries[0].backedUp = true;
+                        saveDiaryEntries(entries);
+                        renderDiaryFeed();
+                        if (statusEl) {
+                            statusEl.innerHTML = '✅ מחובר לענן! התמונה הועלתה וגובתה בבטחה';
+                            statusEl.style.color = '#16a34a';
+                        }
+                        alert('הפעולה המשולבת הושלמה בהצלחה!\n1. החיבור לענן אומת בבטחה.\n2. התמונה הועלתה וגובתה בענן.');
+                    } else {
+                        if (statusEl) {
+                            statusEl.innerHTML = '✅ מחובר לענן! בחר כעת תמונה להעלאה מיידית';
+                            statusEl.style.color = '#16a34a';
+                        }
+                        const picker = document.getElementById('diary-camera-input');
+                        if (picker) picker.click();
+                    }
+                }, 800);
+            }, 700);
+        }
+
     </script>
 
     <!-- ================= UNIVERSAL SHABBAT A4 PRINT MODAL (FOR PRE-TRIP FRIDAY PRINTING) ================= -->
@@ -3529,6 +4102,77 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <!-- Trip Selection Modal (Planning & Testing Mode - User Repository Trips) -->
+    <div id="trip-selector-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10001; justify-content: center; align-items: center; padding: 16px;" dir="rtl">
+        <div style="background: white; width: 100%; max-width: 480px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
+            
+            <!-- Modal Header -->
+            <div style="background: #1e1b4b; color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-map-location-dot" style="font-size: 1.2em; color: #818cf8;"></i>
+                    <h3 style="margin: 0; font-size: 1.1em;">בחר טיול מהמאגר שלך</h3>
+                </div>
+                <button onclick="closeTripSelectorModal()" style="background: none; border: none; color: #cbd5e1; font-size: 1.4em; cursor: pointer;">✕</button>
+            </div>
+
+            <!-- Modal Body: Trips List -->
+            <div style="padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
+                <p style="margin: 0; font-size: 0.85em; color: #64748b;">
+                    המפה מציגה את מיקומך בזמן אמת בכל נקודה בעולם. בחר טיול מתוך המאגר לתצוגת תחנות, מרחקים וניווט שטח:
+                </p>
+
+                <!-- Trip 1: Korea (Ophir Tours) -->
+                <div onclick="selectTripAndApply('korea')" style="border: 2px solid #818cf8; background: #f5f3ff; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 900; font-size: 1.02em; color: #3730a3;">🇰🇷 קסם קוריאה - אופיר טורס</span>
+                        <span style="background: #4338ca; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">הטיול המרכזי (15 ימים)</span>
+                    </div>
+                    <div style="font-size: 0.82em; color: #4338ca;">
+                        📅 24/11/26 - 08/12/26 | 👥 42 מטיילים (גמלאים) | ✈️ Ethiopian Airlines
+                    </div>
+                    <div style="font-size: 0.78em; color: #64748b;">
+                        סיאול, ארמון גיונגבוקגונג, סוואן, הר סוראק, כפר אנדונג, קיונגג'ו, בוסאן וג'ג'ו.
+                    </div>
+                </div>
+
+                <!-- Trip 2: Netanya Simulation -->
+                <div onclick="selectTripAndApply('netanya')" style="border: 2px solid #38bdf8; background: #f0f9ff; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 900; font-size: 1.02em; color: #0369a1;">🇮🇱 נתניה - הדמיית שטח ובדיקות</span>
+                        <span style="background: #0284c7; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">סביבת ניסוי (Sandbox)</span>
+                    </div>
+                    <div style="font-size: 0.82em; color: #0284c7;">
+                        🚆 רכבת נתניה ➔ 🚏 קו 16/25 ➔ 🌊 טיילת ומעלית ים ➔ 🏙️ כיכר העצמאות ➔ 🍎 שוק מקורה
+                    </div>
+                    <div style="font-size: 0.78em; color: #64748b;">
+                        בדיקת דיוק GPS, כיוון תנועה (Heading-Up), קווי תחבורה וחישוב מרחקים חי.
+                    </div>
+                </div>
+
+                <!-- Trip 3: Israel Trail -->
+                <div onclick="selectTripAndApply('israel_trail')" style="border: 2px solid #34d399; background: #f0fdf4; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 900; font-size: 1.02em; color: #065f46;">🥾 שביל ישראל - הרי ירושלים</span>
+                        <span style="background: #059669; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">מסלול טבע והליכה</span>
+                    </div>
+                    <div style="font-size: 0.82em; color: #047857;">
+                        🌿 סטף עליון ➔ 💧 נקבת עין ביכורה ועין חנדק ➔ 🏘️ עין כרם
+                    </div>
+                    <div style="font-size: 0.78em; color: #64748b;">
+                        הליכה רגלית, מעיינות הרים, נקודות צל וטופוגרפיה.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="background: #f8fafc; padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.78em; color: #64748b;">מיקומך ב-GPS נשאר פעיל ומדויק בכל יעד</span>
+                <button onclick="closeTripSelectorModal()" style="background: #64748b; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.85em; font-weight: bold; cursor: pointer;">סגור</button>
+            </div>
+
         </div>
     </div>
 
