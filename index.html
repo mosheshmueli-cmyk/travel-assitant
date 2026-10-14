@@ -276,6 +276,41 @@
         .pulse-ring {
             animation: userPulse 2s infinite ease-in-out;
         }
+
+        /* North Compass Rose Overlay */
+        .compass-rose {
+            position: absolute;
+            top: 75px;
+            left: 12px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #334155;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+            font-family: Arial, sans-serif;
+        }
+        .compass-arrow-north {
+            width: 0; 
+            height: 0; 
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 15px solid #ef4444; /* Red needle points North */
+            margin-bottom: 1px;
+        }
+        .compass-text-n {
+            font-size: 9px;
+            font-weight: 900;
+            color: #ef4444;
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
     </style>
 
     <!-- Leaflet Map CSS & JS -->
@@ -370,16 +405,23 @@
 
             <!-- Station Quick Selector -->
             <div style="background: #f8fafc; padding: 6px 12px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 6px; overflow-x: auto;">
-                <button onclick="focusStation(0)" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 3px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold; white-space: nowrap;">1. רכבת</button>
-                <button onclick="focusStation(1)" style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 3px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold; white-space: nowrap;">🚏 אוטובוס רכבת</button>
-                <button onclick="focusStation(2)" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 3px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold; white-space: nowrap;">2. טיילת ומעלית</button>
-                <button onclick="focusStation(3)" style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; padding: 3px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold; white-space: nowrap;">3. כיכר העצמאות</button>
-                <button onclick="focusStation(4)" style="background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 3px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold; white-space: nowrap;">4. שוק מקורה</button>
-                <button onclick="focusStation(5)" style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 3px 8px; border-radius: 6px; font-size: 0.75em; font-weight: bold; white-space: nowrap;">🚏 אוטובוס שוק</button>
+                <button onclick="setTargetStation(0)" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">1. רכבת</button>
+                <button onclick="setTargetStation(1)" style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">🚏 מסוף אוטובוס</button>
+                <button onclick="setTargetStation(2)" style="background: #fef3c7; border: 1px solid #fde68a; color: #b45309; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">🚏 ירידה דוד המלך</button>
+                <button onclick="setTargetStation(3)" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">2. טיילת ומעלית</button>
+                <button onclick="setTargetStation(4)" style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">3. כיכר העצמאות</button>
+                <button onclick="setTargetStation(5)" style="background: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">4. שוק מקורה</button>
+                <button onclick="setTargetStation(6)" style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 4px 9px; border-radius: 6px; font-size: 0.78em; font-weight: bold; white-space: nowrap;">🚏 אוטובוס חזרה</button>
             </div>
             
-            <!-- Map Container -->
-            <div id="map-container"></div>
+            <!-- Map Container with Compass Rose -->
+            <div style="position: relative;">
+                <div class="compass-rose" title="שושנת רוחות: הצפון במפה (North)">
+                    <div class="compass-arrow-north"></div>
+                    <div class="compass-text-n">N צפון</div>
+                </div>
+                <div id="map-container"></div>
+            </div>
 
             <!-- Route Stations & Distances Drawer -->
             <div class="distance-card-sheet">
@@ -440,10 +482,10 @@
                             <tbody>
                                 <tr>
                                     <td><b style="color:#2563eb;">0</b></td>
-                                    <td><b style="color:#2563eb;">נקודת זינוק אישית (העצמאות 93)</b></td>
+                                    <td><b style="color:#2563eb;">נקודת יציאה מהבית (שדרות העצמאות 93, אשדוד)</b></td>
                                     <td>ברגל לתחנת העצמאות/הציונות</td>
-                                    <td>180 מ'</td>
-                                    <td>3 דק' הליכה</td>
+                                    <td>180 מטר</td>
+                                    <td>3 דקות הליכה</td>
                                     <td><b style="color:#2563eb;">08:30</b> (יציאה מהדלת)</td>
                                     <td>יציאה רגועה מהבית לתחנת האוטובוס.</td>
                                 </tr>
@@ -452,7 +494,7 @@
                                     <td><b style="color:#2563eb;">תחנת אוטובוס (כיוון רכבת עד הלום)</b></td>
                                     <td>קו 1 (או 23) אפיקים - <b>תחנה 13143</b></td>
                                     <td>ציר מנחם בגין (דרומה לרכבת)</td>
-                                    <td>20 דק' נסיעה</td>
+                                    <td>20 דקות נסיעה</td>
                                     <td>08:35 - 08:55</td>
                                     <td><b>בצד של העצמאות 93 (ללא חציית כביש!):</b> עולים בתחנה בצד המזרחי לכיוון דרום/רכבת. אין לעבור לצד השני!</td>
                                 </tr>
@@ -460,8 +502,8 @@
                                     <td><b style="color:#16a34a;">🚶</b></td>
                                     <td><b style="color:#16a34a;">הגעה לרכבת + מקדם ביטחון</b></td>
                                     <td>הליכה מהמסוף לרציף</td>
-                                    <td>120 מ'</td>
-                                    <td>4 דק'</td>
+                                    <td>120 מטר</td>
+                                    <td>4 דקות</td>
                                     <td>08:55 - 09:05</td>
                                     <td>כניסה בשערים, כרטוס והגעה רגועה לרציף!</td>
                                 </tr>
@@ -479,7 +521,7 @@
                                     <td><b>תחנת יבנה מזרח</b></td>
                                     <td>רכבת מס' 238</td>
                                     <td>-</td>
-                                    <td>11 דק'</td>
+                                    <td>11 דקות</td>
                                     <td>איסוף: 09:19</td>
                                     <td>החבר עולה לאותה הרכבת.</td>
                                 </tr>
@@ -488,8 +530,8 @@
                                     <td><b>תחנת רכבת נתניה (מרכז)</b></td>
                                     <td>רכבת מס' 238</td>
                                     <td>-</td>
-                                    <td>66 דק'</td>
-                                    <td>הגעה: 10:25 (15 דק')</td>
+                                    <td>66 דקות</td>
+                                    <td>הגעה: 10:25 (15 דקות)</td>
                                     <td><b>לא ספיר!</b> מפגש 3 החברים באולם.</td>
                                 </tr>
                                 <tr>
@@ -497,18 +539,18 @@
                                     <td><b>מסוף אוטובוסים רכבת נתניה</b></td>
                                     <td>קו 16 / 25</td>
                                     <td>30 מטר ברגל</td>
-                                    <td>1 דק'</td>
+                                    <td>1 דקה</td>
                                     <td>עולים לאוטובוס</td>
                                     <td>יוצאים מערבה מהרכבת ישר לתחנה.</td>
                                 </tr>
                                 <tr>
                                     <td><b>4</b></td>
-                                    <td><b>נסיעה לטיילת הראשונים</b></td>
+                                    <td><b>נסיעה לטיילת הראשונים (קו 16/25)</b></td>
                                     <td>באוטובוס 16/25</td>
-                                    <td>2.4 ק"מ</td>
-                                    <td>9 דק' נסיעה</td>
+                                    <td>2.4 קילומטר</td>
+                                    <td>9 דקות נסיעה</td>
                                     <td>10:40 - 10:50</td>
-                                    <td>יורדים בכיכר העצמאות / דוד המלך.</td>
+                                    <td><b>ירידה בתחנת דוד המלך / כיכר:</b> תחנת ההורדה נמצאת כ-180 מטר בלבד (2 דקות הליכה נוחה במישור) ממעלית הים והטיילת!</td>
                                 </tr>
                                 <tr>
                                     <td><b>5</b></td>
@@ -878,7 +920,9 @@
         let netanyaMarkers = [];
         let currentPosition = null;
 
-        // Key numbered sites and bus stations in Netanya (עם כתובות מדויקות וקואורדינטות מאומתות)
+        let activeTargetIndex = null;
+
+        // Key numbered sites and bus stations in Netanya (עם כתובות מדויקות, קואורדינטות ותחנות אוטובוס)
         const STATIONS = [
             { 
                 id: "1", 
@@ -901,6 +945,17 @@
                 transitInfo: "עולים על קו 16 או 25. תדירות: כל 8-10 דקות.",
                 nextDist: "2.4 קילומטר נסיעה ישירה עד תחנת דוד המלך / כיכר העצמאות",
                 color: "#f97316"
+            },
+            { 
+                id: "🚏", 
+                type: "bus-drop",
+                lat: 32.3282, lng: 34.8538, 
+                title: "תחנת ירידה קו 16/25 (דוד המלך / כיכר)", 
+                address: "רחוב דוד המלך / שדרות חן, נתניה",
+                desc: "תחנת ההורדה של קווי 16 ו-25. ירידה קלה ובטוחה. מרחק קצר של 180 מטר בלבד (2 דקות הליכה) ממעלית הים והטיילת!",
+                transitInfo: "יורדים מהאוטובוס וצועדים ישר מערבה כ-2 דקות אל מעלית החוף וכיכר העצמאות.",
+                nextDist: "180 מטר הליכה מערבה (2 דקות למעלית החוף)",
+                color: "#f59e0b"
             },
             { 
                 id: "2", 
@@ -978,8 +1033,12 @@
                                 <div style="background:#f1f5f9; padding:4px 6px; border-radius:4px; margin:4px 0; font-size:12px;">
                                     <b>🚌 הנחיות מעבר:</b> ${st.transitInfo}
                                 </div>
-                                <div style="color:#7c3aed; font-weight:bold; font-size:12px;">
+                                <div style="color:#7c3aed; font-weight:bold; font-size:12px; margin-bottom:8px;">
                                     ⬅️ לקטע הבא: ${st.nextDist}
+                                </div>
+                                <div style="display:flex; gap:6px;">
+                                    <button onclick="setTargetStation(${idx})" style="background:#2563eb; color:white; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:11px;">🎯 כוון אותי לכאן</button>
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=${st.lat},${st.lng}" target="_blank" style="background:#059669; color:white; padding:4px 8px; border-radius:4px; text-decoration:none; font-weight:bold; font-size:11px;">🗺️ ניווט חי</a>
                                 </div>
                             </div>
                         `);
@@ -1040,11 +1099,28 @@
             );
         }
 
+        function calculateBearing(lat1, lon1, lat2, lon2) {
+            const y = Math.sin((lon2 - lon1) * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180);
+            const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
+                      Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos((lon2 - lon1) * Math.PI / 180);
+            const brng = Math.atan2(y, x) * 180 / Math.PI;
+            return (brng + 360) % 360;
+        }
+
+        function setTargetStation(idx) {
+            activeTargetIndex = idx;
+            focusStation(idx);
+            if (currentPosition) {
+                updateUserGpsOnMap(currentPosition, false);
+            }
+        }
+
         function updateUserGpsOnMap(position, centerMap = false) {
             currentPosition = position;
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             const acc = position.coords.accuracy;
+            const heading = position.coords.heading; // Device compass heading if moving
             const statusText = document.getElementById('gps-status-text');
 
             if (dynamicMap) {
@@ -1055,25 +1131,67 @@
                 if (userMarker) dynamicMap.removeLayer(userMarker);
                 if (accuracyCircle) dynamicMap.removeLayer(accuracyCircle);
 
+                // Identify target destination: either manually selected or closest upcoming
+                let targetStation = (activeTargetIndex !== null && STATIONS[activeTargetIndex]) ? STATIONS[activeTargetIndex] : null;
+
+                if (!targetStation) {
+                    let minD = Infinity;
+                    STATIONS.forEach((st, idx) => {
+                        const d = L.latLng(lat, lng).distanceTo(L.latLng(st.lat, st.lng));
+                        if (d < minD) {
+                            minD = d;
+                            targetStation = st;
+                        }
+                    });
+                }
+
+                const targetDistance = L.latLng(lat, lng).distanceTo(L.latLng(targetStation.lat, targetStation.lng));
+                const targetBearing = calculateBearing(lat, lng, targetStation.lat, targetStation.lng);
+                const displayAngle = (heading !== null && !isNaN(heading)) ? heading : targetBearing;
+
+                // Estimated Time of Arrival (ETA) calculation:
+                // If distance > 700m, assume public transit / bus speed (~25 km/h). Otherwise walking (~4.5 km/h)
+                let etaMinutes = 0;
+                let transitModeLabel = "";
+                if (targetDistance > 700) {
+                    etaMinutes = Math.max(1, Math.round(targetDistance / (25 * 1000 / 60)));
+                    transitModeLabel = "בנסיעה";
+                } else {
+                    etaMinutes = Math.max(1, Math.round(targetDistance / (4.5 * 1000 / 60)));
+                    transitModeLabel = "ברגל";
+                }
+
+                const distStr = (targetDistance < 1000) ? `${Math.round(targetDistance)} מטר` : `${(targetDistance / 1000).toFixed(2)} קילומטר`;
+                const etaStr = `${etaMinutes} דקות (${transitModeLabel})`;
+
+                // User Pin HTML with flashing directional arrow pointing towards the destination ("עם הפנים ליעד")
                 const userPinHtml = `
-                    <div style="position:relative; width:22px; height:22px;">
-                        <div style="width:20px; height:20px; background:#2563eb; border:3px solid #ffffff; border-radius:50%; box-shadow:0 0 10px rgba(37,99,235,0.8);"></div>
-                        <div class="pulse-ring" style="position:absolute; top:-6px; left:-6px; width:32px; height:32px; border:2px solid #3b82f6; border-radius:50%;"></div>
+                    <div style="position:relative; width:38px; height:38px; display:flex; align-items:center; justify-content:center;">
+                        <div style="position:absolute; width:18px; height:18px; background:#2563eb; border:3px solid #ffffff; border-radius:50%; box-shadow:0 0 10px rgba(37,99,235,0.8); z-index:2;"></div>
+                        <div class="pulse-ring" style="position:absolute; width:34px; height:34px; border:2px solid #3b82f6; border-radius:50%; z-index:1;"></div>
+                        <div style="position:absolute; top:-6px; width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-bottom:16px solid #f59e0b; transform: rotate(${displayAngle}deg); transform-origin: 50% 25px; filter: drop-shadow(0 0 3px rgba(0,0,0,0.6)); z-index:3;" title="כיוון עם הפנים ליעד: ${targetStation.title}"></div>
                     </div>
                 `;
 
                 const userPinIcon = L.divIcon({
                     className: 'user-pin-marker',
                     html: userPinHtml,
-                    iconSize: [22, 22],
-                    iconAnchor: [11, 11]
+                    iconSize: [38, 38],
+                    iconAnchor: [19, 19]
                 });
 
-                const distToNetanyaMeters = L.latLng(lat, lng).distanceTo(L.latLng(STATIONS[0].lat, STATIONS[0].lng));
-                const distToNetanyaKm = (distToNetanyaMeters / 1000).toFixed(1);
-
                 userMarker = L.marker([lat, lng], { icon: userPinIcon }).addTo(dynamicMap)
-                    .bindPopup(`<b>📍 אתה נמצא כאן עכשיו!</b><br>דיוק: ${Math.round(acc)} מטרים<br>מרחק מרכבת נתניה: <b>${distToNetanyaKm} ק"מ</b>`);
+                    .bindPopup(`
+                        <div style="font-family:Heebo; font-size:13px; text-align:right;" dir="rtl">
+                            <b style="color:#2563eb;">📍 מיקומך הנוכחי בזמן אמת</b><br>
+                            <div>🎯 יעד נוכחי: <b>${targetStation.title}</b></div>
+                            <div style="font-size:11px; color:#0369a1;">📍 ${targetStation.address}</div>
+                            <div>📏 מרחק ליעד: <b style="color:#16a34a;">${distStr}</b></div>
+                            <div>⏱️ זמן הגעה משוער: <b style="color:#2563eb;">${etaStr}</b></div>
+                            <div>🧭 כיוון חץ (עם הפנים ליעד): <b>${Math.round(displayAngle)}°</b></div>
+                            <div style="font-size:11px; color:#64748b; margin-top:4px;">דיוק GPS: ${Math.round(acc)} מטר</div>
+                        </div>
+                    `);
 
                 if (centerMap) userMarker.openPopup();
 
@@ -1086,7 +1204,12 @@
                 }).addTo(dynamicMap);
 
                 if (statusText) {
-                    statusText.innerHTML = `<span style="color:#16a34a;"><i class="fa-solid fa-circle-check"></i> זוהה מיקומך! (${distToNetanyaKm} ק"מ מנתניה)</span>`;
+                    statusText.innerHTML = `
+                        <div style="display:flex; flex-direction:column; line-height:1.2;">
+                            <span style="color:#16a34a; font-weight:800; font-size:0.9em;"><i class="fa-solid fa-location-arrow"></i> יעד: ${targetStation.title}</span>
+                            <span style="font-size:0.75em; color:#334155;">מרחק שנותר: <b>${distStr}</b> | הגעה: <b>${etaStr}</b></span>
+                        </div>
+                    `;
                 }
 
                 renderStationsList();
@@ -1105,21 +1228,27 @@
                     const uLng = currentPosition.coords.longitude;
                     const dM = L.latLng(uLat, uLng).distanceTo(L.latLng(st.lat, st.lng));
                     if (dM < 1000) {
-                        userDistStr = `<span style="color:#2563eb; font-weight:bold;">📍 ${Math.round(dM)} מ' ממך</span>`;
+                        userDistStr = `<span style="color:#2563eb; font-weight:bold;">📍 ${Math.round(dM)} מטר ממך</span>`;
                     } else {
-                        userDistStr = `<span style="color:#2563eb; font-weight:bold;">📍 ${(dM/1000).toFixed(1)} ק"מ</span>`;
+                        userDistStr = `<span style="color:#2563eb; font-weight:bold;">📍 ${(dM/1000).toFixed(1)} קילומטר</span>`;
                     }
                 }
 
+                const isTarget = (activeTargetIndex === idx);
+                const borderStyle = isTarget ? 'border:2px solid #2563eb; background:#eff6ff;' : 'border:1px solid #e2e8f0; background:#f8fafc;';
+
                 html += `
-                    <div onclick="focusStation(${idx})" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:6px 10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
-                        <div>
+                    <div style="${borderStyle} border-radius:8px; padding:6px 10px; display:flex; justify-content:space-between; align-items:center;">
+                        <div style="flex-grow:1; cursor:pointer;" onclick="focusStation(${idx})">
                             <span style="font-weight:bold; color:${st.color};">${st.id}. ${st.title}</span><br>
                             <span style="font-size:0.75em; color:#0369a1; font-weight:500;">📍 ${st.address}</span><br>
                             <span style="font-size:0.78em; color:#64748b;">⬅️ ${st.nextDist}</span>
                         </div>
-                        <div style="font-size:0.8em; text-align:left;">
+                        <div style="font-size:0.8em; text-align:left; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
                             ${userDistStr}
+                            <button onclick="setTargetStation(${idx})" style="background:${isTarget ? '#16a34a' : '#2563eb'}; color:white; border:none; padding:3px 7px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer;">
+                                ${isTarget ? 'יעד נבחר' : '🎯 נווט'}
+                            </button>
                         </div>
                     </div>
                 `;
