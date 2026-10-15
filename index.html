@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.9.1
+                גרסה 4.9.4
             </span>
         </div>
     </header>
@@ -727,15 +727,18 @@
                     </div>
                 </div>
 
-                <!-- 2-ELEMENT CONTROL BAR: בחר מרשימה (לפי תאריך יציאה) + טיול חדש -->
-                <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center;" dir="rtl">
-                    <div style="flex: 1;">
-                        <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 2px solid #2563eb; font-family: inherit; font-size: 1em; font-weight: 800; color: #1e3a8a; background: #eff6ff; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.12);">
+                <!-- 3-ELEMENT CONTROL BAR: בחר מרשימה (לפי תאריך יציאה) + טיול חדש + מחק -->
+                <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;" dir="rtl">
+                    <div style="flex: 1; min-width: 0;">
+                        <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 2px solid #2563eb; font-family: inherit; font-size: 1em; font-weight: 800; color: #1e3a8a; background: #eff6ff; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.12); text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
                             <!-- Populated dynamically by JS (sorted chronologically) -->
                         </select>
                     </div>
-                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 12px 18px; border-radius: 12px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3); white-space: nowrap;">
+                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 12px 16px; border-radius: 12px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3); white-space: nowrap; flex-shrink: 0;">
                         <i class="fa-solid fa-plus"></i> טיול חדש
+                    </button>
+                    <button onclick="deleteCurrentSelectedTrip()" title="מחק טיול זה מהרשימה" style="background: #fee2e2; color: #dc2626; border: 1.5px solid #fca5a5; padding: 12px 14px; border-radius: 12px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(220,38,38,0.15); white-space: nowrap; flex-shrink: 0;">
+                        <i class="fa-solid fa-trash"></i> מחק
                     </button>
                 </div>
 
@@ -2863,10 +2866,15 @@
 
         function loadCustomTrips() {
             try {
+                const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+                deleted.forEach(k => {
+                    delete TRIPS_DATABASE[k];
+                });
+
                 const custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
                 custom.forEach(trip => {
                     const k = trip.key || trip.id;
-                    if (k) TRIPS_DATABASE[k] = trip;
+                    if (k && !deleted.includes(k)) TRIPS_DATABASE[k] = trip;
                 });
             } catch(e) {}
 
@@ -2884,8 +2892,13 @@
         loadCustomTrips();
 
         const savedActiveTrip = localStorage.getItem('travel_assistant_active_trip');
-        let currentTripKey = (savedActiveTrip && TRIPS_DATABASE[savedActiveTrip] && savedActiveTrip !== 'netanya' && !TRIPS_DATABASE[savedActiveTrip].archived) ? savedActiveTrip : 'israel_trail_north';
-        let STATIONS = TRIPS_DATABASE[currentTripKey].stations;
+        const initialDeleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+        let currentTripKey = (savedActiveTrip && TRIPS_DATABASE[savedActiveTrip] && !initialDeleted.includes(savedActiveTrip) && savedActiveTrip !== 'netanya' && !TRIPS_DATABASE[savedActiveTrip].archived) ? savedActiveTrip : 'israel_trail_north';
+        if (!TRIPS_DATABASE[currentTripKey]) {
+            const firstValidKey = Object.keys(TRIPS_DATABASE).find(k => !initialDeleted.includes(k) && k !== 'netanya' && !TRIPS_DATABASE[k].archived);
+            currentTripKey = firstValidKey || Object.keys(TRIPS_DATABASE)[0] || 'israel_trail_north';
+        }
+        let STATIONS = (TRIPS_DATABASE[currentTripKey] && TRIPS_DATABASE[currentTripKey].stations) ? TRIPS_DATABASE[currentTripKey].stations : [];
         let userExplicitlyClosedBubble = false;
 
         // ================= GLOBAL CULINARY ENGINE DATA (ITEM 3.7) =================
@@ -5020,9 +5033,11 @@
         // Master function to populate both trip dropdowns dynamically (Sorted chronologically by departure date, then alphabetically, archived at bottom)
         function renderAllTripSelectors() {
             const allTrips = [];
+            const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
 
             // 1. Collect from TRIPS_DATABASE
             for (const key in TRIPS_DATABASE) {
+                if (deleted.includes(key)) continue;
                 const t = TRIPS_DATABASE[key];
                 allTrips.push({
                     key: key,
@@ -5040,7 +5055,7 @@
                 const customTrips = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
                 customTrips.forEach(ct => {
                     const k = ct.key || ct.id;
-                    if (!allTrips.some(x => x.key === k)) {
+                    if (!deleted.includes(k) && !allTrips.some(x => x.key === k)) {
                         allTrips.push({
                             key: k,
                             name: ct.name,
@@ -5292,30 +5307,73 @@
             }, 250);
         }
 
+        function deleteCurrentSelectedTrip() {
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                alert('לא נבחר טיול פעיל למחיקה.');
+                return;
+            }
+            performTripDeletion(currentTripKey);
+        }
+
         function deleteCustomTrip(tripKey, event) {
             if (event) event.stopPropagation();
+            performTripDeletion(tripKey);
+        }
+
+        function performTripDeletion(tripKey) {
             const trip = TRIPS_DATABASE[tripKey];
             const tripName = trip ? trip.name : 'הטיול';
-            if (!confirm(`האם אתה בטוח שברצונך למחוק את תיק התכנון של "${tripName}"?`)) return;
+            if (!confirm(`האם אתה בטוח שברצונך למחוק את "${tripName}" מרשימת הטיולים?`)) return;
 
             try {
+                // 1. Remove from custom trips list in localStorage
                 let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
                 custom = custom.filter(t => (t.key || t.id) !== tripKey);
                 localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+
+                // 2. Add to deleted trips blacklist (ensures system trips like ashkelon or custom trips never reappear)
+                let deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+                if (!deleted.includes(tripKey)) {
+                    deleted.push(tripKey);
+                    localStorage.setItem('travel_assistant_deleted_trips', JSON.stringify(deleted));
+                }
+
+                // 3. Remove associated data
                 localStorage.removeItem('travel_assistant_trip_' + tripKey + '_questionnaire');
                 localStorage.removeItem('travel_assistant_custom_docs_' + tripKey);
-                delete TRIPS_DATABASE[tripKey];
-            } catch(e) {}
+                localStorage.removeItem('travel_assistant_trip_stage_' + tripKey);
+                localStorage.removeItem('travel_assistant_trip_is_domestic_' + tripKey);
 
-            if (currentTripKey === tripKey) {
-                currentTripKey = 'korea';
-                try { localStorage.setItem('travel_assistant_active_trip', 'korea'); } catch(e) {}
+                // 4. Remove from runtime database
+                delete TRIPS_DATABASE[tripKey];
+            } catch(e) {
+                console.error('Error deleting trip:', e);
             }
 
+            // 5. Select next available active trip
+            const deletedList = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+            const remainingKeys = Object.keys(TRIPS_DATABASE).filter(k => !deletedList.includes(k) && k !== 'netanya' && !TRIPS_DATABASE[k].archived);
+
+            if (currentTripKey === tripKey) {
+                if (remainingKeys.includes('israel_trail_north')) {
+                    currentTripKey = 'israel_trail_north';
+                } else if (remainingKeys.includes('korea')) {
+                    currentTripKey = 'korea';
+                } else if (remainingKeys.length > 0) {
+                    currentTripKey = remainingKeys[0];
+                } else {
+                    currentTripKey = Object.keys(TRIPS_DATABASE)[0] || 'israel_trail_north';
+                }
+                try { localStorage.setItem('travel_assistant_active_trip', currentTripKey); } catch(e) {}
+            }
+
+            // 6. Refresh UI components
             renderAllTripSelectors();
             renderCustomTripsInModal();
-            selectTripAndApply(currentTripKey);
-            alert(`תיק התכנון של "${tripName}" נמחק בהצלחה.`);
+            if (TRIPS_DATABASE[currentTripKey]) {
+                selectTripAndApply(currentTripKey);
+            }
+            alert(`הטיול "${tripName}" נמחק בהצלחה מהרשימה.`);
         }
 
         function toggleAgencyInput(isOrg) {
