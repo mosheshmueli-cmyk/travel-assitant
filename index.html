@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.8.5
+                גרסה 4.9.0
             </span>
         </div>
     </header>
@@ -714,84 +714,181 @@
                     </select>
                 </div>
 
-                <!-- STAGE PIPELINE CONTROLLER BANNER (STAGED WORKFLOW TO READY STATUS) -->
-                <div id="trip-stage-pipeline-card" style="background: white; border: 2px solid #3b82f6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(59,130,246,0.12);" dir="rtl">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="font-weight: 900; color: #1e3a8a; font-size: 1.05em;"><i class="fa-solid fa-list-check" style="color: #2563eb;"></i> שלבי תכנון ואישור הטיול לקראת יציאה:</span>
-                        </div>
-                        <span id="pipeline-current-stage-badge" style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 8px; font-weight: 900; font-size: 0.85em;">
-                            📋 שלב תכנון
+                <!-- 4-STEP LINEAR GUIDED WIZARD CONTROLLER -->
+                <div id="trip-wizard-stepper-card" style="background: white; border: 2px solid #2563eb; border-radius: 16px; padding: 14px 16px; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(37,99,235,0.08);" dir="rtl">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
+                        <span style="font-weight: 900; color: #1e3a8a; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-list-ol" style="color: #2563eb;"></i> שלבי תכנון הטיול (הכוונה טורית):
+                        </span>
+                        <span id="wizard-current-step-badge" style="background: #eff6ff; color: #1d4ed8; padding: 4px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em;">
+                            שלב 1 מתוך 4: יעד ותאריכים
                         </span>
                     </div>
 
-                    <!-- 3-Step Visual Progress Stepper -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px;">
-                        <div id="step-pill-1" onclick="goToPlanningStep(1)" style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer;">
-                            <div style="font-size: 0.75em; color: #1d4ed8; font-weight: 800;">שלב 1</div>
-                            <div style="font-size: 0.88em; font-weight: 900; color: #1e40af; margin-top: 2px;">📝 1. שאלון דרישות</div>
-                            <div id="step-pill-1-status" style="font-size: 0.72em; color: #16a34a; font-weight: 800; margin-top: 2px;">✓ מולא ונשמר</div>
+                    <!-- 4-Step Linear Pills -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                        <div id="wizard-pill-1" onclick="setWizardStep(1)" style="background: #2563eb; color: white; border: 2px solid #1d4ed8; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.72em; opacity: 0.9; font-weight: 800;">שלב 1</div>
+                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">📍 יעד ותאריכים</div>
                         </div>
-                        <div id="step-pill-2" onclick="goToPlanningStep(2)" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer;">
-                            <div style="font-size: 0.75em; color: #15803d; font-weight: 800;">שלב 2</div>
-                            <div style="font-size: 0.88em; font-weight: 900; color: #166534; margin-top: 2px;">📁 2. העלאת מסמכים</div>
-                            <div id="step-pill-2-status" style="font-size: 0.72em; color: #15803d; font-weight: 800; margin-top: 2px;">מסמכים שמורים</div>
+                        <div id="wizard-pill-2" onclick="setWizardStep(2)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 2</div>
+                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">📁 חומרי גלם</div>
                         </div>
-                        <div id="step-pill-3" onclick="goToPlanningStep(3)" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer;">
-                            <div style="font-size: 0.75em; color: #64748b; font-weight: 800;">שלב 3</div>
-                            <div style="font-size: 0.88em; font-weight: 900; color: #334155; margin-top: 2px;">🗺️ 3. מסלול מפורט</div>
-                            <div id="step-pill-3-status" style="font-size: 0.72em; color: #64748b; font-weight: 800; margin-top: 2px;">ממתין לאישור</div>
+                        <div id="wizard-pill-3" onclick="setWizardStep(3)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 3</div>
+                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">📝 פירוט והעדפות</div>
+                        </div>
+                        <div id="wizard-pill-4" onclick="setWizardStep(4)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 4</div>
+                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">🛫 ממתין ליציאה</div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Dynamic Stage Action Box -->
-                    <div id="pipeline-action-box" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
-                        <div id="pipeline-action-desc" style="font-size: 0.86em; color: #334155; line-height: 1.5;">
-                            לאחר מילוי השאלון והעלאת חוברת המסלול והמסמכים, לחץ כאן להפקת המסלול המפורט ומעבר לסטטוס <b>ממתין ליציאה</b>.
+                <!-- ================= WIZARD PANE 1: שלב 1 - יעד ותאריכים ================= -->
+                <div id="wizard-pane-1" class="wizard-step-pane" style="display: block;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-map-location-dot" style="color: #2563eb;"></i> שלב 1: לאן ומתי יוצאים לדרך?
                         </div>
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <button id="btn-finalize-trip" onclick="finalizeTripToReadyStage()" style="flex: 1; min-width: 220px; background: #059669; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.3);">
-                                <i class="fa-solid fa-plane-departure"></i> אשר מסמכים והעבר לסטטוס "🛫 ממתין ליציאה"!
-                            </button>
-                            <button id="btn-reopen-planning" onclick="reopenTripToPlanningStage()" style="display: none; background: white; color: #4338ca; border: 1.5px solid #818cf8; padding: 10px 14px; border-radius: 10px; font-weight: 800; font-size: 0.88em; cursor: pointer;">
-                                <i class="fa-solid fa-pen-to-square"></i> חזור לשלב תכנון לעריכת מסמכים
+
+                        <!-- Domestic vs Abroad Toggle -->
+                        <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+                            <div style="font-size: 0.88em; font-weight: 800; color: #334155; margin-bottom: 8px;">סוג היעד:</div>
+                            <div style="display: flex; gap: 8px;">
+                                <button id="btn-mode-israel" onclick="setTripGeoMode(true)" style="flex: 1; padding: 10px 12px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1.5px solid #86efac; background: #f0fdf4; color: #15803d;">
+                                    🇮🇱 טיול בישראל (ללא שדות חו"ל)
+                                </button>
+                                <button id="btn-mode-abroad" onclick="setTripGeoMode(false)" style="flex: 1; padding: 10px 12px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1.5px solid #93c5fd; background: #eff6ff; color: #1e40af;">
+                                    🌍 טיול בחו"ל (טיסות ודרכונים)
+                                </button>
+                            </div>
+                            <div id="geo-context-banner" style="margin-top: 10px; padding: 8px 12px; background: white; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.85em; line-height: 1.4; color: #475569;">
+                                💡 בחר בסוג היעד להתאמת כל הטפסים והמסמכים במערכת.
+                            </div>
+                        </div>
+
+                        <!-- Active Destination Name & Dates -->
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div>
+                                <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">שם היעד / מסלול פעיל:</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="לדוגמה: שביל ישראל: נחל עמוד תחתון עד עין נון" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; font-weight: 800; color: #0f172a;">
+                                    <button onclick="openTripSelectorModal()" style="background: #ede9fe; color: #6d28d9; border: 1.5px solid #c4b5fd; padding: 10px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; white-space: nowrap;">
+                                        בחר מהמאגר ▾
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">תאריכי הטיול:</label>
+                                <input type="text" id="step1-dates" onchange="syncStep1Dates(this.value)" placeholder="לדוגמה: יום ד' ה-28.10.2026 / 22/11/26 עד 06/12/26" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
+                            </div>
+                        </div>
+
+                        <!-- Step 1 Single Action Button -->
+                        <div style="margin-top: 20px;">
+                            <button onclick="setWizardStep(2)" style="width: 100%; background: #2563eb; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
+                                המשך לשלב 2: חומרי גלם (קבצים והודעות) ➔
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Company Trip Documents Integration Banner (Visible ONLY for Korea) -->
-                <div id="ophir-contract-banner" style="display: none; background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #8b5cf6; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(139,92,246,0.12);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-                        <span style="font-weight: 900; color: #5b21b6; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-file-invoice" style="color: #7c3aed; font-size: 1.3em;"></i>
-                            תיק תכנון טיול לקוח: מסמכי חברת הטיולים (אופיר טורס)
-                        </span>
-                        <span style="background: #ede9fe; color: #6d28d9; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.8em;">
-                            חוזה מאושר: 42 מטיילים | 15 ימים
-                        </span>
-                    </div>
-                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5; margin-bottom: 10px;">
-                        <b>שובץ במלואו בתיק תכנון הלקוח:</b> חוברת המסלול הרשמית של אופיר טורס "הקסם הקוריאני" (22/11 עד 06/12), כרטיסי טיסה מדויקים של Ethiopian Airlines (ET 419/672/673/418), 2 טיסות פנים, 2 שבתות כהלכתן, והתחייבות החברה להתאמה קפדנית ל-42 גמלאים מעל גיל 75.
-                    </div>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="background: #7c3aed; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> העלה חוברת מסלול נוספת (PDF)
-                        </button>
-                        <button onclick="document.getElementById('acc-detailed-itinerary').classList.add('open'); document.getElementById('trip-itinerary-selector').value='korea'; switchTripDocument('korea'); document.getElementById('acc-detailed-itinerary').scrollIntoView({behavior:'smooth'});" style="background: white; color: #6d28d9; border: 1.5px solid #8b5cf6; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-list-check"></i> צפה בלוח הזמנים של החברה
-                        </button>
+                <!-- ================= WIZARD PANE 2: שלב 2 - חומרי גלם ================= -->
+                <div id="wizard-pane-2" class="wizard-step-pane" style="display: none;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-folder-open" style="color: #16a34a;"></i> שלב 2: חומרי גלם (קבצים והודעות)
+                        </div>
+
+                        <!-- TWO PRIMARY ACTION BUTTONS ONLY -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                            <button onclick="triggerDocUpload('organized', 'חוברת מסלול')" style="background: #15803d; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21,128,61,0.25);">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8em;"></i>
+                                <span>📁 העלאת קובץ או תמונה</span>
+                            </button>
+                            <button onclick="document.getElementById('whatsapp-paste-input').focus(); document.getElementById('whatsapp-input-container').scrollIntoView({behavior:'smooth'});" style="background: #0284c7; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(2,132,199,0.25);">
+                                <i class="fa-brands fa-whatsapp" style="font-size: 1.8em;"></i>
+                                <span>📋 הדבקת טקסט</span>
+                            </button>
+                        </div>
+
+                        <!-- Hidden File Input for all uploads -->
+                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf" onchange="handleCustomDocUpload(event)">
+
+                        <!-- WhatsApp Text Ingestion Area -->
+                        <div id="whatsapp-input-container" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+                            <div style="font-weight: 800; color: #166534; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-brands fa-whatsapp" style="color: #16a34a; font-size: 1.2em;"></i> הדבק כאן הודעת וואטסאפ או טקסט מסלול:
+                            </div>
+                            <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את הטקסט שהועתק מוואטסאפ... (לדוגמה: שלום לחובבי שביל ישראל, יוצאים ביום ד' 28.10.26 במסלול נחל עמוד תחתון עד עין נון...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #86efac; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
+
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button onclick="saveWhatsAppTextAsDoc()" style="flex: 1; min-width: 150px; background: #16a34a; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
+                                    <i class="fa-solid fa-floppy-disk"></i> 💾 שמור כמסמך בתיק הטיול
+                                </button>
+                                <button onclick="parseAndApplyWhatsAppText()" style="flex: 1.2; min-width: 170px; background: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 🪄 פענח טקסט ועדכן מסלול
+                                </button>
+                                <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
+                                    ✕ נקה
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Specific File Categories (Compact and Quiet) -->
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+                            <div style="font-size: 0.85em; font-weight: 800; color: #475569; margin-bottom: 8px;">
+                                📁 אפשרויות העלאת קבצים ייעודיים:
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
+                                <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="background: white; color: #166534; border: 1.5px solid #86efac; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">חוברת מסלול</span>
+                                </button>
+                                <button id="btn-upload-voucher" onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="background: white; color: #0369a1; border: 1.5px solid #93c5fd; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">שובר / כרטיס</span>
+                                </button>
+                                <button id="btn-upload-passport" onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: white; color: #4338ca; border: 1.5px solid #c7d2fe; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i class="fa-solid fa-passport"></i> <span id="btn-upload-passport-text">צילום דרכון</span>
+                                </button>
+                                <button id="btn-upload-insurance" onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: white; color: #0f766e; border: 1.5px solid #99f6e4; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i class="fa-solid fa-shield-halved"></i> <span id="btn-upload-insurance-text">פוליסת ביטוח</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Documents Feed List Container -->
+                        <div style="font-weight: 800; color: #1e293b; font-size: 0.95em; margin-bottom: 8px;">
+                            📄 מסמכים והודעות שמורים בתיק טיול זה:
+                        </div>
+                        <div id="custom-docs-list" style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+
+                        <!-- Step 2 Navigation Buttons -->
+                        <div style="display: flex; gap: 8px; margin-top: 18px;">
+                            <button onclick="setWizardStep(1)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 18px; border-radius: 10px; font-weight: 800; font-size: 0.95em; cursor: pointer;">
+                                ⮌ חזרה
+                            </button>
+                            <button onclick="setWizardStep(3)" style="flex: 1; background: #2563eb; color: white; border: none; padding: 12px 18px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 10px rgba(37,99,235,0.25);">
+                                פירוט נתונים והעדפות ➔
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- ACCORDION 1: שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד) -->
-                <!-- ACCORDION 1: שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד) -->
-                <div class="accordion-item open" id="acc-client-needs">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-client-needs')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-clipboard-list" style="color:#ea580c; margin-left:8px;"></i> 1. שאלון רישום דרישות והעדפות (12 שאלות היסוד)</span>
-                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                    </div>
-                    <div class="accordion-content">
+                <!-- ================= WIZARD PANE 3: שלב 3 - פירוט נתונים והעדפות ================= -->
+                <div id="wizard-pane-3" class="wizard-step-pane" style="display: none;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-clipboard-list" style="color: #ea580c;"></i> שלב 3: פירוט נתונים והעדפות (שאלון ממוקד)
+                        </div>
+
+                        <!-- Embedded Questionnaire Container -->
+                        <div id="acc-client-needs">
+                            <div>
                         
                         <!-- Top Active Trip Header & Geo-Context Toggle -->
                         <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:16px; margin-bottom:14px;">
@@ -1035,151 +1132,96 @@
 
                         </div>
 
-                        <!-- Save Questionnaire Action Button -->
-                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:20px; background:#ea580c; color:white; border:none; padding:16px; border-radius:14px; font-weight:900; font-size:1.25em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 6px 18px rgba(234,88,12,0.3);">
-                            <i class="fa-solid fa-floppy-disk"></i> שמור שאלון ועדכן תיק טיול
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ACCORDION 2: הוספת מסמכים וקבצים אישיים ומסמכי טיול מאורגן -->
-                <div class="accordion-item" id="acc-custom-files">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-custom-files')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-cloud-arrow-up" style="color:#10b981; margin-left:8px;"></i> 2. תיק מסמכים (העלאת חוברת מסלול מאורגן ומסמכים אישיים)</span>
-                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <p style="font-size: 0.9em; color: #475569; margin-top: 0; line-height: 1.5;">
-                            <b>תיק מסמכים אופליין מלא:</b> העלה לכאן את מסמכי הטיול המאורגן (חוברת מסלול מהסוכנות, שוברים וכרטיסים) וכן מסמכים אישיים (דרכון/ת.ז, ביטוח, מרשמים). הכל נשמר מאובטח במכשיר וזמין גם ללא אינטרנט בשטח ובחו"ל!
-                        </p>
-
-                        <!-- Context Notice for Documents in Israel vs Abroad -->
-                        <div id="docs-geo-notice" style="display:none; background:#f0fdf4; border:1px solid #86efac; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:0.86em; color:#166534; line-height:1.4;">
-                            🇮🇱 <b>טיול בישראל:</b> אין צורך בדרכון או בביטוח נסיעות לחו"ל. ניתן להעלות מפת שביל, אישורי כניסה לשמורות טבע, תעודת זהות / רישיון, או ביטוח חילוץ במידת הצורך.
-                        </div>
-
-                        <!-- Hidden File Input for all uploads -->
-                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf" onchange="handleCustomDocUpload(event)">
-
-                        <!-- Block 1: Organized Tour Documents -->
-                        <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <div style="font-weight: 900; color: #166534; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-briefcase"></i> <span id="doc-block1-title">א. מסמכי מסלול ומנהלה (חוברת מסלול / מפת שביל)</span>
-                                </div>
-                                <span id="doc-block1-badge" style="background: #dcfce7; color: #15803d; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">מסמכי מסלול</span>
-                            </div>
-                            <div id="doc-block1-desc" style="font-size: 0.82em; color: #14532d; margin-bottom: 10px; line-height: 1.4;">
-                                העלה קובץ PDF או תמונה של חוברת המסלול, מפת שביל ישראל, שובר הזמנה, או כרטיסים:
-                            </div>
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="flex: 1; min-width: 140px; background: #15803d; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(21,128,61,0.25);">
-                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">העלה חוברת / מפת מסלול</span>
-                                </button>
-                                <button id="btn-upload-voucher" onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="flex: 1; min-width: 140px; background: #059669; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(5,150,105,0.25);">
-                                    <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">העלה שובר / כרטיס כניסה</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Block 2: Personal Documents -->
-                        <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <div style="font-weight: 900; color: #1e40af; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-id-card"></i> ב. מסמכים אישיים ורפואיים (לכל מטייל)
-                                </div>
-                                <span style="background: #dbeafe; color: #1d4ed8; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">מסמכים אישיים</span>
-                            </div>
-                            <div id="doc-block2-desc" style="font-size: 0.82em; color: #1e3a8a; margin-bottom: 10px; line-height: 1.4;">
-                                העלה צילום דרכון / ת.ז, פוליסת ביטוח נסיעות / חילוץ, או מרשמי תרופות חיוניות:
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-                                <button id="btn-upload-passport" onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: #2563eb; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
-                                    <i class="fa-solid fa-passport"></i> <span id="btn-upload-passport-text">צילום דרכון</span>
-                                </button>
-                                <button id="btn-upload-insurance" onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: #0284c7; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(2,132,199,0.25);">
-                                    <i class="fa-solid fa-shield-halved"></i> <span id="btn-upload-insurance-text">ביטוח רפואי</span>
-                                </button>
-                                <button onclick="triggerDocUpload('personal', 'מרשמים רפואיים ותרופות')" style="background: #d97706; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(217,119,6,0.25);">
-                                    <i class="fa-solid fa-prescription-bottle-medical"></i> מרשמים ותרופות
-                                </button>
-                                <button onclick="triggerDocUpload('personal', 'מסמך אישי נוסף')" style="background: #475569; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(71,85,105,0.25);">
-                                    <i class="fa-solid fa-paperclip"></i> מסמך אחר
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Block 3: Direct WhatsApp / Text Paste (No File Required) -->
-                        <div style="background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(34,197,94,0.12);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <div style="font-weight: 900; color: #15803d; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-brands fa-whatsapp" style="font-size: 1.3em; color: #16a34a;"></i>
-                                    ג. הדבקת טקסט ישירה מוואטסאפ / הודעות (ללא צורך בקובץ!)
-                                </div>
-                                <span style="background: #dcfce7; color: #166534; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">חדש ומהיר ⚡</span>
-                            </div>
-                            <div style="font-size: 0.85em; color: #14532d; margin-bottom: 10px; line-height: 1.45;">
-                                💡 קיבלת הודעת מסלול או עדכון בוואטסאפ או במייל? <b>אין שום צורך לשמור כקובץ בטלפון!</b> פשוט הדבק את הטקסט כאן. המערכת תשמור אותו מיד כמסמך בתיק הטיול ואף תפענח ממנו את התחנות, התאריכים וההוראות אוטומטית:
-                            </div>
-
-                            <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את הטקסט שהועתק מוואטסאפ... (לדוגמה: שלום לחובבי שביל ישראל, יוצאים ביום ד' 28.10.26 במסלול נחל עמוד תחתון עד עין נון...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 2px solid #86efac; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
-
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button onclick="saveWhatsAppTextAsDoc()" style="flex: 1; min-width: 150px; background: #16a34a; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
-                                    <i class="fa-solid fa-floppy-disk"></i> 💾 שמור כמסמך בתיק הטיול
-                                </button>
-                                <button onclick="parseAndApplyWhatsAppText()" style="flex: 1.2; min-width: 170px; background: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 🪄 פענח טקסט ועדכן מסלול ותחנות
-                                </button>
-                                <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
-                                    ✕ נקה
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Documents Feed List Container -->
-                        <div id="custom-docs-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
-                            <!-- Populated dynamically by JS -->
-                        </div>
-
-                        <!-- Complete Staged Upload Button -->
-                        <div style="margin-top: 16px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; text-align: center;">
-                            <div style="font-weight: 900; color: #166534; font-size: 1.05em; margin-bottom: 4px;">
-                                🎉 סיימת להעלות את מסמכי הטיול?
-                            </div>
-                            <div style="font-size: 0.85em; color: #14532d; margin-bottom: 10px;">
-                                בלחיצה אחת, כל הנתונים והמסמכים יסונכרנו, יוצג לוח הזמנים המפורט והטיול יועבר לסטטוס <b>🛫 ממתין ליציאה</b>.
-                            </div>
-                            <button onclick="finalizeTripToReadyStage()" style="width: 100%; background: #059669; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(5,150,105,0.3);">
-                                <i class="fa-solid fa-plane-departure"></i> הפק מסלול סופי ועבור לסטטוס "🛫 ממתין ליציאה"
+                        <!-- Step 3 Navigation Buttons -->
+                        <div style="display: flex; gap: 8px; margin-top: 20px;">
+                            <button onclick="setWizardStep(2)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 18px; border-radius: 10px; font-weight: 800; font-size: 0.95em; cursor: pointer;">
+                                ⮌ חזרה לחומרי גלם
+                            </button>
+                            <button onclick="saveTripQuestionnaire(); finalizeTripToReadyStage();" style="flex: 1; background: #059669; color: white; border: none; padding: 14px 18px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.25);">
+                                <i class="fa-solid fa-plane-departure"></i> הפק תיק טיול סופי ➔
                             </button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- End of WIZARD PANE 3 -->
 
-                <!-- ACCORDION 3: מסלולי הטיול המפורטים (בחירת מסלול מתוך רשימה נפתחת) -->
-                <div class="accordion-item" id="acc-detailed-itinerary">
-                    <div class="accordion-header" onclick="toggleAccordion('acc-detailed-itinerary')">
-                        <span style="color: #1e293b;"><i class="fa-solid fa-map-location-dot" style="color:#2563eb; margin-left:8px;"></i> 3. מסלולי הטיול המפורטים (לוח זמנים, תחנות ושבת)</span>
-                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-
-                        <!-- CELEBRATION READY STATUS BANNER -->
-                        <div id="ready-status-celebration-banner" style="display: none; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
+                <!-- ================= WIZARD PANE 4: שלב 4 - ממתין ליציאה + שמירת קשר ================= -->
+                <div id="wizard-pane-4" class="wizard-step-pane" style="display: none;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        
+                        <!-- Celebration Ready Banner -->
+                        <div id="ready-status-celebration-banner" style="display: block; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
                             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
                                 <span style="font-weight: 900; color: #065f46; font-size: 1.15em; display: flex; align-items: center; gap: 8px;">
                                     <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i>
                                     הטיול מוכן במלואו! סטטוס: 🛫 ממתין ליציאה
                                 </span>
-                                <span style="background: #047857; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.85em;">
-                                    🛫 מוכן להמראה
+                                <span id="ready-trip-name-badge" style="background: #10b981; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.82em;">
+                                    מוכן להמראה / יציאה
                                 </span>
                             </div>
-                            <div style="font-size: 0.88em; color: #064e3b; margin-top: 6px; line-height: 1.5;">
-                                כל השאלונים מולאו, מסמכי הנסיעה שמורים במכשיר, ולוח הזמנים המפורט מטה נעול וממתין למועד היציאה לשטח.
+                            <div style="font-size: 0.88em; color: #047857; margin-top: 6px; line-height: 1.45;">
+                                כל נתוני המסלול, התחנות, השעות והמסמכים מוגדרים ומסונכרנים אופליין במכשיר.
                             </div>
                         </div>
+
+                        <!-- Non-Threatening Traveler Contact Card (As Agreed) -->
+                        <div id="traveler-contact-card" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 16px; margin-bottom: 18px;">
+                            <div style="font-weight: 900; color: #166534; font-size: 1.05em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fa-solid fa-paper-plane" style="color: #15803d;"></i>
+                                <span>לאן לשלוח לך עדכוני מסלול ובטיחות בזמן אמת?</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #334155; margin-bottom: 12px; line-height: 1.45;">
+                                נשתמש בפרטים אך ורק למשלוח התראות שטח קריטיות (מזג אוויר, שינוי ציר) וגיבוי של התיק.
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div>
+                                    <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
+                                    <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
+                                    <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
+                                    <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                                </div>
+                            </div>
+                            <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.78em; color: #166534; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-lock"></i> הפרטים נשמרים אצלך במכשיר בלבד. ללא פרסומות, ללא תשלום, אך ורק לעדכוני שטח ובטיחות.
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                                <button onclick="saveContactDetails()" style="flex: 1; background: #15803d; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                                    💾 שמור פרטי קשר
+                                </button>
+                                <button onclick="skipContactDetails()" style="background: white; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                                    דלג / אעדכן מאוחר יותר
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Field Actions -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
+                            <button onclick="switchScreen('screen-map')" style="background: #2563eb; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
+                                <i class="fa-solid fa-map-location-dot"></i> פתח מפה חיה עם התחנות
+                            </button>
+                            <button onclick="setWizardStep(2)" style="background: white; color: #15803d; border: 1.5px solid #86efac; padding: 12px 14px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                <i class="fa-solid fa-folder-open"></i> צפה במסמכי הטיול והוואטסאפ
+                            </button>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-weight: 900; color: #1e293b; font-size: 1.05em;"><i class="fa-solid fa-route" style="color: #2563eb;"></i> לוח הזמנים והתחנות המפורט של המסלול:</span>
+                            <button onclick="setWizardStep(3)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer;">
+                                ✏️ חזרה לעריכה
+                            </button>
+                        </div>
+
+                        <!-- Embedded Detailed Itinerary Container -->
+                        <div id="acc-detailed-itinerary">
+                            <div>
                         
                         <!-- Dropdown Trip Selector -->
                         <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
@@ -1613,7 +1655,11 @@
 
                     </div>
                 </div>
+                <!-- End of acc-detailed-itinerary -->
 
+                    </div>
+                </div>
+                <!-- End of WIZARD PANE 4 -->
 
             </div>
         </div>
@@ -5387,6 +5433,17 @@
             loadTripQuestionnaire();
             updatePipelineDisplay();
 
+            // Set Wizard Step based on trip status
+            const savedStep = localStorage.getItem('travel_assistant_wizard_step_' + tripKey);
+            if (TRIPS_DATABASE[tripKey].stage === 'ready') {
+                setWizardStep(4);
+            } else if (savedStep) {
+                setWizardStep(parseInt(savedStep) || 1);
+            } else {
+                setWizardStep(1);
+            }
+            loadContactDetails();
+
             closeTripSelectorModal();
 
             // Re-render map layers
@@ -5436,7 +5493,186 @@
             }
         }
 
-        // ================= STAGED WORKFLOW CONTROLLER (PLANNING -> READY STAGE) =================
+        // ================= 4-STEP LINEAR GUIDED WIZARD CONTROLLER =================
+        let currentWizardStep = 1;
+
+        function setWizardStep(stepNum) {
+            currentWizardStep = stepNum;
+            try { localStorage.setItem('travel_assistant_wizard_step_' + currentTripKey, stepNum); } catch(e) {}
+
+            for (let i = 1; i <= 4; i++) {
+                const pane = document.getElementById('wizard-pane-' + i);
+                const pill = document.getElementById('wizard-pill-' + i);
+                if (pane) {
+                    pane.style.display = (i === stepNum) ? 'block' : 'none';
+                }
+                if (pill) {
+                    if (i === stepNum) {
+                        pill.style.background = '#2563eb';
+                        pill.style.color = '#ffffff';
+                        pill.style.borderColor = '#1d4ed8';
+                        pill.style.boxShadow = '0 3px 8px rgba(37,99,235,0.25)';
+                    } else if (i < stepNum) {
+                        pill.style.background = '#f0fdf4';
+                        pill.style.color = '#15803d';
+                        pill.style.borderColor = '#86efac';
+                        pill.style.boxShadow = 'none';
+                    } else {
+                        pill.style.background = '#f8fafc';
+                        pill.style.color = '#475569';
+                        pill.style.borderColor = '#cbd5e1';
+                        pill.style.boxShadow = 'none';
+                    }
+                }
+            }
+
+            const badge = document.getElementById('wizard-current-step-badge');
+            if (badge) {
+                const names = ['1. יעד ותאריכים', '2. חומרי גלם', '3. פירוט והעדפות', '4. ממתין ליציאה'];
+                badge.innerText = `שלב ${stepNum} מתוך 4: ${names[stepNum - 1]}`;
+            }
+
+            // Sync step 1 inputs if in step 1
+            if (stepNum === 1) {
+                const destInput = document.getElementById('step1-dest-name');
+                const datesInput = document.getElementById('step1-dates');
+                if (destInput && TRIPS_DATABASE[currentTripKey]) {
+                    destInput.value = TRIPS_DATABASE[currentTripKey].name || '';
+                }
+                if (datesInput && TRIPS_DATABASE[currentTripKey]) {
+                    datesInput.value = TRIPS_DATABASE[currentTripKey].dates || TRIPS_DATABASE[currentTripKey].badge || '';
+                }
+            }
+
+            // If entering step 4, load contact details
+            if (stepNum === 4) {
+                loadContactDetails();
+                const readyBadge = document.getElementById('ready-trip-name-badge');
+                if (readyBadge && TRIPS_DATABASE[currentTripKey]) {
+                    readyBadge.innerText = TRIPS_DATABASE[currentTripKey].name;
+                }
+            }
+
+            const routeContent = document.querySelector('#screen-route .content-padding');
+            if (routeContent) {
+                routeContent.scrollTop = 0;
+            }
+        }
+
+        function syncStep1Destination(val) {
+            if (!val || !val.trim()) return;
+            const trip = TRIPS_DATABASE[currentTripKey];
+            if (trip) {
+                trip.name = val.trim();
+                const qDest = document.getElementById('q_destination');
+                if (qDest) qDest.value = trip.name;
+                saveTripQuestionnaire();
+                renderAllTripSelectors();
+            }
+        }
+
+        function syncStep1Dates(val) {
+            if (!val || !val.trim()) return;
+            const trip = TRIPS_DATABASE[currentTripKey];
+            if (trip) {
+                trip.dates = val.trim();
+                const qDate = document.getElementById('q_date');
+                if (qDate) qDate.value = trip.dates;
+                saveTripQuestionnaire();
+            }
+        }
+
+        // Traveler Contact Information Handlers (Step 4)
+        function saveContactDetails() {
+            const name = (document.getElementById('contact-traveler-name')?.value || '').trim();
+            const phone = (document.getElementById('contact-traveler-phone')?.value || '').trim();
+            const email = (document.getElementById('contact-traveler-email')?.value || '').trim();
+
+            if (!name && !phone && !email) {
+                alert('אנא הזן לפחות שם או טלפון כדי לשמור פרטי קשר.');
+                return;
+            }
+
+            const data = { name, phone, email, savedAt: new Date().toISOString() };
+            try {
+                localStorage.setItem('travel_assistant_contact_' + currentTripKey, JSON.stringify(data));
+            } catch(e) {}
+
+            const statusEl = document.getElementById('contact-status-feedback');
+            if (statusEl) {
+                statusEl.innerHTML = `<span style="color:#15803d; font-weight:800;"><i class="fa-solid fa-circle-check"></i> תודה ${name ? name : ''}! פרטיך נשמרו אצלך במכשיר. נשלח עדכוני שטח והתראות בזמן אמת.</span>`;
+            }
+            alert(`✅ פרטי הקשר נשמרו בהצלחה במכשירך עבור "${TRIPS_DATABASE[currentTripKey]?.name || 'הטיול'}".\nנשתמש בהם אך ורק להתראות בטיחות ומזג אוויר בשטח!`);
+        }
+
+        function skipContactDetails() {
+            const card = document.getElementById('traveler-contact-card');
+            if (card) {
+                card.style.background = '#f8fafc';
+                card.style.borderColor = '#cbd5e1';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85em; color:#64748b;">
+                        <span><i class="fa-solid fa-circle-info"></i> פרטי קשר למטייל נותרו ריקים (ניתן להוסיף בכל עת).</span>
+                        <button onclick="restoreContactForm()" style="background:white; border:1px solid #cbd5e1; color:#334155; padding:4px 8px; border-radius:6px; font-size:0.8em; font-weight:bold; cursor:pointer;">✏️ הזן פרטים</button>
+                    </div>
+                `;
+            }
+        }
+
+        function restoreContactForm() {
+            const card = document.getElementById('traveler-contact-card');
+            if (!card) return;
+            card.style.background = '#f0fdf4';
+            card.style.borderColor = '#86efac';
+            card.innerHTML = `
+                <div style="font-weight: 900; color: #166534; font-size: 1.05em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-paper-plane" style="color: #15803d;"></i>
+                    <span>לאן לשלוח לך עדכוני מסלול ובטיחות בזמן אמת?</span>
+                </div>
+                <div style="font-size: 0.85em; color: #334155; margin-bottom: 12px; line-height: 1.45;">
+                    נשתמש בפרטים אך ורק למשלוח התראות שטח קריטיות (מזג אוויר, שינוי ציר) וגיבוי של התיק.
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
+                        <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
+                        <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
+                        <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                    </div>
+                </div>
+                <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.78em; color: #166534; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-lock"></i> הפרטים נשמרים אצלך במכשיר בלבד. ללא פרסומות, ללא תשלום, אך ורק לעדכוני שטח ובטיחות.
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 12px;">
+                    <button onclick="saveContactDetails()" style="flex: 1; background: #15803d; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                        💾 שמור פרטי קשר
+                    </button>
+                    <button onclick="skipContactDetails()" style="background: white; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                        דלג / אעדכן מאוחר יותר
+                    </button>
+                </div>
+            `;
+            loadContactDetails();
+        }
+
+        function loadContactDetails() {
+            try {
+                const raw = localStorage.getItem('travel_assistant_contact_' + currentTripKey);
+                if (raw) {
+                    const data = JSON.parse(raw);
+                    if (document.getElementById('contact-traveler-name') && data.name) document.getElementById('contact-traveler-name').value = data.name;
+                    if (document.getElementById('contact-traveler-phone') && data.phone) document.getElementById('contact-traveler-phone').value = data.phone;
+                    if (document.getElementById('contact-traveler-email') && data.email) document.getElementById('contact-traveler-email').value = data.email;
+                }
+            } catch(e) {}
+        }
+
         function finalizeTripToReadyStage() {
             const trip = TRIPS_DATABASE[currentTripKey];
             if (!trip) return;
@@ -5444,7 +5680,6 @@
             trip.stage = 'ready';
             trip.stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
 
-            // Save to localStorage
             if (currentTripKey.startsWith('custom_')) {
                 try {
                     let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
@@ -5459,24 +5694,8 @@
                 localStorage.setItem('travel_assistant_trip_stage_' + currentTripKey, 'ready');
             }
 
-            // Refresh UI
             selectTripAndApply(currentTripKey);
-
-            // Open Accordion 3 (Detailed Itinerary) and close Accordions 1 and 2
-            const acc1 = document.getElementById('acc-client-needs');
-            const acc2 = document.getElementById('acc-custom-files');
-            const acc3 = document.getElementById('acc-detailed-itinerary');
-
-            if (acc1) acc1.classList.remove('open');
-            if (acc2) acc2.classList.remove('open');
-            if (acc3) acc3.classList.add('open');
-
-            updatePipelineDisplay();
-
-            setTimeout(() => {
-                if (acc3) acc3.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-
+            setWizardStep(4);
             alert(`🎉 מזל טוב! כל נתוני ומסמכי הטיול של "${trip.name}" נקלטו בהצלחה במערכת.\nהסטטוס עודכן ל: "🛫 ממתין ליציאה (מוכן להמראה!)" והמסלול המפורט פתוח לפניך!`);
         }
 
@@ -5502,84 +5721,21 @@
             }
 
             selectTripAndApply(currentTripKey);
-            updatePipelineDisplay();
+            setWizardStep(1);
             alert(`הטיול הוחזר לשלב תכנון לצורך עריכת מסמכים והעדפות נוספות.`);
         }
 
         function goToPlanningStep(stepNum) {
-            if (stepNum === 1) {
-                const acc = document.getElementById('acc-client-needs');
-                if (acc && !acc.classList.contains('open')) acc.classList.add('open');
-                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
-            } else if (stepNum === 2) {
-                const acc = document.getElementById('acc-custom-files');
-                if (acc && !acc.classList.contains('open')) acc.classList.add('open');
-                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
-            } else if (stepNum === 3) {
-                const acc = document.getElementById('acc-detailed-itinerary');
-                if (acc && !acc.classList.contains('open')) acc.classList.add('open');
-                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
-            }
+            setWizardStep(stepNum);
         }
 
         function updatePipelineDisplay() {
             const trip = TRIPS_DATABASE[currentTripKey];
             if (!trip) return;
-
             const isReady = (trip.stage === 'ready');
-            const stageBadge = document.getElementById('pipeline-current-stage-badge');
-            if (stageBadge) {
-                if (isReady) {
-                    stageBadge.innerText = '🛫 ממתין ליציאה (מוכן להמראה!)';
-                    stageBadge.style.background = '#dcfce7';
-                    stageBadge.style.color = '#15803d';
-                } else {
-                    stageBadge.innerText = trip.stageLabel || '📋 שלב תכנון';
-                    stageBadge.style.background = '#e0f2fe';
-                    stageBadge.style.color = '#0369a1';
-                }
-            }
-
-            // Step 3 pill
-            const step3 = document.getElementById('step-pill-3');
-            const step3Status = document.getElementById('step-pill-3-status');
-            if (step3 && step3Status) {
-                if (isReady) {
-                    step3.style.background = '#ecfdf5';
-                    step3.style.borderColor = '#10b981';
-                    step3Status.innerText = '✓ מאושר וממתין';
-                    step3Status.style.color = '#10b981';
-                } else {
-                    step3.style.background = '#f8fafc';
-                    step3.style.borderColor = '#cbd5e1';
-                    step3Status.innerText = 'ממתין לאישור';
-                    step3Status.style.color = '#64748b';
-                }
-            }
-
-            // Buttons toggle
-            const btnFinalize = document.getElementById('btn-finalize-trip');
-            const btnReopen = document.getElementById('btn-reopen-planning');
-            const actionDesc = document.getElementById('pipeline-action-desc');
-            const celebBanner = document.getElementById('ready-status-celebration-banner');
-
-            if (btnFinalize) btnFinalize.style.display = isReady ? 'none' : 'flex';
-            if (btnReopen) btnReopen.style.display = isReady ? 'inline-block' : 'none';
-            if (celebBanner) celebBanner.style.display = isReady ? 'block' : 'none';
-
-            if (actionDesc) {
-                if (isReady) {
-                    actionDesc.innerHTML = `<span style="color:#15803d; font-weight:800;">✅ שלב התכנון הושלם! הטיול מאושר ובסטטוס <b>🛫 ממתין ליציאה</b>. המסלול המפורט מוצג באקורדיון 3 מטה.</span>`;
-                } else {
-                    actionDesc.innerHTML = `לאחר מילוי השאלון והעלאת חוברת המסלול והמסמכים, לחץ כאן להפקת המסלול המפורט ומעבר לסטטוס <b>ממתין ליציאה</b>.`;
-                }
-            }
-
-            // Update docs count in Step 2 pill
-            const docs = getCustomDocs();
-            const step2Status = document.getElementById('step-pill-2-status');
-            if (step2Status) {
-                step2Status.innerText = docs.length > 0 ? `(${docs.length} מסמכים שמורים)` : 'העלה מסמכים';
+            const readyTripBadge = document.getElementById('ready-trip-name-badge');
+            if (readyTripBadge) {
+                readyTripBadge.innerText = isReady ? '🛫 מוכן להמראה / יציאה' : '📋 שלב תכנון';
             }
         }
 
