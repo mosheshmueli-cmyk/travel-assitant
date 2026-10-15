@@ -785,73 +785,258 @@
                 </div>
 
                 <!-- ACCORDION 1: שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד) -->
+                <!-- ACCORDION 1: שאלון רישום דרישות והעדפות הלקוח (12 שאלות היסוד) -->
                 <div class="accordion-item open" id="acc-client-needs">
                     <div class="accordion-header" onclick="toggleAccordion('acc-client-needs')">
                         <span style="color: #1e293b;"><i class="fa-solid fa-clipboard-list" style="color:#ea580c; margin-left:8px;"></i> 1. שאלון רישום דרישות והעדפות (12 שאלות היסוד)</span>
                         <i class="fa-solid fa-chevron-down chevron-icon"></i>
                     </div>
                     <div class="accordion-content">
-                        <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:18px; margin-bottom:18px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-weight:900; color:#9a3412; font-size:1.3em;"><i class="fa-solid fa-plane-departure"></i> יעד הטיול המוגדר:</span>
-                                <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:6px 14px; border-radius:10px; font-size:1.15em; font-weight:900;">קוריאה הדרומית - אופיר טורס</span>
+                        
+                        <!-- Top Active Trip Header & Geo-Context Toggle -->
+                        <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:16px; margin-bottom:14px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <span style="font-weight:900; color:#9a3412; font-size:1.15em;"><i class="fa-solid fa-map-pin"></i> יעד הטיול הפעיל:</span>
+                                    <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:4px 12px; border-radius:8px; font-size:1.05em; font-weight:900;">קוריאה הדרומית - אופיר טורס</span>
+                                </div>
+                                <div style="display:flex; gap:6px;">
+                                    <button id="btn-mode-israel" onclick="setTripGeoMode(true)" style="background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; padding:6px 12px; border-radius:8px; font-weight:900; font-size:0.85em; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                                        🇮🇱 טיול בישראל
+                                    </button>
+                                    <button id="btn-mode-abroad" onclick="setTripGeoMode(false)" style="background:#eff6ff; border:1.5px solid #93c5fd; color:#1e40af; padding:6px 12px; border-radius:8px; font-weight:900; font-size:0.85em; cursor:pointer; display:flex; align-items:center; gap:4px;">
+                                        🌍 טיול בחו"ל
+                                    </button>
+                                </div>
                             </div>
-                            <p style="margin:8px 0 0 0; font-size:1.1em; color:#7c2d12; line-height:1.5;">הגדרת היעד, התאריכים, ההעדפות, הכשרות והנגישות עבור הטיול הפעיל.</p>
-                        </div>
 
-                        <!-- 12 Questions Form -->
-                        <div style="display:flex; flex-direction:column; gap:16px; font-size:1.15em;">
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">1. נקודת מוצא ויציאה:</label>
-                                <input type="text" id="q_origin" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="שדרות העצמאות 93, אשדוד / נתבג טרמינל 3">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">2. מדינה / יעד מבוקש:</label>
-                                <input type="text" id="q_destination" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">3. אופי ומטרת הטיול:</label>
-                                <input type="text" id="q_character" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">4. הרכב וכמות המטיילים:</label>
-                                <input type="text" id="q_group" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">5. משך הטיול בימים:</label>
-                                <input type="text" id="q_duration" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="15 ימים מלאים (כולל 2 שבתות!)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">6. תאריך יציאה מתוכנן:</label>
-                                <input type="text" id="q_date" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">7. תקציב מתוכנן:</label>
-                                <input type="text" id="q_budget" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">8. אתרים, סדנאות ופעילויות חובה:</label>
-                                <textarea id="q_activities" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור ג'וסון, שמורת הר סאוראק, מקדש ביאופג'וסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגג'ו (שילה), בוסאן (שוק דגים ג'גאלצ'י, גמצ'און), אי ג'ג'ו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצ'ון, אינסדונג).</textarea>
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">9. העדפות תחבורה:</label>
-                                <input type="text" id="q_transit" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת (מכניסת שבת ועד מוצאי שבת). כל הפעילות רגלית בלבד!">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">10. סוגי לינה מועדפים:</label>
-                                <input type="text" id="q_hotels" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">11. העדפות כשרות ומזון:</label>
-                                <input type="text" id="q_food" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;" value="סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.">
-                            </div>
-                            <div>
-                                <label style="font-weight:900; color:#0f172a; font-size:1.15em; margin-bottom:6px; display:block;">12. אילוצים ובקשות מיוחדות:</label>
-                                <textarea id="q_constraints" rows="3" style="width:100%; padding:14px 16px; border:2px solid #cbd5e1; border-radius:10px; font-family:Heebo; font-size:1.1em; color:#0f172a; font-weight:600;">2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל.</textarea>
+                            <!-- Context Dynamic Notice Banner -->
+                            <div id="geo-context-banner" style="margin-top:10px; padding:8px 12px; background:white; border-radius:8px; border:1px solid #fed7aa; font-size:0.9em; line-height:1.4; color:#7c2d12;">
+                                💡 <b>טיול בחו"ל:</b> כל שדות הטיסות, הדרכונים והמעברים הבינלאומיים פעילים במלואם.
                             </div>
                         </div>
 
-                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:20px; background:#ea580c; color:white; border:none; padding:18px; border-radius:14px; font-weight:900; font-size:1.3em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 6px 18px rgba(234,88,12,0.3);">
+                        <!-- Form Clearing & Preset Toolbar -->
+                        <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+                            <button onclick="clearEntireQuestionnaire()" style="flex:1; min-width:180px; background:#f1f5f9; border:1.5px solid #cbd5e1; color:#334155; padding:10px 14px; border-radius:10px; font-weight:900; font-size:0.9em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                                <i class="fa-solid fa-eraser" style="color:#ef4444;"></i> 🧹 נקה את כל השאלון (טופס ריק)
+                            </button>
+                            <button onclick="loadRecommendedDefaults()" style="flex:1; min-width:180px; background:#eff6ff; border:1.5px solid #93c5fd; color:#1d4ed8; padding:10px 14px; border-radius:10px; font-weight:900; font-size:0.9em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                                <i class="fa-solid fa-wand-magic-sparkles" style="color:#2563eb;"></i> 📋 טען נתוני דוגמה מומלצים ליעד זה
+                            </button>
+                        </div>
+
+                        <!-- Data Entry Live Status Dashboard (Checklist & Progress Tracker) -->
+                        <div id="questionnaire-status-dashboard" style="background:#f8fafc; border:2px solid #cbd5e1; border-radius:14px; padding:14px 16px; margin-bottom:18px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                                <div style="font-weight:900; color:#0f172a; font-size:1.05em; display:flex; align-items:center; gap:8px;">
+                                    <i class="fa-solid fa-bars-progress" style="color:#2563eb;"></i>
+                                    <span>סטטוס הזנת נתונים:</span>
+                                    <span id="q-progress-counter" style="color:#2563eb;">0 / 12 שאלות הושלמו</span>
+                                </div>
+                                <span id="q-progress-badge" style="background:#e2e8f0; color:#475569; padding:3px 10px; border-radius:6px; font-weight:900; font-size:0.82em;">
+                                    ⚪ ממתין למילוי
+                                </span>
+                            </div>
+
+                            <!-- Visual Progress Bar -->
+                            <div style="background:#e2e8f0; border-radius:10px; height:12px; width:100%; overflow:hidden; margin-bottom:10px;">
+                                <div id="q-progress-bar-fill" style="background:linear-gradient(90deg, #3b82f6 0%, #10b981 100%); height:100%; width:0%; transition:width 0.3s ease;"></div>
+                            </div>
+
+                            <!-- Guidance & Missing Fields Feedback -->
+                            <div id="q-progress-feedback" style="font-size:0.86em; color:#475569; line-height:1.5;">
+                                💡 אנא מלא את השדות או לחץ <b>"אין נתונים / לא רלוונטי"</b> לצד שדות שאינך מעוניין לעדכן כדי לסמנם כטופלו.
+                            </div>
+                        </div>
+
+                        <!-- 12 Questions Form (Clean, Placeholders, Per-field Clear & N/A toggles) -->
+                        <div style="display:flex; flex-direction:column; gap:16px; font-size:1.1em;">
+                            
+                            <!-- 1. Origin -->
+                            <div class="q-block" id="block_q_origin" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_origin" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        1. נקודת מוצא ויציאה:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_origin" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_origin')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_origin')" id="btn_na_q_origin" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_origin" oninput="onQuestionInput('q_origin')" placeholder="לדוגמה: שדרות העצמאות 93 אשדוד / נתב&quot;ג טרמינל 3" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 2. Destination -->
+                            <div class="q-block" id="block_q_destination" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_destination" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        2. מדינה / יעד מבוקש:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_destination" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_destination')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_destination')" id="btn_na_q_destination" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="לדוגמה: שביל ישראל בצפון / קוריאה הדרומית" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 3. Character -->
+                            <div class="q-block" id="block_q_character" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_character" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        3. אופי ומטרת הטיול:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_character" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_character')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_character')" id="btn_na_q_character" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_character" oninput="onQuestionInput('q_character')" placeholder="לדוגמה: הליכה בטבע, טיול משפחתי, מורשת ותרבות, מותאם לגמלאים" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 4. Group -->
+                            <div class="q-block" id="block_q_group" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_group" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        4. הרכב וכמות המטיילים:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_group" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_group')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_group')" id="btn_na_q_group" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_group" oninput="onQuestionInput('q_group')" placeholder="לדוגמה: 4 חברים / זוג / קבוצה מאורגנת של 42 גמלאים" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 5. Duration -->
+                            <div class="q-block" id="block_q_duration" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_duration" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        5. משך הטיול בימים:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_duration" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_duration')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_duration')" id="btn_na_q_duration" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_duration" oninput="onQuestionInput('q_duration')" placeholder="לדוגמה: 3 ימים / 15 ימים מלאים (כולל 2 שבתות)" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 6. Date -->
+                            <div class="q-block" id="block_q_date" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_date" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        6. תאריך יציאה מתוכנן:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_date" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_date')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_date')" id="btn_na_q_date" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_date" oninput="onQuestionInput('q_date')" placeholder="לדוגמה: אפריל 2026 / 22-11-2026 עד 06-12-2026" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 7. Budget -->
+                            <div class="q-block" id="block_q_budget" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_budget" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        7. תקציב מתוכנן:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_budget" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_budget')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_budget')" id="btn_na_q_budget" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_budget" oninput="onQuestionInput('q_budget')" placeholder="לדוגמה: 800 ₪ לאדם / 5,000 $ לאדם" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 8. Activities -->
+                            <div class="q-block" id="block_q_activities" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_activities" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        8. אתרים, סדנאות ופעילויות חובה:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_activities" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_activities')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_activities')" id="btn_na_q_activities" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <textarea id="q_activities" rows="3" oninput="onQuestionInput('q_activities')" placeholder="לדוגמה: שמורת הבניאס, הר מירון, נחל דישון / ארמון גיונגבוקגונג, בוסאן..." style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;"></textarea>
+                            </div>
+
+                            <!-- 9. Transit -->
+                            <div class="q-block" id="block_q_transit" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_transit" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        9. העדפות תחבורה: <span id="label_transit_sub" style="font-size:0.8em; color:#2563eb; font-weight:bold;"></span>
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_transit" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_transit')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_transit')" id="btn_na_q_transit" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_transit" oninput="onQuestionInput('q_transit')" placeholder="לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (בטיול בארץ טיסות נוטרלו)" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 10. Hotels -->
+                            <div class="q-block" id="block_q_hotels" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_hotels" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        10. סוגי לינה מועדפים:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_hotels" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_hotels')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_hotels')" id="btn_na_q_hotels" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_hotels" oninput="onQuestionInput('q_hotels')" placeholder="לדוגמה: חניוני לילה מוסדרים, צימרים כפריים / מלונות עם מעליות" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 11. Food -->
+                            <div class="q-block" id="block_q_food" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_food" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        11. העדפות כשרות ומזון:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_food" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_food')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_food')" id="btn_na_q_food" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <input type="text" id="q_food" oninput="onQuestionInput('q_food')" placeholder="לדוגמה: כשר למהדרין, צמחוני, בישול שטח בגזייה, סעודות שבת" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                            </div>
+
+                            <!-- 12. Constraints -->
+                            <div class="q-block" id="block_q_constraints" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                                    <label for="q_constraints" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        12. אילוצים ובקשות מיוחדות:
+                                    </label>
+                                    <div style="display:flex; align-items:center; gap:6px;">
+                                        <span id="badge_q_constraints" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
+                                        <button type="button" onclick="clearSingleField('q_constraints')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="toggleFieldNA('q_constraints')" id="btn_na_q_constraints" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
+                                    </div>
+                                </div>
+                                <textarea id="q_constraints" rows="3" oninput="onQuestionInput('q_constraints')" placeholder="לדוגמה: משמעת מים מחמירה, חיסכון סוללה, שבת ללא רכבים, נגישות..." style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;"></textarea>
+                            </div>
+
+                        </div>
+
+                        <!-- Save Questionnaire Action Button -->
+                        <button onclick="saveTripQuestionnaire()" style="width:100%; margin-top:20px; background:#ea580c; color:white; border:none; padding:16px; border-radius:14px; font-weight:900; font-size:1.25em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 6px 18px rgba(234,88,12,0.3);">
                             <i class="fa-solid fa-floppy-disk"></i> שמור שאלון ועדכן תיק טיול
                         </button>
                     </div>
@@ -865,8 +1050,13 @@
                     </div>
                     <div class="accordion-content">
                         <p style="font-size: 0.9em; color: #475569; margin-top: 0; line-height: 1.5;">
-                            <b>תיק מסמכים אופליין מלא:</b> העלה לכאן את מסמכי הטיול המאורגן (חוברת מסלול מהסוכנות, שוברים וכרטיסים) וכן מסמכים אישיים (דרכון, ביטוח, מרשמים). הכל נשמר מאובטח במכשיר וזמין גם ללא אינטרנט בשטח ובחו"ל!
+                            <b>תיק מסמכים אופליין מלא:</b> העלה לכאן את מסמכי הטיול המאורגן (חוברת מסלול מהסוכנות, שוברים וכרטיסים) וכן מסמכים אישיים (דרכון/ת.ז, ביטוח, מרשמים). הכל נשמר מאובטח במכשיר וזמין גם ללא אינטרנט בשטח ובחו"ל!
                         </p>
+
+                        <!-- Context Notice for Documents in Israel vs Abroad -->
+                        <div id="docs-geo-notice" style="display:none; background:#f0fdf4; border:1px solid #86efac; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:0.86em; color:#166534; line-height:1.4;">
+                            🇮🇱 <b>טיול בישראל:</b> אין צורך בדרכון או בביטוח נסיעות לחו"ל. ניתן להעלות מפת שביל, אישורי כניסה לשמורות טבע, תעודת זהות / רישיון, או ביטוח חילוץ במידת הצורך.
+                        </div>
 
                         <!-- Hidden File Input for all uploads -->
                         <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf" onchange="handleCustomDocUpload(event)">
@@ -875,19 +1065,19 @@
                         <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 14px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                                 <div style="font-weight: 900; color: #166534; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-briefcase"></i> א. מסמכי טיול מאורגן (מחברת הנסיעות / סוכנות)
+                                    <i class="fa-solid fa-briefcase"></i> <span id="doc-block1-title">א. מסמכי מסלול ומנהלה (חוברת מסלול / מפת שביל)</span>
                                 </div>
-                                <span style="background: #dcfce7; color: #15803d; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">טיול מאורגן</span>
+                                <span id="doc-block1-badge" style="background: #dcfce7; color: #15803d; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">מסמכי מסלול</span>
                             </div>
-                            <div style="font-size: 0.82em; color: #14532d; margin-bottom: 10px; line-height: 1.4;">
-                                העלה קובץ PDF או תמונה של חוברת המסלול מאופיר טורס/פגסוס/וכו', שובר הזמנה, או כרטיסים קבוצתיים:
+                            <div id="doc-block1-desc" style="font-size: 0.82em; color: #14532d; margin-bottom: 10px; line-height: 1.4;">
+                                העלה קובץ PDF או תמונה של חוברת המסלול, מפת שביל ישראל, שובר הזמנה, או כרטיסים:
                             </div>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="flex: 1; min-width: 140px; background: #15803d; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(21,128,61,0.25);">
-                                    <i class="fa-solid fa-file-pdf"></i> העלה חוברת מסלול
+                                <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="flex: 1; min-width: 140px; background: #15803d; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(21,128,61,0.25);">
+                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">העלה חוברת / מפת מסלול</span>
                                 </button>
-                                <button onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="flex: 1; min-width: 140px; background: #059669; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(5,150,105,0.25);">
-                                    <i class="fa-solid fa-receipt"></i> העלה שובר / כרטיס קבוצתי
+                                <button id="btn-upload-voucher" onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="flex: 1; min-width: 140px; background: #059669; color: white; border: none; padding: 10px 12px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(5,150,105,0.25);">
+                                    <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">העלה שובר / כרטיס כניסה</span>
                                 </button>
                             </div>
                         </div>
@@ -900,15 +1090,15 @@
                                 </div>
                                 <span style="background: #dbeafe; color: #1d4ed8; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">מסמכים אישיים</span>
                             </div>
-                            <div style="font-size: 0.82em; color: #1e3a8a; margin-bottom: 10px; line-height: 1.4;">
-                                העלה צילום דרכון בתוקף, פוליסת ביטוח נסיעות, או מרשמי תרופות חיוניות לשמירה מאובטחת במכשיר:
+                            <div id="doc-block2-desc" style="font-size: 0.82em; color: #1e3a8a; margin-bottom: 10px; line-height: 1.4;">
+                                העלה צילום דרכון / ת.ז, פוליסת ביטוח נסיעות / חילוץ, או מרשמי תרופות חיוניות:
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-                                <button onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: #2563eb; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
-                                    <i class="fa-solid fa-passport"></i> צילום דרכון
+                                <button id="btn-upload-passport" onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: #2563eb; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
+                                    <i class="fa-solid fa-passport"></i> <span id="btn-upload-passport-text">צילום דרכון</span>
                                 </button>
-                                <button onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: #0284c7; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(2,132,199,0.25);">
-                                    <i class="fa-solid fa-shield-halved"></i> ביטוח רפואי
+                                <button id="btn-upload-insurance" onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: #0284c7; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(2,132,199,0.25);">
+                                    <i class="fa-solid fa-shield-halved"></i> <span id="btn-upload-insurance-text">ביטוח רפואי</span>
                                 </button>
                                 <button onclick="triggerDocUpload('personal', 'מרשמים רפואיים ותרופות')" style="background: #d97706; color: white; border: none; padding: 10px 8px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 4px rgba(217,119,6,0.25);">
                                     <i class="fa-solid fa-prescription-bottle-medical"></i> מרשמים ותרופות
@@ -3029,7 +3219,367 @@
             `;
         }
 
-        // ================= TRIP QUESTIONNAIRE LOGIC (12 QUESTIONS) MULTI-TRIP ISOLATION =================
+        // ================= TRIP QUESTIONNAIRE LOGIC (12 QUESTIONS) MULTI-TRIP ISOLATION & PROGRESS TRACKER =================
+        const QUESTION_CONFIG = [
+            { id: 'q_origin', title: '1. נקודת מוצא' },
+            { id: 'q_destination', title: '2. יעד מבוקש' },
+            { id: 'q_character', title: '3. אופי ומטרה' },
+            { id: 'q_group', title: '4. הרכב מטיילים' },
+            { id: 'q_duration', title: '5. משך בימים' },
+            { id: 'q_date', title: '6. תאריך יציאה' },
+            { id: 'q_budget', title: '7. תקציב' },
+            { id: 'q_activities', title: '8. אתרי חובה' },
+            { id: 'q_transit', title: '9. תחבורה' },
+            { id: 'q_hotels', title: '10. לינה' },
+            { id: 'q_food', title: '11. כשרות ומזון' },
+            { id: 'q_constraints', title: '12. אילוצים ובקשות' }
+        ];
+
+        function isDomesticTrip(tripKey) {
+            const k = tripKey || currentTripKey;
+            const explicit = localStorage.getItem('travel_assistant_trip_is_domestic_' + k);
+            if (explicit === 'yes') return true;
+            if (explicit === 'no') return false;
+
+            if (k === 'israel_trail_north' || k === 'ashkelon' || k === 'netanya') return true;
+            const trip = TRIPS_DATABASE[k];
+            if (trip) {
+                const n = (trip.name || '').toLowerCase();
+                const d = (trip.description || '').toLowerCase();
+                if (n.includes('ישראל') || n.includes('שביל') || n.includes('צפון') || n.includes('גליל') || n.includes('אשקלון') || n.includes('נתניה') || n.includes('ירושלים') || n.includes('אילת') || n.includes('גולן') || n.includes('נגב') || n.includes('חרמון') || d.includes('ישראל')) {
+                    return true;
+                }
+            }
+            const destEl = document.getElementById('q_destination');
+            if (destEl && destEl.value) {
+                const v = destEl.value.toLowerCase();
+                if (v.includes('ישראל') || v.includes('שביל') || v.includes('גליל') || v.includes('אשקלון') || v.includes('נתניה') || v.includes('צפון') || v.includes('ירושלים') || v.includes('אילת')) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function setTripGeoMode(isDomestic) {
+            localStorage.setItem('travel_assistant_trip_is_domestic_' + currentTripKey, isDomestic ? 'yes' : 'no');
+            applyTripGeoContext(isDomestic);
+            updateQuestionnaireProgress();
+        }
+
+        function applyTripGeoContext(isDomestic) {
+            const btnIsrael = document.getElementById('btn-mode-israel');
+            const btnAbroad = document.getElementById('btn-mode-abroad');
+            const banner = document.getElementById('geo-context-banner');
+
+            if (btnIsrael && btnAbroad) {
+                if (isDomestic) {
+                    btnIsrael.style.background = '#15803d';
+                    btnIsrael.style.color = '#ffffff';
+                    btnIsrael.style.borderColor = '#15803d';
+                    btnAbroad.style.background = '#f1f5f9';
+                    btnAbroad.style.color = '#64748b';
+                    btnAbroad.style.borderColor = '#cbd5e1';
+                } else {
+                    btnAbroad.style.background = '#1d4ed8';
+                    btnAbroad.style.color = '#ffffff';
+                    btnAbroad.style.borderColor = '#1d4ed8';
+                    btnIsrael.style.background = '#f1f5f9';
+                    btnIsrael.style.color = '#64748b';
+                    btnIsrael.style.borderColor = '#cbd5e1';
+                }
+            }
+
+            if (banner) {
+                if (isDomestic) {
+                    banner.innerHTML = `🇮🇱 <b>טיול בישראל (שדות חו"ל נוטרלו):</b> שדות טיסות בינלאומיות, כרטיסי טיסה, דרכונים וביטוח חו"ל נוטרלו ועומעמו אוטומטית. הטופס מותאם כעת לתחבורה יבשתית ומסלולים בארץ.`;
+                    banner.style.background = '#f0fdf4';
+                    banner.style.borderColor = '#86efac';
+                    banner.style.color = '#166534';
+                } else {
+                    banner.innerHTML = `🌍 <b>טיול בחו"ל:</b> כל שדות הטיסות, הדרכונים והמעברים הבינלאומיים פעילים במלואם.`;
+                    banner.style.background = '#eff6ff';
+                    banner.style.borderColor = '#93c5fd';
+                    banner.style.color = '#1e40af';
+                }
+            }
+
+            // Adjust placeholders & sub-labels
+            const originInput = document.getElementById('q_origin');
+            if (originInput) {
+                originInput.placeholder = isDomestic ? 
+                    'לדוגמה: שדרות העצמאות 93 אשדוד / תחנת איסוף (שדות נתב"ג נוטרלו)' : 
+                    'לדוגמה: שדרות העצמאות 93 אשדוד / נתב"ג טרמינל 3';
+            }
+
+            const transitInput = document.getElementById('q_transit');
+            const transitSub = document.getElementById('label_transit_sub');
+            if (transitInput) {
+                transitInput.placeholder = isDomestic ? 
+                    'לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (שדות טיסה נוטרלו)' : 
+                    'לדוגמה: טיסות בינלאומיות אתיופיאן איירליינס, טיסות פנים, אוטובוס תיירים ממוזג';
+            }
+            if (transitSub) {
+                transitSub.innerText = isDomestic ? '(תחבורה יבשתית בארץ)' : '(טיסות ומעברים בינלאומיים)';
+                transitSub.style.color = isDomestic ? '#15803d' : '#2563eb';
+            }
+
+            const budgetInput = document.getElementById('q_budget');
+            if (budgetInput) {
+                budgetInput.placeholder = isDomestic ? 
+                    'לדוגמה: 800 ₪ לאדם (שקלים חדשים)' : 
+                    'לדוגמה: 5,075 $ לאדם בחדר זוגי';
+            }
+
+            // Adjust Accordion 2 (Document Uploads) for Domestic vs Abroad
+            const docsGeoNotice = document.getElementById('docs-geo-notice');
+            if (docsGeoNotice) {
+                docsGeoNotice.style.display = isDomestic ? 'block' : 'none';
+            }
+
+            const passportBtnText = document.getElementById('btn-upload-passport-text');
+            const passportBtn = document.getElementById('btn-upload-passport');
+            if (passportBtnText) {
+                passportBtnText.innerText = isDomestic ? 'ת.ז / רישיון (דרכון לא נדרש)' : 'צילום דרכון';
+            }
+            if (passportBtn) {
+                passportBtn.style.opacity = isDomestic ? '0.85' : '1.0';
+            }
+
+            const insuranceBtnText = document.getElementById('btn-upload-insurance-text');
+            if (insuranceBtnText) {
+                insuranceBtnText.innerText = isDomestic ? 'ביטוח חילוץ (אופציונלי)' : 'ביטוח רפואי חו"ל';
+            }
+
+            const bookletBtnText = document.getElementById('btn-upload-booklet-text');
+            if (bookletBtnText) {
+                bookletBtnText.innerText = isDomestic ? 'מפת מסלול / שביל' : 'חוברת מסלול סוכנות';
+            }
+        }
+
+        function onQuestionInput(fieldId) {
+            updateQuestionnaireProgress();
+        }
+
+        function clearSingleField(fieldId) {
+            const el = document.getElementById(fieldId);
+            if (el) {
+                el.value = '';
+                el.focus();
+                updateQuestionnaireProgress();
+            }
+        }
+
+        function toggleFieldNA(fieldId) {
+            const el = document.getElementById(fieldId);
+            if (!el) return;
+            const current = el.value.trim();
+            if (current.includes('אין נתונים') || current.includes('לא רלוונטי')) {
+                el.value = '';
+            } else {
+                el.value = '[אין נתונים / לא רלוונטי]';
+            }
+            updateQuestionnaireProgress();
+        }
+
+        function clearEntireQuestionnaire() {
+            if (!confirm('האם לנקות את כל 12 שדות השאלון ולהתחיל מטופס ריק לחלוטין?')) return;
+            QUESTION_CONFIG.forEach(q => {
+                const el = document.getElementById(q.id);
+                if (el) el.value = '';
+            });
+            updateQuestionnaireProgress();
+        }
+
+        function loadRecommendedDefaults() {
+            const isDomestic = isDomesticTrip(currentTripKey);
+            let profile = null;
+
+            if (currentTripKey === 'israel_trail_north') {
+                profile = {
+                    origin: 'שדרות העצמאות 93 אשדוד ➔ חניון הפסגה הר מירון',
+                    destination: 'שביל ישראל בצפון (הגליל העליון ומקורות הירדן)',
+                    character: 'הליכה בטבע, מעיינות ונוף גלילי (רמת קושי בינונית)',
+                    group: 'קבוצת חברים (4-8 מטיילים)',
+                    duration: '3-4 ימים',
+                    date: 'עונת האביב',
+                    budget: '800 ₪ לאדם',
+                    activities: 'הר מירון, נחל עמוד עליון, נחל דישון, שמורת הבניאס והשביל התלוי מעל המים.',
+                    transit: 'רכבים פרטיים לחניוני לילה + הקפצות מוניות מקומיות (שדות טיסה נוטרלו).',
+                    hotels: 'חניוני לילה מוסדרים של רשות הטבע והגנים / לינה כפרית בקיבוצים.',
+                    food: 'אוכל כשר לשטח, גזיות בישול והצטיידות במרכולים מקומיים.',
+                    constraints: 'משמעת מים מחמירה (3-4 ליטר לאדם ליום), הפעלת נוהל חילוץ מהתברברות (Off-Route SOS) ומצב חיסכון בסוללה (Eco Mode).'
+                };
+            } else if (currentTripKey === 'ashkelon') {
+                profile = {
+                    origin: 'תחנת רכבת אשדוד / רחובות / תל אביב',
+                    destination: 'אשקלון - ים, עתיקות ומורשת היסטורית',
+                    character: 'משפחות וגמלאים (סיור מונגש וקליל)',
+                    group: 'משפחה / חברים (2-6 מטיילים)',
+                    duration: 'יום אחד עד סוף שבוע',
+                    date: 'כל השנה (מותאם מזג אוויר)',
+                    budget: '250 ₪ לאדם ליום',
+                    activities: 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל העתיקה ומוזיאון החאן.',
+                    transit: 'רכבת ישראל עד תחנת אשקלון, קווי אוטובוס עירוניים ומוניות קצרות.',
+                    hotels: 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש).',
+                    food: 'מסעדות דגים כשרות למהדרין במרינה, שווקי פירות ומאפיות במגדל.',
+                    constraints: 'שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, נקודות צל וספסלי מנוחה מרובים.'
+                };
+            } else if (currentTripKey === 'rome') {
+                profile = {
+                    origin: 'נתבג טרמינל 3 ✈️ נמל התעופה רומא פיומיצ\'ינו (FCO)',
+                    destination: 'רומא ופירנצה (איטליה) - שבוע היסטוריה ומורשת',
+                    character: 'חברים ומשפחה (הליכה מתונה, ללא מדרגות)',
+                    group: 'קבוצת חברים (10-15 מטיילים)',
+                    duration: '7 ימים מלאים (כולל שבת ברומא)',
+                    date: 'אביב / סתיו (מועד גמיש)',
+                    budget: '1,800 € לאדם',
+                    activities: 'הקולוסיאום, מזרקת טרווי, הגטו היהודי העתיק ובית הכנסת הגדול, קריית הוותיקן, נסיעה ברכבת מהירה לפירנצה, גלריית אופיצי וגשר פונטה וקיו.',
+                    transit: 'רכבת מהירה Frecciarossa בין רומא לפירנצה, מטרו ומוניות מקומיות. בשבת - הליכה רגלית בלבד.',
+                    hotels: 'מלון סמוך לגטו היהודי ברומא (מרחק הליכה קצר לבתי כנסת ולמסעדות כשרות).',
+                    food: 'מסעדות כשרות למהדרין בגטו היהודי ברומא (Ba\'Ghetto, BellaCarne), סעודות שבת מוסדרות.',
+                    constraints: 'שמירת שבת מלאה ברומא (כניסה ויציאה לפי זמני המקום). נגישות מלאה לכיסאות גלגלים ועגלות באתרי התיירות.'
+                };
+            } else {
+                // Default to Korea
+                profile = {
+                    origin: 'שדרות העצמאות 93, אשדוד / נתבג טרמינל 3',
+                    destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
+                    character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)',
+                    group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
+                    duration: '15 ימים מלאים (כולל 2 שבתות!)',
+                    date: '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)',
+                    budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
+                    activities: "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).",
+                    transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת מכניסת שבת ועד מוצאי שבת. כל הפעילות רגלית בלבד!",
+                    hotels: "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר",
+                    food: "סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.",
+                    constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק\"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל."
+                };
+            }
+
+            if (profile) {
+                Object.keys(profile).forEach(k => {
+                    const el = document.getElementById('q_' + k);
+                    if (el) el.value = profile[k];
+                });
+            }
+
+            updateQuestionnaireProgress();
+        }
+
+        function updateQuestionnaireProgress() {
+            let completedCount = 0;
+            const missingTitles = [];
+
+            QUESTION_CONFIG.forEach(q => {
+                const el = document.getElementById(q.id);
+                const badge = document.getElementById('badge_' + q.id);
+                const block = document.getElementById('block_' + q.id);
+                const btnNA = document.getElementById('btn_na_' + q.id);
+
+                if (!el) return;
+                const val = el.value.trim();
+
+                if (val.includes('אין נתונים') || val.includes('לא רלוונטי')) {
+                    completedCount++;
+                    if (badge) {
+                        badge.innerText = '➖ אין נתונים';
+                        badge.style.background = '#e0f2fe';
+                        badge.style.color = '#0369a1';
+                    }
+                    if (block) block.style.borderColor = '#93c5fd';
+                    if (btnNA) {
+                        btnNA.style.background = '#0284c7';
+                        btnNA.style.color = 'white';
+                        btnNA.innerText = '✓ סומן: לא רלוונטי';
+                    }
+                } else if (val.length > 0) {
+                    completedCount++;
+                    if (badge) {
+                        badge.innerText = '✅ הושלם';
+                        badge.style.background = '#dcfce7';
+                        badge.style.color = '#15803d';
+                    }
+                    if (block) block.style.borderColor = '#86efac';
+                    if (btnNA) {
+                        btnNA.style.background = '#f8fafc';
+                        btnNA.style.color = '#334155';
+                        btnNA.innerText = '➖ אין נתונים';
+                    }
+                } else {
+                    missingTitles.push(q.title);
+                    if (badge) {
+                        badge.innerText = '⚪ חסר';
+                        badge.style.background = '#fff1f2';
+                        badge.style.color = '#e11d48';
+                    }
+                    if (block) block.style.borderColor = '#e2e8f0';
+                    if (btnNA) {
+                        btnNA.style.background = '#f8fafc';
+                        btnNA.style.color = '#334155';
+                        btnNA.innerText = '➖ אין נתונים';
+                    }
+                }
+            });
+
+            const pct = Math.round((completedCount / QUESTION_CONFIG.length) * 100);
+
+            // Update Counter
+            const counterEl = document.getElementById('q-progress-counter');
+            if (counterEl) {
+                counterEl.innerText = `${completedCount} / ${QUESTION_CONFIG.length} שאלות הושלמו (${pct}%)`;
+            }
+
+            // Update Bar
+            const barFill = document.getElementById('q-progress-bar-fill');
+            if (barFill) {
+                barFill.style.width = `${pct}%`;
+                if (pct === 100) {
+                    barFill.style.background = '#10b981';
+                } else if (pct > 50) {
+                    barFill.style.background = 'linear-gradient(90deg, #3b82f6 0%, #10b981 100%)';
+                } else {
+                    barFill.style.background = '#f59e0b';
+                }
+            }
+
+            // Update Badge
+            const progBadge = document.getElementById('q-progress-badge');
+            if (progBadge) {
+                if (completedCount === QUESTION_CONFIG.length) {
+                    progBadge.innerText = '✅ כל הנתונים הוגדרו!';
+                    progBadge.style.background = '#dcfce7';
+                    progBadge.style.color = '#15803d';
+                } else {
+                    progBadge.innerText = `⏳ חסרים עוד ${QUESTION_CONFIG.length - completedCount} שדות`;
+                    progBadge.style.background = '#fef3c7';
+                    progBadge.style.color = '#b45309';
+                }
+            }
+
+            // Update Feedback text
+            const feedbackEl = document.getElementById('q-progress-feedback');
+            if (feedbackEl) {
+                if (completedCount === QUESTION_CONFIG.length) {
+                    feedbackEl.innerHTML = `<span style="color:#15803d; font-weight:800;"><i class="fa-solid fa-circle-check"></i> כל 12 שאלות היסוד הוגדרו ומוכנות במלואן! לחץ על <b>"שמור שאלון ועדכן תיק טיול"</b> למטה.</span>`;
+                } else {
+                    feedbackEl.innerHTML = `⏳ <b>שדות שטרם הוזנו:</b> <span style="color:#b91c1c; font-weight:bold;">${missingTitles.join(', ')}</span>.<br><span style="color:#64748b;">(טיפ: אם אינך יודע או מעוניין למלא שדה מסוים, לחץ <b>"➖ אין נתונים"</b> לצדו כדי לסמנו כטופל).</span>`;
+                }
+            }
+
+            // Update Planning Stepper Step 1 Status
+            const step1Status = document.getElementById('step-pill-1-status');
+            if (step1Status) {
+                if (completedCount === QUESTION_CONFIG.length) {
+                    step1Status.innerText = '✓ 12/12 הושלמו';
+                    step1Status.style.color = '#15803d';
+                } else {
+                    step1Status.innerText = `(${completedCount}/12 הושלמו)`;
+                    step1Status.style.color = '#d97706';
+                }
+            }
+        }
+
         function saveTripQuestionnaire() {
             const data = {
                 origin: document.getElementById('q_origin').value,
@@ -3076,12 +3626,17 @@
             const pill = document.getElementById('active-trip-pill');
             if (pill && TRIPS_DATABASE[currentTripKey]) pill.innerText = TRIPS_DATABASE[currentTripKey].name;
             if (typeof updatePipelineDisplay === 'function') updatePipelineDisplay();
+            updateQuestionnaireProgress();
 
             alert(`✅ שאלון הטיול עודכן ונשמר בהצלחה!\nכל הנתונים, ההעדפות והמסמכים של "${TRIPS_DATABASE[currentTripKey]?.name || 'הטיול'}" שמורים במכשיר ומעודכנים בתיק הטיול.`);
         }
 
         function loadTripQuestionnaire() {
             try {
+                // Apply Geo-Context (Israel vs Abroad)
+                const isDomestic = isDomesticTrip(currentTripKey);
+                applyTripGeoContext(isDomestic);
+
                 let saved = null;
                 const saveKey = 'travel_assistant_trip_' + currentTripKey + '_questionnaire';
                 const savedStr = localStorage.getItem(saveKey);
@@ -3089,49 +3644,19 @@
                     saved = JSON.parse(savedStr);
                 }
 
-                // Default Profiles if not yet customized
+                // If not yet saved by user, load default profile for system trips
                 if (!saved) {
-                    if (currentTripKey === 'korea') {
+                    if (currentTripKey === 'israel_trail_north') {
                         saved = {
-                            origin: 'שדרות העצמאות 93, אשדוד / נתבג טרמינל 3',
-                            destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
-                            character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)',
-                            group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
-                            duration: '15 ימים מלאים (כולל 2 שבתות!)',
-                            date: '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)',
-                            budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
-                            activities: "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).",
-                            transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת מכניסת שבת ועד מוצאי שבת. כל הפעילות רגלית בלבד!",
-                            hotels: "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר",
-                            food: "סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.",
-                            constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק\"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל."
-                        };
-                    } else if (currentTripKey === 'rome') {
-                        saved = {
-                            origin: 'נתבג טרמינל 3 ✈️ נמל התעופה רומא פיומיצ\'ינו (FCO)',
-                            destination: 'רומא ופירנצה (איטליה) - שבוע היסטוריה ומורשת',
-                            character: 'חברים ומשפחה (הליכה מתונה, ללא מדרגות)',
-                            group: 'קבוצת חברים (10-15 מטיילים)',
-                            duration: '7 ימים מלאים (כולל שבת ברומא)',
-                            date: 'אביב / סתיו (מועד גמיש)',
-                            budget: '1,800 € לאדם',
-                            activities: 'הקולוסיאום, מזרקת טרווי, הגטו היהודי העתיק ובית הכנסת הגדול, קריית הוותיקן, נסיעה ברכבת מהירה לפירנצה, גלריית אופיצי וגשר פונטה וקיו.',
-                            transit: 'רכבת מהירה Frecciarossa בין רומא לפירנצה, מטרו ומוניות מקומיות. בשבת - הליכה רגלית בלבד.',
-                            hotels: 'מלון סמוך לגטו היהודי ברומא (מרחק הליכה קצר לבתי כנסת ולמסעדות כשרות).',
-                            food: 'מסעדות כשרות למהדרין בגטו היהודי ברומא (Ba\'Ghetto, BellaCarne), סעודות שבת מוסדרות.',
-                            constraints: 'שמירת שבת מלאה ברומא (כניסה ויציאה לפי זמני המקום). נגישות מלאה לכיסאות גלגלים ועגלות באתרי התיירות.'
-                        };
-                    } else if (currentTripKey === 'israel_trail_north') {
-                        saved = {
-                            origin: 'נקודת איסוף מרכזית / צפון הארץ',
+                            origin: 'שדרות העצמאות 93 אשדוד ➔ חניון הפסגה הר מירון',
                             destination: 'שביל ישראל בצפון (הגליל העליון ומקורות הירדן)',
-                            character: 'מיטיבי לכת / הליכה בטבע ומים',
-                            group: 'קבוצת מטיילים (4-8 חברים)',
+                            character: 'הליכה בטבע, מעיינות ונוף גלילי (רמת קושי בינונית)',
+                            group: 'קבוצת חברים (4-8 מטיילים)',
                             duration: '3-4 ימים',
                             date: 'עונת האביב',
                             budget: '800 ₪ לאדם',
                             activities: 'הר מירון, נחל עמוד עליון, נחל דישון, שמורת הבניאס והשביל התלוי מעל המים.',
-                            transit: 'רכבים פרטיים לחניוני לילה + הקפצות מוניות מקומיות.',
+                            transit: 'רכבים פרטיים לחניוני לילה + הקפצות מוניות מקומיות (שדות טיסה נוטרלו).',
                             hotels: 'חניוני לילה מוסדרים של רשות הטבע והגנים / לינה כפרית בקיבוצים.',
                             food: 'אוכל כשר לשטח, גזיות בישול והצטיידות במרכולים מקומיים.',
                             constraints: 'משמעת מים מחמירה (3-4 ליטר לאדם ליום), הפעלת נוהל חילוץ מהתברברות (Off-Route SOS) ומצב חיסכון בסוללה (Eco Mode).'
@@ -3151,21 +3676,35 @@
                             food: 'מסעדות דגים כשרות למהדרין במרינה, שווקי פירות ומאפיות במגדל.',
                             constraints: 'שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, נקודות צל וספסלי מנוחה מרובים.'
                         };
-                    } else if (TRIPS_DATABASE[currentTripKey]) {
-                        const trip = TRIPS_DATABASE[currentTripKey];
+                    } else if (currentTripKey === 'rome') {
                         saved = {
-                            origin: 'נקודת מוצא אישית / נתב"ג',
-                            destination: trip.name,
-                            character: trip.group || 'קבוצת חברים',
-                            group: trip.group || '2 מטיילים',
-                            duration: 'לפי תוכנית המסע',
-                            date: trip.dates || 'מועד גמיש',
-                            budget: 'בתכנון',
-                            activities: `${trip.name}: אתרים מרכזיים, מורשת, תרבות וטבע`,
-                            transit: 'תחבורה מותאמת ליעד',
-                            hotels: 'מלונות נגישים במיקום מרכזי',
-                            food: trip.description?.includes('כשרות: כן') ? 'שמירת כשרות מלאה / מסעדות כשרות וסריקת מוצרים' : 'רגיל',
-                            constraints: trip.description || 'לפי העדפות המטיילים'
+                            origin: 'נתבג טרמינל 3 ✈️ נמל התעופה רומא פיומיצ\'ינו (FCO)',
+                            destination: 'רומא ופירנצה (איטליה) - שבוע היסטוריה ומורשת',
+                            character: 'חברים ומשפחה (הליכה מתונה, ללא מדרגות)',
+                            group: 'קבוצת חברים (10-15 מטיילים)',
+                            duration: '7 ימים מלאים (כולל שבת ברומא)',
+                            date: 'אביב / סתיו (מועד גמיש)',
+                            budget: '1,800 € לאדם',
+                            activities: 'הקולוסיאום, מזרקת טרווי, הגטו היהודי העתיק ובית הכנסת הגדול, קריית הוותיקן, נסיעה ברכבת מהירה לפירנצה, גלריית אופיצי וגשר פונטה וקיו.',
+                            transit: 'רכבת מהירה Frecciarossa בין רומא לפירנצה, מטרו ומוניות מקומיות. בשבת - הליכה רגלית בלבד.',
+                            hotels: 'מלון סמוך לגטו היהודי ברומא (מרחק הליכה קצר לבתי כנסת ולמסעדות כשרות).',
+                            food: 'מסעדות כשרות למהדרין בגטו היהודי ברומא (Ba\'Ghetto, BellaCarne), סעודות שבת מוסדרות.',
+                            constraints: 'שמירת שבת מלאה ברומא (כניסה ויציאה לפי זמני המקום). נגישות מלאה לכיסאות גלגלים ועגלות באתרי התיירות.'
+                        };
+                    } else if (currentTripKey === 'korea') {
+                        saved = {
+                            origin: 'שדרות העצמאות 93, אשדוד / נתבג טרמינל 3',
+                            destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
+                            character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)',
+                            group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
+                            duration: '15 ימים מלאים (כולל 2 שבתות!)',
+                            date: '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)',
+                            budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
+                            activities: "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).",
+                            transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת מכניסת שבת ועד מוצאי שבת. כל הפעילות רגלית בלבד!",
+                            hotels: "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר",
+                            food: "סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.",
+                            constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק\"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל."
                         };
                     }
                 }
@@ -3187,7 +3726,17 @@
                     if (document.getElementById('q_hotels')) document.getElementById('q_hotels').value = saved.hotels || '';
                     if (document.getElementById('q_food')) document.getElementById('q_food').value = saved.food || '';
                     if (document.getElementById('q_constraints')) document.getElementById('q_constraints').value = saved.constraints || '';
+                } else {
+                    // For new unpopulated custom trips, set destination name
+                    if (document.getElementById('q_destination') && TRIPS_DATABASE[currentTripKey]) {
+                        document.getElementById('q_destination').value = TRIPS_DATABASE[currentTripKey].name;
+                        const tripName = document.getElementById('q-active-trip-name');
+                        if (tripName) tripName.innerText = TRIPS_DATABASE[currentTripKey].name;
+                    }
                 }
+
+                // Update Progress Dashboard
+                updateQuestionnaireProgress();
             } catch(e) {
                 console.warn('Error loading questionnaire:', e);
             }
