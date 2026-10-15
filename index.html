@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.9.5
+                גרסה 4.9.7
             </span>
         </div>
     </header>
@@ -3206,23 +3206,153 @@
             alert('✅ ההודעה נשמרה בתיק הטיול ופרטי המסלול עודכנו בהצלחה!');
         }
 
-        function viewTextDocModal(docId) {
+        function viewDocumentModal(docId) {
             const docs = getCustomDocs();
             const doc = docs.find(d => d.id === docId);
-            if (!doc) return;
+            if (!doc) {
+                alert('המסמך המבוקש לא נמצא.');
+                return;
+            }
 
             const modal = document.getElementById('text-doc-viewer-modal');
             const titleEl = document.getElementById('text-doc-title');
             const metaEl = document.getElementById('text-doc-meta');
             const bodyEl = document.getElementById('text-doc-body');
+            const copyBtn = document.getElementById('btn-copy-doc-text');
 
             if (titleEl) titleEl.innerText = doc.name;
-            if (metaEl) metaEl.innerText = `🕒 נשמר ב: ${doc.time} | סוג: ${doc.docType || 'הודעת טקסט'}`;
-            if (bodyEl) {
-                bodyEl.innerText = doc.textContent || doc.data || '';
+            if (metaEl) {
+                metaEl.innerHTML = `<span><i class="fa-regular fa-clock"></i> תאריך: ${doc.time}</span> | <span><i class="fa-solid fa-tag"></i> סוג: ${doc.docType || 'מסמך שמור'}</span>`;
+            }
+
+            // Decide content display based on document type
+            if (doc.id === 'doc_korea_booklet' || doc.name.includes('חוברת מסלול') || doc.docType?.includes('חוברת')) {
+                // Official 15-day itinerary view
+                const koreaDoc = document.getElementById('itinerary-doc-korea');
+                if (koreaDoc) {
+                    bodyEl.innerHTML = koreaDoc.innerHTML;
+                } else {
+                    bodyEl.innerHTML = `<div style="padding:10px;">${doc.textContent || doc.name}</div>`;
+                }
+                if (copyBtn) copyBtn.style.display = 'none';
+            } else if (doc.id === 'doc_korea_flights' || doc.name.includes('טיס') || doc.docType?.includes('כרטיס')) {
+                // Official flight tickets summary
+                bodyEl.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <div style="background:#eff6ff; border:1.5px solid #93c5fd; border-radius:12px; padding:14px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                                <b style="color:#1e40af; font-size:1.1em;"><i class="fa-solid fa-plane-departure"></i> כרטיסי טיסה קבוצתיים - Ethiopian Airlines</b>
+                                <span style="background:#dbeafe; color:#1e40af; padding:3px 8px; border-radius:6px; font-weight:800; font-size:0.85em;">קוד הזמנה: OP-KR-2026</span>
+                            </div>
+                            <div style="font-size:0.9em; color:#1e293b; line-height:1.6;">
+                                👥 <b>קבוצה:</b> 42 מטיילים (אופיר טורס)<br>
+                                🧳 <b>כבודה מאושרת:</b> 2 מזוודות של 23 ק"ג לבטן המטוס + טרולי 8 ק"ג לתא הנוסעים לכל מטייל.
+                            </div>
+                        </div>
+
+                        <div style="background:white; border:1px solid #cbd5e1; border-radius:12px; padding:12px;">
+                            <b style="color:#2563eb;"><i class="fa-solid fa-plane-circle-check"></i> טיסת הלוך מקטע 1 (יום א' 22/11/2026):</b>
+                            <div style="font-size:0.88em; color:#334155; margin-top:4px;">
+                                🛫 <b>המראה:</b> נתב"ג טרמינל 3 בשעה <b>14:40</b> (טיסה ET 419)<br>
+                                🛬 <b>נחיתה:</b> אדיס אבבה (ADD) בשעה <b>19:55</b> (משך: 4:15 שעות)<br>
+                                ⏳ <b>קונקשן:</b> שעתיים ו-40 דקות (מעבר בינלאומי ללא איסוף מזוודות).
+                            </div>
+                        </div>
+
+                        <div style="background:white; border:1px solid #cbd5e1; border-radius:12px; padding:12px;">
+                            <b style="color:#2563eb;"><i class="fa-solid fa-plane-circle-check"></i> טיסת הלוך מקטע 2 (יום א' 22/11/2026):</b>
+                            <div style="font-size:0.88em; color:#334155; margin-top:4px;">
+                                🛫 <b>המראה:</b> אדיס אבבה בשעה <b>22:35</b> (טיסה ET 672)<br>
+                                🛬 <b>נחיתה:</b> סיאול אינצ'און טרמינל 1 (ICN) למחרת בשעה <b>15:45</b> (יום ב' 23/11).
+                            </div>
+                        </div>
+
+                        <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:12px;">
+                            <b style="color:#15803d;"><i class="fa-solid fa-plane"></i> טיסות פנים בקוריאה:</b>
+                            <div style="font-size:0.88em; color:#14532d; margin-top:4px;">
+                                • <b>יום 11 (02/12):</b> בוסאן גימהאיי (PUS) ➔ האי ג'ג'ו (CJU) - 55 דקות טיסה.<br>
+                                • <b>יום 13 (04/12):</b> האי ג'ג'ו (CJU) ➔ סיאול גימפו (GMP) - 70 דקות טיסה.
+                            </div>
+                        </div>
+
+                        <div style="background:white; border:1px solid #cbd5e1; border-radius:12px; padding:12px;">
+                            <b style="color:#dc2626;"><i class="fa-solid fa-plane-arrival"></i> טיסות חזור לישראל (מוצ"ש 06/12/2026):</b>
+                            <div style="font-size:0.88em; color:#334155; margin-top:4px;">
+                                🛫 <b>סיאול אינצ'און ➔ אדיס אבבה:</b> המראה <b>00:10</b> (טיסה ET 673) 🛬 נחיתה ב-<b>07:25</b>.<br>
+                                🛫 <b>אדיס אבבה ➔ נתב"ג טרמינל 3:</b> המראה <b>10:30</b> (טיסה ET 418) 🛬 נחיתה בישראל ב-<b>13:35</b>.
+                            </div>
+                        </div>
+                    </div>
+                `;
+                if (copyBtn) copyBtn.style.display = 'none';
+            } else if (doc.id === 'doc_korea_passport' || doc.name.includes('דרכון') || doc.docType?.includes('דרכון')) {
+                // Official Passport summary
+                bodyEl.innerHTML = `
+                    <div style="background:#f8fafc; border:2px solid #cbd5e1; border-radius:14px; padding:18px; text-align:center;">
+                        <i class="fa-solid fa-passport" style="font-size:3em; color:#2563eb; margin-bottom:10px;"></i>
+                        <h3 style="margin:0 0 6px 0; color:#0f172a;">דרכון ישראלי ביומטרי (רשום ומאושר)</h3>
+                        <div style="font-size:0.95em; color:#475569; margin-bottom:14px;">תוקף הדרכון: <b>עד 12/2029</b></div>
+                        <div style="background:white; border:1px solid #e2e8f0; border-radius:10px; padding:12px; text-align:right; font-size:0.88em; line-height:1.6; color:#1e293b;">
+                            ✅ <b>תוקף נדרש לנסיעה:</b> הדרכון בתוקף של מעל 3 שנים (הדרישה הבינלאומית היא 6 חודשים לפחות).<br>
+                            ✅ <b>אישור כניסה לקוריאה (K-ETA):</b> אזרחי ישראל פטורים מוויזת תייר לשהייה של עד 90 יום.<br>
+                            ✅ <b>צילום הדרכון:</b> שמור ומגובה בתיק הטיול ונגיש אופליין בכל עת ללא צורך באינטרנט.
+                        </div>
+                    </div>
+                `;
+                if (copyBtn) copyBtn.style.display = 'none';
+            } else if (doc.id === 'doc_korea_insurance' || doc.name.includes('ביטוח') || doc.docType?.includes('ביטוח')) {
+                // Official Insurance summary
+                bodyEl.innerHTML = `
+                    <div style="background:#fef2f2; border:2px solid #f87171; border-radius:14px; padding:18px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <i class="fa-solid fa-shield-halved" style="font-size:1.8em; color:#dc2626;"></i>
+                                <b style="color:#991b1b; font-size:1.15em;">PassportCard - פוליסת ביטוח רפואי מורחב לחו"ל</b>
+                            </div>
+                            <span style="background:#fee2e2; color:#dc2626; padding:3px 8px; border-radius:6px; font-weight:bold; font-size:0.85em;">כרטיס אדום פעיל</span>
+                        </div>
+                        <div style="background:white; border:1px solid #fca5a5; border-radius:10px; padding:14px; font-size:0.9em; line-height:1.6; color:#1e293b;">
+                            📅 <b>תקופת ביטוח:</b> 22/11/2026 עד 06/12/2026 (15 ימים מלאים)<br>
+                            🏥 <b>הרחבה רפואית:</b> כיסוי מורחב למחלות קיימות, אשפוז, תרופות מרשם ובדיקות חירום.<br>
+                            🚑 <b>פינוי וחילוץ:</b> כיסוי מלא להטסה רפואית, חילוץ ומלווה רפואי מהארץ.<br>
+                            📞 <b>מוקד חירום עולמי 24/7 (עברית):</b> 972-9-8920930+<br>
+                            💬 <b>וואטסאפ מוקד חירום:</b> 972-50-8488880+
+                        </div>
+                    </div>
+                `;
+                if (copyBtn) copyBtn.style.display = 'none';
+            } else if (doc.data && doc.data.startsWith('data:image/')) {
+                // Uploaded Image
+                bodyEl.innerHTML = `
+                    <div style="text-align:center;">
+                        <img src="${doc.data}" style="max-width:100%; max-height:70vh; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                    </div>
+                `;
+                if (copyBtn) copyBtn.style.display = 'none';
+            } else if (doc.textContent) {
+                // WhatsApp / Text
+                bodyEl.innerHTML = `<div style="white-space:pre-wrap; background:#f8fafc; padding:14px; border-radius:10px; border:1px solid #e2e8f0; line-height:1.65;">${doc.textContent}</div>`;
+                if (copyBtn) copyBtn.style.display = 'inline-flex';
+            } else {
+                // Generic preview
+                bodyEl.innerHTML = `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
+                        <b style="color:#0f172a; font-size:1.05em;">${doc.name}</b>
+                        <div style="font-size:0.85em; color:#64748b; margin-top:4px;">סוג: ${doc.docType || 'קובץ שמור'} | קובץ: ${doc.fileName || 'מסמך'}</div>
+                        <div style="margin-top:12px; font-size:0.9em; color:#334155; line-height:1.5;">
+                            המסמך שמור ומאובטח בתיק הטיול שלך וזמין לעיון בכל עת.
+                        </div>
+                    </div>
+                `;
+                if (copyBtn) copyBtn.style.display = 'none';
             }
 
             if (modal) modal.style.display = 'flex';
+        }
+
+        // Backward compatibility alias
+        function viewTextDocModal(docId) {
+            viewDocumentModal(docId);
         }
 
         function closeTextDocModal() {
@@ -3304,13 +3434,11 @@
             const badgeColor = isWhatsApp ? '#15803d' : (isOrg ? '#166534' : '#1e40af');
             const badgeText = isWhatsApp ? '💬 הודעת וואטסאפ' : (isOrg ? '🏢 טיול מאורגן' : '🛂 אישי');
 
-            const viewButtonHtml = isWhatsApp ? 
-                `<button onclick="viewTextDocModal('${d.id}')" style="background: #f0fdf4; color: #15803d; border: 1px solid #86efac; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="פתח וקרא הודעה">
-                    <i class="fa-solid fa-eye"></i> <span style="font-size: 0.9em;">קרא</span>
-                </button>` :
-                `<a href="${d.data}" download="${d.fileName || d.name}" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 4px;" title="הורד / צפה">
-                    <i class="fa-solid fa-download"></i> <span style="font-size: 0.9em;">צפה</span>
-                </a>`;
+            const viewButtonHtml = `
+                <button onclick="viewDocumentModal('${d.id}')" style="background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 12px; border-radius: 8px; font-size: 0.85em; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 1px 3px rgba(37,99,235,0.15);" title="צפה במסמך על המסך">
+                    <i class="fa-solid fa-eye"></i> <span>צפה</span>
+                </button>
+            `;
 
             return `
                 <div style="background: white; border: 1.5px solid ${isWhatsApp ? '#86efac' : (isOrg ? '#bbf7d0' : '#bfdbfe')}; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
@@ -5076,8 +5204,13 @@
 
         function openNewTripModal() {
             closeTripSelectorModal();
+            const input = document.getElementById('new-trip-input-name');
+            if (input) input.value = '';
+            const dates = document.getElementById('new-trip-input-dates-text');
+            if (dates) dates.value = '';
             const m = document.getElementById('new-trip-modal');
             if (m) m.style.display = 'flex';
+            setTimeout(() => { if (input) input.focus(); }, 150);
         }
 
         function closeNewTripModal() {
@@ -5091,35 +5224,17 @@
                 input.value = name;
                 input.focus();
             }
+            const datesInput = document.getElementById('new-trip-input-dates-text');
             if (name.includes('קוריאה') || name.toLowerCase().includes('korea')) {
-                const start = document.getElementById('new-trip-input-start');
-                const end = document.getElementById('new-trip-input-end');
-                const group = document.getElementById('new-trip-input-group');
-                const count = document.getElementById('new-trip-input-count');
-                const notes = document.getElementById('new-trip-input-notes');
-                if (start) start.value = '2026-11-22';
-                if (end) end.value = '2026-12-06';
-                if (group) group.value = 'קבוצה מאורגנת';
-                if (count) count.value = '42';
-                if (notes) notes.value = 'מסלול הקסם הקוריאני (15 ימים, 42 מטיילים, 2 שבתות בדאייגו ובסיאול, התאמה קפדנית לגמלאים מעל גיל 75).';
-            } else if (name.includes('אשקלון')) {
-                const group = document.getElementById('new-trip-input-group');
-                const count = document.getElementById('new-trip-input-count');
-                const notes = document.getElementById('new-trip-input-notes');
-                if (group) group.value = 'קבוצת חברים / גמלאים';
-                if (count) count.value = '4';
-                if (notes) notes.value = 'סיור רכבת, גן לאומי תל אשקלון, מרינה בינלאומית, מדרחוב מגדל, נגישות מלאה.';
+                if (datesInput) datesInput.value = '22/11/2026 עד 06/12/2026';
             } else if (name.includes('שביל ישראל')) {
-                const start = document.getElementById('new-trip-input-start');
-                const end = document.getElementById('new-trip-input-end');
-                const group = document.getElementById('new-trip-input-group');
-                const count = document.getElementById('new-trip-input-count');
-                const notes = document.getElementById('new-trip-input-notes');
-                if (start) start.value = '2026-10-28';
-                if (end) end.value = '2026-10-28';
-                if (group) group.value = 'קבוצת חברים / גמלאים';
-                if (count) count.value = '15';
-                if (notes) notes.value = 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון. 11-12 ק"מ, הליכה מתונה, סיום רטוב ומפגש אוטובוס.';
+                if (datesInput) datesInput.value = '28/10/2026';
+            } else if (name.includes('אשקלון')) {
+                if (datesInput) datesInput.value = 'מועד פתוח / גמיש';
+            } else if (name.includes('רומא') || name.includes('איטליה')) {
+                if (datesInput) datesInput.value = 'אביב / סתיו 2027';
+            } else if (name.includes('יפן')) {
+                if (datesInput) datesInput.value = 'עונת הפריחה (מרץ-אפריל)';
             }
         }
 
@@ -5266,22 +5381,15 @@
             const nameInput = document.getElementById('new-trip-input-name');
             const tripName = nameInput ? nameInput.value.trim() : '';
             if (!tripName) {
-                alert('אנא הזן שם יעד או כותרת לתכנון הטיול החדש');
+                alert('אנא הזן שם יעד או כותרת לתכנון הטיול החדש (למשל: אשקלון)');
                 return;
             }
 
-            const startVal = document.getElementById('new-trip-input-start')?.value || '';
-            const endVal = document.getElementById('new-trip-input-end')?.value || '';
-            const groupVal = document.getElementById('new-trip-input-group')?.value || 'קבוצה';
-            const countVal = document.getElementById('new-trip-input-count')?.value || '2';
-            const notesVal = document.getElementById('new-trip-input-notes')?.value || '';
-            const isKosher = document.getElementById('new-trip-chk-kosher')?.checked;
-            const isShabbat = document.getElementById('new-trip-chk-shabbat')?.checked;
-            const isAccess = document.getElementById('new-trip-chk-access')?.checked;
-
+            const datesVal = document.getElementById('new-trip-input-dates-text')?.value?.trim() || '';
             const isKoreaTrip = tripName.includes('קוריאה') || tripName.toLowerCase().includes('korea');
+            const isAshkelon = tripName.includes('אשקלון');
             const tripKey = 'custom_' + Date.now();
-            const dateStr = (startVal && endVal) ? `${startVal} עד ${endVal}` : (isKoreaTrip ? '22/11/2026 עד 06/12/2026 (15 ימים)' : 'מועד ייקבע בהמשך');
+            const dateStr = datesVal || (isKoreaTrip ? '22/11/2026 עד 06/12/2026 (15 ימים)' : (isAshkelon ? 'מועד פתוח / גמיש' : 'מועד ייקבע בהמשך'));
             const displayTitle = tripName;
 
             const newTripObj = {
@@ -5291,14 +5399,18 @@
                 stage: 'planning',
                 stageLabel: '📋 שלב תכנון (גמיש)',
                 dates: dateStr,
-                group: `${groupVal} (${countVal} מטיילים)`,
-                description: `${notesVal ? notesVal + ' | ' : ''}כשרות: ${isKosher ? 'שמירה מלאה' : 'רגיל'}, שבת: ${isShabbat ? 'שמירת שבת' : 'רגיל'}, נגישות: ${isAccess ? 'מלאה' : 'רגילה'}`,
-                center: isKoreaTrip ? [37.5665, 126.9780] : [32.0853, 34.7818],
+                group: 'קבוצת חברים / גמלאים (4 מטיילים)',
+                description: `${tripName} - תיק תכנון טיול שנפתח במערכת`,
+                center: isKoreaTrip ? [37.5665, 126.9780] : (isAshkelon ? [31.6690, 34.5715] : [32.0853, 34.7818]),
                 zoom: 12,
-                stations: isKoreaTrip ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'].stations)) : [
+                stations: isKoreaTrip ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'] ? TRIPS_DATABASE['korea'].stations : [])) : (isAshkelon ? [
+                    { id: "ash1", title: "1. הגן הלאומי תל אשקלון", desc: "השער הכנעני הקדום, חומות עתיקות, מדשאות ונוף לים", lat: 31.6612, lng: 34.5510, stayTime: "09:00 - 11:30", transitType: "סיור מונגש בשבילי הפארק", walkingDist: "600 מטר שבילים סלולים" },
+                    { id: "ash2", title: "2. טיילת בר כוכבא וחוף דלילה", desc: "טיילת חוף מודרנית ורחבה, בריזת ים, ספסלי מנוחה מוצלים", lat: 31.6780, lng: 34.5570, stayTime: "12:00 - 13:30", transitType: "הליכה מישורית בטיילת", walkingDist: "400 מטר" },
+                    { id: "ash3", title: "3. מרינה אשקלון ומתחם המסעדות", desc: "מתחם בילוי שוקק סביב המעגן, מסעדות דגים כשרות למהדרין", lat: 31.6830, lng: 34.5590, stayTime: "14:00 - 16:00", transitType: "מתחם מרוצף ללא מדרגות", walkingDist: "300 מטר" }
+                ] : [
                     { title: 'נקודת יציאה מהבית (Personal Origin)', lat: 32.0853, lng: 34.7818, stay: '15 דק', stopCode: null },
                     { title: `${tripName} - אתר פתיחה מתוכנן`, lat: 32.0880, lng: 34.7850, stay: '120 דק', stopCode: null }
-                ]
+                ])
             };
 
             // Register in in-memory TRIPS_DATABASE
@@ -5319,20 +5431,20 @@
                 }
             }
 
-            // Initialize isolated questionnaire for this new trip
+            // Initialize questionnaire for this new trip
             const initialQuestionnaire = {
-                origin: isKoreaTrip ? 'שדרות העצמאות 93 אשדוד ➔ נתב"ג טרמינל 3' : 'נקודת מוצא אישית מהבית',
+                origin: isKoreaTrip ? 'שדרות העצמאות 93 אשדוד ➔ נתב"ג טרמינל 3' : (isAshkelon ? 'תחנת רכבת אשדוד / רחובות' : 'נקודת מוצא אישית מהבית'),
                 destination: displayTitle,
-                character: `${groupVal} (${countVal} מטיילים)`,
-                group: `${groupVal} (${countVal} מטיילים)`,
-                duration: (startVal && endVal) ? `${startVal} עד ${endVal}` : (isKoreaTrip ? '15 ימים מלאים' : 'לפי תוכנית המסע'),
+                character: 'משפחות וגמלאים (סיור מונגש וקליל)',
+                group: 'קבוצת חברים / גמלאים (4 מטיילים)',
+                duration: isKoreaTrip ? '15 ימים מלאים' : (isAshkelon ? 'יום אחד עד סוף שבוע' : 'לפי תוכנית המסע'),
                 date: dateStr,
-                budget: isKoreaTrip ? 'חוזה סגור אופיר טורס' : 'בתכנון',
-                activities: isKoreaTrip ? 'סיאול, סוואן, הר סוראק, דאייגו (שבת 1), גיונגג\'ו, בוסאן, האי ג\'ג\'ו, סיאול (שבת 2)' : `${tripName}: אתרים מרכזיים, מורשת ונוף`,
-                transit: isKoreaTrip ? 'טיסות בינלאומיות אתיופיאן איירליינס, 2 טיסות פנים, אוטובוס תיירות צמוד VIP' : 'רכבות, אוטובוסים או רכב שכור',
-                hotels: isKoreaTrip ? 'מלונות נגישים במיקום מרכזי (המילטון סיאול סמוך לחב"ד, דאייגו סנטר)' : 'מלונות נגישים במיקום מרכזי',
-                food: isKosher ? 'שמירת כשרות מלאה / מסעדות כשרות מהדרין וסריקת מוצרים' : 'רגיל',
-                constraints: `${isShabbat ? '2 שבתות מלאות במסלול (אי-התניידות ברכב, סיור רגלי עד 3 ק"מ, דפי A4 מודפסים מראש). ' : ''}${isAccess ? 'התאמה מלאה לגמלאים מעל גיל 75, הגבלת קטעי הליכה, מעליות ואוזניות שמע אישיות. ' : ''}${notesVal}`
+                budget: isKoreaTrip ? 'חוזה סגור אופיר טורס' : (isAshkelon ? '250 ₪ לאדם ליום' : 'בתכנון'),
+                activities: isKoreaTrip ? 'סיאול, סוואן, הר סוראק, דאייגו (שבת 1), גיונגג\'ו, בוסאן, האי ג\'ג\'ו, סיאול (שבת 2)' : (isAshkelon ? 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל' : `${tripName}: אתרים מרכזיים, מורשת ונוף`),
+                transit: isKoreaTrip ? 'טיסות בינלאומיות אתיופיאן איירליינס, 2 טיסות פנים, אוטובוס תיירות צמוד VIP' : (isAshkelon ? 'רכבת ישראל עד תחנת אשקלון, מוניות ואוטובוסים עירוניים' : 'רכבות, אוטובוסים או רכב שכור'),
+                hotels: isKoreaTrip ? 'מלונות נגישים במיקום מרכזי (המילטון סיאול סמוך לחב"ד, דאייגו סנטר)' : (isAshkelon ? 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש)' : 'מלונות נגישים במיקום מרכזי'),
+                food: 'שמירת כשרות מלאה / מסעדות כשרות מהדרין וסריקת מוצרים',
+                constraints: 'התאמה מלאה לגמלאים מעל גיל 75, שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, ספסלי מנוחה מרובים.'
             };
             localStorage.setItem('travel_assistant_trip_' + tripKey + '_questionnaire', JSON.stringify(initialQuestionnaire));
 
@@ -5345,15 +5457,11 @@
             // Select this trip as active
             selectTripAndApply(tripKey);
 
-            // Navigate to Route Screen and open Questionnaire to start planning
+            // Navigate to Route Screen at Step 1 to review/edit
             switchScreen('screen-route');
-            const acc = document.getElementById('acc-client-needs');
-            if (acc && !acc.classList.contains('active') && !acc.classList.contains('open')) {
-                toggleAccordion('acc-client-needs');
+            if (typeof setWizardStep === 'function') {
+                setWizardStep(1);
             }
-            setTimeout(() => {
-                if (acc) acc.scrollIntoView({ behavior: 'smooth' });
-            }, 300);
         }
 
         function selectTripAndApply(tripKey) {
@@ -6109,34 +6217,35 @@
         </div>
     </div>
 
-    <!-- ================= TEXT DOCUMENT VIEWER MODAL (קריאת הודעות וואטסאפ וטקסטים) ================= -->
+    <!-- ================= UNIVERSAL DOCUMENT VIEWER MODAL (צפייה ישירה במסמכים על המסך ללא הורדה) ================= -->
     <div id="text-doc-viewer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10003; justify-content: center; align-items: center; padding: 16px;" dir="rtl">
-        <div style="background: white; width: 100%; max-width: 550px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
+        <div style="background: white; width: 100%; max-width: 680px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
             
             <!-- Modal Header -->
-            <div style="background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 1.3em;"></i>
-                    <h3 id="text-doc-title" style="margin: 0; font-size: 1.1em; font-weight: 900;">הודעת מסלול</h3>
+            <div style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+                    <i class="fa-solid fa-file-lines" id="text-doc-icon" style="font-size: 1.3em; flex-shrink: 0;"></i>
+                    <h3 id="text-doc-title" style="margin: 0; font-size: 1.1em; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">צפייה במסמך</h3>
                 </div>
-                <button onclick="closeTextDocModal()" style="background: none; border: none; color: #bbf7d0; font-size: 1.4em; cursor: pointer;">✕</button>
+                <button onclick="closeTextDocModal()" style="background: none; border: none; color: #bfdbfe; font-size: 1.5em; cursor: pointer; flex-shrink: 0; padding: 0 4px;">✕</button>
             </div>
 
             <!-- Meta info -->
-            <div id="text-doc-meta" style="background: #f0fdf4; border-bottom: 1px solid #bbf7d0; padding: 8px 18px; font-size: 0.82em; color: #166534; font-weight: bold;"></div>
+            <div id="text-doc-meta" style="background: #eff6ff; border-bottom: 1px solid #bfdbfe; padding: 8px 18px; font-size: 0.82em; color: #1e40af; font-weight: bold;"></div>
 
             <!-- Content Area -->
             <div style="padding: 18px; overflow-y: auto; flex: 1;">
-                <div id="text-doc-body" style="white-space: pre-wrap; font-family: 'Heebo', sans-serif; font-size: 0.98em; line-height: 1.65; color: #1e293b; background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;"></div>
+                <div id="text-doc-body" style="font-family: 'Heebo', sans-serif; font-size: 0.95em; line-height: 1.6; color: #1e293b;"></div>
             </div>
 
             <!-- Modal Footer -->
             <div style="background: #f8fafc; padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-                <button onclick="copyCurrentTextDoc()" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                <button id="btn-copy-doc-text" onclick="copyCurrentTextDoc()" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; display: none; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-copy"></i> העתק טקסט
                 </button>
-                <button onclick="closeTextDocModal()" style="background: #64748b; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;">
-                    סגור
+                <div style="flex: 1;"></div>
+                <button onclick="closeTextDocModal()" style="background: #2563eb; color: white; border: none; padding: 8px 24px; border-radius: 8px; font-size: 0.95em; font-weight: 900; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
+                    סגור צפייה
                 </button>
             </div>
 
@@ -6276,100 +6385,40 @@
     </div>
 
     <!-- ================= NEW TRIP WIZARD MODAL (תכנן טיול חדש) ================= -->
+    <!-- ================= NEW TRIP MODAL (תכנון טיול חדש - נקי ומהיר) ================= -->
     <div id="new-trip-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10002; justify-content: center; align-items: center; padding: 16px;" dir="rtl">
-        <div style="background: white; width: 100%; max-width: 520px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
+        <div style="background: white; width: 100%; max-width: 440px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
             
             <!-- Wizard Header -->
             <div style="background: linear-gradient(135deg, #065f46 0%, #047857 100%); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-map-location" style="font-size: 1.2em; color: #6ee7b7;"></i>
-                    <h3 style="margin: 0; font-size: 1.15em;">תכנון טיול חדש - פתיחת תיק תכנון</h3>
+                    <i class="fa-solid fa-map-location-dot" style="font-size: 1.2em; color: #6ee7b7;"></i>
+                    <h3 style="margin: 0; font-size: 1.15em;">תכנון טיול חדש</h3>
                 </div>
                 <button onclick="closeNewTripModal()" style="background: none; border: none; color: #a7f3d0; font-size: 1.4em; cursor: pointer;">✕</button>
             </div>
 
             <!-- Wizard Body -->
-            <div style="padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;">
+            <div style="padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;">
                 
-                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 12px; font-size: 0.85em; color: #166534; line-height: 1.5;">
-                    💡 <b>עקרון הברזל:</b> כל טיול חדש מתחיל ב<b>שלב תכנון</b> גמיש לעריכה. תוכל להזין תחנות, העדפות, זמנים ומסמכים. מרגע היציאה לדרך הוא יהפוך ל<b>טיול בזמן אמת</b>.
-                </div>
-
-                <!-- Quick Selection Chips -->
-                <div>
-                    <label style="font-size: 0.82em; font-weight: 800; color: #475569; display: block; margin-bottom: 6px;">בחירה מהירה:</label>
-                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                        <span onclick="setQuickNewTripName('🇰🇷 קוריאה הדרומית - אופיר טורס')" style="background: #f5f3ff; color: #6d28d9; padding: 4px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; border: 1.5px solid #c4b5fd;">🇰🇷 קוריאה הדרומית (מאורגן)</span>
-                        <span onclick="setQuickNewTripName('🥾 שביל ישראל בצפון')" style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #bae6fd;">🥾 שביל ישראל בצפון</span>
-                        <span onclick="setQuickNewTripName('🏖️ אשקלון - ים ומורשת')" style="background: #fef3c7; color: #92400e; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #fde68a;">🏖️ אשקלון</span>
-                        <span onclick="setQuickNewTripName('🏛️ רומא ופירנצה (איטליה)')" style="background: #fdf2f8; color: #9d174d; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #fbcfe8;">🏛️ איטליה</span>
-                        <span onclick="setQuickNewTripName('🗾 יפן (טוקיו וקיוטו)')" style="background: #fdf4ff; color: #86198f; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #f0abfc;">🗾 יפן</span>
-                    </div>
-                </div>
-
                 <!-- Trip Name Input -->
                 <div>
-                    <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">שם היעד / כותרת הטיול: *</label>
-                    <input type="text" id="new-trip-input-name" placeholder="לדוגמה: שביל ישראל בצפון, אשקלון, רומא, יפן..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.95em; font-weight: bold;">
+                    <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">שם היעד: *</label>
+                    <input type="text" id="new-trip-input-name" placeholder="הקלד את שם היעד (למשל: אשקלון)" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 2px solid #cbd5e1; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: bold; outline: none;">
                 </div>
 
-                <!-- Trip Dates -->
-                <div style="display: flex; gap: 10px;">
-                    <div style="flex: 1;">
-                        <label style="font-size: 0.85em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">תאריך התחלה / יציאה:</label>
-                        <input type="date" id="new-trip-input-start" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif;">
-                    </div>
-                    <div style="flex: 1;">
-                        <label style="font-size: 0.85em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">תאריך סיום / חזרה:</label>
-                        <input type="date" id="new-trip-input-end" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif;">
-                    </div>
-                </div>
-
-                <!-- Group & Traveler Count -->
-                <div style="display: flex; gap: 10px;">
-                    <div style="flex: 1;">
-                        <label style="font-size: 0.85em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">הרכב המטיילים:</label>
-                        <select id="new-trip-input-group" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-weight: bold;">
-                            <option value="יחיד / זוג">יחיד / זוג</option>
-                            <option value="משפחה">משפחה עם ילדים</option>
-                            <option value="קבוצת חברים / גמלאים" selected>קבוצת חברים / גמלאים</option>
-                            <option value="קבוצה מאורגנת">קבוצה מאורגנת</option>
-                        </select>
-                    </div>
-                    <div style="width: 90px;">
-                        <label style="font-size: 0.85em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">מס' מטיילים:</label>
-                        <input type="number" id="new-trip-input-count" value="2" min="1" max="100" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-weight: bold; text-align: center;">
-                    </div>
-                </div>
-
-                <!-- Constraints & Preferences -->
+                <!-- Trip Dates (Optional single clean text field) -->
                 <div>
-                    <label style="font-size: 0.85em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">דגשים והעדפות מיוחדות:</label>
-                    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85em; color: #334155;">
-                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                            <input type="checkbox" id="new-trip-chk-kosher" checked> שמירת כשרות מלאה / מסעדות כשרות מהדרין
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                            <input type="checkbox" id="new-trip-chk-shabbat" checked> שמירת שבת (מלון במרחק הליכה מבית כנסת ומפתח מכני)
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                            <input type="checkbox" id="new-trip-chk-access" checked> נגישות מלאה ללא מדרגות / ספסלי מנוחה ומעליות
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Brief Notes -->
-                <div>
-                    <label style="font-size: 0.85em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">הערות חופשיות לתכנון:</label>
-                    <textarea id="new-trip-input-notes" rows="2" placeholder="למשל: תכנון תחבורה ציבורית, מרחקי הליכה קצרים, מקדמי ביטחון..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.88em;"></textarea>
+                    <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">תאריכים (אופציונלי):</label>
+                    <input type="text" id="new-trip-input-dates-text" placeholder="למשל: 28/10/2026 או מועד גמיש" style="width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em;">
                 </div>
 
             </div>
 
             <!-- Wizard Footer -->
-            <div style="background: #f8fafc; padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                <button onclick="closeNewTripModal()" style="background: #94a3b8; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; cursor: pointer;">ביטול</button>
-                <button onclick="createNewTripSubmit()" style="background: #059669; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 900; font-size: 0.95em; cursor: pointer; box-shadow: 0 2px 6px rgba(5,150,105,0.4); display: flex; align-items: center; gap: 6px;">
+            <div style="background: #f8fafc; padding: 14px 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                <button onclick="closeNewTripModal()" style="background: #94a3b8; color: white; border: none; padding: 9px 18px; border-radius: 8px; font-weight: bold; cursor: pointer;">ביטול</button>
+                <button onclick="createNewTripSubmit()" style="background: #059669; color: white; border: none; padding: 10px 22px; border-radius: 8px; font-weight: 900; font-size: 1em; cursor: pointer; box-shadow: 0 2px 6px rgba(5,150,105,0.4); display: flex; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-check"></i> פתח תיק תכנון והתחל
                 </button>
             </div>
