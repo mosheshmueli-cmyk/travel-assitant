@@ -742,40 +742,22 @@
                 <!-- ================= WIZARD PANE 1: שלב 1 - יעד ותאריכים ================= -->
                 <div id="wizard-pane-1" class="wizard-step-pane" style="display: block;">
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                        <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-map-location-dot" style="color: #2563eb;"></i> שלב 1: לאן ומתי יוצאים לדרך?
-                        </div>
-
-                        <!-- Domestic vs Abroad Toggle -->
-                        <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
-                            <div style="font-size: 0.88em; font-weight: 800; color: #334155; margin-bottom: 8px;">סוג היעד:</div>
-                            <div style="display: flex; gap: 8px;">
-                                <button id="btn-mode-israel" onclick="setTripGeoMode(true)" style="flex: 1; padding: 10px 12px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1.5px solid #86efac; background: #f0fdf4; color: #15803d;">
-                                    🇮🇱 טיול בישראל (ללא שדות חו"ל)
-                                </button>
-                                <button id="btn-mode-abroad" onclick="setTripGeoMode(false)" style="flex: 1; padding: 10px 12px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1.5px solid #93c5fd; background: #eff6ff; color: #1e40af;">
-                                    🌍 טיול בחו"ל (טיסות ודרכונים)
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Active Destination Name & Dates -->
-                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
                             <div>
-                                <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">שם היעד / מסלול פעיל:</label>
-                                <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="לדוגמה: שביל ישראל: נחל עמוד תחתון עד עין נון" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; font-weight: 800; color: #0f172a;">
+                                <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">שם היעד:</label>
+                                <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="שם היעד..." style="width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 1em; font-weight: 800; color: #0f172a;">
                             </div>
 
                             <div>
-                                <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">תאריכי הטיול:</label>
-                                <input type="text" id="step1-dates" onchange="syncStep1Dates(this.value)" placeholder="לדוגמה: יום ד' ה-28.10.2026 / 22/11/26 עד 06/12/26" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
+                                <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">תאריכים:</label>
+                                <input type="text" id="step1-dates" onchange="syncStep1Dates(this.value)" placeholder="תאריכי הטיול..." style="width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
                             </div>
                         </div>
 
                         <!-- Step 1 Single Action Button -->
-                        <div style="margin-top: 20px;">
+                        <div style="margin-top: 18px;">
                             <button onclick="setWizardStep(2)" style="width: 100%; background: #2563eb; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
-                                המשך לשלב 2: חומרי גלם (קבצים והודעות) ➔
+                                המשך לשלב 2: חומרי גלם ➔
                             </button>
                         </div>
                     </div>
@@ -1219,7 +1201,7 @@
                                     <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון - שבוע קלאסי, אתרי מורשת]</option>
                                     <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
                                     <option value="israel_trail_north">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון [📋 28/10/26 - 11-12 ק"מ]</option>
-                                    <option value="ashkelon">🏖️ אשקלון [📋 בקנה / שלב תכנון - גן לאומי, מרינה, מגדל]</option>
+                                    <option value="ashkelon">🏖️ אשקלון [📋 שלב תכנון - גן לאומי, מרינה, מגדל]</option>
                                 </select>
                                 <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">
                                     <i class="fa-solid fa-plus"></i> טיול חדש
@@ -2677,8 +2659,8 @@
             israel_trail_north: {
                 id: "israel_trail_north",
                 name: "שביל ישראל: נחל עמוד תחתון עד עין נון",
-                stage: "pipeline",
-                stageLabel: "📋 בקנה - שלב תכנון",
+                stage: "planning",
+                stageLabel: "📋 שלב תכנון",
                 badge: "28/10/26 | 11-12 ק\"מ",
                 departureDate: "2026-10-28",
                 dates: "28/10/2026",
@@ -2750,9 +2732,9 @@
             },
             ashkelon: {
                 id: "ashkelon",
-                name: "אשקלון (בקנה)",
-                stage: "pipeline",
-                stageLabel: "📋 בקנה - שלב תכנון",
+                name: "אשקלון",
+                stage: "planning",
+                stageLabel: "📋 שלב תכנון",
                 badge: "היסטוריה, חוף ופנאי",
                 flightLocked: false,
                 center: [31.6690, 34.5715],
@@ -5479,6 +5461,16 @@
             loadTripQuestionnaire();
             updatePipelineDisplay();
 
+            // Sync Step 1 inputs directly
+            const step1Dest = document.getElementById('step1-dest-name');
+            const step1Dates = document.getElementById('step1-dates');
+            if (step1Dest && TRIPS_DATABASE[tripKey]) {
+                step1Dest.value = TRIPS_DATABASE[tripKey].name || '';
+            }
+            if (step1Dates && TRIPS_DATABASE[tripKey]) {
+                step1Dates.value = TRIPS_DATABASE[tripKey].dates || TRIPS_DATABASE[tripKey].badge || '';
+            }
+
             // Set Wizard Step based on trip status
             const savedStep = localStorage.getItem('travel_assistant_wizard_step_' + tripKey);
             if (TRIPS_DATABASE[tripKey].stage === 'ready') {
@@ -6250,7 +6242,7 @@
                 </div>
 
                 <div style="font-weight: 900; color: #1e40af; font-size: 0.95em; margin-top: 6px; margin-bottom: 2px;">
-                    <i class="fa-solid fa-earth-americas"></i> יעדי המערכת (בתכנון ובקנה):
+                    <i class="fa-solid fa-earth-americas"></i> יעדי המערכת:
                 </div>
 
                 <!-- Trip 1: Israel Trail North (Oct 28, 2026 - Upcoming First!) -->
@@ -6285,7 +6277,7 @@
                 <div onclick="selectTripAndApply('ashkelon')" style="border: 2px solid #f59e0b; background: #fffbeb; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-weight: 900; font-size: 1.02em; color: #b45309;">🏖️ אשקלון</span>
-                        <span style="background: #d97706; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📋 בקנה / שלב תכנון</span>
+                        <span style="background: #d97706; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📋 שלב תכנון</span>
                     </div>
                     <div style="font-size: 0.82em; color: #b45309;">
                         🚆 רכבת אשקלון ➔ 🏛️ גן לאומי תל אשקלון והשער הכנעני ➔ ⛵ מרינה ➔ 🏙️ מדרחוב מגדל
@@ -6370,7 +6362,7 @@
 
                 <!-- Quick Selection Chips -->
                 <div>
-                    <label style="font-size: 0.82em; font-weight: 800; color: #475569; display: block; margin-bottom: 6px;">בחירה מהירה של יעדים בקנה:</label>
+                    <label style="font-size: 0.82em; font-weight: 800; color: #475569; display: block; margin-bottom: 6px;">בחירה מהירה:</label>
                     <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                         <span onclick="setQuickNewTripName('🇰🇷 קוריאה הדרומית - אופיר טורס')" style="background: #f5f3ff; color: #6d28d9; padding: 4px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; border: 1.5px solid #c4b5fd;">🇰🇷 קוריאה הדרומית (מאורגן)</span>
                         <span onclick="setQuickNewTripName('🥾 שביל ישראל בצפון')" style="background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 8px; font-size: 0.8em; font-weight: bold; cursor: pointer; border: 1px solid #bae6fd;">🥾 שביל ישראל בצפון</span>
