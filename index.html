@@ -521,7 +521,7 @@
                 <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
             </div>
             <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.9.0
+                גרסה 4.9.1
             </span>
         </div>
     </header>
@@ -543,7 +543,7 @@
                         <span>📁 טיול פעיל:</span>
                         <span id="home-active-trip-stage" style="background: #4338ca; color: white; padding: 1px 6px; border-radius: 6px; font-size: 0.85em;">📋 שלב תכנון</span>
                     </div>
-                    <div id="home-active-trip-display" style="font-weight: 900; font-size: 1.05em; color: #1e1b4b; margin-top: 2px;">🇰🇷 קוריאה הדרומית - אופיר טורס</div>
+                    <div id="home-active-trip-display" style="font-weight: 900; font-size: 1.05em; color: #1e1b4b; margin-top: 2px;">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון</div>
                 </div>
                 <div style="display: flex; gap: 6px; align-items: center;">
                     <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(16,185,129,0.35); white-space: nowrap;">
@@ -592,7 +592,7 @@
             </div>
             
             <div style="text-align: center; color: #94a3b8; font-size: 0.85em; margin-top: 10px;">
-                <i class="fa-solid fa-earth-americas"></i> מנוע שטח עולמי: הדמיית שטח נתניה + סיאול קוריאה הדרומית
+                <i class="fa-solid fa-earth-americas"></i> מנוע שטח עולמי ודינמי בזמן אמת לכל יעד
             </div>
         </div>
 
@@ -695,27 +695,8 @@
             </div>
             
             <div class="content-padding" style="padding-bottom: 50px;">
-                <!-- Trip Selector for Pre-Trip Planning & Documents (Desk Work Mode) -->
-                <div style="background: white; border: 2px solid #8b5cf6; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(139,92,246,0.12);" dir="rtl">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-                        <span style="font-weight: 900; color: #5b21b6; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-compass" style="color: #7c3aed;"></i> בחר טיול לעבודה, תכנון ועריכת תיק הטיול:
-                        </span>
-                        <button onclick="openTripSelectorModal()" style="background: #ede9fe; color: #6d28d9; border: 1px solid #c4b5fd; padding: 5px 12px; border-radius: 8px; font-weight: 900; font-size: 0.82em; cursor: pointer;">
-                            רשימת כל הטיולים במאגר ▾
-                        </button>
-                    </div>
-                    <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #8b5cf6; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: #fdf4ff;">
-                        <option value="korea">🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - כרטיסי טיסה נעולים]</option>
-                        <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון (גמיש)]</option>
-                        <option value="israel_trail_north">🥾 שביל ישראל בצפון [📋 בקנה / שלב תכנון]</option>
-                        <option value="ashkelon">🏖️ אשקלון [📋 בקנה / שלב תכנון]</option>
-                        <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
-                    </select>
-                </div>
-
-                <!-- 4-STEP LINEAR GUIDED WIZARD CONTROLLER -->
-                <div id="trip-wizard-stepper-card" style="background: white; border: 2px solid #2563eb; border-radius: 16px; padding: 14px 16px; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(37,99,235,0.08);" dir="rtl">
+                <!-- 4-STEP LINEAR GUIDED WIZARD CONTROLLER (TOP OF PLANNING SCREEN) -->
+                <div id="trip-wizard-stepper-card" style="background: white; border: 2px solid #2563eb; border-radius: 16px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(37,99,235,0.08);" dir="rtl">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
                         <span style="font-weight: 900; color: #1e3a8a; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
                             <i class="fa-solid fa-list-ol" style="color: #2563eb;"></i> שלבי תכנון הטיול (הכוונה טורית):
@@ -746,6 +727,18 @@
                     </div>
                 </div>
 
+                <!-- 2-ELEMENT CONTROL BAR: בחר מרשימה (לפי תאריך יציאה) + טיול חדש -->
+                <div style="display: flex; gap: 10px; margin-bottom: 16px; align-items: center;" dir="rtl">
+                    <div style="flex: 1;">
+                        <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 2px solid #2563eb; font-family: inherit; font-size: 1em; font-weight: 800; color: #1e3a8a; background: #eff6ff; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.12);">
+                            <!-- Populated dynamically by JS (sorted chronologically) -->
+                        </select>
+                    </div>
+                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 12px 18px; border-radius: 12px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3); white-space: nowrap;">
+                        <i class="fa-solid fa-plus"></i> טיול חדש
+                    </button>
+                </div>
+
                 <!-- ================= WIZARD PANE 1: שלב 1 - יעד ותאריכים ================= -->
                 <div id="wizard-pane-1" class="wizard-step-pane" style="display: block;">
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
@@ -764,21 +757,13 @@
                                     🌍 טיול בחו"ל (טיסות ודרכונים)
                                 </button>
                             </div>
-                            <div id="geo-context-banner" style="margin-top: 10px; padding: 8px 12px; background: white; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.85em; line-height: 1.4; color: #475569;">
-                                💡 בחר בסוג היעד להתאמת כל הטפסים והמסמכים במערכת.
-                            </div>
                         </div>
 
                         <!-- Active Destination Name & Dates -->
                         <div style="display: flex; flex-direction: column; gap: 12px;">
                             <div>
                                 <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">שם היעד / מסלול פעיל:</label>
-                                <div style="display: flex; gap: 8px;">
-                                    <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="לדוגמה: שביל ישראל: נחל עמוד תחתון עד עין נון" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; font-weight: 800; color: #0f172a;">
-                                    <button onclick="openTripSelectorModal()" style="background: #ede9fe; color: #6d28d9; border: 1.5px solid #c4b5fd; padding: 10px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer; white-space: nowrap;">
-                                        בחר מהמאגר ▾
-                                    </button>
-                                </div>
+                                <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="לדוגמה: שביל ישראל: נחל עמוד תחתון עד עין נון" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; font-weight: 800; color: #0f172a;">
                             </div>
 
                             <div>
@@ -2462,9 +2447,10 @@
             netanya: {
                 id: "netanya",
                 name: "נתניה - הדמיית שטח (הסתיים)",
-                stage: "completed",
-                stageLabel: "🏁 הסתיים",
-                badge: "סביבת בדיקות שהסתיימה",
+                stage: "archived",
+                stageLabel: "🏁 ארכיון - טיול שבוצע (הדמיית שטח)",
+                badge: "ארכיון בדיקות שהסתיימו",
+                archived: true,
                 flightLocked: false,
                 center: [32.3280, 34.8560],
                 zoom: 14,
@@ -2694,6 +2680,8 @@
                 stage: "pipeline",
                 stageLabel: "📋 בקנה - שלב תכנון",
                 badge: "28/10/26 | 11-12 ק\"מ",
+                departureDate: "2026-10-28",
+                dates: "28/10/2026",
                 flightLocked: false,
                 center: [32.8700, 35.5000],
                 zoom: 12,
@@ -2917,7 +2905,7 @@
         loadCustomTrips();
 
         const savedActiveTrip = localStorage.getItem('travel_assistant_active_trip');
-        let currentTripKey = (savedActiveTrip && TRIPS_DATABASE[savedActiveTrip]) ? savedActiveTrip : 'korea';
+        let currentTripKey = (savedActiveTrip && TRIPS_DATABASE[savedActiveTrip] && savedActiveTrip !== 'netanya' && !TRIPS_DATABASE[savedActiveTrip].archived) ? savedActiveTrip : 'israel_trail_north';
         let STATIONS = TRIPS_DATABASE[currentTripKey].stations;
         let userExplicitlyClosedBubble = false;
 
@@ -5044,54 +5032,112 @@
             renderFeedbackList();
         });
 
-        // Master function to populate both trip dropdowns dynamically
+        // Master function to populate both trip dropdowns dynamically (Sorted chronologically by departure date, then alphabetically, archived at bottom)
         function renderAllTripSelectors() {
-            let customTrips = [];
-            try {
-                customTrips = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
-            } catch(e) {}
+            const allTrips = [];
 
-            let customOptionsHtml = '';
-            if (customTrips.length > 0) {
-                customOptionsHtml = `<optgroup label="📋 הטיולים המתוכננים שלי (נפתחו במערכת)">` +
-                    customTrips.map(ct => {
-                        const k = ct.key || ct.id;
-                        const isReady = (ct.stage === 'ready');
-                        const icon = isReady ? '🛫' : '📋';
-                        const stageDesc = isReady ? 'ממתין ליציאה' : 'תכנון אישי';
-                        return `<option value="${k}">${icon} ${ct.name} [${stageDesc}]</option>`;
-                    }).join('') +
-                `</optgroup>`;
+            // 1. Collect from TRIPS_DATABASE
+            for (const key in TRIPS_DATABASE) {
+                const t = TRIPS_DATABASE[key];
+                allTrips.push({
+                    key: key,
+                    name: t.name,
+                    departureDate: t.departureDate || '',
+                    stage: t.stage,
+                    stageLabel: t.stageLabel,
+                    badge: t.badge || '',
+                    isArchived: (t.stage === 'completed' || t.stage === 'archived' || t.id === 'netanya' || t.archived === true)
+                });
             }
 
-            const koreaStageLabel = (TRIPS_DATABASE['korea']?.stage === 'ready') ? '🛫 ממתין ליציאה (מוכן להמראה!)' : '📋 שלב תכנון - כרטיסי טיסה נעולים';
-            const romeStageLabel = (TRIPS_DATABASE['rome']?.stage === 'ready') ? '🛫 ממתין ליציאה' : '📋 שלב תכנון (גמיש)';
-            const trailStageLabel = (TRIPS_DATABASE['israel_trail_north']?.stage === 'ready') ? '🛫 ממתין ליציאה' : '📋 בקנה / שלב תכנון';
-            const ashkelonStageLabel = (TRIPS_DATABASE['ashkelon']?.stage === 'ready') ? '🛫 ממתין ליציאה' : '📋 בקנה / שלב תכנון';
+            // 2. Collect custom trips
+            try {
+                const customTrips = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                customTrips.forEach(ct => {
+                    const k = ct.key || ct.id;
+                    if (!allTrips.some(x => x.key === k)) {
+                        allTrips.push({
+                            key: k,
+                            name: ct.name,
+                            departureDate: ct.departureDate || '',
+                            stage: ct.stage || 'planning',
+                            stageLabel: ct.stageLabel || '📋 שלב תכנון',
+                            badge: ct.badge || '',
+                            isArchived: (ct.stage === 'completed' || ct.stage === 'archived')
+                        });
+                    }
+                });
+            } catch(e) {}
 
-            const systemOptionsHtml = `
-                <optgroup label="🌍 יעדי המערכת (בתכנון ובקנה)">
-                    <option value="korea">🇰🇷 קוריאה הדרומית - אופיר טורס [${koreaStageLabel}]</option>
-                    <option value="rome">🏛️ רומא ופירנצה (איטליה) [${romeStageLabel}]</option>
-                    <option value="israel_trail_north">🥾 שביל ישראל בצפון [${trailStageLabel}]</option>
-                    <option value="ashkelon">🏖️ אשקלון [${ashkelonStageLabel}]</option>
-                </optgroup>
-                <optgroup label="🏁 סביבת בדיקות שהסתיימה">
-                    <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
-                </optgroup>
-            `;
+            // 3. Separate into 3 buckets:
+            const upcomingWithDates = [];
+            const activeWithoutDates = [];
+            const archivedTrips = [];
 
-            const fullHtml = customOptionsHtml + systemOptionsHtml;
+            allTrips.forEach(t => {
+                if (t.isArchived) {
+                    archivedTrips.push(t);
+                } else if (t.departureDate && /\d{4}-\d{2}-\d{2}/.test(t.departureDate)) {
+                    upcomingWithDates.push(t);
+                } else {
+                    activeWithoutDates.push(t);
+                }
+            });
+
+            // Sort upcoming ascending by departure date (e.g. 2026-10-28 before 2026-11-22)
+            upcomingWithDates.sort((a, b) => a.departureDate.localeCompare(b.departureDate));
+
+            // Sort active without dates alphabetically (Hebrew)
+            activeWithoutDates.sort((a, b) => a.name.localeCompare(b.name, 'he'));
+
+            // Sort archived alphabetically
+            archivedTrips.sort((a, b) => a.name.localeCompare(b.name, 'he'));
+
+            // Build select HTML options
+            let html = '';
+
+            // Group 1: Upcoming Trips
+            if (upcomingWithDates.length > 0) {
+                html += `<optgroup label="📅 טיולים קרובים (לפי תאריך יציאה)">`;
+                upcomingWithDates.forEach(t => {
+                    const isReady = (t.stage === 'ready');
+                    const icon = isReady ? '🛫' : (t.key.includes('trail') ? '🥾' : (t.key === 'korea' ? '🇰🇷' : '✈️'));
+                    const dParts = t.departureDate.split('-');
+                    const dateFormatted = dParts.length === 3 ? `${dParts[2]}/${dParts[1]}/${dParts[0]}` : t.departureDate;
+                    html += `<option value="${t.key}">${icon} ${t.name} (📅 יציאה: ${dateFormatted})</option>`;
+                });
+                html += `</optgroup>`;
+            }
+
+            // Group 2: Trips in planning (no fixed date)
+            if (activeWithoutDates.length > 0) {
+                html += `<optgroup label="📝 טיולים בתכנון (לפי סדר א'-ב')">`;
+                activeWithoutDates.forEach(t => {
+                    const isReady = (t.stage === 'ready');
+                    const icon = isReady ? '🛫' : (t.key === 'rome' ? '🏛️' : (t.key === 'ashkelon' ? '🏖️' : '📋'));
+                    html += `<option value="${t.key}">${icon} ${t.name} [שלב תכנון]</option>`;
+                });
+                html += `</optgroup>`;
+            }
+
+            // Group 3: Archived / Completed Trips
+            if (archivedTrips.length > 0) {
+                html += `<optgroup label="📦 ארכיון טיולים שבוצעו">`;
+                archivedTrips.forEach(t => {
+                    html += `<option value="${t.key}">🏁 ${t.name} [הסתיים]</option>`;
+                });
+                html += `</optgroup>`;
+            }
 
             const itinSel = document.getElementById('trip-itinerary-selector');
             if (itinSel) {
-                itinSel.innerHTML = fullHtml;
+                itinSel.innerHTML = html;
                 if (currentTripKey && TRIPS_DATABASE[currentTripKey]) itinSel.value = currentTripKey;
             }
 
             const routeSel = document.getElementById('route-main-trip-selector');
             if (routeSel) {
-                routeSel.innerHTML = fullHtml;
+                routeSel.innerHTML = html;
                 if (currentTripKey && TRIPS_DATABASE[currentTripKey]) routeSel.value = currentTripKey;
             }
         }
@@ -6207,21 +6253,49 @@
                     <i class="fa-solid fa-earth-americas"></i> יעדי המערכת (בתכנון ובקנה):
                 </div>
 
-                <!-- Trip 1: Korea (Ophir Tours) -->
+                <!-- Trip 1: Israel Trail North (Oct 28, 2026 - Upcoming First!) -->
+                <div onclick="selectTripAndApply('israel_trail_north')" style="border: 2px solid #34d399; background: #f0fdf4; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 900; font-size: 1.02em; color: #065f46;">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון</span>
+                        <span style="background: #059669; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📅 28/10/2026</span>
+                    </div>
+                    <div style="font-size: 0.82em; color: #047857;">
+                        📍 חניון נחל עמוד (כביש 85) ➔ 💧 הגיחון ➔ 🦴 מערות האדם הקדמון ➔ ☕ "העמוד" ➔ 🌴 עין נון
+                    </div>
+                    <div style="font-size: 0.78em; color: #64748b;">
+                        11-12 ק"מ, 4-5 שעות הליכה נינוחה, קניון מרשים, סיפורים מרתקים וסיום במעיין מוצל עם אוטובוס.
+                    </div>
+                </div>
+
+                <!-- Trip 2: Korea (Nov 22, 2026 - Upcoming Second!) -->
                 <div onclick="selectTripAndApply('korea')" style="border: 2px solid #818cf8; background: #f5f3ff; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-weight: 900; font-size: 1.02em; color: #3730a3;">🇰🇷 קוריאה הדרומית - אופיר טורס</span>
-                        <span style="background: #4338ca; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📋 שלב תכנון (טיסות נעולות)</span>
+                        <span style="background: #4338ca; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📅 22/11/2026</span>
                     </div>
                     <div style="font-size: 0.82em; color: #4338ca;">
-                        📅 24/11/26 - 08/12/26 | 👥 42 מטיילים (גמלאים) | ✈️ Ethiopian Airlines (כרטיסים סגורים)
+                        📅 22/11/26 - 06/12/26 | 👥 42 מטיילים (גמלאים) | ✈️ Ethiopian Airlines (כרטיסים סגורים)
                     </div>
                     <div style="font-size: 0.78em; color: #64748b;">
                         סיאול, ארמון גיונגבוקגונג, סוואן, הר סוראק, כפר אנדונג, קיונגג'ו, בוסאן ואי ג'ג'ו.
                     </div>
                 </div>
 
-                <!-- Trip 2: Rome & Florence (Italy) -->
+                <!-- Trip 3: Ashkelon (Planning) -->
+                <div onclick="selectTripAndApply('ashkelon')" style="border: 2px solid #f59e0b; background: #fffbeb; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 900; font-size: 1.02em; color: #b45309;">🏖️ אשקלון</span>
+                        <span style="background: #d97706; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📋 בקנה / שלב תכנון</span>
+                    </div>
+                    <div style="font-size: 0.82em; color: #b45309;">
+                        🚆 רכבת אשקלון ➔ 🏛️ גן לאומי תל אשקלון והשער הכנעני ➔ ⛵ מרינה ➔ 🏙️ מדרחוב מגדל
+                    </div>
+                    <div style="font-size: 0.78em; color: #64748b;">
+                        שילוב חוף ים, היסטוריה עתיקה, נגישות מלאה, שווקים מקומיים ותחבורה ציבורית נוחה.
+                    </div>
+                </div>
+
+                <!-- Trip 4: Rome & Florence (Planning) -->
                 <div onclick="selectTripAndApply('rome')" style="border: 2px solid #f472b6; background: #fdf2f8; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-weight: 900; font-size: 1.02em; color: #9d174d;">🏛️ רומא ופירנצה (איטליה)</span>
@@ -6235,45 +6309,19 @@
                     </div>
                 </div>
 
-                <!-- Trip 3: Netanya Simulation -->
-                <div onclick="selectTripAndApply('netanya')" style="border: 2px solid #38bdf8; background: #f0f9ff; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 900; font-size: 1.02em; color: #0369a1;">🇮🇱 נתניה - הדמיית שטח ובדיקות</span>
-                        <span style="background: #0284c7; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">🏁 הסתיים (Sandbox)</span>
-                    </div>
-                    <div style="font-size: 0.82em; color: #0284c7;">
-                        🚆 רכבת נתניה ➔ 🚏 קו 16/25 ➔ 🌊 טיילת ומעלית ים ➔ 🏙️ כיכר העצמאות ➔ 🍎 שוק מקורה
-                    </div>
-                    <div style="font-size: 0.78em; color: #64748b;">
-                        טיול הדמיה שהסתיים בהצלחה. משמש כארגז חול (Sandbox) לבדיקות שטח ומנוע GPS.
-                    </div>
+                <!-- Archive Section: Trips Completed -->
+                <div style="font-weight: 900; color: #64748b; font-size: 0.9em; margin-top: 10px; margin-bottom: 2px; border-top: 1.5px solid #e2e8f0; padding-top: 10px;">
+                    <i class="fa-solid fa-box-archive"></i> ארכיון טיולים שבוצעו:
                 </div>
 
-                <!-- Trip 4: Israel Trail North -->
-                <div onclick="selectTripAndApply('israel_trail_north')" style="border: 2px solid #34d399; background: #f0fdf4; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
+                <!-- Trip 5: Netanya (Archived) -->
+                <div onclick="selectTripAndApply('netanya')" style="border: 1.5px solid #cbd5e1; background: #f8fafc; border-radius: 14px; padding: 10px 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px; opacity: 0.85;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 900; font-size: 1.02em; color: #065f46;">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון</span>
-                        <span style="background: #059669; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📅 28/10/26</span>
-                    </div>
-                    <div style="font-size: 0.82em; color: #047857;">
-                        📍 חניון נחל עמוד (כביש 85) ➔ 💧 הגיחון ➔ 🦴 מערות האדם הקדמון ➔ ☕ "העמוד" ➔ 🌴 עין נון
+                        <span style="font-weight: 800; font-size: 0.95em; color: #475569;">🏁 נתניה - הדמיית שטח ובדיקות (הסתיים)</span>
+                        <span style="background: #94a3b8; color: white; font-size: 0.7em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">ארכיון שבוצע</span>
                     </div>
                     <div style="font-size: 0.78em; color: #64748b;">
-                        11-12 ק"מ, 4-5 שעות הליכה נינוחה, קניון מרשים, סיפורים מרתקים וסיום במעיין מוצל עם אוטובוס.
-                    </div>
-                </div>
-
-                <!-- Trip 5: Ashkelon -->
-                <div onclick="selectTripAndApply('ashkelon')" style="border: 2px solid #f59e0b; background: #fffbeb; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 900; font-size: 1.02em; color: #b45309;">🏖️ אשקלון</span>
-                        <span style="background: #d97706; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📋 בקנה / שלב תכנון</span>
-                    </div>
-                    <div style="font-size: 0.82em; color: #b45309;">
-                        🚆 רכבת אשקלון ➔ 🏛️ גן לאומי תל אשקלון והשער הכנעני ➔ ⛵ מרינה ➔ 🏙️ מדרחוב מגדל
-                    </div>
-                    <div style="font-size: 0.78em; color: #64748b;">
-                        שילוב חוף ים, היסטוריה עתיקה, נגישות מלאה, שווקים מקומיים ותחבורה ציבורית נוחה.
+                        טיול הדמיה שהסתיים בהצלחה. שמור בארכיון לצורך בדיקות מערכת.
                     </div>
                 </div>
 
