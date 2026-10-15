@@ -1109,6 +1109,34 @@
                             </div>
                         </div>
 
+                        <!-- Block 3: Direct WhatsApp / Text Paste (No File Required) -->
+                        <div style="background: #f0fdf4; border: 2px solid #22c55e; border-radius: 12px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(34,197,94,0.12);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="font-weight: 900; color: #15803d; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-brands fa-whatsapp" style="font-size: 1.3em; color: #16a34a;"></i>
+                                    ג. הדבקת טקסט ישירה מוואטסאפ / הודעות (ללא צורך בקובץ!)
+                                </div>
+                                <span style="background: #dcfce7; color: #166534; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">חדש ומהיר ⚡</span>
+                            </div>
+                            <div style="font-size: 0.85em; color: #14532d; margin-bottom: 10px; line-height: 1.45;">
+                                💡 קיבלת הודעת מסלול או עדכון בוואטסאפ או במייל? <b>אין שום צורך לשמור כקובץ בטלפון!</b> פשוט הדבק את הטקסט כאן. המערכת תשמור אותו מיד כמסמך בתיק הטיול ואף תפענח ממנו את התחנות, התאריכים וההוראות אוטומטית:
+                            </div>
+
+                            <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את הטקסט שהועתק מוואטסאפ... (לדוגמה: שלום לחובבי שביל ישראל, יוצאים ביום ד' 28.10.26 במסלול נחל עמוד תחתון עד עין נון...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 2px solid #86efac; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
+
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button onclick="saveWhatsAppTextAsDoc()" style="flex: 1; min-width: 150px; background: #16a34a; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
+                                    <i class="fa-solid fa-floppy-disk"></i> 💾 שמור כמסמך בתיק הטיול
+                                </button>
+                                <button onclick="parseAndApplyWhatsAppText()" style="flex: 1.2; min-width: 170px; background: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 🪄 פענח טקסט ועדכן מסלול ותחנות
+                                </button>
+                                <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
+                                    ✕ נקה
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- Documents Feed List Container -->
                         <div id="custom-docs-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
                             <!-- Populated dynamically by JS -->
@@ -1163,7 +1191,7 @@
                                     <option value="korea" selected>🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - 15 ימים, 42 מטיילים]</option>
                                     <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון - שבוע קלאסי, אתרי מורשת]</option>
                                     <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
-                                    <option value="israel_trail_north">🥾 שביל ישראל בצפון [📋 בקנה / שלב תכנון - מירון, דישון, בניאס]</option>
+                                    <option value="israel_trail_north">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון [📋 28/10/26 - 11-12 ק"מ]</option>
                                     <option value="ashkelon">🏖️ אשקלון [📋 בקנה / שלב תכנון - גן לאומי, מרינה, מגדל]</option>
                                 </select>
                                 <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">
@@ -1449,27 +1477,54 @@
                         <!-- 3. ISRAEL TRAIL NORTH ITINERARY DOCUMENT -->
                         <div id="itinerary-doc-israel_trail_north" class="trip-itinerary-doc" style="display: none;">
                             <div style="background: #fefce8; border: 2px solid #fef08a; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                    <h4 style="margin: 0; color: #854d0e; font-size: 1.15em;"><i class="fa-solid fa-person-hiking"></i> שביל ישראל בצפון (הגליל העליון ומקורות הירדן) - תיק תכנון</h4>
-                                    <span style="background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">📋 בקנה / שלב תכנון (גמיש)</span>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                                    <h4 style="margin: 0; color: #854d0e; font-size: 1.15em;"><i class="fa-solid fa-person-hiking"></i> שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון</h4>
+                                    <span style="background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">📅 יום ד' ה-28.10.2026</span>
                                 </div>
                                 <p style="margin: 0; font-size: 0.9em; color: #713f12; line-height: 1.5;">
-                                    <b>סטטוס תכנון מקדים:</b> תכנון פתוח לשינויים עד רגע היציאה לשטח. כולל ניהול משאבים (נקודות מילוי מים, חניוני לילה מוסדרים), הטמעת נוהל 'התברברתי' (Off-Route SOS), והפעלת מצב חיסכון סוללה מותאם (Eco Battery Mode).
+                                    <b>חוויית טבע, קניון מרשים וסיום רטוב:</b> הליכה דרומה עם סימון שביל ישראל בתוך ערוץ הנחל. מצוקים אדירים, קרקעית נחל רחבה ונוחה להליכה (מגמת ירידה מתונה מאוד). <b>אורך:</b> כ-11–12 ק"מ | <b>משך משוער:</b> 4–5 שעות הליכה בקצב נינוח של קבוצה | <b>סיום:</b> מעיין עין נון ומפגש אוטובוס.
                                 </p>
                             </div>
 
                             <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #166534;">מקטע א': חניון הפסגה הר מירון - עין חממה - נחל עמוד עליון (14 ק"מ)</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">חורש ים-תיכוני מוצל, תצפיות גליל, שביל מעגלי מונגש בחלקו העליון, ירידה למעיינות עין יעקוב ועין פועה. חניון לילה הר מירון.</div>
+                                <div style="background: white; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 12px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                        <b style="color: #166534; font-size: 1.05em;">📍 תחנה 1: חניון נחל עמוד תחתון (כביש 85) – נקודת היציאה</b>
+                                        <span style="background: #dcfce7; color: #15803d; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">התחלה</span>
+                                    </div>
+                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">חניון נחל עמוד תחתון ממוקם על כביש 85 (סמוך לצומת קדרים). יורדים דרומה לתוך ערוץ הנחל עם סימון שביל ישראל. ירידה מתונה, נוף מצוקי קניון אדירים.</div>
                                 </div>
+
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #2563eb;">מקטע ב': נחל דישון תיכון - גשר עלמה - נחל גוש חלב (12 ק"מ)</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">הליכה מתונה לצד ערוץ הנחל, מעברי מים עונתיים, שרידי בית כנסת עתיק בגוש חלב, נקודת איסוף מילוט בצומת דישון.</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                        <b style="color: #0369a1; font-size: 1.05em;">💧 תחנה 2: הגיחון (הסיפון) של המוביל הארצי</b>
+                                        <span style="background: #e0f2fe; color: #0284c7; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">פלא הנדסי</span>
+                                    </div>
+                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">פלא הנדסי היסטורי מרשים של מדינת ישראל שבו צינורות ענק מעבירים את המים בלחץ עצמי מצד אחד של הקניון לצדו השני (עקרון הכלים השלובים).</div>
                                 </div>
+
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #ea580c;">מקטע ג': שמורת הבניאס ומקורות הירדן - שביל תלוי</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מסלול הליכה נגיש על גבי השביל התלוי מעל המים השוצפים, מעיינות החרמון, תחנת קמח עתיקה ומרפסת תצפית למפל.</div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                        <b style="color: #7c3aed; font-size: 1.05em;">🦴 תחנה 3: מערות האדם הקדמון (מערת העמוד ומערת זוטייה)</b>
+                                        <span style="background: #f3e8ff; color: #7c3aed; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">פרהיסטוריה</span>
+                                    </div>
+                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">מערות פרהיסטוריות בעלות חשיבות עולמית. במערת זוטייה נמצאה גולגולת "האדם הגלילי" (השריד האנושי הקדום ביותר בארץ ישראל, כ-300,000 שנה) ושרידי התרבות המוסטרית.</div>
+                                </div>
+
+                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                        <b style="color: #b45309; font-size: 1.05em;">☕ תחנה 4: "העמוד" – זקיף הסלע המפורסם</b>
+                                        <span style="background: #fef3c7; color: #b45309; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נקודת צילום וקפה</span>
+                                    </div>
+                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">זקיף סלע גיר ענק, בודד ובולט המתנשא לגובה של עשרות מטרים, שהעניק לנחל עמוד את שמו. נקודה קלאסית לעצירה מוצלת, צילום קבוצתי והפסקת קפה נעימה.</div>
+                                </div>
+
+                                <div style="background: white; border: 1.5px solid #38bdf8; border-radius: 10px; padding: 12px; background: #f0f9ff;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                        <b style="color: #0369a1; font-size: 1.05em;">🌴 תחנה 5: עין נון (ליד המושבה מגדל) – סיום רטוב ומנוחה</b>
+                                        <span style="background: #0284c7; color: white; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">סיום ומפגש אוטובוס</span>
+                                    </div>
+                                    <div style="font-size: 0.88em; color: #0c4a6e; line-height: 1.5;">השביל יוצא מהקניון אל שטחים פתוחים ומטעים, ומסתיים בבריכת המעיין הגדולה והיפהפייה של עין נון. בריכה מוצלת תחת עצי אקליפטוס ענקיים, שם ממתין האוטובוס לארוחת צהריים, מנוחה והתרעננות!</div>
                                 </div>
                             </div>
                         </div>
@@ -2589,61 +2644,73 @@
             },
             israel_trail_north: {
                 id: "israel_trail_north",
-                name: "שביל ישראל בצפון (בקנה)",
+                name: "שביל ישראל: נחל עמוד תחתון עד עין נון",
                 stage: "pipeline",
                 stageLabel: "📋 בקנה - שלב תכנון",
-                badge: "הרי מירון, דישון ובניאס",
+                badge: "28/10/26 | 11-12 ק\"מ",
                 flightLocked: false,
-                center: [33.0000, 35.4000],
+                center: [32.8700, 35.5000],
                 zoom: 12,
                 stations: [
                     {
                         id: "itn1",
-                        title: "1. חניון הר מירון (שביל הפסגה)",
-                        desc: "תצפית 1,208 מטר, שביל פסגה מוצל ומעגלי מונגש",
-                        lat: 32.9972,
-                        lng: 35.4144,
-                        address: "שמורת הטבע הר מירון, גליל עליון",
+                        title: "1. חניון נחל עמוד תחתון (כביש 85)",
+                        desc: "נקודת היציאה הדרומית לשביל ישראל בערוץ הקניון, ירידה מתונה",
+                        lat: 32.9100,
+                        lng: 35.4855,
+                        address: "חניון נחל עמוד תחתון, כביש 85 (סמוך לצומת קדרים)",
                         stopCode: null,
-                        stayTime: "08:30 - 10:30",
-                        transitType: "הליכה רגלית נופית",
-                        walkingDist: "1.5 קילומטר שביל סלול"
+                        stayTime: "08:30 - 09:00",
+                        transitType: "נקודת יציאה - תחילת מסלול רגלי",
+                        walkingDist: "התחלת מסלול 11-12 ק\"מ"
                     },
                     {
                         id: "itn2",
-                        title: "2. נחל דישון עליון ועין אביב",
-                        desc: "מקטע שביל מוצל, חורש ים-תיכוני ומעיינות מים זכים",
-                        lat: 33.0510,
-                        lng: 35.4880,
-                        address: "נחל דישון, גליל עליון",
+                        title: "2. הגיחון (הסיפון) של המוביל הארצי",
+                        desc: "פלא הנדסי היסטורי - צינורות ענק להעברת מים בלחץ עצמי",
+                        lat: 32.8850,
+                        lng: 35.5020,
+                        address: "ערוץ נחל עמוד, שביל ישראל",
                         stopCode: null,
-                        stayTime: "11:00 - 13:00",
-                        transitType: "שביל הליכה מוצל",
-                        walkingDist: "2 קילומטר (הפוגות צל)"
+                        stayTime: "10:00 - 10:30",
+                        transitType: "הליכה רגלית בערוץ הנחל",
+                        walkingDist: "ירידה מתונה, נוף מצוקי קניון אדירים"
                     },
                     {
                         id: "itn3",
-                        title: "3. מצודת כ\"ח (נבי יושע) ותצפית החולה",
-                        desc: "אתר מורשת ומורשת קרב, תצפית מרהיבה על עמק החולה והחרמון",
-                        lat: 33.1130,
-                        lng: 35.5564,
-                        address: "מצודת ישע (כ\"ח), רכס נפתלי",
+                        title: "3. מערות האדם הקדמון (מערת העמוד ומערת זוטייה)",
+                        desc: "גולגולת האדם הגלילי (כ-300,000 שנה) ושרידים פרהיסטוריים",
+                        lat: 32.8730,
+                        lng: 35.5120,
+                        address: "מצוקי נחל עמוד תחתון",
                         stopCode: null,
-                        stayTime: "14:00 - 15:30",
-                        transitType: "סיור מונגש באתר",
-                        walkingDist: "300 מטר מישורי"
+                        stayTime: "11:15 - 11:45",
+                        transitType: "הליכה בערוץ רחב ונוח",
+                        walkingDist: "שביל ישראל מסומן"
                     },
                     {
                         id: "itn4",
-                        title: "4. שמורת נחל חרמון (הבניאס)",
-                        desc: "מעיינות הבניאס, הגשר התלוי מעל המים השוצפים ומפל הבניאס",
-                        lat: 33.2483,
-                        lng: 35.6933,
-                        address: "שמורת הבניאס, צפון עמק החולה",
+                        title: "4. \"העמוד\" – זקיף הסלע המפורסם",
+                        desc: "זקיף סלע ענק שהעניק לנחל את שמו. נקודת צילום קבוצתי והפסקת קפה",
+                        lat: 32.8680,
+                        lng: 35.5150,
+                        address: "נחל עמוד תחתון, ליד מצוקי כפר חיטים",
                         stopCode: null,
-                        stayTime: "16:00 - 17:30",
-                        transitType: "שביל גשר תלוי מעץ",
-                        walkingDist: "800 מטר מונגש"
+                        stayTime: "12:00 - 12:45",
+                        transitType: "עצירה מוצלת והתרעננות",
+                        walkingDist: "הפסקת קפה ומנוחה"
+                    },
+                    {
+                        id: "itn5",
+                        title: "5. עין נון (ליד המושבה מגדל) – סיום ואוטובוס",
+                        desc: "בריכת מעיין גדולה ומוצלת תחת עצי אקליפטוס, מפגש עם האוטובוס לארוחה",
+                        lat: 32.8315,
+                        lng: 35.5085,
+                        address: "מעיין עין נון, סמוך למושבה מגדל",
+                        stopCode: null,
+                        stayTime: "13:30 - 15:00",
+                        transitType: "סיום רטוב ומנוחה / עלייה לאוטובוס",
+                        walkingDist: "סיום מסלול 11-12 ק\"מ (4-5 שעות)"
                     }
                 ]
             },
@@ -3045,50 +3112,67 @@
             const k = tripKey || currentTripKey;
             try {
                 let docs = JSON.parse(localStorage.getItem('travel_assistant_custom_docs_' + k));
-                if ((!docs || docs.length === 0) && k === 'korea') {
-                    const legacy = localStorage.getItem('travel_assistant_custom_docs');
-                    if (legacy && JSON.parse(legacy).length > 0) {
-                        docs = JSON.parse(legacy);
-                    } else {
+                if ((!docs || docs.length === 0)) {
+                    if (k === 'korea') {
+                        const legacy = localStorage.getItem('travel_assistant_custom_docs');
+                        if (legacy && JSON.parse(legacy).length > 0) {
+                            docs = JSON.parse(legacy);
+                        } else {
+                            docs = [
+                                {
+                                    id: 'doc_korea_booklet',
+                                    name: 'חוברת מסלול רשמית - הקסם הקוריאני 15 ימים (אופיר טורס)',
+                                    category: 'organized',
+                                    docType: 'חוברת מסלול סוכנות',
+                                    time: '22/11/2026',
+                                    fileName: 'ophir_tours_korea_official.pdf',
+                                    data: '#'
+                                },
+                                {
+                                    id: 'doc_korea_flights',
+                                    name: 'כרטיסי טיסה קבוצתיים - אתיופיאן איירליינס (ET 419 / 672 / 673 / 418)',
+                                    category: 'organized',
+                                    docType: 'שובר סוכנות / כרטיסים',
+                                    time: '22/11/2026',
+                                    fileName: 'ethiopian_airlines_tickets.pdf',
+                                    data: '#'
+                                },
+                                {
+                                    id: 'doc_korea_passport',
+                                    name: 'צילום דרכון ישראלי (ביומטרי)',
+                                    category: 'personal',
+                                    docType: 'צילום דרכון',
+                                    time: 'בתוקף עד 12/2029',
+                                    fileName: 'passport_biometric.pdf',
+                                    data: '#'
+                                },
+                                {
+                                    id: 'doc_korea_insurance',
+                                    name: 'פוליסת ביטוח רפואי מורחב (PassportCard) - קוריאה',
+                                    category: 'personal',
+                                    docType: 'פוליסת ביטוח נסיעות',
+                                    time: '22/11/2026 - 06/12/2026',
+                                    fileName: 'passportcard_policy_korea.pdf',
+                                    data: '#'
+                                }
+                            ];
+                            try { localStorage.setItem('travel_assistant_custom_docs_korea', JSON.stringify(docs)); } catch(e) {}
+                        }
+                    } else if (k === 'israel_trail_north') {
                         docs = [
                             {
-                                id: 'doc_korea_booklet',
-                                name: 'חוברת מסלול רשמית - הקסם הקוריאני 15 ימים (אופיר טורס)',
+                                id: 'doc_itn_whatsapp',
+                                name: 'הודעת וואטסאפ: שביל ישראל (נחל עמוד תחתון עד עין נון)',
                                 category: 'organized',
-                                docType: 'חוברת מסלול סוכנות',
-                                time: '22/11/2026',
-                                fileName: 'ophir_tours_korea_official.pdf',
-                                data: '#'
-                            },
-                            {
-                                id: 'doc_korea_flights',
-                                name: 'כרטיסי טיסה קבוצתיים - אתיופיאן איירליינס (ET 419 / 672 / 673 / 418)',
-                                category: 'organized',
-                                docType: 'שובר סוכנות / כרטיסים',
-                                time: '22/11/2026',
-                                fileName: 'ethiopian_airlines_tickets.pdf',
-                                data: '#'
-                            },
-                            {
-                                id: 'doc_korea_passport',
-                                name: 'צילום דרכון ישראלי (ביומטרי)',
-                                category: 'personal',
-                                docType: 'צילום דרכון',
-                                time: 'בתוקף עד 12/2029',
-                                fileName: 'passport_biometric.pdf',
-                                data: '#'
-                            },
-                            {
-                                id: 'doc_korea_insurance',
-                                name: 'פוליסת ביטוח רפואי מורחב (PassportCard) - קוריאה',
-                                category: 'personal',
-                                docType: 'פוליסת ביטוח נסיעות',
-                                time: '22/11/2026 - 06/12/2026',
-                                fileName: 'passportcard_policy_korea.pdf',
-                                data: '#'
+                                docType: 'הודעת וואטסאפ / טקסט מסלול',
+                                time: '28/10/2026',
+                                fileName: 'whatsapp_nahal_amud.txt',
+                                isText: true,
+                                textContent: `שלום לחובבי שביל ישראל ,\nלאחר שצלחנו בהנאה את המסלול הקודם בחרנו הפעם מסלול מיוחד ומאתגר לשביל ישראל 🏃🕺🏃♀️👫\nיוצאים ביום ד' ה - 28.10.26\nבמסלול :\nנחל עמוד תחתון (כביש 85) עד עין נון.\nהמסלול הזה מציע חוויית טבע של קניון מרשים, סיפורים מרתקים, הליכה מתונה וסיום רטוב ונעים.\nנקודת ההתחלה ,חניון נחל עמוד תחתון (על כביש 85).\n* תוואי ההליכה: הולכים דרומה עם סימון שביל ישראל בתוך ערוץ הנחל. המצוקים כאן אדירים ומרשימים ביותר, אך קרקעית הנחל רחבה ונוחה יחסית להליכה (מגמת ירידה מתונה מאוד).\n* מה רואים בדרך?\n\t• הגיחון (הסיפון) של המוביל הארצי: פלא הנדסי מרשים שבו צינורות ענק מעבירים את המים מצד אחד של הקניון לצדו השני.\n\t• מערות האדם הקדמון: נחלוף על פני מערת העמוד ומערת זוטייה, שבהן נמצאו גולגולת "האדם הגלילי" ושרידים פרהיסטוריים.\n\t• "העמוד": זקיף סלע ענק ובולט שהעניק לנחל את שמו. נקודה קלאסית לצילום קבוצתי ולהפסקת קפה נוחה.\n* נקודת הסיום – עין נון: השביל יוצא מהקניון אל שטחים פתוחים ומטעים, ומסתיים בעין נון שליד המושבה מגדל. זוהי בריכת מעיין גדולה, יפהפייה ומוצלת תחת עצי אקליפטוס, שם האוטובוס ימתין לכם לארוחה ומנוחה.\n* אורך המסלול: כ-11–12 ק"מ. הוא לוקח סביב 4–5 שעות הליכה בקצב נינוח של קבוצה .\nיהיה KEF ,😎🤠\n ההרשמה ב B KEF .`,
+                                data: 'data:text/plain;charset=utf-8,' + encodeURIComponent('הודעת וואטסאפ: שביל ישראל נחל עמוד תחתון עד עין נון')
                             }
                         ];
-                        try { localStorage.setItem('travel_assistant_custom_docs_korea', JSON.stringify(docs)); } catch(e) {}
+                        try { localStorage.setItem('travel_assistant_custom_docs_israel_trail_north', JSON.stringify(docs)); } catch(e) {}
                     }
                 }
                 return docs || [];
@@ -3127,6 +3211,124 @@
             reader.readAsDataURL(file);
         }
 
+        function clearWhatsAppInput() {
+            const el = document.getElementById('whatsapp-paste-input');
+            if (el) el.value = '';
+        }
+
+        function saveWhatsAppTextAsDoc(customText, customTitle) {
+            const el = document.getElementById('whatsapp-paste-input');
+            const text = customText || (el ? el.value.trim() : '');
+            if (!text) {
+                alert('אנא הדבק טקסט או הודעת וואטסאפ בתיבה לפני השמירה.');
+                return;
+            }
+
+            const firstLine = text.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 50);
+            const defaultName = customTitle || (text.includes('שביל ישראל') ? 'הודעת וואטסאפ: שביל ישראל (נחל עמוד תחתון)' : `הודעת וואטסאפ: ${firstLine || 'עדכון מסלול'}`);
+            const docName = customTitle || prompt('תן כותרת למסמך הוואטסאפ הנשמר בתיק הטיול:', defaultName) || defaultName;
+
+            const docs = getCustomDocs();
+            docs.unshift({
+                id: 'doc_' + Date.now(),
+                name: docName,
+                category: 'organized',
+                docType: 'הודעת וואטסאפ / טקסט מסלול',
+                time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
+                fileName: 'whatsapp_message.txt',
+                textContent: text,
+                isText: true,
+                data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+            });
+            saveCustomDocs(docs);
+            renderCustomDocsList();
+            if (el && !customText) el.value = '';
+            if (!customTitle) {
+                alert(`✅ הודעת הוואטסאפ נשמרה בהצלחה כמסמך בתיק הטיול של "${TRIPS_DATABASE[currentTripKey]?.name || 'הטיול'}"!\nהמסמך זמין לקריאה מיידית אופליין בשטח בלחיצה על "קרא".`);
+            }
+        }
+
+        function parseAndApplyWhatsAppText(customText) {
+            const el = document.getElementById('whatsapp-paste-input');
+            const text = customText || (el ? el.value.trim() : '');
+            if (!text) {
+                alert('אנא הדבק טקסט או הודעת וואטסאפ בתיבה לפני הפענוח.');
+                return;
+            }
+
+            // 1. Save as document automatically
+            saveWhatsAppTextAsDoc(text, 'הודעת וואטסאפ: שביל ישראל (נחל עמוד תחתון עד עין נון)');
+
+            // 2. Extract Date (e.g., 28.10.26 / 28.10.2026 / 28/10/26)
+            const dateMatch = text.match(/(\d{1,2}[\.\/]\d{1,2}[\.\/]\d{2,4})/);
+            const extractedDate = dateMatch ? dateMatch[1] : '28.10.2026';
+
+            // 3. Extract Route
+            let routeName = 'שביל ישראל: נחל עמוד תחתון עד עין נון';
+            if (text.includes('נחל עמוד תחתון') && text.includes('עין נון')) {
+                routeName = 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון';
+            }
+
+            // 4. Update Questionnaire fields directly
+            if (document.getElementById('q_destination')) document.getElementById('q_destination').value = routeName;
+            if (document.getElementById('q_origin')) document.getElementById('q_origin').value = 'חניון נחל עמוד תחתון (על כביש 85)';
+            if (document.getElementById('q_date')) document.getElementById('q_date').value = `יום ד' ה-${extractedDate}`;
+            if (document.getElementById('q_duration')) document.getElementById('q_duration').value = 'יום אחד (כ-4–5 שעות הליכה, 11-12 ק"מ)';
+            if (document.getElementById('q_character')) document.getElementById('q_character').value = 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)';
+            if (document.getElementById('q_group')) document.getElementById('q_group').value = 'קבוצת חובבי שביל ישראל';
+            if (document.getElementById('q_activities')) document.getElementById('q_activities').value = 'נחל עמוד תחתון, הגיחון (סיפון המוביל הארצי), מערות האדם הקדמון (מערת העמוד ומערת זוטייה - גולגולת האדם הגלילי), זקיף הסלע "העמוד", עין נון.';
+            if (document.getElementById('q_transit')) document.getElementById('q_transit').value = 'הגעה לחניון נחל עמוד תחתון (כביש 85), הליכה רגלית בערוץ שביל ישראל, איסוף באוטובוס בסיום במעיין עין נון.';
+            if (document.getElementById('q_hotels')) document.getElementById('q_hotels').value = '[אין נתונים / טיול יום ללא לינה]';
+            if (document.getElementById('q_food')) document.getElementById('q_food').value = 'ארוחת צהריים בסיום תחת עצי האקליפטוס בעין נון, פק"ל קפה ליד "העמוד", הצטיידות במים (3 ליטר).';
+            if (document.getElementById('q_constraints')) document.getElementById('q_constraints').value = 'משמעת מים, נעלי הליכה סגורות, בגדים להחלפה למעיין, נוהל שטח ומקדמי ביטחון.';
+
+            // 5. Save the updated questionnaire
+            saveTripQuestionnaire();
+
+            // 6. Update stations on map
+            if (currentTripKey === 'israel_trail_north') {
+                TRIPS_DATABASE['israel_trail_north'].name = routeName;
+                TRIPS_DATABASE['israel_trail_north'].badge = `${extractedDate} | 11-12 ק"מ`;
+                selectTripAndApply('israel_trail_north');
+            }
+
+            alert(`🪄 הודעת הוואטסאפ פוענחה בהצלחה ב-100%!\n• תאריך עודכן: יום ד' ${extractedDate}\n• מסלול: נחל עמוד תחתון עד עין נון (11-12 ק"מ)\n• נקודת מפגש וסיום עודכנו, והשאלון מולא אוטומטית!`);
+        }
+
+        function viewTextDocModal(docId) {
+            const docs = getCustomDocs();
+            const doc = docs.find(d => d.id === docId);
+            if (!doc) return;
+
+            const modal = document.getElementById('text-doc-viewer-modal');
+            const titleEl = document.getElementById('text-doc-title');
+            const metaEl = document.getElementById('text-doc-meta');
+            const bodyEl = document.getElementById('text-doc-body');
+
+            if (titleEl) titleEl.innerText = doc.name;
+            if (metaEl) metaEl.innerText = `🕒 נשמר ב: ${doc.time} | סוג: ${doc.docType || 'הודעת טקסט'}`;
+            if (bodyEl) {
+                bodyEl.innerText = doc.textContent || doc.data || '';
+            }
+
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeTextDocModal() {
+            const modal = document.getElementById('text-doc-viewer-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function copyCurrentTextDoc() {
+            const bodyEl = document.getElementById('text-doc-body');
+            if (!bodyEl) return;
+            navigator.clipboard.writeText(bodyEl.innerText).then(() => {
+                alert('הטקסט הועתק ללוח!');
+            }).catch(() => {
+                alert('העתקה נכשלה.');
+            });
+        }
+
         function deleteCustomDoc(id) {
             if (!confirm('האם למחוק מסמך זה מתיק הטיול?')) return;
             let docs = getCustomDocs();
@@ -3145,7 +3347,7 @@
                     <div style="background: white; border: 1.5px dashed #cbd5e1; border-radius: 10px; padding: 18px; text-align: center; color: #64748b; font-size: 0.88em;">
                         <i class="fa-solid fa-folder-open" style="font-size: 2em; color: #94a3b8; margin-bottom: 8px;"></i>
                         <div style="font-weight: bold; color: #334155;">טרם הועלו מסמכים לתיק טיול זה (${TRIPS_DATABASE[currentTripKey]?.name || 'פעיל'}).</div>
-                        <div style="font-size: 0.85em; margin-top: 4px;">לחץ על אחד מכפתורי ההעלאה למעלה (חוברת מסלול, שובר סוכנות, דרכון או ביטוח) להוספה מיידית.</div>
+                        <div style="font-size: 0.85em; margin-top: 4px;">לחץ על אחד מכפתורי ההעלאה למעלה (חוברת מסלול, שובר סוכנות, דרכון או ביטוח) או הדבק הודעת וואטסאפ להוספה מיידית.</div>
                     </div>
                 `;
                 return;
@@ -3159,7 +3361,7 @@
             if (organizedDocs.length > 0) {
                 html += `
                     <div style="font-weight: 900; color: #166534; font-size: 0.95em; display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-                        <i class="fa-solid fa-briefcase"></i> מסמכי טיול מאורגן שהועלו (${organizedDocs.length}):
+                        <i class="fa-solid fa-briefcase"></i> מסמכי טיול והודעות מסלול שהועלו (${organizedDocs.length}):
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         ${organizedDocs.map(d => renderSingleDocCard(d)).join('')}
@@ -3184,17 +3386,26 @@
 
         function renderSingleDocCard(d) {
             const isOrg = (d.category === 'organized');
-            const iconClass = isOrg ? 'fa-file-pdf' : (d.docType?.includes('דרכון') ? 'fa-passport' : (d.docType?.includes('ביטוח') ? 'fa-shield-halved' : 'fa-file-lines'));
-            const iconColor = isOrg ? '#15803d' : '#2563eb';
-            const badgeBg = isOrg ? '#dcfce7' : '#dbeafe';
-            const badgeColor = isOrg ? '#166534' : '#1e40af';
-            const badgeText = isOrg ? '🏢 טיול מאורגן' : '🛂 אישי';
+            const isWhatsApp = d.isText || d.docType?.includes('וואטסאפ');
+            const iconClass = isWhatsApp ? 'fa-brands fa-whatsapp' : (isOrg ? 'fa-file-pdf' : (d.docType?.includes('דרכון') ? 'fa-passport' : (d.docType?.includes('ביטוח') ? 'fa-shield-halved' : 'fa-file-lines')));
+            const iconColor = isWhatsApp ? '#16a34a' : (isOrg ? '#15803d' : '#2563eb');
+            const badgeBg = isWhatsApp ? '#dcfce7' : (isOrg ? '#dcfce7' : '#dbeafe');
+            const badgeColor = isWhatsApp ? '#15803d' : (isOrg ? '#166534' : '#1e40af');
+            const badgeText = isWhatsApp ? '💬 הודעת וואטסאפ' : (isOrg ? '🏢 טיול מאורגן' : '🛂 אישי');
+
+            const viewButtonHtml = isWhatsApp ? 
+                `<button onclick="viewTextDocModal('${d.id}')" style="background: #f0fdf4; color: #15803d; border: 1px solid #86efac; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="פתח וקרא הודעה">
+                    <i class="fa-solid fa-eye"></i> <span style="font-size: 0.9em;">קרא</span>
+                </button>` :
+                `<a href="${d.data}" download="${d.fileName || d.name}" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 4px;" title="הורד / צפה">
+                    <i class="fa-solid fa-download"></i> <span style="font-size: 0.9em;">צפה</span>
+                </a>`;
 
             return `
-                <div style="background: white; border: 1.5px solid ${isOrg ? '#bbf7d0' : '#bfdbfe'}; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+                <div style="background: white; border: 1.5px solid ${isWhatsApp ? '#86efac' : (isOrg ? '#bbf7d0' : '#bfdbfe')}; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
                     <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
-                        <div style="background: ${badgeBg}; color: ${iconColor}; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0;">
-                            <i class="fa-solid ${iconClass}"></i>
+                        <div style="background: ${badgeBg}; color: ${iconColor}; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
+                            <i class="${iconClass}"></i>
                         </div>
                         <div style="min-width: 0;">
                             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
@@ -3208,9 +3419,7 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 6px; flex-shrink: 0; margin-right: 8px;">
-                        <a href="${d.data}" download="${d.fileName || d.name}" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 4px;" title="הורד / צפה">
-                            <i class="fa-solid fa-download"></i> <span style="font-size: 0.9em;">צפה</span>
-                        </a>
+                        ${viewButtonHtml}
                         <button onclick="deleteCustomDoc('${d.id}')" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; cursor: pointer;" title="מחק מסמך">
                             <i class="fa-solid fa-trash"></i>
                         </button>
@@ -3396,18 +3605,18 @@
 
             if (currentTripKey === 'israel_trail_north') {
                 profile = {
-                    origin: 'שדרות העצמאות 93 אשדוד ➔ חניון הפסגה הר מירון',
-                    destination: 'שביל ישראל בצפון (הגליל העליון ומקורות הירדן)',
-                    character: 'הליכה בטבע, מעיינות ונוף גלילי (רמת קושי בינונית)',
-                    group: 'קבוצת חברים (4-8 מטיילים)',
-                    duration: '3-4 ימים',
-                    date: 'עונת האביב',
-                    budget: '800 ₪ לאדם',
-                    activities: 'הר מירון, נחל עמוד עליון, נחל דישון, שמורת הבניאס והשביל התלוי מעל המים.',
-                    transit: 'רכבים פרטיים לחניוני לילה + הקפצות מוניות מקומיות (שדות טיסה נוטרלו).',
-                    hotels: 'חניוני לילה מוסדרים של רשות הטבע והגנים / לינה כפרית בקיבוצים.',
-                    food: 'אוכל כשר לשטח, גזיות בישול והצטיידות במרכולים מקומיים.',
-                    constraints: 'משמעת מים מחמירה (3-4 ליטר לאדם ליום), הפעלת נוהל חילוץ מהתברברות (Off-Route SOS) ומצב חיסכון בסוללה (Eco Mode).'
+                    origin: 'חניון נחל עמוד תחתון (על כביש 85)',
+                    destination: 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון',
+                    character: 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)',
+                    group: 'קבוצת חובבי שביל ישראל',
+                    duration: 'יום אחד (כ-4–5 שעות הליכה, 11-12 ק"מ)',
+                    date: 'יום ד\' ה-28.10.2026',
+                    budget: 'השתתפות קבוצתית (הסעות וארוחה)',
+                    activities: 'נחל עמוד תחתון, הגיחון (הסיפון) של המוביל הארצי, מערות האדם הקדמון (מערת העמוד ומערת זוטייה - גולגולת האדם הגלילי), זקיף הסלע "העמוד", עין נון.',
+                    transit: 'הגעה לחניון נחל עמוד תחתון (כביש 85) ➔ הליכה רגלית בערוץ הנחל ➔ איסוף אוטובוס בעין נון.',
+                    hotels: '[אין נתונים / טיול יום ללא לינה]',
+                    food: 'ארוחת צהריים בסיום תחת עצי האקליפטוס בעין נון, פק"ל קפה ליד "העמוד", 3 ליטר מים לאדם.',
+                    constraints: 'משמעת מים מחמירה, נעלי הליכה סגורות, בגדים להחלפה למעיין, נוהל שטח ומקדמי ביטחון.'
                 };
             } else if (currentTripKey === 'ashkelon') {
                 profile = {
@@ -3648,18 +3857,18 @@
                 if (!saved) {
                     if (currentTripKey === 'israel_trail_north') {
                         saved = {
-                            origin: 'שדרות העצמאות 93 אשדוד ➔ חניון הפסגה הר מירון',
-                            destination: 'שביל ישראל בצפון (הגליל העליון ומקורות הירדן)',
-                            character: 'הליכה בטבע, מעיינות ונוף גלילי (רמת קושי בינונית)',
-                            group: 'קבוצת חברים (4-8 מטיילים)',
-                            duration: '3-4 ימים',
-                            date: 'עונת האביב',
-                            budget: '800 ₪ לאדם',
-                            activities: 'הר מירון, נחל עמוד עליון, נחל דישון, שמורת הבניאס והשביל התלוי מעל המים.',
-                            transit: 'רכבים פרטיים לחניוני לילה + הקפצות מוניות מקומיות (שדות טיסה נוטרלו).',
-                            hotels: 'חניוני לילה מוסדרים של רשות הטבע והגנים / לינה כפרית בקיבוצים.',
-                            food: 'אוכל כשר לשטח, גזיות בישול והצטיידות במרכולים מקומיים.',
-                            constraints: 'משמעת מים מחמירה (3-4 ליטר לאדם ליום), הפעלת נוהל חילוץ מהתברברות (Off-Route SOS) ומצב חיסכון בסוללה (Eco Mode).'
+                            origin: 'חניון נחל עמוד תחתון (על כביש 85)',
+                            destination: 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון',
+                            character: 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)',
+                            group: 'קבוצת חובבי שביל ישראל',
+                            duration: 'יום אחד (כ-4–5 שעות הליכה, 11-12 ק"מ)',
+                            date: 'יום ד\' ה-28.10.2026',
+                            budget: 'השתתפות קבוצתית (הסעות וארוחה)',
+                            activities: 'נחל עמוד תחתון, הגיחון (הסיפון) של המוביל הארצי, מערות האדם הקדמון (מערת העמוד ומערת זוטייה - גולגולת האדם הגלילי), זקיף הסלע "העמוד", עין נון.',
+                            transit: 'הגעה לחניון נחל עמוד תחתון (כביש 85) ➔ הליכה רגלית בערוץ הנחל ➔ איסוף אוטובוס בעין נון.',
+                            hotels: '[אין נתונים / טיול יום ללא לינה]',
+                            food: 'ארוחת צהריים בסיום תחת עצי האקליפטוס בעין נון, פק"ל קפה ליד "העמוד", 3 ליטר מים לאדם.',
+                            constraints: 'משמעת מים מחמירה, נעלי הליכה סגורות, בגדים להחלפה למעיין, נוהל שטח ומקדמי ביטחון.'
                         };
                     } else if (currentTripKey === 'ashkelon') {
                         saved = {
@@ -4930,8 +5139,16 @@
                 if (count) count.value = '4';
                 if (notes) notes.value = 'סיור רכבת, גן לאומי תל אשקלון, מרינה בינלאומית, מדרחוב מגדל, נגישות מלאה.';
             } else if (name.includes('שביל ישראל')) {
+                const start = document.getElementById('new-trip-input-start');
+                const end = document.getElementById('new-trip-input-end');
+                const group = document.getElementById('new-trip-input-group');
+                const count = document.getElementById('new-trip-input-count');
                 const notes = document.getElementById('new-trip-input-notes');
-                if (notes) notes.value = 'מקטעי הר מירון, נחל דישון ושמורת הבניאס, הטמנת מים, נוהל חילוץ.';
+                if (start) start.value = '2026-10-28';
+                if (end) end.value = '2026-10-28';
+                if (group) group.value = 'קבוצת חברים / גמלאים';
+                if (count) count.value = '15';
+                if (notes) notes.value = 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון. 11-12 ק"מ, הליכה מתונה, סיום רטוב ומפגש אוטובוס.';
             }
         }
 
@@ -5758,6 +5975,40 @@
         </div>
     </div>
 
+    <!-- ================= TEXT DOCUMENT VIEWER MODAL (קריאת הודעות וואטסאפ וטקסטים) ================= -->
+    <div id="text-doc-viewer-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10003; justify-content: center; align-items: center; padding: 16px;" dir="rtl">
+        <div style="background: white; width: 100%; max-width: 550px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
+            
+            <!-- Modal Header -->
+            <div style="background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 1.3em;"></i>
+                    <h3 id="text-doc-title" style="margin: 0; font-size: 1.1em; font-weight: 900;">הודעת מסלול</h3>
+                </div>
+                <button onclick="closeTextDocModal()" style="background: none; border: none; color: #bbf7d0; font-size: 1.4em; cursor: pointer;">✕</button>
+            </div>
+
+            <!-- Meta info -->
+            <div id="text-doc-meta" style="background: #f0fdf4; border-bottom: 1px solid #bbf7d0; padding: 8px 18px; font-size: 0.82em; color: #166534; font-weight: bold;"></div>
+
+            <!-- Content Area -->
+            <div style="padding: 18px; overflow-y: auto; flex: 1;">
+                <div id="text-doc-body" style="white-space: pre-wrap; font-family: 'Heebo', sans-serif; font-size: 0.98em; line-height: 1.65; color: #1e293b; background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;"></div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="background: #f8fafc; padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                <button onclick="copyCurrentTextDoc()" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-copy"></i> העתק טקסט
+                </button>
+                <button onclick="closeTextDocModal()" style="background: #64748b; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;">
+                    סגור
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Trip Selection Modal (Planning & Testing Mode - User Repository Trips) -->
     <div id="trip-selector-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10001; justify-content: center; align-items: center; padding: 16px;" dir="rtl">
         <div style="background: white; width: 100%; max-width: 480px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); max-height: 90vh; display: flex; flex-direction: column;">
@@ -5845,14 +6096,14 @@
                 <!-- Trip 4: Israel Trail North -->
                 <div onclick="selectTripAndApply('israel_trail_north')" style="border: 2px solid #34d399; background: #f0fdf4; border-radius: 14px; padding: 12px; cursor: pointer; transition: transform 0.15s; display: flex; flex-direction: column; gap: 4px;">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 900; font-size: 1.02em; color: #065f46;">🥾 שביל ישראל בצפון</span>
-                        <span style="background: #059669; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📋 בקנה / שלב תכנון</span>
+                        <span style="font-weight: 900; font-size: 1.02em; color: #065f46;">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון</span>
+                        <span style="background: #059669; color: white; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📅 28/10/26</span>
                     </div>
                     <div style="font-size: 0.82em; color: #047857;">
-                        ⛰️ הר מירון ➔ 🌿 נחל עמוד ➔ 💧 נחל דישון ➔ 🌊 שמורת הבניאס ומקורות הירדן
+                        📍 חניון נחל עמוד (כביש 85) ➔ 💧 הגיחון ➔ 🦴 מערות האדם הקדמון ➔ ☕ "העמוד" ➔ 🌴 עין נון
                     </div>
                     <div style="font-size: 0.78em; color: #64748b;">
-                        הליכה רגלית, ניהול הטמנות מים, נוהל 'התברברתי' (Off-Route SOS) ומצב חיסכון סוללה.
+                        11-12 ק"מ, 4-5 שעות הליכה נינוחה, קניון מרשים, סיפורים מרתקים וסיום במעיין מוצל עם אוטובוס.
                     </div>
                 </div>
 
