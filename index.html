@@ -793,13 +793,10 @@
                             <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את הטקסט שהועתק מוואטסאפ... (לדוגמה: שלום לחובבי שביל ישראל, יוצאים ביום ד' 28.10.26 במסלול נחל עמוד תחתון עד עין נון...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #86efac; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
 
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button onclick="saveWhatsAppTextAsDoc()" style="flex: 1; min-width: 150px; background: #16a34a; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
-                                    <i class="fa-solid fa-floppy-disk"></i> 💾 שמור כמסמך בתיק הטיול
+                                <button onclick="saveAndApplyWhatsAppMessage()" style="flex: 1; background: #15803d; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 0.98em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 6px rgba(21,128,61,0.25);">
+                                    <i class="fa-solid fa-floppy-disk"></i> שמור הודעה ועדכן מסלול
                                 </button>
-                                <button onclick="parseAndApplyWhatsAppText()" style="flex: 1.2; min-width: 170px; background: #0284c7; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 🪄 פענח טקסט ועדכן מסלול
-                                </button>
-                                <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
+                                <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 10px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
                                     ✕ נקה
                                 </button>
                             </div>
@@ -3264,51 +3261,57 @@
             }
         }
 
-        function parseAndApplyWhatsAppText(customText) {
+        function saveAndApplyWhatsAppMessage() {
             const el = document.getElementById('whatsapp-paste-input');
-            const text = customText || (el ? el.value.trim() : '');
+            const text = el ? el.value.trim() : '';
             if (!text) {
-                alert('אנא הדבק טקסט או הודעת וואטסאפ בתיבה לפני הפענוח.');
+                alert('אנא הדבק הודעה בתיבה לפני השמירה.');
                 return;
             }
 
-            // 1. Save as document automatically
-            saveWhatsAppTextAsDoc(text, 'הודעת וואטסאפ: שביל ישראל (נחל עמוד תחתון עד עין נון)');
+            // 1. Save as readable document in trip file
+            const firstLine = text.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 45);
+            const defaultName = (text.includes('שביל ישראל') ? 'הודעת מסלול: שביל ישראל (נחל עמוד)' : `הודעה: ${firstLine || 'עדכון מסלול'}`);
+            
+            const docs = getCustomDocs();
+            docs.unshift({
+                id: 'doc_' + Date.now(),
+                name: defaultName,
+                category: 'organized',
+                docType: 'הודעת וואטסאפ / מסלול',
+                time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
+                fileName: 'whatsapp_message.txt',
+                textContent: text,
+                isText: true,
+                data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+            });
+            saveCustomDocs(docs);
+            renderCustomDocsList();
 
-            // 2. Extract Date (e.g., 28.10.26 / 28.10.2026 / 28/10/26)
+            // 2. Extract Date if present
             const dateMatch = text.match(/(\d{1,2}[\.\/]\d{1,2}[\.\/]\d{2,4})/);
-            const extractedDate = dateMatch ? dateMatch[1] : '28.10.2026';
-
-            // 3. Extract Route
-            let routeName = 'שביל ישראל: נחל עמוד תחתון עד עין נון';
-            if (text.includes('נחל עמוד תחתון') && text.includes('עין נון')) {
-                routeName = 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון';
+            if (dateMatch) {
+                const extractedDate = dateMatch[1];
+                if (document.getElementById('q_date')) document.getElementById('q_date').value = `יום ד' ה-${extractedDate}`;
+                if (document.getElementById('step1-dates')) document.getElementById('step1-dates').value = extractedDate;
+                if (TRIPS_DATABASE[currentTripKey]) TRIPS_DATABASE[currentTripKey].dates = extractedDate;
             }
 
-            // 4. Update Questionnaire fields directly
-            if (document.getElementById('q_destination')) document.getElementById('q_destination').value = routeName;
-            if (document.getElementById('q_origin')) document.getElementById('q_origin').value = 'חניון נחל עמוד תחתון (על כביש 85)';
-            if (document.getElementById('q_date')) document.getElementById('q_date').value = `יום ד' ה-${extractedDate}`;
-            if (document.getElementById('q_duration')) document.getElementById('q_duration').value = 'יום אחד (כ-4–5 שעות הליכה, 11-12 ק"מ)';
-            if (document.getElementById('q_character')) document.getElementById('q_character').value = 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)';
-            if (document.getElementById('q_group')) document.getElementById('q_group').value = 'קבוצת חובבי שביל ישראל';
-            if (document.getElementById('q_activities')) document.getElementById('q_activities').value = 'נחל עמוד תחתון, הגיחון (סיפון המוביל הארצי), מערות האדם הקדמון (מערת העמוד ומערת זוטייה - גולגולת האדם הגלילי), זקיף הסלע "העמוד", עין נון.';
-            if (document.getElementById('q_transit')) document.getElementById('q_transit').value = 'הגעה לחניון נחל עמוד תחתון (כביש 85), הליכה רגלית בערוץ שביל ישראל, איסוף באוטובוס בסיום במעיין עין נון.';
-            if (document.getElementById('q_hotels')) document.getElementById('q_hotels').value = '[אין נתונים / טיול יום ללא לינה]';
-            if (document.getElementById('q_food')) document.getElementById('q_food').value = 'ארוחת צהריים בסיום תחת עצי האקליפטוס בעין נון, פק"ל קפה ליד "העמוד", הצטיידות במים (3 ליטר).';
-            if (document.getElementById('q_constraints')) document.getElementById('q_constraints').value = 'משמעת מים, נעלי הליכה סגורות, בגדים להחלפה למעיין, נוהל שטח ומקדמי ביטחון.';
+            // 3. Extract Route details if trail message
+            if (text.includes('שביל ישראל') || (text.includes('נחל עמוד') && text.includes('עין נון'))) {
+                const routeName = 'שביל ישראל: נחל עמוד תחתון עד עין נון';
+                if (document.getElementById('q_destination')) document.getElementById('q_destination').value = routeName;
+                if (document.getElementById('step1-dest-name')) document.getElementById('step1-dest-name').value = routeName;
+                if (document.getElementById('q_origin')) document.getElementById('q_origin').value = 'חניון נחל עמוד תחתון (כביש 85)';
+                if (document.getElementById('q_duration')) document.getElementById('q_duration').value = 'יום אחד (11-12 ק"מ)';
+                if (TRIPS_DATABASE['israel_trail_north']) {
+                    TRIPS_DATABASE['israel_trail_north'].name = routeName;
+                }
+            }
 
-            // 5. Save the updated questionnaire
             saveTripQuestionnaire();
-
-            // 6. Update stations on map
-            if (currentTripKey === 'israel_trail_north') {
-                TRIPS_DATABASE['israel_trail_north'].name = routeName;
-                TRIPS_DATABASE['israel_trail_north'].badge = `${extractedDate} | 11-12 ק"מ`;
-                selectTripAndApply('israel_trail_north');
-            }
-
-            alert(`🪄 הודעת הוואטסאפ פוענחה בהצלחה ב-100%!\n• תאריך עודכן: יום ד' ${extractedDate}\n• מסלול: נחל עמוד תחתון עד עין נון (11-12 ק"מ)\n• נקודת מפגש וסיום עודכנו, והשאלון מולא אוטומטית!`);
+            el.value = '';
+            alert('✅ ההודעה נשמרה בתיק הטיול ופרטי המסלול עודכנו בהצלחה!');
         }
 
         function viewTextDocModal(docId) {
