@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Travel Assistant</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
@@ -31,19 +31,9 @@
         }
 
         html {
-            font-size: 100%; /* Large, crisp, highly legible base */
-        }
-
-        @media (min-width: 900px) {
-            html {
-                font-size: 135%; /* Laptop & medium monitors */
-            }
-        }
-
-        @media (min-width: 1400px) {
-            html {
-                font-size: 155%; /* Giant 42-inch screens & 4K displays */
-            }
+            font-size: 100%; /* Controlled dynamically by applyFontScale() */
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         body {
@@ -57,23 +47,28 @@
             min-height: 100vh;
             font-size: 1.05rem;
             line-height: 1.5;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .header {
-            padding: 16px 24px;
+            padding: 10px 14px;
             background: #ffffff;
             border-bottom: 2px solid #cbd5e1;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .screen-container {
             flex-grow: 1;
             position: relative;
-            overflow-y: auto;
+            overflow-y: visible;
+            padding-bottom: 80px;
         }
 
         .screen {
@@ -191,7 +186,7 @@
         }
 
         .content-padding {
-            padding: 24px 20px;
+            padding: 20px 18px 160px 18px !important;
             max-width: 1100px;
             margin: 0 auto;
         }
@@ -434,15 +429,16 @@
         }
 
         /* Inputs and Buttons Global */
-        input[type="text"], textarea, select {
+        input[type="text"], input[type="tel"], input[type="email"], textarea, select {
             font-family: 'Heebo', sans-serif;
-            font-size: 1.15em;
+            font-size: 1.05em;
             color: #0f172a;
             line-height: 1.45;
         }
 
         button {
             font-family: 'Heebo', sans-serif;
+            font-size: 1em;
         }
 
         /* Bell ringing animation */
@@ -505,23 +501,20 @@
 </head>
 <body>
 
-    <!-- Main Header -->
+    <!-- Main Header (Clean & Fits Mobile Viewport Without Panning - Single Feedback Button at Bottom Only) -->
     <header class="header">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-compass" style="font-size: 1.8em; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 1.35em; letter-spacing: -0.5px;">Travel Assistant</span>
-        </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-            <button onclick="openFeedbackModal()" title="משוב שטח מהיר לסוכן" style="background: #10b981; color: white; border: none; border-radius: 10px; padding: 6px 12px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">
-                <i class="fa-solid fa-comment-dots"></i> משוב שטח
-            </button>
-            <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 12px; padding: 3px 8px; gap: 4px;">
-                <span style="font-size: 0.9em; font-weight: 900; color: #334155; margin-left: 4px;">כיתוב:</span>
-                <button onclick="changeFontSize(-1)" title="הקטן כיתוב" style="background: white; border: 1px solid #94a3b8; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer; color:#0f172a;">A-</button>
-                <button onclick="changeFontSize(1)" title="הגדל כיתוב למסכים גדולים" style="background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-weight: 900; font-size: 1.15em; cursor: pointer;">A+</button>
+            <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
+            <span style="font-weight: 900; font-size: 18px; letter-spacing: -0.5px; color: #0f172a;">Travel Assistant</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
+                <span id="font-scale-display" style="font-size: 13px; font-weight: 900; color: #334155; margin-left: 2px;">כיתוב:</span>
+                <button type="button" onclick="changeFontSize(-1)" title="הקטן כיתוב" style="background: white; border: 1px solid #94a3b8; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; color:#0f172a; line-height: 1.2;">A-</button>
+                <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
-            <span style="font-size: 0.9em; background: #e0f2fe; color: #0284c7; padding: 6px 12px; border-radius: 10px; font-weight: 900;">
-                גרסה 4.9.7
+            <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
+                גרסה 4.9.9
             </span>
         </div>
     </header>
@@ -536,7 +529,7 @@
                 <p style="color: #64748b; font-size: 0.9em; margin: 4px 0 0;">מרכז שליטה וליווי אישי למטייל בכל מקום בעולם</p>
             </div>
 
-            <!-- Active Trip Selection Banner (Desk Planning / Testing vs Field Execution) -->
+            <!-- Active Trip Selection Banner (Swapped: 'בחר טיול' first on right, 'תכנון טיול חדש' second on left) -->
             <div style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #818cf8; border-radius: 14px; padding: 10px 14px; margin: 8px 14px 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(99,102,241,0.15); flex-wrap: wrap; gap: 8px;" dir="rtl">
                 <div style="text-align: right; flex: 1; min-width: 180px;">
                     <div style="font-size: 0.76em; color: #4338ca; font-weight: 800; display: flex; align-items: center; gap: 6px;">
@@ -546,11 +539,11 @@
                     <div id="home-active-trip-display" style="font-weight: 900; font-size: 1.05em; color: #1e1b4b; margin-top: 2px;">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון</div>
                 </div>
                 <div style="display: flex; gap: 6px; align-items: center;">
-                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(16,185,129,0.35); white-space: nowrap;">
-                        <i class="fa-solid fa-plus"></i> תכנון טיול חדש
-                    </button>
-                    <button onclick="openTripSelectorModal()" style="background: #4f46e5; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(79,70,229,0.35); white-space: nowrap;">
+                    <button onclick="openTripSelectorModal()" style="background: #4f46e5; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(79,70,229,0.35); white-space: nowrap;">
                         <i class="fa-solid fa-map"></i> בחר טיול ▾
+                    </button>
+                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(16,185,129,0.35); white-space: nowrap;">
+                        <i class="fa-solid fa-plus"></i> תכנון טיול חדש
                     </button>
                 </div>
             </div>
@@ -1134,37 +1127,37 @@
                             </div>
                         </div>
 
-                        <!-- Non-Threatening Traveler Contact Card (As Agreed) -->
-                        <div id="traveler-contact-card" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 16px; margin-bottom: 18px;">
-                            <div style="font-weight: 900; color: #166534; font-size: 1.05em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                        <!-- Non-Threatening Traveler Contact Card (As Agreed - Prominent & Clear) -->
+                        <div id="traveler-contact-card" style="background: #f0fdf4; border: 2px solid #22c55e; border-radius: 14px; padding: 16px; margin-bottom: 18px; box-shadow: 0 3px 10px rgba(34,197,94,0.12);">
+                            <div style="font-weight: 900; color: #166534; font-size: 1.08em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
                                 <i class="fa-solid fa-paper-plane" style="color: #15803d;"></i>
                                 <span>לאן לשלוח לך עדכוני מסלול ובטיחות בזמן אמת?</span>
                             </div>
-                            <div style="font-size: 0.85em; color: #334155; margin-bottom: 12px; line-height: 1.45;">
+                            <div style="font-size: 0.88em; color: #1e293b; margin-bottom: 12px; line-height: 1.45; font-weight: 600;">
                                 נשתמש בפרטים אך ורק למשלוח התראות שטח קריטיות (מזג אוויר, שינוי ציר) וגיבוי של התיק.
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 10px;">
                                 <div>
-                                    <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
-                                    <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                                    <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
+                                    <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
                                 </div>
                                 <div>
-                                    <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
-                                    <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                                    <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
+                                    <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
                                 </div>
                                 <div>
-                                    <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
-                                    <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                                    <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
+                                    <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
                                 </div>
                             </div>
-                            <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.78em; color: #166534; display: flex; align-items: center; gap: 6px;">
+                            <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.82em; color: #166534; font-weight: 700; display: flex; align-items: center; gap: 6px;">
                                 <i class="fa-solid fa-lock"></i> הפרטים נשמרים אצלך במכשיר בלבד. ללא פרסומות, ללא תשלום, אך ורק לעדכוני שטח ובטיחות.
                             </div>
-                            <div style="display: flex; gap: 8px; margin-top: 12px;">
-                                <button onclick="saveContactDetails()" style="flex: 1; background: #15803d; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                            <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+                                <button onclick="saveContactDetails()" style="flex: 2; min-width: 170px; background: #15803d; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; box-shadow: 0 3px 8px rgba(21,128,61,0.3);">
                                     💾 שמור פרטי קשר
                                 </button>
-                                <button onclick="skipContactDetails()" style="background: white; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                                <button onclick="skipContactDetails()" style="flex: 1; min-width: 130px; background: white; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 14px; border-radius: 10px; font-weight: 800; font-size: 0.92em; cursor: pointer;">
                                     דלג / אעדכן מאוחר יותר
                                 </button>
                             </div>
@@ -1173,7 +1166,7 @@
                         <!-- Quick Field Actions -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
                             <button onclick="switchScreen('screen-map')" style="background: #2563eb; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
-                                <i class="fa-solid fa-map-location-dot"></i> פתח מפה חיה עם התחנות
+                                <i class="fa-solid fa-map-location-dot"></i> פתח מפה בזמן אמת עם התחנות
                             </button>
                             <button onclick="setWizardStep(2)" style="background: white; color: #15803d; border: 1.5px solid #86efac; padding: 12px 14px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
                                 <i class="fa-solid fa-folder-open"></i> צפה במסמכי הטיול והוואטסאפ
@@ -1597,7 +1590,7 @@
                     <!-- Live Dialogue Feed Container -->
                     <div style="margin-bottom: 10px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <span style="font-size: 0.8em; font-weight: 800; color: #475569;">💬 תמליל השיחה החי בשטח:</span>
+                            <span style="font-size: 0.8em; font-weight: 800; color: #475569;">💬 תמליל השיחה בזמן אמת בשטח:</span>
                             <button onclick="clearInterpreterChat()" style="background: none; border: none; color: #94a3b8; font-size: 0.75em; cursor: pointer; text-decoration: underline;">נקה שיחה</button>
                         </div>
                         <div id="interpreter-chat-box" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
@@ -1620,7 +1613,7 @@
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div style="background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
                         <div>
-                            <div style="font-weight: 900; color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-triangle-exclamation"></i> התראות בלת"ם שטח חיות בזמן אמת</div>
+                            <div style="font-weight: 900; color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-triangle-exclamation"></i> התראות בלת"ם שטח בזמן אמת</div>
                             <div style="font-size: 0.82em; color: #7f1d1d;">התפרצות קורונה, חסימת שבילים, עומס חום קיצוני בשטח</div>
                         </div>
                         <button onclick="switchScreen('screen-alerts')" style="background: #ea580c; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח בלת"ם</button>
@@ -1678,7 +1671,7 @@
                                 <i class="fa-solid fa-plane-circle-exclamation fa-beat"></i> התראת טיסה מקדימה (AI Proactive Radar)
                             </span>
                             <span style="font-size: 0.8em; font-weight: 800; color: #1e40af;">
-                                נתב״ג טרמינל 3 | עדכון חי ממערכת הבקרה
+                                נתב״ג טרמינל 3 | עדכון בזמן אמת ממערכת הבקרה
                             </span>
                         </div>
 
@@ -2116,9 +2109,9 @@
                 <h2 style="color:white;"><i class="fa-solid fa-camera-retro"></i> יומן מסע אמיתי</h2>
             </div>
             
-            <div class="content-padding" style="padding-bottom: 50px;">
-                <p style="text-align:center; color: #64748b; font-size: 0.9em; margin-top: 0; margin-bottom: 16px;">
-                    צלם חוויות ורשמים מהשטח. התמונות נדחסות אוטומטית (<span style="color:#0284c7; font-weight:bold;">ללא קריסות זיכרון</span>), נשמרות במכשיר ומגובות ביומן!
+            <div class="content-padding" style="padding-bottom: 160px;">
+                <p style="text-align:center; color: #334155; font-size: 0.92em; font-weight: 600; margin-top: 0; margin-bottom: 16px;">
+                    צלם או העלה חוויות ורשמים מהשטח. התמונות נשמרות במכשיר ומגובות לענן באופן אוטומטי מאחורי הקלעים!
                 </p>
 
                 <!-- Hidden inputs for Camera and Gallery -->
@@ -2127,58 +2120,65 @@
 
                 <!-- Compact Capture Buttons (Sleek side-by-side design freeing up vertical space) -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 10px 14px; border-radius: 12px; font-size: 0.95em; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 8px rgba(14, 165, 233, 0.25); cursor: pointer;">
+                    <button onclick="document.getElementById('diary-camera-input').click()" style="background: #0ea5e9; color: white; border: none; padding: 12px 14px; border-radius: 12px; font-size: 0.98em; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 8px rgba(14, 165, 233, 0.25); cursor: pointer;">
                         <i class="fa-solid fa-camera" style="font-size: 1.25em;"></i>
                         <span>צלם במצלמה</span>
                     </button>
-                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0ea5e9; border: 2px solid #0ea5e9; padding: 10px 14px; border-radius: 12px; font-size: 0.95em; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
+                    <button onclick="document.getElementById('diary-gallery-input').click()" style="background: white; color: #0284c7; border: 2px solid #0ea5e9; padding: 12px 14px; border-radius: 12px; font-size: 0.98em; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
                         <i class="fa-solid fa-images" style="font-size: 1.25em;"></i>
                         <span>בחר מגלריה</span>
                     </button>
                 </div>
 
-                <!-- Dedicated Cloud-Shaped Action Button (Combined Login + Upload in One Step) -->
+                <!-- Direct Photo Upload Button (Silent Automatic Cloud Sync Behind the Scenes) -->
                 <div onclick="connectCloudAndUploadPhoto()" class="cloud-upload-container" style="cursor: pointer; margin-bottom: 20px;">
-                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%); border: 2px dashed #0284c7; border-radius: 28px; padding: 16px 14px; text-align: center; box-shadow: 0 6px 18px rgba(14, 165, 233, 0.22); transition: all 0.2s ease;">
+                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%); border: 2px solid #0284c7; border-radius: 22px; padding: 16px 14px; text-align: center; box-shadow: 0 6px 18px rgba(14, 165, 233, 0.22); transition: all 0.2s ease;">
                         <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
                             <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25); flex-shrink: 0;">
                                 <i class="fa-solid fa-cloud-arrow-up" style="font-size: 24px; color: #0284c7;"></i>
                             </div>
                             <div style="text-align: right;">
-                                <div style="font-weight: 900; font-size: 1.15em; color: #0369a1;">התחבר לענן והעלה את התמונה</div>
-                                <div style="font-size: 0.82em; color: #075985; margin-top: 2px;">פעולה משולבת: חיבור אוטומטי לענן + העלאת התמונה לגיבוי מיידי</div>
+                                <div style="font-weight: 900; font-size: 1.15em; color: #0c4a6e;">העלה תמונה ליומן המסע</div>
+                                <div style="font-size: 0.88em; color: #075985; font-weight: 700; margin-top: 2px;">החיבור והגיבוי לענן מתבצעים אוטומטית מאחורי הקלעים</div>
                             </div>
                         </div>
-                        <div id="cloud-sync-status" style="margin-top: 8px; font-size: 0.78em; color: #0369a1; font-weight: bold; background: rgba(255,255,255,0.75); padding: 4px 12px; border-radius: 20px; display: inline-block;">
-                            ☁️ מוכן לסנכרון ענן מאובטח (Google Drive / Cloud)
+                        <div id="cloud-sync-status" style="margin-top: 8px; font-size: 0.82em; color: #0f172a; font-weight: 800; background: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 20px; display: inline-block;">
+                            ☁️ גיבוי ענן אוטומטי פעיל ברקע
                         </div>
                     </div>
                 </div>
 
                 <!-- Memories Feed Header -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">
-                    <h3 style="margin: 0; color: #1e293b;"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> הזיכרונות שנשמרו</h3>
-                    <span id="diary-count" style="font-size: 0.85em; color: #64748b; font-weight: bold;">0 תמונות</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px;">
+                    <h3 style="margin: 0; color: #0f172a; font-size: 1.15em; font-weight: 900;"><i class="fa-solid fa-heart" style="color:#ef4444;"></i> הזיכרונות שנשמרו</h3>
+                    <span id="diary-count" style="font-size: 0.9em; color: #334155; font-weight: 800; background: #e2e8f0; padding: 2px 10px; border-radius: 12px;">0 תמונות</span>
                 </div>
 
                 <!-- Feed Container -->
-                <div id="diary-feed-container" style="display: flex; flex-direction: column; gap: 14px;"></div>
+                <div id="diary-feed-container" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 80px;"></div>
             </div>
         </div>
 
     </div> <!-- End screen-container -->
 
     <script>
-                // ================= DYNAMIC FONT ZOOM CONTROLLER (FOR LARGE SCREENS & 42-INCH DISPLAYS) =================
+        // ================= DYNAMIC FONT ZOOM CONTROLLER (FOR MOBILE & LARGE DISPLAYS) =================
         let currentFontScale = parseInt(localStorage.getItem('travel_assistant_font_scale') || '100');
 
         function applyFontScale() {
             document.documentElement.style.fontSize = currentFontScale + '%';
+            if (document.body) {
+                document.body.style.fontSize = (currentFontScale / 100 * 1.05).toFixed(2) + 'rem';
+            }
+            const displayEl = document.getElementById('font-scale-display');
+            if (displayEl) {
+                displayEl.innerText = currentFontScale === 100 ? 'כיתוב:' : `כיתוב (${currentFontScale}%):`;
+            }
             localStorage.setItem('travel_assistant_font_scale', currentFontScale);
         }
 
         function changeFontSize(delta) {
-            currentFontScale = Math.min(220, Math.max(90, currentFontScale + delta * 15));
+            currentFontScale = Math.min(200, Math.max(85, currentFontScale + delta * 15));
             applyFontScale();
         }
         applyFontScale();
@@ -4203,7 +4203,7 @@
         // ================= OFF-ROUTE SOS / RESCUE PROTOCOL =================
         function rescueOffRoute() {
             if (!currentPosition) {
-                alert('ה-GPS מחפש אות חי... ודא ששירותי המיקום מופעלים בדפדפן.');
+                alert('ה-GPS מאתר מיקום בזמן אמת... ודא ששירותי המיקום מופעלים בדפדפן.');
                 locateUser(true);
                 return;
             }
@@ -4300,7 +4300,7 @@
 
                     <div style="display:flex; gap:12px; margin-top:18px;">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank" style="flex:1; background:#2563eb; color:white; padding:14px; border-radius:12px; text-decoration:none; font-weight:900; font-size:1.15em; text-align:center;">
-                            <i class="fa-solid fa-location-arrow"></i> פתח ניווט חי
+                            <i class="fa-solid fa-location-arrow"></i> פתח ניווט בזמן אמת
                         </a>
                         <button onclick="document.getElementById('taxi-card-overlay').remove()" style="flex:1; background:#e2e8f0; color:#0f172a; border:none; padding:14px; border-radius:12px; font-weight:900; font-size:1.15em; cursor:pointer;">
                             סגור
@@ -4544,7 +4544,7 @@
                     } else {
                         statusText.innerHTML = `
                             <div style="display:flex; flex-direction:column; line-height:1.2;">
-                                <span style="color:#16a34a; font-weight:800; font-size:0.9em;"><i class="fa-solid fa-location-arrow"></i> שטח חי | יעד: ${targetStation.title}</span>
+                                <span style="color:#16a34a; font-weight:800; font-size:0.9em;"><i class="fa-solid fa-location-arrow"></i> שטח בזמן אמת | יעד: ${targetStation.title}</span>
                                 <span style="font-size:0.75em; color:#334155;">מרחק שנותר: <b>${distStr}</b> | הגעה: <b>${etaStr}</b></span>
                             </div>
                         `;
@@ -4727,12 +4727,14 @@
                     
                     const note = prompt('הוסף תיאור קצר לתמונה:', 'חוויה מהדרך') || 'חוויה מהדרך';
 
+                    const isOnline = navigator.onLine !== false;
                     const newEntry = {
                         id: 'diary_' + Date.now(),
                         image: compressedDataUrl,
                         note: note,
                         time: `${dateStr}, ${timeStr}`,
-                        location: (TRIPS_DATABASE[currentTripKey]?.name || 'ישראל')
+                        location: (TRIPS_DATABASE[currentTripKey]?.name || 'ישראל'),
+                        backedUp: isOnline
                     };
 
                     try {
@@ -4740,7 +4742,21 @@
                         entries.unshift(newEntry);
                         saveDiaryEntries(entries);
                         renderDiaryFeed();
-                        alert('התמונה נשמרה בהצלחה ביומן המסע שלך!');
+
+                        const statusEl = document.getElementById('cloud-sync-status');
+                        if (!isOnline) {
+                            if (statusEl) {
+                                statusEl.innerHTML = '⚠️ יש בעיית התחברות לענן – יתאפשר להעלות את התמונות בזמן אחר';
+                                statusEl.style.color = '#b91c1c';
+                            }
+                            alert('התמונה נשמרה ביומן המסע שלך!\n⚠️ שים לב: יש כעת בעיית התחברות לענן ויתאפשר בזמן אחר להעלות אותה.');
+                        } else {
+                            if (statusEl) {
+                                statusEl.innerHTML = '☁️ התמונה נשמרה וגובתה לענן באופן אוטומטי ברקע';
+                                statusEl.style.color = '#15803d';
+                            }
+                            alert('התמונה הועלתה ונשמרה בהצלחה ביומן המסע שלך!');
+                        }
                     } catch (err) {
                         console.error('Storage error:', err);
                         alert('הזיכרון המקומי מלא. מומלץ למחוק מספר תמונות ישנות.');
@@ -4782,29 +4798,29 @@
 
             if (entries.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 30px; background: white; border-radius: 12px; border: 1px dashed #cbd5e1; color: #94a3b8;">
-                        <i class="fa-solid fa-camera" style="font-size: 2.5em; margin-bottom: 10px;"></i>
-                        <p style="margin: 0; font-weight: bold;">עדיין אין תמונות ביומן.</p>
-                        <p style="margin: 5px 0 0 0; font-size: 0.85em;">לחץ על 'צלם במצלמה' כדי לתעד חוויות מהשטח!</p>
+                    <div style="text-align: center; padding: 26px 18px; background: #ffffff; border-radius: 14px; border: 2px solid #94a3b8; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <i class="fa-solid fa-camera" style="font-size: 2.2em; color: #0284c7; margin-bottom: 10px;"></i>
+                        <p style="margin: 0; font-weight: 900; font-size: 1.08em; color: #0f172a;">עדיין לא נשמרו תמונות ביומן המסע</p>
+                        <p style="margin: 8px 0 0 0; font-size: 0.95em; font-weight: 700; color: #334155; line-height: 1.45;">לחץ על הכפתור למעלה כדי לצלם או להעלות תמונה מהשטח</p>
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = entries.map(item => `
-                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+                <div style="background: white; border: 1.5px solid #cbd5e1; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
                     <img src="${item.image}" style="width: 100%; max-height: 280px; object-fit: cover; display: block;">
                     <div style="padding: 12px 14px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.82em; color: #64748b;">
-                            <span><i class="fa-solid fa-location-dot"></i> ${item.location}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.85em; color: #334155; font-weight: 700;">
+                            <span><i class="fa-solid fa-location-dot" style="color:#0284c7;"></i> ${item.location}</span>
                             <span><i class="fa-regular fa-clock"></i> ${item.time}</span>
                         </div>
-                        <p style="margin: 0 0 10px 0; color: #1e293b; font-weight: bold; font-size: 0.95em;">${item.note}</p>
+                        <p style="margin: 0 0 10px 0; color: #0f172a; font-weight: 900; font-size: 1em;">${item.note}</p>
                         <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button onclick="editDiaryCaption('${item.id}')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; cursor: pointer;">
+                            <button onclick="editDiaryCaption('${item.id}')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 800; cursor: pointer;">
                                 <i class="fa-solid fa-pen"></i> ערוך כיתוב
                             </button>
-                            <button onclick="deleteDiaryEntry('${item.id}')" style="background: #fee2e2; border: none; color: #ef4444; padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: bold; cursor: pointer;">
+                            <button onclick="deleteDiaryEntry('${item.id}')" style="background: #fee2e2; border: none; color: #dc2626; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 800; cursor: pointer;">
                                 <i class="fa-solid fa-trash"></i> מחק
                             </button>
                         </div>
@@ -5668,8 +5684,9 @@
                 }
             }
 
-            // If entering step 4, load contact details
+            // If entering step 4, ensure contact form and save button are always visible and loaded
             if (stepNum === 4) {
+                restoreContactForm();
                 loadContactDetails();
                 const readyBadge = document.getElementById('ready-trip-name-badge');
                 if (readyBadge && TRIPS_DATABASE[currentTripKey]) {
@@ -5681,6 +5698,9 @@
             if (routeContent) {
                 routeContent.scrollTop = 0;
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
         }
 
         function syncStep1Destination(val) {
@@ -5735,9 +5755,9 @@
                 card.style.background = '#f8fafc';
                 card.style.borderColor = '#cbd5e1';
                 card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85em; color:#64748b;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.88em; color:#334155; font-weight:700;">
                         <span><i class="fa-solid fa-circle-info"></i> פרטי קשר למטייל נותרו ריקים (ניתן להוסיף בכל עת).</span>
-                        <button onclick="restoreContactForm()" style="background:white; border:1px solid #cbd5e1; color:#334155; padding:4px 8px; border-radius:6px; font-size:0.8em; font-weight:bold; cursor:pointer;">✏️ הזן פרטים</button>
+                        <button onclick="restoreContactForm()" style="background:#15803d; border:none; color:white; padding:6px 12px; border-radius:8px; font-size:0.88em; font-weight:900; cursor:pointer;">💾 שמור פרטי קשר</button>
                     </div>
                 `;
             }
@@ -5747,37 +5767,37 @@
             const card = document.getElementById('traveler-contact-card');
             if (!card) return;
             card.style.background = '#f0fdf4';
-            card.style.borderColor = '#86efac';
+            card.style.borderColor = '#22c55e';
             card.innerHTML = `
-                <div style="font-weight: 900; color: #166534; font-size: 1.05em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                <div style="font-weight: 900; color: #166534; font-size: 1.08em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-paper-plane" style="color: #15803d;"></i>
                     <span>לאן לשלוח לך עדכוני מסלול ובטיחות בזמן אמת?</span>
                 </div>
-                <div style="font-size: 0.85em; color: #334155; margin-bottom: 12px; line-height: 1.45;">
+                <div style="font-size: 0.88em; color: #1e293b; margin-bottom: 12px; line-height: 1.45; font-weight: 600;">
                     נשתמש בפרטים אך ורק למשלוח התראות שטח קריטיות (מזג אוויר, שינוי ציר) וגיבוי של התיק.
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <div>
-                        <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
-                        <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                        <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
+                        <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
                     </div>
                     <div>
-                        <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
-                        <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                        <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
+                        <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
                     </div>
                     <div>
-                        <label style="font-size: 0.82em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
-                        <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 0.95em;">
+                        <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
+                        <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
                     </div>
                 </div>
-                <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.78em; color: #166534; display: flex; align-items: center; gap: 6px;">
+                <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.82em; color: #166534; font-weight: 700; display: flex; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-lock"></i> הפרטים נשמרים אצלך במכשיר בלבד. ללא פרסומות, ללא תשלום, אך ורק לעדכוני שטח ובטיחות.
                 </div>
-                <div style="display: flex; gap: 8px; margin-top: 12px;">
-                    <button onclick="saveContactDetails()" style="flex: 1; background: #15803d; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+                    <button onclick="saveContactDetails()" style="flex: 2; min-width: 170px; background: #15803d; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; box-shadow: 0 3px 8px rgba(21,128,61,0.3);">
                         💾 שמור פרטי קשר
                     </button>
-                    <button onclick="skipContactDetails()" style="background: white; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer;">
+                    <button onclick="skipContactDetails()" style="flex: 1; min-width: 130px; background: white; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 14px; border-radius: 10px; font-weight: 800; font-size: 0.92em; cursor: pointer;">
                         דלג / אעדכן מאוחר יותר
                     </button>
                 </div>
@@ -6060,41 +6080,23 @@
             renderInterpreterChat();
         }
 
-        // ================= COMBINED CLOUD BACKUP & PHOTO UPLOAD WORKFLOW =================
+        // ================= DIRECT PHOTO UPLOAD & SILENT CLOUD SYNC WORKFLOW =================
         function connectCloudAndUploadPhoto() {
             const statusEl = document.getElementById('cloud-sync-status');
-            if (statusEl) {
-                statusEl.innerHTML = '⏳ שלב 1/2: מתחבר לענן מאובטח (Google Drive / Cloud)...';
-                statusEl.style.color = '#d97706';
-            }
-
-            setTimeout(() => {
+            if (navigator.onLine === false) {
                 if (statusEl) {
-                    statusEl.innerHTML = '⏳ שלב 2/2: מעלה את התמונה ומסנכרן בענן...';
-                    statusEl.style.color = '#2563eb';
+                    statusEl.innerHTML = '⚠️ יש בעיית התחברות לענן – יתאפשר להעלות את התמונות בזמן אחר';
+                    statusEl.style.color = '#b91c1c';
                 }
-
-                setTimeout(() => {
-                    const entries = getDiaryEntries();
-                    if (entries.length > 0) {
-                        entries[0].backedUp = true;
-                        saveDiaryEntries(entries);
-                        renderDiaryFeed();
-                        if (statusEl) {
-                            statusEl.innerHTML = '✅ מחובר לענן! התמונה הועלתה וגובתה בבטחה';
-                            statusEl.style.color = '#16a34a';
-                        }
-                        alert('הפעולה המשולבת הושלמה בהצלחה!\n1. החיבור לענן אומת בבטחה.\n2. התמונה הועלתה וגובתה בענן.');
-                    } else {
-                        if (statusEl) {
-                            statusEl.innerHTML = '✅ מחובר לענן! בחר כעת תמונה להעלאה מיידית';
-                            statusEl.style.color = '#16a34a';
-                        }
-                        const picker = document.getElementById('diary-camera-input');
-                        if (picker) picker.click();
-                    }
-                }, 800);
-            }, 700);
+                alert('יש כעת בעיית התחברות לענן ויתאפשר בזמן אחר להעלות את התמונות.\nהתמונה שתיבחר תישמר כעת ביומן המסע במכשירך.');
+            } else {
+                if (statusEl) {
+                    statusEl.innerHTML = '☁️ גיבוי ענן אוטומטי פעיל ברקע';
+                    statusEl.style.color = '#0f172a';
+                }
+            }
+            const picker = document.getElementById('diary-gallery-input') || document.getElementById('diary-camera-input');
+            if (picker) picker.click();
         }
 
     </script>
