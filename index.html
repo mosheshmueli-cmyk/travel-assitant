@@ -1193,24 +1193,12 @@
                                 <select id="trip-itinerary-selector" onchange="selectTripAndApply(this.value)" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #3b82f6; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: white;">
                                     <option value="korea" selected>🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - 15 ימים, 42 מטיילים]</option>
                                     <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון - שבוע קלאסי, אתרי מורשת]</option>
-                                    <option value="netanya">🇮🇱 נתניה - הדמיית שטח [🏁 הסתיים - סביבת בדיקות]</option>
                                     <option value="israel_trail_north">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון [📋 28/10/26 - 11-12 ק"מ]</option>
                                     <option value="ashkelon">🏖️ אשקלון [📋 שלב תכנון - גן לאומי, מרינה, מגדל]</option>
                                 </select>
                                 <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">
                                     <i class="fa-solid fa-plus"></i> טיול חדש
                                 </button>
-                            </div>
-                        </div>
-
-                        <!-- 1. NETANYA ITINERARY DOCUMENT (ARCHIVED - HEADER ONLY) -->
-                        <div id="itinerary-doc-netanya" class="trip-itinerary-doc" style="display: none;">
-                            <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
-                                <div style="display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-box-archive" style="color: #64748b; font-size: 1.2em;"></i>
-                                    <b style="color: #475569; font-size: 1em;">נתניה (הסתיים)</b>
-                                </div>
-                                <span style="background: #e2e8f0; color: #475569; font-size: 0.8em; padding: 3px 8px; border-radius: 6px; font-weight: bold;">ארכיון טיולים שבוצעו</span>
                             </div>
                         </div>
 
@@ -5372,14 +5360,7 @@
                 html += `</optgroup>`;
             }
 
-            // Group 3: Archived / Completed Trips (Title only)
-            if (archivedTrips.length > 0) {
-                html += `<optgroup label="📦 ארכיון טיולים שבוצעו">`;
-                archivedTrips.forEach(t => {
-                    html += `<option value="${t.key}">🏁 ${t.name}</option>`;
-                });
-                html += `</optgroup>`;
-            }
+            // Group 3: Archived trips are preserved in system storage but excluded from active selectors per user instruction
 
             const itinSel = document.getElementById('trip-itinerary-selector');
             if (itinSel) {
@@ -6538,15 +6519,9 @@
                     <div id="custom-trips-modal-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
                 </div>
 
-                <!-- Archive Section: Trips Completed (Header Only) -->
-                <div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 4px;">
-                    <div style="font-weight: 800; color: #64748b; font-size: 0.85em; margin-bottom: 6px;">
-                        <i class="fa-solid fa-box-archive"></i> ארכיון טיולים שבוצעו
-                    </div>
-                    <div onclick="selectTripAndApply('netanya')" style="border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 8px; padding: 7px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #475569; font-size: 0.88em; font-weight: bold;">
-                        <span>🏁 נתניה</span>
-                        <span style="font-size: 0.78em; color: #94a3b8; font-weight: normal;">הסתיים</span>
-                    </div>
+                <!-- Archive Section: Trips Completed (Closed Header Only - No trips listed inside) -->
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 4px; display: flex; align-items: center; justify-content: space-between; color: #94a3b8; font-size: 0.84em; font-weight: 800; padding-inline: 4px;">
+                    <span><i class="fa-solid fa-box-archive"></i> ארכיון טיולים שהסתיימו (סגור במערכת)</span>
                 </div>
 
             </div>
