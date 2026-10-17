@@ -514,7 +514,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 4.9.9
+                גרסה 5.0.0
             </span>
         </div>
     </header>
@@ -715,7 +715,7 @@
                         </div>
                         <div id="wizard-pill-4" onclick="setWizardStep(4)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
                             <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 4</div>
-                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">🛫 ממתין ליציאה</div>
+                            <div id="wizard-pill-4-label" style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">🎒 ממתין ליציאה</div>
                         </div>
                     </div>
                 </div>
@@ -805,16 +805,16 @@
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
                                 <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="background: white; color: #166534; border: 1.5px solid #86efac; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">חוברת מסלול</span>
+                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">מפת מסלול / סיפור דרך</span>
                                 </button>
                                 <button id="btn-upload-voucher" onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="background: white; color: #0369a1; border: 1.5px solid #93c5fd; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">שובר / כרטיס</span>
+                                    <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">שובר / כרטיס שמורה</span>
                                 </button>
-                                <button id="btn-upload-passport" onclick="triggerDocUpload('personal', 'צילום דרכון')" style="background: white; color: #4338ca; border: 1.5px solid #c7d2fe; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                <button id="btn-upload-passport" onclick="triggerDocUpload('personal', 'צילום דרכון')" style="display: none; background: white; color: #4338ca; border: 1.5px solid #c7d2fe; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; align-items: center; justify-content: center; gap: 4px;">
                                     <i class="fa-solid fa-passport"></i> <span id="btn-upload-passport-text">צילום דרכון</span>
                                 </button>
-                                <button id="btn-upload-insurance" onclick="triggerDocUpload('personal', 'פוליסת ביטוח נסיעות')" style="background: white; color: #0f766e; border: 1.5px solid #99f6e4; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-shield-halved"></i> <span id="btn-upload-insurance-text">פוליסת ביטוח</span>
+                                <button id="btn-upload-insurance" onclick="triggerDocUpload('personal', 'פוליסת ביטוח')" style="background: white; color: #0f766e; border: 1.5px solid #99f6e4; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i class="fa-solid fa-shield-halved"></i> <span id="btn-upload-insurance-text">ביטוח חילוץ ומטיילים (אופציונלי)</span>
                                 </button>
                             </div>
                         </div>
@@ -850,26 +850,23 @@
                         <div id="acc-client-needs">
                             <div>
                         
-                        <!-- Top Active Trip Header & Geo-Context Toggle -->
-                        <div style="background:#fff7ed; border:2px solid #fed7aa; border-radius:14px; padding:16px; margin-bottom:14px;">
+                        <!-- Top Active Trip Header with Automatic Geo-Badge -->
+                        <div id="step3-trip-header-card" style="background:#f0fdf4; border:2px solid #86efac; border-radius:14px; padding:16px; margin-bottom:14px;">
                             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <span style="font-weight:900; color:#9a3412; font-size:1.15em;"><i class="fa-solid fa-map-pin"></i> יעד הטיול הפעיל:</span>
-                                    <span id="q-active-trip-name" style="background:#ea580c; color:white; padding:4px 12px; border-radius:8px; font-size:1.05em; font-weight:900;">קוריאה הדרומית - אופיר טורס</span>
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                    <span style="font-weight:900; color:#166534; font-size:1.15em;"><i class="fa-solid fa-map-pin"></i> יעד הטיול הפעיל:</span>
+                                    <span id="q-active-trip-name" style="background:#15803d; color:white; padding:4px 12px; border-radius:8px; font-size:1.05em; font-weight:900;">שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון</span>
                                 </div>
-                                <div style="display:flex; gap:6px;">
-                                    <button id="btn-mode-israel" onclick="setTripGeoMode(true)" style="background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; padding:6px 12px; border-radius:8px; font-weight:900; font-size:0.85em; cursor:pointer; display:flex; align-items:center; gap:4px;">
-                                        🇮🇱 טיול בישראל
-                                    </button>
-                                    <button id="btn-mode-abroad" onclick="setTripGeoMode(false)" style="background:#eff6ff; border:1.5px solid #93c5fd; color:#1e40af; padding:6px 12px; border-radius:8px; font-weight:900; font-size:0.85em; cursor:pointer; display:flex; align-items:center; gap:4px;">
-                                        🌍 טיול בחו"ל
-                                    </button>
+                                <div>
+                                    <span id="q-geo-type-badge" style="background:#16a34a; color:white; padding:5px 12px; border-radius:8px; font-weight:900; font-size:0.88em; display:inline-flex; align-items:center; gap:6px;">
+                                        <i class="fa-solid fa-map-location-dot"></i> מסלול מקומי
+                                    </span>
                                 </div>
                             </div>
 
                             <!-- Context Dynamic Notice Banner -->
-                            <div id="geo-context-banner" style="margin-top:10px; padding:8px 12px; background:white; border-radius:8px; border:1px solid #fed7aa; font-size:0.9em; line-height:1.4; color:#7c2d12;">
-                                💡 <b>טיול בחו"ל:</b> כל שדות הטיסות, הדרכונים והמעברים הבינלאומיים פעילים במלואם.
+                            <div id="geo-context-banner" style="margin-top:10px; padding:8px 12px; background:white; border-radius:8px; border:1px solid #bbf7d0; font-size:0.9em; line-height:1.4; color:#166534;">
+                                💡 <b>מסלול מקומי:</b> כל שדות הטיסות, הדרכונים והביטוח הבינלאומי הוסרו לחלוטין. הטופס מותאם ישירות לתחבורה ומסלולי שטח מקומיים.
                             </div>
                         </div>
 
@@ -928,8 +925,8 @@
                             <!-- 2. Destination -->
                             <div class="q-block" id="block_q_destination" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_destination" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        2. מדינה / יעד מבוקש:
+                                    <label id="label_q_destination" for="q_destination" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                        2. יעד / אזור המסלול בארץ:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_destination" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
@@ -937,7 +934,7 @@
                                         <button type="button" onclick="toggleFieldNA('q_destination')" id="btn_na_q_destination" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="לדוגמה: שביל ישראל בצפון / קוריאה הדרומית" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="לדוגמה: שביל ישראל בצפון / עין נון / נתניה" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 3. Character -->
@@ -1042,7 +1039,7 @@
                                         <button type="button" onclick="toggleFieldNA('q_transit')" id="btn_na_q_transit" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_transit" oninput="onQuestionInput('q_transit')" placeholder="לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (בטיול בארץ טיסות נוטרלו)" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_transit" oninput="onQuestionInput('q_transit')" placeholder="לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (שדות טיסה הוסרו)" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 10. Hotels -->
@@ -1057,7 +1054,7 @@
                                         <button type="button" onclick="toggleFieldNA('q_hotels')" id="btn_na_q_hotels" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_hotels" oninput="onQuestionInput('q_hotels')" placeholder="לדוגמה: חניוני לילה מוסדרים, צימרים כפריים / מלונות עם מעליות" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_hotels" oninput="onQuestionInput('q_hotels')" placeholder="לדוגמה: חניוני לילה מוסדרים, צימרים כפריים / טיול יום ללא לינה" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 11. Food -->
@@ -1097,8 +1094,8 @@
                             <button onclick="setWizardStep(2)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 18px; border-radius: 10px; font-weight: 800; font-size: 0.95em; cursor: pointer;">
                                 ⮌ חזרה לחומרי גלם
                             </button>
-                            <button onclick="saveTripQuestionnaire(true); finalizeTripToReadyStage();" style="flex: 1; background: #059669; color: white; border: none; padding: 14px 18px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.25);">
-                                <i class="fa-solid fa-plane-departure"></i> הפק תיק טיול סופי ➔
+                            <button id="btn-finalize-step3" onclick="saveTripQuestionnaire(true); finalizeTripToReadyStage();" style="flex: 1; background: #059669; color: white; border: none; padding: 14px 18px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.25);">
+                                <i id="btn-finalize-step3-icon" class="fa-solid fa-person-hiking"></i> <span id="btn-finalize-step3-text">הפק תיק טיול סופי ➔</span>
                             </button>
                         </div>
                             </div>
@@ -1114,12 +1111,12 @@
                         <!-- Celebration Ready Banner -->
                         <div id="ready-status-celebration-banner" style="display: block; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
                             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                                <span style="font-weight: 900; color: #065f46; font-size: 1.15em; display: flex; align-items: center; gap: 8px;">
+                                <span id="ready-status-celebration-title" style="font-weight: 900; color: #065f46; font-size: 1.15em; display: flex; align-items: center; gap: 8px;">
                                     <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i>
-                                    הטיול מוכן במלואו! סטטוס: 🛫 ממתין ליציאה
+                                    הטיול מוכן במלואו! סטטוס: 🎒 ממתין ליציאה לשטח
                                 </span>
                                 <span id="ready-trip-name-badge" style="background: #10b981; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.82em;">
-                                    מוכן להמראה / יציאה
+                                    מוכן ליציאה לשטח
                                 </span>
                             </div>
                             <div style="font-size: 0.88em; color: #047857; margin-top: 6px; line-height: 1.45;">
@@ -1502,19 +1499,40 @@
             <div class="content-padding" style="padding-bottom: 40px;">
                 <!-- Local Emergency Numbers -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
-                    <button onclick="alert('מחייג למשטרת ישראל / מוקד 100...')" style="background: #1e3a8a; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3); cursor: pointer;">
+                    <button id="btn-emergency-police" onclick="handleEmergencyCall('police')" style="background: #1e3a8a; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3); cursor: pointer;">
                         <i class="fa-solid fa-shield-halved" style="font-size: 2.4em; margin-bottom: 10px; color:#60a5fa;"></i>
-                        משטרה (100)
+                        <span id="emergency-police-label">משטרה (100)</span>
                     </button>
-                    <button onclick="alert('מחייג למדא / מוקד 101...')" style="background: #991b1b; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(153, 27, 27, 0.3); cursor: pointer;">
+                    <button id="btn-emergency-ambulance" onclick="handleEmergencyCall('ambulance')" style="background: #991b1b; color: white; border: none; padding: 22px; border-radius: 18px; font-size: 1.35em; font-weight: 900; display: flex; flex-direction: column; align-items: center; box-shadow: 0 6px 16px rgba(153, 27, 27, 0.3); cursor: pointer;">
                         <i class="fa-solid fa-truck-medical" style="font-size: 2.4em; margin-bottom: 10px; color:#ef4444;"></i>
-                        מדא / אמבולנס (101)
+                        <span id="emergency-ambulance-label">מדא / אמבולנס (101)</span>
                     </button>
                 </div>
 
-                <!-- Two-way Voice Emergency Interpreter -->
-                <!-- Two-way Voice Emergency Interpreter (Active Field Test: Hebrew <-> Arabic | Morocco Simulation) -->
-                <div style="background: white; border: 2px solid #ef4444; border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(239,68,68,0.12);">
+                <!-- Domestic Emergency & Field Rescue Contacts (Active in Domestic Trips) -->
+                <div id="emergency-domestic-rescue-card" style="display: block; background: white; border: 2px solid #10b981; border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(16,185,129,0.12);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #bbf7d0; padding-bottom: 8px; margin-bottom: 12px;">
+                        <h3 style="margin: 0; color: #166534; font-size: 1.15em;"><i class="fa-solid fa-mountain-sun"></i> מוקדי חירום וחילוץ שטח מקומיים</h3>
+                        <span id="emergency-domestic-badge" style="background: #dcfce7; color: #15803d; font-size: 0.75em; font-weight: 900; padding: 3px 8px; border-radius: 12px;">🌲 שטח מקומי</span>
+                    </div>
+                    <div id="emergency-domestic-items" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88em;">
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 12px;">
+                            <b style="color: #15803d; font-size: 0.95em;"><i class="fa-solid fa-person-hiking"></i> יחידות חילוץ שטח (משטרת ישראל):</b>
+                            <div style="color: #334155; margin-top: 4px;">
+                                מוקד 100 של משטרת ישראל מפעיל ישירות את יחידות החילוץ האזוריות (גליל-כרמל / שרון / נגב). בעת חיוג ל-100 נמסר מיקום ה-GPS המדויק שלך לחבירה מהירה של רכב שטח.
+                            </div>
+                        </div>
+                        <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 12px;">
+                            <b style="color: #0369a1; font-size: 0.95em;"><i class="fa-solid fa-tree"></i> מוקד ביטחון ופיקוח רשות הטבע והגנים (רט"ג):</b>
+                            <div style="color: #334155; margin-top: 4px;">
+                                מוקד 3639* - דיווח על חסימת שבילים, מפגעים בטבע או צורך בסיוע פקח בשמורות ובגנים לאומיים.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two-way Voice Emergency Interpreter (Abroad Only) -->
+                <div id="emergency-voice-interpreter-card" style="display: none; background: white; border: 2px solid #ef4444; border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(239,68,68,0.12);">
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fee2e2; padding-bottom: 8px; margin-bottom: 12px;">
                         <h3 style="margin: 0; color: #991b1b; font-size: 1.15em;"><i class="fa-solid fa-headset"></i> מתורגמן חירום קולי דו-כיווני</h3>
                         <span style="background: #fee2e2; color: #b91c1c; font-size: 0.75em; font-weight: 900; padding: 3px 8px; border-radius: 12px;">🇲🇦 בדיקת שטח: מרוקו</span>
@@ -1602,7 +1620,7 @@
                     <div style="background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <div style="font-weight: 900; color: #b91c1c; font-size: 0.95em;"><i class="fa-solid fa-triangle-exclamation"></i> התראות בלת"ם שטח בזמן אמת</div>
-                            <div style="font-size: 0.82em; color: #7f1d1d;">התפרצות קורונה, חסימת שבילים, עומס חום קיצוני בשטח</div>
+                            <div style="font-size: 0.82em; color: #7f1d1d;" id="emergency-baltam-subtext">חסימת שבילים, עומס חום קיצוני בשטח</div>
                         </div>
                         <button onclick="switchScreen('screen-alerts')" style="background: #ea580c; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח בלת"ם</button>
                     </div>
@@ -1610,7 +1628,7 @@
                     <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center;">
                         <div>
                             <div style="font-weight: 900; color: #1e40af; font-size: 0.95em;"><i class="fa-solid fa-folder-open"></i> תיק טיול, מסמכים וביטוח רפואי</div>
-                            <div style="font-size: 0.82em; color: #1e3a8a;">צפייה בפוליסת הביטוח, מרשמים ומסמכי הנסיעה השמורים</div>
+                            <div style="font-size: 0.82em; color: #1e3a8a;" id="emergency-dossier-subtext">צפייה במסמכי הטיול, מפות והנחיות שטח</div>
                         </div>
                         <button onclick="switchScreen('screen-route')" style="background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer;">פתח תיק טיול</button>
                     </div>
@@ -1643,16 +1661,14 @@
                         <i class="fa-solid fa-satellite-dish"></i> בחר תרחיש שטח לבדיקה והדמיה בזמן אמת:
                     </label>
                     <select id="baltam-scenario-selector" onchange="switchBaltamScenario(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #ea580c; font-family: 'Heebo', sans-serif; font-size: 0.95em; font-weight: 800; color: #0f172a; background: white;">
-                        <option value="flight_delay" selected>✈️ התראת טיסה מקדימה: עיכוב טיסת ET 419 לסיאול והשפעה על קונקשן</option>
-                        <option value="korea_covid">🔴 קוריאה: התפרצות קורונה פעילה באזור סיאול בו אתם שוהים כעת!</option>
-                        <option value="netanya_heat">🟠 נתניה: עומס חום קיצוני (36°C) בטיילת הראשונים</option>
-                        <option value="trail_fire">🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא</option>
+                        <option value="trail_fire" selected>🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא / נחל עמוד</option>
+                        <option value="netanya_heat">🟠 עומס חום כבד בשעות הצהריים (36°C)</option>
                         <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
                     </select>
                 </div>
 
                 <!-- SCENARIO 0: PROACTIVE FLIGHT DELAY & CONNECTION ALERT (USER BENCHMARK) -->
-                <div id="baltam-card-flight_delay" class="baltam-scenario-card" style="display: block;">
+                <div id="baltam-card-flight_delay" class="baltam-scenario-card" style="display: none;">
                     <div style="background: #eff6ff; border: 2px solid #3b82f6; border-right: 6px solid #1d4ed8; border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(59,130,246,0.15);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                             <span style="background: #1d4ed8; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.85em; display: flex; align-items: center; gap: 6px;">
@@ -1807,7 +1823,7 @@
                 </div>
 
                 <!-- SCENARIO 3: LIVE ISRAEL TRAIL DETOUR BALTAM -->
-                <div id="baltam-card-trail_fire" class="baltam-scenario-card" style="display: none;">
+                <div id="baltam-card-trail_fire" class="baltam-scenario-card" style="display: block;">
                     <div style="background: #fef2f2; border: 2px solid #ef4444; border-right: 6px solid #dc2626; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                             <span style="background: #dc2626; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.85em;">
@@ -1932,8 +1948,8 @@
                         </div>
                     </div>
 
-                    <!-- Flights Card -->
-                    <div style="background: white; border: 1.5px solid #93c5fd; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(37,99,235,0.06);">
+                    <!-- Flights Card (Abroad only) -->
+                    <div id="ai-card-flights" style="display: none; background: white; border: 1.5px solid #93c5fd; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(37,99,235,0.06);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 4px;">
                             <b style="color: #1e40af; font-size: 1.05em;"><i class="fa-solid fa-plane-departure"></i> טיסות בינלאומיות וקונקשן (Ethiopian Airlines)</b>
                             <button onclick="switchScreen('screen-alerts'); switchBaltamScenario('flight_delay');" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8em; cursor: pointer;">
@@ -1947,9 +1963,28 @@
                         </div>
                     </div>
 
-                    <!-- Ground Transit: VIP Bus & KTX Bullet Trains -->
-                    <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-bottom: 14px;">
-                        <h4 style="margin: 0 0 8px 0; color: #0284c7; font-size: 1.05em;"><i class="fa-solid fa-bus-simple"></i> הסעות קרקעיות ורכבות מהירות</h4>
+                    <!-- Domestic Ground Transit Card (Domestic only) -->
+                    <div id="ai-card-domestic-transit" style="display: block; background: white; border: 1.5px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(22,101,52,0.06);">
+                        <h4 style="margin: 0 0 8px 0; color: #15803d; font-size: 1.05em;"><i class="fa-solid fa-van-shuttle"></i> תחבורה יבשתית והקפצות שטח מקומיות</h4>
+                        <div id="ai-domestic-transit-items" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;">
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
+                                <b style="color: #15803d;">🚌 נקודת מוצא: חניון נחל עמוד תחתון (כביש 85):</b>
+                                <div style="color: #334155; margin-top: 2px;">הגעה עצמית ברכב או קווי אגד (500 / 505 / 361) לצומת קדרים וחניון נחל עמוד.</div>
+                            </div>
+                            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
+                                <b style="color: #0369a1;">🚏 נקודת סיום ואיסוף: עין נון (סמוך למושבה מגדל):</b>
+                                <div style="color: #334155; margin-top: 2px;">מפגש עם האוטובוס הקבוצתי או מוניות מקומיות לעלייה חזרה / המשך נסיעה.</div>
+                            </div>
+                            <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
+                                <b style="color: #c2410c;">🎒 הקפצות שטח וחירום:</b>
+                                <div style="color: #334155; margin-top: 2px;">במקרה של פציעה או קיצור מסלול: נקודת חבירה לרכבי שטח סמוך לגיחון המוביל הארצי.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ground Transit: Foreign VIP Bus & Bullet Trains (Abroad only) -->
+                    <div id="ai-card-foreign-transit" style="display: none; background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-bottom: 14px;">
+                        <h4 style="margin: 0 0 8px 0; color: #0284c7; font-size: 1.05em;"><i class="fa-solid fa-bus-simple"></i> הסעות קרקעיות ורכבות מהירות בחו"ל</h4>
                         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;">
                             <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
                                 <b style="color: #0369a1;">🚌 אוטובוס תיירות צמוד VIP (קוריאה הדרומית):</b>
@@ -1958,10 +1993,6 @@
                             <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
                                 <b style="color: #15803d;">🚆 רכבת קליע KTX (סיאול - בוסאן):</b>
                                 <div style="color: #334155; margin-top: 2px;">מקומות שמורים בקרון 3, עלייה רגועה ברציף מעליות, מהירות 300 קמ"ש ללא טלטולים.</div>
-                            </div>
-                            <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
-                                <b style="color: #c2410c;">🚏 קווי אוטובוס עירוניים בנתניה (16 ו-25):</b>
-                                <div style="color: #334155; margin-top: 2px;">יציאה ממסוף רכבת נתניה מערב (רציף 37124) ישירות למעלית הים ולטיילת כל 10 דקות בימי חול.</div>
                             </div>
                         </div>
                     </div>
@@ -2022,63 +2053,58 @@
                 <div id="ai-sec-hotels" class="ai-category-section" style="display: none;">
                     <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
                         <h3 style="margin-top: 0; color: #1e3a8a;"><i class="fa-solid fa-hotel"></i> מלונות ולינה נגישה ומאושרת</h3>
-                        <p style="font-size: 0.88em; color: #475569; line-height: 1.4;">
-                            כל המלונות במסע נבחרו בקפידה עם מעליות רחבות, גישה ללא מדרגות, וקירבה למוקדי שבת ותחבורה:
+                        <p id="ai-hotels-header-desc" style="font-size: 0.88em; color: #475569; line-height: 1.4;">
+                            כל מקומות הלינה נבחרו בקפידה עם נגישות, קרבה למסלול ותנאים מותאמים לשבת:
                         </p>
                         
-                        <!-- Hotel Card 1: Hamilton Seoul -->
-                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <b style="color: #0f172a; font-size: 1.05em;">מלון המילטון סיאול (Hamilton Hotel Seoul)</b>
-                                    <div style="font-size: 0.82em; color: #64748b;">179 Itaewon-ro, Yongsan-gu, Seoul</div>
-                                </div>
-                                <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">צמוד לבית חב"ד</span>
+                        <!-- Domestic Accommodation Container (Active in Domestic Trips) -->
+                        <div id="ai-hotels-domestic" style="display: block;">
+                            <div id="ai-domestic-hotel-items">
+                                <!-- Populated dynamically by renderDomesticHotelItems() -->
                             </div>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
-                                מרחק הליכה קצר ומישורי (250 מטר) מבית חב"ד. מפתח שבת מכני רגיל בקבלה, כניסה צדדית עם דלת ידנית (ללא חיישנים), קומות נמוכות.
-                            </div>
-                            <button onclick="showCustomTaxiCard('Hamilton Hotel Itaewon', '179 Itaewon-ro, Yongsan-gu, Seoul', 37.5345, 126.9940)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
-                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
-                            </button>
                         </div>
 
-                        <!-- Hotel Card 2: Daegu -->
-                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <b style="color: #0f172a; font-size: 1.05em;">מלון הקבוצה בדאייגו (Daegu City Center Hotel)</b>
-                                    <div style="font-size: 0.82em; color: #64748b;">Daegu Central District | שבת ראשונה</div>
+                        <!-- Foreign Hotels Container (Active in Abroad Trips) -->
+                        <div id="ai-hotels-foreign" style="display: none;">
+                            <!-- Hotel Card 1: Hamilton Seoul -->
+                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div>
+                                        <b style="color: #0f172a; font-size: 1.05em;">מלון המילטון סיאול (Hamilton Hotel Seoul)</b>
+                                        <div style="font-size: 0.82em; color: #64748b;">179 Itaewon-ro, Yongsan-gu, Seoul</div>
+                                    </div>
+                                    <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">צמוד לבית חב"ד</span>
                                 </div>
-                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נגישות מלאה</span>
+                                <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
+                                    מרחק הליכה קצר ומישורי (250 מטר) מבית חב"ד. מפתח שבת מכני רגיל בקבלה, כניסה צדדית עם דלת ידנית (ללא חיישנים), קומות נמוכות.
+                                </div>
+                                <button onclick="showCustomTaxiCard('Hamilton Hotel Itaewon', '179 Itaewon-ro, Yongsan-gu, Seoul', 37.5345, 126.9940)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
+                                    <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
+                                </button>
                             </div>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
-                                כניסה מישורית, מעליות רחבות, חניה צמודה לאוטובוס הקבוצה. סמוך למסלול סיור רגלי מורחב לשבת ברדיוס עד 3 ק"מ.
-                            </div>
-                            <button onclick="showCustomTaxiCard('Daegu Hotel Center', 'Daegu, Jung-gu', 35.8714, 128.6014)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
-                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
-                            </button>
-                        </div>
 
-                        <!-- Hotel Card 3: Netanya -->
-                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <b style="color: #0f172a; font-size: 1.05em;">מלון איילנד נתניה (טיילת הראשונים)</b>
-                                    <div style="font-size: 0.82em; color: #64748b;">שדרות בן עמי 10, נתניה | נוף ישיר לים</div>
+                            <!-- Hotel Card 2: Daegu -->
+                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div>
+                                        <b style="color: #0f172a; font-size: 1.05em;">מלון הקבוצה בדאייגו (Daegu City Center Hotel)</b>
+                                        <div style="font-size: 0.82em; color: #64748b;">Daegu Central District | שבת ראשונה</div>
+                                    </div>
+                                    <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נגישות מלאה</span>
                                 </div>
-                                <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">מעלית שבת</span>
+                                <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
+                                    כניסה מישורית, מעליות רחבות, חניה צמודה לאוטובוס הקבוצה. סמוך למסלול סיור רגלי מורחב לשבת ברדיוס עד 3 ק"מ.
+                                </div>
+                                <button onclick="showCustomTaxiCard('Daegu Hotel Center', 'Daegu, Jung-gu', 35.8714, 128.6014)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
+                                    <i class="fa-solid fa-taxi"></i> כרטיס לנהג בקוריאנית
+                                </button>
                             </div>
-                            <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מעליות שבת, חניה צמודה לאוטובוס, מרחק 200 מטר ממעלית החוף.</div>
-                            <button onclick="showCustomTaxiCard('מלון איילנד נתניה', 'שדרות בן עמי 10, נתניה', 32.3150, 34.8480)" style="margin-top: 8px; background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: bold; cursor: pointer;">
-                                <i class="fa-solid fa-taxi"></i> כרטיס לנהג
-                            </button>
                         </div>
 
                         <!-- Shabbat Guidelines in Hotels -->
                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 10px 12px; margin-top: 12px;">
-                            <b style="color: #1d4ed8; font-size: 0.9em;"><i class="fa-solid fa-key"></i> נוהל שבת מעשי בבתי מלון בחו"ל:</b>
-                            <div style="font-size: 0.82em; color: #1e40af; margin-top: 4px; line-height: 1.45;">
+                            <b id="ai-shabbat-guideline-title" style="color: #1d4ed8; font-size: 0.9em;"><i class="fa-solid fa-key"></i> נוהל שבת מעשי באירוח ומלונות:</b>
+                            <div id="ai-shabbat-guideline-desc" style="font-size: 0.82em; color: #1e40af; margin-top: 4px; line-height: 1.45;">
                                 1. <b>מפתח פיזי מכני:</b> בקשו בקבלה בעת הצ'ק-אין מפתח ידני עבור שומרי שבת.<br>
                                 2. <b>דלתות כניסה:</b> השתמשו בדלתות צדדיות ידניות או המתינו לכניסת אורח מקומי.<br>
                                 3. <b>קומות נמוכות:</b> הקבוצה משובצת בקומות 2-3 למניעת צורך בשימוש במעלית בשבת.
@@ -2281,6 +2307,7 @@
             if (screenId === 'screen-route') {
                 renderCustomDocsList();
                 loadTripQuestionnaire();
+                setWizardStep(1);
             }
             if (screenId === 'screen-diary') {
                 renderDiaryFeed();
@@ -2301,6 +2328,7 @@
             netanya: {
                 id: "netanya",
                 name: "נתניה",
+                country: "ישראל",
                 stage: "archived",
                 stageLabel: "🏁 ארכיון (הסתיים)",
                 badge: "הסתיים",
@@ -2398,6 +2426,7 @@
             korea: {
                 id: "korea",
                 name: "קוריאה הדרומית - אופיר טורס",
+                country: "קוריאה הדרומית",
                 stage: "planning",
                 stageLabel: "📋 שלב תכנון (גמיש לשינויים | כרטיסי טיסה נעולים)",
                 badge: "הטיול המרכזי (15 ימים, 42 מטיילים)",
@@ -2531,6 +2560,7 @@
             israel_trail_north: {
                 id: "israel_trail_north",
                 name: "שביל ישראל: נחל עמוד תחתון עד עין נון",
+                country: "ישראל",
                 stage: "planning",
                 stageLabel: "📋 שלב תכנון",
                 badge: "28/10/26 | 11-12 ק\"מ",
@@ -2605,6 +2635,7 @@
             ashkelon: {
                 id: "ashkelon",
                 name: "אשקלון",
+                country: "ישראל",
                 stage: "planning",
                 stageLabel: "📋 שלב תכנון",
                 badge: "היסטוריה, חוף ופנאי",
@@ -2665,6 +2696,7 @@
             rome: {
                 id: "rome",
                 name: "רומא ופירנצה (איטליה)",
+                country: "איטליה",
                 stage: "planning",
                 stageLabel: "📋 שלב תכנון (פתוח לעריכה)",
                 badge: "מסלול אירופה קלאסית",
@@ -2756,7 +2788,7 @@
                 if (savedStage && TRIPS_DATABASE[k]) {
                     TRIPS_DATABASE[k].stage = savedStage;
                     if (savedStage === 'ready') {
-                        TRIPS_DATABASE[k].stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
+                        TRIPS_DATABASE[k].stageLabel = isDomesticTrip(k) ? '🎒 ממתין ליציאה לשטח' : '🛫 ממתין ליציאה (מוכן להמראה!)';
                     }
                 }
             });
@@ -2778,6 +2810,7 @@
             {
                 id: 'fricassee_netanya',
                 name: 'התוניסאי שלנו (פריקסה מומלץ)',
+                country: 'ישראל',
                 city: 'נתניה (שוק עירוני)',
                 address: 'רחוב היהלום 8, שוק נתניה',
                 lat: 32.3276,
@@ -2794,6 +2827,7 @@
             {
                 id: 'yakev_netanya',
                 name: 'היקב נתניה (הטיילת)',
+                country: 'ישראל',
                 city: 'נתניה (טיילת הראשונים)',
                 address: 'רחוב גד מכנס 16, נתניה',
                 lat: 32.3308,
@@ -2810,6 +2844,7 @@
             {
                 id: 'el_gaucho_netanya',
                 name: 'אל גאוצו נתניה',
+                country: 'ישראל',
                 city: 'נתניה (חוף צפוני)',
                 address: 'שדרות ניצה 1, נתניה',
                 lat: 32.3365,
@@ -2824,8 +2859,60 @@
                 nearStationIndex: 4
             },
             {
+                id: 'pagoda_tiberias',
+                name: 'פגודה ודקס (טבריה וסובב כנרת)',
+                country: 'ישראל',
+                city: 'טבריה (טיילת אלון - 10 דקות ממגדל)',
+                address: 'טיילת גדוד ברק, טבריה',
+                lat: 32.7940,
+                lng: 35.5340,
+                cuisine: 'דגים כשרים, אסייתי ובשרים מול הכנרת',
+                dish: 'דג אמנון (מושט) כנרת טרי, סושי ומנות שף כשרות למהדרין',
+                kosher: 'כשר למהדרין (הרבנות טבריה)',
+                tags: ['kosher_badatz', 'gluten_free'],
+                rating: 4.7,
+                hours: '12:00 - 23:00',
+                image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60',
+                nearStationIndex: 4
+            },
+            {
+                id: 'ein_nun_rest',
+                name: 'קפה ומסעדת מגדל (סמוך לעין נון)',
+                country: 'ישראל',
+                city: 'מושבה מגדל (צפון הכנרת)',
+                address: 'מתחם צומת מגדל, סמוך לעין נון',
+                lat: 32.8250,
+                lng: 35.5120,
+                cuisine: 'גלילי מקומי, ארוחות בוקר וקפה שטח',
+                dish: 'ארוחות שטח גליליות, סלטים טריים, שקשוקה וכריכים חמים למטיילים',
+                kosher: 'כשר למהדרין',
+                tags: ['kosher_badatz', 'vegan', 'gluten_free'],
+                rating: 4.8,
+                hours: '08:00 - 21:00',
+                image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60',
+                nearStationIndex: 4
+            },
+            {
+                id: 'niso_ashkelon',
+                name: 'ניסו הדייג (מרינה אשקלון)',
+                country: 'ישראל',
+                city: 'אשקלון (מתחם המרינה)',
+                address: 'הנמל 1, מרינה אשקלון',
+                lat: 31.6835,
+                lng: 34.5592,
+                cuisine: 'דגי ים טריים וסלטים ים-תיכוניים',
+                dish: 'מבחר סלטי פתיחה עשירים, דגי לברק ודניס על הגריל, צ\'יפס פריך',
+                kosher: 'כשר למהדרין (רבנות אשקלון)',
+                tags: ['kosher_badatz', 'gluten_free'],
+                rating: 4.7,
+                hours: '11:30 - 23:30',
+                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60',
+                nearStationIndex: 2
+            },
+            {
                 id: 'chabad_seoul',
                 name: 'בית חבד קוריאה - מסעדה כשרה',
+                country: 'קוריאה הדרומית',
                 city: 'סיאול, קוריאה הדרומית',
                 address: 'Itaewon-dong, Yongsan-gu, Seoul, South Korea',
                 lat: 37.5348,
@@ -2842,6 +2929,7 @@
             {
                 id: 'osegyehyang_seoul',
                 name: 'Osegyehyang - מסעדה טבעונית מסורתית',
+                country: 'קוריאה הדרומית',
                 city: 'סיאול, קוריאה הדרומית',
                 address: '14-5 Insadong 12-gil, Jongno-gu, Seoul',
                 lat: 37.5746,
@@ -2879,7 +2967,10 @@
             const container = document.getElementById('food-cards-container');
             if (!container) return;
 
-            let list = RESTAURANTS;
+            const tripCountry = getTripCountry(currentTripKey);
+            let list = RESTAURANTS.filter(r => !r.country || r.country === tripCountry);
+            if (list.length === 0) list = RESTAURANTS;
+
             if (currentFoodFilter === 'kosher_badatz') {
                 list = list.filter(r => r.tags.includes('kosher_badatz'));
             } else if (currentFoodFilter === 'vegan') {
@@ -3476,29 +3567,59 @@
             { id: 'q_constraints', title: '12. אילוצים ובקשות' }
         ];
 
+        function getTravelerHomeCountry() {
+            try {
+                const stored = localStorage.getItem('travel_assistant_home_country');
+                if (stored && stored.trim()) return stored.trim();
+            } catch(e) {}
+            return 'ישראל'; // Default primary residence country
+        }
+
+        function setTravelerHomeCountry(countryName) {
+            if (!countryName) return;
+            try {
+                localStorage.setItem('travel_assistant_home_country', countryName.trim());
+            } catch(e) {}
+            applyTripGeoContext(isDomesticTrip(currentTripKey));
+        }
+
+        function getTripCountry(tripKey) {
+            const k = tripKey || currentTripKey;
+            const trip = TRIPS_DATABASE[k];
+            if (trip && trip.country) return trip.country.trim();
+
+            if (k === 'netanya' || k === 'israel_trail_north' || k === 'ashkelon') return 'ישראל';
+            if (k === 'korea') return 'קוריאה הדרומית';
+            if (k === 'rome') return 'איטליה';
+
+            if (trip) {
+                const n = (trip.name || '').toLowerCase();
+                const d = (trip.description || '').toLowerCase();
+                if (n.includes('ישראל') || n.includes('שביל') || n.includes('גליל') || n.includes('צפון') || n.includes('נגב') || n.includes('חרמון') || n.includes('אילת') || n.includes('אשקלון') || n.includes('נתניה') || n.includes('ירושלים')) return 'ישראל';
+                if (n.includes('קוריאה') || n.includes('סיאול') || n.includes('בוסאן')) return 'קוריאה הדרומית';
+                if (n.includes('איטליה') || n.includes('רומא') || n.includes('פירנצה')) return 'איטליה';
+                if (n.includes('יפן') || n.includes('טוקיו') || n.includes('קיוטו')) return 'יפן';
+            }
+            const destEl = document.getElementById('q_destination');
+            if (destEl && destEl.value) {
+                const v = destEl.value.toLowerCase();
+                if (v.includes('ישראל') || v.includes('שביל') || v.includes('גליל') || v.includes('אשקלון') || v.includes('נתניה') || v.includes('צפון') || v.includes('ירושלים')) return 'ישראל';
+                if (v.includes('קוריאה') || v.includes('סיאול')) return 'קוריאה הדרומית';
+                if (v.includes('איטליה') || v.includes('רומא')) return 'איטליה';
+                if (v.includes('יפן') || v.includes('טוקיו')) return 'יפן';
+            }
+            return 'ישראל';
+        }
+
         function isDomesticTrip(tripKey) {
             const k = tripKey || currentTripKey;
             const explicit = localStorage.getItem('travel_assistant_trip_is_domestic_' + k);
             if (explicit === 'yes') return true;
             if (explicit === 'no') return false;
 
-            if (k === 'israel_trail_north' || k === 'ashkelon' || k === 'netanya') return true;
-            const trip = TRIPS_DATABASE[k];
-            if (trip) {
-                const n = (trip.name || '').toLowerCase();
-                const d = (trip.description || '').toLowerCase();
-                if (n.includes('ישראל') || n.includes('שביל') || n.includes('צפון') || n.includes('גליל') || n.includes('אשקלון') || n.includes('נתניה') || n.includes('ירושלים') || n.includes('אילת') || n.includes('גולן') || n.includes('נגב') || n.includes('חרמון') || d.includes('ישראל')) {
-                    return true;
-                }
-            }
-            const destEl = document.getElementById('q_destination');
-            if (destEl && destEl.value) {
-                const v = destEl.value.toLowerCase();
-                if (v.includes('ישראל') || v.includes('שביל') || v.includes('גליל') || v.includes('אשקלון') || v.includes('נתניה') || v.includes('צפון') || v.includes('ירושלים') || v.includes('אילת')) {
-                    return true;
-                }
-            }
-            return false;
+            const home = getTravelerHomeCountry().toLowerCase();
+            const dest = getTripCountry(k).toLowerCase();
+            return home === dest;
         }
 
         function setTripGeoMode(isDomestic) {
@@ -3508,92 +3629,333 @@
         }
 
         function applyTripGeoContext(isDomestic) {
-            const btnIsrael = document.getElementById('btn-mode-israel');
-            const btnAbroad = document.getElementById('btn-mode-abroad');
+            const k = currentTripKey;
+            const trip = TRIPS_DATABASE[k];
+            const tripName = trip?.name || 'המסלול הנבחר';
+
+            // 1. Step 3 Header & Badge
+            const headerCard = document.getElementById('step3-trip-header-card');
+            const typeBadge = document.getElementById('q-geo-type-badge');
+            const tripNameBadge = document.getElementById('q-active-trip-name');
             const banner = document.getElementById('geo-context-banner');
 
-            if (btnIsrael && btnAbroad) {
-                if (isDomestic) {
-                    btnIsrael.style.background = '#15803d';
-                    btnIsrael.style.color = '#ffffff';
-                    btnIsrael.style.borderColor = '#15803d';
-                    btnAbroad.style.background = '#f1f5f9';
-                    btnAbroad.style.color = '#64748b';
-                    btnAbroad.style.borderColor = '#cbd5e1';
-                } else {
-                    btnAbroad.style.background = '#1d4ed8';
-                    btnAbroad.style.color = '#ffffff';
-                    btnAbroad.style.borderColor = '#1d4ed8';
-                    btnIsrael.style.background = '#f1f5f9';
-                    btnIsrael.style.color = '#64748b';
-                    btnIsrael.style.borderColor = '#cbd5e1';
-                }
+            if (tripNameBadge) tripNameBadge.innerText = tripName;
+
+            if (headerCard) {
+                headerCard.style.background = isDomestic ? '#f0fdf4' : '#eff6ff';
+                headerCard.style.borderColor = isDomestic ? '#86efac' : '#93c5fd';
+            }
+
+            if (typeBadge) {
+                typeBadge.innerHTML = isDomestic ? 
+                    '<i class="fa-solid fa-map-location-dot"></i> מסלול מקומי' : 
+                    '<i class="fa-solid fa-plane-departure"></i> מסע בינלאומי (חו"ל)';
+                typeBadge.style.background = isDomestic ? '#16a34a' : '#1d4ed8';
             }
 
             if (banner) {
                 if (isDomestic) {
-                    banner.innerHTML = `🇮🇱 <b>טיול בישראל (שדות חו"ל נוטרלו):</b> שדות טיסות בינלאומיות, כרטיסי טיסה, דרכונים וביטוח חו"ל נוטרלו ועומעמו אוטומטית. הטופס מותאם כעת לתחבורה יבשתית ומסלולים בארץ.`;
-                    banner.style.background = '#f0fdf4';
-                    banner.style.borderColor = '#86efac';
+                    banner.innerHTML = `💡 <b>מסלול מקומי:</b> כל שדות הטיסות, הדרכונים והביטוח הבינלאומי הוסרו לחלוטין. הטופס מותאם ישירות לתחבורה ומסלולי שטח מקומיים.`;
+                    banner.style.background = 'white';
+                    banner.style.borderColor = '#bbf7d0';
                     banner.style.color = '#166534';
                 } else {
-                    banner.innerHTML = `🌍 <b>טיול בחו"ל:</b> כל שדות הטיסות, הדרכונים והמעברים הבינלאומיים פעילים במלואם.`;
-                    banner.style.background = '#eff6ff';
-                    banner.style.borderColor = '#93c5fd';
+                    banner.innerHTML = `✈️ <b>מסע בינלאומי (חו"ל):</b> כל שדות הטיסות, הדרכונים, הקונקשנים והביטוח הבינלאומי פעילים במלואם.`;
+                    banner.style.background = 'white';
+                    banner.style.borderColor = '#bfdbfe';
                     banner.style.color = '#1e40af';
                 }
             }
 
-            // Adjust placeholders & sub-labels
+            // 2. Step 2 (Dedicated Document Uploads)
+            const passportBtn = document.getElementById('btn-upload-passport');
+            if (passportBtn) {
+                // Completely hide passport button for domestic trips
+                passportBtn.style.display = isDomestic ? 'none' : 'flex';
+            }
+
+            const insuranceBtnText = document.getElementById('btn-upload-insurance-text');
+            if (insuranceBtnText) {
+                insuranceBtnText.innerText = isDomestic ? 'ביטוח חילוץ ומטיילים (אופציונלי)' : 'פוליסת ביטוח חו"ל';
+            }
+
+            const voucherBtnText = document.getElementById('btn-upload-voucher-text');
+            if (voucherBtnText) {
+                voucherBtnText.innerText = isDomestic ? 'שובר / כרטיס שמורה' : 'שובר / כרטיסי טיסה';
+            }
+
+            const bookletBtnText = document.getElementById('btn-upload-booklet-text');
+            if (bookletBtnText) {
+                bookletBtnText.innerText = isDomestic ? 'מפת מסלול / סיפור דרך' : 'חוברת מסלול סוכנות';
+            }
+
+            // 3. Step 3 Placeholders & Dynamic Labels
             const originInput = document.getElementById('q_origin');
             if (originInput) {
                 originInput.placeholder = isDomestic ? 
-                    'לדוגמה: שדרות העצמאות 93 אשדוד / תחנת איסוף (שדות נתב"ג נוטרלו)' : 
+                    'לדוגמה: שדרות העצמאות 93 אשדוד / נקודת יציאה מהבית' : 
                     'לדוגמה: שדרות העצמאות 93 אשדוד / נתב"ג טרמינל 3';
+            }
+
+            const destLabel = document.getElementById('label_q_destination');
+            const destInput = document.getElementById('q_destination');
+            if (destLabel) {
+                destLabel.innerText = isDomestic ? '2. יעד / אזור המסלול בארץ:' : '2. מדינה / יעד מבוקש:';
+            }
+            if (destInput) {
+                destInput.placeholder = isDomestic ? 
+                    'לדוגמה: שביל ישראל בצפון / עין נון / נתניה' : 
+                    'לדוגמה: קוריאה הדרומית / רומא ופירנצה';
             }
 
             const transitInput = document.getElementById('q_transit');
             const transitSub = document.getElementById('label_transit_sub');
             if (transitInput) {
                 transitInput.placeholder = isDomestic ? 
-                    'לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (שדות טיסה נוטרלו)' : 
+                    'לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (שדות טיסה הוסרו)' : 
                     'לדוגמה: טיסות בינלאומיות אתיופיאן איירליינס, טיסות פנים, אוטובוס תיירים ממוזג';
             }
             if (transitSub) {
-                transitSub.innerText = isDomestic ? '(תחבורה יבשתית בארץ)' : '(טיסות ומעברים בינלאומיים)';
+                transitSub.innerText = isDomestic ? '(תחבורה יבשתית מקומית)' : '(טיסות ומעברים בינלאומיים)';
                 transitSub.style.color = isDomestic ? '#15803d' : '#2563eb';
+            }
+
+            const hotelsInput = document.getElementById('q_hotels');
+            if (hotelsInput) {
+                hotelsInput.placeholder = isDomestic ? 
+                    'לדוגמה: חניוני לילה מוסדרים, צימרים כפריים / טיול יום ללא לינה' : 
+                    'לדוגמה: מלונות נגישים בדרגת תיירות טובה עם מעליות שבת וקירבה לבית חב"ד';
             }
 
             const budgetInput = document.getElementById('q_budget');
             if (budgetInput) {
                 budgetInput.placeholder = isDomestic ? 
-                    'לדוגמה: 800 ₪ לאדם (שקלים חדשים)' : 
+                    'לדוגמה: 500 ₪ לאדם / הוצאות שטח' : 
                     'לדוגמה: 5,075 $ לאדם בחדר זוגי';
             }
 
-            // Adjust Accordion 2 (Document Uploads) for Domestic vs Abroad
-            const docsGeoNotice = document.getElementById('docs-geo-notice');
-            if (docsGeoNotice) {
-                docsGeoNotice.style.display = isDomestic ? 'block' : 'none';
+            // Step 3 Finalize Button
+            const finalizeIcon = document.getElementById('btn-finalize-step3-icon');
+            if (finalizeIcon) {
+                finalizeIcon.className = isDomestic ? 'fa-solid fa-person-hiking' : 'fa-solid fa-plane-departure';
             }
 
-            const passportBtnText = document.getElementById('btn-upload-passport-text');
-            const passportBtn = document.getElementById('btn-upload-passport');
-            if (passportBtnText) {
-                passportBtnText.innerText = isDomestic ? 'ת.ז / רישיון (דרכון לא נדרש)' : 'צילום דרכון';
-            }
-            if (passportBtn) {
-                passportBtn.style.opacity = isDomestic ? '0.85' : '1.0';
+            // 4. Step 4 Wizard Pill 4 Label & Ready Stage Celebration Banner
+            const pill4Label = document.getElementById('wizard-pill-4-label');
+            if (pill4Label) {
+                pill4Label.innerText = isDomestic ? '🎒 ממתין ליציאה' : '🛫 ממתין ליציאה';
             }
 
-            const insuranceBtnText = document.getElementById('btn-upload-insurance-text');
-            if (insuranceBtnText) {
-                insuranceBtnText.innerText = isDomestic ? 'ביטוח חילוץ (אופציונלי)' : 'ביטוח רפואי חו"ל';
+            const readyTitle = document.getElementById('ready-status-celebration-title');
+            const readyBadge = document.getElementById('ready-trip-name-badge');
+            if (readyTitle) {
+                readyTitle.innerHTML = isDomestic ? 
+                    '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i> הטיול מוכן במלואו! סטטוס: 🎒 ממתין ליציאה לשטח' : 
+                    '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i> הטיול מוכן במלואו! סטטוס: 🛫 ממתין ליציאה';
+            }
+            if (readyBadge) {
+                readyBadge.innerText = isDomestic ? 'מוכן ליציאה לשטח' : 'מוכן להמראה / יציאה';
             }
 
-            const bookletBtnText = document.getElementById('btn-upload-booklet-text');
-            if (bookletBtnText) {
-                bookletBtnText.innerText = isDomestic ? 'מפת מסלול / שביל' : 'חוברת מסלול סוכנות';
+            // 5. Emergency Screen Geo-Context
+            const domesticRescueCard = document.getElementById('emergency-domestic-rescue-card');
+            const foreignVoiceCard = document.getElementById('emergency-voice-interpreter-card');
+            if (domesticRescueCard) domesticRescueCard.style.display = isDomestic ? 'block' : 'none';
+            if (foreignVoiceCard) foreignVoiceCard.style.display = isDomestic ? 'none' : 'block';
+
+            const tripCountry = getTripCountry(k);
+            const policeLabel = document.getElementById('emergency-police-label');
+            const ambulanceLabel = document.getElementById('emergency-ambulance-label');
+            const baltamSub = document.getElementById('emergency-baltam-subtext');
+            const dossierSub = document.getElementById('emergency-dossier-subtext');
+
+            if (baltamSub) {
+                baltamSub.innerText = isDomestic ? 'חסימת שבילים, עומס חום קיצוני בשטח' : 'עיכובי טיסות, קונקשן, התפרצות מחלות ביעד';
+            }
+            if (dossierSub) {
+                dossierSub.innerText = isDomestic ? 'צפייה במסמכי הטיול, מפות והנחיות שטח' : 'צפייה בדרכון, פוליסת ביטוח חו"ל וכרטיסי טיסה';
+            }
+
+            if (tripCountry === 'ישראל') {
+                if (policeLabel) policeLabel.innerText = 'משטרה (100)';
+                if (ambulanceLabel) ambulanceLabel.innerText = 'מד"א / אמבולנס (101)';
+            } else if (tripCountry === 'קוריאה הדרומית') {
+                if (policeLabel) policeLabel.innerText = 'משטרה קוריאה (112)';
+                if (ambulanceLabel) ambulanceLabel.innerText = 'אמבולנס וכיבוי (119)';
+            } else if (tripCountry === 'איטליה') {
+                if (policeLabel) policeLabel.innerText = 'משטרה / חירום (112)';
+                if (ambulanceLabel) ambulanceLabel.innerText = 'אמבולנס איטליה (118)';
+            } else if (tripCountry === 'יפן') {
+                if (policeLabel) policeLabel.innerText = 'משטרה יפן (110)';
+                if (ambulanceLabel) ambulanceLabel.innerText = 'אמבולנס יפן (119)';
+            } else {
+                if (policeLabel) policeLabel.innerText = `משטרה (${tripCountry})`;
+                if (ambulanceLabel) ambulanceLabel.innerText = `אמבולנס (${tripCountry})`;
+            }
+
+            // 6. Synchronize Baltam Scenarios & AI Screen
+            syncBaltamScenarios(isDomestic, k);
+            syncAiScreenGeoContext(isDomestic, k);
+        }
+
+        function syncBaltamScenarios(isDomestic, tripKey) {
+            const k = tripKey || currentTripKey;
+            const selector = document.getElementById('baltam-scenario-selector');
+            if (!selector) return;
+
+            if (isDomestic) {
+                // Domestic scenarios only - completely remove foreign flight and foreign disease options!
+                if (k === 'israel_trail_north') {
+                    selector.innerHTML = `
+                        <option value="trail_fire" selected>🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא / נחל עמוד</option>
+                        <option value="netanya_heat">🟠 עומס חום כבד בשעות הצהריים (36°C)</option>
+                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                    `;
+                    switchBaltamScenario('trail_fire');
+                } else if (k === 'netanya') {
+                    selector.innerHTML = `
+                        <option value="netanya_heat" selected>🟠 נתניה: עומס חום קיצוני (36°C) בטיילת הראשונים</option>
+                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                    `;
+                    switchBaltamScenario('netanya_heat');
+                } else {
+                    selector.innerHTML = `
+                        <option value="trail_fire" selected>🔴 שטח מקומי: התראה על סגירת ציר / חסימה</option>
+                        <option value="netanya_heat">🟠 עומס חום כבד בשעות הצהריים</option>
+                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                    `;
+                    switchBaltamScenario('trail_fire');
+                }
+            } else {
+                // International / Abroad scenarios
+                selector.innerHTML = `
+                    <option value="flight_delay" selected>✈️ התראת טיסה מקדימה: עיכוב טיסת ET 419 לסיאול והשפעה על קונקשן</option>
+                    <option value="korea_covid">🔴 קוריאה: התפרצות קורונה פעילה באזור סיאול בו אתם שוהים כעת!</option>
+                    <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                `;
+                switchBaltamScenario('flight_delay');
+            }
+        }
+
+        function syncAiScreenGeoContext(isDomestic, tripKey) {
+            const k = tripKey || currentTripKey;
+            const flightsCard = document.getElementById('ai-card-flights');
+            const foreignTransit = document.getElementById('ai-card-foreign-transit');
+            const domesticTransit = document.getElementById('ai-card-domestic-transit');
+            const foreignHotels = document.getElementById('ai-hotels-foreign');
+            const domesticHotels = document.getElementById('ai-hotels-domestic');
+            const shabbatTitle = document.getElementById('ai-shabbat-guideline-title');
+
+            if (flightsCard) flightsCard.style.display = isDomestic ? 'none' : 'block';
+            if (foreignTransit) foreignTransit.style.display = isDomestic ? 'none' : 'block';
+            if (domesticTransit) domesticTransit.style.display = isDomestic ? 'block' : 'none';
+            if (foreignHotels) foreignHotels.style.display = isDomestic ? 'none' : 'block';
+            if (domesticHotels) domesticHotels.style.display = isDomestic ? 'block' : 'none';
+
+            if (shabbatTitle) {
+                shabbatTitle.innerHTML = isDomestic ? 
+                    '<i class="fa-solid fa-key"></i> נוהל שבת מעשי באירוח ומלונות:' : 
+                    '<i class="fa-solid fa-key"></i> נוהל שבת מעשי בבתי מלון בחו"ל:';
+            }
+
+            if (isDomestic) {
+                renderDomesticTransitItems(k);
+                renderDomesticHotelItems(k);
+            }
+        }
+
+        function renderDomesticTransitItems(tripKey) {
+            const container = document.getElementById('ai-domestic-transit-items');
+            if (!container) return;
+
+            if (tripKey === 'israel_trail_north') {
+                container.innerHTML = `
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
+                        <b style="color: #15803d;">🚌 נקודת מוצא: חניון נחל עמוד תחתון (כביש 85):</b>
+                        <div style="color: #334155; margin-top: 2px;">הגעה עצמית ברכב או קווי אגד (500 / 505 / 361) לצומת קדרים וחניון נחל עמוד.</div>
+                    </div>
+                    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
+                        <b style="color: #0369a1;">🚏 נקודת סיום ואיסוף: עין נון (סמוך למושבה מגדל):</b>
+                        <div style="color: #334155; margin-top: 2px;">מפגש עם האוטובוס הקבוצתי או מוניות מקומיות לעלייה חזרה / המשך נסיעה.</div>
+                    </div>
+                    <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
+                        <b style="color: #c2410c;">🎒 הקפצות שטח וחירום:</b>
+                        <div style="color: #334155; margin-top: 2px;">במקרה של פציעה או קיצור מסלול: נקודת חבירה לרכבי שטח סמוך לגיחון המוביל הארצי.</div>
+                    </div>
+                `;
+            } else if (tripKey === 'netanya') {
+                container.innerHTML = `
+                    <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
+                        <b style="color: #c2410c;">🚏 קווי אוטובוס עירוניים בנתניה (16 ו-25):</b>
+                        <div style="color: #334155; margin-top: 2px;">יציאה ממסוף רכבת נתניה מערב (רציף 37124) ישירות למעלית הים ולטיילת כל 10 דקות בימי חול.</div>
+                    </div>
+                    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
+                        <b style="color: #0369a1;">🚆 רכבת ישראל (תחנת נתניה מרכז):</b>
+                        <div style="color: #334155; margin-top: 2px;">קו רכבת חוף עם נגישות מלאה לכיסאות גלגלים ומעליות בכל הרציפים.</div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
+                        <b style="color: #15803d;">🚗 תחבורה יבשתית מותאמת למסלול:</b>
+                        <div style="color: #334155; margin-top: 2px;">רכבת ישראל, קווי אוטובוס מקומיים וחניוני רכב בטוחים בנקודות המוצא והסיום.</div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderDomesticHotelItems(tripKey) {
+            const container = document.getElementById('ai-domestic-hotel-items');
+            if (!container) return;
+
+            if (tripKey === 'israel_trail_north') {
+                container.innerHTML = `
+                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <b style="color: #0f172a; font-size: 1.05em;">חניון לילה עין נון (סמוך למושבה מגדל)</b>
+                                <div style="font-size: 0.82em; color: #64748b;">סמוך לבריכת המעיין | נקודת סיום המסלול</div>
+                            </div>
+                            <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">חניון מוסדר</span>
+                        </div>
+                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
+                            בריכת מעיין מוצלת תחת עצי אקליפטוס, שולחנות פיקניק, ברזיות מי שתייה וחניה מרווחת לאוטובוסים.
+                        </div>
+                    </div>
+
+                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <b style="color: #0f172a; font-size: 1.05em;">אירוח כפרי וצימרים במושבה מגדל וגינוסר</b>
+                                <div style="font-size: 0.82em; color: #64748b;">צפון הכנרת | 5 דקות נסיעה מעין נון</div>
+                            </div>
+                            <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">אירוח כפרי</span>
+                        </div>
+                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
+                            חדרים כפריים מונגשים, קירבה לחוף הכנרת, ארוחות בוקר כשרות ונוף למצוק ארבל.
+                        </div>
+                    </div>
+                `;
+            } else if (tripKey === 'netanya') {
+                container.innerHTML = `
+                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <b style="color: #0f172a; font-size: 1.05em;">מלון איילנד נתניה (טיילת הראשונים)</b>
+                                <div style="font-size: 0.82em; color: #64748b;">שדרות בן עמי 10, נתניה | נוף ישיר לים</div>
+                            </div>
+                            <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">מעלית שבת</span>
+                        </div>
+                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מעליות שבת, חניה צמודה לאוטובוס, מרחק 200 מטר ממעלית החוף.</div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
+                        <b style="color: #0f172a; font-size: 1.05em;">אירוח ולינה מותאמת לאזור הטיול</b>
+                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">בתי הארחה, מלונות מונגשים וחניוני לילה מוסדרים בקרבת המסלול.</div>
+                    </div>
+                `;
             }
         }
 
@@ -5341,7 +5703,8 @@
                 html += `<optgroup label="📅 טיולים קרובים (לפי תאריך יציאה)">`;
                 upcomingWithDates.forEach(t => {
                     const isReady = (t.stage === 'ready');
-                    const icon = isReady ? '🛫' : (t.key.includes('trail') ? '🥾' : (t.key === 'korea' ? '🇰🇷' : '✈️'));
+                    const isDomestic = isDomesticTrip(t.key);
+                    const icon = isReady ? (isDomestic ? '🎒' : '🛫') : (t.key.includes('trail') ? '🥾' : (t.key === 'korea' ? '🇰🇷' : (isDomestic ? '🌲' : '✈️')));
                     const dParts = t.departureDate.split('-');
                     const dateFormatted = dParts.length === 3 ? `${dParts[2]}/${dParts[1]}/${dParts[0]}` : t.departureDate;
                     html += `<option value="${t.key}">${icon} ${t.name} (📅 יציאה: ${dateFormatted})</option>`;
@@ -5354,7 +5717,8 @@
                 html += `<optgroup label="📝 טיולים בתכנון (לפי סדר א'-ב')">`;
                 activeWithoutDates.forEach(t => {
                     const isReady = (t.stage === 'ready');
-                    const icon = isReady ? '🛫' : (t.key === 'rome' ? '🏛️' : (t.key === 'ashkelon' ? '🏖️' : '📋'));
+                    const isDomestic = isDomesticTrip(t.key);
+                    const icon = isReady ? (isDomestic ? '🎒' : '🛫') : (t.key === 'rome' ? '🏛️' : (t.key === 'ashkelon' ? '🏖️' : (isDomestic ? '🌲' : '📋')));
                     html += `<option value="${t.key}">${icon} ${t.name} [שלב תכנון]</option>`;
                 });
                 html += `</optgroup>`;
@@ -5763,6 +6127,7 @@
             renderCustomDocsList();
             loadTripQuestionnaire();
             updatePipelineDisplay();
+            renderFoodCards();
 
             // Sync Step 1 inputs directly
             const step1Dest = document.getElementById('step1-dest-name');
@@ -5774,15 +6139,8 @@
                 step1Dates.value = TRIPS_DATABASE[tripKey].dates || TRIPS_DATABASE[tripKey].badge || '';
             }
 
-            // Set Wizard Step based on trip status
-            const savedStep = localStorage.getItem('travel_assistant_wizard_step_' + tripKey);
-            if (TRIPS_DATABASE[tripKey].stage === 'ready') {
-                setWizardStep(4);
-            } else if (savedStep) {
-                setWizardStep(parseInt(savedStep) || 1);
-            } else {
-                setWizardStep(1);
-            }
+            // Set Wizard Step: Default is always Step 1 (📍 יעד ותאריכים) per user requirement
+            setWizardStep(1);
             loadContactDetails();
 
             closeTripSelectorModal();
@@ -6019,8 +6377,11 @@
             const trip = TRIPS_DATABASE[currentTripKey];
             if (!trip) return;
 
+            const isDomestic = isDomesticTrip(currentTripKey);
+            const readyLabel = isDomestic ? '🎒 ממתין ליציאה לשטח' : '🛫 ממתין ליציאה (מוכן להמראה!)';
+
             trip.stage = 'ready';
-            trip.stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
+            trip.stageLabel = readyLabel;
 
             if (currentTripKey.startsWith('custom_')) {
                 try {
@@ -6028,7 +6389,7 @@
                     const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
                     if (idx !== -1) {
                         custom[idx].stage = 'ready';
-                        custom[idx].stageLabel = '🛫 ממתין ליציאה (מוכן להמראה!)';
+                        custom[idx].stageLabel = readyLabel;
                         localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
                     }
                 } catch(e) {}
@@ -6038,7 +6399,7 @@
 
             selectTripAndApply(currentTripKey);
             setWizardStep(4);
-            alert(`🎉 מזל טוב! כל נתוני ומסמכי הטיול של "${trip.name}" נקלטו בהצלחה במערכת.\nהסטטוס עודכן ל: "🛫 ממתין ליציאה (מוכן להמראה!)" והמסלול המפורט פתוח לפניך!`);
+            alert(`🎉 מזל טוב! כל נתוני ומסמכי הטיול של "${trip.name}" נקלטו בהצלחה במערכת.\nהסטטוס עודכן ל: "${readyLabel}" והמסלול המפורט פתוח לפניך!`);
         }
 
         function reopenTripToPlanningStage() {
@@ -6075,9 +6436,14 @@
             const trip = TRIPS_DATABASE[currentTripKey];
             if (!trip) return;
             const isReady = (trip.stage === 'ready');
+            const isDomestic = isDomesticTrip(currentTripKey);
             const readyTripBadge = document.getElementById('ready-trip-name-badge');
             if (readyTripBadge) {
-                readyTripBadge.innerText = isReady ? '🛫 מוכן להמראה / יציאה' : '📋 שלב תכנון';
+                if (isReady) {
+                    readyTripBadge.innerText = isDomestic ? '🎒 מוכן ליציאה לשטח' : '🛫 מוכן להמראה / יציאה';
+                } else {
+                    readyTripBadge.innerText = '📋 שלב תכנון';
+                }
             }
         }
 
@@ -6276,6 +6642,53 @@
         function clearInterpreterChat() {
             interpreterChatHistory = [];
             renderInterpreterChat();
+        }
+
+        // ================= DYNAMIC EMERGENCY CALL HANDLER =================
+        function handleEmergencyCall(type) {
+            const country = getTripCountry(currentTripKey);
+            let number = '112';
+            let label = 'מוקד חירום';
+
+            if (type === 'police') {
+                if (country === 'ישראל') {
+                    number = '100';
+                    label = 'משטרת ישראל ומוקד חילוץ שטח (100)';
+                } else if (country === 'קוריאה הדרומית') {
+                    number = '112';
+                    label = 'משטרת קוריאה הדרומית (112)';
+                } else if (country === 'איטליה') {
+                    number = '112';
+                    label = 'משטרת איטליה / מוקד חירום אירופאי (112)';
+                } else if (country === 'יפן') {
+                    number = '110';
+                    label = 'משטרת יפן (110)';
+                } else {
+                    number = '112';
+                    label = `מוקד משטרה וחירום - ${country} (112)`;
+                }
+            } else if (type === 'ambulance') {
+                if (country === 'ישראל') {
+                    number = '101';
+                    label = 'מד"א / אמבולנס וחירום רפואי בישראל (101)';
+                } else if (country === 'קוריאה הדרומית') {
+                    number = '119';
+                    label = 'אמבולנס וחירום רפואי בקוריאה (119)';
+                } else if (country === 'איטליה') {
+                    number = '118';
+                    label = 'אמבולנס וחירום רפואי באיטליה (118)';
+                } else if (country === 'יפן') {
+                    number = '119';
+                    label = 'אמבולנס וכיבוי אש ביפן (119)';
+                } else {
+                    number = '112';
+                    label = `מוקד אמבולנס וחירום רפואי - ${country} (112)`;
+                }
+            }
+
+            if (confirm(`האם לחייג כעת אל ${label}?`)) {
+                window.location.href = `tel:${number}`;
+            }
         }
 
         // ================= DIRECT PHOTO UPLOAD & SILENT CLOUD SYNC WORKFLOW =================
