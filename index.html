@@ -192,21 +192,27 @@
         }
 
         /* ================= MAP & HEADING-UP STYLING ================= */
+        .map-split-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
         #map-viewport {
             width: 100%;
-            height: calc(100vh - 280px);
-            min-height: 420px;
+            height: calc(100vh - 290px);
+            min-height: 340px;
             position: relative;
             overflow: hidden;
             background: #e2e8f0;
         }
 
         #map-container {
-            width: 150%;
-            height: 150%;
+            width: 100%;
+            height: 100%;
             position: absolute;
-            left: -25%;
-            top: -25%;
+            left: 0;
+            top: 0;
             transition: transform 0.3s ease-out;
             transform-origin: 50% 50%;
             z-index: 1;
@@ -493,6 +499,180 @@
                 margin: 10mm;
             }
         }
+
+        /* ================= MULTI-DEVICE RESPONSIVE ARCHITECTURE (MOBILE / TABLET / LAPTOP & DESKTOP) ================= */
+        .leaflet-popup-content {
+            margin: 10px 12px !important;
+            line-height: 1.35 !important;
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 14px !important;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.22) !important;
+        }
+
+        #station-quick-selector-bar {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f8fafc;
+        }
+        #station-quick-selector-bar::-webkit-scrollbar {
+            height: 5px;
+        }
+        #station-quick-selector-bar::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        #station-quick-selector-bar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 6px;
+        }
+
+        /* 1. TABLET & LAPTOP/DESKTOP (min-width: 768px) */
+        @media screen and (min-width: 768px) {
+            body {
+                font-size: 0.96rem;
+            }
+            .header {
+                padding: 6px 18px;
+            }
+            .screen-container {
+                padding-bottom: 30px;
+            }
+            .top-bar {
+                padding: 8px 18px;
+                position: relative;
+            }
+            .top-bar h2 {
+                font-size: 1.15em;
+            }
+            .back-btn {
+                padding: 6px 14px;
+                font-size: 0.92em;
+            }
+            .content-padding {
+                max-width: 860px;
+                padding: 14px 18px 80px 18px !important;
+            }
+            /* Home Screen Compact Fit for Laptop/Tablet (Zero Scroll Needed) */
+            #home-greeting-box {
+                padding: 6px 16px 2px !important;
+            }
+            #home-greeting-box h1 {
+                font-size: 1.18em !important;
+            }
+            #home-greeting-box p {
+                font-size: 0.82em !important;
+                margin-top: 2px !important;
+            }
+            #home-active-trip-banner {
+                max-width: 680px;
+                margin: 6px auto 10px !important;
+                padding: 8px 14px !important;
+            }
+            .home-columns-container {
+                max-width: 680px;
+                padding: 4px 12px;
+                gap: 12px;
+            }
+            .column-side {
+                gap: 10px;
+            }
+            .nav-btn {
+                min-height: 82px;
+                padding: 10px 10px;
+                border-radius: 16px;
+            }
+            .nav-btn i {
+                font-size: 1.7em;
+                margin-bottom: 4px;
+            }
+            .nav-btn span {
+                font-size: 0.98em;
+            }
+            #home-footer-tagline {
+                margin-top: 6px !important;
+                font-size: 0.8em !important;
+            }
+            /* Accordions & Cards scaled cleanly for Laptop/Desktop */
+            .accordion-header {
+                padding: 12px 18px;
+                font-size: 1.08em;
+            }
+            .accordion-content {
+                padding: 16px;
+                font-size: 0.98em;
+            }
+        }
+
+        /* 2. LAPTOP & DESKTOP SPLIT-VIEW MAP WORKSPACE (min-width: 860px) */
+        @media screen and (min-width: 860px) {
+            #screen-map .top-bar {
+                padding: 5px 14px !important;
+            }
+            #map-mode-banner, #map-gps-toolbar {
+                padding: 5px 14px !important;
+            }
+            #station-quick-selector-bar {
+                padding: 4px 14px !important;
+            }
+            .map-split-container {
+                flex-direction: row;
+                direction: rtl;
+                height: calc(100vh - 182px);
+                min-height: 350px;
+                max-height: 760px;
+                border-bottom: 2px solid #cbd5e1;
+            }
+            #map-viewport {
+                flex: 1;
+                height: 100% !important;
+                min-height: 350px !important;
+            }
+            .distance-card-sheet {
+                width: 340px;
+                flex-shrink: 0;
+                height: 100% !important;
+                max-height: none !important;
+                border-top: none;
+                border-right: 2px solid #cbd5e1;
+                padding: 10px 12px;
+                box-shadow: none;
+                background: #ffffff;
+            }
+        }
+
+        /* 3. COMPACT VERTICAL FIT FOR WIDE LAPTOPS WITH HIGH SCALING (max-height: 640px) */
+        @media screen and (min-width: 768px) and (max-height: 640px) {
+            .nav-btn {
+                min-height: 68px;
+                padding: 8px 8px;
+                border-radius: 14px;
+            }
+            .nav-btn i {
+                font-size: 1.45em;
+                margin-bottom: 3px;
+            }
+            .nav-btn span {
+                font-size: 0.92em;
+            }
+            .column-side {
+                gap: 8px;
+            }
+            #home-active-trip-banner {
+                margin: 4px auto 6px !important;
+                padding: 6px 12px !important;
+            }
+        }
+
+        /* 4. SMARTPHONES (max-width: 767px) */
+        @media screen and (max-width: 767px) {
+            #map-viewport {
+                height: calc(100vh - 300px);
+                min-height: 300px;
+            }
+            .distance-card-sheet {
+                max-height: 220px;
+                padding: 10px 12px;
+            }
+        }
     </style>
 
     <!-- Leaflet CSS & JS for OpenStreetMap -->
@@ -514,7 +694,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.0
+                גרסה 5.0.1
             </span>
         </div>
     </header>
@@ -524,13 +704,13 @@
 
         <!-- ================= 1. HOME SCREEN (6 BUTTONS) ================= -->
         <div id="screen-home" class="screen active">
-            <div style="text-align: center; padding: 14px 16px 6px;">
+            <div id="home-greeting-box" style="text-align: center; padding: 14px 16px 6px;">
                 <h1 style="font-size: 1.35em; font-weight: 900; margin: 0; color: #0f172a;">שלום משה</h1>
                 <p style="color: #64748b; font-size: 0.9em; margin: 4px 0 0;">מרכז שליטה וליווי אישי למטייל בכל מקום בעולם</p>
             </div>
 
             <!-- Active Trip Selection Banner (Swapped: 'בחר טיול' first on right, 'תכנון טיול חדש' second on left) -->
-            <div style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #818cf8; border-radius: 14px; padding: 10px 14px; margin: 8px 14px 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(99,102,241,0.15); flex-wrap: wrap; gap: 8px;" dir="rtl">
+            <div id="home-active-trip-banner" style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #818cf8; border-radius: 14px; padding: 10px 14px; margin: 8px 14px 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(99,102,241,0.15); flex-wrap: wrap; gap: 8px;" dir="rtl">
                 <div style="text-align: right; flex: 1; min-width: 180px;">
                     <div style="font-size: 0.76em; color: #4338ca; font-weight: 800; display: flex; align-items: center; gap: 6px;">
                         <span>📁 טיול פעיל:</span>
@@ -584,7 +764,7 @@
 
             </div>
             
-            <div style="text-align: center; color: #94a3b8; font-size: 0.85em; margin-top: 10px;">
+            <div id="home-footer-tagline" style="text-align: center; color: #94a3b8; font-size: 0.85em; margin-top: 10px;">
                 <i class="fa-solid fa-earth-americas"></i> מנוע שטח עולמי ודינמי בזמן אמת לכל יעד
             </div>
         </div>
@@ -597,7 +777,7 @@
             </div>
 
             <!-- Trip Mode & Selector Banner (Location-Aware Globe Engine + Multi-Trip Selection) -->
-            <div style="background: #1e1b4b; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 1px solid #312e81;">
+            <div id="map-mode-banner" style="background: #1e1b4b; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 1px solid #312e81;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span id="map-mode-indicator" style="font-size: 0.82em; color: #fde047; font-weight: bold;">🖥️ מצב תכנון ובדיקה:</span>
                     <span id="active-trip-pill" style="background: #4338ca; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 800;">קסם קוריאה - אופיר טורס</span>
@@ -608,7 +788,7 @@
             </div>
 
             <!-- Live GPS Status & Quick Tools -->
-            <div style="background: white; padding: 8px 12px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <div id="map-gps-toolbar" style="background: white; padding: 8px 12px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <div id="gps-status-text" style="font-size: 0.85em; color: #0284c7; font-weight: bold; flex-grow: 1; min-width: 150px;">
                     <i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS בזמן אמת...
                 </div>
@@ -633,49 +813,52 @@
                 <!-- Populated dynamically by renderStationQuickSelectors() -->
             </div>
             
-            <!-- Map Viewport & Rotating Container with Interactive Compass Rose -->
-            <div id="map-viewport">
-                <div class="compass-rose" onclick="toggleMapOrientation()" title="שושנת רוחות: לחץ להחלפה בין צפון קבוע למפה עם כיוון התנועה">
-                    <div id="compass-needle" class="compass-arrow-north"></div>
-                    <div class="compass-text-n">N צפון</div>
-                </div>
-                <div id="map-container"></div>
+            <!-- Split-View Container: Stacked on Mobile, Side-by-Side on Laptop/Desktop -->
+            <div class="map-split-container">
+                <!-- Map Viewport & Rotating Container with Interactive Compass Rose -->
+                <div id="map-viewport">
+                    <div class="compass-rose" onclick="toggleMapOrientation()" title="שושנת רוחות: לחץ להחלפה בין צפון קבוע למפה עם כיוון התנועה">
+                        <div id="compass-needle" class="compass-arrow-north"></div>
+                        <div class="compass-text-n">N צפון</div>
+                    </div>
+                    <div id="map-container"></div>
 
-                <!-- Live Real-Time Navigation HUD Bar Floating over Map with Close Button (Closed by default so map is clean) -->
-                <div id="live-nav-hud" style="position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.98); border: 2px solid #2563eb; border-radius: 14px; padding: 10px 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 999; display: none; justify-content: space-between; align-items: center;" dir="rtl">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="background: #2563eb; color: white; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
-                            <i class="fa-solid fa-location-arrow"></i>
+                    <!-- Live Real-Time Navigation HUD Bar Floating over Map with Close Button (Closed by default so map is clean) -->
+                    <div id="live-nav-hud" style="position: absolute; bottom: 10px; left: 10px; right: 10px; background: rgba(255, 255, 255, 0.98); border: 2px solid #2563eb; border-radius: 14px; padding: 10px 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 999; display: none; justify-content: space-between; align-items: center;" dir="rtl">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="background: #2563eb; color: white; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
+                                <i class="fa-solid fa-location-arrow"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 12px; color: #64748b; font-weight: bold;">יעד פעיל:</div>
+                                <div id="hud-target-name" style="font-weight: 900; font-size: 15px; color: #0f172a;">1. חניון נחל עמוד תחתון</div>
+                            </div>
                         </div>
-                        <div>
-                            <div style="font-size: 12px; color: #64748b; font-weight: bold;">יעד פעיל:</div>
-                            <div id="hud-target-name" style="font-weight: 900; font-size: 15px; color: #0f172a;">1. חניון נחל עמוד תחתון</div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="text-align: left;">
+                                <div id="hud-distance" style="font-weight: 900; font-size: 17px; color: #16a34a;">-- מטר</div>
+                                <div id="hud-eta" style="font-size: 13px; font-weight: bold; color: #2563eb;">-- דקות</div>
+                            </div>
+                            <button onclick="toggleLiveHud(false)" title="סגור בועה כדי לראות את כל המפה" style="background: #f1f5f9; border: 1px solid #cbd5e1; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; font-weight: bold; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="text-align: left;">
-                            <div id="hud-distance" style="font-weight: 900; font-size: 17px; color: #16a34a;">-- מטר</div>
-                            <div id="hud-eta" style="font-size: 13px; font-weight: bold; color: #2563eb;">-- דקות</div>
-                        </div>
-                        <button onclick="toggleLiveHud(false)" title="סגור בועה כדי לראות את כל המפה" style="background: #f1f5f9; border: 1px solid #cbd5e1; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; font-weight: bold; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+
+                    <!-- Floating mini pill button to restore HUD when closed -->
+                    <button id="btn-reopen-hud" onclick="toggleLiveHud(true)" style="display: block; position: absolute; bottom: 12px; right: 12px; background: #2563eb; color: white; border: 2px solid white; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 998; cursor: pointer;">
+                        🎯 הצג מד ניווט (<span id="reopen-hud-dist">--</span>)
+                    </button>
+                </div>
+
+                <!-- Route Stations & Distances Drawer / Side-Panel -->
+                <div class="distance-card-sheet">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 800; font-size: 0.9em; color: #1e293b;"><i class="fa-solid fa-signs-post" style="color:#8b5cf6;"></i> תחנות במסלול ומרחקים:</span>
+                        <span id="route-total-stations-badge" style="font-size: 0.75em; background: #f3e8ff; color: #7e22ce; padding: 2px 6px; border-radius: 6px; font-weight: bold;">תחנות המסלול</span>
                     </div>
-                </div>
-
-                <!-- Floating mini pill button to restore HUD when closed -->
-                <button id="btn-reopen-hud" onclick="toggleLiveHud(true)" style="display: block; position: absolute; bottom: 12px; right: 12px; background: #2563eb; color: white; border: 2px solid white; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 998; cursor: pointer;">
-                    🎯 הצג מד ניווט (<span id="reopen-hud-dist">--</span>)
-                </button>
-            </div>
-
-            <!-- Route Stations & Distances Drawer -->
-            <div class="distance-card-sheet">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <span style="font-weight: 800; font-size: 0.9em; color: #1e293b;"><i class="fa-solid fa-signs-post" style="color:#8b5cf6;"></i> תחנות במסלול ומרחקים:</span>
-                    <span id="route-total-stations-badge" style="font-size: 0.75em; background: #f3e8ff; color: #7e22ce; padding: 2px 6px; border-radius: 6px; font-weight: bold;">תחנות המסלול</span>
-                </div>
-                
-                <div id="stations-distance-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.82em;">
-                    <!-- Populated dynamically by JS -->
+                    
+                    <div id="stations-distance-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.82em;">
+                        <!-- Populated dynamically by JS -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -3613,7 +3796,7 @@
 
         function isDomesticTrip(tripKey) {
             const k = tripKey || currentTripKey;
-            const explicit = localStorage.getItem('travel_assistant_trip_is_domestic_' + k);
+            const explicit = localStorage.getItem('travel_assistant_v5_is_domestic_' + k);
             if (explicit === 'yes') return true;
             if (explicit === 'no') return false;
 
@@ -3623,7 +3806,7 @@
         }
 
         function setTripGeoMode(isDomestic) {
-            localStorage.setItem('travel_assistant_trip_is_domestic_' + currentTripKey, isDomestic ? 'yes' : 'no');
+            localStorage.setItem('travel_assistant_v5_is_domestic_' + currentTripKey, isDomestic ? 'yes' : 'no');
             applyTripGeoContext(isDomestic);
             updateQuestionnaireProgress();
         }
@@ -4414,6 +4597,12 @@
             fitFullRoute();
         }
 
+        window.addEventListener('resize', () => {
+            if (dynamicMap) {
+                setTimeout(() => dynamicMap.invalidateSize(), 120);
+            }
+        });
+
         function openStationLivePopup(idx) {
             const st = STATIONS[idx];
             if (!st) return;
@@ -4437,34 +4626,34 @@
                     transitMode = "ברגל";
                 }
                 
-                liveDistHtml = `<b style="color:#16a34a; font-size:20px;">${dStr}</b>`;
-                liveEtaHtml = `<b style="color:#2563eb; font-size:18px;">${etaMinutes} דקות (${transitMode})</b>`;
+                liveDistHtml = `<b style="color:#16a34a; font-size:15px;">${dStr}</b>`;
+                liveEtaHtml = `<b style="color:#2563eb; font-size:14px;">${etaMinutes} דקות (${transitMode})</b>`;
             }
 
-            const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:4px 8px; border-radius:6px; font-weight:900; font-size:14px; margin-top:4px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
+            const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:2px 7px; border-radius:6px; font-weight:900; font-size:12px; margin-top:3px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
 
             const popupContent = `
-                <div style="font-family:Heebo; font-size:17px; text-align:right; min-width:280px;" dir="rtl">
-                    <b style="color:#0f172a; font-size:20px;">${st.title}</b>
-                    <div style="color:#0369a1; font-size:15px; margin:4px 0;">📍 ${st.address}</div>
+                <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:210px; max-width:255px;" dir="rtl">
+                    <div style="font-weight:900; color:#0f172a; font-size:15px; line-height:1.25;">${st.title}</div>
+                    <div style="color:#0369a1; font-size:12.5px; margin:3px 0;">📍 ${st.address || st.desc || ''}</div>
                     ${stopCodeHtml}
                     
-                    <div style="background:#f0fdf4; border:2px solid #bbf7d0; border-radius:12px; padding:12px; margin:10px 0;">
-                        <div style="font-size:16px; color:#166534; font-weight:bold;">📏 מרחק נוכחי ממיקומך: ${liveDistHtml}</div>
-                        ${liveEtaHtml ? `<div style="font-size:16px; color:#1e40af; margin-top:6px; font-weight:bold;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
+                    <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:9px; padding:7px 10px; margin:6px 0;">
+                        <div style="font-size:13px; color:#166534; font-weight:bold;">📏 מרחק ממיקומך: ${liveDistHtml}</div>
+                        ${liveEtaHtml ? `<div style="font-size:13px; color:#1e40af; margin-top:3px; font-weight:bold;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
                     </div>
 
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:900; cursor:pointer;">
+                    <div style="display:flex; gap:6px; margin-top:7px;">
+                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
                             🎯 נווט ליעד
                         </button>
-                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:900; cursor:pointer;">
+                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
                             🚖 כרטיס לנהג
                         </button>
                     </div>
                     ${(idx < STATIONS.length - 1) ? `
-                        <div style="margin-top:8px;">
-                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:12px 14px; border-radius:10px; font-size:15px; font-weight:900; cursor:pointer;">
+                        <div style="margin-top:6px;">
+                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer; line-height:1.25;">
                                 ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
                             </button>
                         </div>
@@ -4472,23 +4661,37 @@
                 </div>
             `;
 
-            stationMarkers[idx].bindPopup(popupContent).openPopup();
+            if (stationMarkers[idx]) {
+                stationMarkers[idx].bindPopup(popupContent, {
+                    maxWidth: 265,
+                    minWidth: 210,
+                    autoPan: true,
+                    autoPanPaddingTopLeft: L.point(20, 35),
+                    autoPanPaddingBottomRight: L.point(20, 20)
+                }).openPopup();
+            }
         }
 
         function fitFullRoute() {
             if (dynamicMap && routePolyline) {
-                dynamicMap.fitBounds(routePolyline.getBounds(), { padding: [40, 40] });
+                dynamicMap.invalidateSize();
+                dynamicMap.fitBounds(routePolyline.getBounds(), { padding: [45, 45] });
             }
         }
 
         function setTargetStation(idx) {
             activeTargetIndex = idx;
             if (STATIONS[idx] && dynamicMap) {
-                dynamicMap.setView([STATIONS[idx].lat, STATIONS[idx].lng], 16);
+                dynamicMap.setView([STATIONS[idx].lat, STATIONS[idx].lng], 15, { animate: false });
                 openStationLivePopup(idx);
+                setTimeout(() => {
+                    if (dynamicMap) dynamicMap.panBy([0, -55], { animate: true });
+                }, 60);
             }
             if (currentPosition) {
                 updateUserGpsOnMap(currentPosition, false);
+            } else {
+                renderStationsList();
             }
         }
 
@@ -4763,7 +4966,7 @@
                 let arrowRotationOnScreen = 0;
 
                 if (isHeadingUp) {
-                    if (mapEl) mapEl.style.transform = `rotate(${-displayAngle}deg)`;
+                    if (mapEl) mapEl.style.transform = `scale(1.42) rotate(${-displayAngle}deg)`;
                     if (needle) needle.style.transform = `rotate(${displayAngle}deg)`;
                     arrowRotationOnScreen = 0;
                 } else {
@@ -4815,23 +5018,23 @@
                 let popupHtml = '';
                 if (isDeskPlanningMode) {
                     popupHtml = `
-                        <div style="font-family:Heebo, sans-serif; font-size:14px; text-align:right; min-width:240px;" dir="rtl">
+                        <div style="font-family:Heebo, sans-serif; font-size:13.5px; text-align:right; min-width:220px; max-width:255px;" dir="rtl">
                             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">
-                                <b style="color:#2563eb; font-size:1.05em;"><i class="fa-solid fa-laptop-code"></i> עמדת תכנון ובדיקה (מיקומך)</b>
+                                <b style="color:#2563eb; font-size:1.02em;"><i class="fa-solid fa-laptop-code"></i> עמדת תכנון ובדיקה (מיקומך)</b>
                                 <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
                             </div>
-                            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:8px 10px; margin-bottom:8px;">
+                            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:7px 9px; margin-bottom:7px;">
                                 <div style="font-size:12px; color:#1e40af; font-weight:bold;">אינך בשטח הטיול כעת (מרחק: ${distStr})</div>
                                 <div style="font-size:12px; color:#334155; margin-top:2px;">המפה מציגה סימולציה ותכנון עבור: <b>${TRIPS_DATABASE[currentTripKey].name}</b></div>
                             </div>
                             <div style="margin-bottom:3px;">🎯 תחנה נבחרת במפה: <b>${targetStation.title}</b></div>
-                            <div style="font-size:11px; color:#0369a1; margin-bottom:6px;">📍 ${targetStation.address}</div>
-                            <div style="font-size:11px; color:#64748b; margin-bottom:8px;">דיוק GPS: ${Math.round(acc)} מטר</div>
-                            <div style="display:flex; gap:6px; margin-top:8px;">
-                                <button onclick="openTripSelectorModal(); closeUserPositionBubble();" style="flex:1; background:#4f46e5; color:white; border:none; border-radius:8px; padding:8px 10px; font-weight:bold; font-size:12px; cursor:pointer;">
+                            <div style="font-size:11px; color:#0369a1; margin-bottom:5px;">📍 ${targetStation.address}</div>
+                            <div style="font-size:11px; color:#64748b; margin-bottom:7px;">דיוק GPS: ${Math.round(acc)} מטר</div>
+                            <div style="display:flex; gap:6px; margin-top:7px;">
+                                <button onclick="openTripSelectorModal(); closeUserPositionBubble();" style="flex:1; background:#4f46e5; color:white; border:none; border-radius:8px; padding:7px 10px; font-weight:bold; font-size:12px; cursor:pointer;">
                                     🗺️ בחר טיול אחר
                                 </button>
-                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:8px 10px; font-weight:bold; font-size:12px; cursor:pointer; color:#334155;">
+                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:7px 10px; font-weight:bold; font-size:12px; cursor:pointer; color:#334155;">
                                     סגור בועה
                                 </button>
                             </div>
@@ -4839,9 +5042,9 @@
                     `;
                 } else {
                     popupHtml = `
-                        <div style="font-family:Heebo, sans-serif; font-size:13px; text-align:right; min-width:210px;" dir="rtl">
+                        <div style="font-family:Heebo, sans-serif; font-size:13px; text-align:right; min-width:210px; max-width:255px;" dir="rtl">
                             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">
-                                <b style="color:#2563eb; font-size:1.05em;"><i class="fa-solid fa-location-crosshairs"></i> מיקומך הנוכחי בשטח</b>
+                                <b style="color:#2563eb; font-size:1.02em;"><i class="fa-solid fa-location-crosshairs"></i> מיקומך הנוכחי בשטח</b>
                                 <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
                             </div>
                             <div style="margin-bottom:3px;">🎯 יעד פעיל: <b>${targetStation.title}</b></div>
@@ -4850,8 +5053,8 @@
                             <div style="margin-bottom:2px;">⏱️ זמן הגעה: <b style="color:#2563eb;">${etaStr}</b></div>
                             <div style="margin-bottom:2px;">🧭 מצב מפה: <b>${isHeadingUp ? 'כיוון נסיעה' : 'צפון קבוע'} (${Math.round(displayAngle)}°)</b></div>
                             <div style="font-size:11px; color:#64748b; margin-top:4px;">דיוק GPS: ${Math.round(acc)} מטר</div>
-                            <div style="margin-top:10px; text-align:center;">
-                                <button onclick="closeUserPositionBubble();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:6px 16px; font-weight:bold; font-size:13px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
+                            <div style="margin-top:8px; text-align:center;">
+                                <button onclick="closeUserPositionBubble();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12.5px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
                                     סיימתי לקרוא - סגור בועה
                                 </button>
                             </div>
@@ -4935,17 +5138,17 @@
                 }
 
                 const isTarget = (activeTargetIndex === idx);
-                const bgStyle = isTarget ? 'background:#eff6ff; border:1px solid #bfdbfe;' : 'background:#f8fafc; border:1px solid #e2e8f0;';
+                const bgStyle = isTarget ? 'background:#eff6ff; border:1.5px solid #93c5fd;' : 'background:#f8fafc; border:1px solid #e2e8f0;';
 
                 return `
-                    <div style="${bgStyle} border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                         <div style="flex-grow:1; cursor:pointer;" onclick="setTargetStation(${idx})">
-                            <span style="font-weight:900; font-size:1.15em; color:#0f172a;">${st.title}</span>
-                            <div style="font-size:0.95em; color:#64748b; margin-top:2px;">${st.address}</div>
+                            <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.25;">${st.title}</div>
+                            <div style="font-size:0.85em; color:#64748b; margin-top:2px; line-height:1.2;">${st.address || st.desc || ''}</div>
                         </div>
-                        <div style="text-align:left; display:flex; align-items:center; gap:12px;">
-                            <div style="font-size:1.15em; font-weight:bold;">${distHtml}</div>
-                            <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:8px 12px; border-radius:10px; font-size:0.95em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                        <div style="text-align:left; display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                            <div style="font-size:0.95em; font-weight:bold; white-space:nowrap;">${distHtml}</div>
+                            <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:6px 10px; border-radius:8px; font-size:0.88em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
                         </div>
                     </div>
                 `;
@@ -5241,6 +5444,26 @@
         }
 
         const DEFAULT_RESOLVED_FEEDBACK = [
+            {
+                id: 'fb_v501_1',
+                category: 'הצעת שיפור לסוכן',
+                note: 'התאמת התצוגה גם למכשירים ניידים (סמארטפון, טאבלט) וגם למחשבים (שולחניים/לפטופ) - בלפטופ התצוגה הייתה גדולה מדי ונחתכה',
+                time: '18.10 12:14',
+                gps: 'בדיקת לפטופ ונייד',
+                battery: 'מערכת',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.0.1: הוטמע מנוע רספונסיבי רב-מכשירי (סמארטפון, טאבלט, לפטופ/מחשב). במסך הבית כל 6 הכפתורים נכנסים במסך אחד בלפטופ ללא גלילה; במסך המפה בלפטופ מוצגת תצוגה מפוצלת (מפה לצד רשימת תחנות), ובועת התחנה עוצבה מחדש כך שאינה נחתכת לעולם.'
+            },
+            {
+                id: 'fb_v500_1',
+                category: 'ניווט ומסלול',
+                note: 'הסרת כל שדות ומסכי החו"ל בטיול מקומי (כגון ישראל או יפני המטייל ביפן) והגדרת שלב 1 כברירת מחדל',
+                time: '17.10 19:50',
+                gps: 'מנוע עולמי',
+                battery: 'מערכת',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.0.0-5.0.1: הוטמע מנוע הפרדה אוניברסלי בין טיול מקומי לחו"ל (הסרת דרכון, טיסות ומתורגמן זר בטיול מקומי, והתאמת סטטוס ל"🎒 ממתין ליציאה לשטח"), ושלב 1 נקבע כברירת מחדל קבועה.'
+            },
             {
                 id: 'fb_v499_1',
                 category: 'ניווט ומסלול',
@@ -5840,6 +6063,8 @@
                 const t = TRIPS_DATABASE[key];
                 const isArchived = (t.stage === 'completed' || t.stage === 'archived' || t.id === 'netanya' || t.archived === true);
                 if (isArchived) continue;
+                const isDom = isDomesticTrip(key);
+                const computedStageLabel = (t.stage === 'ready') ? (isDom ? '🎒 ממתין ליציאה לשטח' : '🛫 ממתין ליציאה (מוכן להמראה!)') : (t.stageLabel || '📋 שלב תכנון');
                 allActiveTrips.push({
                     key: key,
                     name: t.name,
@@ -5848,7 +6073,7 @@
                     group: t.group || '',
                     description: t.description || '',
                     stage: t.stage || 'planning',
-                    stageLabel: t.stageLabel || '📋 שלב תכנון'
+                    stageLabel: computedStageLabel
                 });
             }
 
@@ -5858,6 +6083,8 @@
                     const k = ct.key || ct.id;
                     const isArchived = (ct.stage === 'completed' || ct.stage === 'archived');
                     if (!deleted.includes(k) && !isArchived && !allActiveTrips.some(x => x.key === k)) {
+                        const isDom = isDomesticTrip(k);
+                        const computedStageLabel = (ct.stage === 'ready') ? (isDom ? '🎒 ממתין ליציאה לשטח' : '🛫 ממתין ליציאה (מוכן להמראה!)') : (ct.stageLabel || '📋 שלב תכנון');
                         allActiveTrips.push({
                             key: k,
                             name: ct.name,
@@ -5866,7 +6093,7 @@
                             group: ct.group || 'קבוצה',
                             description: ct.description || 'תיק תכנון טיול',
                             stage: ct.stage || 'planning',
-                            stageLabel: ct.stageLabel || '📋 שלב תכנון'
+                            stageLabel: computedStageLabel
                         });
                     }
                 });
@@ -6100,6 +6327,10 @@
             if (homePill) homePill.innerText = TRIPS_DATABASE[tripKey].name;
             const homeStage = document.getElementById('home-active-trip-stage');
             if (homeStage) {
+                const isDom = isDomesticTrip(tripKey);
+                if (TRIPS_DATABASE[tripKey].stage === 'ready') {
+                    TRIPS_DATABASE[tripKey].stageLabel = isDom ? '🎒 ממתין ליציאה לשטח' : '🛫 ממתין ליציאה (מוכן להמראה!)';
+                }
                 homeStage.innerText = TRIPS_DATABASE[tripKey].stageLabel || '📋 שלב תכנון';
                 if (TRIPS_DATABASE[tripKey].stage === 'completed') {
                     homeStage.style.background = '#0284c7';
