@@ -694,7 +694,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.3
+                גרסה 5.0.4
             </span>
         </div>
     </header>
@@ -5596,6 +5596,16 @@
 
         const DEFAULT_RESOLVED_FEEDBACK = [
             {
+                id: 'fb_1792319226285',
+                category: 'ניווט ומסלול',
+                note: 'במסך משוב מהשטח - בלחיצה על \'מחק\' או לחיצה על \'נקה\' לא מתבצעת פעולת מחיקה',
+                time: '18.10 13:27',
+                gps: 'שביל ישראל: נחל עמוד תחתון עד עין נון',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.0.4: 1. תוקן שורשית מנגנון המחיקה של כפתורי "מחק" ו"נקה" כך שמשובים שנמחקו נרשמים ברשימת מחיקה קבועה ונמחקים גם מקובץ הענן ללא שחזור אוטומטי. 2. בוטלה הכפילות של שני כפתורי סנכרון בחלון המשוב ואוחדה לכפתור סנכרון יחיד וברור.'
+            },
+            {
                 id: 'fb_1792318101427',
                 category: 'ניווט ומסלול',
                 note: 'במפה, יש בעיה בלחיצה על נקודות העניין.\n1. צריך להוסיף אופציה לסגור את נקודת העניין בלחיצה על המפה בנק כלשהי.\n2. אחר כך לפעמים לא נפתחות הנקודות',
@@ -5692,20 +5702,43 @@
             return k.map(n => String.fromCharCode(n ^ 73)).join('');
         }
 
+        function getDeletedFeedbackIds() {
+            try {
+                const raw = localStorage.getItem('travel_assistant_deleted_feedback_ids');
+                if (!raw) return new Set();
+                const arr = JSON.parse(raw);
+                return new Set(Array.isArray(arr) ? arr : []);
+            } catch(e) {
+                return new Set();
+            }
+        }
+
+        function addDeletedFeedbackIds(idsArray) {
+            try {
+                const set = getDeletedFeedbackIds();
+                idsArray.forEach(id => { if (id) set.add(id); });
+                localStorage.setItem('travel_assistant_deleted_feedback_ids', JSON.stringify(Array.from(set)));
+            } catch(e) {}
+        }
+
         function getFeedbackEntries() {
+            const deletedIds = getDeletedFeedbackIds();
             try {
                 const raw = localStorage.getItem('travel_assistant_feedback');
+                let parsed = [];
                 if (!raw) {
-                    localStorage.setItem('travel_assistant_feedback', JSON.stringify(DEFAULT_RESOLVED_FEEDBACK));
-                    return DEFAULT_RESOLVED_FEEDBACK;
+                    parsed = DEFAULT_RESOLVED_FEEDBACK.filter(item => !deletedIds.has(item.id));
+                    localStorage.setItem('travel_assistant_feedback', JSON.stringify(parsed));
+                    return parsed;
                 }
-                const parsed = JSON.parse(raw);
-                if (!Array.isArray(parsed) || parsed.length === 0) {
-                    return DEFAULT_RESOLVED_FEEDBACK;
+                parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) {
+                    parsed = [];
                 }
-                // Ensure default resolved items are included and upgraded if resolved by agent
+                parsed = parsed.filter(item => item && !deletedIds.has(item.id));
                 const byId = new Map(parsed.map(x => [x.id, x]));
                 DEFAULT_RESOLVED_FEEDBACK.forEach(defItem => {
+                    if (deletedIds.has(defItem.id)) return;
                     if (!byId.has(defItem.id)) {
                         parsed.push(defItem);
                         byId.set(defItem.id, defItem);
@@ -5719,7 +5752,7 @@
                 });
                 return parsed;
             } catch(e) {
-                return DEFAULT_RESOLVED_FEEDBACK;
+                return DEFAULT_RESOLVED_FEEDBACK.filter(item => !deletedIds.has(item.id));
             }
         }
 
@@ -5727,25 +5760,26 @@
             localStorage.setItem('travel_assistant_feedback', JSON.stringify(entries));
         }
 
-        async function manualSyncFeedbackNow() {
+        function setSyncBannerUI(textMsg, btnLabel, bg, border, color) {
             const statusBanner = document.getElementById('fb-cloud-sync-banner');
-            if (statusBanner) {
-                statusBanner.innerHTML = '🔄 מבצע סנכרון דו-כיווני מלא מול הענן והסוכן... אנא המתן';
-                statusBanner.style.background = '#eff6ff';
-                statusBanner.style.borderColor = '#60a5fa';
-                statusBanner.style.color = '#1d4ed8';
-            }
+            if (!statusBanner) return;
+            statusBanner.style.background = bg || '#f0fdf4';
+            statusBanner.style.borderColor = border || '#4ade80';
+            statusBanner.style.color = color || '#166534';
+            statusBanner.innerHTML = `
+                <span>${textMsg}</span>
+                <span style="background:#16a34a; color:white; padding:4px 10px; border-radius:7px; font-size:0.85em; white-space:nowrap;">${btnLabel || '🔄 סנכרן עכשיו'}</span>
+            `;
+        }
+
+        async function manualSyncFeedbackNow() {
+            setSyncBannerUI('🔄 מבצע סנכרון דו-כיווני מול הענן והסוכן... אנא המתן', '⏳ מסנכרן...', '#eff6ff', '#60a5fa', '#1d4ed8');
             await syncFeedbackFromCloud(false);
             const currentEntries = getFeedbackEntries();
-            await syncFeedbackToCloud(currentEntries);
+            await syncFeedbackToCloud(currentEntries, false);
             renderFeedbackList();
             const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            if (statusBanner) {
-                statusBanner.innerHTML = `✅ סנכרון הושלם בהצלחה (${nowTime})! לחץ כאן בכל עת לסנכרון חוזר מול הענן והסוכן`;
-                statusBanner.style.background = '#dcfce7';
-                statusBanner.style.borderColor = '#4ade80';
-                statusBanner.style.color = '#166534';
-            }
+            setSyncBannerUI(`✅ סנכרון הושלם בהצלחה (${nowTime})! הכל מעודכן מול הענן`, '🔄 סנכרן עכשיו', '#dcfce7', '#4ade80', '#166534');
         }
 
         // Automatically re-sync when PC/Laptop wakes up from sleep, tab regains focus, or internet reconnects
@@ -5758,11 +5792,8 @@
         });
 
         async function syncFeedbackFromCloud(silent = true) {
-            const statusBanner = document.getElementById('fb-cloud-sync-banner');
-            if (statusBanner && !silent) {
-                statusBanner.innerHTML = '🔄 מושך משובים אחרונים מהטלפון / ענן...';
-                statusBanner.style.background = '#eff6ff';
-                statusBanner.style.color = '#1d4ed8';
+            if (!silent) {
+                setSyncBannerUI('🔄 מושך משובים אחרונים מהטלפון / ענן...', '⏳ מושך...', '#eff6ff', '#60a5fa', '#1d4ed8');
             }
             try {
                 const apiUrl = 'https://api.github.com/repos/mosheshmueli-cmyk/travel-assitant/contents/field_feedback.json?t=' + Date.now();
@@ -5779,10 +5810,16 @@
                 const decodedStr = decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))));
                 const cloudEntries = JSON.parse(decodedStr);
                 if (Array.isArray(cloudEntries)) {
+                    const deletedIds = getDeletedFeedbackIds();
                     const localEntries = getFeedbackEntries();
                     const byId = new Map();
-                    cloudEntries.forEach(item => byId.set(item.id, item));
+                    cloudEntries.forEach(item => {
+                        if (item && item.id && !deletedIds.has(item.id)) {
+                            byId.set(item.id, item);
+                        }
+                    });
                     localEntries.forEach(item => {
+                        if (!item || !item.id || deletedIds.has(item.id)) return;
                         if (!byId.has(item.id)) {
                             byId.set(item.id, item);
                         } else {
@@ -5797,27 +5834,18 @@
                     const merged = Array.from(byId.values());
                     saveFeedbackEntries(merged);
                     renderFeedbackList();
-                    if (statusBanner) {
-                        const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
-                        statusBanner.innerHTML = `☁️ סנכרון אוטומטי פעיל (עודכן ב-${nowTime}) — 🔄 לחץ כאן לסנכרון מיידי מול הענן והסוכן`;
-                        statusBanner.style.background = '#f0fdf4';
-                        statusBanner.style.color = '#166534';
-                    }
+                    const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+                    setSyncBannerUI(`☁️ סנכרון אוטומטי פעיל (עודכן ב-${nowTime})`, '🔄 סנכרן עכשיו', '#f0fdf4', '#4ade80', '#166534');
                 }
             } catch (e) {
                 console.warn('Cloud feedback fetch skipped:', e);
             }
         }
 
-        async function syncFeedbackToCloud(entriesToSync) {
-            const statusBanner = document.getElementById('fb-cloud-sync-banner');
-            if (statusBanner) {
-                statusBanner.innerHTML = '☁️ מעביר את המשוב אוטומטית למחשב ולסוכן...';
-                statusBanner.style.background = '#eff6ff';
-                statusBanner.style.color = '#1d4ed8';
-            }
+        async function syncFeedbackToCloud(entriesToSync, overwriteCloud = false) {
+            setSyncBannerUI('☁️ מעדכן ומסנכרן מול הענן והסוכן...', '⏳ שומר...', '#eff6ff', '#60a5fa', '#1d4ed8');
             try {
-                const apiUrl = 'https://api.github.com/repos/mosheshmueli-cmyk/travel-assitant/contents/field_feedback.json';
+                const apiUrl = 'https://api.github.com/repos/mosheshmueli-cmyk/travel-assitant/contents/field_feedback.json?t=' + Date.now();
                 const headers = {
                     'Authorization': 'Bearer ' + _getCloudBridgeAuth(),
                     'Accept': 'application/vnd.github.v3+json',
@@ -5829,17 +5857,24 @@
                 if (getRes.ok) {
                     const getData = await getRes.json();
                     sha = getData.sha;
-                    if (getData.content) {
+                    if (getData.content && !overwriteCloud) {
                         try {
                             existingCloud = JSON.parse(decodeURIComponent(escape(atob(getData.content.replace(/\s/g, '')))));
                         } catch(err) {}
                     }
                 }
+                const deletedIds = getDeletedFeedbackIds();
                 const byId = new Map();
-                entriesToSync.forEach(item => byId.set(item.id, item));
-                if (Array.isArray(existingCloud)) {
+                entriesToSync.forEach(item => {
+                    if (item && item.id && !deletedIds.has(item.id)) {
+                        byId.set(item.id, item);
+                    }
+                });
+                if (!overwriteCloud && Array.isArray(existingCloud)) {
                     existingCloud.forEach(item => {
-                        if (!byId.has(item.id)) byId.set(item.id, item);
+                        if (item && item.id && !deletedIds.has(item.id) && !byId.has(item.id)) {
+                            byId.set(item.id, item);
+                        }
                     });
                 }
                 const finalEntries = Array.from(byId.values());
@@ -5848,32 +5883,25 @@
                 const jsonStr = JSON.stringify(finalEntries, null, 2);
                 const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
                 const payload = {
-                    message: 'Field feedback auto-sync from device',
+                    message: overwriteCloud ? 'Field feedback delete/clear sync from device' : 'Field feedback auto-sync from device',
                     content: encoded
                 };
                 if (sha) payload.sha = sha;
 
-                const putRes = await fetch(apiUrl, {
+                const putRes = await fetch('https://api.github.com/repos/mosheshmueli-cmyk/travel-assitant/contents/field_feedback.json', {
                     method: 'PUT',
                     headers,
                     body: JSON.stringify(payload)
                 });
                 if (putRes.ok) {
-                    if (statusBanner) {
-                        statusBanner.innerHTML = '✅ המשוב הועבר אוטומטית למחשב ולסוכן! אין צורך להעתיק או לשלוח לוואטסאפ.';
-                        statusBanner.style.background = '#dcfce7';
-                        statusBanner.style.color = '#166534';
-                    }
+                    const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+                    setSyncBannerUI(`✅ סונכרן בהצלחה לענן (${nowTime})!`, '🔄 סנכרן עכשיו', '#dcfce7', '#4ade80', '#166534');
                     return true;
                 }
             } catch (e) {
                 console.warn('Cloud feedback push error:', e);
             }
-            if (statusBanner) {
-                statusBanner.innerHTML = '⚠️ המשוב נשמר במכשיר, ויעלה אוטומטית למחשב ברגע שתחזור קליטה.';
-                statusBanner.style.background = '#fef3c7';
-                statusBanner.style.color = '#92400e';
-            }
+            setSyncBannerUI('⚠️ השינוי נשמר במכשיר, ויעלה אוטומטית לענן ברגע שתחזור קליטה', '🔄 סנכרן עכשיו', '#fef3c7', '#fbbf24', '#92400e');
             return false;
         }
 
@@ -5912,7 +5940,7 @@
             renderFeedbackList();
 
             // Automatically sync to Cloud / PC / AI Agent behind the scenes!
-            syncFeedbackToCloud(entries);
+            syncFeedbackToCloud(entries, false);
 
             if (alsoShareWhatsApp) {
                 shareSingleFeedback(newEntry.id);
@@ -5930,7 +5958,7 @@
             if (entries.length === 0) {
                 container.innerHTML = `
                     <div style="text-align:center; padding:16px; color:#334155; font-size:0.95em; font-weight:700; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px;">
-                        אין עדיין משובי שטח שמורים. כל הערה שתשמור בטלפון תופיע אוטומטית גם במחשב ותטופל ע"י הסוכן.
+                        אין כעת משובי שטח ברשימה. כל הערה חדשה שתשמור תופיע כאן ותסונכרן אוטומטית לענן.
                     </div>
                 `;
                 return;
@@ -5962,7 +5990,7 @@
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; border-top:1px solid #f1f5f9; padding-top:4px;">
                         <span style="font-size:0.75em; color:#64748b; font-weight:700;">📍 ${item.gps}</span>
                         <div style="display:flex; gap:6px;">
-                            <button onclick="deleteFeedbackItem('${item.id}')" style="background:#fee2e2; color:#dc2626; border:none; padding:3px 8px; border-radius:6px; font-size:0.75em; font-weight:bold; cursor:pointer;" title="מחק">
+                            <button type="button" onclick="deleteFeedbackItem('${item.id}')" style="background:#fee2e2; color:#dc2626; border:1px solid #fecaca; padding:4px 10px; border-radius:6px; font-size:0.78em; font-weight:900; cursor:pointer;" title="מחק פריט משוב זה">
                                 <i class="fa-solid fa-trash"></i> מחק
                             </button>
                         </div>
@@ -5972,18 +6000,29 @@
         }
 
         function deleteFeedbackItem(id) {
-            let entries = getFeedbackEntries();
-            entries = entries.filter(item => item.id !== id);
+            if (!id) return;
+            addDeletedFeedbackIds([id]);
+            let entries = getFeedbackEntries().filter(item => item.id !== id);
             saveFeedbackEntries(entries);
             renderFeedbackList();
-            syncFeedbackToCloud(entries);
+            syncFeedbackToCloud(entries, true);
         }
 
         function clearAllFeedback() {
-            if (!confirm('האם לנקות את רשימת המשובים?')) return;
+            const currentEntries = getFeedbackEntries();
+            if (currentEntries.length === 0) {
+                alert('רשימת המשובים כבר ריקה.');
+                return;
+            }
+            if (!confirm('האם לנקות ולמחוק את כל רשימת המשובים?')) return;
+            const allIdsToDelete = [
+                ...currentEntries.map(x => x.id),
+                ...DEFAULT_RESOLVED_FEEDBACK.map(x => x.id)
+            ];
+            addDeletedFeedbackIds(allIdsToDelete);
             saveFeedbackEntries([]);
             renderFeedbackList();
-            syncFeedbackToCloud([]);
+            syncFeedbackToCloud([], true);
         }
 
         function copyAllFeedback() {
@@ -7839,14 +7878,11 @@
                     📋 משוב, הצעות לשיפור ותיקונים שבוצעו <span id="fb-history-count" style="color:#475569; font-weight:800; font-size:0.85em;">(0)</span>:
                 </div>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                    <button onclick="manualSyncFeedbackNow()" style="background:#eff6ff; border:1.5px solid #60a5fa; color:#1d4ed8; padding:5px 12px; border-radius:6px; font-size:0.8em; font-weight:900; cursor:pointer;">
-                        <i class="fa-solid fa-rotate"></i> סנכרן ורענן מהענן
-                    </button>
-                    <button onclick="copyAllFeedback()" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; padding:4px 8px; border-radius:6px; font-size:0.75em; font-weight:bold; cursor:pointer;">
+                    <button type="button" onclick="copyAllFeedback()" style="background:#f8fafc; border:1.5px solid #cbd5e1; color:#334155; padding:5px 10px; border-radius:6px; font-size:0.78em; font-weight:800; cursor:pointer;">
                         <i class="fa-solid fa-copy"></i> העתק
                     </button>
-                    <button onclick="clearAllFeedback()" style="background:#fff1f2; border:1px solid #fecdd3; color:#e11d48; padding:4px 8px; border-radius:6px; font-size:0.75em; font-weight:bold; cursor:pointer;">
-                        <i class="fa-solid fa-trash"></i> נקה
+                    <button type="button" onclick="clearAllFeedback()" style="background:#fff1f2; border:1.5px solid #fecdd3; color:#e11d48; padding:5px 10px; border-radius:6px; font-size:0.78em; font-weight:900; cursor:pointer;">
+                        <i class="fa-solid fa-trash"></i> נקה הכל
                     </button>
                 </div>
             </div>
