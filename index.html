@@ -710,7 +710,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.6
+                גרסה 5.0.7
             </span>
         </div>
     </header>
@@ -722,23 +722,16 @@
         <div id="screen-home" class="screen active">
             <div id="home-greeting-box" style="text-align: center; padding: 14px 16px 6px;">
                 <h1 style="font-size: 1.35em; font-weight: 900; margin: 0; color: #0f172a;">שלום משה</h1>
-                <p style="color: #64748b; font-size: 0.9em; margin: 4px 0 0;">מרכז שליטה וליווי אישי למטייל בכל מקום בעולם</p>
+                <p style="color: #64748b; font-size: 0.9em; margin: 4px 0 0;">תכנון וליווי אישי למטייל בכל מקום בעולם</p>
             </div>
 
-            <!-- Active Trip Selection Banner (Swapped: 'בחר טיול' first on right, 'תכנון טיול חדש' second on left) -->
-            <div id="home-active-trip-banner" style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #818cf8; border-radius: 14px; padding: 10px 14px; margin: 8px 14px 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(99,102,241,0.15); flex-wrap: wrap; gap: 8px;" dir="rtl">
-                <div style="text-align: right; flex: 1; min-width: 180px;">
-                    <div style="font-size: 0.76em; color: #4338ca; font-weight: 800; display: flex; align-items: center; gap: 6px;">
-                        <span>📁 טיול פעיל:</span>
-                        <span id="home-active-trip-stage" style="background: #4338ca; color: white; padding: 1px 6px; border-radius: 6px; font-size: 0.85em;">📋 שלב תכנון</span>
-                    </div>
-                    <div id="home-active-trip-display" style="font-weight: 900; font-size: 1.05em; color: #1e1b4b; margin-top: 2px;">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון</div>
-                </div>
-                <div style="display: flex; gap: 6px; align-items: center;">
-                    <button onclick="openTripSelectorModal()" style="background: #4f46e5; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(79,70,229,0.35); white-space: nowrap;">
+            <!-- Active Trip Selection Banner (Clean: only 'בחר טיול' and 'תכנון טיול חדש') -->
+            <div id="home-active-trip-banner" style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 2px solid #818cf8; border-radius: 14px; padding: 10px 14px; margin: 8px 14px 14px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 8px rgba(99,102,241,0.15); flex-wrap: wrap; gap: 10px;" dir="rtl">
+                <div style="display: flex; gap: 10px; align-items: center; justify-content: center; width: 100%;">
+                    <button onclick="openTripSelectorModal()" style="flex: 1; max-width: 220px; justify-content: center; background: #4f46e5; color: white; border: none; padding: 9px 14px; border-radius: 10px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(79,70,229,0.35); white-space: nowrap;">
                         <i class="fa-solid fa-map"></i> בחר טיול ▾
                     </button>
-                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(16,185,129,0.35); white-space: nowrap;">
+                    <button onclick="openNewTripModal()" style="flex: 1; max-width: 220px; justify-content: center; background: #10b981; color: white; border: none; padding: 9px 14px; border-radius: 10px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(16,185,129,0.35); white-space: nowrap;">
                         <i class="fa-solid fa-plus"></i> תכנון טיול חדש
                     </button>
                 </div>
@@ -1008,8 +1001,8 @@
                                         <span style="font-size: 0.8em; background: #dcfce7; color: #166534; padding: 1px 7px; border-radius: 5px; font-weight: 900;">תחנה 1</span>
                                     </div>
                                     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                                        <input type="text" id="step1-trailhead-address" oninput="saveArrivalChainFromUI()" placeholder="נקודת הזינוק של המסלול (תחנה 1)..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 800; color: #0f172a;">
-                                        <input type="text" id="step1-trailhead-time" oninput="saveArrivalChainFromUI()" placeholder="שעת התחלה (למשל 08:30)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #15803d;">
+                                        <input type="text" id="step1-trailhead-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('trailhead')" placeholder="נקודת הזינוק של המסלול / מיקום האירוע (תחנה 1)..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 800; color: #0f172a;">
+                                        <input type="text" id="step1-trailhead-time" oninput="saveArrivalChainFromUI()" placeholder="שעת התחלה (למשל 19:30)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #15803d;">
                                     </div>
                                 </div>
                             </div>
@@ -1028,39 +1021,56 @@
                 <div id="wizard-pane-2" class="wizard-step-pane" style="display: none;">
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                         <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-folder-open" style="color: #16a34a;"></i> שלב 2: חומרי גלם (קבצים והודעות)
+                            <i class="fa-solid fa-folder-open" style="color: #16a34a;"></i> שלב 2: חומרי גלם (קבצים, הזמנות והודעות)
                         </div>
 
                         <!-- TWO PRIMARY ACTION BUTTONS ONLY -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-                            <button onclick="triggerDocUpload('organized', 'חוברת מסלול')" style="background: #15803d; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21,128,61,0.25);">
+                            <button onclick="triggerDocUpload('organized', 'הזמנה / מסמך מסלול')" style="background: #15803d; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21,128,61,0.25);">
                                 <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8em;"></i>
                                 <span>📁 העלאת קובץ או תמונה</span>
+                                <span style="font-size: 0.74em; font-weight: 700; opacity: 0.92;">(גוזר אוטומטית שעות, מיקום ותיק טיול)</span>
                             </button>
                             <button onclick="document.getElementById('whatsapp-paste-input').focus(); document.getElementById('whatsapp-input-container').scrollIntoView({behavior:'smooth'});" style="background: #0284c7; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(2,132,199,0.25);">
                                 <i class="fa-brands fa-whatsapp" style="font-size: 1.8em;"></i>
                                 <span>📋 הדבקת טקסט</span>
+                                <span style="font-size: 0.74em; font-weight: 700; opacity: 0.92;">(פענוח מהיר מהודעה / הזמנה)</span>
                             </button>
                         </div>
 
-                        <!-- Hidden File Input for all uploads -->
-                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf" onchange="handleCustomDocUpload(event)">
+                        <!-- Hidden File Input for all uploads (Images, PDF, Word DOCX, TXT) -->
+                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf,.doc,.docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleCustomDocUpload(event)">
 
-                        <!-- WhatsApp Text Ingestion Area -->
+                        <!-- WhatsApp / Invitation Text Ingestion Area -->
                         <div id="whatsapp-input-container" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
                             <div style="font-weight: 800; color: #166534; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-brands fa-whatsapp" style="color: #16a34a; font-size: 1.2em;"></i> הדבק כאן הודעת וואטסאפ או טקסט מסלול:
+                                <i class="fa-brands fa-whatsapp" style="color: #16a34a; font-size: 1.2em;"></i> הדבק כאן טקסט הזמנה לאירוע, הודעת וואטסאפ או פרטי מסלול:
                             </div>
-                            <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את הטקסט שהועתק מוואטסאפ... (לדוגמה: שלום לחובבי שביל ישראל, יוצאים ביום ד' 28.10.26 במסלול נחל עמוד תחתון עד עין נון...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #86efac; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
+                            <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את פרטי ההזמנה או המסלול... (לדוגמה: הנכם מוזמנים לחתונה באולמי גני הצבי אשקלון ביום ה' 29/10/2026, קבלת פנים 19:30, חופה 20:30...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #86efac; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
 
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <button onclick="saveAndApplyWhatsAppMessage()" style="flex: 1; background: #15803d; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 0.98em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 6px rgba(21,128,61,0.25);">
-                                    <i class="fa-solid fa-floppy-disk"></i> שמור הודעה ועדכן מסלול
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> שמור וגזור אוטומטית את כל נתוני התיק והמפה
                                 </button>
                                 <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 10px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
                                     ✕ נקה
                                 </button>
                             </div>
+                        </div>
+
+                        <!-- Smart Auto-Derivation Banner for Uploaded Documents -->
+                        <div style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #818cf8; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <div style="font-weight: 900; color: #312e81; font-size: 0.95em;">
+                                    🪄 גזירת נתונים חכמה מהמסמך שהועלה לתיק הטיול/האירוע
+                                </div>
+                                <div style="font-size: 0.82em; color: #4338ca; font-weight: 700; margin-top: 2px;">
+                                    גוזר אוטומטית מהמסמך את המיקום המדויק, שעת ההתחלה, שעת היציאה מהבית (עם מקדם ביטחון), המפה וכל 12 סעיפי התיק:
+                                </div>
+                            </div>
+                            <button type="button" onclick="triggerSmartDerivationOnLatestDoc()" style="background: #4f46e5; color: white; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 900; font-size: 0.92em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 3px 8px rgba(79,70,229,0.3); white-space: nowrap;">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> גזור נתונים מהמסמך לתיק הטיול
+                            </button>
                         </div>
 
                         <!-- Specific File Categories (Compact and Quiet) -->
@@ -1069,8 +1079,8 @@
                                 📁 אפשרויות העלאת קבצים ייעודיים:
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-                                <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'חוברת מסלול סוכנות')" style="background: white; color: #166534; border: 1.5px solid #86efac; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">מפת מסלול / סיפור דרך</span>
+                                <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'הזמנה לאירוע / מפת מסלול')" style="background: white; color: #166534; border: 1.5px solid #86efac; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">הזמנה לאירוע / סיפור דרך</span>
                                 </button>
                                 <button id="btn-upload-voucher" onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="background: white; color: #0369a1; border: 1.5px solid #93c5fd; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
                                     <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">שובר / כרטיס שמורה</span>
@@ -1723,26 +1733,24 @@
                             </div>
                         </div>
 
-                        <!-- 6. DYNAMIC CUSTOM TRIP ITINERARY DOCUMENT (FOR USER CREATED TRIPS) -->
+                        <!-- 6. DYNAMIC CUSTOM TRIP ITINERARY DOCUMENT (FOR USER CREATED TRIPS & EVENTS) -->
                         <div id="itinerary-doc-dynamic" class="trip-itinerary-doc" style="display: none;">
                             <div style="background: #f0fdfa; border: 2px solid #5eead4; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                    <h4 id="dynamic-trip-doc-title" style="margin: 0; color: #0f766e; font-size: 1.15em;"><i class="fa-solid fa-map-pin"></i> תיק תכנון טיול חדש</h4>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                                    <h4 id="dynamic-trip-doc-title" style="margin: 0; color: #0f766e; font-size: 1.15em;"><i class="fa-solid fa-map-pin"></i> תיק תכנון טיול / אירוע</h4>
                                     <span id="dynamic-trip-doc-badge" style="background: #ccfbf1; color: #0f766e; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">📋 שלב תכנון (גמיש)</span>
                                 </div>
                                 <p id="dynamic-trip-doc-desc" style="margin: 0; font-size: 0.9em; color: #115e59; line-height: 1.5;">
-                                    תיק תכנון מותאם אישית שנוצר במערכת. עד רגע היציאה זהו שלב תכנון פתוח שבו ניתן להגדיר תחנות, העדפות, כשרות ונגישות.
+                                    תיק תכנון מותאם אישית שנוצר במערכת. כלל השעות, המיקום והתחנות מתעדכנים אוטומטית מהמסמכים וההזמנות שהועלו.
                                 </p>
                             </div>
-                            <div style="background: white; border: 1px dashed #0d9488; border-radius: 12px; padding: 16px; text-align: center;">
-                                <div style="font-size: 1.1em; font-weight: 800; color: #0f766e; margin-bottom: 8px;">
-                                    📝 הגדרת פרטי הטיול בשאלון הצרכים
-                                </div>
-                                <div style="font-size: 0.88em; color: #475569; line-height: 1.6; margin-bottom: 12px;">
-                                    ניתן להזין בשלב 3 את 12 שאלות היסוד (כשרות, נגישות, תקציב, הרכב המטיילים) ולבנות את מסלול התחנות והמסמכים המצורפים.
-                                </div>
-                                <button onclick="setWizardStep(3)" style="background: #0d9488; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 0.9em; cursor: pointer;">
-                                    <i class="fa-solid fa-list-check"></i> פתח שאלון דרישות והעדפות (שלב 3)
+                            <div id="dynamic-trip-stations-list" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;"></div>
+                            <div style="background: white; border: 1px dashed #0d9488; border-radius: 12px; padding: 14px; text-align: center; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                                <button onclick="setWizardStep(2)" style="background: #7c3aed; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer;">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> גזור / עדכן ממסמך (שלב 2)
+                                </button>
+                                <button onclick="setWizardStep(3)" style="background: #0d9488; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.88em; cursor: pointer;">
+                                    <i class="fa-solid fa-list-check"></i> ערוך שאלון 12 השאלות (שלב 3)
                                 </button>
                             </div>
                         </div>
@@ -3444,6 +3452,44 @@
             localStorage.setItem('travel_assistant_custom_docs_' + k, JSON.stringify(docs));
         }
 
+        async function extractTextFromDocxArrayBuffer(arrayBuffer) {
+            try {
+                const bytes = new Uint8Array(arrayBuffer);
+                const decoder = new TextDecoder('utf-8');
+                // Search for word/document.xml inside ZIP local file headers
+                for (let i = 0; i < bytes.length - 30; i++) {
+                    if (bytes[i] === 0x50 && bytes[i+1] === 0x4b && bytes[i+2] === 0x03 && bytes[i+3] === 0x04) {
+                        const compMethod = bytes[i+8] | (bytes[i+9] << 8);
+                        const compSize = bytes[i+18] | (bytes[i+19] << 8) | (bytes[i+20] << 16) | (bytes[i+21] << 24);
+                        const nameLen = bytes[i+26] | (bytes[i+27] << 8);
+                        const extraLen = bytes[i+28] | (bytes[i+29] << 8);
+                        const fileName = decoder.decode(bytes.subarray(i + 30, i + 30 + nameLen));
+                        const dataStart = i + 30 + nameLen + extraLen;
+                        if (fileName === 'word/document.xml') {
+                            const compData = bytes.subarray(dataStart, dataStart + compSize);
+                            let xmlText = '';
+                            if (compMethod === 0) {
+                                xmlText = decoder.decode(compData);
+                            } else if (compMethod === 8 && typeof DecompressionStream !== 'undefined') {
+                                const ds = new DecompressionStream('deflate-raw');
+                                const writer = ds.writable.getWriter();
+                                writer.write(compData);
+                                writer.close();
+                                const outBuffer = await new Response(ds.readable).arrayBuffer();
+                                xmlText = decoder.decode(outBuffer);
+                            }
+                            if (xmlText) {
+                                return xmlText.replace(/<\/w:p>/g, '\n').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn('DOCX parse fallback:', err);
+            }
+            return '';
+        }
+
         function handleCustomDocUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -3451,20 +3497,47 @@
             const defaultTitle = `${currentUploadDocType} (${file.name})`;
             const docName = prompt('תן שם למסמך הנשמר בתיק הטיול:', defaultTitle) || defaultTitle;
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const docs = getCustomDocs();
-                docs.unshift({
-                    id: 'doc_' + Date.now(),
+            reader.onload = async function(e) {
+                const dataUrl = e.target.result;
+                let extractedText = '';
+                const lowerName = (file.name || '').toLowerCase();
+
+                if (lowerName.endsWith('.docx')) {
+                    try {
+                        const buf = await file.arrayBuffer();
+                        extractedText = await extractTextFromDocxArrayBuffer(buf);
+                    } catch (err) {}
+                } else if (lowerName.endsWith('.txt') || file.type === 'text/plain') {
+                    try {
+                        extractedText = await file.text();
+                    } catch (err) {}
+                }
+
+                const newDocId = 'doc_' + Date.now();
+                const newDocObj = {
+                    id: newDocId,
                     name: docName,
                     category: currentUploadCategory,
                     docType: currentUploadDocType,
                     time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
                     fileName: file.name,
-                    data: e.target.result
-                });
+                    textContent: extractedText || '',
+                    isText: Boolean(extractedText),
+                    data: dataUrl
+                };
+
+                const docs = getCustomDocs();
+                docs.unshift(newDocObj);
                 saveCustomDocs(docs);
                 renderCustomDocsList();
-                alert(`✅ המסמך "${docName}" נוסף בהצלחה לתיק הטיול (${TRIPS_DATABASE[currentTripKey]?.name || 'הנוכחי'})! המסמך נשמר במכשיר וזמין אופליין.`);
+
+                // Reset file input so uploading the same file again works
+                event.target.value = '';
+
+                // Automatically open the Smart Derivation Engine modal to derive start time, exact location, departure buffer & all trip fields!
+                if (typeof openSmartDocDerivationModal === 'function') {
+                    openSmartDocDerivationModal(newDocId);
+                }
             };
             reader.readAsDataURL(file);
         }
@@ -3510,20 +3583,21 @@
             const el = document.getElementById('whatsapp-paste-input');
             const text = el ? el.value.trim() : '';
             if (!text) {
-                alert('אנא הדבק הודעה בתיבה לפני השמירה.');
+                alert('אנא הדבק הודעה או פרטי הזמנה בתיבה לפני השמירה.');
                 return;
             }
 
             // 1. Save as readable document in trip file
             const firstLine = text.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 45);
-            const defaultName = (text.includes('שביל ישראל') ? 'הודעת מסלול: שביל ישראל (נחל עמוד)' : `הודעה: ${firstLine || 'עדכון מסלול'}`);
+            const defaultName = (text.includes('שביל ישראל') ? 'הודעת מסלול: שביל ישראל (נחל עמוד)' : `הודעה / הזמנה: ${firstLine || 'עדכון מסלול'}`);
+            const newDocId = 'doc_' + Date.now();
             
             const docs = getCustomDocs();
             docs.unshift({
-                id: 'doc_' + Date.now(),
+                id: newDocId,
                 name: defaultName,
                 category: 'organized',
-                docType: 'הודעת וואטסאפ / מסלול',
+                docType: 'הודעת וואטסאפ / הזמנה',
                 time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
                 fileName: 'whatsapp_message.txt',
                 textContent: text,
@@ -3532,31 +3606,12 @@
             });
             saveCustomDocs(docs);
             renderCustomDocsList();
-
-            // 2. Extract Date if present
-            const dateMatch = text.match(/(\d{1,2}[\.\/]\d{1,2}[\.\/]\d{2,4})/);
-            if (dateMatch) {
-                const extractedDate = dateMatch[1];
-                if (document.getElementById('q_date')) document.getElementById('q_date').value = `יום ד' ה-${extractedDate}`;
-                if (document.getElementById('step1-dates')) document.getElementById('step1-dates').value = extractedDate;
-                if (TRIPS_DATABASE[currentTripKey]) TRIPS_DATABASE[currentTripKey].dates = extractedDate;
-            }
-
-            // 3. Extract Route details if trail message
-            if (text.includes('שביל ישראל') || (text.includes('נחל עמוד') && text.includes('עין נון'))) {
-                const routeName = 'שביל ישראל: נחל עמוד תחתון עד עין נון';
-                if (document.getElementById('q_destination')) document.getElementById('q_destination').value = routeName;
-                if (document.getElementById('step1-dest-name')) document.getElementById('step1-dest-name').value = routeName;
-                if (document.getElementById('q_origin')) document.getElementById('q_origin').value = 'חניון נחל עמוד תחתון (כביש 85)';
-                if (document.getElementById('q_duration')) document.getElementById('q_duration').value = 'יום אחד (11-12 ק"מ)';
-                if (TRIPS_DATABASE['israel_trail_north']) {
-                    TRIPS_DATABASE['israel_trail_north'].name = routeName;
-                }
-            }
-
-            saveTripQuestionnaire(true);
             el.value = '';
-            alert('✅ ההודעה נשמרה בתיק הטיול ופרטי המסלול עודכנו בהצלחה!');
+
+            // 2. Open Smart Derivation Engine on this text to automatically derive & populate all trip fields
+            if (typeof openSmartDocDerivationModal === 'function') {
+                openSmartDocDerivationModal(newDocId);
+            }
         }
 
         function viewDocumentModal(docId) {
@@ -3788,13 +3843,16 @@
             const badgeText = isWhatsApp ? '💬 הודעת וואטסאפ' : (isOrg ? '🏢 טיול מאורגן' : '🛂 אישי');
 
             const viewButtonHtml = `
-                <button onclick="viewDocumentModal('${d.id}')" style="background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 12px; border-radius: 8px; font-size: 0.85em; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 1px 3px rgba(37,99,235,0.15);" title="צפה במסמך על המסך">
+                <button onclick="openSmartDocDerivationModal('${d.id}')" style="background: #f5f3ff; color: #6d28d9; border: 1.5px solid #c4b5fd; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(109,40,217,0.15);" title="גזור שעות, מיקום מדויק וכלל הנתונים מהמסמך לתיק הטיול/האירוע">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>גזור לתיק</span>
+                </button>
+                <button onclick="viewDocumentModal('${d.id}')" style="background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(37,99,235,0.15);" title="צפה במסמך על המסך">
                     <i class="fa-solid fa-eye"></i> <span>צפה</span>
                 </button>
             `;
 
             return `
-                <div style="background: white; border: 1.5px solid ${isWhatsApp ? '#86efac' : (isOrg ? '#bbf7d0' : '#bfdbfe')}; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+                <div style="background: white; border: 1.5px solid ${isWhatsApp ? '#86efac' : (isOrg ? '#bbf7d0' : '#bfdbfe')}; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04); flex-wrap: wrap; gap: 8px;">
                     <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
                         <div style="background: ${badgeBg}; color: ${iconColor}; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
                             <i class="${iconClass}"></i>
@@ -6246,6 +6304,33 @@
             if (m) m.style.display = 'none';
         }
 
+        function renderDynamicTripStationsDoc(tripObj) {
+            const listEl = document.getElementById('dynamic-trip-stations-list');
+            if (!listEl) return;
+            const stations = (tripObj && Array.isArray(tripObj.stations)) ? tripObj.stations : [];
+            if (stations.length === 0) {
+                listEl.innerHTML = '';
+                return;
+            }
+            const colors = ['#2563eb', '#059669', '#d97706', '#7c3aed', '#dc2626'];
+            listEl.innerHTML = stations.map((st, idx) => {
+                const c = colors[idx % colors.length];
+                const timeBadge = st.stayTime || st.stay || '';
+                const addrText = st.address || '';
+                const descText = st.desc || '';
+                return `
+                    <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(${idx}), 120);" style="background: white; border: 1.5px solid #e2e8f0; border-right: 4px solid ${c}; border-radius: 10px; padding: 12px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.04);" title="לחץ להצגת התחנה במפה בזמן אמת">
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
+                            <b style="color: ${c}; font-size: 0.98em;">${st.title}</b>
+                            ${timeBadge ? `<span style="background: #f1f5f9; color: #0f172a; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🕒 ${timeBadge}</span>` : ''}
+                        </div>
+                        ${addrText ? `<div style="font-size: 0.84em; color: #0369a1; font-weight: 700; margin-top: 3px;">📍 ${addrText}</div>` : ''}
+                        ${descText ? `<div style="font-size: 0.86em; color: #334155; margin-top: 4px; line-height: 1.45;">${descText}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
         function switchTripDocument(tripKey) {
             const docs = document.querySelectorAll('.trip-itinerary-doc');
             docs.forEach(d => d.style.display = 'none');
@@ -6264,13 +6349,14 @@
                 const dynDoc = document.getElementById('itinerary-doc-dynamic');
                 if (dynDoc) {
                     dynDoc.style.display = 'block';
-                    const tripObj = trip || { name: tripKey, description: 'תיק תכנון טיול חדש', stageLabel: '📋 שלב תכנון (גמיש)' };
+                    const tripObj = trip || { name: tripKey, description: 'תיק תכנון טיול / אירוע', stageLabel: '📋 שלב תכנון (גמיש)' };
                     const dynTitle = document.getElementById('dynamic-trip-doc-title');
                     if (dynTitle) dynTitle.innerHTML = `<i class="fa-solid fa-map-pin"></i> ${tripObj.name} - תיק תכנון ומסלול`;
                     const dynDesc = document.getElementById('dynamic-trip-doc-desc');
-                    if (dynDesc) dynDesc.innerText = tripObj.description || 'תיק תכנון טיול חדש';
+                    if (dynDesc) dynDesc.innerText = tripObj.description || 'תיק תכנון מותאם אישית שנוצר במערכת.';
                     const dynBadge = document.getElementById('dynamic-trip-doc-badge');
                     if (dynBadge) dynBadge.innerText = tripObj.stageLabel || '📋 שלב תכנון (גמיש)';
+                    renderDynamicTripStationsDoc(tripObj);
                 }
             }
 
@@ -6505,10 +6591,45 @@
 
             const datesVal = document.getElementById('new-trip-input-dates-text')?.value?.trim() || '';
             const isKoreaTrip = tripName.includes('קוריאה') || tripName.toLowerCase().includes('korea');
+            const isEvent = /חתונה|אירוע|שמחה|בר מצווה|בת מצווה|ברית|חינה/.test(tripName);
             const isAshkelon = tripName.includes('אשקלון');
             const tripKey = 'custom_' + Date.now();
-            const dateStr = datesVal || (isKoreaTrip ? '22/11/2026 עד 06/12/2026 (15 ימים)' : (isAshkelon ? 'מועד פתוח / גמיש' : 'מועד ייקבע בהמשך'));
+            const dateStr = datesVal || (isKoreaTrip ? '22/11/2026 עד 06/12/2026 (15 ימים)' : (isEvent ? 'לפי מועד ההזמנה לאירוע' : (isAshkelon ? 'מועד פתוח / גמיש' : 'מועד ייקבע בהמשך')));
             const displayTitle = tripName;
+            const defaultCenter = isKoreaTrip ? [37.5665, 126.9780] : (isAshkelon ? [31.6690, 34.5715] : [32.0853, 34.7818]);
+
+            const defaultStations = isKoreaTrip
+                ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'] ? TRIPS_DATABASE['korea'].stations : []))
+                : (isEvent ? [
+                    {
+                        id: 'evt_1',
+                        title: `1. הגעה וחניה במתחם האירוע (${tripName})`,
+                        address: isAshkelon ? 'אולם / גן אירועים, אשקלון' : `${tripName} - מתחם האירוע`,
+                        desc: 'קבלת פנים, רישום ומפגש משפחתי וחברים (מונגש עם חניה צמודה)',
+                        lat: defaultCenter[0],
+                        lng: defaultCenter[1],
+                        stayTime: '19:30 - 20:30 (קבלת פנים)',
+                        stay: '60 דק',
+                        stopCode: null
+                    },
+                    {
+                        id: 'evt_2',
+                        title: '2. חופה וקידושין / טקס מרכזי וסעודת מצווה',
+                        address: isAshkelon ? 'אולם / גן אירועים, אשקלון' : `${tripName} - אולם מרכזי`,
+                        desc: 'חופה וקידושין, סעודת האירוע המרכזית ושמחה משפחתית',
+                        lat: defaultCenter[0],
+                        lng: defaultCenter[1],
+                        stayTime: '20:30 - 23:30 (חופה וסעודה)',
+                        stay: '180 דק',
+                        stopCode: null
+                    }
+                ] : (isAshkelon ? [
+                    { id: "ash1", title: "1. הגן הלאומי תל אשקלון", desc: "השער הכנעני הקדום, חומות עתיקות, מדשאות ונוף לים", lat: 31.6612, lng: 34.5510, stayTime: "09:00 - 11:30", transitType: "סיור מונגש בשבילי הפארק", walkingDist: "600 מטר שבילים סלולים" },
+                    { id: "ash2", title: "2. טיילת בר כוכבא וחוף דלילה", desc: "טיילת חוף מודרנית ורחבה, בריזת ים, ספסלי מנוחה מוצלים", lat: 31.6780, lng: 34.5570, stayTime: "12:00 - 13:30", transitType: "הליכה מישורית בטיילת", walkingDist: "400 מטר" },
+                    { id: "ash3", title: "3. מרינה אשקלון ומתחם המסעדות", desc: "מתחם בילוי שוקק סביב המעגן, מסעדות דגים כשרות למהדרין", lat: 31.6830, lng: 34.5590, stayTime: "14:00 - 16:00", transitType: "מתחם מרוצף ללא מדרגות", walkingDist: "300 מטר" }
+                ] : [
+                    { title: `${tripName} - תחנה 1 (תחילת מסלול)`, lat: defaultCenter[0], lng: defaultCenter[1], stayTime: '09:00 - 11:00', stay: '120 דק', stopCode: null }
+                ]));
 
             const newTripObj = {
                 key: tripKey,
@@ -6517,18 +6638,11 @@
                 stage: 'planning',
                 stageLabel: '📋 שלב תכנון (גמיש)',
                 dates: dateStr,
-                group: 'קבוצת חברים / גמלאים (4 מטיילים)',
-                description: `${tripName} - תיק תכנון טיול שנפתח במערכת`,
-                center: isKoreaTrip ? [37.5665, 126.9780] : (isAshkelon ? [31.6690, 34.5715] : [32.0853, 34.7818]),
-                zoom: 12,
-                stations: isKoreaTrip ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'] ? TRIPS_DATABASE['korea'].stations : [])) : (isAshkelon ? [
-                    { id: "ash1", title: "1. הגן הלאומי תל אשקלון", desc: "השער הכנעני הקדום, חומות עתיקות, מדשאות ונוף לים", lat: 31.6612, lng: 34.5510, stayTime: "09:00 - 11:30", transitType: "סיור מונגש בשבילי הפארק", walkingDist: "600 מטר שבילים סלולים" },
-                    { id: "ash2", title: "2. טיילת בר כוכבא וחוף דלילה", desc: "טיילת חוף מודרנית ורחבה, בריזת ים, ספסלי מנוחה מוצלים", lat: 31.6780, lng: 34.5570, stayTime: "12:00 - 13:30", transitType: "הליכה מישורית בטיילת", walkingDist: "400 מטר" },
-                    { id: "ash3", title: "3. מרינה אשקלון ומתחם המסעדות", desc: "מתחם בילוי שוקק סביב המעגן, מסעדות דגים כשרות למהדרין", lat: 31.6830, lng: 34.5590, stayTime: "14:00 - 16:00", transitType: "מתחם מרוצף ללא מדרגות", walkingDist: "300 מטר" }
-                ] : [
-                    { title: 'נקודת יציאה מהבית (Personal Origin)', lat: 32.0853, lng: 34.7818, stay: '15 דק', stopCode: null },
-                    { title: `${tripName} - אתר פתיחה מתוכנן`, lat: 32.0880, lng: 34.7850, stay: '120 דק', stopCode: null }
-                ])
+                group: isEvent ? 'משפחה / מוזמנים לאירוע' : 'קבוצת חברים / גמלאים (4 מטיילים)',
+                description: isEvent ? `${tripName} - תיק תכנון הגעה ולו"ז לאירוע משפחתי` : `${tripName} - תיק תכנון טיול שנפתח במערכת`,
+                center: defaultCenter,
+                zoom: 13,
+                stations: defaultStations
             };
 
             // Register in in-memory TRIPS_DATABASE
@@ -6541,6 +6655,26 @@
                 localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(saved));
             } catch(e) {}
 
+            // Initialize Arrival Chain for Event or Custom Trip
+            if (isEvent) {
+                const eventArrivalChain = {
+                    originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מהבית)',
+                    originTime: '18:45 (כולל מקדם ביטחון לתנועה וחניה)',
+                    originLat: 31.7893,
+                    originLng: 34.6417,
+                    hasMeetingPoint: false,
+                    meetingAddress: '',
+                    meetingTime: '',
+                    meetingLat: defaultCenter[0],
+                    meetingLng: defaultCenter[1],
+                    trailheadAddress: isAshkelon ? 'אולם / גן אירועים, אשקלון (מיקום יתעדכן מההזמנה)' : `${tripName} - מתחם האירוע`,
+                    trailheadTime: '19:30 (קבלת פנים)'
+                };
+                try {
+                    localStorage.setItem('travel_assistant_arrival_chain_' + tripKey, JSON.stringify(eventArrivalChain));
+                } catch(e) {}
+            }
+
             // Seed sample docs if Korea
             if (isKoreaTrip) {
                 const sampleKoreaDocs = getCustomDocs('korea');
@@ -6551,18 +6685,18 @@
 
             // Initialize questionnaire for this new trip
             const initialQuestionnaire = {
-                origin: isKoreaTrip ? 'שדרות העצמאות 93 אשדוד ➔ נתב"ג טרמינל 3' : (isAshkelon ? 'תחנת רכבת אשדוד / רחובות' : 'נקודת מוצא אישית מהבית'),
+                origin: isKoreaTrip ? 'שדרות העצמאות 93 אשדוד ➔ נתב"ג טרמינל 3' : (isEvent ? 'שדרות העצמאות 93, אשדוד (יציאה ב-18:45 עם מקדם ביטחון)' : (isAshkelon ? 'שדרות העצמאות 93, אשדוד' : 'נקודת מוצא אישית מהבית')),
                 destination: displayTitle,
-                character: 'משפחות וגמלאים (סיור מונגש וקליל)',
-                group: 'קבוצת חברים / גמלאים (4 מטיילים)',
-                duration: isKoreaTrip ? '15 ימים מלאים' : (isAshkelon ? 'יום אחד עד סוף שבוע' : 'לפי תוכנית המסע'),
+                character: isEvent ? 'אירוע משפחתי / חתונה (הגעה מדויקת, חניה נגישה וקבלת פנים)' : 'משפחות וגמלאים (סיור מונגש וקליל)',
+                group: isEvent ? 'משפחה / מוזמנים לאירוע' : 'קבוצת חברים / גמלאים (4 מטיילים)',
+                duration: isKoreaTrip ? '15 ימים מלאים' : (isEvent ? 'ערב אחד (19:30 עד 23:30)' : (isAshkelon ? 'יום אחד עד סוף שבוע' : 'לפי תוכנית המסע')),
                 date: dateStr,
-                budget: isKoreaTrip ? 'חוזה סגור אופיר טורס' : (isAshkelon ? '250 ₪ לאדם ליום' : 'בתכנון'),
-                activities: isKoreaTrip ? 'סיאול, סוואן, הר סוראק, דאייגו (שבת 1), גיונגג\'ו, בוסאן, האי ג\'ג\'ו, סיאול (שבת 2)' : (isAshkelon ? 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל' : `${tripName}: אתרים מרכזיים, מורשת ונוף`),
-                transit: isKoreaTrip ? 'טיסות בינלאומיות אתיופיאן איירליינס, 2 טיסות פנים, אוטובוס תיירות צמוד VIP' : (isAshkelon ? 'רכבת ישראל עד תחנת אשקלון, מוניות ואוטובוסים עירוניים' : 'רכבות, אוטובוסים או רכב שכור'),
-                hotels: isKoreaTrip ? 'מלונות נגישים במיקום מרכזי (המילטון סיאול סמוך לחב"ד, דאייגו סנטר)' : (isAshkelon ? 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש)' : 'מלונות נגישים במיקום מרכזי'),
-                food: 'שמירת כשרות מלאה / מסעדות כשרות מהדרין וסריקת מוצרים',
-                constraints: 'התאמה מלאה לגמלאים מעל גיל 75, שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, ספסלי מנוחה מרובים.'
+                budget: isKoreaTrip ? 'חוזה סגור אופיר טורס' : (isEvent ? 'מתנה לאירוע + הוצאות נסיעה' : (isAshkelon ? '250 ₪ לאדם ליום' : 'בתכנון')),
+                activities: isKoreaTrip ? 'סיאול, סוואן, הר סוראק, דאייגו (שבת 1), גיונגג\'ו, בוסאן, האי ג\'ג\'ו, סיאול (שבת 2)' : (isEvent ? '19:30 קבלת פנים ➔ 20:30 חופה וקידושין ➔ סעודת מצווה ושמחה ➔ חזרה הביתה לאשדוד' : (isAshkelon ? 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל' : `${tripName}: אתרים מרכזיים, מורשת ונוף`)),
+                transit: isKoreaTrip ? 'טיסות בינלאומיות אתיופיאן איירליינס, 2 טיסות פנים, אוטובוס תיירות צמוד VIP' : (isEvent ? 'רכב פרטי / מונית ישירה מאשדוד לאולם האירועים וחזרה' : (isAshkelon ? 'רכבת ישראל עד תחנת אשקלון, מוניות ואוטובוסים עירוניים' : 'רכבות, אוטובוסים או רכב שכור')),
+                hotels: isKoreaTrip ? 'מלונות נגישים במיקום מרכזי (המילטון סיאול סמוך לחב"ד, דאייגו סנטר)' : (isEvent ? 'לא רלוונטי (חזרה הביתה לאשדוד בסיום האירוע)' : (isAshkelon ? 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש)' : 'מלונות נגישים במיקום מרכזי')),
+                food: isEvent ? 'קייטרינג האירוע (כשרות האולם לפי ההזמנה)' : 'שמירת כשרות מלאה / מסעדות כשרות מהדרין וסריקת מוצרים',
+                constraints: isEvent ? 'הגעה 15 דקות לפני קבלת הפנים לחניה קרובה ונוחה, כניסה מישורית ונגישה ללא מדרגות.' : 'התאמה מלאה לגמלאים מעל גיל 75, שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, ספסלי מנוחה מרובים.'
             };
             localStorage.setItem('travel_assistant_trip_' + tripKey + '_questionnaire', JSON.stringify(initialQuestionnaire));
 
@@ -6884,21 +7018,48 @@
         // Live OpenStreetMap Nominatim Geocoder for any custom address typed by the user
         async function geocodeArrivalInputNow(type) {
             const chain = getTripArrivalChain(currentTripKey);
-            const rawText = (type === 'origin') ? chain.originAddress : chain.meetingAddress;
+            const rawText = (type === 'origin') ? chain.originAddress : ((type === 'meeting') ? chain.meetingAddress : chain.trailheadAddress);
             if (!rawText || !rawText.trim()) return;
+
+            const applyCoords = (lat, lng) => {
+                const updatedChain = getTripArrivalChain(currentTripKey);
+                if (type === 'origin') {
+                    updatedChain.originLat = lat;
+                    updatedChain.originLng = lng;
+                } else if (type === 'meeting') {
+                    updatedChain.meetingLat = lat;
+                    updatedChain.meetingLng = lng;
+                } else if (type === 'trailhead') {
+                    updatedChain.trailheadLat = lat;
+                    updatedChain.trailheadLng = lng;
+                    const trip = TRIPS_DATABASE[currentTripKey];
+                    if (trip && Array.isArray(trip.stations) && trip.stations.length > 0) {
+                        trip.stations[0].lat = lat;
+                        trip.stations[0].lng = lng;
+                        trip.stations[0].address = updatedChain.trailheadAddress;
+                        trip.center = [lat, lng];
+                        STATIONS = trip.stations;
+                        if (currentTripKey.startsWith('custom_')) {
+                            try {
+                                let saved = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                                const idx = saved.findIndex(t => (t.key || t.id) === currentTripKey);
+                                if (idx !== -1) {
+                                    saved[idx].stations = trip.stations;
+                                    saved[idx].center = [lat, lng];
+                                    localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(saved));
+                                }
+                            } catch (e) {}
+                        }
+                    }
+                }
+                try { localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(updatedChain)); } catch(e) {}
+                renderStationsList();
+            };
 
             // Check instant dictionary first
             const instant = resolveKnownAddressCoords(rawText);
             if (instant) {
-                if (type === 'origin') {
-                    chain.originLat = instant.lat;
-                    chain.originLng = instant.lng;
-                } else {
-                    chain.meetingLat = instant.lat;
-                    chain.meetingLng = instant.lng;
-                }
-                try { localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(chain)); } catch(e) {}
-                renderStationsList();
+                applyCoords(instant.lat, instant.lng);
                 return;
             }
 
@@ -6914,16 +7075,7 @@
                     const lat = parseFloat(data[0].lat);
                     const lng = parseFloat(data[0].lon);
                     if (!isNaN(lat) && !isNaN(lng)) {
-                        const updatedChain = getTripArrivalChain(currentTripKey);
-                        if (type === 'origin') {
-                            updatedChain.originLat = lat;
-                            updatedChain.originLng = lng;
-                        } else {
-                            updatedChain.meetingLat = lat;
-                            updatedChain.meetingLng = lng;
-                        }
-                        localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(updatedChain));
-                        renderStationsList();
+                        applyCoords(lat, lng);
                     }
                 }
             } catch (e) {
@@ -7783,6 +7935,399 @@
             if (picker) picker.click();
         }
 
+        // ================= SMART DOCUMENT & INVITATION DERIVATION ENGINE (V5.0.7) =================
+        let activeDerivationDocId = null;
+
+        function addMinutesToTimeStr(timeStr, deltaMinutes) {
+            const m = String(timeStr || '').match(/(\d{1,2}):(\d{2})/);
+            if (!m) return '18:45';
+            let total = parseInt(m[1], 10) * 60 + parseInt(m[2], 10) + deltaMinutes;
+            while (total < 0) total += 24 * 60;
+            total = total % (24 * 60);
+            const hh = String(Math.floor(total / 60)).padStart(2, '0');
+            const mm = String(total % 60).padStart(2, '0');
+            return `${hh}:${mm}`;
+        }
+
+        function estimateTravelAndSafetyBufferMinutes(originAddr, venueAddr) {
+            const v = String(venueAddr || '').toLowerCase();
+            if (v.includes('אשדוד')) return 25; // Inside Ashdod: 15m drive + 10m parking
+            if (v.includes('אשקלון') || v.includes('יבנה') || v.includes('גדרה') || v.includes('גן יבנה')) return 45; // Ashdod -> Ashkelon: ~25m drive + 20m traffic/parking/walk buffer
+            if (v.includes('ראשון') || v.includes('ראשל') || v.includes('רחובות') || v.includes('נס ציונה') || v.includes('באר שבע')) return 55;
+            if (v.includes('תל אביב') || v.includes('רמת גן') || v.includes('בני ברק') || v.includes('ירושלים') || v.includes('נתב"ג')) return 75;
+            if (v.includes('חיפה') || v.includes('נתניה') || v.includes('חדרה') || v.includes('טבריה') || v.includes('צפון')) return 120;
+            return 45;
+        }
+
+        function parseInvitationAndTripParams(rawText, docTitle, tripTitle) {
+            const combined = `${rawText || ''}\n${docTitle || ''}\n${tripTitle || ''}`;
+            const isEvent = /חתונה|אירוע|שמחה|הזמנה|חופה|קבלת פנים|בר מצווה|בת מצווה|ברית|אולם|גן אירועים|אולמי/.test(combined);
+            const isAshkelon = combined.includes('אשקלון');
+
+            // 1. Extract Date (DD/MM/YYYY or DD.MM.YY)
+            const dateMatch = combined.match(/(\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{2,4})/);
+            const currentTrip = TRIPS_DATABASE[currentTripKey] || {};
+            const extractedDate = dateMatch ? dateMatch[1] : ((currentTrip.dates && !currentTrip.dates.includes('פתוח') && !currentTrip.dates.includes('ייקבע')) ? currentTrip.dates : 'יום האירוע (לפי ההזמנה)');
+
+            // 2. Extract Times (HH:MM)
+            const allTimes = [];
+            const timeRegex = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g;
+            let tm;
+            while ((tm = timeRegex.exec(rawText || '')) !== null) {
+                allTimes.push(`${String(tm[1]).padStart(2, '0')}:${tm[2]}`);
+            }
+
+            let startTime = isEvent ? '19:30' : '09:00';
+            let chuppahTime = isEvent ? '20:30' : '11:30';
+
+            const receptionMatch = (rawText || '').match(/קבלת\s*פנים[^\d]*([01]?\d:[0-5]\d)/);
+            const chuppahMatch = (rawText || '').match(/חופה[^\d]*([01]?\d:[0-5]\d)/);
+
+            if (receptionMatch) {
+                startTime = receptionMatch[1].padStart(5, '0');
+                chuppahTime = chuppahMatch ? chuppahMatch[1].padStart(5, '0') : addMinutesToTimeStr(startTime, 60);
+            } else if (allTimes.length > 0) {
+                startTime = allTimes[0];
+                chuppahTime = allTimes.length > 1 ? allTimes[1] : addMinutesToTimeStr(startTime, 60);
+            }
+
+            // 3. Extract Venue / Exact Location
+            let venueLocation = '';
+            const venuePatterns = [
+                /(?:אולמי|גן אירועים|אולם אירועים|מתחם אירועים|מלון|אולם|במתחם|כתובת|מיקום)\s*[:\-]?\s*([^\n\r,]{3,45})/,
+                /([^\n\r]{3,40}אשקלון[^\n\r]{0,20})/
+            ];
+            for (const pat of venuePatterns) {
+                const m = (rawText || '').match(pat);
+                if (m && m[1]) {
+                    venueLocation = m[1].trim();
+                    break;
+                }
+            }
+            if (!venueLocation) {
+                const chain = getTripArrivalChain(currentTripKey);
+                if (chain && chain.trailheadAddress && !chain.trailheadAddress.includes('תל אשקלון') && !chain.trailheadAddress.includes('תחנה 1')) {
+                    venueLocation = chain.trailheadAddress;
+                } else if (isAshkelon) {
+                    venueLocation = isEvent ? 'אולם / גן אירועים באשקלון (למשל: גני הצבי / אדאו / הולידיי אין אשקלון)' : 'אשקלון';
+                } else {
+                    venueLocation = currentTrip.name || 'מתחם האירוע / היעד';
+                }
+            }
+
+            // 4. Calculate Departure Time from Home with Safety Buffer
+            const chain = getTripArrivalChain(currentTripKey);
+            const originAddress = (chain && chain.originAddress) ? chain.originAddress : 'שדרות העצמאות 93, אשדוד (יציאה מהבית)';
+            const bufferMins = estimateTravelAndSafetyBufferMinutes(originAddress, venueLocation);
+            const originTime = addMinutesToTimeStr(startTime, -bufferMins);
+
+            // 5. Extract Kashrut / Notes if mentioned
+            let kashrutNote = isEvent ? 'כשרות האולם והקייטרינג על פי ההזמנה' : 'שמירת כשרות מלאה';
+            if (/מהדרין|בד"ץ|בדץ|גלאט|חלק/.test(rawText || '')) {
+                kashrutNote = 'כשר למהדרין (על פי המצוין בהזמנה)';
+            }
+
+            return {
+                isEvent,
+                isAshkelon,
+                eventTitle: currentTrip.name || (isEvent ? 'חתונה באשקלון' : 'תיק טיול'),
+                date: extractedDate,
+                startTime,
+                chuppahTime,
+                venueLocation,
+                originAddress,
+                originTime,
+                bufferMins,
+                kashrutNote,
+                hasRawText: Boolean(rawText && rawText.trim().length > 5)
+            };
+        }
+
+        function recalculateSmartOriginTimeFromStart() {
+            const startEl = document.getElementById('smart-derive-start-time');
+            const venueEl = document.getElementById('smart-derive-venue');
+            const originAddrEl = document.getElementById('smart-derive-origin-addr');
+            const originTimeEl = document.getElementById('smart-derive-origin-time');
+            const chuppahEl = document.getElementById('smart-derive-chuppah-time');
+            const bufferBadge = document.getElementById('smart-derive-buffer-badge');
+
+            if (!startEl || !originTimeEl) return;
+            const startTime = startEl.value.trim();
+            const venue = venueEl ? venueEl.value.trim() : '';
+            const originAddr = originAddrEl ? originAddrEl.value.trim() : 'שדרות העצמאות 93, אשדוד';
+            const bufferMins = estimateTravelAndSafetyBufferMinutes(originAddr, venue);
+
+            const calcOrigin = addMinutesToTimeStr(startTime, -bufferMins);
+            originTimeEl.value = `${calcOrigin} (יציאה מומלצת - כולל ${bufferMins} דק' נסיעה, חניה והליכה)`;
+            if (chuppahEl && (!chuppahEl.dataset.userEdited)) {
+                chuppahEl.value = addMinutesToTimeStr(startTime, 60);
+            }
+            if (bufferBadge) {
+                bufferBadge.innerText = `מקדם ביטחון מחושב: ${bufferMins} דק' לפני ${startTime}`;
+            }
+        }
+
+        function autoDeriveFromPastedModalText() {
+            const pasteEl = document.getElementById('smart-derive-raw-text');
+            if (!pasteEl || !pasteEl.value.trim()) return;
+            const trip = TRIPS_DATABASE[currentTripKey] || {};
+            const parsed = parseInvitationAndTripParams(pasteEl.value.trim(), '', trip.name || '');
+
+            if (document.getElementById('smart-derive-date')) document.getElementById('smart-derive-date').value = parsed.date;
+            if (document.getElementById('smart-derive-start-time')) document.getElementById('smart-derive-start-time').value = parsed.startTime;
+            if (document.getElementById('smart-derive-chuppah-time')) document.getElementById('smart-derive-chuppah-time').value = parsed.chuppahTime;
+            if (document.getElementById('smart-derive-venue')) document.getElementById('smart-derive-venue').value = parsed.venueLocation;
+            if (document.getElementById('smart-derive-kashrut')) document.getElementById('smart-derive-kashrut').value = parsed.kashrutNote;
+            recalculateSmartOriginTimeFromStart();
+        }
+
+        function triggerSmartDerivationOnLatestDoc() {
+            const docs = getCustomDocs();
+            const el = document.getElementById('whatsapp-paste-input');
+            if (el && el.value.trim()) {
+                saveAndApplyWhatsAppMessage();
+                return;
+            }
+            if (docs && docs.length > 0) {
+                openSmartDocDerivationModal(docs[0].id);
+            } else {
+                openSmartDocDerivationModal(null);
+            }
+        }
+
+        function openSmartDocDerivationModal(docId) {
+            activeDerivationDocId = docId || null;
+            const docs = getCustomDocs();
+            const doc = docId ? docs.find(d => d.id === docId) : (docs[0] || null);
+            const trip = TRIPS_DATABASE[currentTripKey] || {};
+
+            const rawText = doc ? (doc.textContent || '') : '';
+            const docName = doc ? (doc.name || '') : 'הזמנה / מסמך אירוע';
+            const parsed = parseInvitationAndTripParams(rawText, docName, trip.name || '');
+
+            const docBadgeEl = document.getElementById('smart-derive-doc-name');
+            if (docBadgeEl) {
+                docBadgeEl.innerText = doc ? `📄 מסמך מקור: ${doc.name}` : `📄 גזירה חכמה לתיק: ${trip.name || 'פעיל'}`;
+            }
+
+            const imgPreviewBox = document.getElementById('smart-derive-img-preview-box');
+            const imgPreviewEl = document.getElementById('smart-derive-img-preview');
+            if (imgPreviewBox && imgPreviewEl) {
+                if (doc && doc.data && doc.data.startsWith('data:image/')) {
+                    imgPreviewEl.src = doc.data;
+                    imgPreviewBox.style.display = 'block';
+                } else {
+                    imgPreviewBox.style.display = 'none';
+                }
+            }
+
+            const rawTextEl = document.getElementById('smart-derive-raw-text');
+            if (rawTextEl) {
+                rawTextEl.value = rawText;
+            }
+
+            if (document.getElementById('smart-derive-title')) document.getElementById('smart-derive-title').value = parsed.eventTitle;
+            if (document.getElementById('smart-derive-date')) document.getElementById('smart-derive-date').value = parsed.date;
+            if (document.getElementById('smart-derive-start-time')) document.getElementById('smart-derive-start-time').value = parsed.startTime;
+            if (document.getElementById('smart-derive-chuppah-time')) {
+                document.getElementById('smart-derive-chuppah-time').value = parsed.chuppahTime;
+                delete document.getElementById('smart-derive-chuppah-time').dataset.userEdited;
+            }
+            if (document.getElementById('smart-derive-venue')) document.getElementById('smart-derive-venue').value = parsed.venueLocation;
+            if (document.getElementById('smart-derive-origin-addr')) document.getElementById('smart-derive-origin-addr').value = parsed.originAddress;
+            if (document.getElementById('smart-derive-kashrut')) document.getElementById('smart-derive-kashrut').value = parsed.kashrutNote;
+
+            recalculateSmartOriginTimeFromStart();
+
+            const modal = document.getElementById('smart-doc-derivation-modal');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeSmartDocDerivationModal() {
+            const modal = document.getElementById('smart-doc-derivation-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        async function applySmartDocDerivation(goToStep4) {
+            const titleVal = (document.getElementById('smart-derive-title')?.value || '').trim() || (TRIPS_DATABASE[currentTripKey]?.name || 'אירוע / טיול');
+            const dateVal = (document.getElementById('smart-derive-date')?.value || '').trim() || 'מועד ההזמנה';
+            const startTimeVal = (document.getElementById('smart-derive-start-time')?.value || '').trim() || '19:30';
+            const chuppahTimeVal = (document.getElementById('smart-derive-chuppah-time')?.value || '').trim() || addMinutesToTimeStr(startTimeVal, 60);
+            const venueVal = (document.getElementById('smart-derive-venue')?.value || '').trim() || 'אולם אירועים, אשקלון';
+            const originAddrVal = (document.getElementById('smart-derive-origin-addr')?.value || '').trim() || 'שדרות העצמאות 93, אשדוד';
+            const originTimeVal = (document.getElementById('smart-derive-origin-time')?.value || '').trim() || '18:45';
+            const kashrutVal = (document.getElementById('smart-derive-kashrut')?.value || '').trim() || 'כשרות האולם לפי ההזמנה';
+            const rawTextVal = (document.getElementById('smart-derive-raw-text')?.value || '').trim();
+
+            // Save raw text back to document if user pasted/edited it
+            if (activeDerivationDocId && rawTextVal) {
+                const docs = getCustomDocs();
+                const dIdx = docs.findIndex(d => d.id === activeDerivationDocId);
+                if (dIdx !== -1) {
+                    docs[dIdx].textContent = rawTextVal;
+                    docs[dIdx].isText = true;
+                    saveCustomDocs(docs);
+                    renderCustomDocsList();
+                }
+            }
+
+            const endTimeVal = addMinutesToTimeStr(chuppahTimeVal, 165); // ~2.75 hours after chuppah/main ceremony
+            const isEvent = /חתונה|אירוע|שמחה|הזמנה|חופה|קבלת פנים|בר מצווה|בת מצווה|ברית|אולם|גן אירועים|אולמי/.test(`${titleVal} ${venueVal} ${rawTextVal}`);
+
+            // 1. Resolve Coordinates for Venue & Origin
+            const knownOrigin = resolveKnownAddressCoords(originAddrVal) || { lat: 31.7893, lng: 34.6417 };
+            let venueCoords = resolveKnownAddressCoords(venueVal);
+            if (!venueCoords) {
+                venueCoords = venueVal.includes('אשקלון') ? { lat: 31.6690, lng: 34.5715 } : { lat: 31.7893, lng: 34.6417 };
+            }
+
+            // 2. Update Arrival Chain (Step 1 & Step 4 & Map)
+            const updatedChain = {
+                originAddress: originAddrVal,
+                originTime: originTimeVal,
+                originLat: knownOrigin.lat,
+                originLng: knownOrigin.lng,
+                hasMeetingPoint: false,
+                meetingAddress: '',
+                meetingTime: '',
+                meetingLat: venueCoords.lat,
+                meetingLng: venueCoords.lng,
+                trailheadAddress: venueVal,
+                trailheadTime: `${startTimeVal} (קבלת פנים / התחלה)`,
+                trailheadLat: venueCoords.lat,
+                trailheadLng: venueCoords.lng
+            };
+            try {
+                localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(updatedChain));
+            } catch (e) {}
+
+            // 3. Build Derived Stations for Real-Time Map & Step 4 Itinerary
+            const derivedStations = isEvent ? [
+                {
+                    id: 'derived_st_1',
+                    title: `1. הגעה, חניה וקבלת פנים - ${venueVal}`,
+                    address: venueVal,
+                    desc: `הגעה ממומלצת לפני ${startTimeVal}, חניה צמודה ונגישה, קבלת פנים ומפגש משפחתי (${kashrutVal})`,
+                    lat: venueCoords.lat,
+                    lng: venueCoords.lng,
+                    stayTime: `${startTimeVal} - ${chuppahTimeVal} (קבלת פנים)`,
+                    stay: '60 דק',
+                    stopCode: null
+                },
+                {
+                    id: 'derived_st_2',
+                    title: `2. חופה וקידושין / הטקס המרכזי וסעודת מצווה`,
+                    address: venueVal,
+                    desc: `בשעה ${chuppahTimeVal} בדיוק: חופה וקידושין, סעודת האירוע המרכזית ושמחה משפחתית באולם`,
+                    lat: venueCoords.lat,
+                    lng: venueCoords.lng,
+                    stayTime: `${chuppahTimeVal} - ${endTimeVal} (חופה וסעודה)`,
+                    stay: '165 דק',
+                    stopCode: null
+                },
+                {
+                    id: 'derived_st_3',
+                    title: `3. סיום האירוע ונסיעה חזרה הביתה (${originAddrVal.split('(')[0].trim()})`,
+                    address: originAddrVal.split('(')[0].trim(),
+                    desc: `יציאה מסודרת מחניון האירוע בשעה ${endTimeVal} ונסיעה בטוחה חזרה הביתה`,
+                    lat: knownOrigin.lat,
+                    lng: knownOrigin.lng,
+                    stayTime: `${endTimeVal} (חזרה הביתה)`,
+                    stay: '35 דק נסיעה',
+                    stopCode: null
+                }
+            ] : [
+                {
+                    id: 'derived_st_1',
+                    title: `1. תחילת מסלול / הגעה: ${venueVal}`,
+                    address: venueVal,
+                    desc: `נקודת פתיחה שנגזרה מהמסמך (${titleVal})`,
+                    lat: venueCoords.lat,
+                    lng: venueCoords.lng,
+                    stayTime: `${startTimeVal} - ${chuppahTimeVal}`,
+                    stay: '90 דק',
+                    stopCode: null
+                },
+                {
+                    id: 'derived_st_2',
+                    title: `2. פעילות מרכזית ביעד: ${titleVal}`,
+                    address: venueVal,
+                    desc: `המשך המסלול והפעילות המתוכננת (${kashrutVal})`,
+                    lat: venueCoords.lat,
+                    lng: venueCoords.lng,
+                    stayTime: `${chuppahTimeVal} - ${endTimeVal}`,
+                    stay: '150 דק',
+                    stopCode: null
+                }
+            ];
+
+            // 4. Update Trip Object in TRIPS_DATABASE & localStorage
+            const trip = TRIPS_DATABASE[currentTripKey];
+            if (trip) {
+                trip.name = titleVal;
+                trip.dates = dateVal;
+                trip.center = [venueCoords.lat, venueCoords.lng];
+                trip.stations = derivedStations;
+                trip.description = `${titleVal} ב-${venueVal} (${dateVal}) | יציאה מהבית: ${originTimeVal.split('(')[0].trim()} ➔ התחלה: ${startTimeVal} ➔ חופה/שיא: ${chuppahTimeVal}`;
+                STATIONS = derivedStations;
+
+                if (currentTripKey.startsWith('custom_')) {
+                    try {
+                        let saved = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                        const idx = saved.findIndex(t => (t.key || t.id) === currentTripKey);
+                        if (idx !== -1) {
+                            saved[idx].name = trip.name;
+                            saved[idx].dates = trip.dates;
+                            saved[idx].center = trip.center;
+                            saved[idx].stations = trip.stations;
+                            saved[idx].description = trip.description;
+                            localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(saved));
+                        }
+                    } catch (e) {}
+                }
+            }
+
+            // 5. Populate All 12 Questionnaire Fields (Step 3 -> 12/12 Complete!)
+            const derivedQuestionnaire = {
+                origin: `יציאה מ-${originAddrVal} בשעה ${originTimeVal} ➔ הגעה ישירה אל ${venueVal}`,
+                destination: `${titleVal} – ${venueVal}`,
+                character: isEvent ? `אירוע משפחתי / חתונה (קבלת פנים ב-${startTimeVal}, חופה ב-${chuppahTimeVal})` : `טיול / סיור מתוכנן (${titleVal})`,
+                group: isEvent ? 'משפחה ומוזמנים לאירוע' : 'משפחה / חברים',
+                duration: isEvent ? `ערב אחד (${startTimeVal} עד ${endTimeVal})` : 'יום אחד מרוכז',
+                date: dateVal,
+                budget: isEvent ? 'מתנה לאירוע (צ\'ק / העברה / אשראי) + הוצאות דלק/נסיעה' : 'לפי תכנון',
+                activities: `1. יציאה מהבית (${originTimeVal.split('(')[0].trim()}) ➔ 2. הגעה וקבלת פנים ב-${venueVal} (${startTimeVal}) ➔ 3. חופה/טקס וסעודה (${chuppahTimeVal}) ➔ 4. חזרה הביתה (${endTimeVal})`,
+                transit: `הגעה ישירה ברכב פרטי / מונית מ-${originAddrVal.split('(')[0].trim()} אל ${venueVal} (כולל חניה צמודה למתחם)`,
+                hotels: 'לא רלוונטי (חזרה הביתה לאשדוד בסיום האירוע)',
+                food: kashrutVal,
+                constraints: `מקדם ביטחון מובנה להגעה רגועה 15 דק' לפני ${startTimeVal}, חניה קרובה לכניסה וגישה מישורית ונוחה ללא מדרגות.`
+            };
+            localStorage.setItem('travel_assistant_trip_' + currentTripKey + '_questionnaire', JSON.stringify(derivedQuestionnaire));
+
+            // 6. Refresh Step 1, Step 3, Step 4 and Map UI
+            if (document.getElementById('step1-dest-name')) document.getElementById('step1-dest-name').value = titleVal;
+            if (document.getElementById('step1-dates')) document.getElementById('step1-dates').value = dateVal;
+            syncArrivalChainUI(currentTripKey);
+            loadTripQuestionnaire(currentTripKey);
+            renderAllTripSelectors();
+            renderCustomTripsInModal();
+            switchTripDocument(currentTripKey);
+            renderStationQuickSelectors();
+            renderStationsList();
+
+            // Trigger live Nominatim geocoding for the exact venue address in the background
+            geocodeArrivalInputNow('trailhead');
+
+            closeSmartDocDerivationModal();
+
+            if (goToStep4) {
+                finalizeTripToReadyStage();
+            } else {
+                setWizardStep(1);
+                alert(`✅ כל הנתונים נגזרו בהצלחה מהמסמך והוזנו לתיק הטיול/האירוע!\n\n• יציאה מומלצת מהבית: ${originTimeVal}\n• מיקום מדויק: ${venueVal}\n• קבלת פנים / התחלה: ${startTimeVal}\n• שאלון 12 השאלות (שלב 3) והמפה בזמן אמת עודכנו במלואם!`);
+            }
+        }
+
     </script>
 
     <!-- ================= UNIVERSAL SHABBAT A4 PRINT MODAL (FOR PRE-TRIP FRIDAY PRINTING) ================= -->
@@ -8144,6 +8689,106 @@
     <div id="floating-feedback-btn" onclick="openFeedbackModal()" style="position:fixed; bottom:20px; left:16px; background:#0f172a; color:white; border:2px solid #10b981; padding:10px 16px; border-radius:30px; font-weight:900; font-size:0.92em; cursor:pointer; z-index:9998; box-shadow:0 4px 16px rgba(0,0,0,0.35); display:flex; align-items:center; gap:8px;">
         <span style="background:#10b981; color:white; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px;"><i class="fa-solid fa-pen-to-square"></i></span>
         <span>משוב שטח</span>
+    </div>
+
+    <!-- ================= SMART DOCUMENT & INVITATION DERIVATION MODAL (גזירה חכמה ממסמך/הזמנה לתיק הטיול/האירוע) ================= -->
+    <div id="smart-doc-derivation-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.78); z-index: 10005; justify-content: center; align-items: center; padding: 14px;" dir="rtl">
+        <div style="background: white; width: 100%; max-width: 580px; border-radius: 20px; overflow: hidden; box-shadow: 0 22px 35px -5px rgba(0, 0, 0, 0.4); max-height: 92vh; display: flex; flex-direction: column; font-family: 'Heebo', sans-serif;">
+            
+            <!-- Modal Header -->
+            <div style="background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%); color: white; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 1.25em; color: #ddd6fe;"></i>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.12em; font-weight: 900;">גזירת נתונים חכמה מהמסמך לתיק הטיול / האירוע</h3>
+                        <div id="smart-derive-doc-name" style="font-size: 0.78em; color: #ede9fe; margin-top: 2px;">📄 מסמך מקור</div>
+                    </div>
+                </div>
+                <button onclick="closeSmartDocDerivationModal()" style="background: none; border: none; color: #ede9fe; font-size: 1.4em; cursor: pointer;">✕</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div style="padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
+                
+                <!-- Image Preview (Shown automatically when an invitation image is uploaded) -->
+                <div id="smart-derive-img-preview-box" style="display: none; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 8px; text-align: center;">
+                    <div style="font-size: 0.78em; font-weight: 800; color: #475569; margin-bottom: 4px;">🖼️ ההזמנה / המסמך שהועלה (לעיון מהיר):</div>
+                    <img id="smart-derive-img-preview" src="" style="max-width: 100%; max-height: 170px; border-radius: 8px; object-fit: contain;">
+                </div>
+
+                <!-- Optional Raw Text Paste / OCR Helper -->
+                <div style="background: #f5f3ff; border: 1.5px dashed #a78bfa; border-radius: 10px; padding: 10px 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 4px;">
+                        <label style="font-size: 0.8em; font-weight: 900; color: #5b21b6;">📋 טקסט מהמסמך / ההזמנה (אופציונלי - הדבק כדי לחלץ אוטומטית):</label>
+                        <button type="button" onclick="autoDeriveFromPastedModalText()" style="background: #7c3aed; color: white; border: none; padding: 3px 9px; border-radius: 6px; font-size: 0.75em; font-weight: 800; cursor: pointer;">⚡ פענח טקסט</button>
+                    </div>
+                    <textarea id="smart-derive-raw-text" rows="2" oninput="autoDeriveFromPastedModalText()" placeholder="אם העלית תמונה של הזמנה, תוכל להדביק כאן שורה או לעדכן ישירות בשדות למטה..." style="width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1px solid #c4b5fd; border-radius: 8px; font-family: inherit; font-size: 0.85em;"></textarea>
+                </div>
+
+                <!-- Derived Core Anchor Fields -->
+                <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px;">
+                        <span style="font-weight: 900; color: #166534; font-size: 0.92em;"><i class="fa-solid fa-bolt"></i> נתוני הליבה שנגזרים לתיק ולמפה בזמן אמת:</span>
+                        <span id="smart-derive-buffer-badge" style="background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 6px; font-size: 0.75em; font-weight: 800;">מקדם ביטחון מחושב אוטומטית</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div>
+                            <label style="font-size: 0.8em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 3px;">🎉 שם האירוע / הטיול:</label>
+                            <input type="text" id="smart-derive-title" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.88em; font-weight: 800;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 3px;">📅 תאריך האירוע / היציאה:</label>
+                            <input type="text" id="smart-derive-date" placeholder="למשל: 28/10/2026" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.88em; font-weight: 800;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.82em; font-weight: 900; color: #0f766e; display: block; margin-bottom: 3px;">📍 המיקום המדויק (אולם / גן אירועים / כתובת יעד לניווט במפה):</label>
+                        <input type="text" id="smart-derive-venue" oninput="recalculateSmartOriginTimeFromStart()" placeholder="למשל: אולמי גני הצבי / אדאו, אשקלון" style="width: 100%; box-sizing: border-box; padding: 9px 11px; border: 2px solid #10b981; border-radius: 8px; font-family: inherit; font-size: 0.92em; font-weight: 900; color: #0f172a;">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div>
+                            <label style="font-size: 0.8em; font-weight: 900; color: #15803d; display: block; margin-bottom: 3px;">🕒 שעת התחלה / קבלת פנים:</label>
+                            <input type="text" id="smart-derive-start-time" oninput="recalculateSmartOriginTimeFromStart()" placeholder="19:30" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #22c55e; border-radius: 8px; font-family: inherit; font-size: 0.92em; font-weight: 900; color: #166534;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 3px;">💍 שעת חופה / טקס מרכזי:</label>
+                            <input type="text" id="smart-derive-chuppah-time" oninput="this.dataset.userEdited='true'" placeholder="20:30" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9em; font-weight: 800;">
+                        </div>
+                    </div>
+
+                    <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 8px 10px;">
+                        <div style="font-size: 0.78em; font-weight: 900; color: #1e40af; margin-bottom: 4px;">🏠 גזירה אוטומטית של שעת היציאה מהבית (עם מקדם ביטחון לנסיעה וחניה):</div>
+                        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 6px;">
+                            <input type="text" id="smart-derive-origin-addr" oninput="recalculateSmartOriginTimeFromStart()" value="שדרות העצמאות 93, אשדוד" style="width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #bfdbfe; border-radius: 6px; font-family: inherit; font-size: 0.82em; font-weight: 700;">
+                            <input type="text" id="smart-derive-origin-time" style="width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #60a5fa; border-radius: 6px; font-family: inherit; font-size: 0.82em; font-weight: 900; color: #1d4ed8; background: white;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.78em; font-weight: 800; color: #475569; display: block; margin-bottom: 2px;">🍽️ כשרות ודגשים (ייגזרו לשאלון שלב 3 ולכרטיס התחנות):</label>
+                        <input type="text" id="smart-derive-kashrut" style="width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.84em;">
+                    </div>
+                </div>
+
+                <div style="font-size: 0.78em; color: #475569; background: #f8fafc; border-radius: 8px; padding: 8px 10px; line-height: 1.45;">
+                    ✨ <b>מה יבוצע בלחיצה על הכפתור למטה?</b> המערכת תעדכן אוטומטית את <b>שלב 1</b> (שעת יציאה מהבית, הגעה ישירה ומיקום האירוע), תמלא את כל <b>12 השאלות בשלב 3 (100%)</b>, תבנה את <b>לוח הזמנים בשלב 4</b>, ותמקם את האירוע ב<b>מפה בזמן אמת</b>!
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="background: #f8fafc; padding: 12px 16px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <button type="button" onclick="applySmartDocDerivation(false)" style="flex: 1; background: #2563eb; color: white; border: none; padding: 10px 12px; border-radius: 10px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fa-solid fa-check"></i> גזור ועדכן את תיק הטיול
+                </button>
+                <button type="button" onclick="applySmartDocDerivation(true)" style="flex: 1.2; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 900; font-size: 0.92em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 3px 10px rgba(22,163,74,0.35);">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> גזור הכל ועבור לשלב 4 (מוכן ליציאה!)
+                </button>
+            </div>
+
+        </div>
     </div>
 
 </body>
