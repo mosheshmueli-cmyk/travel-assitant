@@ -678,6 +678,22 @@
     <!-- Leaflet CSS & JS for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        /* Compact Map Popup Bubble (-20% size reduction) */
+        .leaflet-popup-content-wrapper {
+            border-radius: 10px !important;
+            padding: 1px !important;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.22) !important;
+        }
+        .leaflet-popup-content {
+            margin: 8px 10px !important;
+            line-height: 1.25 !important;
+        }
+        .leaflet-popup-tip {
+            width: 12px !important;
+            height: 12px !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -694,7 +710,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.5
+                גרסה 5.0.6
             </span>
         </div>
     </header>
@@ -4705,37 +4721,37 @@
                     transitMode = "ברגל";
                 }
                 
-                liveDistHtml = `<b style="color:#16a34a; font-size:15px;">${dStr}</b>`;
-                liveEtaHtml = `<b style="color:#2563eb; font-size:14px;">${etaMinutes} דקות (${transitMode})</b>`;
+                liveDistHtml = `<b style="color:#16a34a; font-size:12px;">${dStr}</b>`;
+                liveEtaHtml = `<b style="color:#2563eb; font-size:11.5px;">${etaMinutes} דקות (${transitMode})</b>`;
             }
 
-            const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:2px 7px; border-radius:6px; font-weight:900; font-size:12px; margin-top:3px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
+            const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:1px 6px; border-radius:5px; font-weight:900; font-size:10px; margin-top:2px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
 
             const popupContent = `
-                <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:215px; max-width:255px;" dir="rtl">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; border-bottom:1px solid #e2e8f0; padding-bottom:5px; margin-bottom:5px;">
-                        <div style="font-weight:900; color:#0f172a; font-size:15px; line-height:1.25;">${st.title}</div>
-                        <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:6px; padding:2px 7px; font-size:11.5px; font-weight:900; cursor:pointer; flex-shrink:0;" title="סגור חלונית (או לחץ על המפה)">✕ סגור</button>
+                <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:172px; max-width:208px;" dir="rtl">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
+                        <div style="font-weight:900; color:#0f172a; font-size:12.2px; line-height:1.2;">${st.title}</div>
+                        <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:5px; padding:1px 6px; font-size:10px; font-weight:900; cursor:pointer; flex-shrink:0;" title="סגור חלונית (או לחץ על המפה)">✕ סגור</button>
                     </div>
-                    <div style="color:#0369a1; font-size:12.5px; margin:3px 0;">📍 ${st.address || st.desc || ''}</div>
+                    <div style="color:#0369a1; font-size:10.5px; margin:2px 0;">📍 ${st.address || st.desc || ''}</div>
                     ${stopCodeHtml}
                     
-                    <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:9px; padding:7px 10px; margin:6px 0;">
-                        <div style="font-size:13px; color:#166534; font-weight:bold;">📏 מרחק ממיקומך: ${liveDistHtml}</div>
-                        ${liveEtaHtml ? `<div style="font-size:13px; color:#1e40af; margin-top:3px; font-weight:bold;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:7px; padding:5px 8px; margin:4px 0;">
+                        <div style="font-size:10.8px; color:#166534; font-weight:bold;">📏 מרחק ממיקומך: ${liveDistHtml}</div>
+                        ${liveEtaHtml ? `<div style="font-size:10.8px; color:#1e40af; margin-top:2px; font-weight:bold;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
                     </div>
 
-                    <div style="display:flex; gap:6px; margin-top:7px;">
-                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
+                    <div style="display:flex; gap:5px; margin-top:5px;">
+                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; white-space:nowrap;">
                             🎯 נווט ליעד
                         </button>
-                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
+                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; white-space:nowrap;">
                             🚖 כרטיס לנהג
                         </button>
                     </div>
                     ${(idx < STATIONS.length - 1) ? `
-                        <div style="margin-top:6px;">
-                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer; line-height:1.25;">
+                        <div style="margin-top:4px;">
+                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; line-height:1.2;">
                                 ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
                             </button>
                         </div>
@@ -4745,15 +4761,15 @@
 
             // Open standalone popup directly on dynamicMap so it never conflicts with marker bindPopup toggling
             const popup = L.popup({
-                maxWidth: 265,
-                minWidth: 215,
-                offset: L.point(0, -12),
+                maxWidth: 215,
+                minWidth: 172,
+                offset: L.point(0, -10),
                 closeButton: false,
                 closeOnClick: true,
                 autoClose: true,
                 autoPan: true,
-                autoPanPaddingTopLeft: L.point(20, 35),
-                autoPanPaddingBottomRight: L.point(20, 20)
+                autoPanPaddingTopLeft: L.point(16, 28),
+                autoPanPaddingBottomRight: L.point(16, 16)
             })
             .setLatLng([st.lat, st.lng])
             .setContent(popupContent);
@@ -5105,23 +5121,23 @@
                 let popupHtml = '';
                 if (isDeskPlanningMode) {
                     popupHtml = `
-                        <div style="font-family:Heebo, sans-serif; font-size:13.5px; text-align:right; min-width:220px; max-width:255px;" dir="rtl">
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">
-                                <b style="color:#2563eb; font-size:1.02em;"><i class="fa-solid fa-laptop-code"></i> עמדת תכנון ובדיקה (מיקומך)</b>
-                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
+                        <div style="font-family:Heebo, sans-serif; font-size:11px; text-align:right; min-width:175px; max-width:208px;" dir="rtl">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:4px; margin-bottom:5px;">
+                                <b style="color:#2563eb; font-size:11.5px;"><i class="fa-solid fa-laptop-code"></i> עמדת תכנון (מיקומך)</b>
+                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:5px; padding:1px 6px; font-weight:900; font-size:10px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
                             </div>
-                            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:7px 9px; margin-bottom:7px;">
-                                <div style="font-size:12px; color:#1e40af; font-weight:bold;">אינך בשטח הטיול כעת (מרחק: ${distStr})</div>
-                                <div style="font-size:12px; color:#334155; margin-top:2px;">המפה מציגה סימולציה ותכנון עבור: <b>${TRIPS_DATABASE[currentTripKey].name}</b></div>
+                            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:6px; padding:5px 7px; margin-bottom:5px;">
+                                <div style="font-size:10.5px; color:#1e40af; font-weight:bold;">אינך בשטח הטיול כעת (${distStr})</div>
+                                <div style="font-size:10.5px; color:#334155; margin-top:2px;">סימולציה עבור: <b>${TRIPS_DATABASE[currentTripKey].name}</b></div>
                             </div>
-                            <div style="margin-bottom:3px;">🎯 תחנה נבחרת במפה: <b>${targetStation.title}</b></div>
-                            <div style="font-size:11px; color:#0369a1; margin-bottom:5px;">📍 ${targetStation.address}</div>
-                            <div style="font-size:11px; color:#64748b; margin-bottom:7px;">דיוק GPS: ${Math.round(acc)} מטר</div>
-                            <div style="display:flex; gap:6px; margin-top:7px;">
-                                <button onclick="openTripSelectorModal(); closeUserPositionBubble();" style="flex:1; background:#4f46e5; color:white; border:none; border-radius:8px; padding:7px 10px; font-weight:bold; font-size:12px; cursor:pointer;">
+                            <div style="margin-bottom:2px;">🎯 תחנה נבחרת: <b>${targetStation.title}</b></div>
+                            <div style="font-size:10px; color:#0369a1; margin-bottom:4px;">📍 ${targetStation.address}</div>
+                            <div style="font-size:10px; color:#64748b; margin-bottom:5px;">דיוק GPS: ${Math.round(acc)} מטר</div>
+                            <div style="display:flex; gap:5px; margin-top:5px;">
+                                <button onclick="openTripSelectorModal(); closeUserPositionBubble();" style="flex:1; background:#4f46e5; color:white; border:none; border-radius:6px; padding:5px 7px; font-weight:bold; font-size:10.5px; cursor:pointer;">
                                     🗺️ בחר טיול אחר
                                 </button>
-                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:7px 10px; font-weight:bold; font-size:12px; cursor:pointer; color:#334155;">
+                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:5px 7px; font-weight:bold; font-size:10.5px; cursor:pointer; color:#334155;">
                                     סגור בועה
                                 </button>
                             </div>
@@ -5129,19 +5145,19 @@
                     `;
                 } else {
                     popupHtml = `
-                        <div style="font-family:Heebo, sans-serif; font-size:13px; text-align:right; min-width:210px; max-width:255px;" dir="rtl">
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">
-                                <b style="color:#2563eb; font-size:1.02em;"><i class="fa-solid fa-location-crosshairs"></i> מיקומך הנוכחי בשטח</b>
-                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-weight:900; font-size:12px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
+                        <div style="font-family:Heebo, sans-serif; font-size:11px; text-align:right; min-width:172px; max-width:208px;" dir="rtl">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #cbd5e1; padding-bottom:4px; margin-bottom:5px;">
+                                <b style="color:#2563eb; font-size:11.5px;"><i class="fa-solid fa-location-crosshairs"></i> מיקומך הנוכחי בשטח</b>
+                                <button onclick="closeUserPositionBubble();" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:5px; padding:1px 6px; font-weight:900; font-size:10px; cursor:pointer; color:#64748b;" title="סגור בועה">✕ סגור</button>
                             </div>
-                            <div style="margin-bottom:3px;">🎯 יעד פעיל: <b>${targetStation.title}</b></div>
-                            <div style="font-size:11px; color:#0369a1; margin-bottom:4px;">📍 ${targetStation.address}</div>
+                            <div style="margin-bottom:2px;">🎯 יעד פעיל: <b>${targetStation.title}</b></div>
+                            <div style="font-size:10px; color:#0369a1; margin-bottom:3px;">📍 ${targetStation.address}</div>
                             <div style="margin-bottom:2px;">📏 מרחק ליעד: <b style="color:#16a34a;">${distStr}</b></div>
                             <div style="margin-bottom:2px;">⏱️ זמן הגעה: <b style="color:#2563eb;">${etaStr}</b></div>
                             <div style="margin-bottom:2px;">🧭 מצב מפה: <b>${isHeadingUp ? 'כיוון נסיעה' : 'צפון קבוע'} (${Math.round(displayAngle)}°)</b></div>
-                            <div style="font-size:11px; color:#64748b; margin-top:4px;">דיוק GPS: ${Math.round(acc)} מטר</div>
-                            <div style="margin-top:8px; text-align:center;">
-                                <button onclick="closeUserPositionBubble();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:6px 14px; font-weight:bold; font-size:12.5px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
+                            <div style="font-size:10px; color:#64748b; margin-top:3px;">דיוק GPS: ${Math.round(acc)} מטר</div>
+                            <div style="margin-top:6px; text-align:center;">
+                                <button onclick="closeUserPositionBubble();" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:5px 10px; font-weight:bold; font-size:10.5px; cursor:pointer; box-shadow:0 1px 4px rgba(37,99,235,0.3);">
                                     סיימתי לקרוא - סגור בועה
                                 </button>
                             </div>
@@ -5155,7 +5171,7 @@
                     userMarker.setPopupContent(popupHtml);
                 } else {
                     userMarker = L.marker([lat, lng], { icon: userPinIcon }).addTo(dynamicMap)
-                        .bindPopup(popupHtml, { autoClose: true, closeOnClick: true, closeButton: false });
+                        .bindPopup(popupHtml, { maxWidth: 215, minWidth: 172, autoClose: true, closeOnClick: true, closeButton: false });
                 }
 
                 // Do NOT automatically call userMarker.openPopup() so the map stays unobstructed unless clicked
@@ -7172,25 +7188,25 @@
             }
 
             const nextStepAction = (isOrigin && chain.hasMeetingPoint)
-                ? `<button type="button" onclick="focusArrivalAnchor('meeting')" style="width:100%; margin-top:6px; background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">⏭️ המשך אל נק' המפגש</button>`
-                : `<button type="button" onclick="setTargetStation(0)" style="width:100%; margin-top:6px; background:#16a34a; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">🚩 המשך אל תחילת המסלול (תחנה 1)</button>`;
+                ? `<button type="button" onclick="focusArrivalAnchor('meeting')" style="width:100%; margin-top:4px; background:#f59e0b; color:white; border:none; padding:5px 8px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; white-space:nowrap;">⏭️ המשך אל נק' המפגש</button>`
+                : `<button type="button" onclick="setTargetStation(0)" style="width:100%; margin-top:4px; background:#16a34a; color:white; border:none; padding:5px 8px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; white-space:nowrap;">🚩 המשך אל תחילת המסלול (תחנה 1)</button>`;
 
             const popupHtml = `
-                <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:215px; max-width:260px;" dir="rtl">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; border-bottom:1px solid #e2e8f0; padding-bottom:5px; margin-bottom:5px;">
-                        <div style="font-weight:900; color:#0f172a; font-size:15px;">${title}</div>
-                        <button type="button" onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:6px; padding:2px 7px; font-size:11.5px; font-weight:900; cursor:pointer; flex-shrink:0;">✕ סגור</button>
+                <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:172px; max-width:208px;" dir="rtl">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
+                        <div style="font-weight:900; color:#0f172a; font-size:12.2px; line-height:1.2;">${title}</div>
+                        <button type="button" onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:5px; padding:1px 6px; font-size:10px; font-weight:900; cursor:pointer; flex-shrink:0;">✕ סגור</button>
                     </div>
-                    <div style="color:#0369a1; font-size:12.5px; margin:3px 0; font-weight:700;">📍 ${address}</div>
-                    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:6px 9px; margin:6px 0; font-size:12.5px;">
+                    <div style="color:#0369a1; font-size:10.5px; margin:2px 0; font-weight:700;">📍 ${address}</div>
+                    <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:4px 7px; margin:4px 0; font-size:10.5px;">
                         <div>🕒 <b>שעה מתוכננת:</b> ${timeStr}</div>
                         <div style="margin-top:2px;">📏 <b>מרחק ממיקומך:</b> ${distHtml}</div>
                     </div>
-                    <div style="display:flex; gap:6px; margin-top:6px;">
-                        <button type="button" onclick="openGoogleMapsArrivalNav('${type}')" style="flex:1; background:#2563eb; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; text-align:center; cursor:pointer;">
+                    <div style="display:flex; gap:5px; margin-top:4px;">
+                        <button type="button" onclick="openGoogleMapsArrivalNav('${type}')" style="flex:1; background:#2563eb; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:10.5px; font-weight:900; text-align:center; cursor:pointer; white-space:nowrap;">
                             🧭 ניווט ב-Google Maps
                         </button>
-                        <button type="button" onclick="showArrivalTaxiCard('${type}')" style="background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
+                        <button type="button" onclick="showArrivalTaxiCard('${type}')" style="background:#f59e0b; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; white-space:nowrap;">
                             🚖 כרטיס לנהג
                         </button>
                     </div>
@@ -7207,15 +7223,15 @@
             dynamicMap.setView([lat, lng], 15, { animate: false });
 
             const anchorPopup = L.popup({
-                maxWidth: 265,
-                minWidth: 215,
-                offset: L.point(0, -14),
+                maxWidth: 215,
+                minWidth: 172,
+                offset: L.point(0, -12),
                 closeButton: false,
                 closeOnClick: true,
                 autoClose: true,
                 autoPan: true,
-                autoPanPaddingTopLeft: L.point(20, 35),
-                autoPanPaddingBottomRight: L.point(20, 20)
+                autoPanPaddingTopLeft: L.point(16, 28),
+                autoPanPaddingBottomRight: L.point(16, 16)
             })
             .setLatLng([lat, lng])
             .setContent(popupHtml);
