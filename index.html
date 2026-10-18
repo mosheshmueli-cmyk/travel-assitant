@@ -694,7 +694,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.2
+                גרסה 5.0.3
             </span>
         </div>
     </header>
@@ -4606,14 +4606,51 @@
         let activeTargetIndex = null;
         let gpsWatchId = null;
 
+        function renderMapStationMarkers() {
+            if (!dynamicMap) return;
+            stationMarkers.forEach(m => dynamicMap.removeLayer(m));
+            stationMarkers = [];
+
+            STATIONS.forEach((st, idx) => {
+                const isBus = st.stopCode !== null && st.stopCode !== undefined;
+                const markerColor = isBus ? '#f97316' : (idx === 0 ? '#16a34a' : (idx === STATIONS.length - 1 ? '#854d0e' : '#ec4899'));
+                const markerHtml = `
+                    <div style="background:${markerColor}; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; border:2.5px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;">
+                        ${isBus ? '🚏' : (idx === 0 ? '🚩' : (idx + 1))}
+                    </div>
+                `;
+                const icon = L.divIcon({
+                    className: 'custom-station-pin',
+                    html: markerHtml,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+
+                const marker = L.marker([st.lat, st.lng], { icon: icon }).addTo(dynamicMap);
+                marker.on('click', (e) => {
+                    if (e && e.originalEvent) {
+                        L.DomEvent.stopPropagation(e.originalEvent);
+                    }
+                    openStationLivePopup(idx);
+                });
+
+                stationMarkers.push(marker);
+            });
+        }
+
         function initDynamicMap() {
             if (dynamicMap) return;
 
             dynamicMap = L.map('map-container', {
                 zoomControl: false,
                 attributionControl: false,
-                closePopupOnClick: false
+                closePopupOnClick: true
             }).setView(TRIPS_DATABASE[currentTripKey].center, TRIPS_DATABASE[currentTripKey].zoom);
+
+            // Clicking anywhere on the map closes any open station or anchor popup
+            dynamicMap.on('click', () => {
+                dynamicMap.closePopup();
+            });
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
@@ -4630,35 +4667,7 @@
             }).addTo(dynamicMap);
 
             renderStationQuickSelectors();
-
-            STATIONS.forEach((st, idx) => {
-                let badgeColor = "#8b5cf6";
-                let badgeText = st.id;
-                if (st.id === "bus_train" || st.id === "bus_chen" || st.id === "bus_market") {
-                    badgeColor = "#c2410c";
-                    badgeText = "🚏";
-                }
-
-                const customIcon = L.divIcon({
-                    className: 'station-badge-marker',
-                    html: `
-                        <div style="background: ${badgeColor}; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">
-                            ${badgeText}
-                        </div>
-                    `,
-                    iconSize: [28, 28],
-                    iconAnchor: [14, 14]
-                });
-
-                const marker = L.marker([st.lat, st.lng], { icon: customIcon }).addTo(dynamicMap);
-                
-                marker.on('click', () => {
-                    openStationLivePopup(idx);
-                });
-
-                stationMarkers.push(marker);
-            });
-
+            renderMapStationMarkers();
             fitFullRoute();
         }
 
@@ -4670,7 +4679,7 @@
 
         function openStationLivePopup(idx) {
             const st = STATIONS[idx];
-            if (!st) return;
+            if (!st || !dynamicMap) return;
 
             let liveDistHtml = '<span style="color:#64748b;">מאתר אות GPS...</span>';
             let liveEtaHtml = '';
@@ -4698,8 +4707,11 @@
             const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:2px 7px; border-radius:6px; font-weight:900; font-size:12px; margin-top:3px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
 
             const popupContent = `
-                <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:210px; max-width:255px;" dir="rtl">
-                    <div style="font-weight:900; color:#0f172a; font-size:15px; line-height:1.25;">${st.title}</div>
+                <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:215px; max-width:255px;" dir="rtl">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; border-bottom:1px solid #e2e8f0; padding-bottom:5px; margin-bottom:5px;">
+                        <div style="font-weight:900; color:#0f172a; font-size:15px; line-height:1.25;">${st.title}</div>
+                        <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:6px; padding:2px 7px; font-size:11.5px; font-weight:900; cursor:pointer; flex-shrink:0;" title="סגור חלונית (או לחץ על המפה)">✕ סגור</button>
+                    </div>
                     <div style="color:#0369a1; font-size:12.5px; margin:3px 0;">📍 ${st.address || st.desc || ''}</div>
                     ${stopCodeHtml}
                     
@@ -4726,15 +4738,22 @@
                 </div>
             `;
 
-            if (stationMarkers[idx]) {
-                stationMarkers[idx].bindPopup(popupContent, {
-                    maxWidth: 265,
-                    minWidth: 210,
-                    autoPan: true,
-                    autoPanPaddingTopLeft: L.point(20, 35),
-                    autoPanPaddingBottomRight: L.point(20, 20)
-                }).openPopup();
-            }
+            // Open standalone popup directly on dynamicMap so it never conflicts with marker bindPopup toggling
+            const popup = L.popup({
+                maxWidth: 265,
+                minWidth: 215,
+                offset: L.point(0, -12),
+                closeButton: false,
+                closeOnClick: true,
+                autoClose: true,
+                autoPan: true,
+                autoPanPaddingTopLeft: L.point(20, 35),
+                autoPanPaddingBottomRight: L.point(20, 20)
+            })
+            .setLatLng([st.lat, st.lng])
+            .setContent(popupContent);
+
+            dynamicMap.openPopup(popup);
         }
 
         function fitFullRoute() {
@@ -4747,11 +4766,9 @@
         function setTargetStation(idx) {
             activeTargetIndex = idx;
             if (STATIONS[idx] && dynamicMap) {
+                dynamicMap.invalidateSize();
                 dynamicMap.setView([STATIONS[idx].lat, STATIONS[idx].lng], 15, { animate: false });
                 openStationLivePopup(idx);
-                setTimeout(() => {
-                    if (dynamicMap) dynamicMap.panBy([0, -55], { animate: true });
-                }, 60);
             }
             if (currentPosition) {
                 updateUserGpsOnMap(currentPosition, false);
@@ -5579,6 +5596,16 @@
 
         const DEFAULT_RESOLVED_FEEDBACK = [
             {
+                id: 'fb_1792318101427',
+                category: 'ניווט ומסלול',
+                note: 'במפה, יש בעיה בלחיצה על נקודות העניין.\n1. צריך להוסיף אופציה לסגור את נקודת העניין בלחיצה על המפה בנק כלשהי.\n2. אחר כך לפעמים לא נפתחות הנקודות',
+                time: '18.10 13:08',
+                gps: '31.7893, 34.6417',
+                battery: '85%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.0.3: 1. הופעלה סגירה מיידית של בועת נקודת העניין בלחיצה בכל נקודה על המפה ונוסף כפתור "✕ סגור" בתוך הבועה. 2. תוקן שורשית מנגנון הפתיחה החוזרת של נקודות העניין (ביטול כפילות bindPopup לטובת פתיחה ישירה ונקייה בכל לחיצה ללא הגבלת פעמים). 3. באנר הסנכרון הפך לכפתור לחיץ עם סנכרון אוטומטי ביציאה ממצב שינה.'
+            },
+            {
                 id: 'fb_v502_1',
                 category: 'ניווט ומסלול',
                 note: 'שילוב 3 נקודות גיאוגרפיות מובחנות במערכת (תוכנית א\'): 1. נקודת יציאה מהבית/מלון, 2. נקודת מפגש (במקרה של טיול מאורגן/הסעה משותפת), 3. תחילת מסלול',
@@ -5676,11 +5703,18 @@
                 if (!Array.isArray(parsed) || parsed.length === 0) {
                     return DEFAULT_RESOLVED_FEEDBACK;
                 }
-                // Ensure default resolved items are included if not explicitly deleted
-                const existingIds = new Set(parsed.map(x => x.id));
+                // Ensure default resolved items are included and upgraded if resolved by agent
+                const byId = new Map(parsed.map(x => [x.id, x]));
                 DEFAULT_RESOLVED_FEEDBACK.forEach(defItem => {
-                    if (!existingIds.has(defItem.id)) {
+                    if (!byId.has(defItem.id)) {
                         parsed.push(defItem);
+                        byId.set(defItem.id, defItem);
+                    } else {
+                        const existing = byId.get(defItem.id);
+                        if (defItem.status === 'fixed' && existing.status !== 'fixed') {
+                            existing.status = 'fixed';
+                            existing.fixSummary = defItem.fixSummary;
+                        }
                     }
                 });
                 return parsed;
@@ -5693,6 +5727,36 @@
             localStorage.setItem('travel_assistant_feedback', JSON.stringify(entries));
         }
 
+        async function manualSyncFeedbackNow() {
+            const statusBanner = document.getElementById('fb-cloud-sync-banner');
+            if (statusBanner) {
+                statusBanner.innerHTML = '🔄 מבצע סנכרון דו-כיווני מלא מול הענן והסוכן... אנא המתן';
+                statusBanner.style.background = '#eff6ff';
+                statusBanner.style.borderColor = '#60a5fa';
+                statusBanner.style.color = '#1d4ed8';
+            }
+            await syncFeedbackFromCloud(false);
+            const currentEntries = getFeedbackEntries();
+            await syncFeedbackToCloud(currentEntries);
+            renderFeedbackList();
+            const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            if (statusBanner) {
+                statusBanner.innerHTML = `✅ סנכרון הושלם בהצלחה (${nowTime})! לחץ כאן בכל עת לסנכרון חוזר מול הענן והסוכן`;
+                statusBanner.style.background = '#dcfce7';
+                statusBanner.style.borderColor = '#4ade80';
+                statusBanner.style.color = '#166534';
+            }
+        }
+
+        // Automatically re-sync when PC/Laptop wakes up from sleep, tab regains focus, or internet reconnects
+        window.addEventListener('focus', () => { syncFeedbackFromCloud(true); });
+        window.addEventListener('online', () => { syncFeedbackFromCloud(true); });
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                syncFeedbackFromCloud(true);
+            }
+        });
+
         async function syncFeedbackFromCloud(silent = true) {
             const statusBanner = document.getElementById('fb-cloud-sync-banner');
             if (statusBanner && !silent) {
@@ -5701,7 +5765,7 @@
                 statusBanner.style.color = '#1d4ed8';
             }
             try {
-                const apiUrl = 'https://api.github.com/repos/mosheshmueli-cmyk/travel-assitant/contents/field_feedback.json';
+                const apiUrl = 'https://api.github.com/repos/mosheshmueli-cmyk/travel-assitant/contents/field_feedback.json?t=' + Date.now();
                 const res = await fetch(apiUrl, {
                     headers: {
                         'Authorization': 'Bearer ' + _getCloudBridgeAuth(),
@@ -5722,10 +5786,11 @@
                         if (!byId.has(item.id)) {
                             byId.set(item.id, item);
                         } else {
-                            // Prefer 'fixed' status from cloud if updated by agent
                             const cItem = byId.get(item.id);
                             if (cItem.status === 'fixed' || cItem.fixSummary) {
                                 byId.set(item.id, cItem);
+                            } else if (item.status === 'fixed' || item.fixSummary) {
+                                byId.set(item.id, item);
                             }
                         }
                     });
@@ -5733,7 +5798,8 @@
                     saveFeedbackEntries(merged);
                     renderFeedbackList();
                     if (statusBanner) {
-                        statusBanner.innerHTML = '☁️ מסונכרן אוטומטית בין הטלפון בשטח, המחשב והסוכן (ללא צורך בהעתקה והדבקה)';
+                        const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+                        statusBanner.innerHTML = `☁️ סנכרון אוטומטי פעיל (עודכן ב-${nowTime}) — 🔄 לחץ כאן לסנכרון מיידי מול הענן והסוכן`;
                         statusBanner.style.background = '#f0fdf4';
                         statusBanner.style.color = '#166534';
                     }
@@ -6549,20 +6615,8 @@
                     dashArray: '8, 8'
                 }).addTo(dynamicMap);
 
-                // Add new station markers
-                STATIONS.forEach((st, idx) => {
-                    const isBus = st.stopCode !== null && st.stopCode !== undefined;
-                    const markerColor = isBus ? '#f97316' : (idx === 0 ? '#16a34a' : (idx === STATIONS.length - 1 ? '#854d0e' : '#ec4899'));
-                    const markerHtml = `
-                        <div style="background:${markerColor}; color:white; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:12px; border:2px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
-                            ${isBus ? '🚏' : (idx === 0 ? '🚩' : (idx + 1))}
-                        </div>
-                    `;
-                    const icon = L.divIcon({ className: 'custom-station-pin', html: markerHtml, iconSize: [28, 28], iconAnchor: [14, 14] });
-                    const m = L.marker([st.lat, st.lng], { icon: icon }).addTo(dynamicMap);
-                    m.on('click', () => openStationLivePopup(idx));
-                    stationMarkers.push(m);
-                });
+                // Add new station markers with unified click handler
+                renderMapStationMarkers();
 
                 // Update quick selectors and bottom drawer
                 renderStationQuickSelectors();
@@ -6855,7 +6909,10 @@
 
             const popupHtml = `
                 <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:215px; max-width:260px;" dir="rtl">
-                    <div style="font-weight:900; color:#0f172a; font-size:15px;">${title}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; border-bottom:1px solid #e2e8f0; padding-bottom:5px; margin-bottom:5px;">
+                        <div style="font-weight:900; color:#0f172a; font-size:15px;">${title}</div>
+                        <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:6px; padding:2px 7px; font-size:11.5px; font-weight:900; cursor:pointer; flex-shrink:0;">✕ סגור</button>
+                    </div>
                     <div style="color:#0369a1; font-size:12.5px; margin:3px 0; font-weight:700;">📍 ${address}</div>
                     <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:6px 9px; margin:6px 0; font-size:12.5px;">
                         <div>🕒 <b>שעה מתוכננת:</b> ${timeStr}</div>
@@ -6874,17 +6931,28 @@
             `;
 
             arrivalAnchorMarker = L.marker([lat, lng], { icon: anchorIcon }).addTo(dynamicMap);
+            arrivalAnchorMarker.on('click', (e) => {
+                if (e && e.originalEvent) L.DomEvent.stopPropagation(e.originalEvent);
+                focusArrivalAnchor(type);
+            });
+            dynamicMap.invalidateSize();
             dynamicMap.setView([lat, lng], 14, { animate: false });
-            arrivalAnchorMarker.bindPopup(popupHtml, {
+
+            const anchorPopup = L.popup({
                 maxWidth: 265,
                 minWidth: 215,
+                offset: L.point(0, -14),
+                closeButton: false,
+                closeOnClick: true,
+                autoClose: true,
                 autoPan: true,
                 autoPanPaddingTopLeft: L.point(20, 35),
                 autoPanPaddingBottomRight: L.point(20, 20)
-            }).openPopup();
-            setTimeout(() => {
-                if (dynamicMap) dynamicMap.panBy([0, -55], { animate: true });
-            }, 60);
+            })
+            .setLatLng([lat, lng])
+            .setContent(popupHtml);
+
+            dynamicMap.openPopup(anchorPopup);
         }
 
         // ================= 4-STEP LINEAR GUIDED WIZARD CONTROLLER =================
@@ -7725,10 +7793,11 @@
                 <button onclick="closeFeedbackModal()" style="background:#f1f5f9; border:none; width:34px; height:34px; border-radius:50%; font-size:18px; cursor:pointer; color:#64748b; font-weight:bold; flex-shrink:0;">✕</button>
             </div>
 
-            <!-- Cloud Auto-Sync Status Banner -->
-            <div id="fb-cloud-sync-banner" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:8px 12px; margin-bottom:12px; font-size:0.85em; font-weight:800; color:#166534;">
-                ☁️ סנכרון אוטומטי פעיל: כל משוב שתשמור בטלפון בשטח עובר אוטומטית למחשב ולסוכן (ללא צורך בהעתקה והדבקה)
-            </div>
+            <!-- Cloud Auto-Sync Status Banner (Interactive Button) -->
+            <button id="fb-cloud-sync-banner" onclick="manualSyncFeedbackNow()" style="width:100%; text-align:right; font-family:inherit; background:#f0fdf4; border:2px solid #4ade80; border-radius:10px; padding:10px 14px; margin-bottom:12px; font-size:0.86em; font-weight:900; color:#166534; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px; box-shadow:0 2px 5px rgba(22,101,52,0.1);">
+                <span>☁️ סנכרון אוטומטי פעיל (טלפון ⇄ ענן ⇄ מחשב וסוכן)</span>
+                <span style="background:#16a34a; color:white; padding:4px 10px; border-radius:7px; font-size:0.85em; white-space:nowrap;">🔄 סנכרן עכשיו</span>
+            </button>
 
             <!-- Live Telemetry Badge -->
             <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:8px 12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; font-size:0.82em; color:#475569; flex-wrap:wrap; gap:6px;">
@@ -7770,8 +7839,8 @@
                     📋 משוב, הצעות לשיפור ותיקונים שבוצעו <span id="fb-history-count" style="color:#475569; font-weight:800; font-size:0.85em;">(0)</span>:
                 </div>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                    <button onclick="syncFeedbackFromCloud(false)" style="background:#eff6ff; border:1px solid #93c5fd; color:#1d4ed8; padding:4px 10px; border-radius:6px; font-size:0.78em; font-weight:800; cursor:pointer;">
-                        <i class="fa-solid fa-rotate"></i> רענן מהטלפון/ענן
+                    <button onclick="manualSyncFeedbackNow()" style="background:#eff6ff; border:1.5px solid #60a5fa; color:#1d4ed8; padding:5px 12px; border-radius:6px; font-size:0.8em; font-weight:900; cursor:pointer;">
+                        <i class="fa-solid fa-rotate"></i> סנכרן ורענן מהענן
                     </button>
                     <button onclick="copyAllFeedback()" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; padding:4px 8px; border-radius:6px; font-size:0.75em; font-weight:bold; cursor:pointer;">
                         <i class="fa-solid fa-copy"></i> העתק
