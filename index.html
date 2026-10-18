@@ -694,7 +694,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.4
+                גרסה 5.0.5
             </span>
         </div>
     </header>
@@ -948,12 +948,17 @@
 
                                 <!-- ANCHOR 1: HOME / HOTEL DEPARTURE -->
                                 <div style="background: white; border: 1.5px solid #bae6fd; border-right: 5px solid #0284c7; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;">
-                                    <div style="font-weight: 900; color: #0369a1; font-size: 0.92em; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="font-weight: 900; color: #0369a1; font-size: 0.92em; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
                                         <span>🏠 1. נקודת יציאה מהבית / מלון (מוצא אישי):</span>
-                                        <span style="font-size: 0.8em; background: #f0f9ff; color: #0284c7; padding: 1px 7px; border-radius: 5px;">עוגן מוצא</span>
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <button type="button" onclick="syncOriginToCurrentGps()" style="background: #eff6ff; border: 1px solid #60a5fa; color: #1d4ed8; padding: 2px 8px; border-radius: 6px; font-size: 0.78em; font-weight: 800; cursor: pointer;" title="קבע את מיקום הבית/מלון במפה לפי ה-GPS הנוכחי שלך">
+                                                📍 סנכרן למיקום ה-GPS שלי
+                                            </button>
+                                            <span id="step1-origin-sync-badge" style="font-size: 0.78em; background: #f0f9ff; color: #0284c7; padding: 2px 7px; border-radius: 5px;">עוגן מוצא</span>
+                                        </div>
                                     </div>
                                     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                                        <input type="text" id="step1-origin-address" oninput="saveArrivalChainFromUI()" placeholder="כתובת בית או מלון..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 700;">
+                                        <input type="text" id="step1-origin-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('origin')" placeholder="כתובת בית או מלון..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 700;">
                                         <input type="text" id="step1-origin-time" oninput="saveArrivalChainFromUI()" placeholder="שעת יציאה (למשל 05:45)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #0369a1;">
                                     </div>
                                 </div>
@@ -972,7 +977,7 @@
                                         </div>
                                     </div>
                                     <div id="step1-meeting-inputs-box" style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                                        <input type="text" id="step1-meeting-address" oninput="saveArrivalChainFromUI()" placeholder="מקום המפגש / איסוף אוטובוס / שער בנתב״ג..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 700;">
+                                        <input type="text" id="step1-meeting-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('meeting')" placeholder="מקום המפגש / איסוף אוטובוס / שער בנתב״ג..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 700;">
                                         <input type="text" id="step1-meeting-time" oninput="saveArrivalChainFromUI()" placeholder="שעת מפגש (למשל 08:00)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #b45309;">
                                     </div>
                                     <div id="step1-meeting-direct-notice" style="display: none; font-size: 0.84em; color: #64748b; font-weight: 700; padding: 2px 0;">
@@ -5237,9 +5242,10 @@
                             </div>
                             <div style="font-weight:900; font-size:0.95em; color:#0f172a; margin-top:2px; line-height:1.25;">${chain.meetingAddress || 'נקודת מפגש קבוצתית / איסוף'}</div>
                         </div>
-                        <div style="text-align:left; display:flex; align-items:center; gap:6px; flex-shrink:0;">
+                        <div style="text-align:left; display:flex; align-items:center; gap:5px; flex-shrink:0;">
                             <div style="font-size:0.88em; font-weight:bold; white-space:nowrap;">${meetingDistHtml}</div>
-                            <button onclick="showArrivalTaxiCard('meeting')" title="כרטיס לנהג לנקודת המפגש" style="background:#f59e0b; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                            <button type="button" onclick="openGoogleMapsArrivalNav('meeting')" title="ניווט ב-Google Maps אל נקודת המפגש" style="background:#16a34a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-diamond-turn-right"></i></button>
+                            <button type="button" onclick="showArrivalTaxiCard('meeting')" title="כרטיס לנהג לנקודת המפגש" style="background:#f59e0b; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
                         </div>
                     </div>
                 ` : `
@@ -5252,7 +5258,7 @@
                     <div style="background:#f1f5f9; border:1.5px solid #cbd5e1; border-radius:12px; padding:8px; margin-bottom:6px; display:flex; flex-direction:column; gap:6px;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <span style="font-size:0.78em; font-weight:900; color:#334155;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> מעטפת הגעה ומפגש (לפני המסלול):</span>
-                            <button onclick="switchScreen('screen-route'); setWizardStep(1);" style="background:white; border:1px solid #cbd5e1; color:#2563eb; border-radius:6px; padding:2px 7px; font-size:0.72em; font-weight:800; cursor:pointer;">✏️ ערוך</button>
+                            <button type="button" onclick="switchScreen('screen-route'); setWizardStep(1);" style="background:white; border:1px solid #cbd5e1; color:#2563eb; border-radius:6px; padding:2px 7px; font-size:0.72em; font-weight:800; cursor:pointer;">✏️ ערוך</button>
                         </div>
                         <div style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                             <div style="flex-grow:1; cursor:pointer;" onclick="focusArrivalAnchor('origin')">
@@ -5262,9 +5268,10 @@
                                 </div>
                                 <div style="font-weight:900; font-size:0.95em; color:#0f172a; margin-top:2px; line-height:1.25;">${chain.originAddress || 'נקודת יציאה אישית'}</div>
                             </div>
-                            <div style="text-align:left; display:flex; align-items:center; gap:6px; flex-shrink:0;">
+                            <div style="text-align:left; display:flex; align-items:center; gap:5px; flex-shrink:0;">
                                 <div style="font-size:0.88em; font-weight:bold; white-space:nowrap;">${originDistHtml}</div>
-                                <button onclick="showArrivalTaxiCard('origin')" title="כרטיס לנהג לנקודת היציאה/מלון" style="background:#2563eb; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                                <button type="button" onclick="openGoogleMapsArrivalNav('origin')" title="הצג את נקודת היציאה ב-Google Maps" style="background:#0284c7; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-diamond-turn-right"></i></button>
+                                <button type="button" onclick="showArrivalTaxiCard('origin')" title="כרטיס לנהג לנקודת היציאה/מלון" style="background:#2563eb; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
                             </div>
                         </div>
                         ${meetingCardHtml}
@@ -6668,6 +6675,70 @@
 
         // ================= SMART ARRIVAL LAYER + ROUTE STATIONS (PLAN A - 3 GEOGRAPHIC ANCHORS) =================
         let arrivalAnchorMarker = null;
+        let arrivalGeocodeTimer = null;
+
+        // Clean address text for geocoding & Google Maps (removes parenthetical notes and expands common abbreviations)
+        function cleanAddressForMapQuery(rawAddr) {
+            if (!rawAddr) return '';
+            let s = String(rawAddr)
+                .replace(/\([^)]*\)/g, ' ')
+                .replace(/יציאה מהבית|יציאה מומלצת מהבית|נקודת מפגש ואיסוף הסעה|נקודת מפגש|תחילת המסלול/g, ' ')
+                .replace(/ראשל["״']צ|רשל["״']צ/g, 'ראשון לציון')
+                .replace(/נתב["״']ג/g, 'נמל התעופה בן גוריון')
+                .replace(/ת["״']א/g, 'תל אביב')
+                .replace(/ב["״']ש/g, 'באר שבע')
+                .replace(/פ["״']ת/g, 'פתח תקווה')
+                .replace(/י-ם/g, 'ירושלים')
+                .replace(/\s+/g, ' ')
+                .trim();
+            if (s.includes('בית מכבי') && s.includes('ראשון לציון') && !s.includes('גולדה מאיר')) {
+                s = 'בית מכבי, גולדה מאיר 21, ראשון לציון';
+            }
+            return s;
+        }
+
+        // Instant built-in coordinate resolver for exact synchronization without waiting for network
+        function resolveKnownAddressCoords(rawAddr) {
+            if (!rawAddr) return null;
+            const text = String(rawAddr).toLowerCase();
+            if (text.includes('עצמאות 93') || (text.includes('העצמאות') && text.includes('אשדוד'))) {
+                return { lat: 31.7893, lng: 34.6417 }; // Exact coordinates of HaAtzmaut 93, Ashdod
+            }
+            if (text.includes('בית מכבי') || (text.includes('מכבי') && (text.includes('ראשל') || text.includes('ראשון')))) {
+                return { lat: 31.9806, lng: 34.7738 }; // Exact coordinates of Beit Maccabi, Golda Meir 21, Rishon LeZion
+            }
+            if (text.includes('ראשון לציון') || text.includes('ראשל"צ') || text.includes('ראשל״צ')) {
+                return { lat: 31.9730, lng: 34.7925 };
+            }
+            if (text.includes('נתב"ג') || text.includes('נתב״ג') || text.includes('טרמינל 3') || text.includes('בן גוריון')) {
+                return { lat: 32.0055, lng: 34.8854 };
+            }
+            if (text.includes('צומת גולני') || text.includes('אלונים')) {
+                return { lat: 32.7525, lng: 35.3415 };
+            }
+            if (text.includes('נחל עמוד')) {
+                return { lat: 32.8788, lng: 35.5028 };
+            }
+            if (text.includes('עין נון') || text.includes('מגדל')) {
+                return { lat: 32.8365, lng: 35.5025 };
+            }
+            if (text.includes('תל אשקלון') || text.includes('גן לאומי אשקלון')) {
+                return { lat: 31.6612, lng: 34.5510 };
+            }
+            if (text.includes('רכבת אשקלון') || text.includes('אשקלון')) {
+                return { lat: 31.6766, lng: 34.6046 };
+            }
+            if (text.includes('אשדוד')) {
+                return { lat: 31.7893, lng: 34.6417 };
+            }
+            if (text.includes('אינצ\'און') || text.includes('incheon')) {
+                return { lat: 37.4602, lng: 126.4407 };
+            }
+            if (text.includes('המילטון') || text.includes('איטוואן') || text.includes('hamilton')) {
+                return { lat: 37.5345, lng: 126.9946 };
+            }
+            return null;
+        }
 
         function getDefaultArrivalChain(tripKey) {
             const k = tripKey || currentTripKey;
@@ -6677,8 +6748,8 @@
                 return {
                     originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מהבית)',
                     originTime: '05:45 (מקדם ביטחון לנסיעה צפונה)',
-                    originLat: 31.7950,
-                    originLng: 34.6496,
+                    originLat: 31.7893,
+                    originLng: 34.6417,
                     hasMeetingPoint: true,
                     meetingAddress: 'צומת גולני / אלונים (נקודת מפגש ואיסוף הסעה)',
                     meetingTime: '07:45',
@@ -6691,8 +6762,8 @@
                 return {
                     originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מומלצת מהבית)',
                     originTime: '10:30',
-                    originLat: 31.7950,
-                    originLng: 34.6496,
+                    originLat: 31.7893,
+                    originLng: 34.6417,
                     hasMeetingPoint: true,
                     meetingAddress: 'נתב"ג טרמינל 3 - קומה 2 שער 32 (מפגש קבוצת אופיר טורס)',
                     meetingTime: '11:35 (המראה 14:40)',
@@ -6703,10 +6774,10 @@
                 };
             } else if (k === 'ashkelon') {
                 return {
-                    originAddress: 'יציאה מהבית (אשדוד / רחובות)',
+                    originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מהבית)',
                     originTime: '08:15',
-                    originLat: 31.7950,
-                    originLng: 34.6496,
+                    originLat: 31.7893,
+                    originLng: 34.6417,
                     hasMeetingPoint: false,
                     meetingAddress: 'תחנת רכבת אשקלון / חניון הגן הלאומי',
                     meetingTime: '08:45',
@@ -6731,18 +6802,50 @@
                 };
             }
             return {
-                originAddress: 'נקודת יציאה מהבית / מלון',
+                originAddress: 'שדרות העצמאות 93, אשדוד',
                 originTime: '07:30',
-                originLat: 32.0853,
-                originLng: 34.7818,
+                originLat: 31.7893,
+                originLng: 34.6417,
                 hasMeetingPoint: true,
                 meetingAddress: 'נקודת מפגש קבוצתית / איסוף הסעה',
                 meetingTime: '08:15',
-                meetingLat: st0 ? (st0.lat - 0.01) : 32.0900,
-                meetingLng: st0 ? (st0.lng - 0.01) : 34.7900,
+                meetingLat: st0 ? (st0.lat - 0.01) : 31.9806,
+                meetingLng: st0 ? (st0.lng - 0.01) : 34.7738,
                 trailheadAddress: st0 ? (st0.address || st0.title) : 'תחילת המסלול (תחנה 1)',
                 trailheadTime: '09:00'
             };
+        }
+
+        // Automatically synchronizes originLat/Lng and meetingLat/Lng with their text addresses
+        function synchronizeArrivalChainCoords(chain) {
+            if (!chain) return chain;
+            let changed = false;
+
+            // 1. Fix legacy 31.7950 coordinate or known origin address
+            const knownOrigin = resolveKnownAddressCoords(chain.originAddress);
+            if (knownOrigin) {
+                if (chain.originLat !== knownOrigin.lat || chain.originLng !== knownOrigin.lng) {
+                    chain.originLat = knownOrigin.lat;
+                    chain.originLng = knownOrigin.lng;
+                    changed = true;
+                }
+            } else if (chain.originLat === 31.795 || chain.originLat === 31.7950) {
+                chain.originLat = 31.7893;
+                chain.originLng = 34.6417;
+                changed = true;
+            }
+
+            // 2. Sync meeting point coordinates with meetingAddress (e.g. "בית מכבי ראשל"צ")
+            const knownMeeting = resolveKnownAddressCoords(chain.meetingAddress);
+            if (knownMeeting) {
+                if (chain.meetingLat !== knownMeeting.lat || chain.meetingLng !== knownMeeting.lng) {
+                    chain.meetingLat = knownMeeting.lat;
+                    chain.meetingLng = knownMeeting.lng;
+                    changed = true;
+                }
+            }
+
+            return { chain, changed };
         }
 
         function getTripArrivalChain(tripKey) {
@@ -6751,11 +6854,127 @@
             try {
                 const raw = localStorage.getItem('travel_assistant_arrival_chain_' + k);
                 if (raw) {
-                    const parsed = JSON.parse(raw);
-                    return Object.assign({}, defaults, parsed);
+                    const parsed = Object.assign({}, defaults, JSON.parse(raw));
+                    const syncRes = synchronizeArrivalChainCoords(parsed);
+                    if (syncRes.changed) {
+                        localStorage.setItem('travel_assistant_arrival_chain_' + k, JSON.stringify(parsed));
+                    }
+                    return parsed;
                 }
             } catch(e) {}
             return defaults;
+        }
+
+        // Live OpenStreetMap Nominatim Geocoder for any custom address typed by the user
+        async function geocodeArrivalInputNow(type) {
+            const chain = getTripArrivalChain(currentTripKey);
+            const rawText = (type === 'origin') ? chain.originAddress : chain.meetingAddress;
+            if (!rawText || !rawText.trim()) return;
+
+            // Check instant dictionary first
+            const instant = resolveKnownAddressCoords(rawText);
+            if (instant) {
+                if (type === 'origin') {
+                    chain.originLat = instant.lat;
+                    chain.originLng = instant.lng;
+                } else {
+                    chain.meetingLat = instant.lat;
+                    chain.meetingLng = instant.lng;
+                }
+                try { localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(chain)); } catch(e) {}
+                renderStationsList();
+                return;
+            }
+
+            // Query OpenStreetMap Nominatim API for any custom street/hotel/venue worldwide
+            const cleanQuery = cleanAddressForMapQuery(rawText);
+            if (!cleanQuery) return;
+            try {
+                const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=he,en&q=${encodeURIComponent(cleanQuery)}`;
+                const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+                if (!res.ok) return;
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0 && data[0].lat && data[0].lon) {
+                    const lat = parseFloat(data[0].lat);
+                    const lng = parseFloat(data[0].lon);
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        const updatedChain = getTripArrivalChain(currentTripKey);
+                        if (type === 'origin') {
+                            updatedChain.originLat = lat;
+                            updatedChain.originLng = lng;
+                        } else {
+                            updatedChain.meetingLat = lat;
+                            updatedChain.meetingLng = lng;
+                        }
+                        localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(updatedChain));
+                        renderStationsList();
+                    }
+                }
+            } catch (e) {
+                console.warn('Nominatim geocode skipped:', e);
+            }
+        }
+
+        // 1-Click button in Step 1 to lock Origin (Home/Hotel) to current live GPS location
+        function syncOriginToCurrentGps() {
+            const badge = document.getElementById('step1-origin-sync-badge');
+            const applyPos = (lat, lng) => {
+                const chain = getTripArrivalChain(currentTripKey);
+                chain.originLat = parseFloat(lat.toFixed(6));
+                chain.originLng = parseFloat(lng.toFixed(6));
+                try { localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(chain)); } catch(e) {}
+                if (badge) {
+                    badge.innerText = '✓ סונכרן ל-GPS שלך!';
+                    badge.style.background = '#dcfce7';
+                    badge.style.color = '#166534';
+                }
+                renderStationsList();
+            };
+
+            if (currentPosition && currentPosition.coords) {
+                applyPos(currentPosition.coords.latitude, currentPosition.coords.longitude);
+                return;
+            }
+            if (navigator.geolocation) {
+                if (badge) badge.innerText = 'מאתר GPS...';
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        currentPosition = pos;
+                        applyPos(pos.coords.latitude, pos.coords.longitude);
+                    },
+                    () => {
+                        alert('לא ניתן היה לקרוא מיקום GPS כעת. ודא שהרשאת המיקום פתוחה בדפדפן.');
+                    },
+                    { enableHighAccuracy: true, timeout: 8000 }
+                );
+            }
+        }
+
+        // Clean, accurate Google Maps navigation for Origin and Meeting Point
+        function openGoogleMapsArrivalNav(type) {
+            const chain = getTripArrivalChain(currentTripKey);
+            const cleanOrigin = cleanAddressForMapQuery(chain.originAddress);
+            const cleanMeeting = cleanAddressForMapQuery(chain.meetingAddress);
+
+            let url = '';
+            if (type === 'origin') {
+                const destParam = cleanOrigin ? encodeURIComponent(cleanOrigin) : `${chain.originLat || 31.7893},${chain.originLng || 34.6417}`;
+                url = `https://www.google.com/maps/dir/?api=1&destination=${destParam}&travelmode=driving`;
+            } else if (type === 'meeting') {
+                const destParam = cleanMeeting ? encodeURIComponent(cleanMeeting) : `${chain.meetingLat || 31.9806},${chain.meetingLng || 34.7738}`;
+                // If user has no active GPS fix or is planning from home, include cleanOrigin as the starting point so Google Maps shows the exact Home -> Meeting Point route!
+                if (!currentPosition && cleanOrigin) {
+                    url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(cleanOrigin)}&destination=${destParam}&travelmode=driving`;
+                } else {
+                    url = `https://www.google.com/maps/dir/?api=1&destination=${destParam}&travelmode=driving`;
+                }
+            } else {
+                const st0 = STATIONS[0];
+                const destParam = st0 ? `${st0.lat},${st0.lng}` : encodeURIComponent(cleanAddressForMapQuery(chain.trailheadAddress));
+                url = `https://www.google.com/maps/dir/?api=1&destination=${destParam}&travelmode=driving`;
+            }
+
+            window.open(url, '_blank');
         }
 
         function toggleMeetingPointEnabled(isEnabled) {
@@ -6813,9 +7032,19 @@
             if (trailAddrEl) chain.trailheadAddress = trailAddrEl.value.trim();
             if (trailTimeEl) chain.trailheadTime = trailTimeEl.value.trim();
 
+            // Synchronize coordinates immediately for known addresses
+            synchronizeArrivalChainCoords(chain);
+
             try {
                 localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(chain));
             } catch(e) {}
+
+            // Trigger debounced live geocoding for custom addresses
+            if (arrivalGeocodeTimer) clearTimeout(arrivalGeocodeTimer);
+            arrivalGeocodeTimer = setTimeout(() => {
+                geocodeArrivalInputNow('origin');
+                if (chain.hasMeetingPoint) geocodeArrivalInputNow('meeting');
+            }, 600);
 
             // Sync questionnaire origin field as well
             const qOrigin = document.getElementById('q_origin');
@@ -6900,9 +7129,9 @@
         function showArrivalTaxiCard(type) {
             const chain = getTripArrivalChain(currentTripKey);
             if (type === 'origin') {
-                showCustomTaxiCard('🏠 נקודת יציאה מהבית / מלון', chain.originAddress || 'נקודת מוצא אישית', chain.originLat || 31.7950, chain.originLng || 34.6496);
+                showCustomTaxiCard('🏠 נקודת יציאה מהבית / מלון', chain.originAddress || 'נקודת מוצא אישית', chain.originLat || 31.7893, chain.originLng || 34.6417);
             } else if (type === 'meeting') {
-                showCustomTaxiCard('🤝 נקודת מפגש / איסוף קבוצתי', chain.meetingAddress || 'נקודת מפגש', chain.meetingLat || 32.0055, chain.meetingLng || 34.8854);
+                showCustomTaxiCard('🤝 נקודת מפגש / איסוף קבוצתי', chain.meetingAddress || 'נקודת מפגש', chain.meetingLat || 31.9806, chain.meetingLng || 34.7738);
             }
         }
 
@@ -6916,8 +7145,8 @@
             if (!dynamicMap) return;
 
             const isOrigin = (type === 'origin');
-            const lat = isOrigin ? (chain.originLat || 31.7950) : (chain.meetingLat || 32.7525);
-            const lng = isOrigin ? (chain.originLng || 34.6496) : (chain.meetingLng || 35.3415);
+            const lat = isOrigin ? (chain.originLat || 31.7893) : (chain.meetingLat || 31.9806);
+            const lng = isOrigin ? (chain.originLng || 34.6417) : (chain.meetingLng || 34.7738);
             const title = isOrigin ? '🏠 נקודת יציאה מהבית / מלון' : '🤝 נקודת מפגש / איסוף קבוצתי';
             const address = isOrigin ? (chain.originAddress || 'נקודת יציאה') : (chain.meetingAddress || 'נקודת מפגש');
             const timeStr = isOrigin ? (chain.originTime || 'לפי תכנון') : (chain.meetingTime || 'לפי תכנון');
@@ -6943,14 +7172,14 @@
             }
 
             const nextStepAction = (isOrigin && chain.hasMeetingPoint)
-                ? `<button onclick="focusArrivalAnchor('meeting')" style="width:100%; margin-top:6px; background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">⏭️ המשך אל נק' המפגש</button>`
-                : `<button onclick="setTargetStation(0)" style="width:100%; margin-top:6px; background:#16a34a; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">🚩 המשך אל תחילת המסלול (תחנה 1)</button>`;
+                ? `<button type="button" onclick="focusArrivalAnchor('meeting')" style="width:100%; margin-top:6px; background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">⏭️ המשך אל נק' המפגש</button>`
+                : `<button type="button" onclick="setTargetStation(0)" style="width:100%; margin-top:6px; background:#16a34a; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">🚩 המשך אל תחילת המסלול (תחנה 1)</button>`;
 
             const popupHtml = `
                 <div style="font-family:'Heebo',sans-serif; font-size:13.5px; text-align:right; min-width:215px; max-width:260px;" dir="rtl">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; border-bottom:1px solid #e2e8f0; padding-bottom:5px; margin-bottom:5px;">
                         <div style="font-weight:900; color:#0f172a; font-size:15px;">${title}</div>
-                        <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:6px; padding:2px 7px; font-size:11.5px; font-weight:900; cursor:pointer; flex-shrink:0;">✕ סגור</button>
+                        <button type="button" onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:6px; padding:2px 7px; font-size:11.5px; font-weight:900; cursor:pointer; flex-shrink:0;">✕ סגור</button>
                     </div>
                     <div style="color:#0369a1; font-size:12.5px; margin:3px 0; font-weight:700;">📍 ${address}</div>
                     <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:6px 9px; margin:6px 0; font-size:12.5px;">
@@ -6958,10 +7187,10 @@
                         <div style="margin-top:2px;">📏 <b>מרחק ממיקומך:</b> ${distHtml}</div>
                     </div>
                     <div style="display:flex; gap:6px; margin-top:6px;">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}" target="_blank" style="flex:1; background:#2563eb; color:white; text-decoration:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; text-align:center;">
-                            🧭 ניווט בזמן אמת
-                        </a>
-                        <button onclick="showArrivalTaxiCard('${type}')" style="background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
+                        <button type="button" onclick="openGoogleMapsArrivalNav('${type}')" style="flex:1; background:#2563eb; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; text-align:center; cursor:pointer;">
+                            🧭 ניווט ב-Google Maps
+                        </button>
+                        <button type="button" onclick="showArrivalTaxiCard('${type}')" style="background:#f59e0b; color:white; border:none; padding:7px 10px; border-radius:8px; font-size:12.5px; font-weight:900; cursor:pointer;">
                             🚖 כרטיס לנהג
                         </button>
                     </div>
@@ -6975,7 +7204,7 @@
                 focusArrivalAnchor(type);
             });
             dynamicMap.invalidateSize();
-            dynamicMap.setView([lat, lng], 14, { animate: false });
+            dynamicMap.setView([lat, lng], 15, { animate: false });
 
             const anchorPopup = L.popup({
                 maxWidth: 265,
@@ -7262,13 +7491,13 @@
             let anchorPillsHtml = '';
             if (chain) {
                 anchorPillsHtml += `
-                    <button onclick="focusArrivalAnchor('origin')" style="background:#eff6ff; border:1.5px solid #60a5fa; color:#1e40af; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="${chain.originAddress || ''}">
+                    <button onclick="focusArrivalAnchor('origin')" style="background:#eff6ff; border:1.5px solid #60a5fa; color:#1e40af; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="${(chain.originAddress || '').replace(/"/g, '&quot;')}">
                         🏠 יציאה מבית/מלון
                     </button>
                 `;
                 if (chain.hasMeetingPoint) {
                     anchorPillsHtml += `
-                        <button onclick="focusArrivalAnchor('meeting')" style="background:#fffbeb; border:1.5px solid #fbbf24; color:#b45309; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="${chain.meetingAddress || ''}">
+                        <button onclick="focusArrivalAnchor('meeting')" style="background:#fffbeb; border:1.5px solid #fbbf24; color:#b45309; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="${(chain.meetingAddress || '').replace(/"/g, '&quot;')}">
                             🤝 נק' מפגש
                         </button>
                     `;
