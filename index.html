@@ -34,6 +34,8 @@
             font-size: 100%; /* Controlled dynamically by applyFontScale() */
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
+            overflow-x: hidden;
+            max-width: 100vw;
         }
 
         body {
@@ -49,6 +51,8 @@
             line-height: 1.5;
             overflow-x: hidden;
             overflow-y: auto;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .header {
@@ -68,11 +72,17 @@
             flex-grow: 1;
             position: relative;
             overflow-y: visible;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
             padding-bottom: 80px;
         }
 
         .screen {
             display: none;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
             animation: fadeIn 0.2s ease-in-out;
         }
         
@@ -186,9 +196,12 @@
         }
 
         .content-padding {
-            padding: 20px 18px 160px 18px !important;
+            padding: 16px 14px 160px 14px !important;
+            width: 100%;
             max-width: 1100px;
             margin: 0 auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         /* ================= MAP & HEADING-UP STYLING ================= */
@@ -880,497 +893,391 @@
             </div>
             
             <div class="content-padding" style="padding-bottom: 50px;">
-                <!-- 4-STEP LINEAR GUIDED WIZARD CONTROLLER (TOP OF PLANNING SCREEN) -->
-                <div id="trip-wizard-stepper-card" style="background: white; border: 2px solid #2563eb; border-radius: 16px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(37,99,235,0.08);" dir="rtl">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
-                        <span style="font-weight: 900; color: #1e3a8a; font-size: 1.05em; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-list-ol" style="color: #2563eb;"></i> שלבי תכנון הטיול (הכוונה טורית):
-                        </span>
-                        <span id="wizard-current-step-badge" style="background: #eff6ff; color: #1d4ed8; padding: 4px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em;">
-                            שלב 1 מתוך 4: יעד ותאריכים
-                        </span>
-                    </div>
-
-                    <!-- 4-Step Linear Pills -->
+                <!-- 4-STEP LINEAR GUIDED WIZARD CONTROLLER (TOP OF PLANNING SCREEN - BUTTONS 1-4 ONLY) -->
+                <div id="trip-wizard-stepper-card" style="background: white; border: 2px solid #2563eb; border-radius: 14px; padding: 10px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(37,99,235,0.08);" dir="rtl">
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-                        <div id="wizard-pill-1" onclick="setWizardStep(1)" style="background: #2563eb; color: white; border: 2px solid #1d4ed8; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-                            <div style="font-size: 0.72em; opacity: 0.9; font-weight: 800;">שלב 1</div>
-                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">📍 יעד ותאריכים</div>
+                        <div id="wizard-pill-1" onclick="setWizardStep(1)" style="background: #2563eb; color: white; border: 2px solid #1d4ed8; border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.78em; font-weight: 900;">1</div>
+                            <div style="font-size: 0.78em; font-weight: 800; margin-top: 2px;">📍 יעד</div>
                         </div>
-                        <div id="wizard-pill-2" onclick="setWizardStep(2)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-                            <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 2</div>
-                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">📁 חומרי גלם</div>
+                        <div id="wizard-pill-2" onclick="setWizardStep(2)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.78em; font-weight: 900;">2</div>
+                            <div style="font-size: 0.78em; font-weight: 800; margin-top: 2px;">📁 מסמכים</div>
                         </div>
-                        <div id="wizard-pill-3" onclick="setWizardStep(3)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-                            <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 3</div>
-                            <div style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">📝 פירוט והעדפות</div>
+                        <div id="wizard-pill-3" onclick="setWizardStep(3)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.78em; font-weight: 900;">3</div>
+                            <div style="font-size: 0.78em; font-weight: 800; margin-top: 2px;">📝 העדפות</div>
                         </div>
-                        <div id="wizard-pill-4" onclick="setWizardStep(4)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-                            <div style="font-size: 0.72em; opacity: 0.8; font-weight: 800;">שלב 4</div>
-                            <div id="wizard-pill-4-label" style="font-size: 0.82em; font-weight: 900; margin-top: 2px;">🎒 ממתין ליציאה</div>
+                        <div id="wizard-pill-4" onclick="setWizardStep(4)" style="background: #f8fafc; color: #475569; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+                            <div style="font-size: 0.78em; font-weight: 900;">4</div>
+                            <div id="wizard-pill-4-label" style="font-size: 0.78em; font-weight: 800; margin-top: 2px;">🎒 ליציאה</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3-ELEMENT CONTROL BAR: בחר מרשימה (לפי תאריך יציאה) + טיול חדש + מחק -->
-                <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;" dir="rtl">
+                <!-- 2-ELEMENT CONTROL BAR: בחר מרשימה + מחק (ללא טיול חדש) -->
+                <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: center; max-width: 100%;" dir="rtl">
                     <div style="flex: 1; min-width: 0;">
-                        <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 12px; border: 2px solid #2563eb; font-family: inherit; font-size: 1em; font-weight: 800; color: #1e3a8a; background: #eff6ff; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.12); text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-                            <!-- Populated dynamically by JS (sorted chronologically) -->
+                        <select id="route-main-trip-selector" onchange="selectTripAndApply(this.value)" style="width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; padding: 11px 12px; border-radius: 12px; border: 2px solid #2563eb; font-family: inherit; font-size: 0.95em; font-weight: 800; color: #1e3a8a; background: #eff6ff; cursor: pointer; box-shadow: 0 2px 6px rgba(37,99,235,0.12); text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                            <!-- Populated dynamically by JS -->
                         </select>
                     </div>
-                    <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 12px 16px; border-radius: 12px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3); white-space: nowrap; flex-shrink: 0;">
-                        <i class="fa-solid fa-plus"></i> טיול חדש
-                    </button>
-                    <button onclick="deleteCurrentSelectedTrip()" title="מחק טיול זה מהרשימה" style="background: #fee2e2; color: #dc2626; border: 1.5px solid #fca5a5; padding: 12px 14px; border-radius: 12px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(220,38,38,0.15); white-space: nowrap; flex-shrink: 0;">
+                    <button onclick="deleteCurrentSelectedTrip()" title="מחק טיול זה מהרשימה" style="background: #fee2e2; color: #dc2626; border: 1.5px solid #fca5a5; padding: 11px 14px; border-radius: 12px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(220,38,38,0.15); white-space: nowrap; flex-shrink: 0;">
                         <i class="fa-solid fa-trash"></i> מחק
                     </button>
                 </div>
 
                 <!-- ================= WIZARD PANE 1: שלב 1 - יעד, תאריכים ושרשרת הגעה ================= -->
                 <div id="wizard-pane-1" class="wizard-step-pane" style="display: block;">
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                        <div style="display: flex; flex-direction: column; gap: 14px;">
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
                                 <div>
-                                    <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">📍 שם היעד / המסלול:</label>
-                                    <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="שם היעד..." style="width: 100%; box-sizing: border-box; padding: 11px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 1em; font-weight: 800; color: #0f172a;">
+                                    <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">📍 שם היעד / המסלול:</label>
+                                    <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="שם היעד..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 1em; font-weight: 800; color: #0f172a;">
                                 </div>
 
                                 <div>
-                                    <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">📅 תאריכים:</label>
-                                    <input type="text" id="step1-dates" onchange="syncStep1Dates(this.value)" placeholder="תאריכי הטיול..." style="width: 100%; box-sizing: border-box; padding: 11px 14px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
+                                    <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">📅 תאריכים:</label>
+                                    <input type="text" id="step1-dates" onchange="syncStep1Dates(this.value)" placeholder="תאריכי הטיול..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
                                 </div>
                             </div>
 
-                            <!-- SMART ARRIVAL LAYER: 3 GEOGRAPHIC ANCHOR POINTS (PLAN A) -->
-                            <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-top: 4px;">
+                            <!-- SMART ARRIVAL LAYER: 3 GEOGRAPHIC ANCHOR POINTS (CLEAR FULL-WIDTH MOBILE LAYOUT) -->
+                            <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 14px; padding: 12px; margin-top: 2px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
-                                    <div style="font-weight: 900; color: #0f172a; font-size: 1.02em; display: flex; align-items: center; gap: 7px;">
+                                    <div style="font-weight: 900; color: #0f172a; font-size: 0.98em; display: flex; align-items: center; gap: 6px;">
                                         <i class="fa-solid fa-route" style="color: #0284c7;"></i>
-                                        <span>שרשרת היציאה וההגעה למסלול (3 נקודות העוגן):</span>
+                                        <span>שרשרת יציאה והגעה למסלול:</span>
                                     </div>
-                                    <span style="background: #e0f2fe; color: #0369a1; font-size: 0.78em; padding: 3px 9px; border-radius: 6px; font-weight: 800;">
+                                    <span style="background: #e0f2fe; color: #0369a1; font-size: 0.75em; padding: 2px 8px; border-radius: 6px; font-weight: 800;">
                                         מסונכרן למפה בזמן אמת
                                     </span>
                                 </div>
 
                                 <!-- ANCHOR 1: HOME / HOTEL DEPARTURE -->
                                 <div style="background: white; border: 1.5px solid #bae6fd; border-right: 5px solid #0284c7; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;">
-                                    <div style="font-weight: 900; color: #0369a1; font-size: 0.92em; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                                        <span>🏠 1. נקודת יציאה מהבית / מלון (מוצא אישי):</span>
+                                    <div style="font-weight: 900; color: #0369a1; font-size: 0.92em; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                                        <span>🏠 1. נקודת יציאה (בית / מלון):</span>
                                         <div style="display: flex; align-items: center; gap: 6px;">
-                                            <button type="button" onclick="syncOriginToCurrentGps()" style="background: #eff6ff; border: 1px solid #60a5fa; color: #1d4ed8; padding: 2px 8px; border-radius: 6px; font-size: 0.78em; font-weight: 800; cursor: pointer;" title="קבע את מיקום הבית/מלון במפה לפי ה-GPS הנוכחי שלך">
-                                                📍 סנכרן למיקום ה-GPS שלי
+                                            <button type="button" onclick="syncOriginToCurrentGps()" style="background: #eff6ff; border: 1px solid #60a5fa; color: #1d4ed8; padding: 3px 8px; border-radius: 6px; font-size: 0.78em; font-weight: 800; cursor: pointer;">
+                                                📍 סנכרן ל-GPS
                                             </button>
-                                            <span id="step1-origin-sync-badge" style="font-size: 0.78em; background: #f0f9ff; color: #0284c7; padding: 2px 7px; border-radius: 5px;">עוגן מוצא</span>
+                                            <span id="step1-origin-sync-badge" style="font-size: 0.75em; background: #f0f9ff; color: #0284c7; padding: 2px 6px; border-radius: 5px;">מסונכרן</span>
                                         </div>
                                     </div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                                        <input type="text" id="step1-origin-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('origin')" placeholder="כתובת בית או מלון..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 700;">
-                                        <input type="text" id="step1-origin-time" oninput="saveArrivalChainFromUI()" placeholder="שעת יציאה (למשל 05:45)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #0369a1;">
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        <input type="text" id="step1-origin-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('origin')" placeholder="כתובת בית או מלון (למשל: רח' העצמאות 93, אשדוד)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #93c5fd; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <label for="step1-origin-time" style="font-size: 0.88em; font-weight: 800; color: #0369a1; white-space: nowrap;">🕒 שעת יציאה מהבית:</label>
+                                            <input type="text" id="step1-origin-time" oninput="saveArrivalChainFromUI()" placeholder="05:42" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #93c5fd; font-size: 1em; font-weight: 900; color: #0369a1; background: #f0f9ff;">
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- ANCHOR 2: MEETING / PICKUP POINT (CONDITIONAL) -->
                                 <div style="background: white; border: 1.5px solid #fde68a; border-right: 5px solid #d97706; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
-                                        <span style="font-weight: 900; color: #b45309; font-size: 0.92em;">🤝 2. נקודת מפגש / איסוף (טיול מאורגן / הסעה משותפת):</span>
+                                        <span style="font-weight: 900; color: #b45309; font-size: 0.92em;">🤝 2. נקודת מפגש / איסוף:</span>
                                         <div style="display: flex; gap: 5px;">
                                             <button type="button" id="btn-meeting-yes" onclick="toggleMeetingPointEnabled(true)" style="background: #d97706; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.78em; font-weight: 800; cursor: pointer;">
                                                 ✓ יש נקודת מפגש
                                             </button>
                                             <button type="button" id="btn-meeting-no" onclick="toggleMeetingPointEnabled(false)" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 6px; font-size: 0.78em; font-weight: 800; cursor: pointer;">
-                                                הגעה ישירה (ללא מפגש)
+                                                הגעה ישירה
                                             </button>
                                         </div>
                                     </div>
-                                    <div id="step1-meeting-inputs-box" style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                                        <input type="text" id="step1-meeting-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('meeting')" placeholder="מקום המפגש / איסוף אוטובוס / שער בנתב״ג..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 700;">
-                                        <input type="text" id="step1-meeting-time" oninput="saveArrivalChainFromUI()" placeholder="שעת מפגש (למשל 08:00)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #b45309;">
+                                    <div id="step1-meeting-inputs-box" style="display: flex; flex-direction: column; gap: 8px;">
+                                        <input type="text" id="step1-meeting-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('meeting')" placeholder="מקום המפגש (למשל: בית מכבי ראשל״צ)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #fcd34d; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <label for="step1-meeting-time" style="font-size: 0.88em; font-weight: 800; color: #b45309; white-space: nowrap;">🕒 שעת מפגש:</label>
+                                            <input type="text" id="step1-meeting-time" oninput="saveArrivalChainFromUI()" placeholder="06:30" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #fcd34d; font-size: 1em; font-weight: 900; color: #b45309; background: #fffbeb;">
+                                        </div>
                                     </div>
                                     <div id="step1-meeting-direct-notice" style="display: none; font-size: 0.84em; color: #64748b; font-weight: 700; padding: 2px 0;">
-                                        🚗 הגעה ישירה מנקודת היציאה אל תחילת המסלול (ללא תחנת מפגש ביניים).
+                                        🚗 הגעה ישירה מנקודת היציאה אל תחילת המסלול.
                                     </div>
                                 </div>
 
                                 <!-- ANCHOR 3: TRAILHEAD / START OF ROUTE (STATION 1) -->
                                 <div style="background: white; border: 1.5px solid #86efac; border-right: 5px solid #16a34a; border-radius: 10px; padding: 10px 12px;">
-                                    <div style="font-weight: 900; color: #15803d; font-size: 0.92em; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
-                                        <span>🚩 3. תחילת מסלול (תחנה 1 הרשמית במסלול):</span>
-                                        <span style="font-size: 0.8em; background: #dcfce7; color: #166534; padding: 1px 7px; border-radius: 5px; font-weight: 900;">תחנה 1</span>
+                                    <div style="font-weight: 900; color: #15803d; font-size: 0.92em; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                                        <span>🚩 3. תחילת מסלול (תחנה 1):</span>
+                                        <span style="font-size: 0.78em; background: #dcfce7; color: #166534; padding: 2px 7px; border-radius: 5px; font-weight: 900;">תחנה 1</span>
                                     </div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
-                                        <input type="text" id="step1-trailhead-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('trailhead')" placeholder="נקודת הזינוק של המסלול / מיקום האירוע (תחנה 1)..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9em; font-weight: 800; color: #0f172a;">
-                                        <input type="text" id="step1-trailhead-time" oninput="saveArrivalChainFromUI()" placeholder="שעת התחלה (למשל 19:30)" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.88em; font-weight: 700; color: #15803d;">
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        <input type="text" id="step1-trailhead-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('trailhead')" placeholder="נקודת הזינוק של המסלול / מיקום האירוע..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <label for="step1-trailhead-time" style="font-size: 0.88em; font-weight: 800; color: #15803d; white-space: nowrap;">🕒 שעת התחלה:</label>
+                                            <input type="text" id="step1-trailhead-time" oninput="saveArrivalChainFromUI()" placeholder="08:30" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 1em; font-weight: 900; color: #15803d; background: #f0fdf4;">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Step 1 Single Action Button -->
-                        <div style="margin-top: 16px;">
-                            <button onclick="setWizardStep(2)" style="width: 100%; background: #2563eb; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
-                                המשך לשלב 2: חומרי גלם ➔
+                        <div style="margin-top: 14px;">
+                            <button onclick="setWizardStep(2)" style="width: 100%; background: #2563eb; color: white; border: none; padding: 13px; border-radius: 12px; font-weight: 900; font-size: 1.02em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
+                                המשך לשלב 2: מסמכים ➔
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- ================= WIZARD PANE 2: שלב 2 - חומרי גלם ================= -->
+                <!-- ================= WIZARD PANE 2: שלב 2 - העלאה וסנכרון (פשוט ונקי) ================= -->
                 <div id="wizard-pane-2" class="wizard-step-pane" style="display: none;">
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                        <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-folder-open" style="color: #16a34a;"></i> שלב 2: חומרי גלם (קבצים, הזמנות והודעות)
-                        </div>
-
-                        <!-- TWO PRIMARY ACTION BUTTONS ONLY -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-                            <button onclick="triggerDocUpload('organized', 'הזמנה / מסמך מסלול')" style="background: #15803d; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21,128,61,0.25);">
-                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8em;"></i>
-                                <span>📁 העלאת קובץ או תמונה</span>
-                                <span style="font-size: 0.74em; font-weight: 700; opacity: 0.92;">(גוזר אוטומטית שעות, מיקום ותיק טיול)</span>
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        
+                        <!-- TWO BUTTONS ONLY: העלאה & סנכרון -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                            <button onclick="triggerDocUpload('organized', 'מסמך / הזמנה')" style="background: #15803d; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 1.08em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21,128,61,0.25);">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.3em;"></i>
+                                <span>העלאה</span>
                             </button>
-                            <button onclick="document.getElementById('whatsapp-paste-input').focus(); document.getElementById('whatsapp-input-container').scrollIntoView({behavior:'smooth'});" style="background: #0284c7; color: white; border: none; padding: 16px 12px; border-radius: 12px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(2,132,199,0.25);">
-                                <i class="fa-brands fa-whatsapp" style="font-size: 1.8em;"></i>
-                                <span>📋 הדבקת טקסט</span>
-                                <span style="font-size: 0.74em; font-weight: 700; opacity: 0.92;">(פענוח מהיר מהודעה / הזמנה)</span>
+                            <button onclick="syncAllUploadedDocsToTrip()" style="background: #2563eb; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 1.08em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(37,99,235,0.25);">
+                                <i class="fa-solid fa-rotate" style="font-size: 1.3em;"></i>
+                                <span>סנכרון</span>
                             </button>
                         </div>
 
-                        <!-- Hidden File Input for all uploads (Images, PDF, Word DOCX, TXT) -->
+                        <!-- Hidden File Input for all uploads -->
                         <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf,.doc,.docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleCustomDocUpload(event)">
 
-                        <!-- WhatsApp / Invitation Text Ingestion Area -->
-                        <div id="whatsapp-input-container" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
-                            <div style="font-weight: 800; color: #166534; font-size: 0.95em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-brands fa-whatsapp" style="color: #16a34a; font-size: 1.2em;"></i> הדבק כאן טקסט הזמנה לאירוע, הודעת וואטסאפ או פרטי מסלול:
-                            </div>
-                            <textarea id="whatsapp-paste-input" rows="4" placeholder="הדבק כאן את פרטי ההזמנה או המסלול... (לדוגמה: הנכם מוזמנים לחתונה באולמי גני הצבי אשקלון ביום ה' 29/10/2026, קבלת פנים 19:30, חופה 20:30...)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #86efac; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em; color: #0f172a; resize: vertical; margin-bottom: 10px;"></textarea>
-
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button onclick="saveAndApplyWhatsAppMessage()" style="flex: 1; background: #15803d; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 0.98em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 6px rgba(21,128,61,0.25);">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> שמור וגזור אוטומטית את כל נתוני התיק והמפה
-                                </button>
-                                <button onclick="clearWhatsAppInput()" style="background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 14px; border-radius: 10px; font-weight: bold; font-size: 0.85em; cursor: pointer;">
-                                    ✕ נקה
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Smart Auto-Derivation Banner for Uploaded Documents -->
-                        <div style="background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border: 2px solid #818cf8; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                            <div style="flex: 1; min-width: 200px;">
-                                <div style="font-weight: 900; color: #312e81; font-size: 0.95em;">
-                                    🪄 גזירת נתונים חכמה מהמסמך שהועלה לתיק הטיול/האירוע
-                                </div>
-                                <div style="font-size: 0.82em; color: #4338ca; font-weight: 700; margin-top: 2px;">
-                                    גוזר אוטומטית מהמסמך את המיקום המדויק, שעת ההתחלה, שעת היציאה מהבית (עם מקדם ביטחון), המפה וכל 12 סעיפי התיק:
-                                </div>
-                            </div>
-                            <button type="button" onclick="triggerSmartDerivationOnLatestDoc()" style="background: #4f46e5; color: white; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 900; font-size: 0.92em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 3px 8px rgba(79,70,229,0.3); white-space: nowrap;">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i> גזור נתונים מהמסמך לתיק הטיול
-                            </button>
-                        </div>
-
-                        <!-- Specific File Categories (Compact and Quiet) -->
-                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 16px;">
-                            <div style="font-size: 0.85em; font-weight: 800; color: #475569; margin-bottom: 8px;">
-                                📁 אפשרויות העלאת קבצים ייעודיים:
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-                                <button id="btn-upload-booklet" onclick="triggerDocUpload('organized', 'הזמנה לאירוע / מפת מסלול')" style="background: white; color: #166534; border: 1.5px solid #86efac; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-file-pdf"></i> <span id="btn-upload-booklet-text">הזמנה לאירוע / סיפור דרך</span>
-                                </button>
-                                <button id="btn-upload-voucher" onclick="triggerDocUpload('organized', 'שובר סוכנות / כרטיסים')" style="background: white; color: #0369a1; border: 1.5px solid #93c5fd; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-receipt"></i> <span id="btn-upload-voucher-text">שובר / כרטיס שמורה</span>
-                                </button>
-                                <button id="btn-upload-passport" onclick="triggerDocUpload('personal', 'צילום דרכון')" style="display: none; background: white; color: #4338ca; border: 1.5px solid #c7d2fe; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-passport"></i> <span id="btn-upload-passport-text">צילום דרכון</span>
-                                </button>
-                                <button id="btn-upload-insurance" onclick="triggerDocUpload('personal', 'פוליסת ביטוח')" style="background: white; color: #0f766e; border: 1.5px solid #99f6e4; padding: 8px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
-                                    <i class="fa-solid fa-shield-halved"></i> <span id="btn-upload-insurance-text">ביטוח חילוץ ומטיילים (אופציונלי)</span>
-                                </button>
-                            </div>
+                        <!-- Clean Text Paste Box (for WhatsApp / Text messages) -->
+                        <div id="whatsapp-input-container" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px; margin-bottom: 14px;">
+                            <textarea id="whatsapp-paste-input" rows="3" placeholder="או הדבק כאן טקסט מוואטסאפ / הזמנה ולחץ על 'סנכרון' למעלה..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.92em; color: #0f172a; resize: vertical;"></textarea>
                         </div>
 
                         <!-- Documents Feed List Container -->
-                        <div style="font-weight: 800; color: #1e293b; font-size: 0.95em; margin-bottom: 8px;">
-                            📄 מסמכים והודעות שמורים בתיק טיול זה:
+                        <div style="font-weight: 800; color: #1e293b; font-size: 0.92em; margin-bottom: 6px;">
+                            📄 מסמכים שמורים בתיק:
                         </div>
-                        <div id="custom-docs-list" style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+                        <div id="custom-docs-list" style="margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
                             <!-- Populated dynamically by JS -->
                         </div>
 
                         <!-- Step 2 Navigation Buttons -->
-                        <div style="display: flex; gap: 8px; margin-top: 18px;">
-                            <button onclick="setWizardStep(1)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 18px; border-radius: 10px; font-weight: 800; font-size: 0.95em; cursor: pointer;">
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <button onclick="setWizardStep(1)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 11px 16px; border-radius: 10px; font-weight: 800; font-size: 0.92em; cursor: pointer;">
                                 ⮌ חזרה
                             </button>
-                            <button onclick="setWizardStep(3)" style="flex: 1; background: #2563eb; color: white; border: none; padding: 12px 18px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 10px rgba(37,99,235,0.25);">
-                                פירוט נתונים והעדפות ➔
+                            <button onclick="setWizardStep(3)" style="flex: 1; background: #2563eb; color: white; border: none; padding: 11px 16px; border-radius: 10px; font-weight: 900; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                המשך לשלב 3 ➔
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- ================= WIZARD PANE 3: שלב 3 - פירוט נתונים והעדפות ================= -->
+                <!-- ================= WIZARD PANE 3: שלב 3 - פירוט נתונים והעדפות (נקי וללא פטפוטים) ================= -->
                 <div id="wizard-pane-3" class="wizard-step-pane" style="display: none;">
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                        <div style="font-weight: 900; color: #0f172a; font-size: 1.15em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-solid fa-clipboard-list" style="color: #ea580c;"></i> שלב 3: פירוט נתונים והעדפות (שאלון ממוקד)
-                        </div>
-
-                        <!-- Embedded Questionnaire Container -->
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                        
                         <div id="acc-client-needs">
                             <div>
                         
-                        <!-- Top Active Trip Header with Automatic Geo-Badge -->
-                        <div id="step3-trip-header-card" style="background:#f0fdf4; border:2px solid #86efac; border-radius:14px; padding:16px; margin-bottom:14px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                                    <span style="font-weight:900; color:#166534; font-size:1.15em;"><i class="fa-solid fa-map-pin"></i> יעד הטיול הפעיל:</span>
-                                    <span id="q-active-trip-name" style="background:#15803d; color:white; padding:4px 12px; border-radius:8px; font-size:1.05em; font-weight:900;">שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון</span>
-                                </div>
-                                <div>
-                                    <span id="q-geo-type-badge" style="background:#16a34a; color:white; padding:5px 12px; border-radius:8px; font-weight:900; font-size:0.88em; display:inline-flex; align-items:center; gap:6px;">
-                                        <i class="fa-solid fa-map-location-dot"></i> מסלול מקומי
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Context Dynamic Notice Banner -->
-                            <div id="geo-context-banner" style="margin-top:10px; padding:8px 12px; background:white; border-radius:8px; border:1px solid #bbf7d0; font-size:0.9em; line-height:1.4; color:#166534;">
-                                💡 <b>מסלול מקומי:</b> כל שדות הטיסות, הדרכונים והביטוח הבינלאומי הוסרו לחלוטין. הטופס מותאם ישירות לתחבורה ומסלולי שטח מקומיים.
+                        <!-- Compact Header & Progress Row -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px; background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:8px 12px;">
+                            <span id="q-progress-counter" style="font-weight:900; color:#2563eb; font-size:0.92em;">0 / 12 הושלמו</span>
+                            <div style="display:flex; gap:6px;">
+                                <button onclick="loadRecommendedDefaults()" style="background:#eff6ff; border:1px solid #93c5fd; color:#1d4ed8; padding:4px 10px; border-radius:6px; font-weight:800; font-size:0.8em; cursor:pointer;">📋 טען ברירת מחדל</button>
+                                <button onclick="clearEntireQuestionnaire()" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; padding:4px 10px; border-radius:6px; font-weight:800; font-size:0.8em; cursor:pointer;">🧹 נקה</button>
                             </div>
                         </div>
 
-                        <!-- Form Clearing & Preset Toolbar -->
-                        <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
-                            <button onclick="clearEntireQuestionnaire()" style="flex:1; min-width:180px; background:#f1f5f9; border:1.5px solid #cbd5e1; color:#334155; padding:10px 14px; border-radius:10px; font-weight:900; font-size:0.9em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                                <i class="fa-solid fa-eraser" style="color:#ef4444;"></i> 🧹 נקה את כל השאלון (טופס ריק)
-                            </button>
-                            <button onclick="loadRecommendedDefaults()" style="flex:1; min-width:180px; background:#eff6ff; border:1.5px solid #93c5fd; color:#1d4ed8; padding:10px 14px; border-radius:10px; font-weight:900; font-size:0.9em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                                <i class="fa-solid fa-wand-magic-sparkles" style="color:#2563eb;"></i> 📋 טען נתוני דוגמה מומלצים ליעד זה
-                            </button>
-                        </div>
-
-                        <!-- Data Entry Live Status Dashboard (Checklist & Progress Tracker) -->
-                        <div id="questionnaire-status-dashboard" style="background:#f8fafc; border:2px solid #cbd5e1; border-radius:14px; padding:14px 16px; margin-bottom:18px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
-                                <div style="font-weight:900; color:#0f172a; font-size:1.05em; display:flex; align-items:center; gap:8px;">
-                                    <i class="fa-solid fa-bars-progress" style="color:#2563eb;"></i>
-                                    <span>סטטוס הזנת נתונים:</span>
-                                    <span id="q-progress-counter" style="color:#2563eb;">0 / 12 שאלות הושלמו</span>
-                                </div>
-                                <span id="q-progress-badge" style="background:#e2e8f0; color:#475569; padding:3px 10px; border-radius:6px; font-weight:900; font-size:0.82em;">
-                                    ⚪ ממתין למילוי
-                                </span>
-                            </div>
-
-                            <!-- Visual Progress Bar -->
-                            <div style="background:#e2e8f0; border-radius:10px; height:12px; width:100%; overflow:hidden; margin-bottom:10px;">
-                                <div id="q-progress-bar-fill" style="background:linear-gradient(90deg, #3b82f6 0%, #10b981 100%); height:100%; width:0%; transition:width 0.3s ease;"></div>
-                            </div>
-
-                            <!-- Guidance & Missing Fields Feedback -->
-                            <div id="q-progress-feedback" style="font-size:0.86em; color:#475569; line-height:1.5;">
-                                💡 אנא מלא את השדות או לחץ <b>"אין נתונים / לא רלוונטי"</b> לצד שדות שאינך מעוניין לעדכן כדי לסמנם כטופלו.
-                            </div>
-                        </div>
-
-                        <!-- 12 Questions Form (Clean, Placeholders, Per-field Clear & N/A toggles) -->
-                        <div style="display:flex; flex-direction:column; gap:16px; font-size:1.1em;">
+                        <!-- 12 Questions Form (Clean, Concise) -->
+                        <div style="display:flex; flex-direction:column; gap:12px; font-size:1.02em;">
                             
                             <!-- 1. Origin -->
-                            <div class="q-block" id="block_q_origin" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_origin" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_origin" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                    <label for="q_origin" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
                                         1. נקודת מוצא ויציאה:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_origin" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_origin')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_origin')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_origin')" id="btn_na_q_origin" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_origin" oninput="onQuestionInput('q_origin')" placeholder="לדוגמה: שדרות העצמאות 93 אשדוד / נתב&quot;ג טרמינל 3" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_origin" oninput="onQuestionInput('q_origin')" placeholder="לדוגמה: רח' העצמאות 93, אשדוד" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 2. Destination -->
-                            <div class="q-block" id="block_q_destination" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_destination" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label id="label_q_destination" for="q_destination" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        2. יעד / אזור המסלול בארץ:
+                                    <label id="label_q_destination" for="q_destination" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        2. יעד הטיול:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_destination" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_destination')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_destination')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_destination')" id="btn_na_q_destination" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="לדוגמה: שביל ישראל בצפון / עין נון / נתניה" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="לדוגמה: שביל ישראל בצפון / עין נון" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 3. Character -->
-                            <div class="q-block" id="block_q_character" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_character" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_character" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                    <label for="q_character" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
                                         3. אופי ומטרת הטיול:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_character" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_character')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_character')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_character')" id="btn_na_q_character" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_character" oninput="onQuestionInput('q_character')" placeholder="לדוגמה: הליכה בטבע, טיול משפחתי, מורשת ותרבות, מותאם לגמלאים" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_character" oninput="onQuestionInput('q_character')" placeholder="לדוגמה: הליכה בטבע, טיול משפחתי, מותאם לגמלאים" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 4. Group -->
-                            <div class="q-block" id="block_q_group" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_group" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_group" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                    <label for="q_group" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
                                         4. הרכב וכמות המטיילים:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_group" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_group')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_group')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_group')" id="btn_na_q_group" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_group" oninput="onQuestionInput('q_group')" placeholder="לדוגמה: 4 חברים / זוג / קבוצה מאורגנת של 42 גמלאים" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_group" oninput="onQuestionInput('q_group')" placeholder="לדוגמה: קבוצה / חברים / משפחה" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 5. Duration -->
-                            <div class="q-block" id="block_q_duration" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_duration" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_duration" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        5. משך הטיול בימים:
+                                    <label for="q_duration" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        5. משך הטיול:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_duration" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_duration')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_duration')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_duration')" id="btn_na_q_duration" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_duration" oninput="onQuestionInput('q_duration')" placeholder="לדוגמה: 3 ימים / 15 ימים מלאים (כולל 2 שבתות)" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_duration" oninput="onQuestionInput('q_duration')" placeholder="לדוגמה: יום אחד / 15 ימים" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 6. Date -->
-                            <div class="q-block" id="block_q_date" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_date" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_date" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        6. תאריך יציאה מתוכנן:
+                                    <label for="q_date" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        6. תאריך יציאה:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_date" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_date')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_date')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_date')" id="btn_na_q_date" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_date" oninput="onQuestionInput('q_date')" placeholder="לדוגמה: אפריל 2026 / 22-11-2026 עד 06-12-2026" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_date" oninput="onQuestionInput('q_date')" placeholder="לדוגמה: 28/10/2026" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 7. Budget -->
-                            <div class="q-block" id="block_q_budget" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_budget" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_budget" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
+                                    <label for="q_budget" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
                                         7. תקציב מתוכנן:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_budget" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_budget')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_budget')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_budget')" id="btn_na_q_budget" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_budget" oninput="onQuestionInput('q_budget')" placeholder="לדוגמה: 800 ₪ לאדם / 5,000 $ לאדם" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_budget" oninput="onQuestionInput('q_budget')" placeholder="לדוגמה: 250 ₪ לאדם" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 8. Activities -->
-                            <div class="q-block" id="block_q_activities" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_activities" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_activities" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        8. אתרים, סדנאות ופעילויות חובה:
+                                    <label for="q_activities" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        8. אתרים ופעילויות במסלול:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_activities" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_activities')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_activities')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_activities')" id="btn_na_q_activities" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <textarea id="q_activities" rows="3" oninput="onQuestionInput('q_activities')" placeholder="לדוגמה: שמורת הבניאס, הר מירון, נחל דישון / ארמון גיונגבוקגונג, בוסאן..." style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;"></textarea>
+                                <textarea id="q_activities" rows="2" oninput="onQuestionInput('q_activities')" placeholder="תחנות מרכזיות ופעילויות בטיול..." style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;"></textarea>
                             </div>
 
-                            <!-- 9. Transit -->
-                            <div class="q-block" id="block_q_transit" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <!-- 9. Transit (התניידות ותחבורה - כולל טיסות פנים) -->
+                            <div class="q-block" id="block_q_transit" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_transit" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        9. העדפות תחבורה: <span id="label_transit_sub" style="font-size:0.8em; color:#2563eb; font-weight:bold;"></span>
+                                    <label for="q_transit" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        9. התניידות ותחבורה:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_transit" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_transit')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_transit')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_transit')" id="btn_na_q_transit" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_transit" oninput="onQuestionInput('q_transit')" placeholder="לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (שדות טיסה הוסרו)" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_transit" oninput="onQuestionInput('q_transit')" placeholder="לדוגמה: אוטובוס, רכב פרטי, רכבת, טיסות פנים / בינלאומיות" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 10. Hotels -->
-                            <div class="q-block" id="block_q_hotels" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_hotels" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_hotels" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        10. סוגי לינה מועדפים:
+                                    <label for="q_hotels" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        10. לינה:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_hotels" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_hotels')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_hotels')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_hotels')" id="btn_na_q_hotels" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_hotels" oninput="onQuestionInput('q_hotels')" placeholder="לדוגמה: חניוני לילה מוסדרים, צימרים כפריים / טיול יום ללא לינה" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_hotels" oninput="onQuestionInput('q_hotels')" placeholder="לדוגמה: מלון / צימר / טיול יום ללא לינה" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 11. Food -->
-                            <div class="q-block" id="block_q_food" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_food" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_food" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        11. העדפות כשרות ומזון:
+                                    <label for="q_food" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        11. כשרות ומזון:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_food" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_food')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_food')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_food')" id="btn_na_q_food" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_food" oninput="onQuestionInput('q_food')" placeholder="לדוגמה: כשר למהדרין, צמחוני, בישול שטח בגזייה, סעודות שבת" style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_food" oninput="onQuestionInput('q_food')" placeholder="לדוגמה: כשר למהדרין, צמחוני, ארוחת שטח" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 12. Constraints -->
-                            <div class="q-block" id="block_q_constraints" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                            <div class="q-block" id="block_q_constraints" style="background:white; border:1.5px solid #e2e8f0; border-radius:12px; padding:10px 12px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-                                    <label for="q_constraints" style="font-weight:900; color:#0f172a; font-size:1.05em; margin:0;">
-                                        12. אילוצים ובקשות מיוחדות:
+                                    <label for="q_constraints" style="font-weight:900; color:#0f172a; font-size:1em; margin:0;">
+                                        12. אילוצים ודגשים:
                                     </label>
                                     <div style="display:flex; align-items:center; gap:6px;">
                                         <span id="badge_q_constraints" style="background:#f1f5f9; color:#64748b; font-size:0.75em; padding:2px 8px; border-radius:6px; font-weight:800;">⚪ ממתין</span>
-                                        <button type="button" onclick="clearSingleField('q_constraints')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;" title="נקה שדה">✕ נקה</button>
+                                        <button type="button" onclick="clearSingleField('q_constraints')" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:2px 6px; font-size:0.75em; cursor:pointer; color:#64748b;">✕</button>
                                         <button type="button" onclick="toggleFieldNA('q_constraints')" id="btn_na_q_constraints" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <textarea id="q_constraints" rows="3" oninput="onQuestionInput('q_constraints')" placeholder="לדוגמה: משמעת מים מחמירה, חיסכון סוללה, שבת ללא רכבים, נגישות..." style="width:100%; box-sizing:border-box; padding:12px 14px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:1em; color:#0f172a; font-weight:600;"></textarea>
+                                <textarea id="q_constraints" rows="2" oninput="onQuestionInput('q_constraints')" placeholder="לדוגמה: שמירת שבת, נגישות, משמעת מים..." style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;"></textarea>
                             </div>
 
                         </div>
 
                         <!-- Step 3 Navigation Buttons -->
-                        <div style="display: flex; gap: 8px; margin-top: 20px;">
-                            <button onclick="setWizardStep(2)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 18px; border-radius: 10px; font-weight: 800; font-size: 0.95em; cursor: pointer;">
-                                ⮌ חזרה לחומרי גלם
+                        <div style="display: flex; gap: 8px; margin-top: 16px;">
+                            <button onclick="setWizardStep(2)" style="background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 16px; border-radius: 10px; font-weight: 800; font-size: 0.92em; cursor: pointer;">
+                                ⮌ חזרה
                             </button>
-                            <button id="btn-finalize-step3" onclick="saveTripQuestionnaire(true); finalizeTripToReadyStage();" style="flex: 1; background: #059669; color: white; border: none; padding: 14px 18px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.25);">
-                                <i id="btn-finalize-step3-icon" class="fa-solid fa-person-hiking"></i> <span id="btn-finalize-step3-text">הפק תיק טיול סופי ➔</span>
+                            <button id="btn-finalize-step3" onclick="saveTripQuestionnaire(true); finalizeTripToReadyStage();" style="flex: 1; background: #059669; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 1.02em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(5,150,105,0.25);">
+                                <i id="btn-finalize-step3-icon" class="fa-solid fa-person-hiking"></i> <span id="btn-finalize-step3-text">הפק מסמך טיול ממתין ליציאה ➔</span>
                             </button>
                         </div>
                             </div>
@@ -1379,104 +1286,37 @@
                 </div>
                 <!-- End of WIZARD PANE 3 -->
 
-                <!-- ================= WIZARD PANE 4: שלב 4 - ממתין ליציאה + שמירת קשר ================= -->
-                <div id="wizard-pane-4" class="wizard-step-pane" style="display: none;">
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <!-- ================= WIZARD PANE 4: שלב 4 - מסמך טיול ממתין ליציאה ================= -->
+                <div id="wizard-pane-4" class="wizard-step-pane" style="display: none; max-width: 100%; overflow-x: hidden;">
+                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); max-width: 100%; box-sizing: border-box; overflow-x: hidden;">
                         
-                        <!-- Celebration Ready Banner -->
-                        <div id="ready-status-celebration-banner" style="display: block; background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981; border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                                <span id="ready-status-celebration-title" style="font-weight: 900; color: #065f46; font-size: 1.15em; display: flex; align-items: center; gap: 8px;">
-                                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i>
-                                    הטיול מוכן במלואו! סטטוס: 🎒 ממתין ליציאה לשטח
-                                </span>
-                                <span id="ready-trip-name-badge" style="background: #10b981; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 0.82em;">
-                                    מוכן ליציאה לשטח
-                                </span>
-                            </div>
-                            <div style="font-size: 0.88em; color: #047857; margin-top: 6px; line-height: 1.45;">
-                                כל נתוני המסלול, התחנות, השעות והמסמכים מוגדרים ומסונכרנים אופליין במכשיר.
-                            </div>
+                        <!-- 1.3.2: Dropdown list of all planned trips waiting for departure or update AT THE VERY TOP -->
+                        <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; max-width: 100%; box-sizing: border-box;">
+                            <label for="trip-itinerary-selector" style="display: block; font-weight: 900; color: #1e40af; font-size: 0.95em; margin-bottom: 6px;">
+                                <i class="fa-solid fa-list-check"></i> טיולים שתוכננו וממתינים ליציאה / עדכון:
+                            </label>
+                            <select id="trip-itinerary-selector" onchange="selectTripAndApply(this.value); setWizardStep(4);" style="width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #3b82f6; font-family: 'Heebo', sans-serif; font-size: 0.95em; font-weight: 800; color: #0f172a; background: white; text-overflow: ellipsis; overflow: hidden;">
+                                <!-- Populated dynamically by JS -->
+                            </select>
                         </div>
 
-                        <!-- Non-Threatening Traveler Contact Card (As Agreed - Prominent & Clear) -->
-                        <div id="traveler-contact-card" style="background: #f0fdf4; border: 2px solid #22c55e; border-radius: 14px; padding: 16px; margin-bottom: 18px; box-shadow: 0 3px 10px rgba(34,197,94,0.12);">
-                            <div style="font-weight: 900; color: #166534; font-size: 1.08em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
-                                <i class="fa-solid fa-paper-plane" style="color: #15803d;"></i>
-                                <span>לאן לשלוח לך עדכוני מסלול ובטיחות בזמן אמת?</span>
-                            </div>
-                            <div style="font-size: 0.88em; color: #1e293b; margin-bottom: 12px; line-height: 1.45; font-weight: 600;">
-                                נשתמש בפרטים אך ורק למשלוח התראות שטח קריטיות (מזג אוויר, שינוי ציר) וגיבוי של התיק.
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div>
-                                    <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">איך לקרוא לך? (שם פרטי)</label>
-                                    <input type="text" id="contact-traveler-name" placeholder="לדוגמה: משה" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
-                                </div>
-                                <div>
-                                    <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">טלפון לקבלת עדכוני שטח בוואטסאפ (אופציונלי)</label>
-                                    <input type="tel" id="contact-traveler-phone" placeholder="לדוגמה: 050-1234567" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
-                                </div>
-                                <div>
-                                    <label style="font-size: 0.88em; font-weight: 800; color: #0f172a; display: block; margin-bottom: 4px;">כתובת דוא"ל לגיבוי מסמכים (אופציונלי)</label>
-                                    <input type="email" id="contact-traveler-email" placeholder="לדוגמה: user@example.com" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #94a3b8; font-family: inherit; font-size: 0.98em; font-weight: 700;">
-                                </div>
-                            </div>
-                            <div id="contact-status-feedback" style="margin-top: 10px; font-size: 0.82em; color: #166534; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-solid fa-lock"></i> הפרטים נשמרים אצלך במכשיר בלבד. ללא פרסומות, ללא תשלום, אך ורק לעדכוני שטח ובטיחות.
-                            </div>
-                            <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
-                                <button onclick="saveContactDetails()" style="flex: 2; min-width: 170px; background: #15803d; color: white; border: none; padding: 12px 16px; border-radius: 10px; font-weight: 900; font-size: 1.05em; cursor: pointer; box-shadow: 0 3px 8px rgba(21,128,61,0.3);">
-                                    💾 שמור פרטי קשר
-                                </button>
-                                <button onclick="skipContactDetails()" style="flex: 1; min-width: 130px; background: white; color: #475569; border: 1.5px solid #cbd5e1; padding: 12px 14px; border-radius: 10px; font-weight: 800; font-size: 0.92em; cursor: pointer;">
-                                    דלג / אעדכן מאוחר יותר
-                                </button>
-                            </div>
+                        <!-- Step 4 Smart Arrival Chain Summary Card (3 Geographic Anchors - Synced with 05:42 & Ashdod) -->
+                        <div id="step4-arrival-chain-card" style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 2px solid #93c5fd; border-radius: 14px; padding: 12px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.08); max-width: 100%; box-sizing: border-box;">
                         </div>
 
                         <!-- Quick Field Actions -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;">
-                            <button onclick="switchScreen('screen-map')" style="background: #2563eb; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
-                                <i class="fa-solid fa-map-location-dot"></i> פתח מפה בזמן אמת עם התחנות
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+                            <button onclick="switchScreen('screen-map')" style="background: #2563eb; color: white; border: none; padding: 11px 10px; border-radius: 10px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
+                                <i class="fa-solid fa-map-location-dot"></i> מפה בזמן אמת
                             </button>
-                            <button onclick="setWizardStep(2)" style="background: white; color: #15803d; border: 1.5px solid #86efac; padding: 12px 14px; border-radius: 10px; font-weight: 900; font-size: 0.95em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <i class="fa-solid fa-folder-open"></i> צפה במסמכי הטיול והוואטסאפ
-                            </button>
-                        </div>
-
-                        <!-- Step 4 Smart Arrival Chain Summary Card (3 Geographic Anchors) -->
-                        <div id="step4-arrival-chain-card" style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 2px solid #93c5fd; border-radius: 14px; padding: 14px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(37,99,235,0.08);">
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <span style="font-weight: 900; color: #1e293b; font-size: 1.05em;"><i class="fa-solid fa-route" style="color: #2563eb;"></i> לוח הזמנים והתחנות המפורט של המסלול:</span>
-                            <button onclick="setWizardStep(3)" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 0.82em; cursor: pointer;">
-                                ✏️ חזרה לעריכה
+                            <button onclick="setWizardStep(1)" style="background: #f1f5f9; color: #334155; border: 1.5px solid #cbd5e1; padding: 11px 10px; border-radius: 10px; font-weight: 800; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                ✏️ עדכון תיק וזמנים
                             </button>
                         </div>
 
-                        <!-- Embedded Detailed Itinerary Container -->
-                        <div id="acc-detailed-itinerary">
-                            <div>
-                        
-                        <!-- Dropdown Trip Selector -->
-                        <div style="background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
-                            <label style="display: block; font-weight: 900; color: #1e40af; font-size: 1.05em; margin-bottom: 6px;">
-                                <i class="fa-solid fa-compass"></i> בחר יעד / מסלול להצגה מפורטת:
-                            </label>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <select id="trip-itinerary-selector" onchange="selectTripAndApply(this.value)" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 1px solid #3b82f6; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: 800; color: #0f172a; background: white;">
-                                    <option value="korea" selected>🇰🇷 קוריאה הדרומית - אופיר טורס [📋 שלב תכנון - 15 ימים, 42 מטיילים]</option>
-                                    <option value="rome">🏛️ רומא ופירנצה (איטליה) [📋 שלב תכנון - שבוע קלאסי, אתרי מורשת]</option>
-                                    <option value="israel_trail_north">🥾 שביל ישראל: נחל עמוד תחתון עד עין נון [📋 28/10/26 - 11-12 ק"מ]</option>
-                                    <option value="ashkelon">🏖️ אשקלון [📋 שלב תכנון - גן לאומי, מרינה, מגדל]</option>
-                                </select>
-                                <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(16,185,129,0.3);">
-                                    <i class="fa-solid fa-plus"></i> טיול חדש
-                                </button>
-                            </div>
-                        </div>
+                        <!-- Embedded Detailed Itinerary Container (Immediately Visible!) -->
+                        <div id="acc-detailed-itinerary" style="max-width: 100%; overflow-x: hidden;">
+                            <div style="max-width: 100%; overflow-x: hidden;">
 
                         <!-- 2. KOREA ITINERARY DOCUMENT -->
                         <div id="itinerary-doc-korea" class="trip-itinerary-doc">
@@ -2595,88 +2435,252 @@
                 zoom: 14,
                 stations: [
                     {
-                        id: 1,
-                        title: "1. רכבת נתניה (מרכז)",
-                        desc: "יציאה ראשית מערבה לכיוון מסוף האוטובוסים",
-                        lat: 32.3218,
-                        lng: 34.8647,
-                        address: "תחנת רכבת נתניה (יציאה מערבית), רחוב רכבת",
+                        id: "k1",
+                        title: "1. הגעה: נמל התעופה אינצ'ון (ICN)",
+                        desc: "נחיתה טיסה ET 672, מפגש קבוצת 42 המטיילים עם המדריך ונסיעה לסיאול",
+                        lat: 37.4602,
+                        lng: 126.4407,
+                        address: "Incheon International Airport Terminal 1, Seoul",
                         stopCode: null,
-                        stayTime: "10:25 - 10:40 (15 דקות התארגנות)",
-                        transitType: "רכבת -> אוטובוס",
-                        walkingDist: "80 מטר למסוף האוטובוסים"
+                        stayTime: "יום ב' 23/11: 15:45 נחיתה והתארגנות",
+                        transitType: "אוטובוס תיירים ממוזג",
+                        walkingDist: "מעבר ישיר מהטרמינל לאוטובוס"
                     },
                     {
-                        id: "bus_train",
-                        title: "🚏 מסוף אוטובוסים רכבת נתניה (מערב)",
-                        desc: "עלייה לקו 16 או 25 לכיוון הים והטיילת",
-                        lat: 32.3215,
-                        lng: 34.8642,
-                        address: "רציף אוטובוסים רכבת נתניה מערב",
-                        stopCode: "37124",
-                        stayTime: "10:40 - 10:45",
-                        transitType: "עלייה לאוטובוס 16/25",
-                        walkingDist: "2.5 קילומטר נסיעה (8 דקות) לתחנה הבאה"
-                    },
-                    {
-                        id: "bus_chen",
-                        title: "🚏 תחנת ירידה: דוד המלך / שדרות חן",
-                        desc: "ירידה קרובה ומישורית למעלית החוף ולטיילת (180 מטר בלבד)",
-                        lat: 32.3302,
-                        lng: 34.8522,
-                        address: "רחוב דוד המלך 6 (פינת שדרות חן), נתניה",
-                        stopCode: "39251",
-                        stayTime: "10:53 ירידה מהאוטובוס",
-                        transitType: "ירידה והליכה ישרה למעלית",
-                        walkingDist: "180 מטר (2 דקות הליכה מישורית)"
-                    },
-                    {
-                        id: 2,
-                        title: "2. מעלית חוף הים וטיילת הראשונים",
-                        desc: "ירידה מונגשת לחוף הים ב-30 שניות + טיילת נוף מרהיבה",
-                        lat: 32.3312,
-                        lng: 34.8504,
-                        address: "טיילת הראשונים (מעלית החוף), נתניה",
+                        id: "k_h1",
+                        title: "🏨 23-25/11: סיאול - מלון קוקדו (Seoul KUKDO Hotel)",
+                        desc: "מלון תיירות מונגש במרכז סיאול (2 לילות) | מרחק לבית חב\"ד סיאול: כ-4.8 ק\"מ",
+                        lat: 37.5663,
+                        lng: 126.9945,
+                        address: "164 Eulji-ro, Jung-gu, Seoul (서울 중구 을지로 164)",
                         stopCode: null,
-                        stayTime: "11:00 - 12:00 (שעה מלאה בטיילת ובמעלית)",
-                        transitType: "הליכה מונגשת",
-                        walkingDist: "350 מטר סיור טיילת"
+                        type: "hotel",
+                        isHotel: true,
+                        website: "http://www.hotelkukdo.com",
+                        stayTime: "23-25/11/2026 (2 לילות)",
+                        transitType: "אוטובוס תיירים צמוד",
+                        walkingDist: "צמוד לתחנת מטרו Euljiro 4-ga",
+                        shabbatInfo: "מרחק לבית חב\"ד סיאול (איטוואן): כ-4.8 ק\"מ דרומה דרך רכס הר נמסאן. בימי חול אלו ההתניידות מתבצעת באוטובוס התיירים."
                     },
                     {
-                        id: 3,
-                        title: "3. כיכר העצמאות החדשה",
-                        desc: "מזרקות אינטראקטיביות, מדרחוב תוסס ובתי קפה",
-                        lat: 32.3298,
-                        lng: 34.8540,
-                        address: "כיכר העצמאות, נתניה",
+                        id: "k2",
+                        title: "2. סיאול - ארמון גיונגבוקגונג ומדרחוב אינסאדונג",
+                        desc: "ארמון המלך המרכזי משושלת גוסון, טקס חילופי המשמרות וסדנת תה",
+                        lat: 37.5796,
+                        lng: 126.9770,
+                        address: "161 Sajik-ro, Jongno-gu, Seoul",
                         stopCode: null,
-                        stayTime: "12:15 - 13:15 (שעה של כיף ותרבות)",
-                        transitType: "הליכה רגלית בטיילת",
-                        walkingDist: "450 מטר ממעלית החוף"
+                        stayTime: "יום ג' 24/11: 09:30 - 14:00",
+                        transitType: "סיור מונגש ומותאם גמלאים",
+                        walkingDist: "300 מטר שבילים מישוריים"
                     },
                     {
-                        id: 4,
-                        title: "4. השוק העירוני המקורה (רחוב היהלום)",
-                        desc: "מתחם קולינרי מקורה וממוזג לשעות החום (סנדוויץ טוניסאי, פירות טריים)",
-                        lat: 32.3245,
-                        lng: 34.8588,
-                        address: "רחוב היהלום פינת שוהם, נתניה",
+                        id: "k3",
+                        title: "3. סוואן - מצודת הוואסונג וכפר הפולקלור",
+                        desc: "אתר מורשת עולמית אונסקו, חומות וסדנת קשתות וכפר מסורתי",
+                        lat: 37.2871,
+                        lng: 127.0119,
+                        address: "Suwon Hwaseong Fortress, Gyeonggi-do",
                         stopCode: null,
-                        stayTime: "13:30 - 14:45 (ארוחת צהריים והפוגת חום)",
-                        transitType: "הליכה או מונית קצרה",
-                        walkingDist: "750 מטר מכיכר העצמאות"
+                        stayTime: "יום ד' 25/11: 10:00 - 14:30",
+                        transitType: "רכבת תיירים פנימית סביב המצודה",
+                        walkingDist: "150 מטר (מותאם גמלאים)"
                     },
                     {
-                        id: "bus_market",
-                        title: "🚏 תחנת חזור: שוק עירוני / ויצמן",
-                        desc: "עלייה לקו 16/25 חזרה ישירות לרציף הרכבת",
-                        lat: 32.3252,
-                        lng: 34.8596,
-                        address: "רחוב ויצמן (סמוך לשוק), נתניה",
-                        stopCode: "39270",
-                        stayTime: "14:50 עלייה לאוטובוס חזור",
-                        transitType: "נסיעה של 6 דקות לתחנת הרכבת",
-                        walkingDist: "60 מטר מהשוק לתחנה"
+                        id: "k_h2",
+                        title: "🏨 25/11: סוקצ'ו - מלון צ'סטרטונס (Chestertons Hotel)",
+                        desc: "מלון נופש מודרני מונגש לחוף מפרץ סוקצ'ו והים המזרחי (לילה 1)",
+                        lat: 38.1942,
+                        lng: 128.5805,
+                        address: "109 Expo-ro, Sokcho-si, Gangwon-do (강원 속초시 엑스포로 109)",
+                        stopCode: null,
+                        type: "hotel",
+                        isHotel: true,
+                        website: "https://www.chestertonskr-sokcho.com",
+                        stayTime: "25-26/11/2026 (לילה 1)",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "צמוד לטיילת אגם צ'ונגצ'ו",
+                        shabbatInfo: "אין בית חב\"ד באזור סוקצ'ו וצפון-מזרח קוריאה (כ-160 ק\"מ מסיאול)."
+                    },
+                    {
+                        id: "k4",
+                        title: "4. שמורת הר סוראק (רכבל) ומקדש נקסאנסה",
+                        desc: "רכבל לפסגת גוונגגומסונג, מראות הרים עוצרי נשימה ומקדש נקסאנסה לים",
+                        lat: 38.1195,
+                        lng: 128.4656,
+                        address: "Seoraksan National Park, Sokcho",
+                        stopCode: null,
+                        stayTime: "יום ה' 26/11: 09:00 - 14:00",
+                        transitType: "עלייה ברכבל סגור וממוזג",
+                        walkingDist: "100 מטר מפתח הרכבל"
+                    },
+                    {
+                        id: "k_h3",
+                        title: "🏨 26/11: צ'ונגג'ו/ג'צ'און - מלון צ'ונגפונג לייק ריזורט (Cheongpung Lake Resort)",
+                        desc: "מלון נופש כפרי מונגש הצופה לאגם צ'ונגפונג (לילה 1)",
+                        lat: 36.9930,
+                        lng: 128.1690,
+                        address: "1798 Cheongpungho-ro, Cheongpung-myeon, Jecheon-si, Chungcheongbuk-do",
+                        stopCode: null,
+                        type: "hotel",
+                        isHotel: true,
+                        website: "https://www.cheongpungresort.co.kr",
+                        stayTime: "26-27/11/2026 (לילה 1)",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "מלון נופש מונגש",
+                        shabbatInfo: "אין בית חב\"ד באזור מרכז קוריאה (כ-130 ק\"מ מסיאול)."
+                    },
+                    {
+                        id: "k5",
+                        title: "5. פארק סוקריסאן ➔ מקדש האינסה (טריפיטקה קוריאנה)",
+                        desc: "פגודת העץ בביאופג'וסה, והאוצר הלאומי בהאינסה (81 אלף לוחות עץ עתיקים)",
+                        lat: 35.8014,
+                        lng: 128.0982,
+                        address: "Haeinsa Temple, Gayasan National Park, Hapcheon",
+                        stopCode: null,
+                        stayTime: "יום ו' 27/11: 09:30 - 14:30 (הגעה מוקדמת לדאייגו לפני שבת!)",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "שבילי יער מונגשים"
+                    },
+                    {
+                        id: "k_h4",
+                        title: "🏨 27-29/11: דאייגו - מלון דאייגו גראנד (Daegu Grand Hotel) [שבת 1]",
+                        desc: "מלון 5 כוכבים מונגש במרכז דאייגו (27-29/11) | ⚠️ שבת 1: אין בית חב\"ד בעיר!",
+                        lat: 35.8577,
+                        lng: 128.6252,
+                        address: "305 Dongdaegu-ro, Suseong-gu, Daegu (대구 수성구 동대구로 305)",
+                        stopCode: null,
+                        type: "hotel",
+                        isHotel: true,
+                        website: "http://www.daegugrand.co.kr",
+                        stayTime: "27-29/11/2026 (שבת 1: כניסה 16:57 | יציאה מוצ\"ש 17:57)",
+                        transitType: "שהות שבת מלאה במלון - ללא תחבורה",
+                        walkingDist: "פארק באומו (Beomeo Park) סמוך לסיור רגלי",
+                        shabbatInfo: "⚠️ שבת 1: אין בית חב\"ד בדאייגו! בית חב\"ד היחיד נמצא בסיאול (240 ק\"מ). השבת כולה נערכת במלון ובסביבתו הרגלית. יש להזמין סעודות כשרות מראש מחב\"ד סיאול שיגיעו בצידניות מבודדות ביום שישי בצהריים."
+                    },
+                    {
+                        id: "k6",
+                        title: "6. קיונגג'ו - בירת שילה העתיקה ומקדש בולגוקסה",
+                        desc: "בירת ממלכת שילה העתיקה, פגודות האבן המפורסמות וסדנת תה",
+                        lat: 35.8351,
+                        lng: 129.3321,
+                        address: "Bulguksa, Gyeongju, Gyeongsangbuk-do",
+                        stopCode: null,
+                        stayTime: "יום א' 29/11: 09:30 - 15:30",
+                        transitType: "שבילים מונגשים",
+                        walkingDist: "200 מטר"
+                    },
+                    {
+                        id: "k_h5",
+                        title: "🏨 28-30/11: בוסאן - מלון קראון הארבור (Busan Crown Harbor Hotel)",
+                        desc: "מלון מודרני מונגש בלב בוסאן מול הנמל (לינה בבוסאן)",
+                        lat: 35.1075,
+                        lng: 129.0367,
+                        address: "114 Jungang-daero, Jung-gu, Busan (부산 중구 중앙대로 114)",
+                        stopCode: null,
+                        type: "hotel",
+                        isHotel: true,
+                        website: "http://www.crownharborhotel.com",
+                        stayTime: "28-30/11/2026",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "סמוך לתחנת Jungang",
+                        shabbatInfo: "אין בית חב\"ד בעיר בוסאן (כ-325 ק\"מ מסיאול)."
+                    },
+                    {
+                        id: "k7",
+                        title: "7. בוסאן - מגדל בוסאן, שוק הדגים ג'גאלצ'י וכיכר ביפ",
+                        desc: "תצפית מגדל בוסאן, שוק הדגים התוסס וכיכר הסרטים ביפ",
+                        lat: 35.0967,
+                        lng: 129.0306,
+                        address: "Jagalchi Market & Yongdusan Park, Jung-gu, Busan",
+                        stopCode: null,
+                        stayTime: "יום ב' 30/11: 09:30 - 14:00",
+                        transitType: "הליכה מקורה ומישורית",
+                        walkingDist: "200 מטר"
+                    },
+                    {
+                        id: "k_h6",
+                        title: "🏨 30/11-03/12: האי ג'ג'ו - מלון וויסל לארק (Jeju Whistle Lark Hotel)",
+                        desc: "מלון נופש ימי מונגש לחוף הים בטפדונג צמוד לטיילת (3 לילות)",
+                        lat: 33.5153,
+                        lng: 126.5266,
+                        address: "26 Seobudu 2-gil, Jeju-si, Jeju-do (제주 제주시 서부두2길 26)",
+                        stopCode: null,
+                        type: "hotel",
+                        isHotel: true,
+                        website: "http://www.whistlelark.co.kr",
+                        stayTime: "30/11-03/12/2026 (3 לילות)",
+                        transitType: "טיסת פנים מבוסאן + אוטובוס",
+                        walkingDist: "צמוד לטיילת הים של נמל ג'ג'ו",
+                        shabbatInfo: "אין בית חב\"ד באי ג'ג'ו (אי מבודד בדרום קוריאה)."
+                    },
+                    {
+                        id: "k8",
+                        title: "8. האי ג'ג'ו - פסגת סונגסאן, פארק האלים ושוק דונגמון",
+                        desc: "לוע הר הגעש הזורח סונגסאן, צפייה בנשים הצוללות ופארק האלים",
+                        lat: 33.4581,
+                        lng: 126.9426,
+                        address: "Seongsan Ilchulbong, Jeju Island",
+                        stopCode: null,
+                        stayTime: "01-02/12/2026 (ימים 10-11)",
+                        transitType: "טיילת נוף מונגשת",
+                        walkingDist: "300 מטר שבילי עץ"
+                    },
+                    {
+                        id: "k9",
+                        title: "9. סיאול - האזור המפורז DMZ, גנגנם ומגדל לוטה",
+                        desc: "גבול צפון קוריאה (DMZ) ופארק השלום, רובע גנגנם ומגדל לוטה",
+                        lat: 37.8920,
+                        lng: 126.7410,
+                        address: "DMZ Peace Park, Paju & Lotte World Tower, Seoul",
+                        stopCode: null,
+                        stayTime: "יום ו' 04/12: 09:00 - 14:30 (הגעה למלון לפני שבת!)",
+                        transitType: "אוטובוס תיירים ממוזג",
+                        walkingDist: "אתרים מונגשים"
+                    },
+                    {
+                        id: "k_h7",
+                        title: "🏨 03-05/12: סיאול - מלון קוקדו (Seoul KUKDO Hotel) [שבת 2]",
+                        desc: "מלון תיירות מונגש בסיאול (03-05/12) | ⚠️ שבת 2: 4.8 ק\"מ מבית חב\"ד דרך הר נמסאן",
+                        lat: 37.5663,
+                        lng: 126.9945,
+                        address: "164 Eulji-ro, Jung-gu, Seoul (서울 중구 을지로 164)",
+                        stopCode: null,
+                        type: "hotel",
+                        isHotel: true,
+                        website: "http://www.hotelkukdo.com",
+                        stayTime: "03-05/12/2026 (שבת 2: כניסה 16:56 | יציאה מוצ\"ש 17:56)",
+                        transitType: "שהות שבת במלון / הליכה מוגבלת",
+                        walkingDist: "קרוב לארמון גיונגבוק ולכפר בוקצ'ון לטיול רגלי",
+                        shabbatInfo: "⚠️ שבת 2: מרחק רגלי לבית חב\"ד סיאול כ-4.8 ק\"מ (כשעה וחצי הליכה לכל כיוון) עם עליות הר נמסאן. לא מומלץ לגמלאים בשבת חורפית (0°C). מומלץ לבקש מאופיר טורס מלון צמוד לחב\"ד (כגון Hamilton Hotel) או היערכות לסעודות במלון."
+                    },
+                    {
+                        id: "k_chabad",
+                        title: "✡️ בית חב\"ד קוריאה - סיאול (מרכז שבת וכשרות ראשי)",
+                        desc: "מרכז חב\"ד הראשי בקוריאה - הרב אשר ומוסי ליצמן | תפילות, סעודות ומסעדה כשרה",
+                        lat: 37.5350,
+                        lng: 126.9940,
+                        address: "29 Jangmun-ro, Yongsan-gu, Seoul (서울특별시 용산구 장문로 29)",
+                        stopCode: null,
+                        type: "chabad",
+                        isChabad: true,
+                        website: "https://chabadkorea.com",
+                        stayTime: "פתוח 24/7 | הרב אשר ליצמן: 82-10-7730-3770+",
+                        transitType: "מרכז קהילתי, בית כנסת ומסעדה כשרה",
+                        walkingDist: "שכונת האנאם-דונג / איטוואן",
+                        shabbatInfo: "בית חב\"ד היחיד בדרום קוריאה. תפילות, סעודות שבת כשרות, מקווה טהרה ומשלוחי אוכל כשר לכל המלונות בקוריאה (כולל לדאייגו). מרחק ממלון קוקדו: כ-4.8 ק\"מ דרך הר נמסאן."
+                    },
+                    {
+                        id: "k10",
+                        title: "10. יציאה: נמל התעופה סיאול אינצ'ון (ICN)",
+                        desc: "המראה מוצ\"ש 05/12 בלילה ב-00:10 (יום א' 06/12) טיסה ET 673 לישראל",
+                        lat: 37.4602,
+                        lng: 126.4407,
+                        address: "Incheon International Airport Terminal 1",
+                        stopCode: null,
+                        stayTime: "מוצ\"ש 05/12: 21:00 נסיעה לשדה ➔ 00:10 המראה",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "העברת מזוודות ישירה לטיסה"
                     }
                 ]
             },
@@ -3514,10 +3518,8 @@
                 // Reset file input so uploading the same file again works
                 event.target.value = '';
 
-                // Automatically open the Smart Derivation Engine modal to derive start time, exact location, departure buffer & all trip fields!
-                if (typeof openSmartDocDerivationModal === 'function') {
-                    openSmartDocDerivationModal(newDocId);
-                }
+                // Automatically synchronize the uploaded document into the trip file (Step 1, Step 3, Step 4 & Map)
+                syncAllUploadedDocsToTrip(newDocId, true);
             };
             reader.readAsDataURL(file);
         }
@@ -3527,71 +3529,105 @@
             if (el) el.value = '';
         }
 
-        function saveWhatsAppTextAsDoc(customText, customTitle) {
-            const el = document.getElementById('whatsapp-paste-input');
-            const text = customText || (el ? el.value.trim() : '');
-            if (!text) {
-                alert('אנא הדבק טקסט או הודעת וואטסאפ בתיבה לפני השמירה.');
+        function syncAllUploadedDocsToTrip(specificDocId, fromFileUpload = false) {
+            const pasteEl = document.getElementById('whatsapp-paste-input');
+            const pastedText = pasteEl ? pasteEl.value.trim() : '';
+            let targetDocId = specificDocId || null;
+
+            // 1. If user pasted text in the box, save it as a document first
+            if (pastedText) {
+                const firstLine = pastedText.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 45);
+                const defaultName = (pastedText.includes('שביל ישראל') || pastedText.includes('נחל עמוד'))
+                    ? 'הודעת מסלול: שביל ישראל (נחל עמוד)'
+                    : `הודעה / מסמך: ${firstLine || 'עדכון מסלול'}`;
+                targetDocId = 'doc_' + Date.now();
+                const docs = getCustomDocs();
+                docs.unshift({
+                    id: targetDocId,
+                    name: defaultName,
+                    category: 'organized',
+                    docType: 'הודעה / מסמך מסונכרן',
+                    time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
+                    fileName: 'synced_message.txt',
+                    textContent: pastedText,
+                    isText: true,
+                    data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(pastedText)
+                });
+                saveCustomDocs(docs);
+                renderCustomDocsList();
+                pasteEl.value = '';
+            }
+
+            const docs = getCustomDocs();
+            const doc = targetDocId ? docs.find(d => d.id === targetDocId) : (docs[0] || null);
+            if (!doc && !pastedText) {
+                alert('אנא העלה קובץ או הדבק טקסט בתיבה ואז לחץ על "סנכרון".');
                 return;
             }
 
-            const firstLine = text.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 50);
-            const defaultName = customTitle || (text.includes('שביל ישראל') ? 'הודעת וואטסאפ: שביל ישראל (נחל עמוד תחתון)' : `הודעת וואטסאפ: ${firstLine || 'עדכון מסלול'}`);
-            const docName = customTitle || prompt('תן כותרת למסמך הוואטסאפ הנשמר בתיק הטיול:', defaultName) || defaultName;
+            const rawText = pastedText || (doc ? (doc.textContent || '') : '');
+            const docName = doc ? (doc.name || '') : '';
+            const combined = `${rawText}\n${docName}`;
 
-            const docs = getCustomDocs();
-            docs.unshift({
-                id: 'doc_' + Date.now(),
-                name: docName,
-                category: 'organized',
-                docType: 'הודעת וואטסאפ / טקסט מסלול',
-                time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
-                fileName: 'whatsapp_message.txt',
-                textContent: text,
-                isText: true,
-                data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
-            });
-            saveCustomDocs(docs);
-            renderCustomDocsList();
-            if (el && !customText) el.value = '';
-            if (!customTitle) {
-                alert(`✅ הודעת הוואטסאפ נשמרה בהצלחה כמסמך בתיק הטיול של "${TRIPS_DATABASE[currentTripKey]?.name || 'הטיול'}"!\nהמסמך זמין לקריאה מיידית אופליין בשטח בלחיצה על "קרא".`);
+            // Special handling for Israel Trail / Meeting Point messages (e.g. Beit Maccabi Rishon LeZion 05:42 -> 06:30 -> 08:30)
+            if (currentTripKey === 'israel_trail_north' || combined.includes('נחל עמוד') || combined.includes('בית מכבי')) {
+                const chain = getTripArrivalChain(currentTripKey);
+                chain.originAddress = "רח' העצמאות 93, אשדוד";
+                chain.originTime = "05:42";
+                chain.originLat = 31.7893;
+                chain.originLng = 34.6417;
+                chain.hasMeetingPoint = true;
+                chain.meetingAddress = 'בית מכבי ראשל"צ (גולדה מאיר 21, ראשון לציון)';
+                chain.meetingTime = '06:30';
+                chain.meetingLat = 31.9806;
+                chain.meetingLng = 34.7738;
+                chain.trailheadAddress = 'חניון נחל עמוד תחתון (כביש 85)';
+                chain.trailheadTime = '08:30';
+                try {
+                    localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(chain));
+                } catch(e) {}
+                syncArrivalChainUI(currentTripKey);
+                loadRecommendedDefaults();
+                saveTripQuestionnaire(true);
+                if (dynamicMap) {
+                    renderMapStationMarkers();
+                    renderStationQuickSelectors();
+                    renderStationsList();
+                }
+                const banner = document.getElementById('step2-sync-status-banner');
+                if (banner) {
+                    banner.style.display = 'block';
+                    banner.innerHTML = `✅ <b>הסנכרון הושלם!</b> נקודת היציאה (רח' העצמאות 93, אשדוד - 05:42), נקודת המפגש (בית מכבי ראשל"צ - 06:30) ותחילת המסלול (נחל עמוד - 08:30) עודכנו בתיק הטיול ובמפה.`;
+                }
+                if (!fromFileUpload) {
+                    alert('✅ הסנכרון לתיק הטיול ולמפה בוצע בהצלחה!');
+                }
+                return;
+            }
+
+            // General Smart Sync for Events, Invitations, and Custom Trips
+            if (typeof openSmartDocDerivationModal === 'function') {
+                openSmartDocDerivationModal(doc ? doc.id : null);
+                // Immediately apply the derived defaults so the trip file is updated even before modal confirmation
+                if (typeof applySmartDocDerivation === 'function' && rawText.length > 5) {
+                    applySmartDocDerivation(false, true);
+                }
+            }
+            const banner = document.getElementById('step2-sync-status-banner');
+            if (banner) {
+                banner.style.display = 'block';
+                banner.innerHTML = `✅ <b>המסמך סונכרן לתיק הטיול ולמפה!</b>`;
             }
         }
 
-        function saveAndApplyWhatsAppMessage() {
+        function saveWhatsAppTextAsDoc(customText, customTitle) {
             const el = document.getElementById('whatsapp-paste-input');
-            const text = el ? el.value.trim() : '';
-            if (!text) {
-                alert('אנא הדבק הודעה או פרטי הזמנה בתיבה לפני השמירה.');
-                return;
-            }
+            if (customText && el) el.value = customText;
+            syncAllUploadedDocsToTrip();
+        }
 
-            // 1. Save as readable document in trip file
-            const firstLine = text.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 45);
-            const defaultName = (text.includes('שביל ישראל') ? 'הודעת מסלול: שביל ישראל (נחל עמוד)' : `הודעה / הזמנה: ${firstLine || 'עדכון מסלול'}`);
-            const newDocId = 'doc_' + Date.now();
-            
-            const docs = getCustomDocs();
-            docs.unshift({
-                id: newDocId,
-                name: defaultName,
-                category: 'organized',
-                docType: 'הודעת וואטסאפ / הזמנה',
-                time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
-                fileName: 'whatsapp_message.txt',
-                textContent: text,
-                isText: true,
-                data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
-            });
-            saveCustomDocs(docs);
-            renderCustomDocsList();
-            el.value = '';
-
-            // 2. Open Smart Derivation Engine on this text to automatically derive & populate all trip fields
-            if (typeof openSmartDocDerivationModal === 'function') {
-                openSmartDocDerivationModal(newDocId);
-            }
+        function saveAndApplyWhatsAppMessage() {
+            syncAllUploadedDocsToTrip();
         }
 
         function viewDocumentModal(docId) {
@@ -3615,7 +3651,6 @@
 
             // Decide content display based on document type
             if (doc.id === 'doc_korea_booklet' || doc.name.includes('חוברת מסלול') || doc.docType?.includes('חוברת')) {
-                // Official 15-day itinerary view
                 const koreaDoc = document.getElementById('itinerary-doc-korea');
                 if (koreaDoc) {
                     bodyEl.innerHTML = koreaDoc.innerHTML;
@@ -3624,7 +3659,6 @@
                 }
                 if (copyBtn) copyBtn.style.display = 'none';
             } else if (doc.id === 'doc_korea_flights' || doc.name.includes('טיס') || doc.docType?.includes('כרטיס')) {
-                // Official flight tickets summary
                 bodyEl.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:12px;">
                         <div style="background:#eff6ff; border:1.5px solid #93c5fd; border-radius:12px; padding:14px;">
@@ -3674,7 +3708,6 @@
                 `;
                 if (copyBtn) copyBtn.style.display = 'none';
             } else if (doc.id === 'doc_korea_passport' || doc.name.includes('דרכון') || doc.docType?.includes('דרכון')) {
-                // Official Passport summary
                 bodyEl.innerHTML = `
                     <div style="background:#f8fafc; border:2px solid #cbd5e1; border-radius:14px; padding:18px; text-align:center;">
                         <i class="fa-solid fa-passport" style="font-size:3em; color:#2563eb; margin-bottom:10px;"></i>
@@ -3689,7 +3722,6 @@
                 `;
                 if (copyBtn) copyBtn.style.display = 'none';
             } else if (doc.id === 'doc_korea_insurance' || doc.name.includes('ביטוח') || doc.docType?.includes('ביטוח')) {
-                // Official Insurance summary
                 bodyEl.innerHTML = `
                     <div style="background:#fef2f2; border:2px solid #f87171; border-radius:14px; padding:18px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -3710,7 +3742,6 @@
                 `;
                 if (copyBtn) copyBtn.style.display = 'none';
             } else if (doc.data && doc.data.startsWith('data:image/')) {
-                // Uploaded Image
                 bodyEl.innerHTML = `
                     <div style="text-align:center;">
                         <img src="${doc.data}" style="max-width:100%; max-height:70vh; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
@@ -3718,11 +3749,9 @@
                 `;
                 if (copyBtn) copyBtn.style.display = 'none';
             } else if (doc.textContent) {
-                // WhatsApp / Text
                 bodyEl.innerHTML = `<div style="white-space:pre-wrap; background:#f8fafc; padding:14px; border-radius:10px; border:1px solid #e2e8f0; line-height:1.65;">${doc.textContent}</div>`;
                 if (copyBtn) copyBtn.style.display = 'inline-flex';
             } else {
-                // Generic preview
                 bodyEl.innerHTML = `
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
                         <b style="color:#0f172a; font-size:1.05em;">${doc.name}</b>
@@ -3738,7 +3767,6 @@
             if (modal) modal.style.display = 'flex';
         }
 
-        // Backward compatibility alias
         function viewTextDocModal(docId) {
             viewDocumentModal(docId);
         }
@@ -3773,84 +3801,46 @@
             const docs = getCustomDocs();
             if (docs.length === 0) {
                 container.innerHTML = `
-                    <div style="background: white; border: 1.5px dashed #cbd5e1; border-radius: 10px; padding: 18px; text-align: center; color: #64748b; font-size: 0.88em;">
-                        <i class="fa-solid fa-folder-open" style="font-size: 2em; color: #94a3b8; margin-bottom: 8px;"></i>
-                        <div style="font-weight: bold; color: #334155;">טרם הועלו מסמכים לתיק טיול זה (${TRIPS_DATABASE[currentTripKey]?.name || 'פעיל'}).</div>
-                        <div style="font-size: 0.85em; margin-top: 4px;">לחץ על אחד מכפתורי ההעלאה למעלה (חוברת מסלול, שובר סוכנות, דרכון או ביטוח) או הדבק הודעת וואטסאפ להוספה מיידית.</div>
+                    <div style="background: white; border: 1.5px dashed #cbd5e1; border-radius: 10px; padding: 14px; text-align: center; color: #64748b; font-size: 0.85em;">
+                        טרם הועלו מסמכים לתיק זה. לחץ על <b>"העלאה"</b> או הדבק טקסט ולחץ <b>"סנכרון"</b>.
                     </div>
                 `;
                 return;
             }
 
-            const organizedDocs = docs.filter(d => d.category === 'organized');
-            const personalDocs = docs.filter(d => d.category !== 'organized');
-
-            let html = '';
-
-            if (organizedDocs.length > 0) {
-                html += `
-                    <div style="font-weight: 900; color: #166534; font-size: 0.95em; display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-                        <i class="fa-solid fa-briefcase"></i> מסמכי טיול והודעות מסלול שהועלו (${organizedDocs.length}):
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        ${organizedDocs.map(d => renderSingleDocCard(d)).join('')}
-                    </div>
-                `;
-            }
-
-            if (personalDocs.length > 0) {
-                html += `
-                    <div style="font-weight: 900; color: #1e40af; font-size: 0.95em; display: flex; align-items: center; gap: 6px; margin-top: 10px;">
-                        <i class="fa-solid fa-id-card"></i> מסמכים אישיים ורפואיים (${personalDocs.length}):
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        ${personalDocs.map(d => renderSingleDocCard(d)).join('')}
-                    </div>
-                `;
-            }
-
-            container.innerHTML = html;
+            container.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    ${docs.map(d => renderSingleDocCard(d)).join('')}
+                </div>
+            `;
             if (typeof updatePipelineDisplay === 'function') updatePipelineDisplay();
         }
 
         function renderSingleDocCard(d) {
-            const isOrg = (d.category === 'organized');
-            const isWhatsApp = d.isText || d.docType?.includes('וואטסאפ');
-            const iconClass = isWhatsApp ? 'fa-brands fa-whatsapp' : (isOrg ? 'fa-file-pdf' : (d.docType?.includes('דרכון') ? 'fa-passport' : (d.docType?.includes('ביטוח') ? 'fa-shield-halved' : 'fa-file-lines')));
-            const iconColor = isWhatsApp ? '#16a34a' : (isOrg ? '#15803d' : '#2563eb');
-            const badgeBg = isWhatsApp ? '#dcfce7' : (isOrg ? '#dcfce7' : '#dbeafe');
-            const badgeColor = isWhatsApp ? '#15803d' : (isOrg ? '#166534' : '#1e40af');
-            const badgeText = isWhatsApp ? '💬 הודעת וואטסאפ' : (isOrg ? '🏢 טיול מאורגן' : '🛂 אישי');
-
-            const viewButtonHtml = `
-                <button onclick="openSmartDocDerivationModal('${d.id}')" style="background: #f5f3ff; color: #6d28d9; border: 1.5px solid #c4b5fd; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(109,40,217,0.15);" title="גזור שעות, מיקום מדויק וכלל הנתונים מהמסמך לתיק הטיול/האירוע">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>גזור לתיק</span>
-                </button>
-                <button onclick="viewDocumentModal('${d.id}')" style="background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(37,99,235,0.15);" title="צפה במסמך על המסך">
-                    <i class="fa-solid fa-eye"></i> <span>צפה</span>
-                </button>
-            `;
+            const isWhatsApp = d.isText || d.docType?.includes('וואטסאפ') || d.docType?.includes('הודעה');
+            const iconClass = isWhatsApp ? 'fa-brands fa-whatsapp' : 'fa-solid fa-file-lines';
+            const iconColor = isWhatsApp ? '#16a34a' : '#2563eb';
+            const badgeBg = isWhatsApp ? '#dcfce7' : '#dbeafe';
 
             return `
-                <div style="background: white; border: 1.5px solid ${isWhatsApp ? '#86efac' : (isOrg ? '#bbf7d0' : '#bfdbfe')}; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04); flex-wrap: wrap; gap: 8px;">
-                    <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
-                        <div style="background: ${badgeBg}; color: ${iconColor}; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2em; flex-shrink: 0;">
+                <div style="background: white; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
+                        <div style="background: ${badgeBg}; color: ${iconColor}; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0;">
                             <i class="${iconClass}"></i>
                         </div>
-                        <div style="min-width: 0;">
-                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                                <span style="font-weight: 900; font-size: 0.95em; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${d.name}</span>
-                                <span style="background: ${badgeBg}; color: ${badgeColor}; font-size: 0.72em; padding: 1px 6px; border-radius: 4px; font-weight: 800;">${badgeText}</span>
-                            </div>
-                            <div style="font-size: 0.78em; color: #64748b; margin-top: 2px;">
-                                <span><i class="fa-regular fa-clock"></i> ${d.time}</span>
-                                ${d.fileName ? `<span style="margin-right: 6px; opacity: 0.85;">(${d.fileName})</span>` : ''}
-                            </div>
+                        <div style="min-width: 0; flex: 1;">
+                            <div style="font-weight: 900; font-size: 0.9em; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${d.name}</div>
+                            <div style="font-size: 0.75em; color: #64748b;">${d.time}</div>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 6px; flex-shrink: 0; margin-right: 8px;">
-                        ${viewButtonHtml}
-                        <button onclick="deleteCustomDoc('${d.id}')" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 10px; border-radius: 8px; font-size: 0.85em; font-weight: bold; cursor: pointer;" title="מחק מסמך">
+                    <div style="display: flex; gap: 5px; flex-shrink: 0;">
+                        <button onclick="syncAllUploadedDocsToTrip('${d.id}')" style="background: #16a34a; color: white; border: none; padding: 5px 9px; border-radius: 7px; font-size: 0.8em; font-weight: 900; cursor: pointer;">
+                            🔄 סנכרון
+                        </button>
+                        <button onclick="viewDocumentModal('${d.id}')" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 5px 9px; border-radius: 7px; font-size: 0.8em; font-weight: 900; cursor: pointer;">
+                            צפה
+                        </button>
+                        <button onclick="deleteCustomDoc('${d.id}')" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 5px 8px; border-radius: 7px; font-size: 0.8em; font-weight: bold; cursor: pointer;">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -3868,7 +3858,7 @@
             { id: 'q_date', title: '6. תאריך יציאה' },
             { id: 'q_budget', title: '7. תקציב' },
             { id: 'q_activities', title: '8. אתרי חובה' },
-            { id: 'q_transit', title: '9. תחבורה' },
+            { id: 'q_transit', title: '9. התניידות ותחבורה' },
             { id: 'q_hotels', title: '10. לינה' },
             { id: 'q_food', title: '11. כשרות ומזון' },
             { id: 'q_constraints', title: '12. אילוצים ובקשות' }
@@ -4672,17 +4662,44 @@
 
             STATIONS.forEach((st, idx) => {
                 const isBus = st.stopCode !== null && st.stopCode !== undefined;
-                const markerColor = isBus ? '#f97316' : (idx === 0 ? '#16a34a' : (idx === STATIONS.length - 1 ? '#854d0e' : '#ec4899'));
-                const markerHtml = `
-                    <div style="background:${markerColor}; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; border:2.5px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;">
-                        ${isBus ? '🚏' : (idx === 0 ? '🚩' : (idx + 1))}
-                    </div>
-                `;
+                const isHotel = st.isHotel || st.type === 'hotel' || (st.title && st.title.includes('🏨'));
+                const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
+
+                let markerColor = '#ec4899';
+                let markerHtml = `${idx + 1}`;
+                let markerBorder = '2.5px solid white';
+                let markerSize = 30;
+
+                if (isChabad) {
+                    markerColor = '#0284c7';
+                    markerHtml = '<span style="font-size:16px;">✡️</span>';
+                    markerBorder = '2.5px solid #f59e0b';
+                    markerSize = 34;
+                } else if (isHotel) {
+                    markerColor = '#4f46e5';
+                    markerHtml = '<span style="font-size:15px;">🏨</span>';
+                    markerBorder = '2.5px solid #e0e7ff';
+                    markerSize = 32;
+                } else if (isBus) {
+                    markerColor = '#f97316';
+                    markerHtml = '🚏';
+                } else if (idx === 0) {
+                    markerColor = '#16a34a';
+                    markerHtml = '🚩';
+                } else if (idx === STATIONS.length - 1) {
+                    markerColor = '#854d0e';
+                    markerHtml = '🏁';
+                }
+
                 const icon = L.divIcon({
                     className: 'custom-station-pin',
-                    html: markerHtml,
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
+                    html: `
+                        <div style="background:${markerColor}; color:white; width:${markerSize}px; height:${markerSize}px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; border:${markerBorder}; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;">
+                            ${markerHtml}
+                        </div>
+                    `,
+                    iconSize: [markerSize, markerSize],
+                    iconAnchor: [markerSize / 2, markerSize / 2]
                 });
 
                 const marker = L.marker([st.lat, st.lng], { icon: icon }).addTo(dynamicMap);
@@ -4771,8 +4788,9 @@
                         <div style="font-weight:900; color:#0f172a; font-size:12.2px; line-height:1.2;">${st.title}</div>
                         <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:5px; padding:1px 6px; font-size:10px; font-weight:900; cursor:pointer; flex-shrink:0;" title="סגור חלונית (או לחץ על המפה)">✕ סגור</button>
                     </div>
-                    <div style="color:#0369a1; font-size:10.5px; margin:2px 0;">📍 ${st.address || st.desc || ''}</div>
+                    <div style="color:#0369a1; font-size:10.5px; margin:2px 0; font-weight:bold;">📍 ${st.address || st.desc || ''}</div>
                     ${stopCodeHtml}
+                    ${st.shabbatInfo ? `<div style="background:#fef3c7; border:1.5px solid #f59e0b; border-radius:7px; padding:5px 8px; margin:4px 0; font-size:10.5px; color:#92400e; line-height:1.35; text-align:right;"><b>✡️ שבת ובית חב"ד:</b> ${st.shabbatInfo}</div>` : ''}
                     
                     <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:7px; padding:5px 8px; margin:4px 0;">
                         <div style="font-size:10.8px; color:#166534; font-weight:bold;">📏 מרחק ממיקומך: ${liveDistHtml}</div>
@@ -4786,6 +4804,7 @@
                         <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; white-space:nowrap;">
                             🚖 כרטיס לנהג
                         </button>
+                        ${st.website ? `<a href="${st.website}" target="_blank" rel="noopener noreferrer" style="background:#4f46e5; color:white; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; text-decoration:none; text-align:center; white-space:nowrap; display:inline-flex; align-items:center; gap:3px;">🌐 אתר</a>` : ''}
                     </div>
                     ${(idx < STATIONS.length - 1) ? `
                         <div style="margin-top:4px;">
@@ -5346,9 +5365,19 @@
 
                 const isTarget = (activeTargetIndex === idx);
                 const bgStyle = isTarget ? 'background:#eff6ff; border:1.5px solid #93c5fd;' : (idx === 0 ? 'background:#f0fdf4; border:1.5px solid #86efac;' : 'background:#f8fafc; border:1px solid #e2e8f0;');
-                const anchorBadge = idx === 0
-                    ? `<span style="background:#16a34a; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🚩 תחילת מסלול</span>`
-                    : (idx === STATIONS.length - 1 ? `<span style="background:#475569; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🏁 סיום מסלול</span>` : '');
+                const isHotel = st.isHotel || st.type === 'hotel' || (st.title && st.title.includes('🏨'));
+                const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
+                
+                let anchorBadge = '';
+                if (isChabad) {
+                    anchorBadge = `<span style="background:#0284c7; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">✡️ בית חב"ד</span>`;
+                } else if (isHotel) {
+                    anchorBadge = `<span style="background:#4f46e5; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🏨 מלון</span>`;
+                } else if (idx === 0) {
+                    anchorBadge = `<span style="background:#16a34a; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🚩 תחילת מסלול</span>`;
+                } else if (idx === STATIONS.length - 1) {
+                    anchorBadge = `<span style="background:#475569; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🏁 סיום מסלול</span>`;
+                }
 
                 return `
                     <div style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
@@ -7654,11 +7683,36 @@
 
             const stationPillsHtml = STATIONS.map((st, idx) => {
                 const isBus = st.stopCode !== null && st.stopCode !== undefined;
-                const shortTitle = st.title.split(' - ')[0].replace('🚏 ', '');
-                const bg = idx === 0 ? '#dcfce7' : (isBus ? '#fff7ed' : '#f0fdf4');
-                const border = idx === 0 ? '#4ade80' : (isBus ? '#fed7aa' : '#bbf7d0');
-                const text = idx === 0 ? '#166534' : (isBus ? '#c2410c' : '#166534');
-                const prefix = idx === 0 ? '🚩 תחילת מסלול: ' : (isBus ? '🚏 ' : '');
+                const isHotel = st.isHotel || st.type === 'hotel' || (st.title && st.title.includes('🏨'));
+                const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
+
+                let shortTitle = st.title.split(' - ')[0].replace('🚏 ', '');
+                let bg = '#f0fdf4';
+                let border = '#bbf7d0';
+                let text = '#166534';
+                let prefix = '';
+
+                if (isChabad) {
+                    bg = '#fef3c7';
+                    border = '#f59e0b';
+                    text = '#92400e';
+                    shortTitle = '✡️ בית חב"ד סיאול';
+                } else if (isHotel) {
+                    bg = '#f5f3ff';
+                    border = '#c4b5fd';
+                    text = '#5b21b6';
+                } else if (idx === 0) {
+                    bg = '#dcfce7';
+                    border = '#4ade80';
+                    text = '#166534';
+                    prefix = '🚩 תחילת מסלול: ';
+                } else if (isBus) {
+                    bg = '#fff7ed';
+                    border = '#fed7aa';
+                    text = '#c2410c';
+                    prefix = '🚏 ';
+                }
+
                 return `
                     <button onclick="setTargetStation(${idx})" style="background:${bg}; border:1.5px solid ${border}; color:${text}; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:bold; white-space:nowrap; cursor:pointer;">
                         ${prefix}${shortTitle}
@@ -7915,7 +7969,7 @@
             if (picker) picker.click();
         }
 
-        // ================= SMART DOCUMENT & INVITATION DERIVATION ENGINE (V5.0.7) =================
+        // ================= SMART DOCUMENT & INVITATION DERIVATION ENGINE (V5.1.0) =================
         let activeDerivationDocId = null;
 
         function addMinutesToTimeStr(timeStr, deltaMinutes) {
