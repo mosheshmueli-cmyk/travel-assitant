@@ -724,7 +724,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.9
+                גרסה 5.2.0
             </span>
         </div>
     </header>
@@ -1055,7 +1055,7 @@
                         <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                             <div style="font-size: 0.85em; color: #1e3a8a; font-weight: 800;">
                                 <i class="fa-brands fa-google-drive" style="color: #2563eb; font-size: 1.1em;"></i>
-                                <span>נתיב ב-Google Drive: <b id="gdrive-active-folder-label">TRAVEL / קוריאה</b> (3 תתי-ספריות)</span>
+                                <span>נתיב ב-Google Drive: <b id="gdrive-active-folder-label">TRAVEL ASSISTANT / קוריאה</b> (3 תתי-ספריות)</span>
                                 <div id="gdrive-sync-status-line" style="font-size: 0.88em; color: #475569; font-weight: 700; margin-top: 2px;">מסנכרן מסמכים, תמונות, סרטונים ותיק מעובד ישירות לדרייב</div>
                             </div>
                             <button type="button" onclick="syncAllTripFoldersToGoogleDrive()" style="background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
@@ -1067,7 +1067,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
                             <span style="font-weight: 800; color: #1e293b; font-size: 0.92em;">📄 מסמכים שמורים בתיק:</span>
                             <span id="step2-folder-path-badge" style="font-size: 0.76em; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 6px; font-weight: 800;">
-                                📁 TRAVEL / קוריאה / 1_מסמכים_וחומרי_גלם
+                                📁 TRAVEL ASSISTANT / קוריאה / 1_מסמכים_וחומרי_גלם
                             </span>
                         </div>
                         <div id="custom-docs-list" style="margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
@@ -2180,7 +2180,7 @@
                 <!-- Google Drive Real Sync Bar for Diary (TRAVEL / [Trip] / 2_תמונות_וסרטונים) -->
                 <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%); border: 2px solid #0284c7; border-radius: 18px; padding: 14px; margin-bottom: 18px; text-align: center; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.2);">
                     <div style="font-weight: 900; font-size: 1em; color: #0c4a6e; margin-bottom: 4px;">
-                        <i class="fa-brands fa-google-drive"></i> יעד גיבוי ב-Google Drive: <span dir="ltr">TRAVEL / קוריאה / 2_תמונות_וסרטונים</span>
+                        <i class="fa-brands fa-google-drive"></i> יעד גיבוי ב-Google Drive: <span dir="ltr">TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים</span>
                     </div>
                     <div id="cloud-sync-status" style="margin: 6px 0 10px; font-size: 0.84em; color: #0f172a; font-weight: 800; background: rgba(255,255,255,0.92); padding: 5px 12px; border-radius: 20px; display: inline-block;">
                         📱 התמונות והסרטונים נשמרים מיד במכשיר (למטה) – לחץ לסנכרון ל-Google Drive
@@ -4925,8 +4925,8 @@
                         await renderDiaryFeed();
                         await syncDiaryMediaToGoogleDrive(true);
                         alert(gdriveAccessToken
-                            ? '✅ הסרטון נשמר ביומן המסע (למטה במסך) והועלה ל-Google Drive תחת TRAVEL / קוריאה / 2_תמונות_וסרטונים!'
-                            : '📱 הסרטון נשמר במכשיר (מופיע למטה תחת "הזיכרונות שנשמרו"). כדי להעלות אותו גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
+                            ? '✅ הסרטון נשמר ביומן המסע (למטה במסך) והועלה ל-Google Drive תחת TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים!'
+                            : '📱 הסרטון נשמר במכשיר (מופיע למטה תחת "הזיכרונות שנשמרו"). כדי להעלות אותו גם ל-Google Drive (תיקיית TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
                     } catch (err) {
                         console.error('Video storage error:', err);
                         alert('שגיאה בשמירת הסרטון.');
@@ -4981,8 +4981,8 @@
 
                                     syncDiaryMediaToGoogleDrive(true);
                                     alert(gdriveAccessToken
-                                        ? '✅ התמונה נשמרה ביומן המסע (למטה במסך) והועלתה ל-Google Drive תחת TRAVEL / קוריאה / 2_תמונות_וסרטונים!'
-                                        : '📱 התמונה נשמרה במכשיר (מופיעה למטה תחת "הזיכרונות שנשמרו"). כדי להעלות אותה גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
+                                        ? '✅ התמונה נשמרה ביומן המסע (למטה במסך) והועלתה ל-Google Drive תחת TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים!'
+                                        : '📱 התמונה נשמרה במכשיר (מופיעה למטה תחת "הזיכרונות שנשמרו"). כדי להעלות אותה גם ל-Google Drive (תיקיית TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
                                 } catch (err) {
                                     console.error('Storage error:', err);
                                     alert('הזיכרון המקומי מלא. מומלץ למחוק מספר פריטים ישנים.');
@@ -5072,7 +5072,7 @@
                         <p style="margin: 0 0 10px 0; color: #0f172a; font-weight: 900; font-size: 1em;">${item.note}</p>
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                             <span style="font-size:0.75em; color:${item.gdriveSynced ? '#15803d' : '#0369a1'}; background:${item.gdriveSynced ? '#dcfce7' : '#e0f2fe'}; padding:3px 8px; border-radius:6px; font-weight:800;">
-                                ${item.gdriveSynced ? '☁️ ב-Google Drive: TRAVEL/קוריאה/2_תמונות_וסרטונים' : '📱 שמור במכשיר (לחץ למעלה לסנכרון לדרייב)'}
+                                ${item.gdriveSynced ? '☁️ ב-Google Drive: TRAVEL ASSISTANT/קוריאה/2_תמונות_וסרטונים' : '📱 שמור במכשיר (לחץ למעלה לסנכרון לדרייב)'}
                             </span>
                             <div style="display: flex; gap: 8px;">
                                 <button onclick="editDiaryCaption('${item.id}')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 800; cursor: pointer;">
@@ -7884,11 +7884,40 @@
         }
 
         async function ensureTripThreeFoldersInDrive(tripFolderName = 'קוריאה') {
-            // 1. Root 'TRAVEL' folder in Google Drive for all trips
-            const travelMasterId = await gdriveGetOrCreateFolder('TRAVEL', null);
-            // 2. Trip folder inside 'TRAVEL' (e.g. 'קוריאה')
-            const rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, travelMasterId);
-            // 3. The 3 subfolders inside 'TRAVEL / קוריאה'
+            // 1. Root 'TRAVEL ASSISTANT' folder in Google Drive for all trips
+            const travelMasterId = await gdriveGetOrCreateFolder('TRAVEL ASSISTANT', null);
+
+            // Check if tripFolderName (e.g. 'קוריאה') already exists inside 'TRAVEL ASSISTANT'
+            const qInside = encodeURIComponent(`mimeType='application/vnd.google-apps.folder' and name='${tripFolderName}' and '${travelMasterId}' in parents and trashed=false`);
+            const resInside = await fetch(`https://www.googleapis.com/drive/v3/files?q=${qInside}&fields=files(id,name)`, {
+                headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
+            });
+            const dataInside = await resInside.json();
+            let rootFolderId = (dataInside.files && dataInside.files.length > 0) ? dataInside.files[0].id : null;
+
+            // If not inside 'TRAVEL ASSISTANT' yet, check if an existing folder (e.g. 'קוריאה') is sitting at the Drive root and move it inside 'TRAVEL ASSISTANT'
+            if (!rootFolderId) {
+                const qAny = encodeURIComponent(`mimeType='application/vnd.google-apps.folder' and name='${tripFolderName}' and trashed=false`);
+                const resAny = await fetch(`https://www.googleapis.com/drive/v3/files?q=${qAny}&fields=files(id,name,parents)`, {
+                    headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
+                });
+                const dataAny = await resAny.json();
+                if (dataAny.files && dataAny.files.length > 0) {
+                    const existingFile = dataAny.files[0];
+                    rootFolderId = existingFile.id;
+                    const oldParents = (existingFile.parents || []).join(',');
+                    try {
+                        await fetch(`https://www.googleapis.com/drive/v3/files/${rootFolderId}?addParents=${travelMasterId}${oldParents ? '&removeParents=' + oldParents : ''}`, {
+                            method: 'PATCH',
+                            headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
+                        });
+                    } catch (e) {}
+                } else {
+                    rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, travelMasterId);
+                }
+            }
+
+            // 3. The 3 subfolders inside 'TRAVEL ASSISTANT / קוריאה'
             const f1 = await gdriveGetOrCreateFolder('1_מסמכים_וחומרי_גלם', rootFolderId);
             const f2 = await gdriveGetOrCreateFolder('2_תמונות_וסרטונים', rootFolderId);
             const f3 = await gdriveGetOrCreateFolder('3_תיק_הטיול_ותוצר_מעובד', rootFolderId);
@@ -7911,7 +7940,7 @@
                     return;
                 }
                 if (statusEl) {
-                    statusEl.innerHTML = '⏳ מתחבר ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים)...';
+                    statusEl.innerHTML = '⏳ מתחבר ל-Google Drive (תיקיית TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים)...';
                     statusEl.style.color = '#1d4ed8';
                 }
                 const token = await ensureGoogleDriveToken();
@@ -7947,7 +7976,7 @@
                     }
                     if (blob) {
                         const fn = item.fileName || (item.id + (item.mediaType === 'video' ? '.mp4' : '.jpg'));
-                        if (statusEl) statusEl.innerHTML = `☁️ מעלה ל-Google Drive (TRAVEL/${targetFolderName}/2_תמונות_וסרטונים): ${fn}...`;
+                        if (statusEl) statusEl.innerHTML = `☁️ מעלה ל-Google Drive (TRAVEL ASSISTANT/${targetFolderName}/2_תמונות_וסרטונים): ${fn}...`;
                         await gdriveUploadBlob(blob, fn, folders.f2, item.note || '');
                         item.gdriveSynced = true;
                         uploaded++;
@@ -7957,11 +7986,11 @@
                 await renderDiaryFeed();
 
                 if (statusEl) {
-                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ונשמרו ב-Google Drive: TRAVEL / ${targetFolderName} / 2_תמונות_וסרטונים`;
+                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ונשמרו ב-Google Drive: TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים`;
                     statusEl.style.color = '#15803d';
                 }
                 if (!silentIfNoToken) {
-                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית: TRAVEL / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
+                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית: TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
                 }
             } catch (err) {
                 console.error('Diary Google Drive sync error:', err);
