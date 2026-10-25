@@ -723,7 +723,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.1
+                גרסה 5.1.2
             </span>
         </div>
     </header>
@@ -802,7 +802,7 @@
             <div id="map-mode-banner" style="background: #1e1b4b; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 1px solid #312e81;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span id="map-mode-indicator" style="font-size: 0.82em; color: #fde047; font-weight: bold;">🖥️ מצב תכנון ובדיקה:</span>
-                    <span id="active-trip-pill" style="background: #4338ca; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 800;">קסם קוריאה - אופיר טורס</span>
+                    <span id="active-trip-pill" style="background: #4338ca; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 800;">אין טיולים להצגה</span>
                 </div>
                 <button onclick="openTripSelectorModal()" style="background: #6366f1; color: white; border: none; padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(99,102,241,0.35);">
                     <i class="fa-solid fa-map"></i> בחר טיול ▾
@@ -853,7 +853,7 @@
                             </div>
                             <div>
                                 <div style="font-size: 12px; color: #64748b; font-weight: bold;">יעד פעיל:</div>
-                                <div id="hud-target-name" style="font-weight: 900; font-size: 15px; color: #0f172a;">1. חניון נחל עמוד תחתון</div>
+                                <div id="hud-target-name" style="font-weight: 900; font-size: 15px; color: #0f172a;">אין טיולים להצגה</div>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -970,7 +970,7 @@
                                         <input type="text" id="step1-origin-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('origin')" placeholder="כתובת בית או מלון (למשל: רח' העצמאות 93, אשדוד)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #93c5fd; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <label for="step1-origin-time" style="font-size: 0.88em; font-weight: 800; color: #0369a1; white-space: nowrap;">🕒 שעת יציאה מהבית:</label>
-                                            <input type="text" id="step1-origin-time" oninput="saveArrivalChainFromUI()" placeholder="05:42" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #93c5fd; font-size: 1em; font-weight: 900; color: #0369a1; background: #f0f9ff;">
+                                            <input type="text" id="step1-origin-time" oninput="saveArrivalChainFromUI()" placeholder="שעת יציאה" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #93c5fd; font-size: 1em; font-weight: 900; color: #0369a1; background: #f0f9ff;">
                                         </div>
                                     </div>
                                 </div>
@@ -989,10 +989,10 @@
                                         </div>
                                     </div>
                                     <div id="step1-meeting-inputs-box" style="display: flex; flex-direction: column; gap: 8px;">
-                                        <input type="text" id="step1-meeting-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('meeting')" placeholder="מקום המפגש (למשל: בית מכבי ראשל״צ)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #fcd34d; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
+                                        <input type="text" id="step1-meeting-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('meeting')" placeholder="הזן מקום או כתובת מפגש..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #fcd34d; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <label for="step1-meeting-time" style="font-size: 0.88em; font-weight: 800; color: #b45309; white-space: nowrap;">🕒 שעת מפגש:</label>
-                                            <input type="text" id="step1-meeting-time" oninput="saveArrivalChainFromUI()" placeholder="06:30" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #fcd34d; font-size: 1em; font-weight: 900; color: #b45309; background: #fffbeb;">
+                                            <input type="text" id="step1-meeting-time" oninput="saveArrivalChainFromUI()" placeholder="שעת מפגש" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #fcd34d; font-size: 1em; font-weight: 900; color: #b45309; background: #fffbeb;">
                                         </div>
                                     </div>
                                     <div id="step1-meeting-direct-notice" style="display: none; font-size: 0.84em; color: #64748b; font-weight: 700; padding: 2px 0;">
@@ -1010,7 +1010,7 @@
                                         <input type="text" id="step1-trailhead-address" oninput="saveArrivalChainFromUI()" onchange="geocodeArrivalInputNow('trailhead')" placeholder="נקודת הזינוק של המסלול / מיקום האירוע..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 0.98em; font-weight: 800; color: #0f172a; background: #ffffff;">
                                         <div style="display: flex; align-items: center; gap: 8px;">
                                             <label for="step1-trailhead-time" style="font-size: 0.88em; font-weight: 800; color: #15803d; white-space: nowrap;">🕒 שעת התחלה:</label>
-                                            <input type="text" id="step1-trailhead-time" oninput="saveArrivalChainFromUI()" placeholder="08:30" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 1em; font-weight: 900; color: #15803d; background: #f0fdf4;">
+                                            <input type="text" id="step1-trailhead-time" oninput="saveArrivalChainFromUI()" placeholder="שעת התחלה" style="flex: 1; min-width: 0; box-sizing: border-box; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 1em; font-weight: 900; color: #15803d; background: #f0fdf4;">
                                         </div>
                                     </div>
                                 </div>
@@ -1116,7 +1116,7 @@
                                         <button type="button" onclick="toggleFieldNA('q_destination')" id="btn_na_q_destination" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="לדוגמה: שביל ישראל בצפון / עין נון" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_destination" oninput="onQuestionInput('q_destination')" placeholder="הזן יעד הטיול..." style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 3. Character -->
@@ -1176,7 +1176,7 @@
                                         <button type="button" onclick="toggleFieldNA('q_date')" id="btn_na_q_date" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_date" oninput="onQuestionInput('q_date')" placeholder="לדוגמה: 28/10/2026" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_date" oninput="onQuestionInput('q_date')" placeholder="הזן תאריך יציאה..." style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 7. Budget -->
@@ -1191,7 +1191,7 @@
                                         <button type="button" onclick="toggleFieldNA('q_budget')" id="btn_na_q_budget" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75em; cursor:pointer; color:#334155; font-weight:bold;">➖ אין נתונים</button>
                                     </div>
                                 </div>
-                                <input type="text" id="q_budget" oninput="onQuestionInput('q_budget')" placeholder="לדוגמה: 250 ₪ לאדם" style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
+                                <input type="text" id="q_budget" oninput="onQuestionInput('q_budget')" placeholder="הזן תקציב מתוכנן..." style="width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #cbd5e1; border-radius:8px; font-family:Heebo; font-size:0.95em; color:#0f172a; font-weight:600;">
                             </div>
 
                             <!-- 8. Activities -->
@@ -1460,119 +1460,6 @@
                             </div>
                         </div>
 
-                        <!-- 3. ISRAEL TRAIL NORTH ITINERARY DOCUMENT -->
-                        <div id="itinerary-doc-israel_trail_north" class="trip-itinerary-doc" style="display: none;">
-                            <div style="background: #fefce8; border: 2px solid #fef08a; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-                                    <h4 style="margin: 0; color: #854d0e; font-size: 1.15em;"><i class="fa-solid fa-person-hiking"></i> שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון</h4>
-                                    <span style="background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">📅 יום ד' ה-28.10.2026</span>
-                                </div>
-                                <p style="margin: 0; font-size: 0.9em; color: #713f12; line-height: 1.5;">
-                                    <b>חוויית טבע, קניון מרשים וסיום רטוב:</b> הליכה דרומה עם סימון שביל ישראל בתוך ערוץ הנחל. מצוקים אדירים, קרקעית נחל רחבה ונוחה להליכה (מגמת ירידה מתונה מאוד). <b>אורך:</b> כ-11–12 ק"מ | <b>משך משוער:</b> 4–5 שעות הליכה בקצב נינוח של קבוצה | <b>סיום:</b> מעיין עין נון ומפגש אוטובוס.
-                                </p>
-                            </div>
-
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div style="background: white; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 12px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                        <b style="color: #166534; font-size: 1.05em;">📍 תחנה 1: חניון נחל עמוד תחתון (כביש 85) – נקודת היציאה</b>
-                                        <span style="background: #dcfce7; color: #15803d; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">התחלה</span>
-                                    </div>
-                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">חניון נחל עמוד תחתון ממוקם על כביש 85 (סמוך לצומת קדרים). יורדים דרומה לתוך ערוץ הנחל עם סימון שביל ישראל. ירידה מתונה, נוף מצוקי קניון אדירים.</div>
-                                </div>
-
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                        <b style="color: #0369a1; font-size: 1.05em;">💧 תחנה 2: הגיחון (הסיפון) של המוביל הארצי</b>
-                                        <span style="background: #e0f2fe; color: #0284c7; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">פלא הנדסי</span>
-                                    </div>
-                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">פלא הנדסי היסטורי מרשים של מדינת ישראל שבו צינורות ענק מעבירים את המים בלחץ עצמי מצד אחד של הקניון לצדו השני (עקרון הכלים השלובים).</div>
-                                </div>
-
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                        <b style="color: #7c3aed; font-size: 1.05em;">🦴 תחנה 3: מערות האדם הקדמון (מערת העמוד ומערת זוטייה)</b>
-                                        <span style="background: #f3e8ff; color: #7c3aed; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">פרהיסטוריה</span>
-                                    </div>
-                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">מערות פרהיסטוריות בעלות חשיבות עולמית. במערת זוטייה נמצאה גולגולת "האדם הגלילי" (השריד האנושי הקדום ביותר בארץ ישראל, כ-300,000 שנה) ושרידי התרבות המוסטרית.</div>
-                                </div>
-
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                        <b style="color: #b45309; font-size: 1.05em;">☕ תחנה 4: "העמוד" – זקיף הסלע המפורסם</b>
-                                        <span style="background: #fef3c7; color: #b45309; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">נקודת צילום וקפה</span>
-                                    </div>
-                                    <div style="font-size: 0.88em; color: #334155; line-height: 1.5;">זקיף סלע גיר ענק, בודד ובולט המתנשא לגובה של עשרות מטרים, שהעניק לנחל עמוד את שמו. נקודה קלאסית לעצירה מוצלת, צילום קבוצתי והפסקת קפה נעימה.</div>
-                                </div>
-
-                                <div style="background: white; border: 1.5px solid #38bdf8; border-radius: 10px; padding: 12px; background: #f0f9ff;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                        <b style="color: #0369a1; font-size: 1.05em;">🌴 תחנה 5: עין נון (ליד המושבה מגדל) – סיום רטוב ומנוחה</b>
-                                        <span style="background: #0284c7; color: white; font-size: 0.78em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">סיום ומפגש אוטובוס</span>
-                                    </div>
-                                    <div style="font-size: 0.88em; color: #0c4a6e; line-height: 1.5;">השביל יוצא מהקניון אל שטחים פתוחים ומטעים, ומסתיים בבריכת המעיין הגדולה והיפהפייה של עין נון. בריכה מוצלת תחת עצי אקליפטוס ענקיים, שם ממתין האוטובוס לארוחת צהריים, מנוחה והתרעננות!</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 4. ROME & FLORENCE ITINERARY DOCUMENT -->
-                        <div id="itinerary-doc-rome" class="trip-itinerary-doc" style="display: none;">
-                            <div style="background: #fdf2f8; border: 2px solid #f472b6; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                    <h4 style="margin: 0; color: #9d174d; font-size: 1.15em;"><i class="fa-solid fa-landmark"></i> רומא ופירנצה (איטליה) - תיק תכנון ומסלול שבועי</h4>
-                                    <span style="background: #fce7f3; color: #be185d; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">📋 שלב תכנון (גמיש)</span>
-                                </div>
-                                <p style="margin: 0; font-size: 0.9em; color: #831843; line-height: 1.5;">
-                                    <b>שילוב היסטוריה, תרבות ונגישות:</b> הגטו היהודי העתיק ברומא (מסעדות כשרות מהדרין: Ba'Ghetto, BellaCarne), בית הכנסת הגדול, אתרי מורשת, והתניידות ברכבת המהירה Frecciarossa לפירנצה. כל עוד לא יצאנו לדרך - המסלול פתוח לשינויים.
-                                </p>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #9d174d;">יום 1-2: רומא הקלאסית והקולוסיאום</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מפגש ברכבת טרמיני, הקולוסיאום והפורום הרומי (כניסה מונגשת ללא מדרגות), מזרקת טרווי ופיאצה נבונה. ארוחת ערב בגטו היהודי.</div>
-                                </div>
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #0284c7;">יום 3: קריית הוותיקן וטירת סנט אנג'לו</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מוזיאוני הוותיקן, הקפלה הסיסטינית ובזיליקת פטרוס הקדוש. שבילים מסומנים לכיסאות גלגלים וספסלי מנוחה כל 150 מטר.</div>
-                                </div>
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #16a34a;">יום 4-5: נסיעה ברכבת מהירה לפירנצה וערי טוסקנה</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">רכבת מהירה Frecciarossa מתחנת טרמיני לפירנצה סנטה מריה נובלה (שעה וחצי). גלריית אופיצי, גשר פונטה וקיו ובית הכנסת הגדול של פירנצה.</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 5. ASHKELON ITINERARY DOCUMENT -->
-                        <div id="itinerary-doc-ashkelon" class="trip-itinerary-doc" style="display: none;">
-                            <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                    <h4 style="margin: 0; color: #166534; font-size: 1.15em;"><i class="fa-solid fa-umbrella-beach"></i> אשקלון - ים, עתיקות ומורשת היסטורית</h4>
-                                    <span style="background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">📋 שלב תכנון (גמיש)</span>
-                                </div>
-                                <p style="margin: 0; font-size: 0.9em; color: #14532d; line-height: 1.5;">
-                                    <b>שילוב טבע, ים ומורשת עתיקה:</b> הגן הלאומי תל אשקלון, השער הכנעני המקושת העתיק בעולם, חומות הצלבנים, טיילת החוף, המרינה הבינלאומית ומדרחוב מגדל ההיסטורי. מותאם במלואו לתחבורה ציבורית והליכה נוחה.
-                                </p>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #166534;">תחנה 1: תחנת רכבת אשקלון והגעה לעיר</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">הגעה ישירה ברכבת ישראל (מתחנת אשדוד עד הלום או יבנה), חיבור מהיר לקווי אוטובוס עירוניים לגן הלאומי ולחוף.</div>
-                                </div>
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #0284c7;">תחנה 2: הגן הלאומי תל אשקלון</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">השער הכנעני המקושת (בן 3,800 שנה), בזיליקה רומית ענקית, שבילי הליכה מוצלים, מדשאות אל מול הים ושבילי עגלות וכיסאות גלגלים.</div>
-                                </div>
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #059669;">תחנה 3: מרינה אשקלון וטיילת בר כוכבא</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">טיילת חוף מרהיבה, מתחם בתי קפה ומסעדות כשרות על קו המים, בריזה ימית ומקומות ישיבה מרווחים למנוחה.</div>
-                                </div>
-                                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #d97706;">תחנה 4: שכונת מגדל העתיקה והחאן</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">מדרחוב מגדל, מבני אבן עות'מאניים, מוזיאון החאן ההיסטורי של אשקלון, ושווקי תבלינים מקומיים.</div>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- 6. DYNAMIC CUSTOM TRIP ITINERARY DOCUMENT (FOR USER CREATED TRIPS & EVENTS) -->
                         <div id="itinerary-doc-dynamic" class="trip-itinerary-doc" style="display: none;">
                             <div style="background: #f0fdfa; border: 2px solid #5eead4; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
@@ -1652,7 +1539,7 @@
                 <div id="emergency-voice-interpreter-card" style="display: none; background: white; border: 2px solid #ef4444; border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(239,68,68,0.12);">
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fee2e2; padding-bottom: 8px; margin-bottom: 12px;">
                         <h3 style="margin: 0; color: #991b1b; font-size: 1.15em;"><i class="fa-solid fa-headset"></i> מתורגמן חירום קולי דו-כיווני</h3>
-                        <span style="background: #fee2e2; color: #b91c1c; font-size: 0.75em; font-weight: 900; padding: 3px 8px; border-radius: 12px;">🇲🇦 בדיקת שטח: מרוקו</span>
+                        <span style="background: #fee2e2; color: #b91c1c; font-size: 0.75em; font-weight: 900; padding: 3px 8px; border-radius: 12px;">🌐 תרגום קולי בזמן אמת</span>
                     </div>
 
                     <p style="font-size: 0.85em; color: #475569; line-height: 1.45; margin-top: 0; margin-bottom: 14px;">
@@ -1699,7 +1586,7 @@
                             </button>
                         </div>
 
-                        <div style="font-size: 0.78em; color: #16a34a; font-weight: bold; margin-bottom: 4px;">🇲🇦 תשובות מקומי לדוגמה (המערכת תדבר בעברית):</div>
+                        <div style="font-size: 0.78em; color: #16a34a; font-weight: bold; margin-bottom: 4px;">🗣️ תשובות מקומי לדוגמה (המערכת תדבר בעברית):</div>
                         <div style="display: flex; flex-direction: column; gap: 6px;">
                             <button onclick="simulateInterpreterScenario('ar', 'العيادة الطبية في نهاية هذا الشارع إلى اليمين')" style="text-align: right; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #14532d;" dir="rtl">
                                 🧭 "العيادة الطبية في نهاية هذا الشارع إلى اليمين"
@@ -1778,9 +1665,7 @@
                         <i class="fa-solid fa-satellite-dish"></i> בחר תרחיש שטח לבדיקה והדמיה בזמן אמת:
                     </label>
                     <select id="baltam-scenario-selector" onchange="switchBaltamScenario(this.value)" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #ea580c; font-family: 'Heebo', sans-serif; font-size: 0.95em; font-weight: 800; color: #0f172a; background: white;">
-                        <option value="trail_fire" selected>🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא / נחל עמוד</option>
-                        <option value="netanya_heat">🟠 עומס חום כבד בשעות הצהריים (36°C)</option>
-                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                        <option value="routine" selected>🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
                     </select>
                 </div>
 
@@ -1911,7 +1796,7 @@
                     </div>
                 </div>
 
-                <!-- SCENARIO 2: LIVE NETANYA EXTREME HEATWAVE BALTAM -->
+                <!-- SCENARIO 2: GENERIC HEATWAVE BALTAM -->
                 <div id="baltam-card-netanya_heat" class="baltam-scenario-card" style="display: none;">
                     <div style="background: #fff7ed; border: 2px solid #f97316; border-right: 6px solid #ea580c; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -1919,53 +1804,47 @@
                                 🟠 בלת"ם שטח: עומס חום קיצוני
                             </span>
                             <span style="font-size: 0.8em; font-weight: 800; color: #9a3412;">
-                                חוף נתניה וטיילת הראשונים (36°C)
+                                אזור המסלול הפעיל
                             </span>
                         </div>
                         <h3 style="margin: 6px 0 10px; color: #9a3412; font-size: 1.15em;">
-                            ☀️ קרינת שמש קיצונית ועומס חום כבד בשעות 11:30 - 15:00
+                            ☀️ התראת עומס חום בשעות הצהריים
                         </h3>
                         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88em; color: #334155;">
                             <div style="background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px;">
-                                <b>🚶 התאמת מסלול מיידית:</b> קיצור ההליכה על הטיילת הפתוחה. ירידה במעלית סירונית המוצלת לשהייה ליד המים המוצלים.
+                                <b>🚶 התאמת מסלול מיידית:</b> מעבר להליכה במקטעים מוצלים או ממוזגים.
                             </div>
                             <div style="background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px;">
-                                <b>🍉 הקדמת שוק נתניה המקורה:</b> מעבר מוקדם לשוק המקורה ברחוב שוהם 10 (ממוזג ומוצל) והפסקת צהריים ממושכת.
-                            </div>
-                            <div style="background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px;">
-                                <b>💧 משטר שתייה:</b> שתיית 0.5 ליטר מים כל 40 דקות לקבוצה.
+                                <b>💧 משטר שתייה:</b> הקפדה על שתייה מרובה ומנוחה בצל.
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SCENARIO 3: LIVE ISRAEL TRAIL DETOUR BALTAM -->
-                <div id="baltam-card-trail_fire" class="baltam-scenario-card" style="display: block;">
+                <!-- SCENARIO 3: GENERIC ROUTE BLOCK BALTAM -->
+                <div id="baltam-card-trail_fire" class="baltam-scenario-card" style="display: none;">
                     <div style="background: #fef2f2; border: 2px solid #ef4444; border-right: 6px solid #dc2626; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                             <span style="background: #dc2626; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.85em;">
-                                🔴 בלת"ם שטח: חסימת מקטע שביל ישראל
+                                🔴 בלת"ם שטח: שינוי / חסימת ציר
                             </span>
                             <span style="font-size: 0.8em; font-weight: 800; color: #991b1b;">
-                                מקטע שער הגיא - בר בהר
+                                עדכון תנועה בזמן אמת
                             </span>
                         </div>
                         <h3 style="margin: 6px 0 10px; color: #991b1b; font-size: 1.15em;">
-                            ⚠️ התראה בזמן אמת: חסימת שביל עקב שריפת חורש / הצפה מקומית
+                            ⚠️ התראה בזמן אמת: חסימת ציר תנועה במסלול
                         </h3>
                         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88em; color: #334155;">
                             <div style="background: white; border: 1px solid #fecaca; border-radius: 8px; padding: 10px;">
-                                <b>🧭 הפעלת נתיב מילוט SOS:</b> סטייה מיידית דרומה לכיוון צומת מחסיה וכביש 3855.
-                            </div>
-                            <div style="background: white; border: 1px solid #fecaca; border-radius: 8px; padding: 10px;">
-                                <b>🔋 חיסכון קיצוני בסוללה:</b> המערכת משהה GPS בכיס ומציגה נ.צ מדויק בלחיצה לחבירה לרכב חילוץ.
+                                <b>🧭 ניתוב עוקף בזמן אמת:</b> לחץ על "מפה בזמן אמת" לקבלת מסלול חלופי בטוח לנקודת היעד הבאה.
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- SCENARIO 4: ROUTINE SAFE MODE -->
-                <div id="baltam-card-routine" class="baltam-scenario-card" style="display: none;">
+                <div id="baltam-card-routine" class="baltam-scenario-card" style="display: block;">
                     <div style="background: #f0fdf4; border: 2px solid #86efac; border-right: 6px solid #16a34a; border-radius: 14px; padding: 18px; text-align: center;">
                         <i class="fa-solid fa-circle-check" style="font-size: 2.2em; color: #16a34a; margin-bottom: 8px;"></i>
                         <h3 style="margin: 0 0 6px; color: #166534; font-size: 1.2em;">אין התראות בלת"ם פעילות באזורכם</h3>
@@ -2074,18 +1953,7 @@
                     <div id="ai-card-domestic-transit" style="display: block; background: white; border: 1.5px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(22,101,52,0.06);">
                         <h4 style="margin: 0 0 8px 0; color: #15803d; font-size: 1.05em;"><i class="fa-solid fa-van-shuttle"></i> תחבורה יבשתית והקפצות שטח מקומיות</h4>
                         <div id="ai-domestic-transit-items" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;">
-                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                                <b style="color: #15803d;">🚌 נקודת מוצא: חניון נחל עמוד תחתון (כביש 85):</b>
-                                <div style="color: #334155; margin-top: 2px;">הגעה עצמית ברכב או קווי אגד (500 / 505 / 361) לצומת קדרים וחניון נחל עמוד.</div>
-                            </div>
-                            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
-                                <b style="color: #0369a1;">🚏 נקודת סיום ואיסוף: עין נון (סמוך למושבה מגדל):</b>
-                                <div style="color: #334155; margin-top: 2px;">מפגש עם האוטובוס הקבוצתי או מוניות מקומיות לעלייה חזרה / המשך נסיעה.</div>
-                            </div>
-                            <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
-                                <b style="color: #c2410c;">🎒 הקפצות שטח וחירום:</b>
-                                <div style="color: #334155; margin-top: 2px;">במקרה של פציעה או קיצור מסלול: נקודת חבירה לרכבי שטח סמוך לגיחון המוביל הארצי.</div>
-                            </div>
+                            <div style="color: #64748b; text-align: center; padding: 10px;">אין טיולים להצגה</div>
                         </div>
                     </div>
 
@@ -2422,56 +2290,6 @@
         // ================= STATIONS DATA (EXACT COORDINATES & STATION CODES) =================
         // ================= MULTI-TRIP DATABASE (REPOSITORY TRIPS) =================
         const TRIPS_DATABASE = {
-            netanya: {
-                id: "netanya",
-                name: "נתניה",
-                country: "ישראל",
-                stage: "archived",
-                stageLabel: "🏁 ארכיון (הסתיים)",
-                badge: "הסתיים",
-                archived: true,
-                flightLocked: false,
-                center: [32.3280, 34.8560],
-                zoom: 14,
-                stations: [
-                    {
-                        id: "net1",
-                        title: "1. תחנת רכבת נתניה ומסוף האוטובוסים",
-                        desc: "ירידה מהרכבת ומעבר לרציפי אוטובוס קווים 16 / 25 למרכז העיר והטיילת",
-                        lat: 32.3201,
-                        lng: 34.8692,
-                        address: "תחנת רכבת נתניה מערב",
-                        stopCode: "37124",
-                        stayTime: "09:00 - 09:20",
-                        transitType: "רכבת ישראל + קו 16/25",
-                        walkingDist: "50 מטר מרציף הרכבת"
-                    },
-                    {
-                        id: "net2",
-                        title: "2. טיילת הראשונים ומעלית הים (סירונית)",
-                        desc: "תצפית מצוק הים, בריזת בוקר וירידה מונגשת במעלית השקופה לחוף סירונית",
-                        lat: 32.3292,
-                        lng: 34.8505,
-                        address: "שדרות עובד בן עמי / טיילת הראשונים, נתניה",
-                        stopCode: null,
-                        stayTime: "09:35 - 11:15",
-                        transitType: "הליכה מישורית בטיילת",
-                        walkingDist: "180 מטר מתחנת דוד המלך 6"
-                    },
-                    {
-                        id: "net3",
-                        title: "3. שוק נתניה המקורה ומסעדת פריקסה",
-                        desc: "סיור קולינרי בשוק העירוני המקורה והמוצל וארוחת צהריים כשרה למהדרין",
-                        lat: 32.3282,
-                        lng: 34.8588,
-                        address: "רחוב שוהם 10 פינת היהלום 8, נתניה",
-                        stopCode: "39270",
-                        stayTime: "11:30 - 13:30",
-                        transitType: "הליכה מקורה ומוצלת",
-                        walkingDist: "350 מטר"
-                    }
-                ]
-            },
             korea: {
                 id: "korea",
                 name: "קוריאה הדרומית - אופיר טורס",
@@ -2734,215 +2552,6 @@
                         walkingDist: "העברת מזוודות ישירה לטיסה"
                     }
                 ]
-            },
-            israel_trail_north: {
-                id: "israel_trail_north",
-                name: "שביל ישראל: נחל עמוד תחתון עד עין נון",
-                country: "ישראל",
-                stage: "planning",
-                stageLabel: "📋 שלב תכנון",
-                badge: "28/10/26 | 11-12 ק\"מ",
-                departureDate: "2026-10-28",
-                dates: "28/10/2026",
-                flightLocked: false,
-                center: [32.8700, 35.5000],
-                zoom: 12,
-                stations: [
-                    {
-                        id: "itn1",
-                        title: "1. חניון נחל עמוד תחתון (כביש 85)",
-                        desc: "נקודת היציאה הדרומית לשביל ישראל בערוץ הקניון, ירידה מתונה",
-                        lat: 32.9100,
-                        lng: 35.4855,
-                        address: "חניון נחל עמוד תחתון, כביש 85 (סמוך לצומת קדרים)",
-                        stopCode: null,
-                        stayTime: "08:30 - 09:00",
-                        transitType: "נקודת יציאה - תחילת מסלול רגלי",
-                        walkingDist: "התחלת מסלול 11-12 ק\"מ"
-                    },
-                    {
-                        id: "itn2",
-                        title: "2. הגיחון (הסיפון) של המוביל הארצי",
-                        desc: "פלא הנדסי היסטורי - צינורות ענק להעברת מים בלחץ עצמי",
-                        lat: 32.8850,
-                        lng: 35.5020,
-                        address: "ערוץ נחל עמוד, שביל ישראל",
-                        stopCode: null,
-                        stayTime: "10:00 - 10:30",
-                        transitType: "הליכה רגלית בערוץ הנחל",
-                        walkingDist: "ירידה מתונה, נוף מצוקי קניון אדירים"
-                    },
-                    {
-                        id: "itn3",
-                        title: "3. מערות האדם הקדמון (מערת העמוד ומערת זוטייה)",
-                        desc: "גולגולת האדם הגלילי (כ-300,000 שנה) ושרידים פרהיסטוריים",
-                        lat: 32.8730,
-                        lng: 35.5120,
-                        address: "מצוקי נחל עמוד תחתון",
-                        stopCode: null,
-                        stayTime: "11:15 - 11:45",
-                        transitType: "הליכה בערוץ רחב ונוח",
-                        walkingDist: "שביל ישראל מסומן"
-                    },
-                    {
-                        id: "itn4",
-                        title: "4. \"העמוד\" – זקיף הסלע המפורסם",
-                        desc: "זקיף סלע ענק שהעניק לנחל את שמו. נקודת צילום קבוצתי והפסקת קפה",
-                        lat: 32.8680,
-                        lng: 35.5150,
-                        address: "נחל עמוד תחתון, ליד מצוקי כפר חיטים",
-                        stopCode: null,
-                        stayTime: "12:00 - 12:45",
-                        transitType: "עצירה מוצלת והתרעננות",
-                        walkingDist: "הפסקת קפה ומנוחה"
-                    },
-                    {
-                        id: "itn5",
-                        title: "5. עין נון (ליד המושבה מגדל) – סיום ואוטובוס",
-                        desc: "בריכת מעיין גדולה ומוצלת תחת עצי אקליפטוס, מפגש עם האוטובוס לארוחה",
-                        lat: 32.8315,
-                        lng: 35.5085,
-                        address: "מעיין עין נון, סמוך למושבה מגדל",
-                        stopCode: null,
-                        stayTime: "13:30 - 15:00",
-                        transitType: "סיום רטוב ומנוחה / עלייה לאוטובוס",
-                        walkingDist: "סיום מסלול 11-12 ק\"מ (4-5 שעות)"
-                    }
-                ]
-            },
-            ashkelon: {
-                id: "ashkelon",
-                name: "אשקלון",
-                country: "ישראל",
-                stage: "planning",
-                stageLabel: "📋 שלב תכנון",
-                badge: "היסטוריה, חוף ופנאי",
-                flightLocked: false,
-                center: [31.6690, 34.5715],
-                zoom: 13,
-                stations: [
-                    {
-                        id: "ash1",
-                        title: "1. הגן הלאומי תל אשקלון",
-                        desc: "השער הכנעני המקושת הקדום בעולם, חומות עתיקות, מדשאות ונוף לים",
-                        lat: 31.6612,
-                        lng: 34.5510,
-                        address: "גן לאומי אשקלון, דרום העיר",
-                        stopCode: null,
-                        stayTime: "09:00 - 11:30",
-                        transitType: "סיור מונגש בשבילי הפארק",
-                        walkingDist: "600 מטר שבילים סלולים"
-                    },
-                    {
-                        id: "ash2",
-                        title: "2. טיילת בר כוכבא וחוף דלילה",
-                        desc: "טיילת חוף מודרנית ורחבה, בריזת ים, ספסלי מנוחה מוצלים ובתי קפה",
-                        lat: 31.6780,
-                        lng: 34.5570,
-                        address: "רחוב בר כוכבא, אשקלון",
-                        stopCode: null,
-                        stayTime: "12:00 - 13:30",
-                        transitType: "הליכה מישורית בטיילת",
-                        walkingDist: "400 מטר"
-                    },
-                    {
-                        id: "ash3",
-                        title: "3. מרינה אשקלון ומתחם המסעדות",
-                        desc: "מתחם בילוי שוקק סביב המעגן, מסעדות דגים כשרות למהדרין ושייט",
-                        lat: 31.6830,
-                        lng: 34.5595,
-                        address: "מתחם המרינה, אשקלון",
-                        stopCode: null,
-                        stayTime: "13:45 - 15:30 (ארוחת צהריים)",
-                        transitType: "מדרחוב מישורי",
-                        walkingDist: "250 מטר"
-                    },
-                    {
-                        id: "ash4",
-                        title: "4. מדרחוב מגדל העתיקה והחאן",
-                        desc: "הגרעין ההיסטורי של אשקלון, מבנה החאן העות'מאני, גלריות ושוק",
-                        lat: 31.6675,
-                        lng: 34.5768,
-                        address: "רחוב הרצל / אלי כהן (רובע מגדל), אשקלון",
-                        stopCode: null,
-                        stayTime: "16:00 - 17:30",
-                        transitType: "מדרחוב מרוצף",
-                        walkingDist: "350 מטר"
-                    }
-                ]
-            },
-            rome: {
-                id: "rome",
-                name: "רומא ופירנצה (איטליה)",
-                country: "איטליה",
-                stage: "planning",
-                stageLabel: "📋 שלב תכנון (פתוח לעריכה)",
-                badge: "מסלול אירופה קלאסית",
-                flightLocked: false,
-                center: [41.9028, 12.4964],
-                zoom: 13,
-                stations: [
-                    {
-                        id: "r1",
-                        title: "1. תחנת רכבת רומא טרמיני (Termini)",
-                        desc: "מרכז התחבורה הראשי של רומא, מפגש קווי מטרו ומסופי אוטובוסים",
-                        lat: 41.9010,
-                        lng: 12.5010,
-                        address: "Piazza dei Cinquecento, Roma",
-                        stopCode: null,
-                        stayTime: "08:30 - 09:15 התארגנות",
-                        transitType: "רכבת ומטרו",
-                        walkingDist: "חיבור ישיר למטרו A ו-B"
-                    },
-                    {
-                        id: "r2",
-                        title: "2. הקולוסיאום והפורום הרומי",
-                        desc: "אמפיתיאטרון ענק, כניסה מונגשת ללא מדרגות ומעלית פנימית",
-                        lat: 41.8902,
-                        lng: 12.4922,
-                        address: "Piazza del Colosseo, 1, Roma",
-                        stopCode: null,
-                        stayTime: "09:45 - 12:00",
-                        transitType: "הליכה מונגשת",
-                        walkingDist: "400 מטר שבילים סלולים"
-                    },
-                    {
-                        id: "r3",
-                        title: "3. מזרקת טרווי ופיאצה נבונה",
-                        desc: "מזרקת השיש המפורסמת, מדרחוב תוסס ובתי קפה היסטוריים",
-                        lat: 41.9009,
-                        lng: 12.4833,
-                        address: "Piazza di Trevi, Roma",
-                        stopCode: null,
-                        stayTime: "12:30 - 14:00",
-                        transitType: "מדרחוב מישורי",
-                        walkingDist: "300 מטר"
-                    },
-                    {
-                        id: "r4",
-                        title: "4. הגטו היהודי העתיק ובית הכנסת הגדול",
-                        desc: "מסעדות כשרות למהדרין (Ba'Ghetto), בית הכנסת המרכזי והמוזיאון",
-                        lat: 41.8922,
-                        lng: 12.4780,
-                        address: "Lungotevere de' Cenci, Roma",
-                        stopCode: null,
-                        stayTime: "14:15 - 16:00 ארוחת צהריים כשרה",
-                        transitType: "סמטאות מישוריות",
-                        walkingDist: "200 מטר"
-                    },
-                    {
-                        id: "r5",
-                        title: "5. קריית הוותיקן ובזיליקת פטרוס הקדוש",
-                        desc: "מוזיאוני הוותיקן, הקפלה הסיסטינית ובזיליקת סן פייטרו",
-                        lat: 41.9022,
-                        lng: 12.4539,
-                        address: "Piazza San Pietro, Citta del Vaticano",
-                        stopCode: null,
-                        stayTime: "16:30 - 18:30",
-                        transitType: "סיור מונגש",
-                        walkingDist: "350 מטר"
-                    }
-                ]
             }
         };
 
@@ -2960,8 +2569,8 @@
                 });
             } catch(e) {}
 
-            // Restore saved stages for system trips (e.g. korea)
-            ['korea', 'rome', 'israel_trail_north', 'ashkelon'].forEach(k => {
+            // Restore saved stages for system trips
+            ['korea'].forEach(k => {
                 const savedStage = localStorage.getItem('travel_assistant_trip_stage_' + k);
                 if (savedStage && TRIPS_DATABASE[k]) {
                     TRIPS_DATABASE[k].stage = savedStage;
@@ -2975,129 +2584,27 @@
 
         const savedActiveTrip = localStorage.getItem('travel_assistant_active_trip');
         const initialDeleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
-        let currentTripKey = (savedActiveTrip && TRIPS_DATABASE[savedActiveTrip] && !initialDeleted.includes(savedActiveTrip) && savedActiveTrip !== 'netanya' && !TRIPS_DATABASE[savedActiveTrip].archived) ? savedActiveTrip : 'israel_trail_north';
-        if (!TRIPS_DATABASE[currentTripKey]) {
-            const firstValidKey = Object.keys(TRIPS_DATABASE).find(k => !initialDeleted.includes(k) && k !== 'netanya' && !TRIPS_DATABASE[k].archived);
-            currentTripKey = firstValidKey || Object.keys(TRIPS_DATABASE)[0] || 'israel_trail_north';
+        let currentTripKey = (savedActiveTrip && TRIPS_DATABASE[savedActiveTrip] && !initialDeleted.includes(savedActiveTrip) && !TRIPS_DATABASE[savedActiveTrip].archived) ? savedActiveTrip : '';
+        if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+            const firstValidKey = Object.keys(TRIPS_DATABASE).find(k => !initialDeleted.includes(k) && !TRIPS_DATABASE[k].archived);
+            currentTripKey = firstValidKey || '';
         }
-        let STATIONS = (TRIPS_DATABASE[currentTripKey] && TRIPS_DATABASE[currentTripKey].stations) ? TRIPS_DATABASE[currentTripKey].stations : [];
+        let STATIONS = (currentTripKey && TRIPS_DATABASE[currentTripKey] && TRIPS_DATABASE[currentTripKey].stations) ? TRIPS_DATABASE[currentTripKey].stations : [];
         let userExplicitlyClosedBubble = false;
 
         // ================= GLOBAL CULINARY ENGINE DATA (ITEM 3.7) =================
         const RESTAURANTS = [
             {
-                id: 'fricassee_netanya',
-                name: 'התוניסאי שלנו (פריקסה מומלץ)',
-                country: 'ישראל',
-                city: 'נתניה (שוק עירוני)',
-                address: 'רחוב היהלום 8, שוק נתניה',
-                lat: 32.3276,
-                lng: 34.8580,
-                cuisine: 'אוכל רחוב תוניסאי מסורתי',
-                dish: 'פריקסה תוניסאי חם וטרי (מטוגן במקום / אפוי), סנדוויץ תוניסאי עשיר, בוריקה',
-                kosher: 'כשר למהדרין (בדץ בית יוסף / רבנות נתניה)',
-                tags: ['kosher_badatz'],
-                rating: 4.8,
-                hours: '09:00 - 18:00 (בימי שישי עד 15:00)',
-                image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60',
-                nearStationIndex: 5
-            },
-            {
-                id: 'yakev_netanya',
-                name: 'היקב נתניה (הטיילת)',
-                country: 'ישראל',
-                city: 'נתניה (טיילת הראשונים)',
-                address: 'רחוב גד מכנס 16, נתניה',
-                lat: 32.3308,
-                lng: 34.8512,
-                cuisine: 'איטלקי חלבי, דגים ונוף לים',
-                dish: 'פסטות טריות, פוקצות, מנות דגים עשירות ותפריט מותאם ללא גלוטן',
-                kosher: 'כשר למהדרין (חלבי)',
-                tags: ['kosher_badatz', 'gluten_free'],
-                rating: 4.6,
-                hours: '11:00 - 23:00',
-                image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60',
-                nearStationIndex: 3
-            },
-            {
-                id: 'el_gaucho_netanya',
-                name: 'אל גאוצו נתניה',
-                country: 'ישראל',
-                city: 'נתניה (חוף צפוני)',
-                address: 'שדרות ניצה 1, נתניה',
-                lat: 32.3365,
-                lng: 34.8530,
-                cuisine: 'גריל בשרים דרום אמריקאי',
-                dish: 'סטייקים משובחים, אסאדו בצלייה איטית, בשרים על האש',
-                kosher: 'כשר למהדרין (בשרי)',
-                tags: ['kosher_badatz'],
-                rating: 4.5,
-                hours: '12:00 - 23:30',
-                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60',
-                nearStationIndex: 4
-            },
-            {
-                id: 'pagoda_tiberias',
-                name: 'פגודה ודקס (טבריה וסובב כנרת)',
-                country: 'ישראל',
-                city: 'טבריה (טיילת אלון - 10 דקות ממגדל)',
-                address: 'טיילת גדוד ברק, טבריה',
-                lat: 32.7940,
-                lng: 35.5340,
-                cuisine: 'דגים כשרים, אסייתי ובשרים מול הכנרת',
-                dish: 'דג אמנון (מושט) כנרת טרי, סושי ומנות שף כשרות למהדרין',
-                kosher: 'כשר למהדרין (הרבנות טבריה)',
-                tags: ['kosher_badatz', 'gluten_free'],
-                rating: 4.7,
-                hours: '12:00 - 23:00',
-                image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60',
-                nearStationIndex: 4
-            },
-            {
-                id: 'ein_nun_rest',
-                name: 'קפה ומסעדת מגדל (סמוך לעין נון)',
-                country: 'ישראל',
-                city: 'מושבה מגדל (צפון הכנרת)',
-                address: 'מתחם צומת מגדל, סמוך לעין נון',
-                lat: 32.8250,
-                lng: 35.5120,
-                cuisine: 'גלילי מקומי, ארוחות בוקר וקפה שטח',
-                dish: 'ארוחות שטח גליליות, סלטים טריים, שקשוקה וכריכים חמים למטיילים',
-                kosher: 'כשר למהדרין',
-                tags: ['kosher_badatz', 'vegan', 'gluten_free'],
-                rating: 4.8,
-                hours: '08:00 - 21:00',
-                image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60',
-                nearStationIndex: 4
-            },
-            {
-                id: 'niso_ashkelon',
-                name: 'ניסו הדייג (מרינה אשקלון)',
-                country: 'ישראל',
-                city: 'אשקלון (מתחם המרינה)',
-                address: 'הנמל 1, מרינה אשקלון',
-                lat: 31.6835,
-                lng: 34.5592,
-                cuisine: 'דגי ים טריים וסלטים ים-תיכוניים',
-                dish: 'מבחר סלטי פתיחה עשירים, דגי לברק ודניס על הגריל, צ\'יפס פריך',
-                kosher: 'כשר למהדרין (רבנות אשקלון)',
-                tags: ['kosher_badatz', 'gluten_free'],
-                rating: 4.7,
-                hours: '11:30 - 23:30',
-                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60',
-                nearStationIndex: 2
-            },
-            {
                 id: 'chabad_seoul',
-                name: 'בית חבד קוריאה - מסעדה כשרה',
+                name: 'בית חב"ד קוריאה - מסעדה כשרה',
                 country: 'קוריאה הדרומית',
                 city: 'סיאול, קוריאה הדרומית',
-                address: 'Itaewon-dong, Yongsan-gu, Seoul, South Korea',
-                lat: 37.5348,
-                lng: 126.9942,
+                address: '29 Jangmun-ro, Yongsan-gu, Seoul, South Korea',
+                lat: 37.5350,
+                lng: 126.9940,
                 cuisine: 'מטבח יהודי כשר ומנות מקומיות כשרות',
                 dish: 'ארוחות שבת מלאות, שניצל ופירה, עוף בגריל, משלוח מנות ארוזות למלונות',
-                kosher: 'גלאט כשר למהדרין (הרב אשכנזי)',
+                kosher: 'גלאט כשר למהדרין (בית חב"ד סיאול)',
                 tags: ['kosher_badatz'],
                 rating: 4.9,
                 hours: '10:00 - 20:00 (בתיאום מראש)',
@@ -3145,9 +2652,23 @@
             const container = document.getElementById('food-cards-container');
             if (!container) return;
 
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                container.innerHTML = `<div style="text-align:center; padding:16px; color:#64748b; font-weight:800; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px;">אין טיולים להצגה</div>`;
+                return;
+            }
+
             const tripCountry = getTripCountry(currentTripKey);
-            let list = RESTAURANTS.filter(r => !r.country || r.country === tripCountry);
-            if (list.length === 0) list = RESTAURANTS;
+            let list = RESTAURANTS.filter(r => r.country === tripCountry);
+            if (list.length === 0) {
+                const qFood = document.getElementById('q_food')?.value?.trim() || '';
+                container.innerHTML = `
+                    <div style="text-align:right; padding:14px; color:#334155; background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:10px; font-size:0.9em;">
+                        <b style="color:#0f172a;">🍽️ הגדרות מזון וכשרות לטיול (${TRIPS_DATABASE[currentTripKey].name}):</b>
+                        <div style="margin-top:6px;">${qFood || 'טרם הוזנו מסעדות ספציפיות לתיק זה. ניתן להסתייע בסורק הברקודים למעלה או לעדכן בשלב 3.'}</div>
+                    </div>
+                `;
+                return;
+            }
 
             if (currentFoodFilter === 'kosher_badatz') {
                 list = list.filter(r => r.tags.includes('kosher_badatz'));
@@ -3226,29 +2747,33 @@
             input.value = '';
 
             setTimeout(() => {
-                let reply = "קיבלתי את פנייתך. כסייען שטח פרואקטיבי אני בודק את הנתונים העדכניים ומכוון אותך בצורה המדויקת ביותר.";
+                const activeTrip = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey] : null;
+                if (!activeTrip) {
+                    addChatMessage('כרגע אין טיולים להצגה במאגר. לחץ על "תכנון טיול חדש" כדי להתחיל.', 'ai');
+                    return;
+                }
+                let reply = `אני בודק את הנתונים עבור "${activeTrip.name}" ומכוון אותך בהתאם לתיק הטיול ולמפה בזמן אמת.`;
                 const lower = text.toLowerCase();
-                if (lower.includes('אוכל') || lower.includes('מסעדה') || lower.includes('רעב') || lower.includes('פריקסה')) {
-                    reply = "בקרבת שוק נתניה מומלץ לגשת לרחוב היהלום 8 אל התוניסאי שלנו - פריקסה כשר למהדרין, טרי ונקי! לחלופין בטיילת הראשונים יש את היקב (חלבי כשר) ואל גאוצו (בשרי כשר).";
-                } else if (lower.includes('שוק') || lower.includes('יהלום')) {
-                    reply = "השוק העירוני המקורה נמצא ברחוב שוהם 10 פינת היהלום. הוא מקורה ומוצל לשעות החום של הצהריים. תחנת האוטובוס חזרה לרכבת (קו 16/25) נמצאת ביציאה המזרחית בשדרות ויצמן 16 (קוד תחנה 39270).";
-                } else if (lower.includes('רכבת') || lower.includes('אוטובוס') || lower.includes('תחנה')) {
-                    reply = "לרשותך כל זמני התחבורה: קווי אוטובוס 16 ו-25 מחברים ישירות בין תחנת הרכבת (מסוף מערב קוד 37124) לבין מרכז העיר והשוק. מרחק ההליכה מתחנת דוד המלך 6 למעלית החוף הוא 180 מטר בלבד.";
-                } else if (lower.includes('קוריאה') || lower.includes('סיאול')) {
-                    reply = "לקראת הטיול לקוריאה: בית חבד באיטוון מציע מנות כשרות ארוזות, וברובע אינסדונג ישנן מסעדות טבעוניות מסורתיות נקיות כגון Osegyehyang. כרטיס הנהג המקומי באפליקציה מתרגם אוטומטית לקוריאנית!";
+                if (lower.includes('חבד') || lower.includes('שבת') || lower.includes('כשר')) {
+                    reply = `עבור "${activeTrip.name}": כל נקודות הלינה ובית חב"ד נעוצים במפה בזמן אמת כולל מרחקים והנחיות שבת מפורטות.`;
+                } else if (lower.includes('מלון') || lower.includes('לינה')) {
+                    reply = `רשימת המלונות של "${activeTrip.name}" מעודכנת בלשונית "3. לינה" ונעוצה לפי תאריכים במפה בזמן אמת.`;
+                } else if (lower.includes('תחבורה') || lower.includes('הגעה') || lower.includes('יציאה')) {
+                    const chain = getTripArrivalChain(currentTripKey);
+                    reply = `נקודת היציאה מוגדרת מ-${chain.originAddress || "רח' העצמאות 93, אשדוד"} ${chain.originTime ? 'בשעה ' + chain.originTime : ''}. ניתן לנווט אליה בלחיצה מהמפה בזמן אמת.`;
                 }
                 addChatMessage(reply, 'ai');
-            }, 500);
+            }, 400);
         }
 
         function handleAiPhotoUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            addChatMessage('📷 [נשלחה תמונת שטח לפענוח שלט או צומת]', 'user');
+            addChatMessage('📷 [נשלחה תמונת שטח לפענוח]', 'user');
             setTimeout(() => {
-                addChatMessage('🔍 פענחתי את שלט הרחוב שצילמת: המיקום זוהה בהצלחה! אתה נמצא סמוך לכניסה המערבית של השוק. פנה ימינה והמשך כ-40 מטר לרחוב היהלום (לכיוון מסעדת פריקסה).', 'ai');
-            }, 800);
+                addChatMessage('🔍 התמונה נקלטה. המיקום מסונכרן מול המפה בזמן אמת.', 'ai');
+            }, 600);
         }
 
         function addChatMessage(msg, sender) {
@@ -3276,71 +2801,32 @@
         }
 
         function getCustomDocs(tripKey) {
-            const k = tripKey || currentTripKey;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k || !TRIPS_DATABASE[k]) return [];
             try {
                 let docs = JSON.parse(localStorage.getItem('travel_assistant_custom_docs_' + k));
-                if ((!docs || docs.length === 0)) {
-                    if (k === 'korea') {
-                        const legacy = localStorage.getItem('travel_assistant_custom_docs');
-                        if (legacy && JSON.parse(legacy).length > 0) {
-                            docs = JSON.parse(legacy);
-                        } else {
-                            docs = [
-                                {
-                                    id: 'doc_korea_booklet',
-                                    name: 'חוברת מסלול רשמית - הקסם הקוריאני 15 ימים (אופיר טורס)',
-                                    category: 'organized',
-                                    docType: 'חוברת מסלול סוכנות',
-                                    time: '22/11/2026',
-                                    fileName: 'ophir_tours_korea_official.pdf',
-                                    data: '#'
-                                },
-                                {
-                                    id: 'doc_korea_flights',
-                                    name: 'כרטיסי טיסה קבוצתיים - אתיופיאן איירליינס (ET 419 / 672 / 673 / 418)',
-                                    category: 'organized',
-                                    docType: 'שובר סוכנות / כרטיסים',
-                                    time: '22/11/2026',
-                                    fileName: 'ethiopian_airlines_tickets.pdf',
-                                    data: '#'
-                                },
-                                {
-                                    id: 'doc_korea_passport',
-                                    name: 'צילום דרכון ישראלי (ביומטרי)',
-                                    category: 'personal',
-                                    docType: 'צילום דרכון',
-                                    time: 'בתוקף עד 12/2029',
-                                    fileName: 'passport_biometric.pdf',
-                                    data: '#'
-                                },
-                                {
-                                    id: 'doc_korea_insurance',
-                                    name: 'פוליסת ביטוח רפואי מורחב (PassportCard) - קוריאה',
-                                    category: 'personal',
-                                    docType: 'פוליסת ביטוח נסיעות',
-                                    time: '22/11/2026 - 06/12/2026',
-                                    fileName: 'passportcard_policy_korea.pdf',
-                                    data: '#'
-                                }
-                            ];
-                            try { localStorage.setItem('travel_assistant_custom_docs_korea', JSON.stringify(docs)); } catch(e) {}
+                if ((!docs || docs.length === 0) && k === 'korea') {
+                    docs = [
+                        {
+                            id: 'doc_korea_booklet',
+                            name: 'חוברת מסלול רשמית - הקסם הקוריאני 15 ימים (אופיר טורס)',
+                            category: 'organized',
+                            docType: 'חוברת מסלול סוכנות',
+                            time: '22/11/2026',
+                            fileName: 'ophir_tours_korea_official.pdf',
+                            data: '#'
+                        },
+                        {
+                            id: 'doc_korea_flights',
+                            name: 'כרטיסי טיסה קבוצתיים - אתיופיאן איירליינס (ET 419 / 672 / 673 / 418)',
+                            category: 'organized',
+                            docType: 'שובר סוכנות / כרטיסים',
+                            time: '22/11/2026',
+                            fileName: 'ethiopian_airlines_tickets.pdf',
+                            data: '#'
                         }
-                    } else if (k === 'israel_trail_north') {
-                        docs = [
-                            {
-                                id: 'doc_itn_whatsapp',
-                                name: 'הודעת וואטסאפ: שביל ישראל (נחל עמוד תחתון עד עין נון)',
-                                category: 'organized',
-                                docType: 'הודעת וואטסאפ / טקסט מסלול',
-                                time: '28/10/2026',
-                                fileName: 'whatsapp_nahal_amud.txt',
-                                isText: true,
-                                textContent: `שלום לחובבי שביל ישראל ,\nלאחר שצלחנו בהנאה את המסלול הקודם בחרנו הפעם מסלול מיוחד ומאתגר לשביל ישראל 🏃🕺🏃♀️👫\nיוצאים ביום ד' ה - 28.10.26\nבמסלול :\nנחל עמוד תחתון (כביש 85) עד עין נון.\nהמסלול הזה מציע חוויית טבע של קניון מרשים, סיפורים מרתקים, הליכה מתונה וסיום רטוב ונעים.\nנקודת ההתחלה ,חניון נחל עמוד תחתון (על כביש 85).\n* תוואי ההליכה: הולכים דרומה עם סימון שביל ישראל בתוך ערוץ הנחל. המצוקים כאן אדירים ומרשימים ביותר, אך קרקעית הנחל רחבה ונוחה יחסית להליכה (מגמת ירידה מתונה מאוד).\n* מה רואים בדרך?\n\t• הגיחון (הסיפון) של המוביל הארצי: פלא הנדסי מרשים שבו צינורות ענק מעבירים את המים מצד אחד של הקניון לצדו השני.\n\t• מערות האדם הקדמון: נחלוף על פני מערת העמוד ומערת זוטייה, שבהן נמצאו גולגולת "האדם הגלילי" ושרידים פרהיסטוריים.\n\t• "העמוד": זקיף סלע ענק ובולט שהעניק לנחל את שמו. נקודה קלאסית לצילום קבוצתי ולהפסקת קפה נוחה.\n* נקודת הסיום – עין נון: השביל יוצא מהקניון אל שטחים פתוחים ומטעים, ומסתיים בעין נון שליד המושבה מגדל. זוהי בריכת מעיין גדולה, יפהפייה ומוצלת תחת עצי אקליפטוס, שם האוטובוס ימתין לכם לארוחה ומנוחה.\n* אורך המסלול: כ-11–12 ק"מ. הוא לוקח סביב 4–5 שעות הליכה בקצב נינוח של קבוצה .\nיהיה KEF ,😎🤠\n ההרשמה ב B KEF .`,
-                                data: 'data:text/plain;charset=utf-8,' + encodeURIComponent('הודעת וואטסאפ: שביל ישראל נחל עמוד תחתון עד עין נון')
-                            }
-                        ];
-                        try { localStorage.setItem('travel_assistant_custom_docs_israel_trail_north', JSON.stringify(docs)); } catch(e) {}
-                    }
+                    ];
+                    try { localStorage.setItem('travel_assistant_custom_docs_korea', JSON.stringify(docs)); } catch(e) {}
                 }
                 return docs || [];
             } catch(e) {
@@ -3447,16 +2933,17 @@
         }
 
         function syncAllUploadedDocsToTrip(specificDocId, fromFileUpload = false) {
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                alert('אין טיול פעיל כעת. לחץ על "תכנון טיול חדש" כדי לפתוח תיק טיול.');
+                return;
+            }
             const pasteEl = document.getElementById('whatsapp-paste-input');
             const pastedText = pasteEl ? pasteEl.value.trim() : '';
             let targetDocId = specificDocId || null;
 
-            // 1. If user pasted text in the box, save it as a document first
             if (pastedText) {
                 const firstLine = pastedText.split('\n')[0].replace(/[*_~]/g, '').trim().substring(0, 45);
-                const defaultName = (pastedText.includes('שביל ישראל') || pastedText.includes('נחל עמוד'))
-                    ? 'הודעת מסלול: שביל ישראל (נחל עמוד)'
-                    : `הודעה / מסמך: ${firstLine || 'עדכון מסלול'}`;
+                const defaultName = `הודעה / מסמך: ${firstLine || 'עדכון מסלול'}`;
                 targetDocId = 'doc_' + Date.now();
                 const docs = getCustomDocs();
                 docs.unshift({
@@ -3483,57 +2970,11 @@
             }
 
             const rawText = pastedText || (doc ? (doc.textContent || '') : '');
-            const docName = doc ? (doc.name || '') : '';
-            const combined = `${rawText}\n${docName}`;
-
-            // Special handling for Israel Trail / Meeting Point messages (e.g. Beit Maccabi Rishon LeZion 05:42 -> 06:30 -> 08:30)
-            if (currentTripKey === 'israel_trail_north' || combined.includes('נחל עמוד') || combined.includes('בית מכבי')) {
-                const chain = getTripArrivalChain(currentTripKey);
-                chain.originAddress = "רח' העצמאות 93, אשדוד";
-                chain.originTime = "05:42";
-                chain.originLat = 31.7893;
-                chain.originLng = 34.6417;
-                chain.hasMeetingPoint = true;
-                chain.meetingAddress = 'בית מכבי ראשל"צ (גולדה מאיר 21, ראשון לציון)';
-                chain.meetingTime = '06:30';
-                chain.meetingLat = 31.9806;
-                chain.meetingLng = 34.7738;
-                chain.trailheadAddress = 'חניון נחל עמוד תחתון (כביש 85)';
-                chain.trailheadTime = '08:30';
-                try {
-                    localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(chain));
-                } catch(e) {}
-                syncArrivalChainUI(currentTripKey);
-                loadRecommendedDefaults();
-                saveTripQuestionnaire(true);
-                if (dynamicMap) {
-                    renderMapStationMarkers();
-                    renderStationQuickSelectors();
-                    renderStationsList();
-                }
-                const banner = document.getElementById('step2-sync-status-banner');
-                if (banner) {
-                    banner.style.display = 'block';
-                    banner.innerHTML = `✅ <b>הסנכרון הושלם!</b> נקודת היציאה (רח' העצמאות 93, אשדוד - 05:42), נקודת המפגש (בית מכבי ראשל"צ - 06:30) ותחילת המסלול (נחל עמוד - 08:30) עודכנו בתיק הטיול ובמפה.`;
-                }
-                if (!fromFileUpload) {
-                    alert('✅ הסנכרון לתיק הטיול ולמפה בוצע בהצלחה!');
-                }
-                return;
-            }
-
-            // General Smart Sync for Events, Invitations, and Custom Trips
             if (typeof openSmartDocDerivationModal === 'function') {
                 openSmartDocDerivationModal(doc ? doc.id : null);
-                // Immediately apply the derived defaults so the trip file is updated even before modal confirmation
                 if (typeof applySmartDocDerivation === 'function' && rawText.length > 5) {
-                    applySmartDocDerivation(false, true);
+                    applySmartDocDerivation(false);
                 }
-            }
-            const banner = document.getElementById('step2-sync-status-banner');
-            if (banner) {
-                banner.style.display = 'block';
-                banner.innerHTML = `✅ <b>המסמך סונכרן לתיק הטיול ולמפה!</b>`;
             }
         }
 
@@ -3715,6 +3156,15 @@
             const container = document.getElementById('custom-docs-list');
             if (!container) return;
 
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                container.innerHTML = `
+                    <div style="background: white; border: 1.5px dashed #cbd5e1; border-radius: 10px; padding: 14px; text-align: center; color: #64748b; font-size: 0.9em; font-weight: 800;">
+                        אין טיולים להצגה
+                    </div>
+                `;
+                return;
+            }
+
             const docs = getCustomDocs();
             if (docs.length === 0) {
                 container.innerHTML = `
@@ -3844,151 +3294,60 @@
 
         function applyTripGeoContext(isDomestic) {
             const k = currentTripKey;
-            const trip = TRIPS_DATABASE[k];
-            const tripName = trip?.name || 'המסלול הנבחר';
+            const trip = k ? TRIPS_DATABASE[k] : null;
+            const tripName = trip?.name || 'אין טיולים להצגה';
 
-            // 1. Step 3 Header & Badge
-            const headerCard = document.getElementById('step3-trip-header-card');
-            const typeBadge = document.getElementById('q-geo-type-badge');
             const tripNameBadge = document.getElementById('q-active-trip-name');
-            const banner = document.getElementById('geo-context-banner');
-
             if (tripNameBadge) tripNameBadge.innerText = tripName;
 
-            if (headerCard) {
-                headerCard.style.background = isDomestic ? '#f0fdf4' : '#eff6ff';
-                headerCard.style.borderColor = isDomestic ? '#86efac' : '#93c5fd';
-            }
-
-            if (typeBadge) {
-                typeBadge.innerHTML = isDomestic ? 
-                    '<i class="fa-solid fa-map-location-dot"></i> מסלול מקומי' : 
-                    '<i class="fa-solid fa-plane-departure"></i> מסע בינלאומי (חו"ל)';
-                typeBadge.style.background = isDomestic ? '#16a34a' : '#1d4ed8';
-            }
-
-            if (banner) {
-                if (isDomestic) {
-                    banner.innerHTML = `💡 <b>מסלול מקומי:</b> כל שדות הטיסות, הדרכונים והביטוח הבינלאומי הוסרו לחלוטין. הטופס מותאם ישירות לתחבורה ומסלולי שטח מקומיים.`;
-                    banner.style.background = 'white';
-                    banner.style.borderColor = '#bbf7d0';
-                    banner.style.color = '#166534';
-                } else {
-                    banner.innerHTML = `✈️ <b>מסע בינלאומי (חו"ל):</b> כל שדות הטיסות, הדרכונים, הקונקשנים והביטוח הבינלאומי פעילים במלואם.`;
-                    banner.style.background = 'white';
-                    banner.style.borderColor = '#bfdbfe';
-                    banner.style.color = '#1e40af';
-                }
-            }
-
-            // 2. Step 2 (Dedicated Document Uploads)
-            const passportBtn = document.getElementById('btn-upload-passport');
-            if (passportBtn) {
-                // Completely hide passport button for domestic trips
-                passportBtn.style.display = isDomestic ? 'none' : 'flex';
-            }
-
-            const insuranceBtnText = document.getElementById('btn-upload-insurance-text');
-            if (insuranceBtnText) {
-                insuranceBtnText.innerText = isDomestic ? 'ביטוח חילוץ ומטיילים (אופציונלי)' : 'פוליסת ביטוח חו"ל';
-            }
-
-            const voucherBtnText = document.getElementById('btn-upload-voucher-text');
-            if (voucherBtnText) {
-                voucherBtnText.innerText = isDomestic ? 'שובר / כרטיס שמורה' : 'שובר / כרטיסי טיסה';
-            }
-
-            const bookletBtnText = document.getElementById('btn-upload-booklet-text');
-            if (bookletBtnText) {
-                bookletBtnText.innerText = isDomestic ? 'מפת מסלול / סיפור דרך' : 'חוברת מסלול סוכנות';
-            }
-
-            // 3. Step 3 Placeholders & Dynamic Labels
             const originInput = document.getElementById('q_origin');
             if (originInput) {
-                originInput.placeholder = isDomestic ? 
-                    'לדוגמה: שדרות העצמאות 93 אשדוד / נקודת יציאה מהבית' : 
-                    'לדוגמה: שדרות העצמאות 93 אשדוד / נתב"ג טרמינל 3';
+                originInput.placeholder = "לדוגמה: רח' העצמאות 93, אשדוד";
             }
 
             const destLabel = document.getElementById('label_q_destination');
             const destInput = document.getElementById('q_destination');
             if (destLabel) {
-                destLabel.innerText = isDomestic ? '2. יעד / אזור המסלול בארץ:' : '2. מדינה / יעד מבוקש:';
+                destLabel.innerText = '2. יעד הטיול:';
             }
             if (destInput) {
-                destInput.placeholder = isDomestic ? 
-                    'לדוגמה: שביל ישראל בצפון / עין נון / נתניה' : 
-                    'לדוגמה: קוריאה הדרומית / רומא ופירנצה';
+                destInput.placeholder = 'הזן יעד הטיול...';
             }
 
             const transitInput = document.getElementById('q_transit');
-            const transitSub = document.getElementById('label_transit_sub');
             if (transitInput) {
-                transitInput.placeholder = isDomestic ? 
-                    'לדוגמה: רכב פרטי, אוטובוס, רכבת, טיסות פנים, הקפצות שטח' : 
-                    'לדוגמה: טיסות בינלאומיות אתיופיאן איירליינס, טיסות פנים, אוטובוס תיירים ממוזג';
-            }
-            if (transitSub) {
-                transitSub.innerText = isDomestic ? '(רכב, תחבורה ציבורית וטיסות פנים)' : '(טיסות, מעברים ותחבורה ביעד)';
-                transitSub.style.color = isDomestic ? '#15803d' : '#2563eb';
+                transitInput.placeholder = 'לדוגמה: רכב פרטי, אוטובוס, רכבת, טיסות פנים / בינלאומיות';
             }
 
             const hotelsInput = document.getElementById('q_hotels');
             if (hotelsInput) {
-                hotelsInput.placeholder = isDomestic ? 
-                    'לדוגמה: חניוני לילה מוסדרים, צימרים כפריים / טיול יום ללא לינה' : 
-                    'לדוגמה: מלונות נגישים בדרגת תיירות טובה עם מעליות שבת וקירבה לבית חב"ד';
+                hotelsInput.placeholder = 'לדוגמה: מלון / צימר / ללא לינה';
             }
 
             const budgetInput = document.getElementById('q_budget');
             if (budgetInput) {
-                budgetInput.placeholder = isDomestic ? 
-                    'לדוגמה: 500 ₪ לאדם / הוצאות שטח' : 
-                    'לדוגמה: 5,075 $ לאדם בחדר זוגי';
+                budgetInput.placeholder = 'הזן תקציב מתוכנן...';
             }
 
-            // Step 3 Finalize Button
             const finalizeIcon = document.getElementById('btn-finalize-step3-icon');
             if (finalizeIcon) {
                 finalizeIcon.className = isDomestic ? 'fa-solid fa-person-hiking' : 'fa-solid fa-plane-departure';
             }
 
-            // 4. Step 4 Wizard Pill 4 Label & Ready Stage Celebration Banner
             const pill4Label = document.getElementById('wizard-pill-4-label');
             if (pill4Label) {
-                pill4Label.innerText = isDomestic ? '🎒 ממתין ליציאה' : '🛫 ממתין ליציאה';
+                pill4Label.innerText = isDomestic ? '🎒 ליציאה' : '🛫 ליציאה';
             }
 
-            const readyTitle = document.getElementById('ready-status-celebration-title');
-            const readyBadge = document.getElementById('ready-trip-name-badge');
-            if (readyTitle) {
-                readyTitle.innerHTML = isDomestic ? 
-                    '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i> הטיול מוכן במלואו! סטטוס: 🎒 ממתין ליציאה לשטח' : 
-                    '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.3em;"></i> הטיול מוכן במלואו! סטטוס: 🛫 ממתין ליציאה';
-            }
-            if (readyBadge) {
-                readyBadge.innerText = isDomestic ? 'מוכן ליציאה לשטח' : 'מוכן להמראה / יציאה';
-            }
-
-            // 5. Emergency Screen Geo-Context
+            // Emergency Screen Geo-Context
             const domesticRescueCard = document.getElementById('emergency-domestic-rescue-card');
             const foreignVoiceCard = document.getElementById('emergency-voice-interpreter-card');
             if (domesticRescueCard) domesticRescueCard.style.display = isDomestic ? 'block' : 'none';
             if (foreignVoiceCard) foreignVoiceCard.style.display = isDomestic ? 'none' : 'block';
 
-            const tripCountry = getTripCountry(k);
+            const tripCountry = trip ? getTripCountry(k) : 'ישראל';
             const policeLabel = document.getElementById('emergency-police-label');
             const ambulanceLabel = document.getElementById('emergency-ambulance-label');
-            const baltamSub = document.getElementById('emergency-baltam-subtext');
-            const dossierSub = document.getElementById('emergency-dossier-subtext');
-
-            if (baltamSub) {
-                baltamSub.innerText = isDomestic ? 'חסימת שבילים, עומס חום קיצוני בשטח' : 'עיכובי טיסות, קונקשן, התפרצות מחלות ביעד';
-            }
-            if (dossierSub) {
-                dossierSub.innerText = isDomestic ? 'צפייה במסמכי הטיול, מפות והנחיות שטח' : 'צפייה בדרכון, פוליסת ביטוח חו"ל וכרטיסי טיסה';
-            }
 
             if (tripCountry === 'ישראל') {
                 if (policeLabel) policeLabel.innerText = 'משטרה (100)';
@@ -4007,70 +3366,63 @@
                 if (ambulanceLabel) ambulanceLabel.innerText = `אמבולנס (${tripCountry})`;
             }
 
-            // 6. Synchronize Baltam Scenarios & AI Screen
             syncBaltamScenarios(isDomestic, k);
             syncAiScreenGeoContext(isDomestic, k);
         }
 
         function syncBaltamScenarios(isDomestic, tripKey) {
-            const k = tripKey || currentTripKey;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
             const selector = document.getElementById('baltam-scenario-selector');
             if (!selector) return;
 
+            if (!k || !TRIPS_DATABASE[k]) {
+                selector.innerHTML = `<option value="routine" selected>אין טיולים להצגה</option>`;
+                switchBaltamScenario('routine');
+                return;
+            }
+
             if (isDomestic) {
-                // Domestic scenarios only - completely remove foreign flight and foreign disease options!
-                if (k === 'israel_trail_north') {
-                    selector.innerHTML = `
-                        <option value="trail_fire" selected>🔴 שביל ישראל: שריפת יער וחסימת מקטע שער הגיא / נחל עמוד</option>
-                        <option value="netanya_heat">🟠 עומס חום כבד בשעות הצהריים (36°C)</option>
-                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
-                    `;
-                    switchBaltamScenario('trail_fire');
-                } else if (k === 'netanya') {
-                    selector.innerHTML = `
-                        <option value="netanya_heat" selected>🟠 נתניה: עומס חום קיצוני (36°C) בטיילת הראשונים</option>
-                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
-                    `;
-                    switchBaltamScenario('netanya_heat');
-                } else {
-                    selector.innerHTML = `
-                        <option value="trail_fire" selected>🔴 שטח מקומי: התראה על סגירת ציר / חסימה</option>
-                        <option value="netanya_heat">🟠 עומס חום כבד בשעות הצהריים</option>
-                        <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
-                    `;
-                    switchBaltamScenario('trail_fire');
-                }
-            } else {
-                // International / Abroad scenarios
                 selector.innerHTML = `
-                    <option value="flight_delay" selected>✈️ התראת טיסה מקדימה: עיכוב טיסת ET 419 לסיאול והשפעה על קונקשן</option>
-                    <option value="korea_covid">🔴 קוריאה: התפרצות קורונה פעילה באזור סיאול בו אתם שוהים כעת!</option>
-                    <option value="routine">🟢 שגרה מלאה: אין אירועי בלת"ם פעילים באזורכם</option>
+                    <option value="routine" selected>🟢 שגרה מלאה: אין אירועי בלת"ם פעילים (${TRIPS_DATABASE[k].name})</option>
+                    <option value="trail_fire">🔴 התראה על חסימת ציר / שינוי מסלול</option>
+                    <option value="netanya_heat">🟠 התראה על עומס חום בשעות הצהריים</option>
                 `;
-                switchBaltamScenario('flight_delay');
+                switchBaltamScenario('routine');
+            } else {
+                selector.innerHTML = `
+                    <option value="routine" selected>🟢 שגרה מלאה: אין אירועי בלת"ם פעילים (${TRIPS_DATABASE[k].name})</option>
+                    <option value="flight_delay">✈️ התראת טיסה מקדימה ובדיקת קונקשן</option>
+                    <option value="korea_covid">🔴 התראה בריאותית ממוקדת באזור השהייה</option>
+                `;
+                switchBaltamScenario('routine');
             }
         }
 
         function syncAiScreenGeoContext(isDomestic, tripKey) {
-            const k = tripKey || currentTripKey;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            const hasTrip = Boolean(k && TRIPS_DATABASE[k]);
             const flightsCard = document.getElementById('ai-card-flights');
             const foreignTransit = document.getElementById('ai-card-foreign-transit');
             const domesticTransit = document.getElementById('ai-card-domestic-transit');
             const foreignHotels = document.getElementById('ai-hotels-foreign');
             const domesticHotels = document.getElementById('ai-hotels-domestic');
-            const shabbatTitle = document.getElementById('ai-shabbat-guideline-title');
+
+            if (!hasTrip) {
+                if (flightsCard) flightsCard.style.display = 'none';
+                if (foreignTransit) foreignTransit.style.display = 'none';
+                if (domesticTransit) domesticTransit.style.display = 'block';
+                if (foreignHotels) foreignHotels.style.display = 'none';
+                if (domesticHotels) domesticHotels.style.display = 'block';
+                renderDomesticTransitItems('');
+                renderDomesticHotelItems('');
+                return;
+            }
 
             if (flightsCard) flightsCard.style.display = isDomestic ? 'none' : 'block';
             if (foreignTransit) foreignTransit.style.display = isDomestic ? 'none' : 'block';
             if (domesticTransit) domesticTransit.style.display = isDomestic ? 'block' : 'none';
             if (foreignHotels) foreignHotels.style.display = isDomestic ? 'none' : 'block';
             if (domesticHotels) domesticHotels.style.display = isDomestic ? 'block' : 'none';
-
-            if (shabbatTitle) {
-                shabbatTitle.innerHTML = isDomestic ? 
-                    '<i class="fa-solid fa-key"></i> נוהל שבת מעשי באירוח ומלונות:' : 
-                    '<i class="fa-solid fa-key"></i> נוהל שבת מעשי בבתי מלון בחו"ל:';
-            }
 
             if (isDomestic) {
                 renderDomesticTransitItems(k);
@@ -4082,92 +3434,57 @@
             const container = document.getElementById('ai-domestic-transit-items');
             if (!container) return;
 
-            if (tripKey === 'israel_trail_north') {
-                container.innerHTML = `
-                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                        <b style="color: #15803d;">🚌 נקודת מוצא: חניון נחל עמוד תחתון (כביש 85):</b>
-                        <div style="color: #334155; margin-top: 2px;">הגעה עצמית ברכב או קווי אגד (500 / 505 / 361) לצומת קדרים וחניון נחל עמוד.</div>
-                    </div>
-                    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
-                        <b style="color: #0369a1;">🚏 נקודת סיום ואיסוף: עין נון (סמוך למושבה מגדל):</b>
-                        <div style="color: #334155; margin-top: 2px;">מפגש עם האוטובוס הקבוצתי או מוניות מקומיות לעלייה חזרה / המשך נסיעה.</div>
-                    </div>
-                    <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
-                        <b style="color: #c2410c;">🎒 הקפצות שטח וחירום:</b>
-                        <div style="color: #334155; margin-top: 2px;">במקרה של פציעה או קיצור מסלול: נקודת חבירה לרכבי שטח סמוך לגיחון המוביל הארצי.</div>
-                    </div>
-                `;
-            } else if (tripKey === 'netanya') {
-                container.innerHTML = `
-                    <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 8px 10px;">
-                        <b style="color: #c2410c;">🚏 קווי אוטובוס עירוניים בנתניה (16 ו-25):</b>
-                        <div style="color: #334155; margin-top: 2px;">יציאה ממסוף רכבת נתניה מערב (רציף 37124) ישירות למעלית הים ולטיילת כל 10 דקות בימי חול.</div>
-                    </div>
-                    <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
-                        <b style="color: #0369a1;">🚆 רכבת ישראל (תחנת נתניה מרכז):</b>
-                        <div style="color: #334155; margin-top: 2px;">קו רכבת חוף עם נגישות מלאה לכיסאות גלגלים ומעליות בכל הרציפים.</div>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
-                        <b style="color: #15803d;">🚗 תחבורה יבשתית מותאמת למסלול:</b>
-                        <div style="color: #334155; margin-top: 2px;">רכבת ישראל, קווי אוטובוס מקומיים וחניוני רכב בטוחים בנקודות המוצא והסיום.</div>
-                    </div>
-                `;
+            if (!tripKey || !TRIPS_DATABASE[tripKey]) {
+                container.innerHTML = `<div style="text-align:center; padding:14px; color:#64748b; font-weight:800;">אין טיולים להצגה</div>`;
+                return;
             }
+
+            const trip = TRIPS_DATABASE[tripKey];
+            const chain = getTripArrivalChain(tripKey);
+            const qTransit = document.getElementById('q_transit')?.value?.trim() || '';
+
+            container.innerHTML = `
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 8px 10px;">
+                    <b style="color: #1d4ed8;">🏠 נקודת יציאה: ${chain.originAddress || "רח' העצמאות 93, אשדוד"}</b>
+                    ${chain.originTime ? `<div style="color: #334155; margin-top: 2px;">שעת יציאה מתוכננת: <b>${chain.originTime}</b></div>` : ''}
+                </div>
+                ${chain.hasMeetingPoint ? `
+                <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 8px 10px;">
+                    <b style="color: #b45309;">🤝 נקודת מפגש: ${chain.meetingAddress || 'נקודת מפגש'}</b>
+                    ${chain.meetingTime ? `<div style="color: #334155; margin-top: 2px;">שעת מפגש: <b>${chain.meetingTime}</b></div>` : ''}
+                </div>` : ''}
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
+                    <b style="color: #15803d;">🚩 יעד / תחילת מסלול: ${chain.trailheadAddress || trip.name}</b>
+                    <div style="color: #334155; margin-top: 2px;">${qTransit || 'התניידות ותחבורה מותאמת למסלול הטיול.'}</div>
+                </div>
+            `;
         }
 
         function renderDomesticHotelItems(tripKey) {
             const container = document.getElementById('ai-domestic-hotel-items');
             if (!container) return;
 
-            if (tripKey === 'israel_trail_north') {
-                container.innerHTML = `
-                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div>
-                                <b style="color: #0f172a; font-size: 1.05em;">חניון לילה עין נון (סמוך למושבה מגדל)</b>
-                                <div style="font-size: 0.82em; color: #64748b;">סמוך לבריכת המעיין | נקודת סיום המסלול</div>
-                            </div>
-                            <span style="background: #dcfce7; color: #15803d; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">חניון מוסדר</span>
-                        </div>
-                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
-                            בריכת מעיין מוצלת תחת עצי אקליפטוס, שולחנות פיקניק, ברזיות מי שתייה וחניה מרווחת לאוטובוסים.
-                        </div>
-                    </div>
+            if (!tripKey || !TRIPS_DATABASE[tripKey]) {
+                container.innerHTML = `<div style="text-align:center; padding:14px; color:#64748b; font-weight:800; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px;">אין טיולים להצגה</div>`;
+                return;
+            }
 
+            const trip = TRIPS_DATABASE[tripKey];
+            const qHotels = document.getElementById('q_hotels')?.value?.trim() || '';
+            const hotelStations = (trip.stations || []).filter(st => st.isHotel || st.type === 'hotel' || (st.title && st.title.includes('🏨')));
+
+            if (hotelStations.length > 0) {
+                container.innerHTML = hotelStations.map(st => `
                     <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div>
-                                <b style="color: #0f172a; font-size: 1.05em;">אירוח כפרי וצימרים במושבה מגדל וגינוסר</b>
-                                <div style="font-size: 0.82em; color: #64748b;">צפון הכנרת | 5 דקות נסיעה מעין נון</div>
-                            </div>
-                            <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">אירוח כפרי</span>
-                        </div>
-                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">
-                            חדרים כפריים מונגשים, קירבה לחוף הכנרת, ארוחות בוקר כשרות ונוף למצוק ארבל.
-                        </div>
+                        <b style="color: #0f172a; font-size: 1.02em;">${st.title}</b>
+                        <div style="font-size: 0.85em; color: #334155; margin-top: 4px;">${st.address || ''} ${st.desc ? ' | ' + st.desc : ''}</div>
                     </div>
-                `;
-            } else if (tripKey === 'netanya') {
-                container.innerHTML = `
-                    <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div>
-                                <b style="color: #0f172a; font-size: 1.05em;">מלון איילנד נתניה (טיילת הראשונים)</b>
-                                <div style="font-size: 0.82em; color: #64748b;">שדרות בן עמי 10, נתניה | נוף ישיר לים</div>
-                            </div>
-                            <span style="background: #dbeafe; color: #1e40af; font-size: 0.75em; padding: 2px 6px; border-radius: 4px; font-weight: bold;">מעלית שבת</span>
-                        </div>
-                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">מעליות שבת, חניה צמודה לאוטובוס, מרחק 200 מטר ממעלית החוף.</div>
-                    </div>
-                `;
+                `).join('');
             } else {
                 container.innerHTML = `
                     <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                        <b style="color: #0f172a; font-size: 1.05em;">אירוח ולינה מותאמת לאזור הטיול</b>
-                        <div style="font-size: 0.85em; color: #334155; margin-top: 6px;">בתי הארחה, מלונות מונגשים וחניוני לילה מוסדרים בקרבת המסלול.</div>
+                        <b style="color: #0f172a; font-size: 1em;">🏨 הגדרות לינה (${trip.name}):</b>
+                        <div style="font-size: 0.88em; color: #334155; margin-top: 6px;">${qHotels || 'טיול ללא לינה או טרם הוזנו פרטי לינה בשלב 3.'}</div>
                     </div>
                 `;
             }
@@ -4208,69 +3525,43 @@
         }
 
         function loadRecommendedDefaults() {
-            const isDomestic = isDomesticTrip(currentTripKey);
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                alert('אין טיול פעיל כעת.');
+                return;
+            }
+            const trip = TRIPS_DATABASE[currentTripKey];
+            const chain = getTripArrivalChain(currentTripKey);
             let profile = null;
 
-            if (currentTripKey === 'israel_trail_north') {
+            if (currentTripKey === 'korea') {
                 profile = {
-                    origin: 'יציאה: רח\' העצמאות 93, אשדוד (05:42) ➔ מפגש: בית מכבי ראשל"צ (06:30) ➔ תחילת מסלול: חניון נחל עמוד תחתון (08:30)',
-                    destination: 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון',
-                    character: 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)',
-                    group: 'קבוצת חובבי שביל ישראל',
-                    duration: 'יום אחד (כ-4–5 שעות הליכה, 11-12 ק"מ)',
-                    date: 'יום ד\' ה-28.10.2026',
-                    budget: 'השתתפות קבוצתית (הסעות וארוחה)',
-                    activities: 'נחל עמוד תחתון, הגיחון (הסיפון) של המוביל הארצי, מערות האדם הקדמון (מערת העמוד ומערת זוטייה - גולגולת האדם הגלילי), זקיף הסלע "העמוד", עין נון.',
-                    transit: 'הגעה לחניון נחל עמוד תחתון (כביש 85) ➔ הליכה רגלית בערוץ הנחל ➔ איסוף אוטובוס בעין נון.',
-                    hotels: '[אין נתונים / טיול יום ללא לינה]',
-                    food: 'ארוחת צהריים בסיום תחת עצי האקליפטוס בעין נון, פק"ל קפה ליד "העמוד", 3 ליטר מים לאדם.',
-                    constraints: 'משמעת מים מחמירה, נעלי הליכה סגורות, בגדים להחלפה למעיין, נוהל שטח ומקדמי ביטחון.'
-                };
-            } else if (currentTripKey === 'ashkelon') {
-                profile = {
-                    origin: 'תחנת רכבת אשדוד / רחובות / תל אביב',
-                    destination: 'אשקלון - ים, עתיקות ומורשת היסטורית',
-                    character: 'משפחות וגמלאים (סיור מונגש וקליל)',
-                    group: 'משפחה / חברים (2-6 מטיילים)',
-                    duration: 'יום אחד עד סוף שבוע',
-                    date: 'כל השנה (מותאם מזג אוויר)',
-                    budget: '250 ₪ לאדם ליום',
-                    activities: 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל העתיקה ומוזיאון החאן.',
-                    transit: 'רכבת ישראל עד תחנת אשקלון, קווי אוטובוס עירוניים ומוניות קצרות.',
-                    hotels: 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש).',
-                    food: 'מסעדות דגים כשרות למהדרין במרינה, שווקי פירות ומאפיות במגדל.',
-                    constraints: 'שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, נקודות צל וספסלי מנוחה מרובים.'
-                };
-            } else if (currentTripKey === 'rome') {
-                profile = {
-                    origin: 'נתבג טרמינל 3 ✈️ נמל התעופה רומא פיומיצ\'ינו (FCO)',
-                    destination: 'רומא ופירנצה (איטליה) - שבוע היסטוריה ומורשת',
-                    character: 'חברים ומשפחה (הליכה מתונה, ללא מדרגות)',
-                    group: 'קבוצת חברים (10-15 מטיילים)',
-                    duration: '7 ימים מלאים (כולל שבת ברומא)',
-                    date: 'אביב / סתיו (מועד גמיש)',
-                    budget: '1,800 € לאדם',
-                    activities: 'הקולוסיאום, מזרקת טרווי, הגטו היהודי העתיק ובית הכנסת הגדול, קריית הוותיקן, נסיעה ברכבת מהירה לפירנצה, גלריית אופיצי וגשר פונטה וקיו.',
-                    transit: 'רכבת מהירה Frecciarossa בין רומא לפירנצה, מטרו ומוניות מקומיות. בשבת - הליכה רגלית בלבד.',
-                    hotels: 'מלון סמוך לגטו היהודי ברומא (מרחק הליכה קצר לבתי כנסת ולמסעדות כשרות).',
-                    food: 'מסעדות כשרות למהדרין בגטו היהודי ברומא (Ba\'Ghetto, BellaCarne), סעודות שבת מוסדרות.',
-                    constraints: 'שמירת שבת מלאה ברומא (כניסה ויציאה לפי זמני המקום). נגישות מלאה לכיסאות גלגלים ועגלות באתרי התיירות.'
+                    origin: "רח' העצמאות 93, אשדוד / נתבג טרמינל 3",
+                    destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
+                    character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התאמת דרגת הקושי ומשך המסלול)',
+                    group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
+                    duration: '15 ימים מלאים (כולל 2 שבתות)',
+                    date: '22-11-2026 עד 06-12-2026',
+                    budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
+                    activities: "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול.",
+                    transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים, אוטובוס תיירים ממוזג צמוד. ללא התניידות ברכב בשבת.",
+                    hotels: "7 מלונות לאורך המסלול (קוקדו סיאול, צ'סטרטונס סוקצ'ו, צ'ונגפונג לייק, דאייגו גראנד, קראון הארבור בוסאן, וויסל לארק ג'ג'ו).",
+                    food: "איתור מזון ומסעדות כשרות וטבעוניות, סריקת ברקודים, סעודות שבת מוסדרות.",
+                    constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו | שבת 2 בסיאול). התאמה לגמלאים מעל גיל 75."
                 };
             } else {
-                // Default to Korea
                 profile = {
-                    origin: 'שדרות העצמאות 93, אשדוד / נתבג טרמינל 3',
-                    destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
-                    character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)',
-                    group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
-                    duration: '15 ימים מלאים (כולל 2 שבתות!)',
-                    date: '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)',
-                    budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
-                    activities: "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).",
-                    transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת מכניסת שבת ועד מוצאי שבת. כל הפעילות רגלית בלבד!",
-                    hotels: "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר",
-                    food: "סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.",
-                    constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק\"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל."
+                    origin: chain.originAddress || "רח' העצמאות 93, אשדוד",
+                    destination: trip.name || '',
+                    character: '',
+                    group: trip.group || '',
+                    duration: '',
+                    date: trip.dates || '',
+                    budget: '',
+                    activities: (trip.stations || []).map(s => s.title).join(', '),
+                    transit: '',
+                    hotels: '',
+                    food: '',
+                    constraints: ''
                 };
             }
 
@@ -4280,7 +3571,6 @@
                     if (el) el.value = profile[k];
                 });
             }
-
             updateQuestionnaireProgress();
         }
 
@@ -4452,7 +3742,18 @@
 
         function loadTripQuestionnaire() {
             try {
-                // Apply Geo-Context (Israel vs Abroad)
+                if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                    applyTripGeoContext(true);
+                    QUESTION_CONFIG.forEach(q => {
+                        const el = document.getElementById(q.id);
+                        if (el) el.value = (q.id === 'q_origin') ? "רח' העצמאות 93, אשדוד" : '';
+                    });
+                    const tripName = document.getElementById('q-active-trip-name');
+                    if (tripName) tripName.innerText = 'אין טיולים להצגה';
+                    updateQuestionnaireProgress();
+                    return;
+                }
+
                 const isDomestic = isDomesticTrip(currentTripKey);
                 applyTripGeoContext(isDomestic);
 
@@ -4463,77 +3764,29 @@
                     saved = JSON.parse(savedStr);
                 }
 
-                // If not yet saved by user, load default profile for system trips
-                if (!saved) {
-                    if (currentTripKey === 'israel_trail_north') {
-                        saved = {
-                            origin: 'יציאה: רח\' העצמאות 93, אשדוד (05:42) ➔ מפגש: בית מכבי ראשל"צ (06:30) ➔ תחילת מסלול: חניון נחל עמוד תחתון (08:30)',
-                            destination: 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון',
-                            character: 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)',
-                            group: 'קבוצת חובבי שביל ישראל',
-                            duration: 'יום אחד (כ-4–5 שעות הליכה, 11-12 ק"מ)',
-                            date: 'יום ד\' ה-28.10.2026',
-                            budget: 'השתתפות קבוצתית (הסעות וארוחה)',
-                            activities: 'נחל עמוד תחתון, הגיחון (הסיפון) של המוביל הארצי, מערות האדם הקדמון (מערת העמוד ומערת זוטייה - גולגולת האדם הגלילי), זקיף הסלע "העמוד", עין נון.',
-                            transit: 'הגעה לחניון נחל עמוד תחתון (כביש 85) ➔ הליכה רגלית בערוץ הנחל ➔ איסוף אוטובוס בעין נון.',
-                            hotels: '[אין נתונים / טיול יום ללא לינה]',
-                            food: 'ארוחת צהריים בסיום תחת עצי האקליפטוס בעין נון, פק"ל קפה ליד "העמוד", 3 ליטר מים לאדם.',
-                            constraints: 'משמעת מים מחמירה, נעלי הליכה סגורות, בגדים להחלפה למעיין, נוהל שטח ומקדמי ביטחון.'
-                        };
-                    } else if (currentTripKey === 'ashkelon') {
-                        saved = {
-                            origin: 'תחנת רכבת אשדוד / רחובות / תל אביב',
-                            destination: 'אשקלון - ים, עתיקות ומורשת היסטורית',
-                            character: 'משפחות וגמלאים (סיור מונגש וקליל)',
-                            group: 'משפחה / חברים (2-6 מטיילים)',
-                            duration: 'יום אחד עד סוף שבוע',
-                            date: 'כל השנה (מותאם מזג אוויר)',
-                            budget: '250 ₪ לאדם ליום',
-                            activities: 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל העתיקה ומוזיאון החאן.',
-                            transit: 'רכבת ישראל עד תחנת אשקלון, קווי אוטובוס עירוניים ומוניות קצרות.',
-                            hotels: 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש).',
-                            food: 'מסעדות דגים כשרות למהדרין במרינה, שווקי פירות ומאפיות במגדל.',
-                            constraints: 'שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, נקודות צל וספסלי מנוחה מרובים.'
-                        };
-                    } else if (currentTripKey === 'rome') {
-                        saved = {
-                            origin: 'נתבג טרמינל 3 ✈️ נמל התעופה רומא פיומיצ\'ינו (FCO)',
-                            destination: 'רומא ופירנצה (איטליה) - שבוע היסטוריה ומורשת',
-                            character: 'חברים ומשפחה (הליכה מתונה, ללא מדרגות)',
-                            group: 'קבוצת חברים (10-15 מטיילים)',
-                            duration: '7 ימים מלאים (כולל שבת ברומא)',
-                            date: 'אביב / סתיו (מועד גמיש)',
-                            budget: '1,800 € לאדם',
-                            activities: 'הקולוסיאום, מזרקת טרווי, הגטו היהודי העתיק ובית הכנסת הגדול, קריית הוותיקן, נסיעה ברכבת מהירה לפירנצה, גלריית אופיצי וגשר פונטה וקיו.',
-                            transit: 'רכבת מהירה Frecciarossa בין רומא לפירנצה, מטרו ומוניות מקומיות. בשבת - הליכה רגלית בלבד.',
-                            hotels: 'מלון סמוך לגטו היהודי ברומא (מרחק הליכה קצר לבתי כנסת ולמסעדות כשרות).',
-                            food: 'מסעדות כשרות למהדרין בגטו היהודי ברומא (Ba\'Ghetto, BellaCarne), סעודות שבת מוסדרות.',
-                            constraints: 'שמירת שבת מלאה ברומא (כניסה ויציאה לפי זמני המקום). נגישות מלאה לכיסאות גלגלים ועגלות באתרי התיירות.'
-                        };
-                    } else if (currentTripKey === 'korea') {
-                        saved = {
-                            origin: 'שדרות העצמאות 93, אשדוד / נתבג טרמינל 3',
-                            destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
-                            character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התחייבות חוזית של אופיר להתאמת דרגת הקושי ומשך המסלול)',
-                            group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
-                            duration: '15 ימים מלאים (כולל 2 שבתות!)',
-                            date: '22-11-2026 עד 06-12-2026 (יציאה בפועל מנתבג | תאריך נקוב בחוברת: 24-11-2026 עד 08-12-2026)',
-                            budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
-                            activities: "הקסם הקוריאני: סיאול (נאמסאן, נאמדאמון, שייט בהאן, מיונגדונג, מופע נאנטה), סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה (טריפיטקה קוריאנה), דאייגו (שבת ראשונה), גיונגגו (שילה), בוסאן (שוק דגים גגאלצי, גמצואן), אי גגו (הנשים הצוללות, סאנרייז פיק), פארק האלים, אזור מפורז DMZ, מגדל לוטה, שבת שנייה בסיאול (ארמון גיונגבוקגונג, כפר בוקצון, אינסדונג).",
-                            transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים (בוסאן-ג'ג'ו, ג'ג'ו-סיאול), אוטובוס תיירים ממוזג צמוד. הקפדה מוחלטת: אין שום התניידות ברכב, אוטובוס או רכבת בשישי ושבת מכניסת שבת ועד מוצאי שבת. כל הפעילות רגלית בלבד!",
-                            hotels: "מלונות בדרגת תיירות טובה המאושרים לגמלאים, גישה למעליות ומרחק חניה קצר",
-                            food: "סיוע ייעודי באיתור מזון ומסעדות כשרות למהדרין וטבעוניות/צמחוניות, סריקת ברקודים בסופרמרקטים, 2 שבתות עם סעודות כשרות מוסדרות.",
-                            constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו כניסה 16:57 מוצש 17:57 | שבת 2 בסיאול כניסה 16:56 מוצש 17:56). אי-התניידות מוחלטת בשישי-שבת ברכב/תחבורה. תוכניות לשבת סביב המלון: סיור רגלי ברדיוס של עד 3 ק\"מ סביב המלון (נקודות עניין, גנים מוצלים, טיילות נוף ואתרי מורשת) עם דף הדפסה A4 ביום שישי טרם שבת. התאמה מחמירה לגמלאים מעל גיל 75: הגבלת קטעי הליכה רצופים, מעליות, אוזניות שמע אישיות לכל מטייל."
-                        };
-                    }
+                if (!saved && currentTripKey === 'korea') {
+                    saved = {
+                        origin: "רח' העצמאות 93, אשדוד / נתבג טרמינל 3",
+                        destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
+                        character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התאמת דרגת הקושי ומשך המסלול)',
+                        group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
+                        duration: '15 ימים מלאים (כולל 2 שבתות)',
+                        date: '22-11-2026 עד 06-12-2026',
+                        budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
+                        activities: "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול.",
+                        transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים, אוטובוס תיירים ממוזג צמוד. ללא התניידות ברכב בשבת.",
+                        hotels: "7 מלונות לאורך המסלול (קוקדו סיאול, צ'סטרטונס סוקצ'ו, צ'ונגפונג לייק, דאייגו גראנד, קראון הארבור בוסאן, וויסל לארק ג'ג'ו).",
+                        food: "איתור מזון ומסעדות כשרות וטבעוניות, סריקת ברקודים, סעודות שבת מוסדרות.",
+                        constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו | שבת 2 בסיאול). התאמה לגמלאים מעל גיל 75."
+                    };
                 }
 
                 if (saved) {
-                    if (document.getElementById('q_origin')) document.getElementById('q_origin').value = saved.origin || '';
+                    if (document.getElementById('q_origin')) document.getElementById('q_origin').value = saved.origin || "רח' העצמאות 93, אשדוד";
                     if (document.getElementById('q_destination')) {
                         document.getElementById('q_destination').value = saved.destination || '';
                         const tripName = document.getElementById('q-active-trip-name');
-                        if (tripName) tripName.innerText = saved.destination || TRIPS_DATABASE[currentTripKey]?.name || 'טיול פעיל';
+                        if (tripName) tripName.innerText = saved.destination || TRIPS_DATABASE[currentTripKey]?.name || 'אין טיולים להצגה';
                     }
                     if (document.getElementById('q_character')) document.getElementById('q_character').value = saved.character || '';
                     if (document.getElementById('q_group')) document.getElementById('q_group').value = saved.group || '';
@@ -4546,15 +3799,16 @@
                     if (document.getElementById('q_food')) document.getElementById('q_food').value = saved.food || '';
                     if (document.getElementById('q_constraints')) document.getElementById('q_constraints').value = saved.constraints || '';
                 } else {
-                    // For new unpopulated custom trips, set destination name
-                    if (document.getElementById('q_destination') && TRIPS_DATABASE[currentTripKey]) {
-                        document.getElementById('q_destination').value = TRIPS_DATABASE[currentTripKey].name;
-                        const tripName = document.getElementById('q-active-trip-name');
-                        if (tripName) tripName.innerText = TRIPS_DATABASE[currentTripKey].name;
-                    }
+                    QUESTION_CONFIG.forEach(q => {
+                        const el = document.getElementById(q.id);
+                        if (!el) return;
+                        if (q.id === 'q_origin') el.value = "רח' העצמאות 93, אשדוד";
+                        else if (q.id === 'q_destination') el.value = TRIPS_DATABASE[currentTripKey]?.name || '';
+                        else if (q.id === 'q_date') el.value = TRIPS_DATABASE[currentTripKey]?.dates || '';
+                        else el.value = '';
+                    });
                 }
 
-                // Update Progress Dashboard
                 updateQuestionnaireProgress();
             } catch(e) {
                 console.warn('Error loading questionnaire:', e);
@@ -4672,11 +3926,15 @@
         function initDynamicMap() {
             if (dynamicMap) return;
 
+            const activeTrip = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey] : null;
+            const initialCenter = activeTrip && activeTrip.center ? activeTrip.center : [31.7893, 34.6417];
+            const initialZoom = activeTrip && activeTrip.zoom ? activeTrip.zoom : 13;
+
             dynamicMap = L.map('map-container', {
                 zoomControl: false,
                 attributionControl: false,
                 closePopupOnClick: true
-            }).setView(TRIPS_DATABASE[currentTripKey].center, TRIPS_DATABASE[currentTripKey].zoom);
+            }).setView(initialCenter, initialZoom);
 
             // Clicking anywhere on the map closes any open station or anchor popup
             dynamicMap.on('click', () => {
@@ -4790,9 +4048,12 @@
         }
 
         function fitFullRoute() {
-            if (dynamicMap && routePolyline) {
+            if (dynamicMap && routePolyline && STATIONS && STATIONS.length > 0) {
                 dynamicMap.invalidateSize();
                 dynamicMap.fitBounds(routePolyline.getBounds(), { padding: [45, 45] });
+            } else if (dynamicMap) {
+                dynamicMap.invalidateSize();
+                dynamicMap.setView([31.7893, 34.6417], 13);
             }
         }
 
@@ -5238,6 +4499,16 @@
             if (!container) return;
 
             const totalBadge = document.getElementById('route-total-stations-badge');
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                if (totalBadge) totalBadge.innerText = 'אין טיולים להצגה';
+                container.innerHTML = `
+                    <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:12px; padding:16px; text-align:center; color:#475569; font-weight:800; font-size:0.95em;">
+                        אין טיולים להצגה
+                    </div>
+                `;
+                return;
+            }
+
             if (totalBadge) {
                 totalBadge.innerText = `${STATIONS.length} תחנות במסלול`;
             }
@@ -6135,11 +5406,11 @@
             // Populate custom trips section in modal
             renderCustomTripsInModal();
 
-            // Sync active trip across all controls
-            if (TRIPS_DATABASE[currentTripKey]) {
+            // Sync active trip across all controls (or clean empty state if no trips exist)
+            if (currentTripKey && TRIPS_DATABASE[currentTripKey]) {
                 selectTripAndApply(currentTripKey);
             } else {
-                selectTripAndApply('korea');
+                applyEmptyTripState();
             }
 
             renderDiaryFeed();
@@ -6241,18 +5512,23 @@
                 html += `</optgroup>`;
             }
 
-            // Group 3: Archived trips are preserved in system storage but excluded from active selectors per user instruction
+            // Empty repository handling: display 'אין טיולים להצגה'
+            if (upcomingWithDates.length === 0 && activeWithoutDates.length === 0) {
+                html = `<option value="">אין טיולים להצגה</option>`;
+            }
 
             const itinSel = document.getElementById('trip-itinerary-selector');
             if (itinSel) {
                 itinSel.innerHTML = html;
                 if (currentTripKey && TRIPS_DATABASE[currentTripKey]) itinSel.value = currentTripKey;
+                else itinSel.value = '';
             }
 
             const routeSel = document.getElementById('route-main-trip-selector');
             if (routeSel) {
                 routeSel.innerHTML = html;
                 if (currentTripKey && TRIPS_DATABASE[currentTripKey]) routeSel.value = currentTripKey;
+                else routeSel.value = '';
             }
         }
     
@@ -6298,6 +5574,22 @@
         function switchTripDocument(tripKey) {
             const docs = document.querySelectorAll('.trip-itinerary-doc');
             docs.forEach(d => d.style.display = 'none');
+
+            if (!tripKey || !TRIPS_DATABASE[tripKey]) {
+                const dynDoc = document.getElementById('itinerary-doc-dynamic');
+                if (dynDoc) {
+                    dynDoc.style.display = 'block';
+                    const dynTitle = document.getElementById('dynamic-trip-doc-title');
+                    if (dynTitle) dynTitle.innerHTML = `אין טיולים להצגה`;
+                    const dynDesc = document.getElementById('dynamic-trip-doc-desc');
+                    if (dynDesc) dynDesc.innerText = 'מאגר הטיולים ריק כעת. לחץ על "תכנון טיול חדש" במסך הראשי לפתיחת תיק טיול.';
+                    const dynBadge = document.getElementById('dynamic-trip-doc-badge');
+                    if (dynBadge) dynBadge.innerText = 'מאגר ריק';
+                    const listEl = document.getElementById('dynamic-trip-stations-list');
+                    if (listEl) listEl.innerHTML = '';
+                }
+                return;
+            }
 
             const trip = TRIPS_DATABASE[tripKey];
             const isKorea = (tripKey === 'korea' || (trip && (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea'))));
@@ -6430,9 +5722,8 @@
 
             if (sortedTrips.length === 0) {
                 listContainer.innerHTML = `
-                    <div style="background: white; border: 1.5px dashed #a7f3d0; border-radius: 12px; padding: 14px; text-align: center; color: #64748b; font-size: 0.85em;">
-                        <div style="font-weight: bold; color: #065f46;">אין טיולים פעילים כעת.</div>
-                        <div style="margin-top: 4px;">לחץ על <b>"טיול חדש"</b> לפתיחת תיק תכנון.</div>
+                    <div style="background: white; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 18px; text-align: center; color: #0f172a; font-size: 0.95em; font-weight: 900;">
+                        אין טיולים להצגה
                     </div>
                 `;
                 return;
@@ -6491,11 +5782,15 @@
                     localStorage.setItem('travel_assistant_deleted_trips', JSON.stringify(deleted));
                 }
 
-                // 3. Remove associated data
+                // 3. Remove all associated data for this trip cleanly
                 localStorage.removeItem('travel_assistant_trip_' + tripKey + '_questionnaire');
                 localStorage.removeItem('travel_assistant_custom_docs_' + tripKey);
                 localStorage.removeItem('travel_assistant_trip_stage_' + tripKey);
                 localStorage.removeItem('travel_assistant_trip_is_domestic_' + tripKey);
+                localStorage.removeItem('travel_assistant_v5_is_domestic_' + tripKey);
+                localStorage.removeItem('travel_assistant_arrival_chain_' + tripKey);
+                localStorage.removeItem('travel_assistant_contact_' + tripKey);
+                localStorage.removeItem('travel_assistant_wizard_step_' + tripKey);
 
                 // 4. Remove from runtime database
                 delete TRIPS_DATABASE[tripKey];
@@ -6503,28 +5798,22 @@
                 console.error('Error deleting trip:', e);
             }
 
-            // 5. Select next available active trip
+            // 5. Select next available active trip (or empty string if repository is now empty)
             const deletedList = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
-            const remainingKeys = Object.keys(TRIPS_DATABASE).filter(k => !deletedList.includes(k) && k !== 'netanya' && !TRIPS_DATABASE[k].archived);
+            const remainingKeys = Object.keys(TRIPS_DATABASE).filter(k => !deletedList.includes(k) && !TRIPS_DATABASE[k].archived);
 
-            if (currentTripKey === tripKey) {
-                if (remainingKeys.includes('israel_trail_north')) {
-                    currentTripKey = 'israel_trail_north';
-                } else if (remainingKeys.includes('korea')) {
-                    currentTripKey = 'korea';
-                } else if (remainingKeys.length > 0) {
-                    currentTripKey = remainingKeys[0];
-                } else {
-                    currentTripKey = Object.keys(TRIPS_DATABASE)[0] || 'israel_trail_north';
-                }
+            if (currentTripKey === tripKey || !TRIPS_DATABASE[currentTripKey]) {
+                currentTripKey = remainingKeys.length > 0 ? remainingKeys[0] : '';
                 try { localStorage.setItem('travel_assistant_active_trip', currentTripKey); } catch(e) {}
             }
 
             // 6. Refresh UI components
             renderAllTripSelectors();
             renderCustomTripsInModal();
-            if (TRIPS_DATABASE[currentTripKey]) {
+            if (currentTripKey && TRIPS_DATABASE[currentTripKey]) {
                 selectTripAndApply(currentTripKey);
+            } else {
+                applyEmptyTripState();
             }
             alert(`הטיול "${tripName}" נמחק בהצלחה מהרשימה.`);
         }
@@ -6540,139 +5829,144 @@
             const nameInput = document.getElementById('new-trip-input-name');
             const tripName = nameInput ? nameInput.value.trim() : '';
             if (!tripName) {
-                alert('אנא הזן שם יעד או כותרת לתכנון הטיול החדש (למשל: אשקלון)');
+                alert('אנא הזן שם יעד או כותרת לתכנון הטיול החדש.');
                 return;
             }
 
             const datesVal = document.getElementById('new-trip-input-dates-text')?.value?.trim() || '';
             const isKoreaTrip = tripName.includes('קוריאה') || tripName.toLowerCase().includes('korea');
-            const isEvent = /חתונה|אירוע|שמחה|בר מצווה|בת מצווה|ברית|חינה/.test(tripName);
-            const isAshkelon = tripName.includes('אשקלון');
             const tripKey = 'custom_' + Date.now();
-            const dateStr = datesVal || (isKoreaTrip ? '22/11/2026 עד 06/12/2026 (15 ימים)' : (isEvent ? 'לפי מועד ההזמנה לאירוע' : (isAshkelon ? 'מועד פתוח / גמיש' : 'מועד ייקבע בהמשך')));
+            const dateStr = datesVal || (isKoreaTrip ? '22/11/2026 עד 06/12/2026' : '');
             const displayTitle = tripName;
-            const defaultCenter = isKoreaTrip ? [37.5665, 126.9780] : (isAshkelon ? [31.6690, 34.5715] : [32.0853, 34.7818]);
+            const knownCoords = resolveKnownAddressCoords(tripName);
+            const defaultCenter = isKoreaTrip ? [36.5000, 127.8000] : (knownCoords ? [knownCoords.lat, knownCoords.lng] : [31.7893, 34.6417]);
 
-            const defaultStations = isKoreaTrip
-                ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'] ? TRIPS_DATABASE['korea'].stations : []))
-                : (isEvent ? [
-                    {
-                        id: 'evt_1',
-                        title: `1. הגעה וחניה במתחם האירוע (${tripName})`,
-                        address: isAshkelon ? 'אולם / גן אירועים, אשקלון' : `${tripName} - מתחם האירוע`,
-                        desc: 'קבלת פנים, רישום ומפגש משפחתי וחברים (מונגש עם חניה צמודה)',
-                        lat: defaultCenter[0],
-                        lng: defaultCenter[1],
-                        stayTime: '19:30 - 20:30 (קבלת פנים)',
-                        stay: '60 דק',
-                        stopCode: null
-                    },
-                    {
-                        id: 'evt_2',
-                        title: '2. חופה וקידושין / טקס מרכזי וסעודת מצווה',
-                        address: isAshkelon ? 'אולם / גן אירועים, אשקלון' : `${tripName} - אולם מרכזי`,
-                        desc: 'חופה וקידושין, סעודת האירוע המרכזית ושמחה משפחתית',
-                        lat: defaultCenter[0],
-                        lng: defaultCenter[1],
-                        stayTime: '20:30 - 23:30 (חופה וסעודה)',
-                        stay: '180 דק',
-                        stopCode: null
-                    }
-                ] : (isAshkelon ? [
-                    { id: "ash1", title: "1. הגן הלאומי תל אשקלון", desc: "השער הכנעני הקדום, חומות עתיקות, מדשאות ונוף לים", lat: 31.6612, lng: 34.5510, stayTime: "09:00 - 11:30", transitType: "סיור מונגש בשבילי הפארק", walkingDist: "600 מטר שבילים סלולים" },
-                    { id: "ash2", title: "2. טיילת בר כוכבא וחוף דלילה", desc: "טיילת חוף מודרנית ורחבה, בריזת ים, ספסלי מנוחה מוצלים", lat: 31.6780, lng: 34.5570, stayTime: "12:00 - 13:30", transitType: "הליכה מישורית בטיילת", walkingDist: "400 מטר" },
-                    { id: "ash3", title: "3. מרינה אשקלון ומתחם המסעדות", desc: "מתחם בילוי שוקק סביב המעגן, מסעדות דגים כשרות למהדרין", lat: 31.6830, lng: 34.5590, stayTime: "14:00 - 16:00", transitType: "מתחם מרוצף ללא מדרגות", walkingDist: "300 מטר" }
-                ] : [
-                    { title: `${tripName} - תחנה 1 (תחילת מסלול)`, lat: defaultCenter[0], lng: defaultCenter[1], stayTime: '09:00 - 11:00', stay: '120 דק', stopCode: null }
-                ]));
+            const defaultStations = isKoreaTrip && TRIPS_DATABASE['korea']
+                ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'].stations))
+                : [
+                    { title: `1. ${tripName}`, address: tripName, lat: defaultCenter[0], lng: defaultCenter[1], stayTime: '', stay: '', stopCode: null }
+                ];
 
             const newTripObj = {
                 key: tripKey,
                 id: tripKey,
                 name: displayTitle,
                 stage: 'planning',
-                stageLabel: '📋 שלב תכנון (גמיש)',
+                stageLabel: '📋 שלב תכנון',
                 dates: dateStr,
-                group: isEvent ? 'משפחה / מוזמנים לאירוע' : 'קבוצת חברים / גמלאים (4 מטיילים)',
-                description: isEvent ? `${tripName} - תיק תכנון הגעה ולו"ז לאירוע משפחתי` : `${tripName} - תיק תכנון טיול שנפתח במערכת`,
+                group: '',
+                description: `${tripName} - תיק תכנון טיול`,
                 center: defaultCenter,
-                zoom: 13,
+                zoom: isKoreaTrip ? 7 : 13,
                 stations: defaultStations
             };
 
-            // Register in in-memory TRIPS_DATABASE
             TRIPS_DATABASE[tripKey] = newTripObj;
 
-            // Save to localStorage
             try {
                 let saved = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
                 saved.unshift(newTripObj);
                 localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(saved));
             } catch(e) {}
 
-            // Initialize Arrival Chain for Event or Custom Trip
-            if (isEvent) {
-                const eventArrivalChain = {
-                    originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מהבית)',
-                    originTime: '18:45 (כולל מקדם ביטחון לתנועה וחניה)',
-                    originLat: 31.7893,
-                    originLng: 34.6417,
-                    hasMeetingPoint: false,
-                    meetingAddress: '',
-                    meetingTime: '',
-                    meetingLat: defaultCenter[0],
-                    meetingLng: defaultCenter[1],
-                    trailheadAddress: isAshkelon ? 'אולם / גן אירועים, אשקלון (מיקום יתעדכן מההזמנה)' : `${tripName} - מתחם האירוע`,
-                    trailheadTime: '19:30 (קבלת פנים)'
-                };
-                try {
-                    localStorage.setItem('travel_assistant_arrival_chain_' + tripKey, JSON.stringify(eventArrivalChain));
-                } catch(e) {}
-            }
+            const initialChain = {
+                originAddress: "רח' העצמאות 93, אשדוד",
+                originTime: '',
+                originLat: 31.7893,
+                originLng: 34.6417,
+                hasMeetingPoint: false,
+                meetingAddress: '',
+                meetingTime: '',
+                meetingLat: defaultCenter[0],
+                meetingLng: defaultCenter[1],
+                trailheadAddress: displayTitle,
+                trailheadTime: ''
+            };
+            try {
+                localStorage.setItem('travel_assistant_arrival_chain_' + tripKey, JSON.stringify(initialChain));
+            } catch(e) {}
 
-            // Seed sample docs if Korea
-            if (isKoreaTrip) {
-                const sampleKoreaDocs = getCustomDocs('korea');
-                if (sampleKoreaDocs && sampleKoreaDocs.length > 0) {
-                    saveCustomDocs(JSON.parse(JSON.stringify(sampleKoreaDocs)), tripKey);
-                }
-            }
-
-            // Initialize questionnaire for this new trip
             const initialQuestionnaire = {
-                origin: isKoreaTrip ? 'שדרות העצמאות 93 אשדוד ➔ נתב"ג טרמינל 3' : (isEvent ? 'שדרות העצמאות 93, אשדוד (יציאה ב-18:45 עם מקדם ביטחון)' : (isAshkelon ? 'שדרות העצמאות 93, אשדוד' : 'נקודת מוצא אישית מהבית')),
+                origin: "רח' העצמאות 93, אשדוד",
                 destination: displayTitle,
-                character: isEvent ? 'אירוע משפחתי / חתונה (הגעה מדויקת, חניה נגישה וקבלת פנים)' : 'משפחות וגמלאים (סיור מונגש וקליל)',
-                group: isEvent ? 'משפחה / מוזמנים לאירוע' : 'קבוצת חברים / גמלאים (4 מטיילים)',
-                duration: isKoreaTrip ? '15 ימים מלאים' : (isEvent ? 'ערב אחד (19:30 עד 23:30)' : (isAshkelon ? 'יום אחד עד סוף שבוע' : 'לפי תוכנית המסע')),
+                character: '',
+                group: '',
+                duration: '',
                 date: dateStr,
-                budget: isKoreaTrip ? 'חוזה סגור אופיר טורס' : (isEvent ? 'מתנה לאירוע + הוצאות נסיעה' : (isAshkelon ? '250 ₪ לאדם ליום' : 'בתכנון')),
-                activities: isKoreaTrip ? 'סיאול, סוואן, הר סוראק, דאייגו (שבת 1), גיונגג\'ו, בוסאן, האי ג\'ג\'ו, סיאול (שבת 2)' : (isEvent ? '19:30 קבלת פנים ➔ 20:30 חופה וקידושין ➔ סעודת מצווה ושמחה ➔ חזרה הביתה לאשדוד' : (isAshkelon ? 'הגן הלאומי תל אשקלון והשער הכנעני, טיילת בר כוכבא וחוף דלילה, מרינה אשקלון, מדרחוב מגדל' : `${tripName}: אתרים מרכזיים, מורשת ונוף`)),
-                transit: isKoreaTrip ? 'טיסות בינלאומיות אתיופיאן איירליינס, 2 טיסות פנים, אוטובוס תיירות צמוד VIP' : (isEvent ? 'רכב פרטי / מונית ישירה מאשדוד לאולם האירועים וחזרה' : (isAshkelon ? 'רכבת ישראל עד תחנת אשקלון, מוניות ואוטובוסים עירוניים' : 'רכבות, אוטובוסים או רכב שכור')),
-                hotels: isKoreaTrip ? 'מלונות נגישים במיקום מרכזי (המילטון סיאול סמוך לחב"ד, דאייגו סנטר)' : (isEvent ? 'לא רלוונטי (חזרה הביתה לאשדוד בסיום האירוע)' : (isAshkelon ? 'מלונות לאורך רצועת החוף והמרינה (אופציונלי לסופ"ש)' : 'מלונות נגישים במיקום מרכזי')),
-                food: isEvent ? 'קייטרינג האירוע (כשרות האולם לפי ההזמנה)' : 'שמירת כשרות מלאה / מסעדות כשרות מהדרין וסריקת מוצרים',
-                constraints: isEvent ? 'הגעה 15 דקות לפני קבלת הפנים לחניה קרובה ונוחה, כניסה מישורית ונגישה ללא מדרגות.' : 'התאמה מלאה לגמלאים מעל גיל 75, שבילים מרוצפים ומפולסים המתאימים לעגלות ולכיסאות גלגלים, ספסלי מנוחה מרובים.'
+                budget: '',
+                activities: '',
+                transit: '',
+                hotels: '',
+                food: '',
+                constraints: ''
             };
             localStorage.setItem('travel_assistant_trip_' + tripKey + '_questionnaire', JSON.stringify(initialQuestionnaire));
 
-            // Synchronize all dropdown selectors across application
             renderAllTripSelectors();
             renderCustomTripsInModal();
-
             closeNewTripModal();
 
-            // Select this trip as active
             selectTripAndApply(tripKey);
-
-            // Navigate to Route Screen at Step 1 to review/edit
             switchScreen('screen-route');
             if (typeof setWizardStep === 'function') {
                 setWizardStep(1);
             }
         }
 
+        function applyEmptyTripState() {
+            currentTripKey = '';
+            STATIONS = [];
+            activeTargetIndex = null;
+            try { localStorage.setItem('travel_assistant_active_trip', ''); } catch(e) {}
+
+            const pill = document.getElementById('active-trip-pill');
+            if (pill) pill.innerText = 'אין טיולים להצגה';
+
+            const hudTargetName = document.getElementById('hud-target-name');
+            if (hudTargetName) hudTargetName.innerText = 'אין טיולים להצגה';
+
+            const gpsStatus = document.getElementById('gps-status-text');
+            if (gpsStatus) gpsStatus.innerHTML = '<span>אין טיולים להצגה</span>';
+
+            renderAllTripSelectors();
+            renderCustomTripsInModal();
+
+            const step1Dest = document.getElementById('step1-dest-name');
+            const step1Dates = document.getElementById('step1-dates');
+            if (step1Dest) step1Dest.value = '';
+            if (step1Dates) step1Dates.value = '';
+
+            syncArrivalChainUI('');
+            switchTripDocument('');
+            renderCustomDocsList();
+            loadTripQuestionnaire();
+            renderFoodCards();
+            syncAiScreenGeoContext(true, '');
+            syncBaltamScenarios(true, '');
+
+            if (dynamicMap) {
+                if (arrivalAnchorMarker) {
+                    dynamicMap.removeLayer(arrivalAnchorMarker);
+                    arrivalAnchorMarker = null;
+                }
+                stationMarkers.forEach(m => dynamicMap.removeLayer(m));
+                stationMarkers = [];
+                if (routePolyline) {
+                    dynamicMap.removeLayer(routePolyline);
+                    routePolyline = null;
+                }
+                renderMapStationMarkers();
+                renderStationQuickSelectors();
+                renderStationsList();
+                dynamicMap.setView([31.7893, 34.6417], 13);
+            } else {
+                renderStationQuickSelectors();
+                renderStationsList();
+            }
+        }
+
         function selectTripAndApply(tripKey) {
-            if (!TRIPS_DATABASE[tripKey]) return;
+            if (!tripKey || !TRIPS_DATABASE[tripKey]) { applyEmptyTripState(); return; }
             currentTripKey = tripKey;
             try { localStorage.setItem('travel_assistant_active_trip', tripKey); } catch(e) {}
             STATIONS = TRIPS_DATABASE[tripKey].stations;
@@ -6846,103 +6140,58 @@
         }
 
         function getDefaultArrivalChain(tripKey) {
-            const k = tripKey || currentTripKey;
-            const st0 = (TRIPS_DATABASE[k] && TRIPS_DATABASE[k].stations && TRIPS_DATABASE[k].stations[0]) ? TRIPS_DATABASE[k].stations[0] : null;
-
-            if (k === 'israel_trail_north') {
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k || !TRIPS_DATABASE[k]) {
                 return {
                     originAddress: "רח' העצמאות 93, אשדוד",
-                    originTime: "05:42",
+                    originTime: "",
                     originLat: 31.7893,
                     originLng: 34.6417,
-                    hasMeetingPoint: true,
-                    meetingAddress: 'בית מכבי ראשל"צ (גולדה מאיר 21, ראשון לציון)',
-                    meetingTime: '06:30',
-                    meetingLat: 31.9806,
-                    meetingLng: 34.7738,
-                    trailheadAddress: st0 ? (st0.address || st0.title) : 'חניון נחל עמוד תחתון (כביש 85)',
-                    trailheadTime: '08:30'
+                    hasMeetingPoint: false,
+                    meetingAddress: "",
+                    meetingTime: "",
+                    meetingLat: 31.7893,
+                    meetingLng: 34.6417,
+                    trailheadAddress: "",
+                    trailheadTime: ""
                 };
-            } else if (k === 'korea') {
+            }
+            const st0 = (TRIPS_DATABASE[k] && TRIPS_DATABASE[k].stations && TRIPS_DATABASE[k].stations[0]) ? TRIPS_DATABASE[k].stations[0] : null;
+
+            if (k === 'korea') {
                 return {
-                    originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מומלצת מהבית)',
+                    originAddress: "רח' העצמאות 93, אשדוד",
                     originTime: '10:30',
                     originLat: 31.7893,
                     originLng: 34.6417,
                     hasMeetingPoint: true,
-                    meetingAddress: 'נתב"ג טרמינל 3 - קומה 2 שער 32 (מפגש קבוצת אופיר טורס)',
-                    meetingTime: '11:35 (המראה 14:40)',
+                    meetingAddress: 'נתב"ג טרמינל 3 - שער 32',
+                    meetingTime: '11:30 (המראה 14:40)',
                     meetingLat: 32.0055,
                     meetingLng: 34.8854,
-                    trailheadAddress: 'נמל התעופה סיאול אינצ\'און (ICN) - תחילת המסלול בקוריאה',
-                    trailheadTime: '15:45 (נחיתה וחבירה לאוטובוס)'
-                };
-            } else if (k === 'ashkelon') {
-                return {
-                    originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מהבית)',
-                    originTime: '08:15',
-                    originLat: 31.7893,
-                    originLng: 34.6417,
-                    hasMeetingPoint: false,
-                    meetingAddress: 'תחנת רכבת אשקלון / חניון הגן הלאומי',
-                    meetingTime: '08:45',
-                    meetingLat: 31.6766,
-                    meetingLng: 34.6046,
-                    trailheadAddress: 'הגן הלאומי תל אשקלון (תחנה 1 במסלול)',
-                    trailheadTime: '09:00'
-                };
-            } else if (k === 'rome') {
-                return {
-                    originAddress: 'מלון ברומא (סמוך לגטו היהודי)',
-                    originTime: '08:30',
-                    originLat: 41.8924,
-                    originLng: 12.4780,
-                    hasMeetingPoint: true,
-                    meetingAddress: 'רחבת בית הכנסת הגדול ברומא (מפגש קבוצה)',
-                    meetingTime: '08:45',
-                    meetingLat: 41.8920,
-                    meetingLng: 12.4775,
-                    trailheadAddress: 'הקולוסיאום והפורום הרומי (תחנה 1 במסלול)',
-                    trailheadTime: '09:00'
+                    trailheadAddress: 'נמל התעופה סיאול אינצ'און (ICN)',
+                    trailheadTime: '15:45'
                 };
             }
             return {
-                originAddress: 'שדרות העצמאות 93, אשדוד',
-                originTime: '07:30',
+                originAddress: "רח' העצמאות 93, אשדוד",
+                originTime: '',
                 originLat: 31.7893,
                 originLng: 34.6417,
-                hasMeetingPoint: true,
-                meetingAddress: 'נקודת מפגש קבוצתית / איסוף הסעה',
-                meetingTime: '08:15',
-                meetingLat: st0 ? (st0.lat - 0.01) : 31.9806,
-                meetingLng: st0 ? (st0.lng - 0.01) : 34.7738,
-                trailheadAddress: st0 ? (st0.address || st0.title) : 'תחילת המסלול (תחנה 1)',
-                trailheadTime: '09:00'
+                hasMeetingPoint: false,
+                meetingAddress: '',
+                meetingTime: '',
+                meetingLat: st0 ? st0.lat : 31.7893,
+                meetingLng: st0 ? st0.lng : 34.6417,
+                trailheadAddress: st0 ? (st0.address || st0.title) : '',
+                trailheadTime: ''
             };
         }
 
-        // Automatically synchronizes originLat/Lng and meetingLat/Lng with their text addresses
         function synchronizeArrivalChainCoords(chain, tripKey) {
-            if (!chain) return chain;
+            if (!chain) return { chain, changed: false };
             let changed = false;
 
-            // 0. Upgrade legacy Golani / 05:45 defaults on Israel Trail to synchronized 05:42 Ashdod -> 06:30 Beit Maccabi Rishon LeZion
-            if ((tripKey === 'israel_trail_north' || currentTripKey === 'israel_trail_north')) {
-                if (chain.originTime && chain.originTime.includes('05:45')) {
-                    chain.originTime = '05:42';
-                    chain.originAddress = "רח' העצמאות 93, אשדוד";
-                    changed = true;
-                }
-                if (chain.meetingAddress && chain.meetingAddress.includes('צומת גולני')) {
-                    chain.meetingAddress = 'בית מכבי ראשל"צ (גולדה מאיר 21, ראשון לציון)';
-                    chain.meetingTime = '06:30';
-                    chain.meetingLat = 31.9806;
-                    chain.meetingLng = 34.7738;
-                    changed = true;
-                }
-            }
-
-            // 1. Fix legacy 31.7950 coordinate or known origin address
             const knownOrigin = resolveKnownAddressCoords(chain.originAddress);
             if (knownOrigin) {
                 if (chain.originLat !== knownOrigin.lat || chain.originLng !== knownOrigin.lng) {
@@ -6950,13 +6199,8 @@
                     chain.originLng = knownOrigin.lng;
                     changed = true;
                 }
-            } else if (chain.originLat === 31.795 || chain.originLat === 31.7950) {
-                chain.originLat = 31.7893;
-                chain.originLng = 34.6417;
-                changed = true;
             }
 
-            // 2. Sync meeting point coordinates with meetingAddress (e.g. "בית מכבי ראשל"צ")
             const knownMeeting = resolveKnownAddressCoords(chain.meetingAddress);
             if (knownMeeting) {
                 if (chain.meetingLat !== knownMeeting.lat || chain.meetingLng !== knownMeeting.lng) {
@@ -6970,8 +6214,9 @@
         }
 
         function getTripArrivalChain(tripKey) {
-            const k = tripKey || currentTripKey;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
             const defaults = getDefaultArrivalChain(k);
+            if (!k || !TRIPS_DATABASE[k]) return defaults;
             try {
                 const raw = localStorage.getItem('travel_assistant_arrival_chain_' + k);
                 if (raw) {
@@ -7199,7 +6444,7 @@
         }
 
         function syncArrivalChainUI(tripKey) {
-            const k = tripKey || currentTripKey;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
             const chain = getTripArrivalChain(k);
 
             const originAddrEl = document.getElementById('step1-origin-address');
@@ -7223,6 +6468,10 @@
         function renderStep4ArrivalChainCard(chainObj) {
             const card = document.getElementById('step4-arrival-chain-card');
             if (!card) return;
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                card.innerHTML = `<div style="text-align:center; padding:12px; color:#475569; font-weight:900;">אין טיולים להצגה</div>`;
+                return;
+            }
             const chain = chainObj || getTripArrivalChain(currentTripKey);
 
             const meetingStepHtml = chain.hasMeetingPoint ? `
@@ -7405,11 +6654,12 @@
             if (stepNum === 1) {
                 const destInput = document.getElementById('step1-dest-name');
                 const datesInput = document.getElementById('step1-dates');
-                if (destInput && TRIPS_DATABASE[currentTripKey]) {
-                    destInput.value = TRIPS_DATABASE[currentTripKey].name || '';
-                }
-                if (datesInput && TRIPS_DATABASE[currentTripKey]) {
-                    datesInput.value = TRIPS_DATABASE[currentTripKey].dates || TRIPS_DATABASE[currentTripKey].badge || '';
+                if (currentTripKey && TRIPS_DATABASE[currentTripKey]) {
+                    if (destInput) destInput.value = TRIPS_DATABASE[currentTripKey].name || '';
+                    if (datesInput) datesInput.value = TRIPS_DATABASE[currentTripKey].dates || TRIPS_DATABASE[currentTripKey].badge || '';
+                } else {
+                    if (destInput) destInput.value = '';
+                    if (datesInput) datesInput.value = '';
                 }
                 syncArrivalChainUI(currentTripKey);
             }
@@ -7830,7 +7080,7 @@
                 const isHe = item.speakerLang === 'he';
                 const bg = isHe ? '#eff6ff' : '#f0fdf4';
                 const border = isHe ? '#bfdbfe' : '#bbf7d0';
-                const speakerBadge = isHe ? '🇮🇱 המטייל (עברית ➔ ערבית)' : '🇲🇦 המקומי במרוקו (ערבית ➔ עברית)';
+                const speakerBadge = isHe ? '🇮🇱 המטייל (עברית ➔ שפה מקומית)' : '🗣️ מענה מקומי (תרגום לעברית)';
                 const badgeColor = isHe ? '#1d4ed8' : '#166534';
 
                 // Escape single quotes in item.translatedText for speech onclick
@@ -8580,13 +7830,13 @@
                 <!-- Trip Name Input -->
                 <div>
                     <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">שם היעד: *</label>
-                    <input type="text" id="new-trip-input-name" placeholder="למשל: אשקלון" style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 2px solid #cbd5e1; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: bold; outline: none;">
+                    <input type="text" id="new-trip-input-name" placeholder="הזן שם יעד או טיול..." style="width: 100%; box-sizing: border-box; padding: 12px 14px; border: 2px solid #cbd5e1; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 1em; font-weight: bold; outline: none;">
                 </div>
 
                 <!-- Trip Dates (Optional single clean text field) -->
                 <div>
                     <label style="font-size: 0.88em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 6px;">תאריכים (אופציונלי):</label>
-                    <input type="text" id="new-trip-input-dates-text" placeholder="למשל: 28/10/2026" style="width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em;">
+                    <input type="text" id="new-trip-input-dates-text" placeholder="הזן תאריכים (אופציונלי)..." style="width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.95em;">
                 </div>
 
             </div>
@@ -8732,13 +7982,13 @@
                         </div>
                         <div>
                             <label style="font-size: 0.8em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 3px;">📅 תאריך האירוע / היציאה:</label>
-                            <input type="text" id="smart-derive-date" placeholder="למשל: 28/10/2026" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.88em; font-weight: 800;">
+                            <input type="text" id="smart-derive-date" placeholder="תאריך היציאה / האירוע" style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.88em; font-weight: 800;">
                         </div>
                     </div>
 
                     <div>
                         <label style="font-size: 0.82em; font-weight: 900; color: #0f766e; display: block; margin-bottom: 3px;">📍 המיקום המדויק (אולם / גן אירועים / כתובת יעד לניווט במפה):</label>
-                        <input type="text" id="smart-derive-venue" oninput="recalculateSmartOriginTimeFromStart()" placeholder="למשל: אולמי גני הצבי / אדאו, אשקלון" style="width: 100%; box-sizing: border-box; padding: 9px 11px; border: 2px solid #10b981; border-radius: 8px; font-family: inherit; font-size: 0.92em; font-weight: 900; color: #0f172a;">
+                        <input type="text" id="smart-derive-venue" oninput="recalculateSmartOriginTimeFromStart()" placeholder="הזן מיקום מדויק או כתובת יעד" style="width: 100%; box-sizing: border-box; padding: 9px 11px; border: 2px solid #10b981; border-radius: 8px; font-family: inherit; font-size: 0.92em; font-weight: 900; color: #0f172a;">
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
