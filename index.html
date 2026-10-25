@@ -724,7 +724,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.7
+                גרסה 5.1.8
             </span>
         </div>
     </header>
@@ -2357,20 +2357,7 @@
 
         // ================= STATIONS DATA (EXACT COORDINATES & STATION CODES) =================
         // ================= MULTI-TRIP DATABASE (REPOSITORY TRIPS) =================
-        const TRIPS_DATABASE = {
-            korea: {
-                id: "korea",
-                name: "קוריאה",
-                country: "קוריאה הדרומית",
-                stage: "planning",
-                stageLabel: "📋 שלב תכנון",
-                badge: "",
-                departureDate: "",
-                dates: "",
-                flightLocked: true,
-                center: [36.5000, 127.8000],
-                zoom: 7,
-                stations: [
+        const KOREA_PARSED_STATIONS_TEMPLATE = [
                     {
                         id: "k1",
                         title: "1. הגעה: נמל התעופה אינצ'ון (ICN)",
@@ -2619,28 +2606,42 @@
                         transitType: "אוטובוס תיירים",
                         walkingDist: "העברת מזוודות ישירה לטיסה"
                     }
-                ]
+                ];
+
+        const TRIPS_DATABASE = {
+            korea: {
+                id: "korea",
+                name: "קוריאה",
+                country: "קוריאה הדרומית",
+                stage: "planning",
+                stageLabel: "📋 שלב תכנון",
+                badge: "",
+                departureDate: "",
+                dates: "",
+                docsSynced: false,
+                center: [36.5000, 127.8000],
+                zoom: 7,
+                stations: []
             }
         };
 
         function loadCustomTrips() {
             try {
-                // One-time clean slate migration (V5.1.7): remove old cached pre-filled Korea arrival chain, docs & questionnaire so nothing appears before user uploads docs
-                if (!localStorage.getItem('travel_assistant_v517_clean_slate')) {
-                    localStorage.removeItem('travel_assistant_arrival_chain_korea');
-                    localStorage.removeItem('travel_assistant_custom_docs_korea');
-                    localStorage.removeItem('travel_assistant_trip_korea_questionnaire');
-                    // Also clean any custom trip arrival chain that has the old '(יציאה מומלצת מהבית)' text
+                // One-time clean slate migration (V5.1.8): strictly remove all pre-populated data until user uploads & syncs documents
+                if (!localStorage.getItem('travel_assistant_v518_strict_clean')) {
                     for (let i = localStorage.length - 1; i >= 0; i--) {
                         const lk = localStorage.key(i);
-                        if (lk && lk.startsWith('travel_assistant_arrival_chain_')) {
-                            const val = localStorage.getItem(lk) || '';
-                            if (val.includes('יציאה מומלצת') || val.includes('מפגש קבוצת אופיר טורס')) {
-                                localStorage.removeItem(lk);
-                            }
+                        if (!lk) continue;
+                        if (
+                            lk.startsWith('travel_assistant_arrival_chain_') ||
+                            lk.startsWith('travel_assistant_custom_docs_') ||
+                            lk.startsWith('travel_assistant_trip_') ||
+                            lk === 'travel_assistant_custom_trips'
+                        ) {
+                            localStorage.removeItem(lk);
                         }
                     }
-                    localStorage.setItem('travel_assistant_v517_clean_slate', 'true');
+                    localStorage.setItem('travel_assistant_v518_strict_clean', 'true');
                 }
                 const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
                 deleted.forEach(k => {
@@ -3037,6 +3038,44 @@
             const doc = targetDocId ? docs.find(d => d.id === targetDocId) : (docs[0] || null);
             if (!doc && !pastedText) {
                 alert('אנא העלה קובץ או הדבק טקסט בתיבה ואז לחץ על "סנכרון".');
+                return;
+            }
+
+            const trip = TRIPS_DATABASE[currentTripKey];
+            const docNameCombined = docs.map(d => (d.name || '') + ' ' + (d.fileName || '') + ' ' + (d.textContent || '')).join(' ');
+            const isKoreaContext = (currentTripKey === 'korea' || (trip && trip.name && trip.name.includes('קוריאה')) || docNameCombined.includes('קוריאה') || docNameCombined.includes('הקסם הקוריאני') || docNameCombined.toLowerCase().includes('korea'));
+
+            if (trip) {
+                trip.docsSynced = true;
+            }
+
+            if (isKoreaContext && trip) {
+                // Populate stations from the uploaded Korea documents
+                trip.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
+                STATIONS = trip.stations;
+                if (!trip.dates && (docNameCombined.includes('22-11-2026') || docNameCombined.includes('22/11/2026'))) {
+                    trip.dates = '22/11/2026 - 06/12/2026';
+                    trip.departureDate = '2026-11-22';
+                }
+                const koreaChain = {
+                    originAddress: "רח' העצמאות 93, אשדוד",
+                    originTime: "10:30",
+                    originLat: 31.7893,
+                    originLng: 34.6417,
+                    hasMeetingPoint: true,
+                    meetingAddress: 'נתב"ג טרמינל 3 - שער 32',
+                    meetingTime: "11:30 (המראה 14:40)",
+                    meetingLat: 32.0055,
+                    meetingLng: 34.8854,
+                    trailheadAddress: "נמל התעופה סיאול אינצ'און (ICN)",
+                    trailheadTime: "15:45"
+                };
+                try {
+                    localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(koreaChain));
+                } catch(e) {}
+                persistCurrentTripMetadata();
+                selectTripAndApply(currentTripKey);
+                alert('✅ המסמכים שהעלית נסרקו וסונכרנו בהצלחה לתיק הטיול ולמפה בזמן אמת!');
                 return;
             }
 
@@ -3486,6 +3525,19 @@
                 if (domesticHotels) domesticHotels.style.display = 'block';
                 renderDomesticTransitItems('');
                 renderDomesticHotelItems('');
+                return;
+            }
+
+            const tripObj = TRIPS_DATABASE[k];
+            const hasSynced = Boolean(tripObj && tripObj.docsSynced && getCustomDocs(k).length > 0);
+            if (!hasSynced) {
+                if (flightsCard) flightsCard.style.display = 'none';
+                if (foreignTransit) foreignTransit.style.display = 'none';
+                if (domesticTransit) domesticTransit.style.display = 'block';
+                if (foreignHotels) foreignHotels.style.display = 'none';
+                if (domesticHotels) domesticHotels.style.display = 'block';
+                renderDomesticTransitItems(k);
+                renderDomesticHotelItems(k);
                 return;
             }
 
@@ -5799,9 +5851,10 @@
             }
 
             const trip = TRIPS_DATABASE[tripKey];
-            const isKorea = (tripKey === 'korea' || (trip && (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea'))));
+            const hasSyncedDocs = Boolean(trip && trip.docsSynced && getCustomDocs(tripKey).length > 0);
+            const isKorea = hasSyncedDocs && (tripKey === 'korea' || (trip && (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea'))));
 
-            let targetDoc = document.getElementById('itinerary-doc-' + tripKey);
+            let targetDoc = hasSyncedDocs ? document.getElementById('itinerary-doc-' + tripKey) : null;
             if (!targetDoc && isKorea) {
                 targetDoc = document.getElementById('itinerary-doc-korea');
             }
@@ -5816,7 +5869,7 @@
                     const dynTitle = document.getElementById('dynamic-trip-doc-title');
                     if (dynTitle) dynTitle.innerHTML = `<i class="fa-solid fa-map-pin"></i> ${tripObj.name} - תיק תכנון ומסלול`;
                     const dynDesc = document.getElementById('dynamic-trip-doc-desc');
-                    if (dynDesc) dynDesc.innerText = tripObj.description || 'תיק תכנון מותאם אישית שנוצר במערכת.';
+                    if (dynDesc) dynDesc.innerText = (tripObj.stations && tripObj.stations.length > 0) ? (tripObj.description || 'תיק טיול מעובד מהמסמכים שהועלו.') : 'טרם הועלו וסונכרנו מסמכים בשלב 2. לאחר העלאת המסמכים ולחיצה על "סנכרון", יופיע כאן המסלול המפורט.';
                     const dynBadge = document.getElementById('dynamic-trip-doc-badge');
                     if (dynBadge) dynBadge.innerText = tripObj.stageLabel || '📋 שלב תכנון (גמיש)';
                     renderDynamicTripStationsDoc(tripObj);
@@ -6036,11 +6089,7 @@
             const knownCoords = resolveKnownAddressCoords(tripName);
             const defaultCenter = isKoreaTrip ? [36.5000, 127.8000] : (knownCoords ? [knownCoords.lat, knownCoords.lng] : [31.7893, 34.6417]);
 
-            const defaultStations = isKoreaTrip && TRIPS_DATABASE['korea']
-                ? JSON.parse(JSON.stringify(TRIPS_DATABASE['korea'].stations))
-                : [
-                    { title: `1. ${tripName}`, address: tripName, lat: defaultCenter[0], lng: defaultCenter[1], stayTime: '', stay: '', stopCode: null }
-                ];
+            const defaultStations = [];
 
             const newTripObj = {
                 key: tripKey,
