@@ -723,7 +723,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.0.8
+                גרסה 5.1.1
             </span>
         </div>
     </header>
@@ -2435,6 +2435,57 @@
                 zoom: 14,
                 stations: [
                     {
+                        id: "net1",
+                        title: "1. תחנת רכבת נתניה ומסוף האוטובוסים",
+                        desc: "ירידה מהרכבת ומעבר לרציפי אוטובוס קווים 16 / 25 למרכז העיר והטיילת",
+                        lat: 32.3201,
+                        lng: 34.8692,
+                        address: "תחנת רכבת נתניה מערב",
+                        stopCode: "37124",
+                        stayTime: "09:00 - 09:20",
+                        transitType: "רכבת ישראל + קו 16/25",
+                        walkingDist: "50 מטר מרציף הרכבת"
+                    },
+                    {
+                        id: "net2",
+                        title: "2. טיילת הראשונים ומעלית הים (סירונית)",
+                        desc: "תצפית מצוק הים, בריזת בוקר וירידה מונגשת במעלית השקופה לחוף סירונית",
+                        lat: 32.3292,
+                        lng: 34.8505,
+                        address: "שדרות עובד בן עמי / טיילת הראשונים, נתניה",
+                        stopCode: null,
+                        stayTime: "09:35 - 11:15",
+                        transitType: "הליכה מישורית בטיילת",
+                        walkingDist: "180 מטר מתחנת דוד המלך 6"
+                    },
+                    {
+                        id: "net3",
+                        title: "3. שוק נתניה המקורה ומסעדת פריקסה",
+                        desc: "סיור קולינרי בשוק העירוני המקורה והמוצל וארוחת צהריים כשרה למהדרין",
+                        lat: 32.3282,
+                        lng: 34.8588,
+                        address: "רחוב שוהם 10 פינת היהלום 8, נתניה",
+                        stopCode: "39270",
+                        stayTime: "11:30 - 13:30",
+                        transitType: "הליכה מקורה ומוצלת",
+                        walkingDist: "350 מטר"
+                    }
+                ]
+            },
+            korea: {
+                id: "korea",
+                name: "קוריאה הדרומית - אופיר טורס",
+                country: "קוריאה הדרומית",
+                stage: "planning",
+                stageLabel: "📋 שלב תכנון (גמיש לשינויים | כרטיסי טיסה נעולים)",
+                badge: "הטיול המרכזי (15 ימים, 42 מטיילים)",
+                departureDate: "2026-11-22",
+                dates: "22/11/2026 - 06/12/2026",
+                flightLocked: true,
+                center: [36.5000, 127.8000],
+                zoom: 7,
+                stations: [
+                    {
                         id: "k1",
                         title: "1. הגעה: נמל התעופה אינצ'ון (ICN)",
                         desc: "נחיתה טיסה ET 672, מפגש קבוצת 42 המטיילים עם המדריך ונסיעה לסיאול",
@@ -2681,140 +2732,6 @@
                         stayTime: "מוצ\"ש 05/12: 21:00 נסיעה לשדה ➔ 00:10 המראה",
                         transitType: "אוטובוס תיירים",
                         walkingDist: "העברת מזוודות ישירה לטיסה"
-                    }
-                ]
-            },
-            korea: {
-                id: "korea",
-                name: "קוריאה הדרומית - אופיר טורס",
-                country: "קוריאה הדרומית",
-                stage: "planning",
-                stageLabel: "📋 שלב תכנון (גמיש לשינויים | כרטיסי טיסה נעולים)",
-                badge: "הטיול המרכזי (15 ימים, 42 מטיילים)",
-                departureDate: "2026-11-22",
-                flightLocked: true,
-                center: [37.5665, 126.9780],
-                zoom: 12,
-                stations: [
-                    {
-                        id: "k1",
-                        title: "1. נמל התעופה אינצון (ICN)",
-                        desc: "נחיתה טיסה ET 672, מפגש קבוצת 42 המטיילים עם המדריך",
-                        lat: 37.4602,
-                        lng: 126.4407,
-                        address: "Incheon International Airport Terminal 1",
-                        stopCode: null,
-                        stayTime: "יום 2: 15:45 נחיתה והתארגנות",
-                        transitType: "אוטובוס תיירים ממוזג",
-                        walkingDist: "מעבר ישיר מהטרמינל לאוטובוס"
-                    },
-                    {
-                        id: "k2",
-                        title: "2. סיאול - ארמון גיונגבוקגונג",
-                        desc: "ארמון המלך המרכזי משושלת גוסון, טקס חילופי המשמרות",
-                        lat: 37.5796,
-                        lng: 126.9770,
-                        address: "161 Sajik-ro, Jongno-gu, Seoul",
-                        stopCode: null,
-                        stayTime: "יום 3: 09:30 - 11:30",
-                        transitType: "סיור מונגש ומותאם גמלאים",
-                        walkingDist: "300 מטר שבילים מישוריים"
-                    },
-                    {
-                        id: "k3",
-                        title: "3. סיאול - מדרחוב אינסאדונג",
-                        desc: "סמטאות אמנות מסורתית, בתי תה עתיקים וסדנת תה",
-                        lat: 37.5744,
-                        lng: 126.9858,
-                        address: "Insadong-gil, Jongno-gu, Seoul",
-                        stopCode: null,
-                        stayTime: "יום 3: 12:00 - 14:00",
-                        transitType: "מדרחוב מישורי",
-                        walkingDist: "250 מטר"
-                    },
-                    {
-                        id: "k4",
-                        title: "4. סוואן - מצודת הוואסונג",
-                        desc: "אתר מורשת עולמית אונסקו, חומות וסדנת קשתות",
-                        lat: 37.2871,
-                        lng: 127.0119,
-                        address: "Suwon Hwaseong Fortress, Gyeonggi-do",
-                        stopCode: null,
-                        stayTime: "יום 4: 10:00 - 12:30",
-                        transitType: "רכבת תיירים פנימית סביב המצודה",
-                        walkingDist: "150 מטר (מותאם גמלאים)"
-                    },
-                    {
-                        id: "k5",
-                        title: "5. הפארק הלאומי הר סוראק",
-                        desc: "רכבל לפסגת גוונגגומסונג, מראות הרים עוצרי נשימה",
-                        lat: 38.1195,
-                        lng: 128.4656,
-                        address: "Seoraksan National Park, Sokcho",
-                        stopCode: null,
-                        stayTime: "יום 6: 09:00 - 13:00",
-                        transitType: "עלייה ברכבל סגור וממוזג",
-                        walkingDist: "100 מטר מפתח הרכבל"
-                    },
-                    {
-                        id: "k6",
-                        title: "6. כפר הפולקלור אנדונג האהו",
-                        desc: "כפר היסטורי חי וסדנת מסכות עץ מסורתיות",
-                        lat: 36.5391,
-                        lng: 128.5181,
-                        address: "Hahoe Folk Village, Andong",
-                        stopCode: null,
-                        stayTime: "יום 7: 10:00 - 13:30",
-                        transitType: "הליכה קלה בסמטאות הכפר",
-                        walkingDist: "400 מטר מישורי"
-                    },
-                    {
-                        id: "k7",
-                        title: "7. קיונגגו - מקדש בולגוקסה",
-                        desc: "בירת ממלכת שילה העתיקה, פגודות האבן המפורסמות",
-                        lat: 35.8351,
-                        lng: 129.3321,
-                        address: "Bulguksa, Gyeongju, Gyeongsangbuk-do",
-                        stopCode: null,
-                        stayTime: "יום 8: 10:00 - 12:30",
-                        transitType: "שבילים מונגשים",
-                        walkingDist: "200 מטר"
-                    },
-                    {
-                        id: "k8",
-                        title: "8. בוסאן - שוק הדגים ג'גאלצ'י",
-                        desc: "שוק הדגים התוסס, נמל בוסאן וטיילת החוף",
-                        lat: 35.0967,
-                        lng: 129.0306,
-                        address: "Jagalchi Market, Jung-gu, Busan",
-                        stopCode: null,
-                        stayTime: "יום 9: 11:00 - 13:00",
-                        transitType: "הליכה מקורה ומישורית",
-                        walkingDist: "200 מטר"
-                    },
-                    {
-                        id: "k9",
-                        title: "9. האי גגו - פסגת סונגסאן אילצולבונג",
-                        desc: "לוע הר הגעש הזורח מעל האוקיינוס ומפלי צ'ונגג'י-יון",
-                        lat: 33.4581,
-                        lng: 126.9426,
-                        address: "Seongsan Ilchulbong, Jeju Island",
-                        stopCode: null,
-                        stayTime: "יום 11: 09:30 - 12:00",
-                        transitType: "טיילת נוף מונגשת",
-                        walkingDist: "300 מטר שבילי עץ"
-                    },
-                    {
-                        id: "k10",
-                        title: "10. סיאול - מגדל אן סיאול (Namsan)",
-                        desc: "תצפית פנורמית על כל מטרופולין סיאול וטקס סיום הטיול",
-                        lat: 37.5512,
-                        lng: 126.9882,
-                        address: "105 Namsangongwon-gil, Yongsan-gu, Seoul",
-                        stopCode: null,
-                        stayTime: "יום 14: 16:00 - 18:30",
-                        transitType: "רכבל נמסאן ממוזג",
-                        walkingDist: "150 מטר"
                     }
                 ]
             },
@@ -4009,11 +3926,11 @@
             const transitSub = document.getElementById('label_transit_sub');
             if (transitInput) {
                 transitInput.placeholder = isDomestic ? 
-                    'לדוגמה: רכב פרטי, רכבת ישראל, קווי אוטובוס, הקפצות שטח (שדות טיסה הוסרו)' : 
+                    'לדוגמה: רכב פרטי, אוטובוס, רכבת, טיסות פנים, הקפצות שטח' : 
                     'לדוגמה: טיסות בינלאומיות אתיופיאן איירליינס, טיסות פנים, אוטובוס תיירים ממוזג';
             }
             if (transitSub) {
-                transitSub.innerText = isDomestic ? '(תחבורה יבשתית מקומית)' : '(טיסות ומעברים בינלאומיים)';
+                transitSub.innerText = isDomestic ? '(רכב, תחבורה ציבורית וטיסות פנים)' : '(טיסות, מעברים ותחבורה ביעד)';
                 transitSub.style.color = isDomestic ? '#15803d' : '#2563eb';
             }
 
@@ -4296,7 +4213,7 @@
 
             if (currentTripKey === 'israel_trail_north') {
                 profile = {
-                    origin: 'חניון נחל עמוד תחתון (על כביש 85)',
+                    origin: 'יציאה: רח\' העצמאות 93, אשדוד (05:42) ➔ מפגש: בית מכבי ראשל"צ (06:30) ➔ תחילת מסלול: חניון נחל עמוד תחתון (08:30)',
                     destination: 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון',
                     character: 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)',
                     group: 'קבוצת חובבי שביל ישראל',
@@ -4550,7 +4467,7 @@
                 if (!saved) {
                     if (currentTripKey === 'israel_trail_north') {
                         saved = {
-                            origin: 'חניון נחל עמוד תחתון (על כביש 85)',
+                            origin: 'יציאה: רח\' העצמאות 93, אשדוד (05:42) ➔ מפגש: בית מכבי ראשל"צ (06:30) ➔ תחילת מסלול: חניון נחל עמוד תחתון (08:30)',
                             destination: 'שביל ישראל: נחל עמוד תחתון (כביש 85) עד עין נון',
                             character: 'הליכה בטבע, קניון מרשים, ירידה מתונה וסיום רטוב ונעים (קצב נינוח של קבוצה)',
                             group: 'קבוצת חובבי שביל ישראל',
@@ -4712,6 +4629,44 @@
 
                 stationMarkers.push(marker);
             });
+
+            // Always render synchronized Home (🏠) and Meeting Point (🤝) pins on the map
+            if (typeof getTripArrivalChain === 'function') {
+                const chain = getTripArrivalChain(currentTripKey);
+                if (chain) {
+                    const oLat = chain.originLat || 31.7893;
+                    const oLng = chain.originLng || 34.6417;
+                    const originIcon = L.divIcon({
+                        className: 'custom-station-pin',
+                        html: `<div style="background:#2563eb; color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; border:2.5px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;" title="1. יציאה מבית/מלון: ${(chain.originAddress || '').replace(/"/g, '&quot;')}">🏠</div>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+                    const originMarker = L.marker([oLat, oLng], { icon: originIcon }).addTo(dynamicMap);
+                    originMarker.on('click', (e) => {
+                        if (e && e.originalEvent) L.DomEvent.stopPropagation(e.originalEvent);
+                        focusArrivalAnchor('origin');
+                    });
+                    stationMarkers.push(originMarker);
+
+                    if (chain.hasMeetingPoint) {
+                        const mLat = chain.meetingLat || 31.9806;
+                        const mLng = chain.meetingLng || 34.7738;
+                        const meetingIcon = L.divIcon({
+                            className: 'custom-station-pin',
+                            html: `<div style="background:#f59e0b; color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; border:2.5px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;" title="2. נקודת מפגש: ${(chain.meetingAddress || '').replace(/"/g, '&quot;')}">🤝</div>`,
+                            iconSize: [32, 32],
+                            iconAnchor: [16, 16]
+                        });
+                        const meetingMarker = L.marker([mLat, mLng], { icon: meetingIcon }).addTo(dynamicMap);
+                        meetingMarker.on('click', (e) => {
+                            if (e && e.originalEvent) L.DomEvent.stopPropagation(e.originalEvent);
+                            focusArrivalAnchor('meeting');
+                        });
+                        stationMarkers.push(meetingMarker);
+                    }
+                }
+            }
         }
 
         function initDynamicMap() {
@@ -6487,23 +6442,14 @@
                 const tripKey = t.key;
                 const isActive = (tripKey === currentTripKey);
                 return `
-                    <div style="border: 2px solid ${isActive ? '#2563eb' : '#cbd5e1'}; background: ${isActive ? '#eff6ff' : '#ffffff'}; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px;">
-                            <div style="display: flex; align-items: center; gap: 6px;">
-                                <span style="font-weight: 900; font-size: 1.02em; color: #0f172a;">${t.name}</span>
-                                ${isActive ? '<span style="background: #2563eb; color: white; font-size: 0.72em; padding: 1px 6px; border-radius: 6px; font-weight: bold;">⭐ פעיל כעת</span>' : ''}
-                            </div>
-                            <span style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; font-size: 0.72em; padding: 2px 8px; border-radius: 10px; font-weight: bold;">📅 ${t.dates}</span>
+                    <div onclick="selectTripAndContinuePlanning('${tripKey}')" style="border: 2px solid ${isActive ? '#2563eb' : '#cbd5e1'}; background: ${isActive ? '#eff6ff' : '#ffffff'}; border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
+                        <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1;">
+                            <span style="font-weight: 900; font-size: 1.02em; color: #0f172a; line-height: 1.25;">${t.name}</span>
+                            <span style="color: #475569; font-size: 0.82em; font-weight: 700;">📅 ${t.dates}</span>
                         </div>
-                        ${t.description ? `<div style="font-size: 0.8em; color: #475569; line-height: 1.35;">${t.description}</div>` : ''}
-                        <div style="display: flex; gap: 8px; margin-top: 4px; border-top: 1px solid #f1f5f9; padding-top: 8px;">
-                            <button onclick="selectTripAndContinuePlanning('${tripKey}')" style="flex: 1; background: #2563eb; color: white; border: none; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <i class="fa-solid fa-check"></i> בחר טיול זה
-                            </button>
-                            <button onclick="deleteCustomTrip('${tripKey}', event)" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 7px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 4px;" title="מחק תיק טיול">
-                                <i class="fa-solid fa-trash"></i> מחק
-                            </button>
-                        </div>
+                        <button onclick="deleteCustomTrip('${tripKey}', event)" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 7px 10px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; flex-shrink: 0;" title="מחק תיק טיול">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </div>
                 `;
             }).join('');
@@ -6905,17 +6851,17 @@
 
             if (k === 'israel_trail_north') {
                 return {
-                    originAddress: 'שדרות העצמאות 93, אשדוד (יציאה מהבית)',
-                    originTime: '05:45 (מקדם ביטחון לנסיעה צפונה)',
+                    originAddress: "רח' העצמאות 93, אשדוד",
+                    originTime: "05:42",
                     originLat: 31.7893,
                     originLng: 34.6417,
                     hasMeetingPoint: true,
-                    meetingAddress: 'צומת גולני / אלונים (נקודת מפגש ואיסוף הסעה)',
-                    meetingTime: '07:45',
-                    meetingLat: 32.7525,
-                    meetingLng: 35.3415,
+                    meetingAddress: 'בית מכבי ראשל"צ (גולדה מאיר 21, ראשון לציון)',
+                    meetingTime: '06:30',
+                    meetingLat: 31.9806,
+                    meetingLng: 34.7738,
                     trailheadAddress: st0 ? (st0.address || st0.title) : 'חניון נחל עמוד תחתון (כביש 85)',
-                    trailheadTime: '08:30 (תחילת הליכה)'
+                    trailheadTime: '08:30'
                 };
             } else if (k === 'korea') {
                 return {
@@ -6976,9 +6922,25 @@
         }
 
         // Automatically synchronizes originLat/Lng and meetingLat/Lng with their text addresses
-        function synchronizeArrivalChainCoords(chain) {
+        function synchronizeArrivalChainCoords(chain, tripKey) {
             if (!chain) return chain;
             let changed = false;
+
+            // 0. Upgrade legacy Golani / 05:45 defaults on Israel Trail to synchronized 05:42 Ashdod -> 06:30 Beit Maccabi Rishon LeZion
+            if ((tripKey === 'israel_trail_north' || currentTripKey === 'israel_trail_north')) {
+                if (chain.originTime && chain.originTime.includes('05:45')) {
+                    chain.originTime = '05:42';
+                    chain.originAddress = "רח' העצמאות 93, אשדוד";
+                    changed = true;
+                }
+                if (chain.meetingAddress && chain.meetingAddress.includes('צומת גולני')) {
+                    chain.meetingAddress = 'בית מכבי ראשל"צ (גולדה מאיר 21, ראשון לציון)';
+                    chain.meetingTime = '06:30';
+                    chain.meetingLat = 31.9806;
+                    chain.meetingLng = 34.7738;
+                    changed = true;
+                }
+            }
 
             // 1. Fix legacy 31.7950 coordinate or known origin address
             const knownOrigin = resolveKnownAddressCoords(chain.originAddress);
@@ -7014,7 +6976,7 @@
                 const raw = localStorage.getItem('travel_assistant_arrival_chain_' + k);
                 if (raw) {
                     const parsed = Object.assign({}, defaults, JSON.parse(raw));
-                    const syncRes = synchronizeArrivalChainCoords(parsed);
+                    const syncRes = synchronizeArrivalChainCoords(parsed, k);
                     if (syncRes.changed) {
                         localStorage.setItem('travel_assistant_arrival_chain_' + k, JSON.stringify(parsed));
                     }
@@ -7189,7 +7151,7 @@
                     btnNo.style.border = 'none';
                 }
             }
-            if (inputsBox) inputsBox.style.display = hasMeeting ? 'grid' : 'none';
+            if (inputsBox) inputsBox.style.display = hasMeeting ? 'flex' : 'none';
             if (directNotice) directNotice.style.display = hasMeeting ? 'none' : 'block';
         }
 
@@ -7264,15 +7226,15 @@
             const chain = chainObj || getTripArrivalChain(currentTripKey);
 
             const meetingStepHtml = chain.hasMeetingPoint ? `
-                <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('meeting'), 120);" style="flex:1; min-width:170px; background:#fffbeb; border:1.5px solid #fde68a; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת המפגש במפה בזמן אמת">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('meeting'), 120);" style="flex:1 1 220px; box-sizing:border-box; background:#fffbeb; border:1.5px solid #fde68a; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת המפגש במפה בזמן אמת">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:4px; flex-wrap:wrap;">
                         <span style="background:#f59e0b; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">2. 🤝 נק' מפגש</span>
-                        <span style="font-size:0.76em; font-weight:800; color:#b45309;">🕒 ${chain.meetingTime || '-'}</span>
+                        <span style="font-size:0.78em; font-weight:900; color:#b45309;">🕒 ${chain.meetingTime || '-'}</span>
                     </div>
-                    <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3;">${chain.meetingAddress || 'נקודת מפגש קבוצתית'}</div>
+                    <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3; word-break:break-word;">${chain.meetingAddress || 'נקודת מפגש קבוצתית'}</div>
                 </div>
             ` : `
-                <div style="flex:1; min-width:150px; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px; padding:10px; display:flex; flex-direction:column; justify-content:center;">
+                <div style="flex:1 1 220px; box-sizing:border-box; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px; padding:10px; display:flex; flex-direction:column; justify-content:center;">
                     <span style="font-size:0.78em; font-weight:900; color:#475569;">2. 🚗 הגעה ישירה למסלול</span>
                     <span style="font-size:0.76em; color:#64748b; margin-top:2px;">ללא נקודת מפגש מקדימה</span>
                 </div>
@@ -7280,24 +7242,24 @@
 
             card.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
-                    <span style="font-weight:900; color:#1e3a8a; font-size:0.98em;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> שרשרת היציאה וההגעה למסלול (לחץ על נקודה לצפייה במפה בזמן אמת):</span>
-                    <button onclick="setWizardStep(1)" style="background:white; border:1px solid #93c5fd; color:#1d4ed8; padding:4px 10px; border-radius:7px; font-size:0.78em; font-weight:800; cursor:pointer;">✏️ ערוך נקודות הגעה</button>
+                    <span style="font-weight:900; color:#1e3a8a; font-size:0.95em;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> שרשרת יציאה והגעה למסלול:</span>
+                    <button onclick="setWizardStep(1)" style="background:white; border:1px solid #93c5fd; color:#1d4ed8; padding:4px 10px; border-radius:7px; font-size:0.78em; font-weight:800; cursor:pointer;">✏️ ערוך</button>
                 </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:stretch;">
-                    <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('origin'), 120);" style="flex:1; min-width:170px; background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת היציאה במפה בזמן אמת">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:stretch; width:100%; box-sizing:border-box;">
+                    <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('origin'), 120);" style="flex:1 1 220px; box-sizing:border-box; background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת היציאה במפה בזמן אמת">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:4px; flex-wrap:wrap;">
                             <span style="background:#2563eb; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">1. 🏠 יציאה מבית/מלון</span>
-                            <span style="font-size:0.76em; font-weight:800; color:#1e40af;">🕒 ${chain.originTime || '-'}</span>
+                            <span style="font-size:0.78em; font-weight:900; color:#1e40af;">🕒 ${chain.originTime || '-'}</span>
                         </div>
-                        <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3;">${chain.originAddress || 'נקודת יציאה'}</div>
+                        <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3; word-break:break-word;">${chain.originAddress || 'נקודת יציאה'}</div>
                     </div>
                     ${meetingStepHtml}
-                    <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(0), 120);" style="flex:1; min-width:170px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת תחילת המסלול במפה בזמן אמת">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(0), 120);" style="flex:1 1 220px; box-sizing:border-box; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת תחילת המסלול במפה בזמן אמת">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:4px; flex-wrap:wrap;">
                             <span style="background:#16a34a; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">3. 🚩 תחילת מסלול (תחנה 1)</span>
-                            <span style="font-size:0.76em; font-weight:800; color:#15803d;">🕒 ${chain.trailheadTime || '-'}</span>
+                            <span style="font-size:0.78em; font-weight:900; color:#15803d;">🕒 ${chain.trailheadTime || '-'}</span>
                         </div>
-                        <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3;">${chain.trailheadAddress || 'תחילת המסלול'}</div>
+                        <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3; word-break:break-word;">${chain.trailheadAddress || 'תחילת המסלול'}</div>
                     </div>
                 </div>
             `;
@@ -8578,8 +8540,8 @@
 
                 <!-- Unified Active Trips List (Chronological) -->
                 <div id="custom-trips-section" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="font-weight: 900; color: #1e293b; font-size: 0.98em; display: flex; align-items: center; justify-content: space-between;">
-                        <span><i class="fa-solid fa-suitcase-rolling" style="color: #2563eb;"></i> הטיולים שלי:</span>
+                    <div style="font-weight: 900; color: #1e293b; font-size: 1em; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fa-solid fa-suitcase-rolling" style="color: #2563eb;"></i> המשך תכנון:</span>
                     </div>
                     <div id="custom-trips-modal-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
                 </div>
@@ -8591,12 +8553,9 @@
 
             </div>
 
-            <!-- Modal Footer -->
-            <div style="background: #f8fafc; padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                <button onclick="openNewTripModal()" style="background: #10b981; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    <i class="fa-solid fa-plus"></i> תכנון טיול חדש
-                </button>
-                <button onclick="closeTripSelectorModal()" style="background: #64748b; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.88em; font-weight: bold; cursor: pointer;">סגור</button>
+            <!-- Modal Footer (Clean: without duplicate 'תכנון טיול חדש') -->
+            <div style="background: #f8fafc; padding: 12px 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; align-items: center;">
+                <button onclick="closeTripSelectorModal()" style="background: #64748b; color: white; border: none; padding: 8px 20px; border-radius: 8px; font-size: 0.9em; font-weight: bold; cursor: pointer;">סגור</button>
             </div>
 
         </div>
