@@ -724,7 +724,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.8
+                גרסה 5.1.9
             </span>
         </div>
     </header>
@@ -1055,7 +1055,7 @@
                         <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                             <div style="font-size: 0.85em; color: #1e3a8a; font-weight: 800;">
                                 <i class="fa-brands fa-google-drive" style="color: #2563eb; font-size: 1.1em;"></i>
-                                <span>ספריית Google Drive פעילה: <b id="gdrive-active-folder-label">קוריאה</b> (3 תתי-ספריות)</span>
+                                <span>נתיב ב-Google Drive: <b id="gdrive-active-folder-label">TRAVEL / קוריאה</b> (3 תתי-ספריות)</span>
                                 <div id="gdrive-sync-status-line" style="font-size: 0.88em; color: #475569; font-weight: 700; margin-top: 2px;">מסנכרן מסמכים, תמונות, סרטונים ותיק מעובד ישירות לדרייב</div>
                             </div>
                             <button type="button" onclick="syncAllTripFoldersToGoogleDrive()" style="background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
@@ -1067,7 +1067,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
                             <span style="font-weight: 800; color: #1e293b; font-size: 0.92em;">📄 מסמכים שמורים בתיק:</span>
                             <span id="step2-folder-path-badge" style="font-size: 0.76em; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 6px; font-weight: 800;">
-                                📁 קוריאה / 1_מסמכים_וחומרי_גלם
+                                📁 TRAVEL / קוריאה / 1_מסמכים_וחומרי_גלם
                             </span>
                         </div>
                         <div id="custom-docs-list" style="margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
@@ -2177,21 +2177,18 @@
                     </button>
                 </div>
 
-                <!-- Direct Photo & Video Upload Button (Silent Automatic Cloud Sync Behind the Scenes) -->
-                <div onclick="connectCloudAndUploadPhoto()" class="cloud-upload-container" style="cursor: pointer; margin-bottom: 20px;">
-                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%); border: 2px solid #0284c7; border-radius: 22px; padding: 16px 14px; text-align: center; box-shadow: 0 6px 18px rgba(14, 165, 233, 0.22); transition: all 0.2s ease;">
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px;">
-                            <div style="background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25); flex-shrink: 0;">
-                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 24px; color: #0284c7;"></i>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-weight: 900; font-size: 1.12em; color: #0c4a6e;">העלה תמונה או סרטון ליומן המסע</div>
-                                <div style="font-size: 0.85em; color: #075985; font-weight: 700; margin-top: 2px;">גיבוי אוטומטי לענן ולתיקיית 2_תמונות_וסרטונים</div>
-                            </div>
-                        </div>
-                        <div id="cloud-sync-status" style="margin-top: 8px; font-size: 0.82em; color: #0f172a; font-weight: 800; background: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 20px; display: inline-block;">
-                            ☁️ גיבוי ענן אוטומטי פעיל ברקע (תמונות + סרטונים)
-                        </div>
+                <!-- Google Drive Real Sync Bar for Diary (TRAVEL / [Trip] / 2_תמונות_וסרטונים) -->
+                <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%); border: 2px solid #0284c7; border-radius: 18px; padding: 14px; margin-bottom: 18px; text-align: center; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.2);">
+                    <div style="font-weight: 900; font-size: 1em; color: #0c4a6e; margin-bottom: 4px;">
+                        <i class="fa-brands fa-google-drive"></i> יעד גיבוי ב-Google Drive: <span dir="ltr">TRAVEL / קוריאה / 2_תמונות_וסרטונים</span>
+                    </div>
+                    <div id="cloud-sync-status" style="margin: 6px 0 10px; font-size: 0.84em; color: #0f172a; font-weight: 800; background: rgba(255,255,255,0.92); padding: 5px 12px; border-radius: 20px; display: inline-block;">
+                        📱 התמונות והסרטונים נשמרים מיד במכשיר (למטה) – לחץ לסנכרון ל-Google Drive
+                    </div>
+                    <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                        <button type="button" onclick="syncDiaryMediaToGoogleDrive()" style="background: #2563eb; color: white; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 3px 8px rgba(37,99,235,0.3);">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> סנכרן תמונות וסרטונים ל-Google Drive
+                        </button>
                     </div>
                 </div>
 
@@ -4926,14 +4923,11 @@
                         entries.unshift(newEntry);
                         saveDiaryEntries(entries);
                         await renderDiaryFeed();
-                        const statusEl = document.getElementById('cloud-sync-status');
-                        if (statusEl) {
-                            statusEl.innerHTML = isOnline
-                                ? '☁️ הסרטון נשמר וגوبة לענן (2_תמונות_וסרטונים)'
-                                : '⚠️ הסרטון נשמר במכשיר – יגובה לענן בחידוש החיבור';
-                            statusEl.style.color = isOnline ? '#15803d' : '#b91c1c';
-                        }
-                        alert('הסרטון הועלה ונשמר בהצלחה ביומן המסע שלך!');
+                        await syncDiaryMediaToGoogleDrive(true);
+                        alert(gdriveAccessToken
+                            ? '✅ הסרטון נשמר ביומן המסע (למטה במסך) והועלה ל-Google Drive תחת TRAVEL / קוריאה / 2_תמונות_וסרטונים!'
+                            : '📱 הסרטון נשמר במכשיר (מופיע למטה תחת "הזיכרונות שנשמרו").
+כדי להעלות אותו גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
                     } catch (err) {
                         console.error('Video storage error:', err);
                         alert('שגיאה בשמירת הסרטון.');
@@ -4986,20 +4980,11 @@
                                     saveDiaryEntries(entries);
                                     renderDiaryFeed();
 
-                                    const statusEl = document.getElementById('cloud-sync-status');
-                                    if (!isOnline) {
-                                        if (statusEl) {
-                                            statusEl.innerHTML = '⚠️ יש בעיית התחברות לענן – יתאפשר להעלות בזמן אחר';
-                                            statusEl.style.color = '#b91c1c';
-                                        }
-                                        alert('התמונה נשמרה ביומן המסע שלך!');
-                                    } else {
-                                        if (statusEl) {
-                                            statusEl.innerHTML = '☁️ התמונה נשמרה וגובתה לענן (2_תמונות_וסרטונים)';
-                                            statusEl.style.color = '#15803d';
-                                        }
-                                        alert('התמונה הועלתה ונשמרה בהצלחה ביומן המסע שלך!');
-                                    }
+                                    syncDiaryMediaToGoogleDrive(true);
+                                    alert(gdriveAccessToken
+                                        ? '✅ התמונה נשמרה ביומן המסע (למטה במסך) והועלתה ל-Google Drive תחת TRAVEL / קוריאה / 2_תמונות_וסרטונים!'
+                                        : '📱 התמונה נשמרה במכשיר (מופיעה למטה תחת "הזיכרונות שנשמרו").
+כדי להעלות אותה גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
                                 } catch (err) {
                                     console.error('Storage error:', err);
                                     alert('הזיכרון המקומי מלא. מומלץ למחוק מספר פריטים ישנים.');
@@ -5088,8 +5073,8 @@
                         </div>
                         <p style="margin: 0 0 10px 0; color: #0f172a; font-weight: 900; font-size: 1em;">${item.note}</p>
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                            <span style="font-size:0.75em; color:#0369a1; background:#e0f2fe; padding:3px 8px; border-radius:6px; font-weight:800;">
-                                📁 2_תמונות_וסרטונים
+                            <span style="font-size:0.75em; color:${item.gdriveSynced ? '#15803d' : '#0369a1'}; background:${item.gdriveSynced ? '#dcfce7' : '#e0f2fe'}; padding:3px 8px; border-radius:6px; font-weight:800;">
+                                ${item.gdriveSynced ? '☁️ ב-Google Drive: TRAVEL/קוריאה/2_תמונות_וסרטונים' : '📱 שמור במכשיר (לחץ למעלה לסנכרון לדרייב)'}
                             </span>
                             <div style="display: flex; gap: 8px;">
                                 <button onclick="editDiaryCaption('${item.id}')" style="background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 800; cursor: pointer;">
@@ -7901,11 +7886,94 @@
         }
 
         async function ensureTripThreeFoldersInDrive(tripFolderName = 'קוריאה') {
-            const rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, null);
+            // 1. Root 'TRAVEL' folder in Google Drive for all trips
+            const travelMasterId = await gdriveGetOrCreateFolder('TRAVEL', null);
+            // 2. Trip folder inside 'TRAVEL' (e.g. 'קוריאה')
+            const rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, travelMasterId);
+            // 3. The 3 subfolders inside 'TRAVEL / קוריאה'
             const f1 = await gdriveGetOrCreateFolder('1_מסמכים_וחומרי_גלם', rootFolderId);
             const f2 = await gdriveGetOrCreateFolder('2_תמונות_וסרטונים', rootFolderId);
             const f3 = await gdriveGetOrCreateFolder('3_תיק_הטיול_ותוצר_מעובד', rootFolderId);
-            return { rootFolderId, f1, f2, f3 };
+            return { travelMasterId, rootFolderId, f1, f2, f3 };
+        }
+
+        async function syncDiaryMediaToGoogleDrive(silentIfNoToken = false) {
+            const statusEl = document.getElementById('cloud-sync-status');
+            try {
+                const entries = getDiaryEntries();
+                if (entries.length === 0) {
+                    if (!silentIfNoToken) alert('אין עדיין תמונות או סרטונים שמורים ביומן המסע לסנכרון.');
+                    return;
+                }
+                if (silentIfNoToken && !gdriveAccessToken) {
+                    if (statusEl) {
+                        statusEl.innerHTML = '📱 נשמר במכשיר (תחת "הזיכרונות שנשמרו" למטה). לחץ על הכפתור הכחול להעלאה ל-Google Drive.';
+                        statusEl.style.color = '#0369a1';
+                    }
+                    return;
+                }
+                if (statusEl) {
+                    statusEl.innerHTML = '⏳ מתחבר ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים)...';
+                    statusEl.style.color = '#1d4ed8';
+                }
+                const token = await ensureGoogleDriveToken();
+                if (!token) {
+                    if (statusEl) {
+                        statusEl.innerHTML = '📱 שמור במכשיר בלבד – לחץ על הכפתור הכחול לחיבור ל-Google Drive';
+                        statusEl.style.color = '#b45309';
+                    }
+                    return;
+                }
+
+                const tripName = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey].name : 'קוריאה';
+                const targetFolderName = (tripName.includes('קוריאה') || currentTripKey === 'korea') ? 'קוריאה' : tripName;
+                const folders = await ensureTripThreeFoldersInDrive(targetFolderName);
+
+                let uploaded = 0;
+                for (const item of entries) {
+                    let blob = null;
+                    if (item.mediaType === 'video' && item.hasIndexedDbBlob) {
+                        const db = await openDiaryMediaDB();
+                        if (db) {
+                            blob = await new Promise((res) => {
+                                const tx = db.transaction('media', 'readonly');
+                                const req = tx.objectStore('media').get(item.id);
+                                req.onsuccess = () => res(req.result ? req.result.blob : null);
+                                req.onerror = () => res(null);
+                            });
+                        }
+                    }
+                    if (!blob && item.image && item.image.startsWith('data:')) {
+                        const r = await fetch(item.image);
+                        blob = await r.blob();
+                    }
+                    if (blob) {
+                        const fn = item.fileName || (item.id + (item.mediaType === 'video' ? '.mp4' : '.jpg'));
+                        if (statusEl) statusEl.innerHTML = `☁️ מעלה ל-Google Drive (TRAVEL/${targetFolderName}/2_תמונות_וסרטונים): ${fn}...`;
+                        await gdriveUploadBlob(blob, fn, folders.f2, item.note || '');
+                        item.gdriveSynced = true;
+                        uploaded++;
+                    }
+                }
+                saveDiaryEntries(entries);
+                await renderDiaryFeed();
+
+                if (statusEl) {
+                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ונשמרו ב-Google Drive: TRAVEL / ${targetFolderName} / 2_תמונות_וסרטונים`;
+                    statusEl.style.color = '#15803d';
+                }
+                if (!silentIfNoToken) {
+                    alert(`✅ הסנכרון הושלם!
+${uploaded} תמונות/סרטונים הועלו לספריית:
+TRAVEL / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
+                }
+            } catch (err) {
+                console.error('Diary Google Drive sync error:', err);
+                if (statusEl) {
+                    statusEl.innerHTML = '⚠️ הפריט שמור במכשיר. לחץ שוב על הכפתור הכחול לחיבור ל-Google Drive.';
+                    statusEl.style.color = '#b91c1c';
+                }
+            }
         }
 
         async function syncAllTripFoldersToGoogleDrive() {
