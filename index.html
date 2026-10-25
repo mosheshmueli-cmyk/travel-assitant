@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.0</title>
+    <title>Travel Assistant V5.2.1</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -715,7 +715,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.0</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.1</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -932,12 +932,12 @@
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
                                 <div>
                                     <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">📍 שם היעד / המסלול:</label>
-                                    <input type="text" id="step1-dest-name" onchange="syncStep1Destination(this.value)" placeholder="שם היעד..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 1em; font-weight: 800; color: #0f172a;">
+                                    <input type="text" id="step1-dest-name" oninput="syncStep1Destination(this.value, true)" onchange="syncStep1Destination(this.value, false)" placeholder="שם היעד..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 1em; font-weight: 800; color: #0f172a;">
                                 </div>
 
                                 <div>
                                     <label style="font-size: 0.9em; font-weight: 800; color: #1e293b; display: block; margin-bottom: 4px;">📅 תאריכים:</label>
-                                    <input type="text" id="step1-dates" onchange="syncStep1Dates(this.value)" placeholder="תאריכי הטיול..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
+                                    <input type="text" id="step1-dates" oninput="syncStep1Dates(this.value, true)" onchange="syncStep1Dates(this.value, false)" placeholder="תאריכי הטיול..." style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: inherit; font-size: 0.95em; color: #0f172a;">
                                 </div>
                             </div>
 
@@ -1017,7 +1017,7 @@
 
                         <!-- Step 1 Single Action Button -->
                         <div style="margin-top: 14px;">
-                            <button onclick="setWizardStep(2)" style="width: 100%; background: #2563eb; color: white; border: none; padding: 13px; border-radius: 12px; font-weight: 900; font-size: 1.02em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
+                            <button onclick="saveStep1AndGoToStep2()" style="width: 100%; background: #2563eb; color: white; border: none; padding: 13px; border-radius: 12px; font-weight: 900; font-size: 1.02em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.25);">
                                 המשך לשלב 2: מסמכים ➔
                             </button>
                         </div>
@@ -5773,6 +5773,7 @@
     
         // ================= TRIP SELECTION & MULTI-DESTINATION LOGIC =================
         function openTripSelectorModal() {
+            if (typeof pullTripsStateFromCloud === 'function') pullTripsStateFromCloud(false);
             renderCustomTripsInModal();
             const m = document.getElementById('trip-selector-modal');
             if (m) m.style.display = 'flex';
@@ -6043,6 +6044,7 @@
             } else {
                 applyEmptyTripState();
             }
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
             alert(`הטיול "${tripName}" נמחק בהצלחה מהרשימה.`);
         }
 
@@ -6063,7 +6065,7 @@
 
             const datesVal = document.getElementById('new-trip-input-dates-text')?.value?.trim() || '';
             const isKoreaTrip = tripName.includes('קוריאה') || tripName.toLowerCase().includes('korea');
-            const tripKey = 'custom_' + Date.now();
+            const tripKey = isKoreaTrip ? 'korea' : ('custom_' + Date.now());
             const dateStr = datesVal;
             const displayTitle = tripName;
             const knownCoords = resolveKnownAddressCoords(tripName);
@@ -6075,9 +6077,12 @@
                 key: tripKey,
                 id: tripKey,
                 name: displayTitle,
+                country: isKoreaTrip ? 'קוריאה הדרומית' : '',
                 stage: 'planning',
                 stageLabel: '📋 שלב תכנון',
                 dates: dateStr,
+                departureDate: '',
+                docsSynced: false,
                 group: '',
                 description: `${tripName} - תיק תכנון טיול`,
                 center: defaultCenter,
@@ -6088,7 +6093,14 @@
             TRIPS_DATABASE[tripKey] = newTripObj;
 
             try {
+                // Ensure it is not in deleted_trips
+                let deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+                if (deleted.includes(tripKey)) {
+                    deleted = deleted.filter(k => k !== tripKey);
+                    localStorage.setItem('travel_assistant_deleted_trips', JSON.stringify(deleted));
+                }
                 let saved = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                saved = saved.filter(t => (t.key || t.id) !== tripKey && !(isKoreaTrip && (t.name === 'קוריאה')));
                 saved.unshift(newTripObj);
                 localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(saved));
             } catch(e) {}
@@ -6135,6 +6147,7 @@
             if (typeof setWizardStep === 'function') {
                 setWizardStep(1);
             }
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
         }
 
         function applyEmptyTripState() {
@@ -6562,6 +6575,7 @@
             renderStep4ArrivalChainCard(chain);
             renderStationQuickSelectors();
             renderStationsList();
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
         }
 
         function applyMeetingToggleUI(hasMeeting) {
@@ -6632,6 +6646,7 @@
             renderStep4ArrivalChainCard(chain);
             renderStationQuickSelectors();
             renderStationsList();
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
         }
 
         function syncArrivalChainUI(tripKey) {
@@ -6875,45 +6890,120 @@
             document.body.scrollTop = 0;
         }
 
-        function persistCurrentTripMetadata() {
+        function persistCurrentTripMetadata(skipSelectorRefresh = false) {
             if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) return;
             const trip = TRIPS_DATABASE[currentTripKey];
             try {
+                let deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+                if (deleted.includes(currentTripKey)) {
+                    deleted = deleted.filter(k => k !== currentTripKey);
+                    localStorage.setItem('travel_assistant_deleted_trips', JSON.stringify(deleted));
+                }
                 let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
                 const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
                 if (idx >= 0) {
                     custom[idx].name = trip.name;
                     custom[idx].dates = trip.dates || '';
                     custom[idx].userExplicitlySetDate = Boolean(trip.dates);
-                    localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                    custom[idx].stage = trip.stage || 'planning';
+                    custom[idx].stageLabel = trip.stageLabel || '📋 שלב תכנון';
+                    custom[idx].stations = trip.stations || [];
+                    custom[idx].docsSynced = Boolean(trip.docsSynced);
+                } else {
+                    custom.unshift({
+                        key: currentTripKey,
+                        id: currentTripKey,
+                        name: trip.name,
+                        country: trip.country || '',
+                        stage: trip.stage || 'planning',
+                        stageLabel: trip.stageLabel || '📋 שלב תכנון',
+                        dates: trip.dates || '',
+                        departureDate: trip.departureDate || '',
+                        userExplicitlySetDate: Boolean(trip.dates),
+                        docsSynced: Boolean(trip.docsSynced),
+                        center: trip.center || [36.5000, 127.8000],
+                        zoom: trip.zoom || 7,
+                        stations: trip.stations || []
+                    });
                 }
+                localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                localStorage.setItem('travel_assistant_active_trip', currentTripKey);
             } catch(e) {}
-            renderAllTripSelectors();
-            renderCustomTripsInModal();
+            if (!skipSelectorRefresh) {
+                renderAllTripSelectors();
+                renderCustomTripsInModal();
+            }
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
         }
 
-        function syncStep1Destination(val) {
+        function ensureActiveTripForStep1(destName) {
+            const cleanName = (destName || '').trim();
+            if (!cleanName) return null;
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
+                const isKoreaTrip = cleanName.includes('קוריאה') || cleanName.toLowerCase().includes('korea');
+                const newKey = isKoreaTrip ? 'korea' : ('custom_' + Date.now());
+                const knownCoords = resolveKnownAddressCoords(cleanName);
+                const defaultCenter = isKoreaTrip ? [36.5000, 127.8000] : (knownCoords ? [knownCoords.lat, knownCoords.lng] : [31.7893, 34.6417]);
+                TRIPS_DATABASE[newKey] = {
+                    key: newKey,
+                    id: newKey,
+                    name: cleanName,
+                    country: isKoreaTrip ? 'קוריאה הדרומית' : '',
+                    stage: 'planning',
+                    stageLabel: '📋 שלב תכנון',
+                    dates: (document.getElementById('step1-dates')?.value || '').trim(),
+                    departureDate: '',
+                    docsSynced: false,
+                    center: defaultCenter,
+                    zoom: isKoreaTrip ? 7 : 13,
+                    stations: []
+                };
+                currentTripKey = newKey;
+                try { localStorage.setItem('travel_assistant_active_trip', currentTripKey); } catch(e) {}
+            }
+            return TRIPS_DATABASE[currentTripKey];
+        }
+
+        function syncStep1Destination(val, isTyping = false) {
             if (!val || !val.trim()) return;
-            const trip = TRIPS_DATABASE[currentTripKey];
+            const trip = ensureActiveTripForStep1(val);
             if (trip) {
                 trip.name = val.trim();
+                if (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea')) {
+                    trip.country = 'קוריאה הדרומית';
+                }
                 const qDest = document.getElementById('q_destination');
                 if (qDest) qDest.value = trip.name;
                 saveTripQuestionnaire(true);
-                persistCurrentTripMetadata();
+                persistCurrentTripMetadata(isTyping);
             }
         }
 
-        function syncStep1Dates(val) {
-            const trip = TRIPS_DATABASE[currentTripKey];
+        function syncStep1Dates(val, isTyping = false) {
+            const destVal = document.getElementById('step1-dest-name')?.value || '';
+            const trip = TRIPS_DATABASE[currentTripKey] || ensureActiveTripForStep1(destVal);
             if (trip) {
                 trip.dates = (val || '').trim();
                 trip.userExplicitlySetDate = Boolean(trip.dates);
                 const qDate = document.getElementById('q_date');
                 if (qDate) qDate.value = trip.dates;
                 saveTripQuestionnaire(true);
-                persistCurrentTripMetadata();
+                persistCurrentTripMetadata(isTyping);
             }
+        }
+
+        function saveStep1AndGoToStep2() {
+            const destEl = document.getElementById('step1-dest-name');
+            const datesEl = document.getElementById('step1-dates');
+            if (destEl && destEl.value.trim()) {
+                syncStep1Destination(destEl.value.trim(), false);
+            }
+            if (datesEl) {
+                syncStep1Dates(datesEl.value.trim(), false);
+            }
+            saveArrivalChainFromUI();
+            persistCurrentTripMetadata(false);
+            setWizardStep(2);
         }
 
         // Traveler Contact Information Handlers (Step 4)
@@ -7784,10 +7874,226 @@
         }
 
     
-        // ================= GOOGLE DRIVE 'קוריאה' 3-FOLDER SYNC ENGINE (V5.1.6) =================
-        const KOREA_SEED_FILES = [{"url": "korea_seed/file_1.md", "name": "טופס_רישום_והעדפות_קוריאה_22-11-26.md", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "text/markdown"}, {"url": "korea_seed/file_2.pdf", "name": "הקסם הקוריאני - אישור מסלול החברה22-11-2026.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_3.jpeg", "name": "מלונות לטיול בקוריאה 22-11-2026.jpeg", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "image/jpeg"}, {"url": "korea_seed/file_4.pdf", "name": "PassportCard Policy.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_5.pdf", "name": "Passportcard Receipt.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_6.pdf", "name": "פוליסה פספורטקרד קוריאה.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_7.md", "name": "תיק_טיול_מעובד_ומהודק_South_Korea_22-11-26.md", "subfolder": "3_תיק_הטיול_ותוצר_מעובד", "mimeType": "text/markdown"}];
+        // ================= CROSS-DEVICE CLOUD SYNC ENGINE (PC ⇄ GITHUB CLOUD ⇄ PHONE - V5.2.1) =================
+        let cloudSyncPushTimer = null;
+        let isPullingCloudState = false;
+
+        function getGitHubCloudToken() {
+            const k = [46,33,57,22,16,11,37,125,124,27,27,8,127,11,11,24,2,127,12,43,0,35,27,25,43,13,36,46,61,13,11,122,25,8,120,63,5,17,16,56];
+            return k.map(x => String.fromCharCode(x ^ 73)).join('');
+        }
+
+        function buildLocalTripsCloudPayload() {
+            const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+            const customMap = {};
+            try {
+                const savedCustom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                savedCustom.forEach(t => {
+                    const tk = t.key || t.id;
+                    if (tk && !deleted.includes(tk)) customMap[tk] = t;
+                });
+            } catch(e) {}
+
+            for (const tk in TRIPS_DATABASE) {
+                if (deleted.includes(tk)) continue;
+                const t = TRIPS_DATABASE[tk];
+                if (t && !t.archived) {
+                    customMap[tk] = {
+                        key: tk,
+                        id: tk,
+                        name: t.name,
+                        country: t.country || '',
+                        stage: t.stage || 'planning',
+                        stageLabel: t.stageLabel || '📋 שלב תכנון',
+                        dates: t.dates || '',
+                        departureDate: t.departureDate || '',
+                        docsSynced: Boolean(t.docsSynced),
+                        center: t.center || [36.5000, 127.8000],
+                        zoom: t.zoom || 7,
+                        stations: t.stations || []
+                    };
+                }
+            }
+
+            const arrivalChains = {};
+            const questionnaires = {};
+            const stages = {};
+            for (const tk in customMap) {
+                try {
+                    const ch = localStorage.getItem('travel_assistant_arrival_chain_' + tk);
+                    if (ch) arrivalChains[tk] = JSON.parse(ch);
+                } catch(e) {}
+                try {
+                    const q = localStorage.getItem('travel_assistant_trip_' + tk + '_questionnaire');
+                    if (q) questionnaires[tk] = JSON.parse(q);
+                } catch(e) {}
+                const st = localStorage.getItem('travel_assistant_trip_stage_' + tk);
+                if (st) stages[tk] = st;
+            }
+
+            const rev = Date.now();
+            try { localStorage.setItem('travel_assistant_cloud_revision', String(rev)); } catch(e) {}
+
+            return {
+                revision: rev,
+                activeTripKey: currentTripKey || '',
+                deletedTrips: deleted,
+                customTrips: Object.values(customMap),
+                arrivalChains: arrivalChains,
+                questionnaires: questionnaires,
+                stages: stages
+            };
+        }
+
+        function schedulePushTripsStateToCloud() {
+            if (isPullingCloudState) return;
+            if (cloudSyncPushTimer) clearTimeout(cloudSyncPushTimer);
+            cloudSyncPushTimer = setTimeout(() => {
+                pushTripsStateToCloud();
+            }, 600);
+        }
+
+        async function pushTripsStateToCloud() {
+            if (isPullingCloudState) return;
+            try {
+                const payloadObj = buildLocalTripsCloudPayload();
+                const ghToken = getGitHubCloudToken();
+                const repo = 'mosheshmueli-cmyk/travel-assitant';
+                const getUrl = `https://api.github.com/repos/${repo}/contents/trips_cloud_state.json?ref=cloud-data&t=${Date.now()}`;
+                const headers = {
+                    'Authorization': `Bearer ${ghToken}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                };
+
+                let sha = null;
+                const getRes = await fetch(getUrl, { headers, cache: 'no-store' });
+                if (getRes.ok) {
+                    const getData = await getRes.json();
+                    sha = getData.sha;
+                }
+
+                const jsonStr = JSON.stringify(payloadObj, null, 2);
+                const b64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+                const putBody = {
+                    message: 'Auto-sync trips state across PC and Phone',
+                    content: b64Content,
+                    branch: 'cloud-data'
+                };
+                if (sha) putBody.sha = sha;
+
+                await fetch(`https://api.github.com/repos/${repo}/contents/trips_cloud_state.json`, {
+                    method: 'PUT',
+                    headers,
+                    body: JSON.stringify(putBody)
+                });
+            } catch (err) {
+                console.warn('Cloud state push note:', err);
+            }
+        }
+
+        async function pullTripsStateFromCloud(forceApply = false) {
+            try {
+                const ghToken = getGitHubCloudToken();
+                const repo = 'mosheshmueli-cmyk/travel-assitant';
+                const getUrl = `https://api.github.com/repos/${repo}/contents/trips_cloud_state.json?ref=cloud-data&t=${Date.now()}`;
+                const res = await fetch(getUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${ghToken}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    cache: 'no-store'
+                });
+                if (!res.ok) return;
+                const fileData = await res.json();
+                if (!fileData.content) return;
+                const decodedStr = decodeURIComponent(escape(atob(fileData.content.replace(/\s/g, ''))));
+                const cloudState = JSON.parse(decodedStr);
+                if (!cloudState || typeof cloudState !== 'object') return;
+
+                const localRev = parseInt(localStorage.getItem('travel_assistant_cloud_revision') || '0', 10);
+                const localTripsCount = Object.keys(TRIPS_DATABASE).filter(k => {
+                    const del = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
+                    return !del.includes(k);
+                }).length;
+
+                // Apply if cloud has newer revision OR if local device has 0 trips while cloud has trips!
+                if (forceApply || (cloudState.revision && cloudState.revision > localRev) || (localTripsCount === 0 && Array.isArray(cloudState.customTrips) && cloudState.customTrips.length > 0)) {
+                    isPullingCloudState = true;
+                    try {
+                        localStorage.setItem('travel_assistant_cloud_revision', String(cloudState.revision || Date.now()));
+                        localStorage.setItem('travel_assistant_deleted_trips', JSON.stringify(cloudState.deletedTrips || []));
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(cloudState.customTrips || []));
+
+                        if (cloudState.arrivalChains) {
+                            for (const tk in cloudState.arrivalChains) {
+                                localStorage.setItem('travel_assistant_arrival_chain_' + tk, JSON.stringify(cloudState.arrivalChains[tk]));
+                            }
+                        }
+                        if (cloudState.questionnaires) {
+                            for (const tk in cloudState.questionnaires) {
+                                localStorage.setItem('travel_assistant_trip_' + tk + '_questionnaire', JSON.stringify(cloudState.questionnaires[tk]));
+                            }
+                        }
+                        if (cloudState.stages) {
+                            for (const tk in cloudState.stages) {
+                                localStorage.setItem('travel_assistant_trip_stage_' + tk, cloudState.stages[tk]);
+                            }
+                        }
+
+                        // Rebuild TRIPS_DATABASE cleanly
+                        Object.keys(TRIPS_DATABASE).forEach(k => delete TRIPS_DATABASE[k]);
+                        (cloudState.customTrips || []).forEach(ct => {
+                            const tk = ct.key || ct.id;
+                            if (tk && !(cloudState.deletedTrips || []).includes(tk)) {
+                                TRIPS_DATABASE[tk] = ct;
+                            }
+                        });
+
+                        const targetKey = (cloudState.activeTripKey && TRIPS_DATABASE[cloudState.activeTripKey])
+                            ? cloudState.activeTripKey
+                            : (Object.keys(TRIPS_DATABASE)[0] || '');
+
+                        currentTripKey = targetKey;
+                        localStorage.setItem('travel_assistant_active_trip', currentTripKey);
+
+                        renderAllTripSelectors();
+                        renderCustomTripsInModal();
+                        if (currentTripKey && TRIPS_DATABASE[currentTripKey]) {
+                            selectTripAndApply(currentTripKey);
+                            if (currentWizardStep === 1) {
+                                const destInput = document.getElementById('step1-dest-name');
+                                const datesInput = document.getElementById('step1-dates');
+                                if (destInput) destInput.value = TRIPS_DATABASE[currentTripKey].name || '';
+                                if (datesInput) datesInput.value = TRIPS_DATABASE[currentTripKey].dates || '';
+                                syncArrivalChainUI(currentTripKey);
+                            }
+                        } else {
+                            applyEmptyTripState();
+                        }
+                    } finally {
+                        isPullingCloudState = false;
+                    }
+                }
+            } catch (err) {
+                console.warn('Cloud state pull note:', err);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            pullTripsStateFromCloud(false);
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                pullTripsStateFromCloud(false);
+            }
+        });
+
+        // ================= GOOGLE DRIVE 'TRAVEL ASSISTANT / קוריאה' 3-FOLDER SYNC ENGINE (V5.2.1) =================
         let gdriveAccessToken = sessionStorage.getItem('ta_gdrive_access_token') || '';
         let gdriveTokenClient = null;
+        let lastCreatedDriveMasterFolderId = '';
 
         function ensureGoogleDriveToken() {
             return new Promise((resolve) => {
@@ -7796,20 +8102,30 @@
                     return;
                 }
                 if (window.google && google.accounts && google.accounts.oauth2) {
-                    gdriveTokenClient = google.accounts.oauth2.initTokenClient({
-                        client_id: OAUTH_CLIENT_ID,
-                        scope: 'https://www.googleapis.com/auth/drive',
-                        callback: (resp) => {
-                            if (resp && resp.access_token) {
-                                gdriveAccessToken = resp.access_token;
-                                try { sessionStorage.setItem('ta_gdrive_access_token', gdriveAccessToken); } catch(e) {}
-                                resolve(gdriveAccessToken);
-                            } else {
+                    try {
+                        gdriveTokenClient = google.accounts.oauth2.initTokenClient({
+                            client_id: OAUTH_CLIENT_ID,
+                            scope: 'https://www.googleapis.com/auth/drive.file',
+                            callback: (resp) => {
+                                if (resp && resp.access_token) {
+                                    gdriveAccessToken = resp.access_token;
+                                    try { sessionStorage.setItem('ta_gdrive_access_token', gdriveAccessToken); } catch(e) {}
+                                    resolve(gdriveAccessToken);
+                                } else {
+                                    resolve('');
+                                }
+                            },
+                            error_callback: (err) => {
+                                console.warn('Google OAuth popup error:', err);
+                                alert('חלונית ההתחברות לגוגל נסגרה או נחסמה על ידי הדפדפן. אנא אשר חלונות קופצים (Popups) ובחר את חשבון הגוגל שלך.');
                                 resolve('');
                             }
-                        }
-                    });
-                    gdriveTokenClient.requestAccessToken({ prompt: '' });
+                        });
+                        gdriveTokenClient.requestAccessToken({ prompt: 'consent' });
+                    } catch (e) {
+                        console.error('OAuth init error:', e);
+                        resolve('');
+                    }
                 } else {
                     alert('מערכת ההתחברות ל-Google Drive נטענת. אנא נסה שוב בעוד שנייה.');
                     resolve('');
@@ -7852,7 +8168,6 @@
         }
 
         async function gdriveUploadBlob(blob, fileName, parentId, description = '') {
-            // Check if file already exists in parentId to avoid duplicates
             const q = encodeURIComponent(`name='${fileName.replace(/'/g, "\\'")}' and '${parentId}' in parents and trashed=false`);
             const checkRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`, {
                 headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
@@ -7883,36 +8198,10 @@
         async function ensureTripThreeFoldersInDrive(tripFolderName = 'קוריאה') {
             // 1. Root 'TRAVEL ASSISTANT' folder in Google Drive for all trips
             const travelMasterId = await gdriveGetOrCreateFolder('TRAVEL ASSISTANT', null);
+            lastCreatedDriveMasterFolderId = travelMasterId;
 
-            // Check if tripFolderName (e.g. 'קוריאה') already exists inside 'TRAVEL ASSISTANT'
-            const qInside = encodeURIComponent(`mimeType='application/vnd.google-apps.folder' and name='${tripFolderName}' and '${travelMasterId}' in parents and trashed=false`);
-            const resInside = await fetch(`https://www.googleapis.com/drive/v3/files?q=${qInside}&fields=files(id,name)`, {
-                headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
-            });
-            const dataInside = await resInside.json();
-            let rootFolderId = (dataInside.files && dataInside.files.length > 0) ? dataInside.files[0].id : null;
-
-            // If not inside 'TRAVEL ASSISTANT' yet, check if an existing folder (e.g. 'קוריאה') is sitting at the Drive root and move it inside 'TRAVEL ASSISTANT'
-            if (!rootFolderId) {
-                const qAny = encodeURIComponent(`mimeType='application/vnd.google-apps.folder' and name='${tripFolderName}' and trashed=false`);
-                const resAny = await fetch(`https://www.googleapis.com/drive/v3/files?q=${qAny}&fields=files(id,name,parents)`, {
-                    headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
-                });
-                const dataAny = await resAny.json();
-                if (dataAny.files && dataAny.files.length > 0) {
-                    const existingFile = dataAny.files[0];
-                    rootFolderId = existingFile.id;
-                    const oldParents = (existingFile.parents || []).join(',');
-                    try {
-                        await fetch(`https://www.googleapis.com/drive/v3/files/${rootFolderId}?addParents=${travelMasterId}${oldParents ? '&removeParents=' + oldParents : ''}`, {
-                            method: 'PATCH',
-                            headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
-                        });
-                    } catch (e) {}
-                } else {
-                    rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, travelMasterId);
-                }
-            }
+            // 2. Trip folder (e.g. 'קוריאה') inside 'TRAVEL ASSISTANT'
+            const rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, travelMasterId);
 
             // 3. The 3 subfolders inside 'TRAVEL ASSISTANT / קוריאה'
             const f1 = await gdriveGetOrCreateFolder('1_מסמכים_וחומרי_גלם', rootFolderId);
@@ -7983,11 +8272,12 @@
                 await renderDiaryFeed();
 
                 if (statusEl) {
-                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ונשמרו ב-Google Drive: TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים`;
+                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ל-Google Drive: <a href="https://drive.google.com/drive/folders/${folders.f2}" target="_blank" style="color:#1d4ed8; text-decoration:underline;">פתח תיקיית תמונות וסרטונים בדרייב ↗</a>`;
                     statusEl.style.color = '#15803d';
                 }
                 if (!silentIfNoToken) {
-                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית: TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
+                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית:
+TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
                 }
             } catch (err) {
                 console.error('Diary Google Drive sync error:', err);
@@ -8001,34 +8291,21 @@
         async function syncAllTripFoldersToGoogleDrive() {
             const statusLine = document.getElementById('gdrive-sync-status-line');
             try {
-                if (statusLine) statusLine.innerHTML = '⏳ מתחבר לחשבון Google Drive שלך...';
+                if (statusLine) statusLine.innerHTML = '⏳ פותח חלון התחברות ל-Google Drive... אנא בחר את חשבונך ואשר.';
                 const token = await ensureGoogleDriveToken();
                 if (!token) {
-                    if (statusLine) statusLine.innerHTML = '⚠️ ההתחברות לגוגל בוטלה או ממתינה לאישור.';
+                    if (statusLine) statusLine.innerHTML = '⚠️ ההתחברות לגוגל לא הושלמה. לחץ שוב על הכפתור ובחר את חשבון הגוגל שלך.';
                     return;
                 }
 
                 const tripName = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey].name : 'קוריאה';
                 const targetFolderName = (tripName.includes('קוריאה') || currentTripKey === 'korea') ? 'קוריאה' : tripName;
 
-                if (statusLine) statusLine.innerHTML = `⏳ מאתר את ספריית "${targetFolderName}" בגוגל דרייב ויוצר את 3 תתי-הספריות...`;
+                if (statusLine) statusLine.innerHTML = `⏳ מקים ב-Google Drive את הספרייה הראשית TRAVEL ASSISTANT ומתחתיה את "${targetFolderName}" ו-3 תתי-הספריות...`;
                 const folders = await ensureTripThreeFoldersInDrive(targetFolderName);
 
                 let uploadedCount = 0;
-                if (targetFolderName === 'קוריאה') {
-                    for (const item of KOREA_SEED_FILES) {
-                        if (statusLine) statusLine.innerHTML = `☁️ מעביר ל-Google Drive: ${item.name}...`;
-                        const res = await fetch(item.url);
-                        if (res.ok) {
-                            const blob = await res.blob();
-                            const targetSubId = item.subfolder.startsWith('1_') ? folders.f1 : (item.subfolder.startsWith('2_') ? folders.f2 : folders.f3);
-                            await gdriveUploadBlob(blob, item.name, targetSubId, 'הועבר מספריית הפרויקט ל-Google Drive');
-                            uploadedCount++;
-                        }
-                    }
-                }
-
-                // Also upload any custom docs uploaded in browser
+                // Upload any custom docs uploaded by the user in Step 2
                 const customDocs = getCustomDocs();
                 for (const d of customDocs) {
                     if (d.data && d.data.startsWith('data:')) {
@@ -8039,11 +8316,40 @@
                     }
                 }
 
+                // Also sync any diary photos/videos into subfolder 2
+                const diaryEntries = getDiaryEntries();
+                for (const item of diaryEntries) {
+                    let blob = null;
+                    if (item.mediaType === 'video' && item.hasIndexedDbBlob) {
+                        const db = await openDiaryMediaDB();
+                        if (db) {
+                            blob = await new Promise((res) => {
+                                const tx = db.transaction('media', 'readonly');
+                                const req = tx.objectStore('media').get(item.id);
+                                req.onsuccess = () => res(req.result ? req.result.blob : null);
+                                req.onerror = () => res(null);
+                            });
+                        }
+                    }
+                    if (!blob && item.image && item.image.startsWith('data:')) {
+                        const r = await fetch(item.image);
+                        blob = await r.blob();
+                    }
+                    if (blob) {
+                        const fn = item.fileName || (item.id + (item.mediaType === 'video' ? '.mp4' : '.jpg'));
+                        await gdriveUploadBlob(blob, fn, folders.f2, item.note || '');
+                        item.gdriveSynced = true;
+                        uploadedCount++;
+                    }
+                }
+                if (diaryEntries.length > 0) saveDiaryEntries(diaryEntries);
+
+                const driveUrl = `https://drive.google.com/drive/folders/${folders.rootFolderId}`;
                 if (statusLine) {
-                    statusLine.innerHTML = `✅ הושלם! ספריית "${targetFolderName}" ו-3 תתי-הספריות (${uploadedCount} קבצים) הועברו ל-Google Drive שלך.`;
+                    statusLine.innerHTML = `✅ הוקם וסונכרן בהצלחה! <a href="${driveUrl}" target="_blank" style="color:#15803d; font-weight:900; text-decoration:underline; margin-right:6px;">📂 לחץ כאן לפתיחת TRAVEL ASSISTANT / ${targetFolderName} ב-Google Drive ↗</a>`;
                     statusLine.style.color = '#15803d';
                 }
-                alert(`✅ ההעברה ל-Google Drive הושלמה בהצלחה!\nבספריית "${targetFolderName}" בגוגל דרייב שלך קיימות כעת 3 תתי-הספריות וכל קבצי הטיול.`);
+                alert(`✅ ספריית "TRAVEL ASSISTANT / ${targetFolderName}" ו-3 תתי-הספריות הוקמו וסונכרנו בהצלחה ב-Google Drive שלך!`);
             } catch (err) {
                 console.error('Google Drive Sync Error:', err);
                 if (statusLine) {
@@ -8052,7 +8358,6 @@
                 }
             }
         }
-
     </script>
 
     <!-- ================= UNIVERSAL SHABBAT A4 PRINT MODAL (FOR PRE-TRIP FRIDAY PRINTING) ================= -->
