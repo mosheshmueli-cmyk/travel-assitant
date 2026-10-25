@@ -1,5 +1,5 @@
 {
-  "revision": 1792941763076,
+  "revision": 1792943812053,
   "activeTripKey": "korea",
   "deletedTrips": [],
   "customTrips": [
@@ -27,7 +27,7 @@
       "originTime": "",
       "originLat": 31.7893,
       "originLng": 34.6417,
-      "hasMeetingPoint": false,
+      "hasMeetingPoint": true,
       "meetingAddress": "",
       "meetingTime": "",
       "meetingLat": 36.5,
