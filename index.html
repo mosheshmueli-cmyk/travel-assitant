@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.1</title>
+    <title>Travel Assistant V5.2.2</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -715,7 +715,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.1</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.2</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -8090,14 +8090,13 @@
             }
         });
 
-        // ================= GOOGLE DRIVE 'TRAVEL ASSISTANT / קוריאה' 3-FOLDER SYNC ENGINE (V5.2.1) =================
-        let gdriveAccessToken = sessionStorage.getItem('ta_gdrive_access_token') || '';
+        // ================= GOOGLE DRIVE 'TRAVEL ASSISTANT / קוריאה' 3-FOLDER SYNC ENGINE (V5.2.2) =================
+        let gdriveAccessToken = '';
         let gdriveTokenClient = null;
-        let lastCreatedDriveMasterFolderId = '';
 
-        function ensureGoogleDriveToken() {
+        function ensureGoogleDriveToken(forceConsent = false) {
             return new Promise((resolve) => {
-                if (gdriveAccessToken) {
+                if (gdriveAccessToken && !forceConsent) {
                     resolve(gdriveAccessToken);
                     return;
                 }
@@ -8108,8 +8107,12 @@
                             scope: 'https://www.googleapis.com/auth/drive.file',
                             callback: (resp) => {
                                 if (resp && resp.access_token) {
+                                    if (google.accounts.oauth2.hasGrantedAnyScope && !google.accounts.oauth2.hasGrantedAnyScope(resp, 'https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive')) {
+                                        alert('⚠️ שים לב: בחלון של גוגל חובה לסמן וי (✓) בתיבת ההרשאה ל-Google Drive לפני שלוחצים על "המשך" (Continue). אנא לחץ שוב וסמן את התיבה.');
+                                        resolve('');
+                                        return;
+                                    }
                                     gdriveAccessToken = resp.access_token;
-                                    try { sessionStorage.setItem('ta_gdrive_access_token', gdriveAccessToken); } catch(e) {}
                                     resolve(gdriveAccessToken);
                                 } else {
                                     resolve('');
@@ -8117,7 +8120,6 @@
                             },
                             error_callback: (err) => {
                                 console.warn('Google OAuth popup error:', err);
-                                alert('חלונית ההתחברות לגוגל נסגרה או נחסמה על ידי הדפדפן. אנא אשר חלונות קופצים (Popups) ובחר את חשבון הגוגל שלך.');
                                 resolve('');
                             }
                         });
@@ -8139,12 +8141,12 @@
             const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`, {
                 headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
             });
-            if (searchRes.status === 401) {
-                gdriveAccessToken = '';
-                sessionStorage.removeItem('ta_gdrive_access_token');
-                throw new Error('AUTH_EXPIRED');
-            }
             const searchData = await searchRes.json();
+            if (!searchRes.ok) {
+                const errMsg = (searchData && searchData.error && searchData.error.message) ? searchData.error.message : `HTTP ${searchRes.status}`;
+                gdriveAccessToken = '';
+                throw new Error(errMsg);
+            }
             if (searchData.files && searchData.files.length > 0) {
                 return searchData.files[0].id;
             }
@@ -8164,6 +8166,11 @@
                 body: JSON.stringify(meta)
             });
             const createData = await createRes.json();
+            if (!createRes.ok || !createData.id) {
+                const errMsg = (createData && createData.error && createData.error.message) ? createData.error.message : `HTTP ${createRes.status}`;
+                gdriveAccessToken = '';
+                throw new Error(errMsg);
+            }
             return createData.id;
         }
 
@@ -8173,7 +8180,7 @@
                 headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
             });
             const checkData = await checkRes.json();
-            if (checkData.files && checkData.files.length > 0) {
+            if (checkRes.ok && checkData.files && checkData.files.length > 0) {
                 return checkData.files[0].id;
             }
 
@@ -8192,18 +8199,16 @@
                 body: form
             });
             const upData = await upRes.json();
+            if (!upRes.ok || !upData.id) {
+                const errMsg = (upData && upData.error && upData.error.message) ? upData.error.message : `HTTP ${upRes.status}`;
+                throw new Error(errMsg);
+            }
             return upData.id;
         }
 
         async function ensureTripThreeFoldersInDrive(tripFolderName = 'קוריאה') {
-            // 1. Root 'TRAVEL ASSISTANT' folder in Google Drive for all trips
             const travelMasterId = await gdriveGetOrCreateFolder('TRAVEL ASSISTANT', null);
-            lastCreatedDriveMasterFolderId = travelMasterId;
-
-            // 2. Trip folder (e.g. 'קוריאה') inside 'TRAVEL ASSISTANT'
             const rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, travelMasterId);
-
-            // 3. The 3 subfolders inside 'TRAVEL ASSISTANT / קוריאה'
             const f1 = await gdriveGetOrCreateFolder('1_מסמכים_וחומרי_גלם', rootFolderId);
             const f2 = await gdriveGetOrCreateFolder('2_תמונות_וסרטונים', rootFolderId);
             const f3 = await gdriveGetOrCreateFolder('3_תיק_הטיול_ותוצר_מעובד', rootFolderId);
@@ -8229,7 +8234,7 @@
                     statusEl.innerHTML = '⏳ מתחבר ל-Google Drive (תיקיית TRAVEL ASSISTANT / קוריאה / 2_תמונות_וסרטונים)...';
                     statusEl.style.color = '#1d4ed8';
                 }
-                const token = await ensureGoogleDriveToken();
+                const token = await ensureGoogleDriveToken(false);
                 if (!token) {
                     if (statusEl) {
                         statusEl.innerHTML = '📱 שמור במכשיר בלבד – לחץ על הכפתור הכחול לחיבור ל-Google Drive';
@@ -8272,18 +8277,21 @@
                 await renderDiaryFeed();
 
                 if (statusEl) {
-                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ל-Google Drive: <a href="https://drive.google.com/drive/folders/${folders.f2}" target="_blank" style="color:#1d4ed8; text-decoration:underline;">פתח תיקיית תמונות וסרטונים בדרייב ↗</a>`;
+                    statusEl.innerHTML = `✅ ${uploaded} תמונות/סרטונים סונכרנו ונשמרו ב-Google Drive: TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים`;
                     statusEl.style.color = '#15803d';
                 }
                 if (!silentIfNoToken) {
-                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית:
-TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
+                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית: TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
                 }
             } catch (err) {
                 console.error('Diary Google Drive sync error:', err);
                 if (statusEl) {
-                    statusEl.innerHTML = '⚠️ הפריט שמור במכשיר. לחץ שוב על הכפתור הכחול לחיבור ל-Google Drive.';
+                    statusEl.innerHTML = `⚠️ שגיאת גוגל דרייב: ${err.message || err}`;
                     statusEl.style.color = '#b91c1c';
+                }
+                if (!silentIfNoToken) {
+                    alert(`⚠️ שגיאת חיבור ל-Google Drive:
+${err.message || err}`);
                 }
             }
         }
@@ -8291,10 +8299,10 @@ TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Goog
         async function syncAllTripFoldersToGoogleDrive() {
             const statusLine = document.getElementById('gdrive-sync-status-line');
             try {
-                if (statusLine) statusLine.innerHTML = '⏳ פותח חלון התחברות ל-Google Drive... אנא בחר את חשבונך ואשר.';
-                const token = await ensureGoogleDriveToken();
+                if (statusLine) statusLine.innerHTML = '⏳ פותח חלון התחברות ל-Google Drive... (אנא סמן ✓ בתיבת ההרשאה בחלון של גוגל)';
+                const token = await ensureGoogleDriveToken(true);
                 if (!token) {
-                    if (statusLine) statusLine.innerHTML = '⚠️ ההתחברות לגוגל לא הושלמה. לחץ שוב על הכפתור ובחר את חשבון הגוגל שלך.';
+                    if (statusLine) statusLine.innerHTML = '⚠️ ההתחברות לגוגל לא הושלמה.';
                     return;
                 }
 
@@ -8305,7 +8313,6 @@ TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Goog
                 const folders = await ensureTripThreeFoldersInDrive(targetFolderName);
 
                 let uploadedCount = 0;
-                // Upload any custom docs uploaded by the user in Step 2
                 const customDocs = getCustomDocs();
                 for (const d of customDocs) {
                     if (d.data && d.data.startsWith('data:')) {
@@ -8316,46 +8323,19 @@ TRAVEL ASSISTANT / ${targetFolderName} / 2_תמונות_וסרטונים ב-Goog
                     }
                 }
 
-                // Also sync any diary photos/videos into subfolder 2
-                const diaryEntries = getDiaryEntries();
-                for (const item of diaryEntries) {
-                    let blob = null;
-                    if (item.mediaType === 'video' && item.hasIndexedDbBlob) {
-                        const db = await openDiaryMediaDB();
-                        if (db) {
-                            blob = await new Promise((res) => {
-                                const tx = db.transaction('media', 'readonly');
-                                const req = tx.objectStore('media').get(item.id);
-                                req.onsuccess = () => res(req.result ? req.result.blob : null);
-                                req.onerror = () => res(null);
-                            });
-                        }
-                    }
-                    if (!blob && item.image && item.image.startsWith('data:')) {
-                        const r = await fetch(item.image);
-                        blob = await r.blob();
-                    }
-                    if (blob) {
-                        const fn = item.fileName || (item.id + (item.mediaType === 'video' ? '.mp4' : '.jpg'));
-                        await gdriveUploadBlob(blob, fn, folders.f2, item.note || '');
-                        item.gdriveSynced = true;
-                        uploadedCount++;
-                    }
-                }
-                if (diaryEntries.length > 0) saveDiaryEntries(diaryEntries);
-
-                const driveUrl = `https://drive.google.com/drive/folders/${folders.rootFolderId}`;
                 if (statusLine) {
-                    statusLine.innerHTML = `✅ הוקם וסונכרן בהצלחה! <a href="${driveUrl}" target="_blank" style="color:#15803d; font-weight:900; text-decoration:underline; margin-right:6px;">📂 לחץ כאן לפתיחת TRAVEL ASSISTANT / ${targetFolderName} ב-Google Drive ↗</a>`;
+                    statusLine.innerHTML = `✅ הוקם וסונכרן ב-Google Drive: TRAVEL ASSISTANT / ${targetFolderName} (3 תתי-ספריות)`;
                     statusLine.style.color = '#15803d';
                 }
-                alert(`✅ ספריית "TRAVEL ASSISTANT / ${targetFolderName}" ו-3 תתי-הספריות הוקמו וסונכרנו בהצלחה ב-Google Drive שלך!`);
+                alert(`✅ ספריית "TRAVEL ASSISTANT / ${targetFolderName}" ו-3 תתי-הספריות הוקמו בהצלחה ב-Google Drive שלך!`);
             } catch (err) {
                 console.error('Google Drive Sync Error:', err);
                 if (statusLine) {
-                    statusLine.innerHTML = '⚠️ שגיאה בסנכרון מול Google Drive. לחץ שוב לחיבור מחדש.';
+                    statusLine.innerHTML = `⚠️ שגיאה מול Google Drive: ${err.message || err}`;
                     statusLine.style.color = '#b91c1c';
                 }
+                alert(`⚠️ שגיאה מ-Google Drive:
+${err.message || err}`);
             }
         }
     </script>
