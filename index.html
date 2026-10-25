@@ -723,7 +723,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.4
+                גרסה 5.1.5
             </span>
         </div>
     </header>
@@ -2347,13 +2347,13 @@
         const TRIPS_DATABASE = {
             korea: {
                 id: "korea",
-                name: "קוריאה הדרומית - אופיר טורס",
+                name: "קוריאה",
                 country: "קוריאה הדרומית",
                 stage: "planning",
-                stageLabel: "📋 שלב תכנון (גמיש לשינויים | כרטיסי טיסה נעולים)",
-                badge: "הטיול המרכזי (15 ימים, 42 מטיילים)",
-                departureDate: "2026-11-22",
-                dates: "22/11/2026 - 06/12/2026",
+                stageLabel: "📋 שלב תכנון",
+                badge: "",
+                departureDate: "",
+                dates: "",
                 flightLocked: true,
                 center: [36.5000, 127.8000],
                 zoom: 7,
@@ -2618,10 +2618,19 @@
                 });
 
                 const custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                let modifiedCustom = false;
                 custom.forEach(trip => {
                     const k = trip.key || trip.id;
+                    if (trip.dates === '22/11/2026 עד 06/12/2026' && !trip.userExplicitlySetDate) {
+                        trip.dates = '';
+                        trip.departureDate = '';
+                        modifiedCustom = true;
+                    }
                     if (k && !deleted.includes(k)) TRIPS_DATABASE[k] = trip;
                 });
+                if (modifiedCustom) {
+                    localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                }
             } catch(e) {}
 
             // Restore saved stages for system trips
@@ -3595,7 +3604,7 @@
                     character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התאמת דרגת הקושי ומשך המסלול)',
                     group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
                     duration: '15 ימים מלאים (כולל 2 שבתות)',
-                    date: '22-11-2026 עד 06-12-2026',
+                    date: TRIPS_DATABASE[currentTripKey]?.dates || '',
                     budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
                     activities: "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול.",
                     transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים, אוטובוס תיירים ממוזג צמוד. ללא התניידות ברכב בשבת.",
@@ -3826,7 +3835,7 @@
                         character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התאמת דרגת הקושי ומשך המסלול)',
                         group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
                         duration: '15 ימים מלאים (כולל 2 שבתות)',
-                        date: '22-11-2026 עד 06-12-2026',
+                        date: TRIPS_DATABASE[currentTripKey]?.dates || '',
                         budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
                         activities: "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול.",
                         transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים, אוטובוס תיירים ממוזג צמוד. ללא התניידות ברכב בשבת.",
@@ -5857,18 +5866,6 @@
                 input.value = name;
                 input.focus();
             }
-            const datesInput = document.getElementById('new-trip-input-dates-text');
-            if (name.includes('קוריאה') || name.toLowerCase().includes('korea')) {
-                if (datesInput) datesInput.value = '22/11/2026 עד 06/12/2026';
-            } else if (name.includes('שביל ישראל')) {
-                if (datesInput) datesInput.value = '28/10/2026';
-            } else if (name.includes('אשקלון')) {
-                if (datesInput) datesInput.value = 'מועד פתוח / גמיש';
-            } else if (name.includes('רומא') || name.includes('איטליה')) {
-                if (datesInput) datesInput.value = 'אביב / סתיו 2027';
-            } else if (name.includes('יפן')) {
-                if (datesInput) datesInput.value = 'עונת הפריחה (מרץ-אפריל)';
-            }
         }
 
         function renderCustomTripsInModal() {
@@ -5889,7 +5886,7 @@
                     key: key,
                     name: t.name,
                     departureDate: t.departureDate || '',
-                    dates: t.dates || t.badge || 'מועד גמיש',
+                    dates: t.dates || '',
                     group: t.group || '',
                     description: t.description || '',
                     stage: t.stage || 'planning',
@@ -5909,7 +5906,7 @@
                             key: k,
                             name: ct.name,
                             departureDate: ct.departureDate || '',
-                            dates: ct.dates || 'בתכנון',
+                            dates: ct.dates || '',
                             group: ct.group || 'קבוצה',
                             description: ct.description || 'תיק תכנון טיול',
                             stage: ct.stage || 'planning',
@@ -5942,7 +5939,7 @@
                     <div onclick="selectTripAndContinuePlanning('${tripKey}')" style="border: 2px solid ${isActive ? '#2563eb' : '#cbd5e1'}; background: ${isActive ? '#eff6ff' : '#ffffff'}; border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.04);">
                         <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1;">
                             <span style="font-weight: 900; font-size: 1.02em; color: #0f172a; line-height: 1.25;">${t.name}</span>
-                            <span style="color: #475569; font-size: 0.82em; font-weight: 700;">📅 ${t.dates}</span>
+                            ${t.dates ? `<span style="color: #475569; font-size: 0.82em; font-weight: 700;">📅 ${t.dates}</span>` : `<span style="color: #94a3b8; font-size: 0.78em; font-weight: 700;">טרם הוזנו תאריכים</span>`}
                         </div>
                         <button onclick="deleteCustomTrip('${tripKey}', event)" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 7px 10px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; flex-shrink: 0;" title="מחק תיק טיול">
                             <i class="fa-solid fa-trash"></i>
@@ -6042,7 +6039,7 @@
             const datesVal = document.getElementById('new-trip-input-dates-text')?.value?.trim() || '';
             const isKoreaTrip = tripName.includes('קוריאה') || tripName.toLowerCase().includes('korea');
             const tripKey = 'custom_' + Date.now();
-            const dateStr = datesVal || (isKoreaTrip ? '22/11/2026 עד 06/12/2026' : '');
+            const dateStr = datesVal;
             const displayTitle = tripName;
             const knownCoords = resolveKnownAddressCoords(tripName);
             const defaultCenter = isKoreaTrip ? [36.5000, 127.8000] : (knownCoords ? [knownCoords.lat, knownCoords.lng] : [31.7893, 34.6417]);
@@ -6890,6 +6887,23 @@
             document.body.scrollTop = 0;
         }
 
+        function persistCurrentTripMetadata() {
+            if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) return;
+            const trip = TRIPS_DATABASE[currentTripKey];
+            try {
+                let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
+                if (idx >= 0) {
+                    custom[idx].name = trip.name;
+                    custom[idx].dates = trip.dates || '';
+                    custom[idx].userExplicitlySetDate = Boolean(trip.dates);
+                    localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                }
+            } catch(e) {}
+            renderAllTripSelectors();
+            renderCustomTripsInModal();
+        }
+
         function syncStep1Destination(val) {
             if (!val || !val.trim()) return;
             const trip = TRIPS_DATABASE[currentTripKey];
@@ -6898,18 +6912,19 @@
                 const qDest = document.getElementById('q_destination');
                 if (qDest) qDest.value = trip.name;
                 saveTripQuestionnaire(true);
-                renderAllTripSelectors();
+                persistCurrentTripMetadata();
             }
         }
 
         function syncStep1Dates(val) {
-            if (!val || !val.trim()) return;
             const trip = TRIPS_DATABASE[currentTripKey];
             if (trip) {
-                trip.dates = val.trim();
+                trip.dates = (val || '').trim();
+                trip.userExplicitlySetDate = Boolean(trip.dates);
                 const qDate = document.getElementById('q_date');
                 if (qDate) qDate.value = trip.dates;
                 saveTripQuestionnaire(true);
+                persistCurrentTripMetadata();
             }
         }
 
