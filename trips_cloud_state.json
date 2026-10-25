@@ -1,0 +1,61 @@
+{
+  "revision": 1792939443155,
+  "activeTripKey": "korea",
+  "deletedTrips": [],
+  "customTrips": [
+    {
+      "key": "korea",
+      "id": "korea",
+      "name": "קוריאה",
+      "country": "קוריאה הדרומית",
+      "stage": "planning",
+      "stageLabel": "📋 שלב תכנון",
+      "badge": "",
+      "departureDate": "",
+      "dates": "",
+      "docsSynced": false,
+      "center": [
+        36.5,
+        127.8
+      ],
+      "zoom": 7,
+      "stations": []
+    }
+  ],
+  "arrivalChains": {
+    "korea": {
+      "originAddress": "רח' העצמאות 93, אשדוד",
+      "originTime": "",
+      "originLat": 31.7893,
+      "originLng": 34.6417,
+      "hasMeetingPoint": false,
+      "meetingAddress": "",
+      "meetingTime": "",
+      "meetingLat": 32.0055,
+      "meetingLng": 34.8854,
+      "trailheadAddress": "קוריאה",
+      "trailheadTime": "",
+      "trailheadLat": 37.5665,
+      "trailheadLng": 126.978
+    }
+  },
+  "questionnaires": {
+    "korea": {
+      "origin": "רח' העצמאות 93, אשדוד",
+      "destination": "קוריאה",
+      "character": "",
+      "group": "",
+      "duration": "",
+      "date": "",
+      "budget": "",
+      "activities": "",
+      "transit": "",
+      "hotels": "",
+      "food": "",
+      "constraints": ""
+    }
+  },
+  "stages": {
+    "korea": "planning"
+  }
+}
