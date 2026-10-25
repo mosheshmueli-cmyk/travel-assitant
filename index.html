@@ -724,7 +724,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.6
+                גרסה 5.1.7
             </span>
         </div>
     </header>
@@ -2625,6 +2625,23 @@
 
         function loadCustomTrips() {
             try {
+                // One-time clean slate migration (V5.1.7): remove old cached pre-filled Korea arrival chain, docs & questionnaire so nothing appears before user uploads docs
+                if (!localStorage.getItem('travel_assistant_v517_clean_slate')) {
+                    localStorage.removeItem('travel_assistant_arrival_chain_korea');
+                    localStorage.removeItem('travel_assistant_custom_docs_korea');
+                    localStorage.removeItem('travel_assistant_trip_korea_questionnaire');
+                    // Also clean any custom trip arrival chain that has the old '(יציאה מומלצת מהבית)' text
+                    for (let i = localStorage.length - 1; i >= 0; i--) {
+                        const lk = localStorage.key(i);
+                        if (lk && lk.startsWith('travel_assistant_arrival_chain_')) {
+                            const val = localStorage.getItem(lk) || '';
+                            if (val.includes('יציאה מומלצת') || val.includes('מפגש קבוצת אופיר טורס')) {
+                                localStorage.removeItem(lk);
+                            }
+                        }
+                    }
+                    localStorage.setItem('travel_assistant_v517_clean_slate', 'true');
+                }
                 const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
                 deleted.forEach(k => {
                     delete TRIPS_DATABASE[k];
@@ -2881,31 +2898,8 @@
             const k = tripKey !== undefined ? tripKey : currentTripKey;
             if (!k || !TRIPS_DATABASE[k]) return [];
             try {
-                let docs = JSON.parse(localStorage.getItem('travel_assistant_custom_docs_' + k));
-                if ((!docs || docs.length === 0) && k === 'korea') {
-                    docs = [
-                        {
-                            id: 'doc_korea_booklet',
-                            name: 'חוברת מסלול רשמית - הקסם הקוריאני 15 ימים (אופיר טורס)',
-                            category: 'organized',
-                            docType: 'חוברת מסלול סוכנות',
-                            time: '22/11/2026',
-                            fileName: 'ophir_tours_korea_official.pdf',
-                            data: '#'
-                        },
-                        {
-                            id: 'doc_korea_flights',
-                            name: 'כרטיסי טיסה קבוצתיים - אתיופיאן איירליינס (ET 419 / 672 / 673 / 418)',
-                            category: 'organized',
-                            docType: 'שובר סוכנות / כרטיסים',
-                            time: '22/11/2026',
-                            fileName: 'ethiopian_airlines_tickets.pdf',
-                            data: '#'
-                        }
-                    ];
-                    try { localStorage.setItem('travel_assistant_custom_docs_korea', JSON.stringify(docs)); } catch(e) {}
-                }
-                return docs || [];
+                const docs = JSON.parse(localStorage.getItem('travel_assistant_custom_docs_' + k));
+                return Array.isArray(docs) ? docs : [];
             } catch(e) {
                 return [];
             }
@@ -3841,22 +3835,7 @@
                     saved = JSON.parse(savedStr);
                 }
 
-                if (!saved && currentTripKey === 'korea') {
-                    saved = {
-                        origin: "רח' העצמאות 93, אשדוד / נתבג טרמינל 3",
-                        destination: 'קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)',
-                        character: '42 מטיילים (גמלאים ומבוגרים מעל 75, התאמת דרגת הקושי ומשך המסלול)',
-                        group: 'קבוצה של 42 מטיילים משלמים (גמלאים מעל גיל 75)',
-                        duration: '15 ימים מלאים (כולל 2 שבתות)',
-                        date: TRIPS_DATABASE[currentTripKey]?.dates || '',
-                        budget: '5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)',
-                        activities: "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול.",
-                        transit: "טיסות בינלאומיות אתיופיאן איירליינס (ET 419/672/673/418), 2 טיסות פנים, אוטובוס תיירים ממוזג צמוד. ללא התניידות ברכב בשבת.",
-                        hotels: "7 מלונות לאורך המסלול (קוקדו סיאול, צ'סטרטונס סוקצ'ו, צ'ונגפונג לייק, דאייגו גראנד, קראון הארבור בוסאן, וויסל לארק ג'ג'ו).",
-                        food: "איתור מזון ומסעדות כשרות וטבעוניות, סריקת ברקודים, סעודות שבת מוסדרות.",
-                        constraints: "2 שבתות מלאות במסלול (שבת 1 בדאייגו | שבת 2 בסיאול). התאמה לגמלאים מעל גיל 75."
-                    };
-                }
+                
 
                 if (saved) {
                     if (document.getElementById('q_origin')) document.getElementById('q_origin').value = saved.origin || "רח' העצמאות 93, אשדוד";
@@ -6356,51 +6335,18 @@
         }
 
         function getDefaultArrivalChain(tripKey) {
-            const k = tripKey !== undefined ? tripKey : currentTripKey;
-            if (!k || !TRIPS_DATABASE[k]) {
-                return {
-                    originAddress: "רח' העצמאות 93, אשדוד",
-                    originTime: "",
-                    originLat: 31.7893,
-                    originLng: 34.6417,
-                    hasMeetingPoint: false,
-                    meetingAddress: "",
-                    meetingTime: "",
-                    meetingLat: 31.7893,
-                    meetingLng: 34.6417,
-                    trailheadAddress: "",
-                    trailheadTime: ""
-                };
-            }
-            const st0 = (TRIPS_DATABASE[k] && TRIPS_DATABASE[k].stations && TRIPS_DATABASE[k].stations[0]) ? TRIPS_DATABASE[k].stations[0] : null;
-
-            if (k === 'korea') {
-                return {
-                    originAddress: "רח' העצמאות 93, אשדוד",
-                    originTime: '10:30',
-                    originLat: 31.7893,
-                    originLng: 34.6417,
-                    hasMeetingPoint: true,
-                    meetingAddress: 'נתב"ג טרמינל 3 - שער 32',
-                    meetingTime: '11:30 (המראה 14:40)',
-                    meetingLat: 32.0055,
-                    meetingLng: 34.8854,
-                    trailheadAddress: "נמל התעופה סיאול אינצ'און (ICN)",
-                    trailheadTime: '15:45'
-                };
-            }
             return {
                 originAddress: "רח' העצמאות 93, אשדוד",
-                originTime: '',
+                originTime: "",
                 originLat: 31.7893,
                 originLng: 34.6417,
                 hasMeetingPoint: false,
-                meetingAddress: '',
-                meetingTime: '',
-                meetingLat: st0 ? st0.lat : 31.7893,
-                meetingLng: st0 ? st0.lng : 34.6417,
-                trailheadAddress: st0 ? (st0.address || st0.title) : '',
-                trailheadTime: ''
+                meetingAddress: "",
+                meetingTime: "",
+                meetingLat: 31.7893,
+                meetingLng: 34.6417,
+                trailheadAddress: "",
+                trailheadTime: ""
             };
         }
 
