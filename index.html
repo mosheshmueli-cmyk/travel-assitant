@@ -4926,8 +4926,7 @@
                         await syncDiaryMediaToGoogleDrive(true);
                         alert(gdriveAccessToken
                             ? '✅ הסרטון נשמר ביומן המסע (למטה במסך) והועלה ל-Google Drive תחת TRAVEL / קוריאה / 2_תמונות_וסרטונים!'
-                            : '📱 הסרטון נשמר במכשיר (מופיע למטה תחת "הזיכרונות שנשמרו").
-כדי להעלות אותו גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
+                            : '📱 הסרטון נשמר במכשיר (מופיע למטה תחת "הזיכרונות שנשמרו"). כדי להעלות אותו גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
                     } catch (err) {
                         console.error('Video storage error:', err);
                         alert('שגיאה בשמירת הסרטון.');
@@ -4983,8 +4982,7 @@
                                     syncDiaryMediaToGoogleDrive(true);
                                     alert(gdriveAccessToken
                                         ? '✅ התמונה נשמרה ביומן המסע (למטה במסך) והועלתה ל-Google Drive תחת TRAVEL / קוריאה / 2_תמונות_וסרטונים!'
-                                        : '📱 התמונה נשמרה במכשיר (מופיעה למטה תחת "הזיכרונות שנשמרו").
-כדי להעלות אותה גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
+                                        : '📱 התמונה נשמרה במכשיר (מופיעה למטה תחת "הזיכרונות שנשמרו"). כדי להעלות אותה גם ל-Google Drive (תיקיית TRAVEL / קוריאה / 2_תמונות_וסרטונים), לחץ על הכפתור הכחול "סנכרן תמונות וסרטונים ל-Google Drive".');
                                 } catch (err) {
                                     console.error('Storage error:', err);
                                     alert('הזיכרון המקומי מלא. מומלץ למחוק מספר פריטים ישנים.');
@@ -7963,9 +7961,7 @@
                     statusEl.style.color = '#15803d';
                 }
                 if (!silentIfNoToken) {
-                    alert(`✅ הסנכרון הושלם!
-${uploaded} תמונות/סרטונים הועלו לספריית:
-TRAVEL / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
+                    alert(`✅ הסנכרון הושלם! ${uploaded} תמונות/סרטונים הועלו לספריית: TRAVEL / ${targetFolderName} / 2_תמונות_וסרטונים ב-Google Drive שלך.`);
                 }
             } catch (err) {
                 console.error('Diary Google Drive sync error:', err);
