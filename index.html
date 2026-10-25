@@ -707,6 +707,7 @@
             height: 12px !important;
         }
     </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -723,7 +724,7 @@
                 <button type="button" onclick="changeFontSize(1)" title="הגדל כיתוב" style="background: #2563eb; color: white; border: none; border-radius: 7px; padding: 3px 10px; font-weight: 900; font-size: 15px !important; cursor: pointer; line-height: 1.2;">A+</button>
             </div>
             <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 5px 8px; border-radius: 8px; font-weight: 900; white-space: nowrap;">
-                גרסה 5.1.5
+                גרסה 5.1.6
             </span>
         </div>
     </header>
@@ -1050,11 +1051,23 @@
                             <textarea id="whatsapp-paste-input" rows="3" placeholder="או הדבק כאן טקסט מוואטסאפ / הזמנה ולחץ על 'סנכרון' למעלה..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.92em; color: #0f172a; resize: vertical;"></textarea>
                         </div>
 
+                        <!-- Google Drive 'קוריאה' Folder Sync Bar -->
+                        <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                            <div style="font-size: 0.85em; color: #1e3a8a; font-weight: 800;">
+                                <i class="fa-brands fa-google-drive" style="color: #2563eb; font-size: 1.1em;"></i>
+                                <span>ספריית Google Drive פעילה: <b id="gdrive-active-folder-label">קוריאה</b> (3 תתי-ספריות)</span>
+                                <div id="gdrive-sync-status-line" style="font-size: 0.88em; color: #475569; font-weight: 700; margin-top: 2px;">מסנכרן מסמכים, תמונות, סרטונים ותיק מעובד ישירות לדרייב</div>
+                            </div>
+                            <button type="button" onclick="syncAllTripFoldersToGoogleDrive()" style="background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> העבר/סנכרן ספרייה ל-Google Drive
+                            </button>
+                        </div>
+
                         <!-- Documents Feed List Container -->
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
                             <span style="font-weight: 800; color: #1e293b; font-size: 0.92em;">📄 מסמכים שמורים בתיק:</span>
                             <span id="step2-folder-path-badge" style="font-size: 0.76em; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 6px; font-weight: 800;">
-                                📁 1_מסמכים_וחומרי_גלם
+                                📁 קוריאה / 1_מסמכים_וחומרי_גלם
                             </span>
                         </div>
                         <div id="custom-docs-list" style="margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
@@ -4850,7 +4863,7 @@
                 const note = prompt(isVideo ? 'הוסף תיאור קצר לסרטון:' : 'הוסף תיאור קצר לתמונה:', defaultCaption) || defaultCaption;
                 const isOnline = navigator.onLine !== false;
                 const entryId = 'diary_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-                const tripFolder = (currentTripKey === 'korea') ? 'South_Korea_22-11-26' : (TRIPS_DATABASE[currentTripKey]?.name || 'Active_Trip');
+                const tripFolder = (currentTripKey === 'korea') ? 'קוריאה' : (TRIPS_DATABASE[currentTripKey]?.name || 'Active_Trip');
 
                 if (isVideo) {
                     // Save video binary to IndexedDB and metadata to localStorage
@@ -7792,6 +7805,166 @@
             } else {
                 setWizardStep(1);
                 alert(`✅ כל הנתונים נגזרו בהצלחה מהמסמך והוזנו לתיק הטיול/האירוע!\n\n• יציאה מומלצת מהבית: ${originTimeVal}\n• מיקום מדויק: ${venueVal}\n• קבלת פנים / התחלה: ${startTimeVal}\n• שאלון 12 השאלות (שלב 3) והמפה בזמן אמת עודכנו במלואם!`);
+            }
+        }
+
+    
+        // ================= GOOGLE DRIVE 'קוריאה' 3-FOLDER SYNC ENGINE (V5.1.6) =================
+        const KOREA_SEED_FILES = [{"url": "korea_seed/file_1.md", "name": "טופס_רישום_והעדפות_קוריאה_22-11-26.md", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "text/markdown"}, {"url": "korea_seed/file_2.pdf", "name": "הקסם הקוריאני - אישור מסלול החברה22-11-2026.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_3.jpeg", "name": "מלונות לטיול בקוריאה 22-11-2026.jpeg", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "image/jpeg"}, {"url": "korea_seed/file_4.pdf", "name": "PassportCard Policy.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_5.pdf", "name": "Passportcard Receipt.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_6.pdf", "name": "פוליסה פספורטקרד קוריאה.pdf", "subfolder": "1_מסמכים_וחומרי_גלם", "mimeType": "application/pdf"}, {"url": "korea_seed/file_7.md", "name": "תיק_טיול_מעובד_ומהודק_South_Korea_22-11-26.md", "subfolder": "3_תיק_הטיול_ותוצר_מעובד", "mimeType": "text/markdown"}];
+        let gdriveAccessToken = sessionStorage.getItem('ta_gdrive_access_token') || '';
+        let gdriveTokenClient = null;
+
+        function ensureGoogleDriveToken() {
+            return new Promise((resolve) => {
+                if (gdriveAccessToken) {
+                    resolve(gdriveAccessToken);
+                    return;
+                }
+                if (window.google && google.accounts && google.accounts.oauth2) {
+                    gdriveTokenClient = google.accounts.oauth2.initTokenClient({
+                        client_id: OAUTH_CLIENT_ID,
+                        scope: 'https://www.googleapis.com/auth/drive',
+                        callback: (resp) => {
+                            if (resp && resp.access_token) {
+                                gdriveAccessToken = resp.access_token;
+                                try { sessionStorage.setItem('ta_gdrive_access_token', gdriveAccessToken); } catch(e) {}
+                                resolve(gdriveAccessToken);
+                            } else {
+                                resolve('');
+                            }
+                        }
+                    });
+                    gdriveTokenClient.requestAccessToken({ prompt: '' });
+                } else {
+                    alert('מערכת ההתחברות ל-Google Drive נטענת. אנא נסה שוב בעוד שנייה.');
+                    resolve('');
+                }
+            });
+        }
+
+        async function gdriveGetOrCreateFolder(folderName, parentId = null) {
+            const parentClause = parentId ? ` and '${parentId}' in parents` : '';
+            const q = encodeURIComponent(`mimeType='application/vnd.google-apps.folder' and name='${folderName}' and trashed=false${parentClause}`);
+            const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`, {
+                headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
+            });
+            if (searchRes.status === 401) {
+                gdriveAccessToken = '';
+                sessionStorage.removeItem('ta_gdrive_access_token');
+                throw new Error('AUTH_EXPIRED');
+            }
+            const searchData = await searchRes.json();
+            if (searchData.files && searchData.files.length > 0) {
+                return searchData.files[0].id;
+            }
+
+            const meta = {
+                name: folderName,
+                mimeType: 'application/vnd.google-apps.folder'
+            };
+            if (parentId) meta.parents = [parentId];
+
+            const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${gdriveAccessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(meta)
+            });
+            const createData = await createRes.json();
+            return createData.id;
+        }
+
+        async function gdriveUploadBlob(blob, fileName, parentId, description = '') {
+            // Check if file already exists in parentId to avoid duplicates
+            const q = encodeURIComponent(`name='${fileName.replace(/'/g, "\\'")}' and '${parentId}' in parents and trashed=false`);
+            const checkRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`, {
+                headers: { 'Authorization': `Bearer ${gdriveAccessToken}` }
+            });
+            const checkData = await checkRes.json();
+            if (checkData.files && checkData.files.length > 0) {
+                return checkData.files[0].id;
+            }
+
+            const metadata = {
+                name: fileName,
+                parents: [parentId],
+                description: description || 'סונכרן מ-Travel Assistant'
+            };
+            const form = new FormData();
+            form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+            form.append('file', blob);
+
+            const upRes = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${gdriveAccessToken}` },
+                body: form
+            });
+            const upData = await upRes.json();
+            return upData.id;
+        }
+
+        async function ensureTripThreeFoldersInDrive(tripFolderName = 'קוריאה') {
+            const rootFolderId = await gdriveGetOrCreateFolder(tripFolderName, null);
+            const f1 = await gdriveGetOrCreateFolder('1_מסמכים_וחומרי_גלם', rootFolderId);
+            const f2 = await gdriveGetOrCreateFolder('2_תמונות_וסרטונים', rootFolderId);
+            const f3 = await gdriveGetOrCreateFolder('3_תיק_הטיול_ותוצר_מעובד', rootFolderId);
+            return { rootFolderId, f1, f2, f3 };
+        }
+
+        async function syncAllTripFoldersToGoogleDrive() {
+            const statusLine = document.getElementById('gdrive-sync-status-line');
+            try {
+                if (statusLine) statusLine.innerHTML = '⏳ מתחבר לחשבון Google Drive שלך...';
+                const token = await ensureGoogleDriveToken();
+                if (!token) {
+                    if (statusLine) statusLine.innerHTML = '⚠️ ההתחברות לגוגל בוטלה או ממתינה לאישור.';
+                    return;
+                }
+
+                const tripName = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey].name : 'קוריאה';
+                const targetFolderName = (tripName.includes('קוריאה') || currentTripKey === 'korea') ? 'קוריאה' : tripName;
+
+                if (statusLine) statusLine.innerHTML = `⏳ מאתר את ספריית "${targetFolderName}" בגוגל דרייב ויוצר את 3 תתי-הספריות...`;
+                const folders = await ensureTripThreeFoldersInDrive(targetFolderName);
+
+                let uploadedCount = 0;
+                if (targetFolderName === 'קוריאה') {
+                    for (const item of KOREA_SEED_FILES) {
+                        if (statusLine) statusLine.innerHTML = `☁️ מעביר ל-Google Drive: ${item.name}...`;
+                        const res = await fetch(item.url);
+                        if (res.ok) {
+                            const blob = await res.blob();
+                            const targetSubId = item.subfolder.startsWith('1_') ? folders.f1 : (item.subfolder.startsWith('2_') ? folders.f2 : folders.f3);
+                            await gdriveUploadBlob(blob, item.name, targetSubId, 'הועבר מספריית הפרויקט ל-Google Drive');
+                            uploadedCount++;
+                        }
+                    }
+                }
+
+                // Also upload any custom docs uploaded in browser
+                const customDocs = getCustomDocs();
+                for (const d of customDocs) {
+                    if (d.data && d.data.startsWith('data:')) {
+                        const r = await fetch(d.data);
+                        const b = await r.blob();
+                        await gdriveUploadBlob(b, d.fileName || (d.name + '.txt'), folders.f1, d.name);
+                        uploadedCount++;
+                    }
+                }
+
+                if (statusLine) {
+                    statusLine.innerHTML = `✅ הושלם! ספריית "${targetFolderName}" ו-3 תתי-הספריות (${uploadedCount} קבצים) הועברו ל-Google Drive שלך.`;
+                    statusLine.style.color = '#15803d';
+                }
+                alert(`✅ ההעברה ל-Google Drive הושלמה בהצלחה!\nבספריית "${targetFolderName}" בגוגל דרייב שלך קיימות כעת 3 תתי-הספריות וכל קבצי הטיול.`);
+            } catch (err) {
+                console.error('Google Drive Sync Error:', err);
+                if (statusLine) {
+                    statusLine.innerHTML = '⚠️ שגיאה בסנכרון מול Google Drive. לחץ שוב לחיבור מחדש.';
+                    statusLine.style.color = '#b91c1c';
+                }
             }
         }
 
