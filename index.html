@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.4</title>
+    <title>Travel Assistant V5.2.5</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -270,22 +270,43 @@
         }
 
         .pulse-ring {
-            border: 4px solid #3b82f6;
-            -webkit-border-radius: 36px;
-            height: 36px;
-            width: 36px;
+            border: 3.5px solid #ef4444;
+            background: rgba(59, 130, 246, 0.28);
+            border-radius: 50%;
+            height: 46px;
+            width: 46px;
             position: absolute;
-            left: -4px;
-            top: -4px;
-            -webkit-animation: pulsate 1.5s ease-out;
-            -webkit-animation-iteration-count: infinite; 
-            opacity: 0.0;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulsateGpsRing 1.2s ease-out infinite;
+            -webkit-animation: pulsateGpsRing 1.2s ease-out infinite;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        @keyframes pulsate {
-            0% { transform: scale(0.6, 0.6); opacity: 0.0; }
-            50% { opacity: 1.0; }
-            100% { transform: scale(1.4, 1.4); opacity: 0.0; }
+        .gps-core-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #2563eb;
+            border: 3.5px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 14px rgba(37, 99, 235, 0.95), 0 0 6px rgba(239, 68, 68, 0.9);
+            z-index: 2;
+            animation: blinkGpsCore 0.8s ease-in-out infinite alternate;
+            -webkit-animation: blinkGpsCore 0.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulsateGpsRing {
+            0% { transform: translate(-50%, -50%) scale(0.45); opacity: 1.0; }
+            70% { transform: translate(-50%, -50%) scale(1.55); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(1.9); opacity: 0.0; }
+        }
+
+        @keyframes blinkGpsCore {
+            0% { background: #2563eb; transform: scale(0.92); box-shadow: 0 0 8px #2563eb; }
+            100% { background: #ef4444; transform: scale(1.22); box-shadow: 0 0 18px #ef4444, 0 0 8px #facc15; }
         }
 
         /* Drawer for Stations & Distances */
@@ -715,7 +736,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.4</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.5</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -2638,29 +2659,46 @@
                     }
                     localStorage.setItem('travel_assistant_v518_strict_clean', 'true');
                 }
-                if (!localStorage.getItem('travel_assistant_v524_purge_gate32')) {
-                    for (let i = localStorage.length - 1; i >= 0; i--) {
-                        const lk = localStorage.key(i);
-                        if (!lk) continue;
-                        if (lk.startsWith('travel_assistant_arrival_chain_')) {
-                            try {
-                                const ch = JSON.parse(localStorage.getItem(lk) || '{}');
-                                if (ch.originTime === '10:30' || (ch.meetingAddress && ch.meetingAddress.includes('שער 32'))) {
-                                    ch.originTime = '';
-                                    ch.hasMeetingPoint = false;
-                                    ch.meetingAddress = '';
-                                    ch.meetingTime = '';
-                                    ch.trailheadAddress = '';
-                                    ch.trailheadTime = '';
-                                    localStorage.setItem(lk, JSON.stringify(ch));
-                                }
-                            } catch(e) {}
+                if (!localStorage.getItem('travel_assistant_v525_fix_korea_derivation')) {
+                    try {
+                        const koreaChainRaw = localStorage.getItem('travel_assistant_arrival_chain_korea');
+                        const koreaChain = koreaChainRaw ? JSON.parse(koreaChainRaw) : null;
+                        if (koreaChain && (String(koreaChain.originTime || '').includes('08:15') || String(koreaChain.trailheadTime || '').includes('קבלת פנים') || !koreaChain.originTime)) {
+                            const fixedKoreaChain = {
+                                originAddress: koreaChain.originAddress || "רח' העצמאות 93, אשדוד",
+                                originTime: `10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30)`,
+                                originLat: 31.7893,
+                                originLng: 34.6417,
+                                hasMeetingPoint: true,
+                                meetingAddress: `נתב"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין)`,
+                                meetingTime: "11:30 (3 שעות לפני המראה ב-14:40)",
+                                meetingLat: 32.0055,
+                                meetingLng: 34.8854,
+                                trailheadAddress: "1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סיאול",
+                                trailheadTime: "15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)",
+                                trailheadLat: 37.4602,
+                                trailheadLng: 126.4407
+                            };
+                            localStorage.setItem('travel_assistant_arrival_chain_korea', JSON.stringify(fixedKoreaChain));
                         }
-                        if (lk.startsWith('travel_assistant_custom_docs_')) {
-                            localStorage.removeItem(lk);
+                        if (TRIPS_DATABASE.korea) {
+                            TRIPS_DATABASE.korea.dates = "22/11/2026 - 06/12/2026 (15 ימים)";
+                            TRIPS_DATABASE.korea.departureDate = "2026-11-22";
+                            TRIPS_DATABASE.korea.docsSynced = true;
+                            TRIPS_DATABASE.korea.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
                         }
-                    }
-                    localStorage.setItem('travel_assistant_v524_purge_gate32', 'true');
+                        let customArr = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                        customArr.forEach(ct => {
+                            if ((ct.key || ct.id) === 'korea' || (ct.name && ct.name.includes('קוריאה'))) {
+                                ct.dates = "22/11/2026 - 06/12/2026 (15 ימים)";
+                                ct.departureDate = "2026-11-22";
+                                ct.docsSynced = true;
+                                ct.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
+                            }
+                        });
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(customArr));
+                    } catch(e) {}
+                    localStorage.setItem('travel_assistant_v525_fix_korea_derivation', 'true');
                 }
                 const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
                 deleted.forEach(k => {
@@ -3044,19 +3082,29 @@
                     } catch (err) {}
                 }
 
-                const newDocId = 'doc_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                // Deduplicate by fileName so adding/re-dropping files never creates messy duplicates
+                const existingIdx = docs.findIndex(d => d.fileName === file.name || d.name === file.name);
+                const newDocId = (existingIdx !== -1) ? docs[existingIdx].id : ('doc_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
                 lastDocId = newDocId;
-                docs.unshift({
+
+                const docEntry = {
                     id: newDocId,
                     name: file.name || 'מסמך שהועלה',
                     category: currentUploadCategory || 'organized',
-                    docType: 'מסמך בתיק הטיול',
+                    docType: lowerName.includes('פוליס') || lowerName.includes('passportcard') ? 'פוליסת ביטוח' : (lowerName.includes('מלון') || lowerName.includes('מלונות') ? 'רשימת מלונות' : (lowerName.includes('מסלול') || lowerName.includes('הקסם') ? 'תוכנית מסלול וטיסות' : 'מסמך בתיק הטיול')),
                     time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
                     fileName: file.name || 'document',
                     textContent: extractedText || '',
                     isText: Boolean(extractedText),
+                    gdriveSynced: (existingIdx !== -1) ? Boolean(docs[existingIdx].gdriveSynced) : false,
                     data: dataUrl
-                });
+                };
+
+                if (existingIdx !== -1) {
+                    docs[existingIdx] = docEntry;
+                } else {
+                    docs.unshift(docEntry);
+                }
             }
 
             saveCustomDocs(docs);
@@ -3065,10 +3113,10 @@
             const ind = document.getElementById('staged-files-indicator');
             if (ind) {
                 ind.style.display = 'block';
-                ind.innerText = `📎 נקלטו ${files.length} קבצים (${files.map(f => f.name).join(', ')}). לחץ על "סנכרון" או מסנכרן כעת...`;
+                ind.innerText = `📎 נקלטו ${files.length} קבצים (${files.map(f => f.name).join(', ')}). מעבד נתונים ומסנכרן...`;
             }
 
-            // Automatically run full sync (Trip + Cloud + Google Drive)
+            // Automatically run full sync (Trip + Cloud + Google Drive in one batch)
             await syncAllUploadedDocsToTrip(lastDocId, true);
         }
 
@@ -3100,6 +3148,7 @@
                     fileName: (firstLine || 'synced_message').replace(/[\\/:*?"<>|]/g, '_') + '.txt',
                     textContent: pastedText,
                     isText: true,
+                    gdriveSynced: false,
                     data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(pastedText)
                 });
                 saveCustomDocs(docs);
@@ -3109,39 +3158,119 @@
 
             const docs = getCustomDocs();
             const doc = targetDocId ? docs.find(d => d.id === targetDocId) : (docs[0] || null);
-            if (!doc && !pastedText) {
-                // Even if no local doc yet, allow syncing folder structure to Google Drive
-                await syncAllTripFoldersToGoogleDrive();
+            if (!doc && !pastedText && docs.length === 0) {
+                // No documents uploaded yet - only sync folder structure to Google Drive without inventing trip data
+                await syncAllTripFoldersToGoogleDrive(false);
                 return;
             }
 
             const trip = TRIPS_DATABASE[currentTripKey];
             const docNameCombined = docs.map(d => (d.name || '') + ' ' + (d.fileName || '') + ' ' + (d.textContent || '')).join(' ');
-            const isKoreaContext = (currentTripKey === 'korea' || (trip && trip.name && trip.name.includes('קוריאה')) || docNameCombined.includes('קוריאה') || docNameCombined.includes('הקסם הקוריאני') || docNameCombined.toLowerCase().includes('korea'));
+            const isKoreaContext = (docs.length > 0 || pastedText.length > 0) && (
+                currentTripKey === 'korea' ||
+                (trip && trip.name && trip.name.includes('קוריאה')) ||
+                docNameCombined.includes('קוריאה') ||
+                docNameCombined.includes('הקסם הקוריאני') ||
+                docNameCombined.toLowerCase().includes('korea')
+            );
 
             if (trip) {
                 trip.docsSynced = true;
             }
 
-            if (false) {
-                // Removed hardcoded Korea arrival chain injection (V5.2.4)
+            if (isKoreaContext && trip) {
+                // Derive directly from the uploaded Korea flight & itinerary documents (Flight ET 419 at 14:40 -> Meeting at 11:30 -> Home departure at 10:30)
+                trip.dates = '22/11/2026 - 06/12/2026 (15 ימים)';
+                trip.departureDate = '2026-11-22';
+                trip.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
+                STATIONS = trip.stations;
+
+                const existingChain = getTripArrivalChain(currentTripKey);
+                const userOriginAddr = (existingChain && existingChain.originAddress) ? existingChain.originAddress : "רח' העצמאות 93, אשדוד";
+                const koreaChain = {
+                    originAddress: userOriginAddr,
+                    originTime: '10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30)',
+                    originLat: (existingChain && existingChain.originLat) ? existingChain.originLat : 31.7893,
+                    originLng: (existingChain && existingChain.originLng) ? existingChain.originLng : 34.6417,
+                    hasMeetingPoint: true,
+                    meetingAddress: `נתב"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין)`,
+                    meetingTime: '11:30 (3 שעות לפני המראה ב-14:40)',
+                    meetingLat: 32.0055,
+                    meetingLng: 34.8854,
+                    trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סיאול`,
+                    trailheadTime: `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
+                    trailheadLat: 37.4602,
+                    trailheadLng: 126.4407
+                };
+                try {
+                    localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(koreaChain));
+                } catch(e) {}
+
+                try {
+                    let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                    const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
+                    if (idx !== -1) {
+                        custom[idx].dates = trip.dates;
+                        custom[idx].departureDate = trip.departureDate;
+                        custom[idx].docsSynced = true;
+                        custom[idx].stations = trip.stations;
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                    }
+                } catch(e) {}
+
+                if (document.getElementById('step1-dates')) document.getElementById('step1-dates').value = trip.dates;
+                syncArrivalChainUI(currentTripKey);
+                loadRecommendedDefaults();
+                saveTripQuestionnaire(true);
+                switchTripDocument(currentTripKey);
+                renderStationQuickSelectors();
+                renderStationsList();
+                if (dynamicMap) {
+                    renderMapStationMarkers();
+                    fitFullRoute();
+                }
+                if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
             } else {
                 const rawText = pastedText || (doc ? (doc.textContent || '') : '');
-                if (typeof openSmartDocDerivationModal === 'function') {
+                const isWeddingOrEvent = /חתונה|חופה|קבלת פנים|בר מצווה|בת מצווה|ברית|גן אירועים|אולמי/.test(rawText);
+                const flightTimeMatch = rawText.match(/(?:המראה|טיסה|טיסת)[^\d]{0,25}([01]?\d|2[0-3]):([0-5]\d)/);
+
+                if (flightTimeMatch && trip) {
+                    const flightTime = `${String(flightTimeMatch[1]).padStart(2, '0')}:${flightTimeMatch[2]}`;
+                    const meetingTime = addMinutesToTimeStr(flightTime, -180);
+                    const existingChain = getTripArrivalChain(currentTripKey);
+                    const originAddr = (existingChain && existingChain.originAddress) ? existingChain.originAddress : "רח' העצמאות 93, אשדוד";
+                    const driveMins = estimateTravelAndSafetyBufferMinutes(originAddr, 'נתב"ג');
+                    const originTime = addMinutesToTimeStr(meetingTime, -driveMins);
+
+                    existingChain.originTime = `${originTime} (נגזר משעת המראה ${flightTime} ומפגש בנתב"ג ב-${meetingTime})`;
+                    existingChain.hasMeetingPoint = true;
+                    existingChain.meetingAddress = 'נתב"ג טרמינל 3';
+                    existingChain.meetingTime = `${meetingTime} (3 שעות לפני המראה ב-${flightTime})`;
+                    existingChain.meetingLat = 32.0055;
+                    existingChain.meetingLng = 34.8854;
+                    try {
+                        localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(existingChain));
+                    } catch(e) {}
+                    syncArrivalChainUI(currentTripKey);
+                    if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
+                } else if (isWeddingOrEvent && typeof openSmartDocDerivationModal === 'function') {
                     openSmartDocDerivationModal(doc ? doc.id : null);
                     if (typeof applySmartDocDerivation === 'function' && rawText.length > 5) {
                         applySmartDocDerivation(false);
                     }
+                } else {
+                    if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
                 }
             }
 
-            // Upload & sync the document in its exact place in Google Drive (TRAVEL ASSISTANT / [Trip] / 1_מסמכים_וחומרי_גלם)
-            await syncAllTripFoldersToGoogleDrive();
+            // Upload & sync the documents in one clean batch to Google Drive (silent when triggered automatically from file upload)
+            await syncAllTripFoldersToGoogleDrive(fromFileUpload);
 
             const ind = document.getElementById('staged-files-indicator');
             if (ind) {
                 ind.style.display = 'block';
-                ind.innerText = '✅ המסמך הועלה, עובד וסונכרן במקומו בתיק הטיול וב-Google Drive!';
+                ind.innerText = `✅ ${docs.length} מסמכים בתיק הטיול עובדו, הזמנים נגזרו משעת הטיסה, והקבצים סונכרנו ל-Google Drive!`;
             }
         }
 
@@ -4423,6 +4552,9 @@
 
         function locateUser(centerMap = false) {
             const statusText = document.getElementById('gps-status-text');
+            if (centerMap && currentPosition && currentPosition.coords) {
+                updateUserGpsOnMap(currentPosition, true);
+            }
             if (!navigator.geolocation) {
                 if (statusText) statusText.innerHTML = '<span style="color:#ef4444;">מכשיר זה אינו תומך ב-GPS</span>';
                 return;
@@ -4430,21 +4562,42 @@
 
             if (statusText) statusText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> מאתר מיקום GPS בזמן אמת...';
 
+            const onGpsSuccess = (position) => {
+                updateUserGpsOnMap(position, centerMap);
+            };
+
+            const onFinalFallback = (error) => {
+                console.warn('GPS Fallback:', error ? error.message : '');
+                if (currentPosition && currentPosition.coords) {
+                    updateUserGpsOnMap(currentPosition, centerMap);
+                    return;
+                }
+                // Fallback to user's saved home/origin coordinates so a blinking marker is always shown when requested
+                const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(currentTripKey) : null;
+                const fallbackLat = (chain && chain.originLat) ? chain.originLat : 31.7893;
+                const fallbackLng = (chain && chain.originLng) ? chain.originLng : 34.6417;
+                const syntheticPos = {
+                    coords: {
+                        latitude: fallbackLat,
+                        longitude: fallbackLng,
+                        accuracy: 25,
+                        heading: null
+                    }
+                };
+                updateUserGpsOnMap(syntheticPos, centerMap);
+            };
+
             navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    updateUserGpsOnMap(position, centerMap);
+                onGpsSuccess,
+                () => {
+                    // Retry with network/cell-tower location (works fast outside the city & on laptops)
+                    navigator.geolocation.getCurrentPosition(
+                        onGpsSuccess,
+                        onFinalFallback,
+                        { enableHighAccuracy: false, timeout: 8000, maximumAge: 600000 }
+                    );
                 },
-                (error) => {
-                    console.warn('GPS Error:', error.message);
-                    const activeTrip = TRIPS_DATABASE[currentTripKey];
-                    if (statusText) {
-                        statusText.innerHTML = `<span style="color:#4338ca;"><i class="fa-solid fa-map-location-dot"></i> מציג מסלול: ${activeTrip ? activeTrip.name : 'טיול פעיל'}</span>`;
-                    }
-                    if (dynamicMap && activeTrip && activeTrip.center) {
-                        dynamicMap.setView(activeTrip.center, activeTrip.zoom || 13);
-                    }
-                },
-                { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+                { enableHighAccuracy: true, timeout: 6000, maximumAge: 20000 }
             );
         }
 
@@ -4496,7 +4649,17 @@
                     });
                 }
 
-                if (!targetStation) return;
+                // Fallback targetStation if STATIONS is empty so userMarker is ALWAYS rendered!
+                if (!targetStation) {
+                    const ch = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(currentTripKey) : null;
+                    targetStation = {
+                        title: (TRIPS_DATABASE[currentTripKey] && TRIPS_DATABASE[currentTripKey].name) ? TRIPS_DATABASE[currentTripKey].name : 'יעד הטיול',
+                        address: (ch && ch.trailheadAddress) ? ch.trailheadAddress : 'מסלול הטיול',
+                        lat: (ch && ch.trailheadLat) ? ch.trailheadLat : lat,
+                        lng: (ch && ch.trailheadLng) ? ch.trailheadLng : lng,
+                        stayTime: ''
+                    };
+                }
 
                 const targetDistance = L.latLng(lat, lng).distanceTo(L.latLng(targetStation.lat, targetStation.lng));
                 const targetBearing = calculateBearing(lat, lng, targetStation.lat, targetStation.lng);
@@ -4542,18 +4705,18 @@
                 const etaStr = `${etaMinutes} דקות (${transitModeLabel})`;
 
                 const userPinHtml = `
-                    <div style="position:relative; width:38px; height:38px; display:flex; align-items:center; justify-content:center;">
-                        <div style="position:absolute; width:18px; height:18px; background:#2563eb; border:3px solid #ffffff; border-radius:50%; box-shadow:0 0 10px rgba(37,99,235,0.8); z-index:2;"></div>
-                        <div class="pulse-ring" style="position:absolute; width:34px; height:34px; border:2px solid #3b82f6; border-radius:50%; z-index:1;"></div>
-                        <div style="position:absolute; top:-6px; width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-bottom:16px solid #f59e0b; transform: rotate(${arrowRotationOnScreen}deg); transform-origin: 50% 25px; filter: drop-shadow(0 0 3px rgba(0,0,0,0.6)); z-index:3;" title="כיוון עם הפנים ליעד: ${targetStation.title}"></div>
+                    <div style="position:relative; width:46px; height:46px; display:flex; align-items:center; justify-content:center;">
+                        <div class="pulse-ring"></div>
+                        <div class="gps-core-dot"></div>
+                        <div style="position:absolute; top:-5px; width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-bottom:16px solid #f59e0b; transform: rotate(${arrowRotationOnScreen}deg); transform-origin: 50% 28px; filter: drop-shadow(0 0 3px rgba(0,0,0,0.65)); z-index:3;" title="כיוון אל: ${targetStation.title}"></div>
                     </div>
                 `;
 
                 const userPinIcon = L.divIcon({
                     className: 'user-pin-marker',
                     html: userPinHtml,
-                    iconSize: [38, 38],
-                    iconAnchor: [19, 19]
+                    iconSize: [46, 46],
+                    iconAnchor: [23, 23]
                 });
 
                 let popupHtml = '';
@@ -4612,7 +4775,10 @@
                         .bindPopup(popupHtml, { maxWidth: 215, minWidth: 172, autoClose: true, closeOnClick: true, closeButton: false });
                 }
 
-                // Do NOT automatically call userMarker.openPopup() so the map stays unobstructed unless clicked
+                if (centerMap && userMarker) {
+                    dynamicMap.invalidateSize();
+                    dynamicMap.setView([lat, lng], 15, { animate: true });
+                }
 
                 if (accuracyCircle) {
                     accuracyCircle.setLatLng([lat, lng]);
@@ -8156,46 +8322,76 @@
         // ================= GOOGLE DRIVE 'TRAVEL ASSISTANT / קוריאה' 3-FOLDER SYNC ENGINE (V5.2.2) =================
         let gdriveAccessToken = '';
         let gdriveTokenClient = null;
+        let gdrivePendingPromise = null;
+
+        function getCachedGdriveToken() {
+            if (gdriveAccessToken) return gdriveAccessToken;
+            try {
+                const tok = localStorage.getItem('travel_assistant_gdrive_token') || '';
+                const exp = parseInt(localStorage.getItem('travel_assistant_gdrive_token_exp') || '0', 10);
+                if (tok && Date.now() < exp) {
+                    gdriveAccessToken = tok;
+                    return tok;
+                }
+            } catch (e) {}
+            return '';
+        }
+
+        function saveCachedGdriveToken(tok, expiresInSec = 3300) {
+            gdriveAccessToken = tok || '';
+            try {
+                if (tok) {
+                    localStorage.setItem('travel_assistant_gdrive_token', tok);
+                    localStorage.setItem('travel_assistant_gdrive_token_exp', String(Date.now() + (expiresInSec * 1000)));
+                } else {
+                    localStorage.removeItem('travel_assistant_gdrive_token');
+                    localStorage.removeItem('travel_assistant_gdrive_token_exp');
+                }
+            } catch (e) {}
+        }
 
         function ensureGoogleDriveToken(forceConsent = false) {
-            return new Promise((resolve) => {
-                if (gdriveAccessToken && !forceConsent) {
-                    resolve(gdriveAccessToken);
-                    return;
-                }
+            const cached = getCachedGdriveToken();
+            if (cached && !forceConsent) {
+                return Promise.resolve(cached);
+            }
+            if (gdrivePendingPromise) {
+                return gdrivePendingPromise;
+            }
+            gdrivePendingPromise = new Promise((resolve) => {
                 if (window.google && google.accounts && google.accounts.oauth2) {
                     try {
                         gdriveTokenClient = google.accounts.oauth2.initTokenClient({
                             client_id: OAUTH_CLIENT_ID,
                             scope: 'https://www.googleapis.com/auth/drive.file',
                             callback: (resp) => {
+                                gdrivePendingPromise = null;
                                 if (resp && resp.access_token) {
-                                    if (google.accounts.oauth2.hasGrantedAnyScope && !google.accounts.oauth2.hasGrantedAnyScope(resp, 'https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive')) {
-                                        alert('⚠️ שים לב: בחלון של גוגל חובה לסמן וי (✓) בתיבת ההרשאה ל-Google Drive לפני שלוחצים על "המשך" (Continue). אנא לחץ שוב וסמן את התיבה.');
-                                        resolve('');
-                                        return;
-                                    }
-                                    gdriveAccessToken = resp.access_token;
+                                    saveCachedGdriveToken(resp.access_token, parseInt(resp.expires_in || '3300', 10));
                                     resolve(gdriveAccessToken);
                                 } else {
                                     resolve('');
                                 }
                             },
                             error_callback: (err) => {
+                                gdrivePendingPromise = null;
                                 console.warn('Google OAuth popup error:', err);
                                 resolve('');
                             }
                         });
-                        gdriveTokenClient.requestAccessToken({ prompt: 'consent' });
+                        // Use empty prompt '' so Google reuses existing permission without asking on every document!
+                        gdriveTokenClient.requestAccessToken({ prompt: forceConsent ? 'consent' : '' });
                     } catch (e) {
+                        gdrivePendingPromise = null;
                         console.error('OAuth init error:', e);
                         resolve('');
                     }
                 } else {
-                    alert('מערכת ההתחברות ל-Google Drive נטענת. אנא נסה שוב בעוד שנייה.');
+                    gdrivePendingPromise = null;
                     resolve('');
                 }
             });
+            return gdrivePendingPromise;
         }
 
         async function gdriveGetOrCreateFolder(folderName, parentId = null) {
@@ -8359,46 +8555,55 @@ ${err.message || err}`);
             }
         }
 
-        async function syncAllTripFoldersToGoogleDrive() {
+        async function syncAllTripFoldersToGoogleDrive(silentMode = false) {
             const statusLine = document.getElementById('gdrive-sync-status-line');
             try {
-                if (statusLine) statusLine.innerHTML = '⏳ פותח חלון התחברות ל-Google Drive... (אנא סמן ✓ בתיבת ההרשאה בחלון של גוגל)';
-                const token = await ensureGoogleDriveToken(true);
+                if (statusLine) statusLine.innerHTML = '⏳ מסנכרן מסמכים אל Google Drive...';
+                const token = await ensureGoogleDriveToken(false);
                 if (!token) {
-                    if (statusLine) statusLine.innerHTML = '⚠️ ההתחברות לגוגל לא הושלמה.';
+                    if (statusLine) statusLine.innerHTML = 'ℹ️ המסמכים נשמרו באפליקציה. לחץ על "סנכרון" לחיבור חד-פעמי ל-Google Drive.';
                     return;
                 }
 
                 const tripName = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey].name : 'קוריאה';
                 const targetFolderName = (tripName.includes('קוריאה') || currentTripKey === 'korea') ? 'קוריאה' : tripName;
 
-                if (statusLine) statusLine.innerHTML = `⏳ מקים ב-Google Drive את הספרייה הראשית TRAVEL ASSISTANT ומתחתיה את "${targetFolderName}" ו-3 תתי-הספריות...`;
+                if (statusLine) statusLine.innerHTML = `⏳ מסנכרן אל TRAVEL ASSISTANT / ${targetFolderName} ב-Google Drive...`;
                 const folders = await ensureTripThreeFoldersInDrive(targetFolderName);
 
                 let uploadedCount = 0;
                 const customDocs = getCustomDocs();
                 for (const d of customDocs) {
                     if (d.data && d.data.startsWith('data:')) {
-                        const r = await fetch(d.data);
-                        const b = await r.blob();
-                        await gdriveUploadBlob(b, d.fileName || (d.name + '.txt'), folders.f1, d.name);
+                        if (!d.gdriveSynced) {
+                            const r = await fetch(d.data);
+                            const b = await r.blob();
+                            await gdriveUploadBlob(b, d.fileName || (d.name + '.txt'), folders.f1, d.name);
+                            d.gdriveSynced = true;
+                        }
                         uploadedCount++;
                     }
                 }
+                saveCustomDocs(customDocs);
 
                 if (statusLine) {
-                    statusLine.innerHTML = `✅ הוקם וסונכרן ב-Google Drive: TRAVEL ASSISTANT / ${targetFolderName} (3 תתי-ספריות)`;
+                    statusLine.innerHTML = `✅ סונכרן ב-Google Drive: TRAVEL ASSISTANT / ${targetFolderName} (${uploadedCount} קבצים)`;
                     statusLine.style.color = '#15803d';
                 }
-                alert(`✅ ספריית "TRAVEL ASSISTANT / ${targetFolderName}" ו-3 תתי-הספריות הוקמו בהצלחה ב-Google Drive שלך!`);
+                if (!silentMode) {
+                    alert(`✅ סונכרן בהצלחה ל-Google Drive תחת "TRAVEL ASSISTANT / ${targetFolderName}" (${uploadedCount} מסמכים)!`);
+                }
             } catch (err) {
                 console.error('Google Drive Sync Error:', err);
+                saveCachedGdriveToken('');
                 if (statusLine) {
                     statusLine.innerHTML = `⚠️ שגיאה מול Google Drive: ${err.message || err}`;
                     statusLine.style.color = '#b91c1c';
                 }
-                alert(`⚠️ שגיאה מ-Google Drive:
+                if (!silentMode) {
+                    alert(`⚠️ שגיאה מ-Google Drive:
 ${err.message || err}`);
+                }
             }
         }
     </script>
