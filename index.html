@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.5</title>
+    <title>Travel Assistant V5.2.6</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,6 +19,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Universal Client-Side PDF Text Extractor (PDF.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        if (window.pdfjsLib) {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    </script>
 
     <style>
         * {
@@ -736,7 +743,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.5</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.6</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -3006,6 +3013,29 @@
             return '';
         }
 
+        async function extractTextFromPdfArrayBuffer(arrayBuffer) {
+            try {
+                if (window.pdfjsLib && typeof window.pdfjsLib.getDocument === 'function') {
+                    const loadingTask = window.pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+                    const pdfDoc = await loadingTask.promise;
+                    const pageTexts = [];
+                    const maxPages = Math.min(pdfDoc.numPages || 1, 40);
+                    for (let p = 1; p <= maxPages; p++) {
+                        const page = await pdfDoc.getPage(p);
+                        const textContent = await page.getTextContent();
+                        const pageStr = (textContent.items || []).map(item => item.str || '').join(' ');
+                        if (pageStr.trim()) pageTexts.push(pageStr.trim());
+                    }
+                    if (pageTexts.length > 0) {
+                        return pageTexts.join('\n');
+                    }
+                }
+            } catch (err) {
+                console.warn('PDF.js extraction note:', err);
+            }
+            return '';
+        }
+
         function handleDocDragOver(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -3071,7 +3101,12 @@
 
                 let extractedText = '';
                 const lowerName = (file.name || '').toLowerCase();
-                if (lowerName.endsWith('.docx')) {
+                if (lowerName.endsWith('.pdf') || file.type === 'application/pdf') {
+                    try {
+                        const buf = await file.arrayBuffer();
+                        extractedText = await extractTextFromPdfArrayBuffer(buf);
+                    } catch (err) {}
+                } else if (lowerName.endsWith('.docx')) {
                     try {
                         const buf = await file.arrayBuffer();
                         extractedText = await extractTextFromDocxArrayBuffer(buf);
@@ -3178,27 +3213,28 @@
                 trip.docsSynced = true;
             }
 
+            const allUploadedText = docs.map(d => (d.name || '') + '\n' + (d.textContent || '')).join('\n') + '\n' + (pastedText || '');
+            const existingChain = getTripArrivalChain(currentTripKey);
+            const universalDerived = deriveUniversalTimetableFromText(allUploadedText, trip, existingChain);
+
             if (isKoreaContext && trip) {
-                // Derive directly from the uploaded Korea flight & itinerary documents (Flight ET 419 at 14:40 -> Meeting at 11:30 -> Home departure at 10:30)
-                trip.dates = '22/11/2026 - 06/12/2026 (15 ימים)';
+                trip.dates = universalDerived.extractedDates || '22/11/2026 - 06/12/2026 (15 ימים)';
                 trip.departureDate = '2026-11-22';
                 trip.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
                 STATIONS = trip.stations;
 
-                const existingChain = getTripArrivalChain(currentTripKey);
-                const userOriginAddr = (existingChain && existingChain.originAddress) ? existingChain.originAddress : "רח' העצמאות 93, אשדוד";
                 const koreaChain = {
-                    originAddress: userOriginAddr,
-                    originTime: '10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30)',
+                    originAddress: universalDerived.originAddress,
+                    originTime: universalDerived.originTimeDisplay || `10:30 (נגזר משעת המראה 14:40 ומפגש ב-11:30 – 60 דק' נסיעה)`,
                     originLat: (existingChain && existingChain.originLat) ? existingChain.originLat : 31.7893,
                     originLng: (existingChain && existingChain.originLng) ? existingChain.originLng : 34.6417,
                     hasMeetingPoint: true,
-                    meetingAddress: `נתב"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין)`,
-                    meetingTime: '11:30 (3 שעות לפני המראה ב-14:40)',
+                    meetingAddress: universalDerived.meetingAddress || `נתב"ג טרמינל 3 (מפגש בדלפקי הצ'ק-אין)`,
+                    meetingTime: universalDerived.meetingTimeDisplay || `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`,
                     meetingLat: 32.0055,
                     meetingLng: 34.8854,
                     trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סיאול`,
-                    trailheadTime: `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
+                    trailheadTime: universalDerived.landingOrStartTime ? `${universalDerived.landingOrStartTime} (נחיתה בסיאול ותחילת המסלול)` : `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
                     trailheadLat: 37.4602,
                     trailheadLng: 126.4407
                 };
@@ -3231,24 +3267,23 @@
                 }
                 if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
             } else {
-                const rawText = pastedText || (doc ? (doc.textContent || '') : '');
-                const isWeddingOrEvent = /חתונה|חופה|קבלת פנים|בר מצווה|בת מצווה|ברית|גן אירועים|אולמי/.test(rawText);
-                const flightTimeMatch = rawText.match(/(?:המראה|טיסה|טיסת)[^\d]{0,25}([01]?\d|2[0-3]):([0-5]\d)/);
+                const isWeddingOrEvent = /חתונה|חופה|קבלת פנים|בר מצווה|בת מצווה|ברית|גן אירועים|אולמי/.test(allUploadedText);
 
-                if (flightTimeMatch && trip) {
-                    const flightTime = `${String(flightTimeMatch[1]).padStart(2, '0')}:${flightTimeMatch[2]}`;
-                    const meetingTime = addMinutesToTimeStr(flightTime, -180);
-                    const existingChain = getTripArrivalChain(currentTripKey);
-                    const originAddr = (existingChain && existingChain.originAddress) ? existingChain.originAddress : "רח' העצמאות 93, אשדוד";
-                    const driveMins = estimateTravelAndSafetyBufferMinutes(originAddr, 'נתב"ג');
-                    const originTime = addMinutesToTimeStr(meetingTime, -driveMins);
-
-                    existingChain.originTime = `${originTime} (נגזר משעת המראה ${flightTime} ומפגש בנתב"ג ב-${meetingTime})`;
-                    existingChain.hasMeetingPoint = true;
-                    existingChain.meetingAddress = 'נתב"ג טרמינל 3';
-                    existingChain.meetingTime = `${meetingTime} (3 שעות לפני המראה ב-${flightTime})`;
+                if ((universalDerived.flightTime || universalDerived.originTimeDisplay) && trip && !isWeddingOrEvent) {
+                    if (universalDerived.extractedDates) {
+                        trip.dates = universalDerived.extractedDates;
+                        if (document.getElementById('step1-dates')) document.getElementById('step1-dates').value = trip.dates;
+                    }
+                    existingChain.originAddress = universalDerived.originAddress;
+                    if (universalDerived.originTimeDisplay) existingChain.originTime = universalDerived.originTimeDisplay;
+                    existingChain.hasMeetingPoint = universalDerived.hasMeetingPoint;
+                    if (universalDerived.meetingAddress) existingChain.meetingAddress = universalDerived.meetingAddress;
+                    if (universalDerived.meetingTimeDisplay) existingChain.meetingTime = universalDerived.meetingTimeDisplay;
                     existingChain.meetingLat = 32.0055;
                     existingChain.meetingLng = 34.8854;
+                    if (universalDerived.landingOrStartTime) {
+                        existingChain.trailheadTime = `${universalDerived.landingOrStartTime} (נחיתה / תחילת מסלול)`;
+                    }
                     try {
                         localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(existingChain));
                     } catch(e) {}
@@ -3256,7 +3291,7 @@
                     if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
                 } else if (isWeddingOrEvent && typeof openSmartDocDerivationModal === 'function') {
                     openSmartDocDerivationModal(doc ? doc.id : null);
-                    if (typeof applySmartDocDerivation === 'function' && rawText.length > 5) {
+                    if (typeof applySmartDocDerivation === 'function' && allUploadedText.trim().length > 5) {
                         applySmartDocDerivation(false);
                     }
                 } else {
@@ -7723,14 +7758,131 @@
             return `${hh}:${mm}`;
         }
 
-        function estimateTravelAndSafetyBufferMinutes(originAddr, venueAddr) {
-            const v = String(venueAddr || '').toLowerCase();
-            if (v.includes('אשדוד')) return 25; // Inside Ashdod: 15m drive + 10m parking
-            if (v.includes('אשקלון') || v.includes('יבנה') || v.includes('גדרה') || v.includes('גן יבנה')) return 45; // Ashdod -> Ashkelon: ~25m drive + 20m traffic/parking/walk buffer
+        function estimateTravelAndSafetyBufferMinutes(originAddr, targetAddr, originCoords = null, targetCoords = null) {
+            // 1. If geographic coordinates are available for both origin and target, calculate real road distance + 20m parking/terminal transfer buffer
+            const oCoord = originCoords || (typeof resolveKnownAddressCoords === 'function' ? resolveKnownAddressCoords(originAddr) : null);
+            const tCoord = targetCoords || (typeof resolveKnownAddressCoords === 'function' ? resolveKnownAddressCoords(targetAddr) : null);
+            if (oCoord && tCoord && typeof L !== 'undefined' && L.latLng) {
+                const airDistMeters = L.latLng(oCoord.lat, oCoord.lng).distanceTo(L.latLng(tCoord.lat, tCoord.lng));
+                // Only compute ground drive time if within realistic same-country driving distance (< 450 km)
+                if (airDistMeters > 200 && airDistMeters < 450000) {
+                    const roadDistKm = (airDistMeters / 1000) * 1.28; // Road winding factor
+                    const driveMins = Math.round((roadDistKm / 65) * 60); // 65 km/h average door-to-door speed
+                    const safetyBuffer = String(targetAddr || '').includes('נתב"ג') || String(targetAddr || '').toLowerCase().includes('airport') ? 22 : 15;
+                    const rawTotal = driveMins + safetyBuffer;
+                    // Round to nearest 5 minutes for clean human-readable schedule
+                    return Math.max(15, Math.round(rawTotal / 5) * 5);
+                }
+            }
+            // 2. Semantic fallback by city/region
+            const o = String(originAddr || '').toLowerCase();
+            const v = String(targetAddr || '').toLowerCase();
+            if (v.includes('נתב"ג') || v.includes('בן גוריון') || v.includes('טרמינל')) {
+                if (o.includes('אשדוד') || o.includes('יבנה') || o.includes('רחובות') || o.includes('ירושלים') || o.includes('מודיעין')) return 60;
+                if (o.includes('תל אביב') || o.includes('רמת גן') || o.includes('ראשון') || o.includes('חולון') || o.includes('פתח תקווה')) return 40;
+                if (o.includes('נתניה') || o.includes('הרצליה') || o.includes('אשקלון') || o.includes('חדרה')) return 65;
+                if (o.includes('חיפה') || o.includes('באר שבע') || o.includes('קריות')) return 95;
+                if (o.includes('טבריה') || o.includes('צפת') || o.includes('נהריה') || o.includes('עפולה')) return 125;
+                return 60;
+            }
+            if (v.includes('אשדוד')) return 25;
+            if (v.includes('אשקלון') || v.includes('יבנה') || v.includes('גדרה') || v.includes('גן יבנה')) return 45;
             if (v.includes('ראשון') || v.includes('ראשל') || v.includes('רחובות') || v.includes('נס ציונה') || v.includes('באר שבע')) return 55;
-            if (v.includes('תל אביב') || v.includes('רמת גן') || v.includes('בני ברק') || v.includes('ירושלים') || v.includes('נתב"ג')) return 75;
+            if (v.includes('תל אביב') || v.includes('רמת גן') || v.includes('בני ברק') || v.includes('ירושלים')) return 65;
             if (v.includes('חיפה') || v.includes('נתניה') || v.includes('חדרה') || v.includes('טבריה') || v.includes('צפון')) return 120;
-            return 45;
+            return 50;
+        }
+
+        // Universal Timetable & Arrival Chain Derivation Engine (Works for ANY trip, flight, or document in the world)
+        function deriveUniversalTimetableFromText(combinedText, trip, existingChain) {
+            const text = String(combinedText || '');
+            const originAddress = (existingChain && existingChain.originAddress) ? existingChain.originAddress : "רח' העצמאות 93, אשדוד";
+            const domestic = (typeof isDomesticTrip === 'function' && currentTripKey) ? isDomesticTrip(currentTripKey) : false;
+
+            // 1. Extract Date Range (DD/MM/YYYY - DD/MM/YYYY) or single date
+            let extractedDates = (trip && trip.dates) ? trip.dates : '';
+            const rangeMatch = text.match(/(\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{2,4})\s*(?:עד|-|–|to)\s*(\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{2,4})/i);
+            if (rangeMatch) {
+                extractedDates = `${rangeMatch[1].replace(/\./g, '/')} - ${rangeMatch[2].replace(/\./g, '/')}`;
+            } else if (!extractedDates) {
+                const singleDate = text.match(/(\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]202\d)/);
+                if (singleDate) extractedDates = singleDate[1].replace(/\./g, '/');
+            }
+
+            // 2. Extract Flight Departure Time (Universal patterns: Hebrew & English airlines, TLV, Departure, המראה)
+            let flightTime = '';
+            const flightPatterns = [
+                /(?:המראה|ממריאה|יציאת טיסה|טיסת הלוך|Departure|DEP)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i,
+                /\b(?:ET|LY|IZ|6H|TK|LH|BA|AF|UA|DL|EK|FZ|W6|FR)\s*\d{2,4}[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i,
+                /(?:נתב"ג|נתבג|טרמינל\s*3|TLV|Ben\s*Gurion)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i
+            ];
+            for (const pat of flightPatterns) {
+                const m = text.match(pat);
+                if (m && m[1] !== undefined && m[2] !== undefined) {
+                    flightTime = `${String(m[1]).padStart(2, '0')}:${m[2]}`;
+                    break;
+                }
+            }
+
+            // 3. Extract Explicit Meeting Time & Meeting Place if stated in document
+            let explicitMeetingTime = '';
+            const meetMatch = text.match(/(?:שעת מפגש|מפגש קבוצתי|מפגש בנתב"ג|התייצבות|נקודת מפגש)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
+            if (meetMatch) {
+                explicitMeetingTime = `${String(meetMatch[1]).padStart(2, '0')}:${meetMatch[2]}`;
+            }
+
+            // 4. Extract Explicit Home Departure Time if stated in document
+            let explicitOriginTime = '';
+            const origMatch = text.match(/(?:יציאה מהבית|שעת יציאה מהבית|יציאה מומלצת)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
+            if (origMatch) {
+                explicitOriginTime = `${String(origMatch[1]).padStart(2, '0')}:${origMatch[2]}`;
+            }
+
+            // 5. Extract Destination Landing / First Station Start Time
+            let landingOrStartTime = '';
+            const landMatch = text.match(/(?:נחיתה|נחיתה ב|הגעה ליעד|תחילת מסלול|ARR|Arrival)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
+            if (landMatch) {
+                landingOrStartTime = `${String(landMatch[1]).padStart(2, '0')}:${landMatch[2]}`;
+            }
+
+            // 6. Universal Mathematical Derivation: Flight -> Airport Meeting -> Home Departure
+            const hasFlightOrIntl = Boolean(flightTime) || !domestic || /נתב"ג|טרמינל|טיסה|המראה|Airport|Terminal/i.test(text);
+            let meetingAddress = (existingChain && existingChain.meetingAddress) ? existingChain.meetingAddress : '';
+            let meetingTimeDisplay = (existingChain && existingChain.meetingTime) ? existingChain.meetingTime : '';
+            let originTimeDisplay = (existingChain && existingChain.originTime) ? existingChain.originTime : '';
+            let hasMeetingPoint = (existingChain && existingChain.hasMeetingPoint !== undefined) ? existingChain.hasMeetingPoint : hasFlightOrIntl;
+
+            if (flightTime || explicitMeetingTime) {
+                hasMeetingPoint = true;
+                if (!meetingAddress || meetingAddress === 'קוריאה') {
+                    meetingAddress = (!domestic || /נתב"ג|טרמינל/i.test(text))
+                        ? `נתב"ג טרמינל 3 (מפגש בדלפקי הצ'ק-אין)`
+                        : `נקודת מפגש ואיסוף קבוצתית`;
+                }
+                const calcMeetingHHMM = explicitMeetingTime || addMinutesToTimeStr(flightTime, domestic ? -90 : -180);
+                meetingTimeDisplay = flightTime
+                    ? `${calcMeetingHHMM} (נגזר משעת המראה ${flightTime} – ${domestic ? 'שעה וחצי' : '3 שעות'} לפני הטיסה)`
+                    : `${calcMeetingHHMM} (לפי המסמכים שהועלו)`;
+
+                const driveMins = estimateTravelAndSafetyBufferMinutes(originAddress, meetingAddress);
+                const calcOriginHHMM = explicitOriginTime || addMinutesToTimeStr(calcMeetingHHMM, -driveMins);
+                originTimeDisplay = flightTime
+                    ? `${calcOriginHHMM} (נגזר משעת המראה ${flightTime} ומפגש ב-${calcMeetingHHMM} – ${driveMins} דק' נסיעה)`
+                    : `${calcOriginHHMM} (נגזר משעת מפגש ${calcMeetingHHMM} – כולל ${driveMins} דק' נסיעה ומקדם ביטחון)`;
+            } else if (explicitOriginTime) {
+                originTimeDisplay = explicitOriginTime;
+            }
+
+            return {
+                extractedDates,
+                flightTime,
+                hasMeetingPoint,
+                meetingAddress,
+                meetingTimeDisplay,
+                originAddress,
+                originTimeDisplay,
+                landingOrStartTime
+            };
         }
 
         function parseInvitationAndTripParams(rawText, docTitle, tripTitle) {
