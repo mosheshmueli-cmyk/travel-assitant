@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.7</title>
+    <title>Travel Assistant V5.2.8</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -743,7 +743,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.7</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.8</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -853,6 +853,21 @@
                     <button onclick="fitFullRoute()" style="background: #8b5cf6; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
                         <i class="fa-solid fa-route"></i> כל המסלול
                     </button>
+                </div>
+            </div>
+
+            <!-- Daily Route Selector Bar (Choose Day -> Filter Map + Show A->B Distance, Travel Time & Recommended Stay Table) -->
+            <div id="map-day-selector-bar" style="background: #eff6ff; padding: 7px 12px; border-bottom: 1.5px solid #bfdbfe; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;" dir="rtl">
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; flex: 1; min-width: 220px;">
+                    <label for="map-day-select" style="font-weight: 900; font-size: 0.84em; color: #1e3a8a; white-space: nowrap;">
+                        <i class="fa-solid fa-calendar-day" style="color: #2563eb;"></i> בחר יום במסלול:
+                    </label>
+                    <select id="map-day-select" onchange="selectMapDay(this.value)" style="flex: 1; min-width: 180px; max-width: 420px; padding: 5px 10px; border-radius: 8px; border: 1.5px solid #3b82f6; background: white; color: #0f172a; font-family: 'Heebo', sans-serif; font-size: 0.84em; font-weight: 800; cursor: pointer;">
+                        <option value="all">📋 כל ימי הטיול (מסלול מלא)</option>
+                    </select>
+                </div>
+                <div id="map-day-pills-strip" style="display: flex; gap: 4px; overflow-x: auto; max-width: 100%; padding-bottom: 2px;">
+                    <!-- Populated dynamically by renderMapDaySelector() -->
                 </div>
             </div>
 
@@ -2382,21 +2397,75 @@
         // ================= MULTI-TRIP DATABASE (REPOSITORY TRIPS) =================
         const KOREA_PARSED_STATIONS_TEMPLATE = [
                     {
+                        id: "k_day1_tlv",
+                        dayNum: 1,
+                        dayTitle: "יום 1 (א' 22/11): המראה מנתב\"ג וטיסת מעבר דרך אתיופיה",
+                        title: "1. המראה: נתב\"ג טרמינל 3 (TLV) – טיסה ET 419",
+                        desc: "מפגש קבוצת 42 המטיילים בשעה 11:30 בשער 32, מסירת כבודה (2 מזוודות 23 ק\"ג) והמראה ב-14:40 לאדיס אבבה",
+                        lat: 32.0055,
+                        lng: 34.8854,
+                        address: "Ben Gurion Airport Terminal 3 (TLV), Israel",
+                        stopCode: null,
+                        type: "flight",
+                        isFlight: true,
+                        stayTime: "יום א' 22/11: 11:30 מפגש | 14:40 המראה",
+                        recommendedStay: "3 שעות התייצבות ובידוק + 4:15 שעות טיסה",
+                        transitType: "טיסה בינלאומית ET 419",
+                        walkingDist: "מסועים חשמליים לשער ההמראה"
+                    },
+                    {
+                        id: "k_day1_add",
+                        dayNum: 1,
+                        dayTitle: "יום 1 (א' 22/11): המראה מנתב\"ג וטיסת מעבר דרך אתיופיה",
+                        title: "2. טיסת מעבר (קונקשן): אדיס אבבה (ADD) – המתנה 2:40 שעות",
+                        desc: "נחיתה באדיס אבבה ב-19:55 | ⏳ זמן המתנה בקונקשן: שעתיים ו-40 דקות (ללא איסוף מזוודות) | המראה ב-22:35 בטיסה ET 672 לסיאול",
+                        lat: 8.9779,
+                        lng: 38.7993,
+                        address: "Addis Ababa Bole International Airport Terminal 2 (ADD), Ethiopia",
+                        stopCode: null,
+                        type: "connection",
+                        isFlight: true,
+                        stayTime: "יום א' 22/11: נחיתה 19:55 ➔ המראה 22:35",
+                        recommendedStay: "שעתיים ו-40 דק' המתנה בטרמינל 2 + 11:10 שעות טיסת המשך",
+                        transitType: "טיסת המשך ET 672 לסיאול",
+                        walkingDist: "מעבר פנימי מונגש בטרמינל 2"
+                    },
+                    {
                         id: "k1",
-                        title: "1. הגעה: נמל התעופה אינצ'ון (ICN)",
-                        desc: "נחיתה טיסה ET 672, מפגש קבוצת 42 המטיילים עם המדריך ונסיעה לסיאול",
+                        dayNum: 2,
+                        dayTitle: "יום 2 (ב' 23/11): נחיתה באינצ'ון, עיר העתיד סונגדו והגעה לסיאול",
+                        title: "3. נחיתה בקוריאה: נמל התעופה אינצ'ון (ICN)",
+                        desc: "נחיתת טיסה ET 672 בשעה 15:45, בידוק דרכונים, איסוף כבודה וחבירה לאוטובוס הצמוד",
                         lat: 37.4602,
                         lng: 126.4407,
-                        address: "Incheon International Airport Terminal 1, Seoul",
+                        address: "Incheon International Airport Terminal 1, South Korea",
                         stopCode: null,
-                        stayTime: "יום ב' 23/11: 15:45 נחיתה והתארגנות",
+                        stayTime: "יום ב' 23/11: 15:45 - 17:00",
+                        recommendedStay: "שעה ורבע (75 דק' בידוק ואיסוף כבודה)",
                         transitType: "אוטובוס תיירים ממוזג",
                         walkingDist: "מעבר ישיר מהטרמינל לאוטובוס"
                     },
                     {
+                        id: "k_day2_songdo",
+                        dayNum: 2,
+                        dayTitle: "יום 2 (ב' 23/11): נחיתה באינצ'ון, עיר העתיד סונגדו והגעה לסיאול",
+                        title: "4. עיר העתיד הירוקה סונגדו (Songdo Central Park)",
+                        desc: "סיור פתיחה נינוח בפארק המרכזי של סונגדו לצד תעלות המים וגורדי השחקים",
+                        lat: 37.3925,
+                        lng: 126.6388,
+                        address: "196 컨벤시아대로 Yeonsu-gu, Incheon (Songdo Central Park)",
+                        stopCode: null,
+                        stayTime: "יום ב' 23/11: 17:30 - 18:45",
+                        recommendedStay: "שעה ורבע (75 דק' סיור מישורי)",
+                        transitType: "אוטובוס תיירים צמוד",
+                        walkingDist: "250 מטר טיילת מישורית"
+                    },
+                    {
                         id: "k_h1",
+                        dayNum: 2,
+                        dayTitle: "יום 2 (ב' 23/11): נחיתה באינצ'ון, עיר העתיד סונגדו והגעה לסיאול",
                         title: "🏨 23-25/11: סיאול - מלון קוקדו (Seoul KUKDO Hotel)",
-                        desc: "מלון תיירות מונגש במרכז סיאול (2 לילות) | מרחק לבית חב\"ד סיאול: כ-4.8 ק\"מ",
+                        desc: "מלון תיירות מונגש במרכז סיאול (2 לילות) | קבלת חדרים, ארוחת ערב ומנוחה",
                         lat: 37.5663,
                         lng: 126.9945,
                         address: "164 Eulji-ro, Jung-gu, Seoul (서울 중구 을지로 164)",
@@ -2404,38 +2473,92 @@
                         type: "hotel",
                         isHotel: true,
                         website: "http://www.hotelkukdo.com",
-                        stayTime: "23-25/11/2026 (2 לילות)",
+                        stayTime: "יום ב' 23/11 מהשעה 19:45 (לינה 2 לילות)",
+                        recommendedStay: "לינת לילה וארוחת ערב (2 לילות בסיאול)",
                         transitType: "אוטובוס תיירים צמוד",
                         walkingDist: "צמוד לתחנת מטרו Euljiro 4-ga",
-                        shabbatInfo: "מרחק לבית חב\"ד סיאול (איטוואן): כ-4.8 ק\"מ דרומה דרך רכס הר נמסאן. בימי חול אלו ההתניידות מתבצעת באוטובוס התיירים."
+                        shabbatInfo: "מרחק לבית חב\"ד סיאול (איטוואן): כ-4.8 ק\"מ דרומה דרך רכס הר נמסאן."
                     },
                     {
                         id: "k2",
-                        title: "2. סיאול - ארמון גיונגבוקגונג ומדרחוב אינסאדונג",
-                        desc: "ארמון המלך המרכזי משושלת גוסון, טקס חילופי המשמרות וסדנת תה",
+                        dayNum: 3,
+                        dayTitle: "יום 3 (ג' 24/11): סיאול – ארמון גיונגבוק, מגדל סיאול, שייט נהר האן ומופע נאנטה",
+                        title: "5. סיאול - כיכר גוואנגוואמון וארמון גיונגבוקגונג",
+                        desc: "ארמון המלך המרכזי משושלת ג'וסון, טקס חילופי המשמרות המלכותי ומדרחוב אינסאדונג",
                         lat: 37.5796,
                         lng: 126.9770,
                         address: "161 Sajik-ro, Jongno-gu, Seoul",
                         stopCode: null,
-                        stayTime: "יום ג' 24/11: 09:30 - 14:00",
-                        transitType: "סיור מונגש ומותאם גמלאים",
+                        stayTime: "יום ג' 24/11: 09:00 - 12:00",
+                        recommendedStay: "3 שעות (כולל טקס חילופי המשמרות)",
+                        transitType: "אוטובוס תיירים",
                         walkingDist: "300 מטר שבילים מישוריים"
                     },
                     {
+                        id: "k_day3_tower",
+                        dayNum: 3,
+                        dayTitle: "יום 3 (ג' 24/11): סיאול – ארמון גיונגבוק, מגדל סיאול, שייט נהר האן ומופע נאנטה",
+                        title: "6. תצפית מגדל סיאול בהר נאמסאן (N-Seoul Tower) ושוק נאמדאמון",
+                        desc: "עלייה לתצפית פנורמית בגובה 237 מ' על כל סיאול וביקור בשוק נאמדאמון הענק",
+                        lat: 37.5512,
+                        lng: 126.9882,
+                        address: "105 Namsangongwon-gil, Yongsan-gu, Seoul",
+                        stopCode: null,
+                        stayTime: "יום ג' 24/11: 12:30 - 15:30",
+                        recommendedStay: "3 שעות (תצפית + סיור בשוק נאמדאמון)",
+                        transitType: "מעלית מהירה ורכבל מונגש",
+                        walkingDist: "200 מטר"
+                    },
+                    {
+                        id: "k_day3_han",
+                        dayNum: 3,
+                        dayTitle: "יום 3 (ג' 24/11): סיאול – ארמון גיונגבוק, מגדל סיאול, שייט נהר האן ומופע נאנטה",
+                        title: "7. שייט על נהר ההאן, רובע מיונגדונג ומופע נאנטה (Nanta Show)",
+                        desc: "שייט רגוע על נהר ההאן החוצה את סיאול, רובע מיונגדונג ומופע התיפוף המפורסם נאנטה",
+                        lat: 37.5636,
+                        lng: 126.9830,
+                        address: "Myeongdong Nanta Theatre, 26 Myeongdong-gil, Jung-gu, Seoul",
+                        stopCode: null,
+                        stayTime: "יום ג' 24/11: 16:00 - 20:30",
+                        recommendedStay: "4.5 שעות (שייט + מיונגדונג + מופע נאנטה)",
+                        transitType: "אוטובוס תיירים וספינת שייט",
+                        walkingDist: "200 מטר מרציף השייט והתיאטרון"
+                    },
+                    {
                         id: "k3",
-                        title: "3. סוואן - מצודת הוואסונג וכפר הפולקלור",
-                        desc: "אתר מורשת עולמית אונסקו, חומות וסדנת קשתות וכפר מסורתי",
+                        dayNum: 4,
+                        dayTitle: "יום 4 (ד' 25/11): מצודת סואון, כפר הפולקלור ונסיעה לסוקצ'ו",
+                        title: "8. סואון - מצודת הוואסונג (Suwon Hwaseong Fortress)",
+                        desc: "אתר מורשת עולמית של אונסק\"ו, חומות המצודה ורכבת התיירים הפנימית",
                         lat: 37.2871,
                         lng: 127.0119,
-                        address: "Suwon Hwaseong Fortress, Gyeonggi-do",
+                        address: "320-2 Yeonghwa-dong, Jangan-gu, Suwon-si, Gyeonggi-do",
                         stopCode: null,
-                        stayTime: "יום ד' 25/11: 10:00 - 14:30",
+                        stayTime: "יום ד' 25/11: 09:30 - 11:45",
+                        recommendedStay: "שעתיים ורבע (135 דק')",
                         transitType: "רכבת תיירים פנימית סביב המצודה",
                         walkingDist: "150 מטר (מותאם גמלאים)"
                     },
                     {
+                        id: "k_day4_folk",
+                        dayNum: 4,
+                        dayTitle: "יום 4 (ד' 25/11): מצודת סואון, כפר הפולקלור ונסיעה לסוקצ'ו",
+                        title: "9. כפר הפולקלור הקוריאני (Korean Folk Village)",
+                        desc: "מוזיאון פתוח של 250 בתים מסורתיים מתקופת ג'וסון, מופעי אקרובטיקה, ריקוד והכנת קימצ'י",
+                        lat: 37.2589,
+                        lng: 127.1180,
+                        address: "90 Minsokchon-ro, Giheung-gu, Yongin-si, Gyeonggi-do",
+                        stopCode: null,
+                        stayTime: "יום ד' 25/11: 12:15 - 15:00",
+                        recommendedStay: "שעתיים ו-45 דק'",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "שבילים מישוריים מוצלים"
+                    },
+                    {
                         id: "k_h2",
-                        title: "🏨 25/11: סוקצ'ו - מלון צ'סטרטונס (Chestertons Hotel)",
+                        dayNum: 4,
+                        dayTitle: "יום 4 (ד' 25/11): מצודת סואון, כפר הפולקלור ונסיעה לסוקצ'ו",
+                        title: "🏨 25/11: סוקצ'ו - מלון צ'סטרטונס (Chestertons Hotel Sokcho)",
                         desc: "מלון נופש מודרני מונגש לחוף מפרץ סוקצ'ו והים המזרחי (לילה 1)",
                         lat: 38.1942,
                         lng: 128.5805,
@@ -2444,26 +2567,47 @@
                         type: "hotel",
                         isHotel: true,
                         website: "https://www.chestertonskr-sokcho.com",
-                        stayTime: "25-26/11/2026 (לילה 1)",
+                        stayTime: "יום ד' 25/11 מהשעה 18:30 (לינת לילה)",
+                        recommendedStay: "לינת לילה וארוחת ערב",
                         transitType: "אוטובוס תיירים",
                         walkingDist: "צמוד לטיילת אגם צ'ונגצ'ו",
-                        shabbatInfo: "אין בית חב\"ד באזור סוקצ'ו וצפון-מזרח קוריאה (כ-160 ק\"מ מסיאול)."
+                        shabbatInfo: "אין בית חב\"ד באזור סוקצ'ו וצפון-מזרח קוריאה."
                     },
                     {
                         id: "k4",
-                        title: "4. שמורת הר סוראק (רכבל) ומקדש נקסאנסה",
-                        desc: "רכבל לפסגת גוונגגומסונג, מראות הרים עוצרי נשימה ומקדש נקסאנסה לים",
+                        dayNum: 5,
+                        dayTitle: "יום 5 (ה' 26/11): שמורת הר סוראק (רכבל), מקדש נקסאנסה וצ'ונגפונג",
+                        title: "10. שמורת הר סוראק (Seoraksan) – רכבל לפסגה ומקדש שינהאונגסה",
+                        desc: "עלייה ברכבל לפסגת גוונגגומסונג, פסל הבודהה הענק ותצפית מרהיבה על הרים וים",
                         lat: 38.1195,
                         lng: 128.4656,
-                        address: "Seoraksan National Park, Sokcho",
+                        address: "833 Seoraksan-ro, Sokcho-si, Gangwon-do",
                         stopCode: null,
-                        stayTime: "יום ה' 26/11: 09:00 - 14:00",
+                        stayTime: "יום ה' 26/11: 09:00 - 12:00",
+                        recommendedStay: "3 שעות (כולל עלייה ברכבל)",
                         transitType: "עלייה ברכבל סגור וממוזג",
                         walkingDist: "100 מטר מפתח הרכבל"
                     },
                     {
+                        id: "k_day5_naksansa",
+                        dayNum: 5,
+                        dayTitle: "יום 5 (ה' 26/11): שמורת הר סוראק (רכבל), מקדש נקסאנסה וצ'ונגפונג",
+                        title: "11. מקדש נקסאנסה על צוק הים (Naksansa Temple) ושוק סוקצ'ו",
+                        desc: "מקדש עתיק ומרהיב על מצוק מול הים המזרחי וביקור בשוק הדייגים של סוקצ'ו",
+                        lat: 38.1245,
+                        lng: 128.6275,
+                        address: "100 Naksansa-ro, Yangyang-gun, Gangwon-do",
+                        stopCode: null,
+                        stayTime: "יום ה' 26/11: 12:45 - 15:00",
+                        recommendedStay: "שעתיים ורבע (135 דק')",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "250 מטר שביל נוף"
+                    },
+                    {
                         id: "k_h3",
-                        title: "🏨 26/11: צ'ונגג'ו/ג'צ'און - מלון צ'ונגפונג לייק ריזורט (Cheongpung Lake Resort)",
+                        dayNum: 5,
+                        dayTitle: "יום 5 (ה' 26/11): שמורת הר סוראק (רכבל), מקדש נקסאנסה וצ'ונגפונג",
+                        title: "🏨 26/11: ג'צ'און - מלון צ'ונגפונג לייק ריזורט (Cheongpung Resort)",
                         desc: "מלון נופש כפרי מונגש הצופה לאגם צ'ונגפונג (לילה 1)",
                         lat: 36.9930,
                         lng: 128.1690,
@@ -2472,27 +2616,48 @@
                         type: "hotel",
                         isHotel: true,
                         website: "https://www.cheongpungresort.co.kr",
-                        stayTime: "26-27/11/2026 (לילה 1)",
+                        stayTime: "יום ה' 26/11 מהשעה 18:30 (לינת לילה)",
+                        recommendedStay: "לינת לילה מול האגם",
                         transitType: "אוטובוס תיירים",
                         walkingDist: "מלון נופש מונגש",
-                        shabbatInfo: "אין בית חב\"ד באזור מרכז קוריאה (כ-130 ק\"מ מסיאול)."
+                        shabbatInfo: "אין בית חב\"ד באזור מרכז קוריאה."
+                    },
+                    {
+                        id: "k_day6_beopjusa",
+                        dayNum: 6,
+                        dayTitle: "יום 6 (ו' 27/11 - ערב שבת 1): פארק סוקריסאן, מקדש האינסה והגעה לדאייגו",
+                        title: "12. פארק לאומי סוקריסאן ומקדש ביאופג'וסה (Beopjusa)",
+                        desc: "פגודת העץ הגבוהה בקוריאה (נוסד ב-553) ופסל הבודהה המוזהב",
+                        lat: 36.5414,
+                        lng: 127.8333,
+                        address: "405 Beopjusa-ro, Songnisan-myeon, Boeun-gun, Chungcheongbuk-do",
+                        stopCode: null,
+                        stayTime: "יום ו' 27/11: 09:00 - 11:00",
+                        recommendedStay: "שעתיים (120 דק')",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "שביל יער מישורי ונגיש"
                     },
                     {
                         id: "k5",
-                        title: "5. פארק סוקריסאן ➔ מקדש האינסה (טריפיטקה קוריאנה)",
-                        desc: "פגודת העץ בביאופג'וסה, והאוצר הלאומי בהאינסה (81 אלף לוחות עץ עתיקים)",
+                        dayNum: 6,
+                        dayTitle: "יום 6 (ו' 27/11 - ערב שבת 1): פארק סוקריסאן, מקדש האינסה והגעה לדאייגו",
+                        title: "13. מקדש האינסה – אוצר הטריפיטקה קוריאנה (Haeinsa Temple)",
+                        desc: "אתר אונסק\"ו שבו 81,000 לוחות העץ העתיקים בני 800 שנה",
                         lat: 35.8014,
                         lng: 128.0982,
-                        address: "Haeinsa Temple, Gayasan National Park, Hapcheon",
+                        address: "122 Haeinsa-gil, Gaya-myeon, Hapcheon-gun, Gyeongsangnam-do",
                         stopCode: null,
-                        stayTime: "יום ו' 27/11: 09:30 - 14:30 (הגעה מוקדמת לדאייגו לפני שבת!)",
+                        stayTime: "יום ו' 27/11: 12:30 - 14:30",
+                        recommendedStay: "שעתיים (יציאה מוקדמת לדאייגו לפני שבת!)",
                         transitType: "אוטובוס תיירים",
                         walkingDist: "שבילי יער מונגשים"
                     },
                     {
                         id: "k_h4",
+                        dayNum: 7,
+                        dayTitle: "יום 7 (שבת 28/11): שבת קודש ראשונה במלון דאייגו גראנד ופארק באומו",
                         title: "🏨 27-29/11: דאייגו - מלון דאייגו גראנד (Daegu Grand Hotel) [שבת 1]",
-                        desc: "מלון 5 כוכבים מונגש במרכז דאייגו (27-29/11) | ⚠️ שבת 1: אין בית חב\"ד בעיר!",
+                        desc: "מלון 5 כוכבים מונגש בדאייגו | הדלקת נרות: 16:57 | צאת שבת: 17:57 | סיור רגלי בפארק באומו הסמוך",
                         lat: 35.8577,
                         lng: 128.6252,
                         address: "305 Dongdaegu-ro, Suseong-gu, Daegu (대구 수성구 동대구로 305)",
@@ -2500,27 +2665,33 @@
                         type: "hotel",
                         isHotel: true,
                         website: "http://www.daegugrand.co.kr",
-                        stayTime: "27-29/11/2026 (שבת 1: כניסה 16:57 | יציאה מוצ\"ש 17:57)",
-                        transitType: "שהות שבת מלאה במלון - ללא תחבורה",
-                        walkingDist: "פארק באומו (Beomeo Park) סמוך לסיור רגלי",
-                        shabbatInfo: "⚠️ שבת 1: אין בית חב\"ד בדאייגו! בית חב\"ד היחיד נמצא בסיאול (240 ק\"מ). השבת כולה נערכת במלון ובסביבתו הרגלית. יש להזמין סעודות כשרות מראש מחב\"ד סיאול שיגיעו בצידניות מבודדות ביום שישי בצהריים."
+                        stayTime: "27-29/11/2026 (שבת מלאה: כניסה 16:57 | יציאה 17:57)",
+                        recommendedStay: "שבת מלאה במלון וסיור רגלי סביב המלון (2 לילות)",
+                        transitType: "מנוחת שבת - ללא תחבורה",
+                        walkingDist: "פארק באומו (Beomeo Park) במרחק 350 מטר",
+                        shabbatInfo: "⚠️ שבת 1: אין בית חב\"ד בדאייגו! השבת נערכת במלון עם סעודות כשרות שהוזמנו מראש מחב\"ד סיאול."
                     },
                     {
                         id: "k6",
-                        title: "6. קיונגג'ו - בירת שילה העתיקה ומקדש בולגוקסה",
-                        desc: "בירת ממלכת שילה העתיקה, פגודות האבן המפורסמות וסדנת תה",
-                        lat: 35.8351,
+                        dayNum: 8,
+                        dayTitle: "יום 8 (א' 29/11): קיונגג'ו – בירת ממלכת שילה העתיקה והגעה לבוסאן",
+                        title: "14. קיונגג'ו - מקדש בולגוקסה, מערת סאוקגוראם ופארק קברי המלכים",
+                        desc: "בירת ממלכת שילה הקדומה, מצפה הכוכבים העתיק, טקס תה מסורתי ואתרי אונסק\"ו",
+                        lat: 35.7901,
                         lng: 129.3321,
-                        address: "Bulguksa, Gyeongju, Gyeongsangbuk-do",
+                        address: "385 Jinhyeon-dong, Gyeongju-si, Gyeongsangbuk-do",
                         stopCode: null,
-                        stayTime: "יום א' 29/11: 09:30 - 15:30",
-                        transitType: "שבילים מונגשים",
-                        walkingDist: "200 מטר"
+                        stayTime: "יום א' 29/11: 09:30 - 16:00",
+                        recommendedStay: "6.5 שעות (כולל מקדש בולגוקסה, סאוקגוראם וטקס תה)",
+                        transitType: "אוטובוס תיירים ושבילים מונגשים",
+                        walkingDist: "200 מטר בכל אתר"
                     },
                     {
                         id: "k_h5",
-                        title: "🏨 28-30/11: בוסאן - מלון קראון הארבור (Busan Crown Harbor Hotel)",
-                        desc: "מלון מודרני מונגש בלב בוסאן מול הנמל (לינה בבוסאן)",
+                        dayNum: 8,
+                        dayTitle: "יום 8 (א' 29/11): קיונגג'ו – בירת ממלכת שילה העתיקה והגעה לבוסאן",
+                        title: "🏨 29/11-02/12: בוסאן - מלון קראון הארבור (Busan Crown Harbor Hotel)",
+                        desc: "מלון מודרני מונגש בלב בוסאן מול הנמל",
                         lat: 35.1075,
                         lng: 129.0367,
                         address: "114 Jungang-daero, Jung-gu, Busan (부산 중구 중앙대로 114)",
@@ -2528,27 +2699,112 @@
                         type: "hotel",
                         isHotel: true,
                         website: "http://www.crownharborhotel.com",
-                        stayTime: "28-30/11/2026",
+                        stayTime: "29/11-02/12/2026 (לינה בבוסאן)",
+                        recommendedStay: "לינת לילה בבוסאן (3 לילות)",
                         transitType: "אוטובוס תיירים",
                         walkingDist: "סמוך לתחנת Jungang",
-                        shabbatInfo: "אין בית חב\"ד בעיר בוסאן (כ-325 ק\"מ מסיאול)."
+                        shabbatInfo: "אין בית חב\"ד בעיר בוסאן."
                     },
                     {
                         id: "k7",
-                        title: "7. בוסאן - מגדל בוסאן, שוק הדגים ג'גאלצ'י וכיכר ביפ",
-                        desc: "תצפית מגדל בוסאן, שוק הדגים התוסס וכיכר הסרטים ביפ",
+                        dayNum: 9,
+                        dayTitle: "יום 9 (ב' 30/11): בוסאן (חלק 1) – מגדל בוסאן, שוק הדגים ג'גאלצ'י וכיכר BIFF",
+                        title: "15. בוסאן - מגדל בוסאן (Yongdusan Park), שוק ג'גאלצ'י וכיכר BIFF",
+                        desc: "תצפית פנורמית ממגדל בוסאן, שוק הדגים הגדול בקוריאה, שוק קוקג'ה וכיכר הסרטים BIFF",
                         lat: 35.0967,
                         lng: 129.0306,
-                        address: "Jagalchi Market & Yongdusan Park, Jung-gu, Busan",
+                        address: "52 Jagalchihaean-ro, Jung-gu, Busan",
                         stopCode: null,
-                        stayTime: "יום ב' 30/11: 09:30 - 14:00",
-                        transitType: "הליכה מקורה ומישורית",
+                        stayTime: "יום ב' 30/11: 09:30 - 16:30",
+                        recommendedStay: "7 שעות (תצפית מגדל + שוק הדגים + מרכז קניות וספא)",
+                        transitType: "מדרגות נעות לפארק והליכה מישורית",
                         walkingDist: "200 מטר"
                     },
                     {
+                        id: "k_day10_haedong",
+                        dayNum: 10,
+                        dayTitle: "יום 10 (ג' 01/12): בוסאן (חלק 2) – מקדש הדרקון, גשר הזכוכית וכפר גמצ'און",
+                        title: "16. בוסאן - מקדש הדרקון על החוף (Haedong Yonggungsa) ובית APEC",
+                        desc: "מקדש ארמון הדרקון הניצב על סלעי חוף הים, אי דונגבאקסום וגשר הזכוכית אוריוקדו",
+                        lat: 35.1884,
+                        lng: 129.2233,
+                        address: "86 Yonggung-gil, Gijang-gun, Busan",
+                        stopCode: null,
+                        stayTime: "יום ג' 01/12: 09:00 - 13:00",
+                        recommendedStay: "4 שעות (מקדש הדרקון + בית APEC + גשר הזכוכית)",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "250 מטר"
+                    },
+                    {
+                        id: "k_day10_gamcheon",
+                        dayNum: 10,
+                        dayTitle: "יום 10 (ג' 01/12): בוסאן (חלק 2) – מקדש הדרקון, גשר הזכוכית וכפר גמצ'און",
+                        title: "17. בוסאן - כפר האמנות גמצ'און (Gamcheon) ורכבל סונגדו מעל המפרץ",
+                        desc: "תצפית וסמטאות כפר האמנים הצבעוני גמצ'און, ונסיעה ברכבל הימי מעל מפרץ סונגדו",
+                        lat: 35.0975,
+                        lng: 129.0106,
+                        address: "203 Gamnae 2-ro, Saha-gu, Busan",
+                        stopCode: null,
+                        stayTime: "יום ג' 01/12: 13:45 - 17:30",
+                        recommendedStay: "3 שעות ו-45 דק' (כפר גמצ'און + רכבל סונגדו)",
+                        transitType: "אוטובוס תיירים ורכבל סגור",
+                        walkingDist: "200 מטר בטיילת העליונה"
+                    },
+                    {
+                        id: "k_day11_pus_airport",
+                        dayNum: 11,
+                        dayTitle: "יום 11 (ד' 02/12): טיסת פנים מבוסאן (PUS) לאי ג'ג'ו (CJU) ומפלי ג'ג'ו",
+                        title: "18. ✈️ טיסת פנים 1 (המראה): נמל התעופה בוסאן גימהאיי (PUS)",
+                        desc: "הגעה מהמלון בבוסאן לשדה התעופה Gimhae (PUS), מסירת כבודה והמראה בטיסת פנים לאי ג'ג'ו (55 דק' טיסה)",
+                        lat: 35.1795,
+                        lng: 128.9382,
+                        address: "Gimhae International Airport (PUS), 108 Gonghang-jinipro, Gangseo-gu, Busan",
+                        stopCode: null,
+                        type: "flight",
+                        isFlight: true,
+                        stayTime: "יום ד' 02/12: 08:00 התייצבות | 09:30 המראה",
+                        recommendedStay: "90 דק' התייצבות ובידוק + 55 דק' טיסת פנים",
+                        transitType: "טיסת פנים PUS ➔ CJU (55 דק')",
+                        walkingDist: "טרמינל פנים מונגש"
+                    },
+                    {
+                        id: "k_day11_cju_airport",
+                        dayNum: 11,
+                        dayTitle: "יום 11 (ד' 02/12): טיסת פנים מבוסאן (PUS) לאי ג'ג'ו (CJU) ומפלי ג'ג'ו",
+                        title: "19. 🛬 טיסת פנים 1 (נחיתה): נמל התעופה הבינלאומי ג'ג'ו (CJU)",
+                        desc: "נחיתה באי הוולקני ג'ג'ו (CJU) ב-10:25, איסוף כבודה ויציאה באוטובוס לסיורי הדרום",
+                        lat: 33.5113,
+                        lng: 126.4930,
+                        address: "Jeju International Airport (CJU), 2 Gonghang-ro, Jeju-si",
+                        stopCode: null,
+                        type: "flight",
+                        isFlight: true,
+                        stayTime: "יום ד' 02/12: 10:25 נחיתה ואיסוף כבודה",
+                        recommendedStay: "40 דק' נחיתה וחבירה לאוטובוס",
+                        transitType: "אוטובוס תיירים צמוד בג'ג'ו",
+                        walkingDist: "יציאה מישורית מהטרמינל"
+                    },
+                    {
+                        id: "k_day11_jeju_south",
+                        dayNum: 11,
+                        dayTitle: "יום 11 (ד' 02/12): טיסת פנים מבוסאן (PUS) לאי ג'ג'ו (CJU) ומפלי ג'ג'ו",
+                        title: "20. ג'ג'ו - מוזיאון התה O'Sulloc, מצוקי הלבה ג'וסאנגג'אולי ומפל צ'אנג'יאון",
+                        desc: "שדות התה הירוק O'Sulloc, הגנים הבוטניים יאומיג'י, עמודי הבזלת המשושים ומפל צ'אנג'יאון",
+                        lat: 33.2447,
+                        lng: 126.4125,
+                        address: "Jusangjeolli Cliff & Cheonjiyeon Waterfall, Seogwipo, Jeju",
+                        stopCode: null,
+                        stayTime: "יום ד' 02/12: 11:30 - 17:30",
+                        recommendedStay: "6 שעות (מוזיאון התה + גנים בוטניים + צוק הלבה + מפל)",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "שבילי דק עץ מונגשים"
+                    },
+                    {
                         id: "k_h6",
-                        title: "🏨 30/11-03/12: האי ג'ג'ו - מלון וויסל לארק (Jeju Whistle Lark Hotel)",
-                        desc: "מלון נופש ימי מונגש לחוף הים בטפדונג צמוד לטיילת (3 לילות)",
+                        dayNum: 11,
+                        dayTitle: "יום 11 (ד' 02/12): טיסת פנים מבוסאן (PUS) לאי ג'ג'ו (CJU) ומפלי ג'ג'ו",
+                        title: "🏨 02-04/12: האי ג'ג'ו - מלון וויסל לארק (Jeju Whistle Lark Hotel)",
+                        desc: "מלון נופש ימי מונגש לחוף הים בטפדונג צמוד לטיילת (2 לילות)",
                         lat: 33.5153,
                         lng: 126.5266,
                         address: "26 Seobudu 2-gil, Jeju-si, Jeju-do (제주 제주시 서부두2길 26)",
@@ -2556,39 +2812,82 @@
                         type: "hotel",
                         isHotel: true,
                         website: "http://www.whistlelark.co.kr",
-                        stayTime: "30/11-03/12/2026 (3 לילות)",
-                        transitType: "טיסת פנים מבוסאן + אוטובוס",
+                        stayTime: "02-04/12/2026 (לינה בג'ג'ו)",
+                        recommendedStay: "לינת לילה מול הטיילת (2 לילות)",
+                        transitType: "אוטובוס תיירים",
                         walkingDist: "צמוד לטיילת הים של נמל ג'ג'ו",
-                        shabbatInfo: "אין בית חב\"ד באי ג'ג'ו (אי מבודד בדרום קוריאה)."
+                        shabbatInfo: "אין בית חב\"ד באי ג'ג'ו."
                     },
                     {
                         id: "k8",
-                        title: "8. האי ג'ג'ו - פסגת סונגסאן, פארק האלים ושוק דונגמון",
-                        desc: "לוע הר הגעש הזורח סונגסאן, צפייה בנשים הצוללות ופארק האלים",
+                        dayNum: 12,
+                        dayTitle: "יום 12 (ה' 03/12): האי ג'ג'ו – כפר סאונגאפ, הנשים הצוללות ופסגת הזריחה",
+                        title: "21. ג'ג'ו - פסגת הזריחה (Seongsan Ilchulbong), חוף הנשים הצוללות וכפר סאונגאפ",
+                        desc: "לוע הר הגעש הזורח (אונסק\"ו), מפגש עם הנשים הצוללות (Haenyeo), כפר סאונגאפ ורצועת סופג'יקוג'י",
                         lat: 33.4581,
                         lng: 126.9426,
-                        address: "Seongsan Ilchulbong, Jeju Island",
+                        address: "Seongsan Ilchulbong, Seogwipo-si, Jeju Island",
                         stopCode: null,
-                        stayTime: "01-02/12/2026 (ימים 10-11)",
-                        transitType: "טיילת נוף מונגשת",
+                        stayTime: "יום ה' 03/12: 09:00 - 17:00",
+                        recommendedStay: "8 שעות (סיור יום מלא במזרח האי ג'ג'ו)",
+                        transitType: "אוטובוס תיירים וטיילת נוף",
                         walkingDist: "300 מטר שבילי עץ"
                     },
                     {
-                        id: "k9",
-                        title: "9. סיאול - האזור המפורז DMZ, גנגנם ומגדל לוטה",
-                        desc: "גבול צפון קוריאה (DMZ) ופארק השלום, רובע גנגנם ומגדל לוטה",
-                        lat: 37.8920,
-                        lng: 126.7410,
-                        address: "DMZ Peace Park, Paju & Lotte World Tower, Seoul",
+                        id: "k_day13_hallim",
+                        dayNum: 13,
+                        dayTitle: "יום 13 (ו' 04/12 - ערב שבת 2): פארק האלים, טיסת פנים לסיאול (GMP) והכנה לשבת",
+                        title: "22. ג'ג'ו - פארק האלים (Hallim Park) ושוק דונגמון",
+                        desc: "גני בונסאי וצמחייה סובטרופית, מערות לבה וסיור קצר בשוק דונגמון המקורה לפני הטיסה",
+                        lat: 33.3895,
+                        lng: 126.2392,
+                        address: "300 Hallim-ro, Hallim-eup, Jeju-si",
                         stopCode: null,
-                        stayTime: "יום ו' 04/12: 09:00 - 14:30 (הגעה למלון לפני שבת!)",
-                        transitType: "אוטובוס תיירים ממוזג",
-                        walkingDist: "אתרים מונגשים"
+                        stayTime: "יום ו' 04/12: 08:30 - 11:00",
+                        recommendedStay: "שעתיים וחצי (150 דק' סיור בוקר)",
+                        transitType: "אוטובוס תיירים",
+                        walkingDist: "שבילים מישוריים בגנים"
+                    },
+                    {
+                        id: "k_day13_cju_depart",
+                        dayNum: 13,
+                        dayTitle: "יום 13 (ו' 04/12 - ערב שבת 2): פארק האלים, טיסת פנים לסיאול (GMP) והכנה לשבת",
+                        title: "23. ✈️ טיסת פנים 2 (המראה): נמל התעופה ג'ג'ו (CJU) ➔ סיאול גימפו",
+                        desc: "התייצבות בשדה התעופה ג'ג'ו (CJU) והמראה בטיסת פנים ישירה לסיאול גימפו (70 דק' טיסה)",
+                        lat: 33.5113,
+                        lng: 126.4930,
+                        address: "Jeju International Airport (CJU), Jeju-si",
+                        stopCode: null,
+                        type: "flight",
+                        isFlight: true,
+                        stayTime: "יום ו' 04/12: 11:30 התייצבות | 13:00 המראה",
+                        recommendedStay: "90 דק' התייצבות + 70 דק' טיסת פנים",
+                        transitType: "טיסת פנים CJU ➔ GMP (70 דק')",
+                        walkingDist: "טרמינל פנים מונגש"
+                    },
+                    {
+                        id: "k_day13_gmp_land",
+                        dayNum: 13,
+                        dayTitle: "יום 13 (ו' 04/12 - ערב שבת 2): פארק האלים, טיסת פנים לסיאול (GMP) והכנה לשבת",
+                        title: "24. 🛬 טיסת פנים 2 (נחיתה): נמל התעופה סיאול גימפו (GMP)",
+                        desc: "נחיתה בנמל התעופה גימפו בסיאול (GMP) ב-14:10 ונסיעה ישירה למלון בסיאול להתארגנות לפני כניסת שבת (16:56)",
+                        lat: 37.5583,
+                        lng: 126.7906,
+                        address: "Gimpo International Airport (GMP), 112 Haneul-gil, Gangseo-gu, Seoul",
+                        stopCode: null,
+                        type: "flight",
+                        isFlight: true,
+                        stayTime: "יום ו' 04/12: 14:10 נחיתה ➔ נסיעה למלון",
+                        recommendedStay: "35 דק' איסוף כבודה ויציאה לאוטובוס",
+                        transitType: "אוטובוס תיירים למלון בסיאול",
+                        walkingDist: "מעבר קצר לאוטובוס"
                     },
                     {
                         id: "k_h7",
-                        title: "🏨 03-05/12: סיאול - מלון קוקדו (Seoul KUKDO Hotel) [שבת 2]",
-                        desc: "מלון תיירות מונגש בסיאול (03-05/12) | ⚠️ שבת 2: 4.8 ק\"מ מבית חב\"ד דרך הר נמסאן",
+                        dayNum: 14,
+                        dayTitle: "יום 14 (שבת 05/12): שבת קודש שנייה בסיאול ויציאה לשדה התעופה במוצ\"ש",
+                        title: "🏨 04-05/12: סיאול - מלון קוקדו (Seoul KUKDO Hotel) [שבת 2]",
+                        desc: "מלון הקבוצה בסיאול | הדלקת נרות: 16:56 | צאת שבת: 17:56 | סיור רגלי בשבת לכפר בוקצ'ון ואינסדונג",
                         lat: 37.5663,
                         lng: 126.9945,
                         address: "164 Eulji-ro, Jung-gu, Seoul (서울 중구 을지로 164)",
@@ -2596,13 +2895,16 @@
                         type: "hotel",
                         isHotel: true,
                         website: "http://www.hotelkukdo.com",
-                        stayTime: "03-05/12/2026 (שבת 2: כניסה 16:56 | יציאה מוצ\"ש 17:56)",
-                        transitType: "שהות שבת במלון / הליכה מוגבלת",
-                        walkingDist: "קרוב לארמון גיונגבוק ולכפר בוקצ'ון לטיול רגלי",
-                        shabbatInfo: "⚠️ שבת 2: מרחק רגלי לבית חב\"ד סיאול כ-4.8 ק\"מ (כשעה וחצי הליכה לכל כיוון) עם עליות הר נמסאן. לא מומלץ לגמלאים בשבת חורפית (0°C). מומלץ לבקש מאופיר טורס מלון צמוד לחב\"ד (כגון Hamilton Hotel) או היערכות לסעודות במלון."
+                        stayTime: "04-05/12/2026 (שבת 2: כניסה 16:56 | יציאה מוצ\"ש 17:56)",
+                        recommendedStay: "שבת מלאה וסיור רגלי סביב המלון (פינוי חדרים במוצ\"ש 20:30)",
+                        transitType: "שהות שבת במלון / הליכה רגלית",
+                        walkingDist: "קרוב לכפר בוקצ'ון, אינסדונג ודונגדאמון פלאזה",
+                        shabbatInfo: "⚠️ שבת 2: מרחק רגלי לבית חב\"ד סיאול כ-4.8 ק\"מ דרך הר נמסאן."
                     },
                     {
                         id: "k_chabad",
+                        dayNum: 14,
+                        dayTitle: "יום 14 (שבת 05/12): שבת קודש שנייה בסיאול ויציאה לשדה התעופה במוצ\"ש",
                         title: "✡️ בית חב\"ד קוריאה - סיאול (מרכז שבת וכשרות ראשי)",
                         desc: "מרכז חב\"ד הראשי בקוריאה - הרב אשר ומוסי ליצמן | תפילות, סעודות ומסעדה כשרה",
                         lat: 37.5350,
@@ -2613,21 +2915,44 @@
                         isChabad: true,
                         website: "https://chabadkorea.com",
                         stayTime: "פתוח 24/7 | הרב אשר ליצמן: 82-10-7730-3770+",
+                        recommendedStay: "נקודת עוגן לכשרות וסעודות שבת",
                         transitType: "מרכז קהילתי, בית כנסת ומסעדה כשרה",
                         walkingDist: "שכונת האנאם-דונג / איטוואן",
-                        shabbatInfo: "בית חב\"ד היחיד בדרום קוריאה. תפילות, סעודות שבת כשרות, מקווה טהרה ומשלוחי אוכל כשר לכל המלונות בקוריאה (כולל לדאייגו). מרחק ממלון קוקדו: כ-4.8 ק\"מ דרך הר נמסאן."
+                        shabbatInfo: "בית חב\"ד היחיד בדרום קוריאה. מספק משלוחי סעודות שבת כשרות לכל המלונות."
                     },
                     {
                         id: "k10",
-                        title: "10. יציאה: נמל התעופה סיאול אינצ'ון (ICN)",
-                        desc: "המראה מוצ\"ש 05/12 בלילה ב-00:10 (יום א' 06/12) טיסה ET 673 לישראל",
+                        dayNum: 15,
+                        dayTitle: "יום 15 (א' 06/12): טיסות חזור מסיאול דרך אדיס אבבה ונחיתה בנתב\"ג",
+                        title: "25. המראה מסיאול: נמל התעופה אינצ'ון (ICN) – טיסה ET 673",
+                        desc: "יציאה מהמלון במוצ\"ש ב-20:30, הגעה לאינצ'ון ב-21:15 והמראה ב-00:10 בלילה לאדיס אבבה (משך טיסה: 12:15 שעות)",
                         lat: 37.4602,
                         lng: 126.4407,
-                        address: "Incheon International Airport Terminal 1",
+                        address: "Incheon International Airport Terminal 1 (ICN)",
                         stopCode: null,
-                        stayTime: "מוצ\"ש 05/12: 21:00 נסיעה לשדה ➔ 00:10 המראה",
-                        transitType: "אוטובוס תיירים",
-                        walkingDist: "העברת מזוודות ישירה לטיסה"
+                        type: "flight",
+                        isFlight: true,
+                        stayTime: "ליל מוצ\"ש/א' 06/12: 21:15 צ'ק-אין | 00:10 המראה",
+                        recommendedStay: "3 שעות בידוק ודיוטי פרי + 12:15 שעות טיסה",
+                        transitType: "טיסה בינלאומית ET 673",
+                        walkingDist: "העברת מזוודות ישירה לנתב\"ג"
+                    },
+                    {
+                        id: "k_day15_add_return",
+                        dayNum: 15,
+                        dayTitle: "יום 15 (א' 06/12): טיסות חזור מסיאול דרך אדיס אבבה ונחיתה בנתב\"ג",
+                        title: "26. טיסת מעבר חזור: אדיס אבבה (ADD) – המתנה 3:05 שעות ➔ נתב\"ג",
+                        desc: "נחיתה באדיס אבבה ב-07:25 בבוקר | ⏳ המתנה בקונקשן: 3 שעות ו-5 דקות | המראה ב-10:30 בטיסה ET 418 ונחיתה בנתב\"ג בשעה 13:35!",
+                        lat: 8.9779,
+                        lng: 38.7993,
+                        address: "Addis Ababa Bole International Airport Terminal 2 (ADD) -> TLV",
+                        stopCode: null,
+                        type: "connection",
+                        isFlight: true,
+                        stayTime: "יום א' 06/12: 07:25 נחיתה | 10:30 המראה ➔ 13:35 נחיתה בנתב\"ג",
+                        recommendedStay: "3 שעות ו-5 דק' המתנה בקונקשן + 4:05 שעות טיסה לנתב\"ג",
+                        transitType: "טיסת המשך ET 418 לנתב\"ג",
+                        walkingDist: "מעבר בינלאומי בטרמינל 2"
                     }
                 ];
 
@@ -2665,6 +2990,48 @@
                         }
                     }
                     localStorage.setItem('travel_assistant_v518_strict_clean', 'true');
+                }
+                if (!localStorage.getItem('travel_assistant_v528_daily_schedule_and_connections')) {
+                    try {
+                        const koreaChainRaw = localStorage.getItem('travel_assistant_arrival_chain_korea');
+                        const koreaChain = koreaChainRaw ? JSON.parse(koreaChainRaw) : {};
+                        const updatedKoreaChain = Object.assign({}, koreaChain, {
+                            originAddress: koreaChain.originAddress || "רח' העצמאות 93, אשדוד",
+                            originTime: `10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30)`,
+                            originLat: 31.7893,
+                            originLng: 34.6417,
+                            hasMeetingPoint: true,
+                            meetingAddress: `נתב"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין, שער 32)`,
+                            meetingTime: "11:30 (3 שעות לפני המראה ב-14:40)",
+                            meetingLat: 32.0055,
+                            meetingLng: 34.8854,
+                            connectionOutbound: `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`,
+                            connectionReturn: `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
+                            domesticFlightsSummary: `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`,
+                            trailheadAddress: "1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול",
+                            trailheadTime: "15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול הקרקעי)",
+                            trailheadLat: 37.4602,
+                            trailheadLng: 126.4407
+                        });
+                        localStorage.setItem('travel_assistant_arrival_chain_korea', JSON.stringify(updatedKoreaChain));
+                        if (TRIPS_DATABASE.korea) {
+                            TRIPS_DATABASE.korea.dates = "22/11/2026 - 06/12/2026 (15 ימים)";
+                            TRIPS_DATABASE.korea.departureDate = "2026-11-22";
+                            TRIPS_DATABASE.korea.docsSynced = true;
+                            TRIPS_DATABASE.korea.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
+                        }
+                        let customArr = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                        customArr.forEach(ct => {
+                            if ((ct.key || ct.id) === 'korea' || (ct.name && ct.name.includes('קוריאה'))) {
+                                ct.dates = "22/11/2026 - 06/12/2026 (15 ימים)";
+                                ct.departureDate = "2026-11-22";
+                                ct.docsSynced = true;
+                                ct.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
+                            }
+                        });
+                        localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(customArr));
+                        localStorage.setItem('travel_assistant_v528_daily_schedule_and_connections', 'true');
+                    } catch(e) {}
                 }
                 if (!localStorage.getItem('travel_assistant_v525_fix_korea_derivation')) {
                     try {
@@ -3229,11 +3596,14 @@
                     originLat: (existingChain && existingChain.originLat) ? existingChain.originLat : 31.7893,
                     originLng: (existingChain && existingChain.originLng) ? existingChain.originLng : 34.6417,
                     hasMeetingPoint: true,
-                    meetingAddress: universalDerived.meetingAddress || `נתב"ג טרמינל 3 (מפגש בדלפקי הצ'ק-אין)`,
+                    meetingAddress: universalDerived.meetingAddress || `נתב"ג טרמינל 3 (מפגש בדלפקי הצ'ק-אין, שער 32)`,
                     meetingTime: universalDerived.meetingTimeDisplay || `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`,
                     meetingLat: 32.0055,
                     meetingLng: 34.8854,
-                    trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סיאול`,
+                    connectionOutbound: universalDerived.connectionOutbound || `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`,
+                    connectionReturn: universalDerived.connectionReturn || `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
+                    domesticFlightsSummary: universalDerived.domesticFlightsSummary || `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`,
+                    trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול`,
                     trailheadTime: universalDerived.landingOrStartTime ? `${universalDerived.landingOrStartTime} (נחיתה בסיאול ותחילת המסלול)` : `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
                     trailheadLat: 37.4602,
                     trailheadLng: 126.4407
@@ -4160,7 +4530,9 @@
             stationMarkers.forEach(m => dynamicMap.removeLayer(m));
             stationMarkers = [];
 
+            const visibleSet = new Set(getStationsForSelectedDay().map(item => item.idx));
             STATIONS.forEach((st, idx) => {
+                if (selectedMapDay !== 'all' && !visibleSet.has(idx)) return;
                 const isBus = st.stopCode !== null && st.stopCode !== undefined;
                 const isHotel = st.isHotel || st.type === 'hotel' || (st.title && st.title.includes('🏨'));
                 const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
@@ -4295,6 +4667,147 @@
             }
         });
 
+        // ================= UNIVERSAL DAY CLASSIFIER & DAILY ITINERARY TABLE CONTROLLER (V5.2.8) =================
+        let selectedMapDay = 'all';
+
+        function inferStationDayInfo(st, idx) {
+            if (!st) return { dayNum: 1, dayTitle: 'יום 1 במסלול', recommendedStay: 'שעה וחצי (90 דק\')' };
+            let dayNum = st.dayNum || null;
+            let dayTitle = st.dayTitle || '';
+            const combined = `${st.title || ''} ${st.stayTime || ''} ${st.desc || ''}`;
+            if (!dayNum) {
+                const dayMatch = combined.match(/יום\s*(\d{1,2})/);
+                if (dayMatch) {
+                    dayNum = parseInt(dayMatch[1], 10);
+                } else if (combined.includes('22/11')) { dayNum = 1; }
+                else if (combined.includes('23/11')) { dayNum = 2; }
+                else if (combined.includes('24/11')) { dayNum = 3; }
+                else if (combined.includes('25/11')) { dayNum = 4; }
+                else if (combined.includes('26/11')) { dayNum = 5; }
+                else if (combined.includes('27/11')) { dayNum = 6; }
+                else if (combined.includes('28/11') || combined.includes('שבת 1')) { dayNum = 7; }
+                else if (combined.includes('29/11')) { dayNum = 8; }
+                else if (combined.includes('30/11')) { dayNum = 9; }
+                else if (combined.includes('01/12')) { dayNum = 10; }
+                else if (combined.includes('02/12')) { dayNum = 11; }
+                else if (combined.includes('03/12')) { dayNum = 12; }
+                else if (combined.includes('04/12')) { dayNum = 13; }
+                else if (combined.includes('05/12') || combined.includes('שבת 2')) { dayNum = 14; }
+                else if (combined.includes('06/12')) { dayNum = 15; }
+                else { dayNum = 1; }
+            }
+            if (!dayTitle) {
+                dayTitle = `יום ${dayNum} במסלול`;
+            }
+            let recommendedStay = st.recommendedStay || st.stay || '';
+            if (!recommendedStay) {
+                if (st.stayTime) {
+                    const mRange = String(st.stayTime).match(/(\d{1,2}):(\d{2})\s*[-–]\s*(\d{1,2}):(\d{2})/);
+                    if (mRange) {
+                        const mins = (parseInt(mRange[3], 10) * 60 + parseInt(mRange[4], 10)) - (parseInt(mRange[1], 10) * 60 + parseInt(mRange[2], 10));
+                        if (mins > 0) {
+                            const h = Math.floor(mins / 60);
+                            const r = mins % 60;
+                            recommendedStay = h > 0 ? (r > 0 ? `${h} שעות ו-${r} דק'` : `${h} שעות`) : `${mins} דק'`;
+                        }
+                    }
+                }
+                if (!recommendedStay) {
+                    if (st.isHotel || st.type === 'hotel') recommendedStay = 'לינת לילה ומנוחה';
+                    else if (st.type === 'connection') recommendedStay = 'המתנה בקונקשן ומעבר לשער';
+                    else if (st.isFlight || st.type === 'flight') recommendedStay = '90 דק\' התייצבות + זמן טיסה';
+                    else recommendedStay = 'שעתיים (120 דק\')';
+                }
+            }
+            return { dayNum, dayTitle, recommendedStay };
+        }
+
+        function getStationsForSelectedDay() {
+            if (!Array.isArray(STATIONS) || STATIONS.length === 0) return [];
+            if (selectedMapDay === 'all' || !selectedMapDay) {
+                return STATIONS.map((st, idx) => ({ st, idx, info: inferStationDayInfo(st, idx) }));
+            }
+            const targetDay = parseInt(selectedMapDay, 10);
+            return STATIONS
+                .map((st, idx) => ({ st, idx, info: inferStationDayInfo(st, idx) }))
+                .filter(item => item.info.dayNum === targetDay);
+        }
+
+        function renderMapDaySelector() {
+            const selectEl = document.getElementById('map-day-select');
+            const pillsEl = document.getElementById('map-day-pills-strip');
+            const barEl = document.getElementById('map-day-selector-bar');
+            if (!selectEl || !pillsEl) return;
+
+            if (!Array.isArray(STATIONS) || STATIONS.length === 0) {
+                if (barEl) barEl.style.display = 'none';
+                return;
+            }
+            if (barEl) barEl.style.display = 'flex';
+
+            const dayMap = new Map();
+            STATIONS.forEach((st, idx) => {
+                const info = inferStationDayInfo(st, idx);
+                if (!dayMap.has(info.dayNum)) {
+                    dayMap.set(info.dayNum, { dayNum: info.dayNum, dayTitle: info.dayTitle, count: 0 });
+                }
+                dayMap.get(info.dayNum).count += 1;
+            });
+
+            const sortedDays = Array.from(dayMap.values()).sort((a, b) => a.dayNum - b.dayNum);
+            if (selectedMapDay !== 'all' && !dayMap.has(parseInt(selectedMapDay, 10))) {
+                selectedMapDay = 'all';
+            }
+
+            selectEl.innerHTML = `<option value="all" ${selectedMapDay === 'all' ? 'selected' : ''}>📋 כל ימי הטיול (${STATIONS.length} תחנות במסלול המלא)</option>` +
+                sortedDays.map(d => `<option value="${d.dayNum}" ${String(selectedMapDay) === String(d.dayNum) ? 'selected' : ''}>📅 ${d.dayTitle} (${d.count} תחנות)</option>`).join('');
+
+            pillsEl.innerHTML = `
+                <button type="button" onclick="selectMapDay('all')" style="background:${selectedMapDay === 'all' ? '#1d4ed8' : 'white'}; color:${selectedMapDay === 'all' ? 'white' : '#1e3a8a'}; border:1.5px solid #3b82f6; border-radius:7px; padding:3px 9px; font-size:0.76em; font-weight:900; white-space:nowrap; cursor:pointer;">
+                    כל הימים
+                </button>
+            ` + sortedDays.map(d => {
+                const active = String(selectedMapDay) === String(d.dayNum);
+                return `
+                    <button type="button" onclick="selectMapDay('${d.dayNum}')" title="${d.dayTitle.replace(/"/g, '&quot;')}" style="background:${active ? '#2563eb' : 'white'}; color:${active ? 'white' : '#1e40af'}; border:1px solid #93c5fd; border-radius:7px; padding:3px 8px; font-size:0.75em; font-weight:800; white-space:nowrap; cursor:pointer;">
+                        יום ${d.dayNum}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectMapDay(dayVal) {
+            selectedMapDay = (dayVal === 'all' || !dayVal) ? 'all' : String(dayVal);
+            renderMapDaySelector();
+            renderStationQuickSelectors();
+            renderStationsList();
+
+            if (dynamicMap) {
+                renderMapStationMarkers();
+                const dayItems = getStationsForSelectedDay();
+                if (dayItems.length > 0) {
+                    const latlngs = dayItems.map(item => [item.st.lat, item.st.lng]);
+                    if (routePolyline) {
+                        dynamicMap.removeLayer(routePolyline);
+                    }
+                    routePolyline = L.polyline(latlngs, {
+                        color: selectedMapDay === 'all' ? '#ec4899' : '#2563eb',
+                        weight: selectedMapDay === 'all' ? 4 : 5,
+                        opacity: 0.9,
+                        dashArray: selectedMapDay === 'all' ? '8, 8' : null
+                    }).addTo(dynamicMap);
+
+                    dynamicMap.invalidateSize();
+                    if (latlngs.length === 1) {
+                        dynamicMap.setView(latlngs[0], 14, { animate: true });
+                        openStationLivePopup(dayItems[0].idx);
+                    } else {
+                        dynamicMap.fitBounds(L.latLngBounds(latlngs), { padding: [45, 45] });
+                    }
+                }
+            }
+        }
+
         // Universal Inter-Site Distance & Travel Time Calculator for Schedule Management (ניהול לו"ז בין אתרים)
         function calculateInterStationLeg(stFrom, stTo) {
             if (!stFrom || !stTo || stFrom.lat == null || stTo.lat == null) {
@@ -4314,14 +4827,27 @@
                     mode: 'ברגל'
                 };
             }
-            const isFlightLeg = (stTo.transitType && stTo.transitType.includes('טיס')) ||
+            const airKm = Math.round(airMeters / 1000);
+            if (airKm > 900 || stTo.type === 'connection' || (stFrom.type === 'connection' && airKm > 400)) {
+                const hours = Math.max(3, Math.round((airKm / 780) * 4) / 4);
+                const hWhole = Math.floor(hours);
+                const mRem = Math.round((hours - hWhole) * 60);
+                const flightStr = mRem > 0 ? `${hWhole}:${String(mRem).padStart(2, '0')} שעות טיסה` : `${hWhole} שעות טיסה`;
+                return {
+                    distStr: `${airKm} ק"מ (טיסה בינלאומית)`,
+                    timeStr: flightStr,
+                    minutes: Math.round(hours * 60),
+                    mode: 'טיסה בינלאומית'
+                };
+            }
+            const isDomesticFlightLeg = (stFrom.isFlight && stTo.isFlight && airKm > 120) ||
+                (stTo.transitType && stTo.transitType.includes('טיסת פנים')) ||
                 (airMeters > 140000 && ((stFrom.title || '').includes("ג'ג'ו") !== (stTo.title || '').includes("ג'ג'ו")));
-            if (isFlightLeg) {
-                const airKm = Math.round(airMeters / 1000);
-                const flightMins = Math.max(50, Math.round(airKm / 7.5) + 15);
+            if (isDomesticFlightLeg) {
+                const flightMins = (airKm < 350) ? 55 : 70;
                 return {
                     distStr: `${airKm} ק"מ (טיסת פנים)`,
-                    timeStr: `כ-${flightMins} דק' (טיסה)`,
+                    timeStr: `${flightMins} דק' טיסה (+90 דק' התייצבות)`,
                     minutes: flightMins,
                     mode: 'טיסת פנים'
                 };
@@ -4387,7 +4913,8 @@
             }
 
             const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:1px 6px; border-radius:5px; font-weight:900; font-size:10px; margin-top:2px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
-            const stayTimeHtml = st.stayTime ? `<div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; border-radius:6px; padding:3px 7px; margin:3px 0; font-size:10.5px; font-weight:800;">🕒 לו"ז וזמן שהייה: ${st.stayTime}</div>` : '';
+            const dayInfo = (typeof inferStationDayInfo === 'function') ? inferStationDayInfo(st, idx) : { dayNum: 1, recommendedStay: '' };
+            const stayTimeHtml = `<div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; border-radius:6px; padding:4px 7px; margin:3px 0; font-size:10.5px; font-weight:800; line-height:1.35;">📅 <b>יום ${dayInfo.dayNum}</b> | ⏳ <b>שהייה מומלצת:</b> ${dayInfo.recommendedStay}${st.stayTime ? `<br>🕒 <b>לו"ז:</b> ${st.stayTime}` : ''}</div>`;
 
             const popupContent = `
                 <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:185px; max-width:225px;" dir="rtl">
@@ -4950,14 +5477,20 @@
                 return;
             }
 
+            if (typeof renderMapDaySelector === 'function') renderMapDaySelector();
+            const dayItems = getStationsForSelectedDay();
+
             if (totalBadge) {
-                totalBadge.innerText = `${STATIONS.length} תחנות במסלול`;
+                totalBadge.innerText = selectedMapDay === 'all'
+                    ? `${STATIONS.length} תחנות במסלול`
+                    : `יום ${selectedMapDay} (${dayItems.length} תחנות)`;
             }
 
             const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(currentTripKey) : null;
+            const isIntl = !isDomesticTrip(currentTripKey);
             let arrivalHtml = '';
 
-            if (chain) {
+            if (chain && (selectedMapDay === 'all' || String(selectedMapDay) === '1' || String(selectedMapDay) === '2')) {
                 let originDistHtml = '<span style="color:#1d4ed8; font-size:0.8em; font-weight:800;">נקודת מוצא</span>';
                 let meetingDistHtml = '<span style="color:#b45309; font-size:0.8em; font-weight:800;">נקודת מפגש</span>';
                 if (chain.hasMeetingPoint && chain.originLat && chain.originLng && chain.meetingLat && chain.meetingLng) {
@@ -4989,10 +5522,29 @@
                     </div>
                 `;
 
+                const connIdx = STATIONS.findIndex(s => s.type === 'connection');
+                const connOutbound = chain.connectionOutbound || (isIntl && currentTripKey === 'korea'
+                    ? `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`
+                    : '');
+                const domesticFlights = chain.domesticFlightsSummary || (isIntl && currentTripKey === 'korea'
+                    ? `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`
+                    : '');
+
+                const connectionCardHtml = connOutbound ? `
+                    <div style="background:#f5f3ff; border:1.5px solid #c4b5fd; border-radius:10px; padding:8px 10px; cursor:pointer;" onclick="${connIdx !== -1 ? `setTargetStation(${connIdx})` : `focusArrivalAnchor('meeting')`}">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:3px;">
+                            <span style="background:#7c3aed; color:white; font-size:0.72em; font-weight:900; padding:1px 7px; border-radius:5px;">✈️ טיסת מעבר (קונקשן באתיופיה) וזמן המתנה</span>
+                            <span style="font-size:0.75em; font-weight:900; color:#5b21b6;">⏳ המתנה באדיס אבבה: שעתיים ו-40 דק'</span>
+                        </div>
+                        <div style="font-size:0.82em; font-weight:800; color:#1e1b4b; line-height:1.35;">${connOutbound}</div>
+                        ${domesticFlights ? `<div style="margin-top:4px; padding-top:4px; border-top:1px dashed #c4b5fd; font-size:0.79em; font-weight:800; color:#0369a1; line-height:1.35;">${domesticFlights}</div>` : ''}
+                    </div>
+                ` : '';
+
                 arrivalHtml = `
                     <div style="background:#f1f5f9; border:1.5px solid #cbd5e1; border-radius:12px; padding:8px; margin-bottom:6px; display:flex; flex-direction:column; gap:6px;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:0.78em; font-weight:900; color:#334155;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> מעטפת הגעה ומפגש (לפני המסלול):</span>
+                            <span style="font-size:0.78em; font-weight:900; color:#334155;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> מעטפת הגעה, נק' מפגש וטיסת מעבר (קונקשן):</span>
                             <button type="button" onclick="switchScreen('screen-route'); setWizardStep(1);" style="background:white; border:1px solid #cbd5e1; color:#2563eb; border-radius:6px; padding:2px 7px; font-size:0.72em; font-weight:800; cursor:pointer;">✏️ ערוך</button>
                         </div>
                         <div style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
@@ -5010,16 +5562,90 @@
                             </div>
                         </div>
                         ${meetingCardHtml}
+                        ${connectionCardHtml}
                     </div>
-                    <div style="font-size:0.78em; font-weight:900; color:#15803d; padding:2px 4px 0;"><i class="fa-solid fa-flag-checkered"></i> תחנות המסלול בפועל (החל מתחילת המסלול):</div>
                 `;
             }
 
-            const stationsHtml = STATIONS.map((st, idx) => {
-                const prevSt = (idx > 0) ? STATIONS[idx - 1] : null;
-                const nextSt = (idx < STATIONS.length - 1) ? STATIONS[idx + 1] : null;
+            // Build the Structured Daily Schedule & A->B Table (טבלת מסלול יומי: מ-A ל-B | מרחק | זמן הגעה | זמן שהייה מומלץ)
+            let dailyTableHtml = '';
+            if (dayItems.length > 0) {
+                const tableTitle = selectedMapDay === 'all'
+                    ? `📊 טבלת לו"ז ומסלול יומי מרוכזת (מרחק, זמן הגעה מ-A ל-B וזמן שהייה מומלץ)`
+                    : `📊 טבלת מסלול יומי — ${dayItems[0].info.dayTitle}`;
+
+                const rowsHtml = dayItems.map((item, pos) => {
+                    const st = item.st;
+                    const idx = item.idx;
+                    const info = item.info;
+                    const prevSt = (pos > 0) ? dayItems[pos - 1].st : ((idx > 0) ? STATIONS[idx - 1] : null);
+                    const leg = prevSt ? calculateInterStationLeg(prevSt, st) : null;
+
+                    const fromToLabel = prevSt
+                        ? `<div style="font-size:0.75em; color:#64748b; font-weight:700;">מ: ${shortStationLabel(prevSt.title)}</div><div style="font-weight:900; color:#0f172a;">אל: ${st.title}</div>`
+                        : `<div style="font-size:0.75em; color:#15803d; font-weight:800;">🚩 תחנת פתיחה</div><div style="font-weight:900; color:#0f172a;">${st.title}</div>`;
+
+                    const distCol = leg ? `<b style="color:#16a34a;">${leg.distStr}</b>` : `<span style="color:#15803d; font-weight:800;">נק' זינוק</span>`;
+                    const timeCol = leg ? `<b style="color:#2563eb;">${leg.timeStr}</b>` : `<span style="color:#64748b;">-</span>`;
+                    const stayCol = `<div style="font-weight:800; color:#1e40af;">${info.recommendedStay}</div>${st.stayTime ? `<div style="font-size:0.75em; color:#475569;">${st.stayTime}</div>` : ''}`;
+
+                    return `
+                        <tr onclick="setTargetStation(${idx})" style="border-bottom:1px solid #e2e8f0; cursor:pointer; background:${activeTargetIndex === idx ? '#eff6ff' : (pos % 2 === 0 ? '#ffffff' : '#f8fafc')};" title="לחץ למיקוד המפה על תחנה זו">
+                            <td style="padding:6px 7px; font-weight:900; color:#4338ca; text-align:center; white-space:nowrap;">יום ${info.dayNum}</td>
+                            <td style="padding:6px 7px; line-height:1.25;">${fromToLabel}</td>
+                            <td style="padding:6px 7px; white-space:nowrap;">${distCol}</td>
+                            <td style="padding:6px 7px; white-space:nowrap;">${timeCol}</td>
+                            <td style="padding:6px 7px; line-height:1.2;">${stayCol}</td>
+                        </tr>
+                    `;
+                }).join('');
+
+                dailyTableHtml = `
+                    <div id="daily-itinerary-table-card" style="background:white; border:2px solid #3b82f6; border-radius:12px; padding:8px; margin-bottom:8px; box-shadow:0 2px 8px rgba(37,99,235,0.08);" dir="rtl">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:6px; flex-wrap:wrap;">
+                            <span style="font-weight:900; font-size:0.86em; color:#1e3a8a;">${tableTitle}</span>
+                            <span style="font-size:0.72em; background:#dbeafe; color:#1d4ed8; padding:2px 7px; border-radius:6px; font-weight:800;">לחץ על שורה להצגה במפה</span>
+                        </div>
+                        <div style="overflow-x:auto; max-height:260px; overflow-y:auto; border:1px solid #cbd5e1; border-radius:8px;">
+                            <table style="width:100%; border-collapse:collapse; font-size:0.82em; text-align:right;">
+                                <thead style="position:sticky; top:0; background:#eff6ff; color:#1e3a8a; border-bottom:2px solid #93c5fd; z-index:2;">
+                                    <tr>
+                                        <th style="padding:6px 7px; text-align:center;">יום</th>
+                                        <th style="padding:6px 7px;">מסלול יומי (מ-A ל-B)</th>
+                                        <th style="padding:6px 7px;">📏 מרחק</th>
+                                        <th style="padding:6px 7px;">⏱️ זמן הגעה</th>
+                                        <th style="padding:6px 7px;">🕒 זמן שהייה מומלץ ולו"ז</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${rowsHtml}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let lastDayHeader = null;
+            const stationsHtml = dayItems.map((item, pos) => {
+                const st = item.st;
+                const idx = item.idx;
+                const info = item.info;
+                const prevSt = (pos > 0) ? dayItems[pos - 1].st : ((idx > 0) ? STATIONS[idx - 1] : null);
+                const nextSt = (pos < dayItems.length - 1) ? dayItems[pos + 1].st : ((idx < STATIONS.length - 1) ? STATIONS[idx + 1] : null);
                 const legFromPrev = prevSt ? calculateInterStationLeg(prevSt, st) : null;
                 const legToNext = nextSt ? calculateInterStationLeg(st, nextSt) : null;
+
+                let dayHeaderHtml = '';
+                if (info.dayNum !== lastDayHeader) {
+                    lastDayHeader = info.dayNum;
+                    dayHeaderHtml = `
+                        <div onclick="selectMapDay('${info.dayNum}')" style="background:linear-gradient(90deg, #1e3a8a 0%, #2563eb 100%); color:white; padding:6px 12px; border-radius:8px; font-weight:900; font-size:0.86em; margin-top:6px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                            <span>📅 ${info.dayTitle}</span>
+                            <span style="font-size:0.78em; background:rgba(255,255,255,0.2); padding:1px 7px; border-radius:5px;">הצג יום זה במפה ➔</span>
+                        </div>
+                    `;
+                }
 
                 let legBadgeHtml = '';
                 let connectorTopHtml = '';
@@ -5033,14 +5659,14 @@
                     connectorTopHtml = `
                         <div style="display:flex; align-items:center; gap:6px; padding:2px 12px; color:#0369a1; font-size:0.76em; font-weight:800;">
                             <span style="color:#94a3b8;">⬇️</span>
-                            <span>מהאתר הקודם (${shortStationLabel(prevSt.title)}): <b>${legFromPrev.distStr}</b> • זמן הגעה: <b>${legFromPrev.timeStr}</b></span>
+                            <span>מ-${shortStationLabel(prevSt.title)}: <b>${legFromPrev.distStr}</b> • זמן הגעה: <b>${legFromPrev.timeStr}</b></span>
                         </div>
                     `;
                 } else if (legToNext) {
                     legBadgeHtml = `
                         <div style="text-align:left; line-height:1.2;">
                             <div style="color:#15803d; font-weight:900; font-size:0.82em;">🚩 נקודת פתיחה</div>
-                            <div style="color:#0369a1; font-weight:800; font-size:0.75em;">לאתר 2: ${legToNext.distStr}</div>
+                            <div style="color:#0369a1; font-weight:800; font-size:0.75em;">להמשך: ${legToNext.distStr}</div>
                         </div>
                     `;
                 }
@@ -5049,9 +5675,15 @@
                 const bgStyle = isTarget ? 'background:#eff6ff; border:1.5px solid #93c5fd;' : (idx === 0 ? 'background:#f0fdf4; border:1.5px solid #86efac;' : 'background:#f8fafc; border:1px solid #e2e8f0;');
                 const isHotel = st.isHotel || st.type === 'hotel' || (st.title && st.title.includes('🏨'));
                 const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
+                const isConn = st.type === 'connection';
+                const isFlight = st.isFlight || st.type === 'flight';
                 
                 let anchorBadge = '';
-                if (isChabad) {
+                if (isConn) {
+                    anchorBadge = `<span style="background:#7c3aed; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">⏳ טיסת מעבר (קונקשן)</span>`;
+                } else if (isFlight) {
+                    anchorBadge = `<span style="background:#0284c7; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">✈️ טיסה</span>`;
+                } else if (isChabad) {
                     anchorBadge = `<span style="background:#0284c7; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">✡️ בית חב"ד</span>`;
                 } else if (isHotel) {
                     anchorBadge = `<span style="background:#4f46e5; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🏨 מלון</span>`;
@@ -5062,11 +5694,16 @@
                 }
 
                 return `
+                    ${dayHeaderHtml}
                     ${connectorTopHtml}
                     <div style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                         <div style="flex-grow:1; cursor:pointer;" onclick="setTargetStation(${idx})">
                             <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.25;">${anchorBadge}${st.title}</div>
-                            <div style="font-size:0.85em; color:#64748b; margin-top:2px; line-height:1.2;">${st.address || st.desc || ''}${st.stayTime ? ` | <span style="color:#1e40af; font-weight:800;">🕒 ${st.stayTime}</span>` : ''}</div>
+                            <div style="font-size:0.84em; color:#475569; margin-top:2px; line-height:1.25;">${st.desc || st.address || ''}</div>
+                            <div style="font-size:0.8em; color:#1e40af; font-weight:800; margin-top:3px;">
+                                🕒 שהייה מומלצת: <span style="color:#0f172a;">${info.recommendedStay}</span>
+                                ${st.stayTime ? ` | לו"ז: <span style="color:#0369a1;">${st.stayTime}</span>` : ''}
+                            </div>
                         </div>
                         <div style="text-align:left; display:flex; align-items:center; gap:8px; flex-shrink:0;">
                             <div style="white-space:nowrap;">${legBadgeHtml}</div>
@@ -5076,7 +5713,7 @@
                 `;
             }).join('');
 
-            container.innerHTML = arrivalHtml + stationsHtml;
+            container.innerHTML = arrivalHtml + dailyTableHtml + stationsHtml;
         }
 
         // Continuous GPS Watcher
@@ -7038,9 +7675,10 @@
                 return;
             }
             const chain = chainObj || getTripArrivalChain(currentTripKey);
+            const isIntl = !isDomesticTrip(currentTripKey);
 
             const meetingStepHtml = chain.hasMeetingPoint ? `
-                <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('meeting'), 120);" style="flex:1 1 220px; box-sizing:border-box; background:#fffbeb; border:1.5px solid #fde68a; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת המפגש במפה בזמן אמת">
+                <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('meeting'), 120);" style="flex:1 1 200px; box-sizing:border-box; background:#fffbeb; border:1.5px solid #fde68a; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת המפגש במפה בזמן אמת">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:4px; flex-wrap:wrap;">
                         <span style="background:#f59e0b; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">2. 🤝 נק' מפגש</span>
                         <span style="font-size:0.78em; font-weight:900; color:#b45309;">🕒 ${chain.meetingTime || '-'}</span>
@@ -7048,19 +7686,38 @@
                     <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3; word-break:break-word;">${chain.meetingAddress || 'נקודת מפגש קבוצתית'}</div>
                 </div>
             ` : `
-                <div style="flex:1 1 220px; box-sizing:border-box; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px; padding:10px; display:flex; flex-direction:column; justify-content:center;">
+                <div style="flex:1 1 200px; box-sizing:border-box; background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:10px; padding:10px; display:flex; flex-direction:column; justify-content:center;">
                     <span style="font-size:0.78em; font-weight:900; color:#475569;">2. 🚗 הגעה ישירה למסלול</span>
                     <span style="font-size:0.76em; color:#64748b; margin-top:2px;">ללא נקודת מפגש מקדימה</span>
                 </div>
             `;
 
+            const connIdx = STATIONS.findIndex(s => s.type === 'connection');
+            const connText = chain.connectionOutbound || (isIntl && currentTripKey === 'korea'
+                ? `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`
+                : '');
+            const domesticText = chain.domesticFlightsSummary || (isIntl && currentTripKey === 'korea'
+                ? `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`
+                : '');
+
+            const connectionStepHtml = connText ? `
+                <div onclick="switchScreen('screen-map'); setTimeout(() => { if(${connIdx} !== -1) setTargetStation(${connIdx}); }, 140);" style="flex:1 1 100%; box-sizing:border-box; background:#f5f3ff; border:1.5px solid #c4b5fd; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת תחנת המעבר (קונקשן) במפה בזמן אמת">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:6px; flex-wrap:wrap;">
+                        <span style="background:#7c3aed; color:white; font-size:0.75em; font-weight:900; padding:2px 8px; border-radius:6px;">✈️ טיסות מעבר (קונקשן) וזמן המתנה + טיסות פנים</span>
+                        <span style="font-size:0.76em; font-weight:900; color:#5b21b6;">⏳ קונקשן הלוך: 2:40 שעות המתנה | חזור: 3:05 שעות המתנה</span>
+                    </div>
+                    <div style="font-size:0.84em; font-weight:800; color:#1e1b4b; line-height:1.45;">${connText}</div>
+                    ${domesticText ? `<div style="margin-top:5px; padding-top:5px; border-top:1px dashed #c4b5fd; font-size:0.82em; font-weight:800; color:#0369a1; line-height:1.4;">${domesticText}</div>` : ''}
+                </div>
+            ` : '';
+
             card.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
-                    <span style="font-weight:900; color:#1e3a8a; font-size:0.95em;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> שרשרת יציאה והגעה למסלול:</span>
+                    <span style="font-weight:900; color:#1e3a8a; font-size:0.95em;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> שרשרת יציאה, טיסות מעבר (קונקשן) והגעה למסלול:</span>
                     <button onclick="setWizardStep(1)" style="background:white; border:1px solid #93c5fd; color:#1d4ed8; padding:4px 10px; border-radius:7px; font-size:0.78em; font-weight:800; cursor:pointer;">✏️ ערוך</button>
                 </div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:stretch; width:100%; box-sizing:border-box;">
-                    <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('origin'), 120);" style="flex:1 1 220px; box-sizing:border-box; background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת היציאה במפה בזמן אמת">
+                    <div onclick="switchScreen('screen-map'); setTimeout(() => focusArrivalAnchor('origin'), 120);" style="flex:1 1 200px; box-sizing:border-box; background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת נקודת היציאה במפה בזמן אמת">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:4px; flex-wrap:wrap;">
                             <span style="background:#2563eb; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">1. 🏠 יציאה מבית/מלון</span>
                             <span style="font-size:0.78em; font-weight:900; color:#1e40af;">🕒 ${chain.originTime || '-'}</span>
@@ -7068,9 +7725,10 @@
                         <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3; word-break:break-word;">${chain.originAddress || 'נקודת יציאה'}</div>
                     </div>
                     ${meetingStepHtml}
-                    <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(0), 120);" style="flex:1 1 220px; box-sizing:border-box; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת תחילת המסלול במפה בזמן אמת">
+                    ${connectionStepHtml}
+                    <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(0), 120);" style="flex:1 1 200px; box-sizing:border-box; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:10px; cursor:pointer;" title="לחץ להצגת תחילת המסלול במפה בזמן אמת">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:4px; flex-wrap:wrap;">
-                            <span style="background:#16a34a; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">3. 🚩 תחילת מסלול (תחנה 1)</span>
+                            <span style="background:#16a34a; color:white; font-size:0.75em; font-weight:900; padding:2px 7px; border-radius:6px;">3. 🚩 תחילת מסלול בקוריאה</span>
                             <span style="font-size:0.78em; font-weight:900; color:#15803d;">🕒 ${chain.trailheadTime || '-'}</span>
                         </div>
                         <div style="font-weight:900; font-size:0.9em; color:#0f172a; line-height:1.3; word-break:break-word;">${chain.trailheadAddress || 'תחילת המסלול'}</div>
@@ -7531,6 +8189,7 @@
         }
 
         function renderStationQuickSelectors() {
+            if (typeof renderMapDaySelector === 'function') renderMapDaySelector();
             const container = document.getElementById('station-quick-selector-bar');
             if (!container) return;
 
@@ -7546,6 +8205,15 @@
                     anchorPillsHtml += `
                         <button onclick="focusArrivalAnchor('meeting')" style="background:#fffbeb; border:1.5px solid #fbbf24; color:#b45309; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="${(chain.meetingAddress || '').replace(/"/g, '&quot;')}">
                             🤝 נק' מפגש
+                        </button>
+                    `;
+                }
+                if (chain.connectionOutbound || (!isDomesticTrip(currentTripKey) && STATIONS.some(s => s.type === 'connection'))) {
+                    const connIdx = STATIONS.findIndex(s => s.type === 'connection');
+                    const connClick = connIdx !== -1 ? `setTargetStation(${connIdx})` : `focusArrivalAnchor('meeting')`;
+                    anchorPillsHtml += `
+                        <button onclick="${connClick}" style="background:#f5f3ff; border:1.5px solid #a78bfa; color:#5b21b6; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="טיסת מעבר (קונקשן באתיופיה - אדיס אבבה) וזמן המתנה">
+                            ✈️ טיסת מעבר (קונקשן: 2:40 ש' המתנה)
                         </button>
                     `;
                 }
@@ -8522,6 +9190,9 @@
                         (cloudState.customTrips || []).forEach(ct => {
                             const tk = ct.key || ct.id;
                             if (tk && !(cloudState.deletedTrips || []).includes(tk)) {
+                                if (tk === 'korea' && (!Array.isArray(ct.stations) || ct.stations.length < 22 || !ct.stations[0].dayNum)) {
+                                    ct.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
+                                }
                                 TRIPS_DATABASE[tk] = ct;
                             }
                         });
