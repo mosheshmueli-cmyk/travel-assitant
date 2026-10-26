@@ -1,5 +1,5 @@
 {
-  "revision": 1793009262097,
+  "revision": 1793009298635,
   "activeTripKey": "korea",
   "deletedTrips": [],
   "customTrips": [
@@ -8,8 +8,8 @@
       "id": "korea",
       "name": "קוריאה",
       "country": "קוריאה הדרומית",
-      "stage": "planning",
-      "stageLabel": "📋 שלב תכנון",
+      "stage": "ready",
+      "stageLabel": "🛫 ממתין ליציאה (מוכן להמראה!)",
       "dates": "22/11/2026 - 06/12/2026 (15 ימים)",
       "departureDate": "2026-11-22",
       "docsSynced": true,
@@ -304,6 +304,6 @@
     }
   },
   "stages": {
-    "korea": "planning"
+    "korea": "ready"
   }
 }
