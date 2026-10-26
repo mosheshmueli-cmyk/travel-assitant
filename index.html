@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.2</title>
+    <title>Travel Assistant V5.2.3</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -715,7 +715,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.2</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.3</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -1024,41 +1024,42 @@
                     </div>
                 </div>
 
-                <!-- ================= WIZARD PANE 2: שלב 2 - העלאה וסנכרון (פשוט ונקי) ================= -->
+                                <!-- ================= WIZARD PANE 2: שלב 2 - גרור לכאן מסמך או הדבק טקסט + סנכרון מאוחד ================= -->
                 <div id="wizard-pane-2" class="wizard-step-pane" style="display: none;">
                     <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 14px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                         
-                        <!-- TWO BUTTONS ONLY: העלאה & סנכרון -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-                            <button onclick="triggerDocUpload('organized', 'מסמך / הזמנה')" style="background: #15803d; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 1.08em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(21,128,61,0.25);">
-                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.3em;"></i>
-                                <span>העלאה</span>
-                            </button>
-                            <button onclick="syncAllUploadedDocsToTrip()" style="background: #2563eb; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 1.08em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(37,99,235,0.25);">
-                                <i class="fa-solid fa-rotate" style="font-size: 1.3em;"></i>
-                                <span>סנכרון</span>
-                            </button>
-                        </div>
+                        <!-- Hidden File Input (supports multiple files as well) -->
+                        <input type="file" id="custom-doc-input" multiple style="display:none;" accept="image/*,application/pdf,.doc,.docx,.txt,.md,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleCustomDocUpload(event)">
 
-                        <!-- Hidden File Input for all uploads -->
-                        <input type="file" id="custom-doc-input" style="display:none;" accept="image/*,application/pdf,.doc,.docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleCustomDocUpload(event)">
-
-                        <!-- Clean Text Paste Box (for WhatsApp / Text messages) -->
-                        <div id="whatsapp-input-container" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px; margin-bottom: 14px;">
-                            <textarea id="whatsapp-paste-input" rows="3" placeholder="או הדבק כאן טקסט מוואטסאפ / הזמנה ולחץ על 'סנכרון' למעלה..." style="width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 0.92em; color: #0f172a; resize: vertical;"></textarea>
-                        </div>
-
-                        <!-- Google Drive 'קוריאה' Folder Sync Bar -->
-                        <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                            <div style="font-size: 0.85em; color: #1e3a8a; font-weight: 800;">
-                                <i class="fa-brands fa-google-drive" style="color: #2563eb; font-size: 1.1em;"></i>
-                                <span>נתיב ב-Google Drive: <b id="gdrive-active-folder-label">TRAVEL ASSISTANT / קוריאה</b> (3 תתי-ספריות)</span>
-                                <div id="gdrive-sync-status-line" style="font-size: 0.88em; color: #475569; font-weight: 700; margin-top: 2px;">מסנכרן מסמכים, תמונות, סרטונים ותיק מעובד ישירות לדרייב</div>
+                        <!-- UNIFIED DRAG & DROP + PASTE BOX -->
+                        <div id="unified-doc-dropzone"
+                             ondragover="handleDocDragOver(event)"
+                             ondragleave="handleDocDragLeave(event)"
+                             ondrop="handleDocDrop(event)"
+                             style="background: #f8fafc; border: 2.5px dashed #3b82f6; border-radius: 14px; padding: 12px; margin-bottom: 12px; transition: all 0.2s ease;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                                <div style="font-weight: 900; color: #1e3a8a; font-size: 0.98em; display: flex; align-items: center; gap: 6px;">
+                                    <i class="fa-solid fa-file-arrow-up" style="color: #2563eb; font-size: 1.15em;"></i>
+                                    <span>גרור לכאן מסמך או הדבק טקסט</span>
+                                </div>
+                                <button type="button" onclick="triggerDocUpload('organized', 'מסמך')" style="background: #eff6ff; color: #1d4ed8; border: 1.5px solid #93c5fd; padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                                    <i class="fa-solid fa-folder-open"></i> בחר קובץ מהמכשיר
+                                </button>
                             </div>
-                            <button type="button" onclick="syncAllTripFoldersToGoogleDrive()" style="background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
-                                <i class="fa-solid fa-cloud-arrow-up"></i> העבר/סנכרן ספרייה ל-Google Drive
-                            </button>
+                            <textarea id="whatsapp-paste-input"
+                                      rows="3"
+                                      onpaste="handleDocPaste(event)"
+                                      placeholder="גרור לכאן מסמך או הדבק טקסט..."
+                                      style="width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: 'Heebo', sans-serif; font-size: 0.96em; color: #0f172a; background: #ffffff; resize: vertical;"></textarea>
+                            <div id="staged-files-indicator" style="display:none; margin-top: 8px; font-size: 0.86em; font-weight: 800; color: #15803d; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 6px 10px;"></div>
                         </div>
+
+                        <!-- SINGLE UNIFIED SYNC BUTTON (מעלה ומסנכרן במקומו בתיק הטיול וב-Google Drive) -->
+                        <button type="button" onclick="syncAllUploadedDocsToTrip()" style="width: 100%; background: #2563eb; color: white; border: none; padding: 14px 16px; border-radius: 12px; font-weight: 900; font-size: 1.1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,99,235,0.28); margin-bottom: 10px;">
+                            <i class="fa-solid fa-rotate" style="font-size: 1.2em;"></i>
+                            <span>סנכרון</span>
+                        </button>
+                        <div id="gdrive-sync-status-line" style="font-size: 0.84em; color: #475569; font-weight: 700; text-align: center; margin-bottom: 10px;"></div>
 
                         <!-- Documents Feed List Container -->
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
@@ -2943,54 +2944,108 @@
             return '';
         }
 
-        function handleCustomDocUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        function handleDocDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const dz = document.getElementById('unified-doc-dropzone');
+            if (dz) {
+                dz.style.background = '#eff6ff';
+                dz.style.borderColor = '#1d4ed8';
+            }
+        }
 
-            const defaultTitle = `${currentUploadDocType} (${file.name})`;
-            const docName = prompt('תן שם למסמך הנשמר בתיק הטיול:', defaultTitle) || defaultTitle;
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const dataUrl = e.target.result;
+        function handleDocDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const dz = document.getElementById('unified-doc-dropzone');
+            if (dz) {
+                dz.style.background = '#f8fafc';
+                dz.style.borderColor = '#3b82f6';
+            }
+        }
+
+        async function handleDocDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            handleDocDragLeave(event);
+            const files = event.dataTransfer && event.dataTransfer.files ? Array.from(event.dataTransfer.files) : [];
+            if (files.length > 0) {
+                await processIncomingDocFiles(files);
+            }
+        }
+
+        async function handleDocPaste(event) {
+            const items = (event.clipboardData && event.clipboardData.items) ? Array.from(event.clipboardData.items) : [];
+            const fileItems = items.filter(it => it.kind === 'file');
+            if (fileItems.length > 0) {
+                event.preventDefault();
+                const files = fileItems.map(it => it.getAsFile()).filter(Boolean);
+                if (files.length > 0) {
+                    await processIncomingDocFiles(files);
+                }
+            }
+        }
+
+        async function handleCustomDocUpload(event) {
+            const files = event.target && event.target.files ? Array.from(event.target.files) : [];
+            if (files.length === 0) return;
+            await processIncomingDocFiles(files);
+            event.target.value = '';
+        }
+
+        async function processIncomingDocFiles(files) {
+            if (!files || files.length === 0) return;
+            const docs = getCustomDocs();
+            let lastDocId = null;
+
+            for (const file of files) {
+                const dataUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = () => resolve('');
+                    reader.readAsDataURL(file);
+                });
+                if (!dataUrl) continue;
+
                 let extractedText = '';
                 const lowerName = (file.name || '').toLowerCase();
-
                 if (lowerName.endsWith('.docx')) {
                     try {
                         const buf = await file.arrayBuffer();
                         extractedText = await extractTextFromDocxArrayBuffer(buf);
                     } catch (err) {}
-                } else if (lowerName.endsWith('.txt') || file.type === 'text/plain') {
+                } else if (lowerName.endsWith('.txt') || lowerName.endsWith('.md') || file.type === 'text/plain') {
                     try {
                         extractedText = await file.text();
                     } catch (err) {}
                 }
 
-                const newDocId = 'doc_' + Date.now();
-                const newDocObj = {
+                const newDocId = 'doc_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                lastDocId = newDocId;
+                docs.unshift({
                     id: newDocId,
-                    name: docName,
-                    category: currentUploadCategory,
-                    docType: currentUploadDocType,
+                    name: file.name || 'מסמך שהועלה',
+                    category: currentUploadCategory || 'organized',
+                    docType: 'מסמך בתיק הטיול',
                     time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
-                    fileName: file.name,
+                    fileName: file.name || 'document',
                     textContent: extractedText || '',
                     isText: Boolean(extractedText),
                     data: dataUrl
-                };
+                });
+            }
 
-                const docs = getCustomDocs();
-                docs.unshift(newDocObj);
-                saveCustomDocs(docs);
-                renderCustomDocsList();
+            saveCustomDocs(docs);
+            renderCustomDocsList();
 
-                // Reset file input so uploading the same file again works
-                event.target.value = '';
+            const ind = document.getElementById('staged-files-indicator');
+            if (ind) {
+                ind.style.display = 'block';
+                ind.innerText = `📎 נקלטו ${files.length} קבצים (${files.map(f => f.name).join(', ')}). לחץ על "סנכרון" או מסנכרן כעת...`;
+            }
 
-                // Automatically synchronize the uploaded document into the trip file (Step 1, Step 3, Step 4 & Map)
-                syncAllUploadedDocsToTrip(newDocId, true);
-            };
-            reader.readAsDataURL(file);
+            // Automatically run full sync (Trip + Cloud + Google Drive)
+            await syncAllUploadedDocsToTrip(lastDocId, true);
         }
 
         function clearWhatsAppInput() {
@@ -2998,7 +3053,7 @@
             if (el) el.value = '';
         }
 
-        function syncAllUploadedDocsToTrip(specificDocId, fromFileUpload = false) {
+        async function syncAllUploadedDocsToTrip(specificDocId, fromFileUpload = false) {
             if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
                 alert('אין טיול פעיל כעת. לחץ על "תכנון טיול חדש" כדי לפתוח תיק טיול.');
                 return;
@@ -3018,7 +3073,7 @@
                     category: 'organized',
                     docType: 'הודעה / מסמך מסונכרן',
                     time: new Date().toLocaleDateString('he-IL') + ' ' + new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' }),
-                    fileName: 'synced_message.txt',
+                    fileName: (firstLine || 'synced_message').replace(/[\\/:*?"<>|]/g, '_') + '.txt',
                     textContent: pastedText,
                     isText: true,
                     data: 'data:text/plain;charset=utf-8,' + encodeURIComponent(pastedText)
@@ -3031,7 +3086,8 @@
             const docs = getCustomDocs();
             const doc = targetDocId ? docs.find(d => d.id === targetDocId) : (docs[0] || null);
             if (!doc && !pastedText) {
-                alert('אנא העלה קובץ או הדבק טקסט בתיבה ואז לחץ על "סנכרון".');
+                // Even if no local doc yet, allow syncing folder structure to Google Drive
+                await syncAllTripFoldersToGoogleDrive();
                 return;
             }
 
@@ -3044,7 +3100,6 @@
             }
 
             if (isKoreaContext && trip) {
-                // Populate stations from the uploaded Korea documents
                 trip.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
                 STATIONS = trip.stations;
                 if (!trip.dates && (docNameCombined.includes('22-11-2026') || docNameCombined.includes('22/11/2026'))) {
@@ -3069,16 +3124,23 @@
                 } catch(e) {}
                 persistCurrentTripMetadata();
                 selectTripAndApply(currentTripKey);
-                alert('✅ המסמכים שהעלית נסרקו וסונכרנו בהצלחה לתיק הטיול ולמפה בזמן אמת!');
-                return;
+            } else {
+                const rawText = pastedText || (doc ? (doc.textContent || '') : '');
+                if (typeof openSmartDocDerivationModal === 'function') {
+                    openSmartDocDerivationModal(doc ? doc.id : null);
+                    if (typeof applySmartDocDerivation === 'function' && rawText.length > 5) {
+                        applySmartDocDerivation(false);
+                    }
+                }
             }
 
-            const rawText = pastedText || (doc ? (doc.textContent || '') : '');
-            if (typeof openSmartDocDerivationModal === 'function') {
-                openSmartDocDerivationModal(doc ? doc.id : null);
-                if (typeof applySmartDocDerivation === 'function' && rawText.length > 5) {
-                    applySmartDocDerivation(false);
-                }
+            // Upload & sync the document in its exact place in Google Drive (TRAVEL ASSISTANT / [Trip] / 1_מסמכים_וחומרי_גלם)
+            await syncAllTripFoldersToGoogleDrive();
+
+            const ind = document.getElementById('staged-files-indicator');
+            if (ind) {
+                ind.style.display = 'block';
+                ind.innerText = '✅ המסמך הועלה, עובד וסונכרן במקומו בתיק הטיול וב-Google Drive!';
             }
         }
 
