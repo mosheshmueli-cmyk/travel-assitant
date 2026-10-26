@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.3</title>
+    <title>Travel Assistant V5.2.4</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -715,7 +715,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.3</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.4</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -2638,6 +2638,30 @@
                     }
                     localStorage.setItem('travel_assistant_v518_strict_clean', 'true');
                 }
+                if (!localStorage.getItem('travel_assistant_v524_purge_gate32')) {
+                    for (let i = localStorage.length - 1; i >= 0; i--) {
+                        const lk = localStorage.key(i);
+                        if (!lk) continue;
+                        if (lk.startsWith('travel_assistant_arrival_chain_')) {
+                            try {
+                                const ch = JSON.parse(localStorage.getItem(lk) || '{}');
+                                if (ch.originTime === '10:30' || (ch.meetingAddress && ch.meetingAddress.includes('שער 32'))) {
+                                    ch.originTime = '';
+                                    ch.hasMeetingPoint = false;
+                                    ch.meetingAddress = '';
+                                    ch.meetingTime = '';
+                                    ch.trailheadAddress = '';
+                                    ch.trailheadTime = '';
+                                    localStorage.setItem(lk, JSON.stringify(ch));
+                                }
+                            } catch(e) {}
+                        }
+                        if (lk.startsWith('travel_assistant_custom_docs_')) {
+                            localStorage.removeItem(lk);
+                        }
+                    }
+                    localStorage.setItem('travel_assistant_v524_purge_gate32', 'true');
+                }
                 const deleted = JSON.parse(localStorage.getItem('travel_assistant_deleted_trips') || '[]');
                 deleted.forEach(k => {
                     delete TRIPS_DATABASE[k];
@@ -3099,31 +3123,8 @@
                 trip.docsSynced = true;
             }
 
-            if (isKoreaContext && trip) {
-                trip.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
-                STATIONS = trip.stations;
-                if (!trip.dates && (docNameCombined.includes('22-11-2026') || docNameCombined.includes('22/11/2026'))) {
-                    trip.dates = '22/11/2026 - 06/12/2026';
-                    trip.departureDate = '2026-11-22';
-                }
-                const koreaChain = {
-                    originAddress: "רח' העצמאות 93, אשדוד",
-                    originTime: "10:30",
-                    originLat: 31.7893,
-                    originLng: 34.6417,
-                    hasMeetingPoint: true,
-                    meetingAddress: 'נתב"ג טרמינל 3 - שער 32',
-                    meetingTime: "11:30 (המראה 14:40)",
-                    meetingLat: 32.0055,
-                    meetingLng: 34.8854,
-                    trailheadAddress: "נמל התעופה סיאול אינצ'און (ICN)",
-                    trailheadTime: "15:45"
-                };
-                try {
-                    localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(koreaChain));
-                } catch(e) {}
-                persistCurrentTripMetadata();
-                selectTripAndApply(currentTripKey);
+            if (false) {
+                // Removed hardcoded Korea arrival chain injection (V5.2.4)
             } else {
                 const rawText = pastedText || (doc ? (doc.textContent || '') : '');
                 if (typeof openSmartDocDerivationModal === 'function') {
@@ -7758,11 +7759,11 @@
         async function applySmartDocDerivation(goToStep4) {
             const titleVal = (document.getElementById('smart-derive-title')?.value || '').trim() || (TRIPS_DATABASE[currentTripKey]?.name || 'אירוע / טיול');
             const dateVal = (document.getElementById('smart-derive-date')?.value || '').trim() || 'מועד ההזמנה';
-            const startTimeVal = (document.getElementById('smart-derive-start-time')?.value || '').trim() || '19:30';
-            const chuppahTimeVal = (document.getElementById('smart-derive-chuppah-time')?.value || '').trim() || addMinutesToTimeStr(startTimeVal, 60);
-            const venueVal = (document.getElementById('smart-derive-venue')?.value || '').trim() || 'אולם אירועים, אשקלון';
-            const originAddrVal = (document.getElementById('smart-derive-origin-addr')?.value || '').trim() || 'שדרות העצמאות 93, אשדוד';
-            const originTimeVal = (document.getElementById('smart-derive-origin-time')?.value || '').trim() || '18:45';
+            const startTimeVal = (document.getElementById('smart-derive-start-time')?.value || '').trim();
+            const chuppahTimeVal = (document.getElementById('smart-derive-chuppah-time')?.value || '').trim();
+            const venueVal = (document.getElementById('smart-derive-venue')?.value || '').trim();
+            const originAddrVal = (document.getElementById('smart-derive-origin-addr')?.value || '').trim() || "רח' העצמאות 93, אשדוד";
+            const originTimeVal = (document.getElementById('smart-derive-origin-time')?.value || '').trim();
             const kashrutVal = (document.getElementById('smart-derive-kashrut')?.value || '').trim() || 'כשרות האולם לפי ההזמנה';
             const rawTextVal = (document.getElementById('smart-derive-raw-text')?.value || '').trim();
 
