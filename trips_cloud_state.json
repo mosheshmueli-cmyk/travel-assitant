@@ -1,5 +1,5 @@
 {
-  "revision": 1792943841806,
+  "revision": 1793004178244,
   "activeTripKey": "korea",
   "deletedTrips": [],
   "customTrips": [
@@ -8,8 +8,8 @@
       "id": "korea",
       "name": "קוריאה",
       "country": "קוריאה הדרומית",
-      "stage": "planning",
-      "stageLabel": "📋 שלב תכנון",
+      "stage": "ready",
+      "stageLabel": "🛫 ממתין ליציאה (מוכן להמראה!)",
       "dates": "",
       "departureDate": "",
       "docsSynced": false,
@@ -38,7 +38,7 @@
   },
   "questionnaires": {
     "korea": {
-      "origin": "רח' העצמאות 93, אשדוד",
+      "origin": "יציאה: רח' העצמאות 93, אשדוד () ➔ נק' מפגש:  () ➔ תחילת מסלול: קוריאה",
       "destination": "קוריאה",
       "character": "",
       "group": "",
@@ -52,5 +52,7 @@
       "constraints": ""
     }
   },
-  "stages": {}
+  "stages": {
+    "korea": "ready"
+  }
 }
