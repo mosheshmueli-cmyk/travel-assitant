@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.6</title>
+    <title>Travel Assistant V5.2.7</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -743,7 +743,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.6</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.7</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -4295,48 +4295,113 @@
             }
         });
 
+        // Universal Inter-Site Distance & Travel Time Calculator for Schedule Management (ניהול לו"ז בין אתרים)
+        function calculateInterStationLeg(stFrom, stTo) {
+            if (!stFrom || !stTo || stFrom.lat == null || stTo.lat == null) {
+                return { distStr: '-', timeStr: '-', minutes: 0, mode: '' };
+            }
+            const airMeters = L.latLng(stFrom.lat, stFrom.lng).distanceTo(L.latLng(stTo.lat, stTo.lng));
+            if (airMeters < 30) {
+                return { distStr: 'באותו מתחם', timeStr: 'דקה הליכה', minutes: 1, mode: 'ברגל' };
+            }
+            if (airMeters <= 850) {
+                const walkMeters = Math.max(30, Math.round((airMeters * 1.18) / 10) * 10);
+                const walkMins = Math.max(1, Math.round(walkMeters / 70));
+                return {
+                    distStr: `${walkMeters} מטר`,
+                    timeStr: `${walkMins} דק' (ברגל)`,
+                    minutes: walkMins,
+                    mode: 'ברגל'
+                };
+            }
+            const isFlightLeg = (stTo.transitType && stTo.transitType.includes('טיס')) ||
+                (airMeters > 140000 && ((stFrom.title || '').includes("ג'ג'ו") !== (stTo.title || '').includes("ג'ג'ו")));
+            if (isFlightLeg) {
+                const airKm = Math.round(airMeters / 1000);
+                const flightMins = Math.max(50, Math.round(airKm / 7.5) + 15);
+                return {
+                    distStr: `${airKm} ק"מ (טיסת פנים)`,
+                    timeStr: `כ-${flightMins} דק' (טיסה)`,
+                    minutes: flightMins,
+                    mode: 'טיסת פנים'
+                };
+            }
+            const roadKm = (airMeters / 1000) * 1.28;
+            const distStr = roadKm < 10 ? `${roadKm.toFixed(1)} ק"מ` : `${Math.round(roadKm)} ק"מ`;
+            let driveMins = 5;
+            if (roadKm <= 12) {
+                driveMins = Math.max(5, Math.round((roadKm / 28) * 60));
+            } else if (roadKm <= 50) {
+                driveMins = Math.round((roadKm / 52) * 60);
+            } else {
+                driveMins = Math.round((roadKm / 75) * 60);
+            }
+            let timeStr = `${driveMins} דק' (בנסיעה)`;
+            if (driveMins >= 60) {
+                const h = Math.floor(driveMins / 60);
+                const m = Math.round((driveMins % 60) / 5) * 5;
+                const hLabel = h === 1 ? 'שעה' : `${h} שעות`;
+                timeStr = m > 0 ? `${hLabel} ו-${m} דק' (בנסיעה)` : `${hLabel} (בנסיעה)`;
+            }
+            return {
+                distStr,
+                timeStr,
+                minutes: driveMins,
+                mode: 'בנסיעה'
+            };
+        }
+
+        function shortStationLabel(titleStr) {
+            if (!titleStr) return 'אתר';
+            return titleStr.replace(/^🏨\s*\d+[-–\/\d]*:\s*/, '').replace(/^\d+\.\s*/, '').split(' - ')[0].split(' (')[0].trim();
+        }
+
         function openStationLivePopup(idx) {
             const st = STATIONS[idx];
             if (!st || !dynamicMap) return;
 
-            let liveDistHtml = '<span style="color:#64748b;">מאתר אות GPS...</span>';
-            let liveEtaHtml = '';
-            
-            if (currentPosition) {
-                const userLat = currentPosition.coords.latitude;
-                const userLng = currentPosition.coords.longitude;
-                const d = L.latLng(userLat, userLng).distanceTo(L.latLng(st.lat, st.lng));
-                const dStr = (d < 1000) ? `${Math.round(d)} מטר` : `${(d / 1000).toFixed(2)} קילומטר`;
-                
-                let etaMinutes = 0;
-                let transitMode = "";
-                if (d > 700) {
-                    etaMinutes = Math.max(1, Math.round(d / (25 * 1000 / 60)));
-                    transitMode = "בנסיעה";
-                } else {
-                    etaMinutes = Math.max(1, Math.round(d / (4.5 * 1000 / 60)));
-                    transitMode = "ברגל";
-                }
-                
-                liveDistHtml = `<b style="color:#16a34a; font-size:12px;">${dStr}</b>`;
-                liveEtaHtml = `<b style="color:#2563eb; font-size:11.5px;">${etaMinutes} דקות (${transitMode})</b>`;
+            const prevSt = (idx > 0) ? STATIONS[idx - 1] : null;
+            const nextSt = (idx < STATIONS.length - 1) ? STATIONS[idx + 1] : null;
+            const legFromPrev = prevSt ? calculateInterStationLeg(prevSt, st) : null;
+            const legToNext = nextSt ? calculateInterStationLeg(st, nextSt) : null;
+
+            let interSiteScheduleHtml = '';
+            if (legFromPrev) {
+                interSiteScheduleHtml += `
+                    <div style="margin-bottom:${legToNext ? '5px' : '0'}; padding-bottom:${legToNext ? '4px' : '0'}; border-bottom:${legToNext ? '1px dashed #bbf7d0' : 'none'};">
+                        <div style="font-size:10px; color:#15803d; font-weight:800;">⏮️ מהאתר הקודם (${shortStationLabel(prevSt.title)}):</div>
+                        <div style="font-size:11px; color:#0f172a; margin-top:1px;">📏 מרחק: <b style="color:#16a34a;">${legFromPrev.distStr}</b> | ⏱️ הגעה: <b style="color:#2563eb;">${legFromPrev.timeStr}</b></div>
+                    </div>
+                `;
+            }
+            if (legToNext) {
+                interSiteScheduleHtml += `
+                    <div>
+                        <div style="font-size:10px; color:#0369a1; font-weight:800;">⏭️ לאתר הבא (${shortStationLabel(nextSt.title)}):</div>
+                        <div style="font-size:11px; color:#0f172a; margin-top:1px;">📏 מרחק: <b style="color:#16a34a;">${legToNext.distStr}</b> | ⏱️ הגעה: <b style="color:#2563eb;">${legToNext.timeStr}</b></div>
+                    </div>
+                `;
+            }
+            if (!interSiteScheduleHtml) {
+                interSiteScheduleHtml = `<div style="font-size:10.8px; color:#166534; font-weight:bold;">🚩 תחנת יעד במסלול</div>`;
             }
 
             const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:1px 6px; border-radius:5px; font-weight:900; font-size:10px; margin-top:2px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
+            const stayTimeHtml = st.stayTime ? `<div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; border-radius:6px; padding:3px 7px; margin:3px 0; font-size:10.5px; font-weight:800;">🕒 לו"ז וזמן שהייה: ${st.stayTime}</div>` : '';
 
             const popupContent = `
-                <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:172px; max-width:208px;" dir="rtl">
+                <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:185px; max-width:225px;" dir="rtl">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
                         <div style="font-weight:900; color:#0f172a; font-size:12.2px; line-height:1.2;">${st.title}</div>
                         <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:5px; padding:1px 6px; font-size:10px; font-weight:900; cursor:pointer; flex-shrink:0;" title="סגור חלונית (או לחץ על המפה)">✕ סגור</button>
                     </div>
                     <div style="color:#0369a1; font-size:10.5px; margin:2px 0; font-weight:bold;">📍 ${st.address || st.desc || ''}</div>
+                    ${stayTimeHtml}
                     ${stopCodeHtml}
                     ${st.shabbatInfo ? `<div style="background:#fef3c7; border:1.5px solid #f59e0b; border-radius:7px; padding:5px 8px; margin:4px 0; font-size:10.5px; color:#92400e; line-height:1.35; text-align:right;"><b>✡️ שבת ובית חב"ד:</b> ${st.shabbatInfo}</div>` : ''}
                     
-                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:7px; padding:5px 8px; margin:4px 0;">
-                        <div style="font-size:10.8px; color:#166534; font-weight:bold;">📏 מרחק ממיקומך: ${liveDistHtml}</div>
-                        ${liveEtaHtml ? `<div style="font-size:10.8px; color:#1e40af; margin-top:2px; font-weight:bold;">⏱️ זמן הגעה משוער: ${liveEtaHtml}</div>` : ''}
+                    <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:7px; padding:6px 8px; margin:4px 0;">
+                        ${interSiteScheduleHtml}
                     </div>
 
                     <div style="display:flex; gap:5px; margin-top:5px;">
@@ -4393,11 +4458,19 @@
                 dynamicMap.setView([STATIONS[idx].lat, STATIONS[idx].lng], 15, { animate: false });
                 openStationLivePopup(idx);
             }
-            if (currentPosition) {
-                updateUserGpsOnMap(currentPosition, false);
-            } else {
-                renderStationsList();
+            const st = STATIONS[idx];
+            if (st) {
+                const prevSt = idx > 0 ? STATIONS[idx - 1] : null;
+                const nextSt = idx < STATIONS.length - 1 ? STATIONS[idx + 1] : null;
+                const refLeg = prevSt ? calculateInterStationLeg(prevSt, st) : (nextSt ? calculateInterStationLeg(st, nextSt) : null);
+                const hudTargetName = document.getElementById('hud-target-name');
+                const hudDistance = document.getElementById('hud-distance');
+                const hudEta = document.getElementById('hud-eta');
+                if (hudTargetName) hudTargetName.innerText = st.title;
+                if (hudDistance && refLeg) hudDistance.innerText = refLeg.distStr;
+                if (hudEta && refLeg) hudEta.innerText = refLeg.timeStr;
             }
+            renderStationsList();
         }
 
         function routeToNextStation(fromIdx) {
@@ -4847,14 +4920,16 @@
                 }
 
                 // Update Live Real-Time Navigation HUD Bar Floating over Map
+                const tIdx = (activeTargetIndex !== null && STATIONS[activeTargetIndex]) ? activeTargetIndex : 0;
+                const prevOrNextLeg = (tIdx > 0 && STATIONS[tIdx]) ? calculateInterStationLeg(STATIONS[tIdx - 1], STATIONS[tIdx]) : ((STATIONS.length > 1) ? calculateInterStationLeg(STATIONS[0], STATIONS[1]) : null);
                 const hudTargetName = document.getElementById('hud-target-name');
                 const hudDistance = document.getElementById('hud-distance');
                 const hudEta = document.getElementById('hud-eta');
-                if (hudTargetName) hudTargetName.innerText = isDeskPlanningMode ? `תכנון: ${targetStation.title}` : targetStation.title;
-                if (hudDistance) hudDistance.innerText = isDeskPlanningMode ? `סימולציה` : distStr;
-                if (hudEta) hudEta.innerText = isDeskPlanningMode ? (targetStation.stayTime ? targetStation.stayTime.split(' ')[0] : 'תכנון') : etaStr;
+                if (hudTargetName) hudTargetName.innerText = targetStation.title;
+                if (hudDistance) hudDistance.innerText = (isDeskPlanningMode && prevOrNextLeg) ? prevOrNextLeg.distStr : distStr;
+                if (hudEta) hudEta.innerText = (isDeskPlanningMode && prevOrNextLeg) ? prevOrNextLeg.timeStr : etaStr;
                 const reopenDist = document.getElementById('reopen-hud-dist');
-                if (reopenDist) reopenDist.innerText = isDeskPlanningMode ? `תכנון` : distStr;
+                if (reopenDist) reopenDist.innerText = (isDeskPlanningMode && prevOrNextLeg) ? prevOrNextLeg.distStr : distStr;
 
                 renderStationsList();
             }
@@ -4883,19 +4958,14 @@
             let arrivalHtml = '';
 
             if (chain) {
-                let originDistHtml = '<span style="color:#64748b; font-size:0.82em;">עוגן 1</span>';
-                let meetingDistHtml = '<span style="color:#64748b; font-size:0.82em;">עוגן 2</span>';
-                if (currentPosition) {
-                    const uLat = currentPosition.coords.latitude;
-                    const uLng = currentPosition.coords.longitude;
-                    if (chain.originLat && chain.originLng) {
-                        const d1 = L.latLng(uLat, uLng).distanceTo(L.latLng(chain.originLat, chain.originLng));
-                        originDistHtml = `<b style="color:#1d4ed8;">${d1 < 1000 ? Math.round(d1) + ' מטר' : (d1 / 1000).toFixed(1) + ' ק"מ'}</b>`;
-                    }
-                    if (chain.hasMeetingPoint && chain.meetingLat && chain.meetingLng) {
-                        const d2 = L.latLng(uLat, uLng).distanceTo(L.latLng(chain.meetingLat, chain.meetingLng));
-                        meetingDistHtml = `<b style="color:#b45309;">${d2 < 1000 ? Math.round(d2) + ' מטר' : (d2 / 1000).toFixed(1) + ' ק"מ'}</b>`;
-                    }
+                let originDistHtml = '<span style="color:#1d4ed8; font-size:0.8em; font-weight:800;">נקודת מוצא</span>';
+                let meetingDistHtml = '<span style="color:#b45309; font-size:0.8em; font-weight:800;">נקודת מפגש</span>';
+                if (chain.hasMeetingPoint && chain.originLat && chain.originLng && chain.meetingLat && chain.meetingLng) {
+                    const legHomeToMeet = calculateInterStationLeg(
+                        { lat: chain.originLat, lng: chain.originLng, title: chain.originAddress },
+                        { lat: chain.meetingLat, lng: chain.meetingLng, title: chain.meetingAddress }
+                    );
+                    meetingDistHtml = `<div style="text-align:left; line-height:1.15;"><div style="color:#b45309; font-weight:900; font-size:0.85em;">📏 ${legHomeToMeet.distStr} מהבית</div><div style="color:#1e40af; font-weight:800; font-size:0.76em;">⏱️ ${legHomeToMeet.timeStr}</div></div>`;
                 }
 
                 const meetingCardHtml = chain.hasMeetingPoint ? `
@@ -4946,13 +5016,33 @@
             }
 
             const stationsHtml = STATIONS.map((st, idx) => {
-                let distHtml = '<span style="color:#94a3b8;">-</span>';
-                if (currentPosition) {
-                    const userLat = currentPosition.coords.latitude;
-                    const userLng = currentPosition.coords.longitude;
-                    const d = L.latLng(userLat, userLng).distanceTo(L.latLng(st.lat, st.lng));
-                    const dStr = (d < 1000) ? `${Math.round(d)} מטר` : `${(d / 1000).toFixed(2)} קילומטר`;
-                    distHtml = `<b style="color:#2563eb;">${dStr}</b>`;
+                const prevSt = (idx > 0) ? STATIONS[idx - 1] : null;
+                const nextSt = (idx < STATIONS.length - 1) ? STATIONS[idx + 1] : null;
+                const legFromPrev = prevSt ? calculateInterStationLeg(prevSt, st) : null;
+                const legToNext = nextSt ? calculateInterStationLeg(st, nextSt) : null;
+
+                let legBadgeHtml = '';
+                let connectorTopHtml = '';
+                if (legFromPrev) {
+                    legBadgeHtml = `
+                        <div style="text-align:left; line-height:1.2;">
+                            <div style="color:#16a34a; font-weight:900; font-size:0.88em;">📏 ${legFromPrev.distStr}</div>
+                            <div style="color:#2563eb; font-weight:800; font-size:0.78em;">⏱️ ${legFromPrev.timeStr}</div>
+                        </div>
+                    `;
+                    connectorTopHtml = `
+                        <div style="display:flex; align-items:center; gap:6px; padding:2px 12px; color:#0369a1; font-size:0.76em; font-weight:800;">
+                            <span style="color:#94a3b8;">⬇️</span>
+                            <span>מהאתר הקודם (${shortStationLabel(prevSt.title)}): <b>${legFromPrev.distStr}</b> • זמן הגעה: <b>${legFromPrev.timeStr}</b></span>
+                        </div>
+                    `;
+                } else if (legToNext) {
+                    legBadgeHtml = `
+                        <div style="text-align:left; line-height:1.2;">
+                            <div style="color:#15803d; font-weight:900; font-size:0.82em;">🚩 נקודת פתיחה</div>
+                            <div style="color:#0369a1; font-weight:800; font-size:0.75em;">לאתר 2: ${legToNext.distStr}</div>
+                        </div>
+                    `;
                 }
 
                 const isTarget = (activeTargetIndex === idx);
@@ -4972,13 +5062,14 @@
                 }
 
                 return `
+                    ${connectorTopHtml}
                     <div style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                         <div style="flex-grow:1; cursor:pointer;" onclick="setTargetStation(${idx})">
                             <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.25;">${anchorBadge}${st.title}</div>
-                            <div style="font-size:0.85em; color:#64748b; margin-top:2px; line-height:1.2;">${st.address || st.desc || ''}${st.stayTime ? ` | 🕒 ${st.stayTime}` : ''}</div>
+                            <div style="font-size:0.85em; color:#64748b; margin-top:2px; line-height:1.2;">${st.address || st.desc || ''}${st.stayTime ? ` | <span style="color:#1e40af; font-weight:800;">🕒 ${st.stayTime}</span>` : ''}</div>
                         </div>
                         <div style="text-align:left; display:flex; align-items:center; gap:8px; flex-shrink:0;">
-                            <div style="font-size:0.95em; font-weight:bold; white-space:nowrap;">${distHtml}</div>
+                            <div style="white-space:nowrap;">${legBadgeHtml}</div>
                             <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:6px 10px; border-radius:8px; font-size:0.88em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
                         </div>
                     </div>
@@ -6062,6 +6153,9 @@
                 const timeBadge = st.stayTime || st.stay || '';
                 const addrText = st.address || '';
                 const descText = st.desc || '';
+                const prevSt = (idx > 0) ? stations[idx - 1] : null;
+                const legFromPrev = (prevSt && typeof calculateInterStationLeg === 'function') ? calculateInterStationLeg(prevSt, st) : null;
+                const legHtml = legFromPrev ? `<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:4px 8px; margin-top:6px; font-size:0.8em; color:#166534; font-weight:800;">🛣️ מהאתר הקודם (${shortStationLabel(prevSt.title)}): מרחק <b>${legFromPrev.distStr}</b> | זמן הגעה משוער: <b style="color:#1d4ed8;">${legFromPrev.timeStr}</b></div>` : '';
                 return `
                     <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(${idx}), 120);" style="background: white; border: 1.5px solid #e2e8f0; border-right: 4px solid ${c}; border-radius: 10px; padding: 12px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.04);" title="לחץ להצגת התחנה במפה בזמן אמת">
                         <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
@@ -6070,6 +6164,7 @@
                         </div>
                         ${addrText ? `<div style="font-size: 0.84em; color: #0369a1; font-weight: 700; margin-top: 3px;">📍 ${addrText}</div>` : ''}
                         ${descText ? `<div style="font-size: 0.86em; color: #334155; margin-top: 4px; line-height: 1.45;">${descText}</div>` : ''}
+                        ${legHtml}
                     </div>
                 `;
             }).join('');
