@@ -1,5 +1,5 @@
 {
-  "revision": 1793005989906,
+  "revision": 1793006439285,
   "activeTripKey": "korea",
   "deletedTrips": [],
   "customTrips": [
@@ -10,49 +10,71 @@
       "country": "קוריאה הדרומית",
       "stage": "planning",
       "stageLabel": "📋 שלב תכנון",
-      "badge": "",
+      "dates": "22-11-2026",
       "departureDate": "",
-      "dates": "",
-      "docsSynced": false,
+      "docsSynced": true,
       "center": [
-        36.5,
-        127.8
+        36.638392,
+        127.6961188
       ],
       "zoom": 7,
-      "stations": []
+      "stations": [
+        {
+          "id": "derived_st_1",
+          "title": "1. תחילת מסלול / הגעה: קוריאה",
+          "address": "קוריאה",
+          "desc": "נקודת פתיחה שנגזרה מהמסמך (קוריאה)",
+          "lat": 36.638392,
+          "lng": 127.6961188,
+          "stayTime": "09:00 - 10:00",
+          "stay": "90 דק",
+          "stopCode": null
+        },
+        {
+          "id": "derived_st_2",
+          "title": "2. פעילות מרכזית ביעד: קוריאה",
+          "address": "קוריאה",
+          "desc": "המשך המסלול והפעילות המתוכננת (שמירת כשרות מלאה)",
+          "lat": 31.7893,
+          "lng": 34.6417,
+          "stayTime": "10:00 - 12:45",
+          "stay": "150 דק",
+          "stopCode": null
+        }
+      ]
     }
   ],
   "arrivalChains": {
     "korea": {
       "originAddress": "רח' העצמאות 93, אשדוד",
-      "originTime": "",
+      "originTime": "08:15 (יציאה מומלצת - כולל 45 דק' נסיעה, חניה והליכה)",
       "originLat": 31.7893,
       "originLng": 34.6417,
-      "hasMeetingPoint": false,
+      "hasMeetingPoint": true,
       "meetingAddress": "",
       "meetingTime": "",
-      "meetingLat": 32.0055,
-      "meetingLng": 34.8854,
-      "trailheadAddress": "",
-      "trailheadTime": "",
-      "trailheadLat": 37.5665,
-      "trailheadLng": 126.978
+      "meetingLat": 31.7893,
+      "meetingLng": 34.6417,
+      "trailheadAddress": "קוריאה",
+      "trailheadTime": "09:00 (קבלת פנים / התחלה)",
+      "trailheadLat": 36.638392,
+      "trailheadLng": 127.6961188
     }
   },
   "questionnaires": {
     "korea": {
-      "origin": "רח' העצמאות 93, אשדוד",
-      "destination": "קוריאה",
-      "character": "",
-      "group": "",
-      "duration": "",
-      "date": "",
-      "budget": "",
-      "activities": "",
-      "transit": "",
-      "hotels": "",
-      "food": "",
-      "constraints": ""
+      "origin": "יציאה מ-רח' העצמאות 93, אשדוד בשעה 08:15 (יציאה מומלצת - כולל 45 דק' נסיעה, חניה והליכה) ➔ הגעה ישירה אל קוריאה",
+      "destination": "קוריאה – קוריאה",
+      "character": "טיול / סיור מתוכנן (קוריאה)",
+      "group": "משפחה / חברים",
+      "duration": "יום אחד מרוכז",
+      "date": "22-11-2026",
+      "budget": "לפי תכנון",
+      "activities": "1. יציאה מהבית (08:15) ➔ 2. הגעה וקבלת פנים ב-קוריאה (09:00) ➔ 3. חופה/טקס וסעודה (10:00) ➔ 4. חזרה הביתה (12:45)",
+      "transit": "הגעה ישירה ברכב פרטי / מונית מ-רח' העצמאות 93, אשדוד אל קוריאה (כולל חניה צמודה למתחם)",
+      "hotels": "לא רלוונטי (חזרה הביתה לאשדוד בסיום האירוע)",
+      "food": "שמירת כשרות מלאה",
+      "constraints": "מקדם ביטחון מובנה להגעה רגועה 15 דק' לפני 09:00, חניה קרובה לכניסה וגישה מישורית ונוחה ללא מדרגות."
     }
   },
   "stages": {
