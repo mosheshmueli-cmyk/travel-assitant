@@ -1,8 +1,25 @@
 {
-  "revision": 1793100168093,
-  "activeTripKey": "korea",
+  "revision": 1793164839753,
+  "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
+    {
+      "key": "custom_1793164839098",
+      "id": "custom_1793164839098",
+      "name": "נחל עמוד שביל ישראל",
+      "country": "",
+      "stage": "planning",
+      "stageLabel": "📋 שלב תכנון",
+      "dates": "",
+      "departureDate": "",
+      "docsSynced": false,
+      "center": [
+        32.8788,
+        35.5028
+      ],
+      "zoom": 13,
+      "stations": []
+    },
     {
       "key": "korea",
       "id": "korea",
@@ -581,6 +598,19 @@
     }
   ],
   "arrivalChains": {
+    "custom_1793164839098": {
+      "originAddress": "רח' העצמאות 93, אשדוד",
+      "originTime": "",
+      "originLat": 31.7893,
+      "originLng": 34.6417,
+      "hasMeetingPoint": false,
+      "meetingAddress": "",
+      "meetingTime": "",
+      "meetingLat": 32.8788,
+      "meetingLng": 35.5028,
+      "trailheadAddress": "נחל עמוד שביל ישראל",
+      "trailheadTime": ""
+    },
     "korea": {
       "originAddress": "רח' העצמאות 93, אשדוד",
       "originTime": "10:30 (נגזר משעת המראה 14:40 ומפגש בנתב\"ג 11:30)",
@@ -601,6 +631,20 @@
     }
   },
   "questionnaires": {
+    "custom_1793164839098": {
+      "origin": "רח' העצמאות 93, אשדוד",
+      "destination": "נחל עמוד שביל ישראל",
+      "character": "",
+      "group": "",
+      "duration": "",
+      "date": "",
+      "budget": "",
+      "activities": "",
+      "transit": "",
+      "hotels": "",
+      "food": "",
+      "constraints": ""
+    },
     "korea": {
       "origin": "יציאה: רח' העצמאות 93, אשדוד (10:30 (נגזר משעת המראה 14:40 ומפגש בנתב\"ג 11:30)) ➔ נק' מפגש: נתב\"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין, שער 32) (11:30 (3 שעות לפני המראה ב-14:40)) ➔ תחילת מסלול: 1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול",
       "destination": "קוריאה",
