@@ -1,5 +1,5 @@
 {
-  "revision": 1793167060692,
+  "revision": 1793167062704,
   "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
@@ -604,7 +604,7 @@
       "originLat": 31.7893,
       "originLng": 34.6417,
       "hasMeetingPoint": true,
-      "meetingAddress": "בית מכבי",
+      "meetingAddress": "בית מכבי ראש",
       "meetingTime": "",
       "meetingLat": 31.9806,
       "meetingLng": 34.7738,
