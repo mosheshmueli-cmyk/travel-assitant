@@ -1,5 +1,5 @@
 {
-  "revision": 1793167055500,
+  "revision": 1793167058378,
   "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
@@ -604,10 +604,10 @@
       "originLat": 31.7893,
       "originLng": 34.6417,
       "hasMeetingPoint": true,
-      "meetingAddress": "ב",
+      "meetingAddress": "בית מ",
       "meetingTime": "",
-      "meetingLat": 32.8788,
-      "meetingLng": 35.5028,
+      "meetingLat": 55.7601296,
+      "meetingLng": 37.6186118,
       "trailheadAddress": "נחל עמוד שביל ישראל",
       "trailheadTime": ""
     },
