@@ -1,5 +1,5 @@
 {
-  "revision": 1793165608343,
+  "revision": 1793167055500,
   "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
@@ -604,7 +604,7 @@
       "originLat": 31.7893,
       "originLng": 34.6417,
       "hasMeetingPoint": true,
-      "meetingAddress": "",
+      "meetingAddress": "ב",
       "meetingTime": "",
       "meetingLat": 32.8788,
       "meetingLng": 35.5028,
@@ -632,7 +632,7 @@
   },
   "questionnaires": {
     "custom_1793164839098": {
-      "origin": "יציאה: רח' העצמאות 93, אשדוד () ➔ הגעה ישירה לתחילת מסלול: נחל עמוד שביל ישראל",
+      "origin": "יציאה: רח' העצמאות 93, אשדוד () ➔ נק' מפגש:  () ➔ תחילת מסלול: נחל עמוד שביל ישראל",
       "destination": "נחל עמוד שביל ישראל",
       "character": "",
       "group": "",
