@@ -1,5 +1,5 @@
 {
-  "revision": 1793165560128,
+  "revision": 1793165601640,
   "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
@@ -603,7 +603,7 @@
       "originTime": "",
       "originLat": 31.7893,
       "originLng": 34.6417,
-      "hasMeetingPoint": false,
+      "hasMeetingPoint": true,
       "meetingAddress": "",
       "meetingTime": "",
       "meetingLat": 32.8788,
