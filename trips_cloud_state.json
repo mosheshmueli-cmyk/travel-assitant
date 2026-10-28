@@ -1,5 +1,5 @@
 {
-  "revision": 1793164954073,
+  "revision": 1793165028308,
   "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
@@ -8,8 +8,8 @@
       "id": "custom_1793164839098",
       "name": "נחל עמוד שביל ישראל",
       "country": "",
-      "stage": "planning",
-      "stageLabel": "📋 שלב תכנון",
+      "stage": "ready",
+      "stageLabel": "🎒 ממתין ליציאה לשטח",
       "dates": "",
       "departureDate": "",
       "docsSynced": true,
