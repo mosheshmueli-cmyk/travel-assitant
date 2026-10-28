@@ -1,5 +1,5 @@
 {
-  "revision": 1793164846926,
+  "revision": 1793164954073,
   "activeTripKey": "custom_1793164839098",
   "deletedTrips": [],
   "customTrips": [
@@ -12,7 +12,7 @@
       "stageLabel": "📋 שלב תכנון",
       "dates": "",
       "departureDate": "",
-      "docsSynced": false,
+      "docsSynced": true,
       "center": [
         32.8788,
         35.5028
