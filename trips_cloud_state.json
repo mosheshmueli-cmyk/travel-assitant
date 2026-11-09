@@ -1,25 +1,10 @@
 {
-  "revision": 1793776575940,
+  "revision": 1794260890872,
   "activeTripKey": "korea",
-  "deletedTrips": [],
+  "deletedTrips": [
+    "custom_1793164839098"
+  ],
   "customTrips": [
-    {
-      "key": "custom_1793164839098",
-      "id": "custom_1793164839098",
-      "name": "נחל עמוד שביל ישראל",
-      "country": "",
-      "stage": "ready",
-      "stageLabel": "🎒 ממתין ליציאה לשטח",
-      "dates": "",
-      "departureDate": "",
-      "docsSynced": true,
-      "center": [
-        32.8788,
-        35.5028
-      ],
-      "zoom": 13,
-      "stations": []
-    },
     {
       "key": "korea",
       "id": "korea",
@@ -598,19 +583,6 @@
     }
   ],
   "arrivalChains": {
-    "custom_1793164839098": {
-      "originAddress": "רח' העצמאות 93, אשדוד",
-      "originTime": "",
-      "originLat": 31.7893,
-      "originLng": 34.6417,
-      "hasMeetingPoint": true,
-      "meetingAddress": "בית מכבי ראשלצ",
-      "meetingTime": "",
-      "meetingLat": 31.9806,
-      "meetingLng": 34.7738,
-      "trailheadAddress": "נחל עמוד שביל ישראל",
-      "trailheadTime": ""
-    },
     "korea": {
       "originAddress": "רח' העצמאות 93, אשדוד",
       "originTime": "10:30 (נגזר משעת המראה 14:40 ומפגש בנתב\"ג 11:30)",
@@ -631,20 +603,6 @@
     }
   },
   "questionnaires": {
-    "custom_1793164839098": {
-      "origin": "יציאה: רח' העצמאות 93, אשדוד () ➔ נק' מפגש:  () ➔ תחילת מסלול: נחל עמוד שביל ישראל",
-      "destination": "נחל עמוד שביל ישראל",
-      "character": "",
-      "group": "",
-      "duration": "",
-      "date": "",
-      "budget": "[אין נתונים / לא רלוונטי]",
-      "activities": "",
-      "transit": "אוטובוס צמוד",
-      "hotels": "[אין נתונים / לא רלוונטי]",
-      "food": "[אין נתונים / לא רלוונטי]",
-      "constraints": "[אין נתונים / לא רלוונטי]"
-    },
     "korea": {
       "origin": "רח' העצמאות 93, אשדוד / נתבג טרמינל 3",
       "destination": "קוריאה הדרומית | טיול מאורגן: הקסם הקוריאני (אופיר טורס)",
