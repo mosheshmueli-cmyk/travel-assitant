@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.2.9</title>
+    <title>Travel Assistant V5.3.0</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.2.9</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.0</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -917,7 +917,7 @@
         <!-- ================= 2. LIVE MAP SCREEN ================= -->
         <div id="screen-map" class="screen">
             <div class="top-bar" style="background: #fdf2f8; padding: 8px 14px; gap: 10px;">
-                <button class="back-btn" onclick="switchScreen('screen-home')" style="padding: 6px 12px; font-size: 0.9em;"><i class="fa-solid fa-arrow-right"></i> חזור</button>
+                <button id="map-top-back-btn" class="back-btn" onclick="handleMapBackButton()" style="padding: 6px 12px; font-size: 0.9em;"><i class="fa-solid fa-arrow-right"></i> <span id="map-top-back-label">חזור</span></button>
                 <span style="color: #9d174d; font-weight: 800; font-size: 1.05em;"><i class="fa-solid fa-map-location-dot"></i> מפה בזמן אמת</span>
             </div>
 
@@ -1503,7 +1503,7 @@
                                     <span style="background: #ede9fe; color: #6d28d9; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.85em;">חוזה רשמי: 42 מטיילים | 15 ימים</span>
                                 </div>
                                 <p style="margin: 0; font-size: 0.9em; color: #4c1d95; line-height: 1.5;">
-                                    <b>המסלול הרשמי המלא מתוך החוזה של חברת אופיר טורס:</b> מסע מקיף של 15 ימים ברחבי קוריאה הדרומית עבור קבוצה של 42 מטיילים משלמים (גמלאים ומבוגרים מעל גיל 75). החברה התחייבה רשמית להתאמת משך המסלול ורמת הקושי, אוטובוס תיירים נוח וממוזג צמוד, אוזניות שמע אישיות לכל מטייל, מרחקי הליכה מדודים (עד 400 מ' מחניות לאתרים), וליווי צמוד של מדריך מקצועי מבית אופיר טורס ומדריך מקומי. המסע כולל <b>2 שבתות מלאות</b>: שבת ראשונה בדאייגו ושבת שנייה בסיאול.
+                                    <b>המסלול הרשמי המלא מתוך החוזה של חברת אופיר טורס:</b> מסע מקיף של 15 ימים ברחבי קוריאה הדרומית עבור קבוצה של 42 מטיילים משלמים (גמלאים ומבוגרים מעל גיל 75). החברה התחייבה רשמית להתאמת משך המסלול ורמת הקושי, אוטובוס תיירים נוח וממוזג צמוד, אוזניות שמע אישיות לכל מטייל, מרחקי הליכה מדודים (עד 400 מ' מחניות לאתרים), וליווי צמוד של מדריך מקצועי מבית אופיר טורס ומדריך מקומי. המסע כולל <b>2 שבתות מלאות</b>: שבת ראשונה בדאייגו ושבת שנייה בסיאול. <b>לחיצה על שם כל מלון ביומי המסלול פותחת אותו ישירות במפה בזמן אמת (וכפתור "חזור" במפה מחזיר אותך לכאן לשלב 4).</b>
                                 </p>
                             </div>
 
@@ -1524,77 +1524,157 @@
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
                                     <b style="color: #2563eb;">יום 2 (יום ב', 23/11/2026): נחיתה בסיאול (15:45) ועיר העתיד הירוקה Songdo</b>
                                     <div style="font-size: 0.88em; color: #334155; margin-top: 4px; line-height: 1.5;">
-                                        <b>15:45:</b> נחיתת טיסה ET 672 בנמל התעופה הבינלאומי סיאול אינצ'און (ICN טרמינל 1). בידוק דרכונים, איסוף כבודה ומפגש עם האוטובוס התיירותי הצמוד והמדריך המקומי. עצירה בדרך לעיר באי Yeongjong-do או ברובע Songdo המודרני – עיר העתיד הירוקה של קוריאה. סיור נינוח בפארק המרכזי לצד תעלות מים וגורדי שחקים. נסיעה למלון בסיאול לקבלת חדרים, התארגנות ומנוחה, וארוחת ערב פתיחה חגיגית. לינה בסיאול.
+                                        <b>15:45:</b> נחיתת טיסה ET 672 בנמל התעופה הבינלאומי סיאול אינצ'און (ICN טרמינל 1). בידוק דרכונים, איסוף כבודה ומפגש עם האוטובוס התיירותי הצמוד והמדריך המקומי. עצירה בדרך לעיר באי Yeongjong-do או ברובע Songdo המודרני – עיר העתיד הירוקה של קוריאה. סיור נינוח בפארק המרכזי לצד תעלות מים וגורדי שחקים. נסיעה למלון בסיאול לקבלת חדרים, התארגנות ומנוחה, וארוחת ערב פתיחה חגיגית.
+                                    </div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h1', 37.5663, 126.9945, '🛏️ מלון סיאול (לילות 1–2): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="background: #eff6ff; border: 1.5px solid #3b82f6; color: #1d4ed8; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(37,99,235,0.12);">
+                                            <span>🛏️ מלון ליום 2 (23/11): <u>Seoul KUKDO Hotel (מלון קוקדו סיאול)</u></span>
+                                            <span style="background: #2563eb; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 164 Eulji-ro, Jung-gu, Seoul | www.hotelkukdo.com</span>
                                     </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #2563eb;">יום 3 (יום ג'): סיאול – מקדשים, ארמונות, שייט על נהר ההאן ומופע נאנטה</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור דרך בניין העירייה והפארק הצמוד, כיכר גוואנגוואמון המרשימה (600 שנות היסטוריה ותרבות), עלייה לתצפית במגדל סיאול בהר נאמסאן (N-Seoul Tower מתנשא לגובה 237 מ'), סיור בשוק המקומי הענק נאמדאמון (מעל ומתחת לקרקע), שייט מרגיע על נהר ההאן, סיור ברובע הקניות היוקרתי מיונגדונג, וצפייה במופע התיאטרון והתיפוף המפורסם נאנטה (Nanta Show). לינה בסיאול.</div>
+                                    <b style="color: #2563eb;">יום 3 (יום ג', 24/11/2026): סיאול – מקדשים, ארמונות, שייט על נהר ההאן ומופע נאנטה</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור דרך בניין העירייה והפארק הצמוד, כיכר גוואנגוואמון המרשימה (600 שנות היסטוריה ותרבות), עלייה לתצפית במגדל סיאול בהר נאמסאן (N-Seoul Tower מתנשא לגובה 237 מ'), סיור בשוק המקומי הענק נאמדאמון (מעל ומתחת לקרקע), שייט מרגיע על נהר ההאן, סיור ברובע הקניות היוקרתי מיונגדונג, וצפייה במופע התיאטרון והתיפוף המפורסם נאנטה (Nanta Show).</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h1', 37.5663, 126.9945, '🛏️ מלון סיאול (לילות 1–2): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="background: #eff6ff; border: 1.5px solid #3b82f6; color: #1d4ed8; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(37,99,235,0.12);">
+                                            <span>🛏️ מלון ליום 3 (24/11): <u>Seoul KUKDO Hotel (מלון קוקדו סיאול - לילה שני)</u></span>
+                                            <span style="background: #2563eb; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 164 Eulji-ro, Jung-gu, Seoul</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #ea580c;">יום 4 (יום ד'): סואון וכפר הפולקלור – מסיאול לסוקצ'ו</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">יציאה מסיאול אל מצודת סואון הוואסונג (Suwon Hwaseong) – אתר מורשת עולמי של אונסק"ו. המשך לביקור בכפר הפולקלור הקוריאני מתקופת שושלת ג'וסון – מוזיאון חי של 250 בתים מסורתיים אותנטיים, צפייה בשחקנים המציגים חיי יומיום, הכנת כלים חקלאיים, קימצ'י, ומופעי אקרובטיקה וריקוד מסורתי. נסיעה למלון בסוקצ'ו (Sokcho). לינה בסוקצ'ו.</div>
+                                    <b style="color: #ea580c;">יום 4 (יום ד', 25/11/2026): סואון וכפר הפולקלור – מסיאול לסוקצ'ו</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">יציאה מסיאול אל מצודת סואון הוואסונג (Suwon Hwaseong) – אתר מורשת עולמי של אונסק"ו. המשך לביקור בכפר הפולקלור הקוריאני מתקופת שושלת ג'וסון – מוזיאון חי של 250 בתים מסורתיים אותנטיים, צפייה בשחקנים המציגים חיי יומיום, הכנת כלים חקלאיים, קימצ'י, ומופעי אקרובטיקה וריקוד מסורתי. נסיעה למלון בסוקצ'ו (Sokcho).</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h2', 38.1942, 128.5805, '🛏️ מלון סוקצ\'ו (לילה 3): Chestertons Hotel Sokcho', '109 Expo-ro (29 Eksupo-ro), Sokcho-si, Gangwon-do')" style="background: #fff7ed; border: 1.5px solid #ea580c; color: #c2410c; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(234,88,12,0.12);">
+                                            <span>🛏️ מלון ליום 4 (25/11 - סוקצ'ו): <u>Chestertons Hotel Sokcho</u></span>
+                                            <span style="background: #ea580c; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 109 Expo-ro, Sokcho-si | chestertonskr-sokcho.com</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #ea580c;">יום 5 (יום ה'): שמורת הר סאוראק, מקדש נקסאנסה וצ'יאונגז'ו</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">שמורת הטבע הר סאוראק (Seoraksan) – ביקור במקדש שינהאונגסה ופסל בודהה הענק, עלייה ברכבל לפסגת ההר ותצפית מרהיבה על ים יפן וחורבות מצודת גואנגאאום סאנג. ביקור בשוק סוקצ'ו הססגוני (טעימת לחם האורז המיוחד). המשך למקדש נקסאנסה (Naksansa) המרהיב הניצב על צוק מול הים. נסיעה למלון בעיר צ'יאונגז'ו (Cheongju). לינה בצ'יאונגז'ו.</div>
+                                    <b style="color: #ea580c;">יום 5 (יום ה', 26/11/2026): שמורת הר סאוראק, מקדש נקסאנסה וצ'יאונגז'ו / ג'צ'און</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">שמורת הטבע הר סאוראק (Seoraksan) – ביקור במקדש שינהאונגסה ופסל בודהה הענק, עלייה ברכבל לפסגת ההר ותצפית מרהיבה על ים יפן וחורבות מצודת גואנגאאום סאנג. ביקור בשוק סוקצ'ו הססגוני (טעימת לחם האורז המיוחד). המשך למקדש נקסאנסה (Naksansa) המרהיב הניצב על צוק מול הים. נסיעה למלון באזור צ'יאונגז'ו / אגם צ'אונגפונג (Cheongju / Jecheon).</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h3', 36.9930, 128.1690, '🛏️ מלון צ\'יאונגז\'ו / ג\'צ\'און (לילה 4): Cheongpung Lake Resort Hotel', '1798 Cheongpungho-ro, Cheongpung-myeon, Jecheon-si')" style="background: #fff7ed; border: 1.5px solid #ea580c; color: #c2410c; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(234,88,12,0.12);">
+                                            <span>🛏️ מלון ליום 5 (26/11 - צ'יאונגז'ו): <u>Cheongpung Lake Resort Hotel</u></span>
+                                            <span style="background: #ea580c; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 1798 Cheongpungho-ro, Jecheon-si | cheongpungresort.co.kr</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #166534;">יום 6 (יום ו' - ערב שבת ראשונה): ביאופג'וסה, מקדש האינסה והגעה לדאייגו</b>
+                                    <b style="color: #166534;">יום 6 (יום ו', 27/11/2026 - ערב שבת ראשונה): ביאופג'וסה, מקדש האינסה והגעה לדאייגו</b>
                                     <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור בפארק הלאומי סוקריסאן ובמקדש הבודהיסטי ביאופג'וסה (נוסד ב-553, פגודת העץ הגבוהה בקוריאה ופסל בודהה המוזהב). המשך להאפצ'ואן לביקור במקדש האינסה (Haeinsa) שבו אוצר הטריפיטקה קוריאנה – 81,000 לוחות עץ עתיקים בני 800 שנה שנשמרו באופן מופלא ביער שליו. נסיעה למלון בעיר דאייגו (Daegu). התארגנות מוקדמת לשבת. הדלקת נרות שבת בדאייגו: 16:57.</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h4', 35.8577, 128.6252, '🛏️ מלון דאייגו (שבת ראשונה): Daegu Grand Hotel', '563 Dalgubeol-daero, Suseong-gu, Daegu')" style="background: #f0fdf4; border: 1.5px solid #16a34a; color: #166534; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(22,163,74,0.12);">
+                                            <span>🛏️ מלון ליום 6 (27/11 - שבת בדאייגו): <u>Daegu Grand Hotel</u></span>
+                                            <span style="background: #16a34a; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 563 Dalgubeol-daero, Suseong-gu, Daegu | daegugrand.co.kr</span>
+                                    </div>
                                 </div>
 
                                 <!-- SHABBAT 1: DAEGU WITH A4 PRINT -->
                                 <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> יום 7 (שבת קודש ראשונה – דאייגו): מנוחת שבת וסיור רגלי סביב המלון</b>
+                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> יום 7 (שבת קודש ראשונה, 28/11/2026 – דאייגו): מנוחת שבת וסיור רגלי סביב המלון</b>
                                         <button onclick="openShabbatPrintModal('korea_shabbat1')" style="background: #15803d; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,101,52,0.25);">
                                             <i class="fa-solid fa-print"></i> 🖨️ הדפס דף שבת דאייגו (A4)
                                         </button>
                                     </div>
                                     <div style="font-size: 0.88em; color: #14532d; line-height: 1.5;">
-                                        <b>שבת ראשונה במסע בעיר דאייגו:</b> הדלקת נרות: 16:57 | מוצאי שבת: 17:57. תפילות, סעודות שבת ומנוחה מלאה מותאמת לגמלאים. סיור רגלי נינוח סביב המלון ללא הפעלת טלפונים. הדפסת דף מסלול A4 ביום שישי. לינה בדאייגו / בוסאן.
+                                        <b>שבת ראשונה במסע בעיר דאייגו:</b> הדלקת נרות: 16:57 | מוצאי שבת: 17:57. תפילות, סעודות שבת ומנוחה מלאה מותאמת לגמלאים. סיור רגלי נינוח סביב המלון ללא הפעלת טלפונים. הדפסת דף מסלול A4 ביום שישי.
+                                    </div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #86efac; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h4', 35.8577, 128.6252, '🛏️ מלון דאייגו (שבת ראשונה): Daegu Grand Hotel', '563 Dalgubeol-daero, Suseong-gu, Daegu')" style="background: white; border: 1.5px solid #15803d; color: #166534; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right;">
+                                            <span>🛏️ מלון השבת בדאייגו: <u>Daegu Grand Hotel</u></span>
+                                            <span style="background: #15803d; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h5', 35.1075, 129.0367, '🛏️ מלון בוסאן (3 לילות): Busan Crown Harbor Hotel', '114 Jungang-daero, Jung-gu, Busan')" style="background: #faf5ff; border: 1.5px solid #7c3aed; color: #6d28d9; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.85em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right;">
+                                            <span>🛏️ המשך לבוסאן (28–30/11): <u>Busan Crown Harbor Hotel</u></span>
+                                            <span style="background: #7c3aed; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.8em;">🗺️ מפה</span>
+                                        </button>
                                     </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #7c3aed;">יום 8 (יום א'): ממלכת שילה הקדומה (גיונגג'ו) והגעה לבוסאן</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור בגיונגג'ו – בירת ממלכת שילה הקדומה. ביקור במוזיאון הלאומי, שרידי ארמון הקיץ, מצפה הכוכבים העתיק Cheomseongdae, ופארק קברי המלכים ותל הקבורה הפתוח. חוויית טקס תה קוריאני מסורתי בבית תה. ביקור במערת סאוקגוראם (Seokguram Grotto) מול הים המזרחי ומקדש בולגוקסה (Bulguksa - אתרי מורשת עולמית של אונסק"ו). נסיעה למלון בעיר בוסאן (Busan). לינה בבוסאן.</div>
+                                    <b style="color: #7c3aed;">יום 8 (יום א', 29/11/2026): ממלכת שילה הקדומה (גיונגג'ו) והגעה לבוסאן</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">סיור בגיונגג'ו – בירת ממלכת שילה הקדומה. ביקור במוזיאון הלאומי, שרידי ארמון הקיץ, מצפה הכוכבים העתיק Cheomseongdae, ופארק קברי המלכים ותל הקבורה הפתוח. חוויית טקס תה קוריאני מסורתי בבית תה. ביקור במערת סאוקגוראם (Seokguram Grotto) מול הים המזרחי ומקדש בולגוקסה (Bulguksa - אתרי מורשת עולמית של אונסק"ו). נסיעה למלון בעיר בוסאן (Busan).</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h5', 35.1075, 129.0367, '🛏️ מלון בוסאן (3 לילות): Busan Crown Harbor Hotel', '114 Jungang-daero, Jung-gu, Busan')" style="background: #faf5ff; border: 1.5px solid #7c3aed; color: #6d28d9; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(124,58,237,0.12);">
+                                            <span>🛏️ מלון ליום 8 (בוסאן): <u>Busan Crown Harbor Hotel (מלון קראון הארבור בוסאן)</u></span>
+                                            <span style="background: #7c3aed; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 114 Jungang-daero, Jung-gu, Busan | crownharborhotel.com</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #7c3aed;">יום 9 (יום ב'): בוסאן (חלק 1) – מגדל בוסאן, שוק הדגים ג'גאלצ'י וספא מסורתי</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">תצפית פנורמית ממגדל בוסאן בפארק יונגדוסאן (הר ראש הדרקון), סיור מודרך בשוק הדגים הגדול ביותר בקוריאה – שוק ג'גאלצ'י (Jagalchi), שוק קוקג'ה (Gukje) המסורתי, כיכר BIFF ומאכלי רחוב מקומיים. ביקור במרכז קניות ענק עם אפשרות לספא קוריאני מסורתי (Jjimjilbang) להתרעננות. לינה בבוסאן.</div>
+                                    <b style="color: #7c3aed;">יום 9 (יום ב', 30/11/2026): בוסאן (חלק 1) – מגדל בוסאן, שוק הדגים ג'גאלצ'י וספא מסורתי</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">תצפית פנורמית ממגדל בוסאן בפארק יונגדוסאן (הר ראש הדרקון), סיור מודרך בשוק הדגים הגדול ביותר בקוריאה – שוק ג'גאלצ'י (Jagalchi), שוק קוקג'ה (Gukje) המסורתי, כיכר BIFF ומאכלי רחוב מקומיים. ביקור במרכז קניות ענק עם אפשרות לספא קוריאני מסורתי (Jjimjilbang) להתרעננות.</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h5', 35.1075, 129.0367, '🛏️ מלון בוסאן (3 לילות): Busan Crown Harbor Hotel', '114 Jungang-daero, Jung-gu, Busan')" style="background: #faf5ff; border: 1.5px solid #7c3aed; color: #6d28d9; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(124,58,237,0.12);">
+                                            <span>🛏️ מלון ליום 9 (בוסאן): <u>Busan Crown Harbor Hotel (לילה שני בבוסאן)</u></span>
+                                            <span style="background: #7c3aed; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 114 Jungang-daero, Jung-gu, Busan</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #7c3aed;">יום 10 (יום ג'): בוסאן (חלק 2) – מקדש הדרקון, גשר הזכוכית, כפר גמצ'און ורכבל</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור במקדש ארמון הדרקון (Haedong Yonggungsa) הניצב ישירות על קו החוף, ביקור ב"בית אפק" (Nurimaru APEC House) באי דונגבאקסום בין עצי אורן, צעידה על גשר הזכוכית השקוף אוריוקדו מעל המצוק, מעבר מעל גשר היהלומים (Gwangan Bridge באורך 7,420 מ'), סיור בסמטאות הציוריות של כפר האמנות והתרבות גמצ'און (Gamcheon), ורכבל סונגדו מעל המפרץ עם פארק הנסיך הקטן. לינה בבוסאן.</div>
+                                    <b style="color: #7c3aed;">יום 10 (יום ג', 01/12/2026): בוסאן (חלק 2) – מקדש הדרקון, גשר הזכוכית, כפר גמצ'און ורכבל</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור במקדש ארמון הדרקון (Haedong Yonggungsa) הניצב ישירות על קו החוף, ביקור ב"בית אפק" (Nurimaru APEC House) באי דונגבאקסום בין עצי אורן, צעידה על גשר הזכוכית השקוף אוריוקדו מעל המצוק, מעבר מעל גשר היהלומים (Gwangan Bridge באורך 7,420 מ'), סיור בסמטאות הציוריות של כפר האמנות והתרבות גמצ'און (Gamcheon), ורכבל סונגדו מעל המפרץ עם פארק הנסיך הקטן.</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h5', 35.1075, 129.0367, '🛏️ מלון בוסאן (3 לילות): Busan Crown Harbor Hotel', '114 Jungang-daero, Jung-gu, Busan')" style="background: #faf5ff; border: 1.5px solid #7c3aed; color: #6d28d9; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(124,58,237,0.12);">
+                                            <span>🛏️ מלון ליום 10 (בוסאן): <u>Busan Crown Harbor Hotel (לילה שלישי בבוסאן)</u></span>
+                                            <span style="background: #7c3aed; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 114 Jungang-daero, Jung-gu, Busan</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1.5px solid #bae6fd; border-radius: 10px; padding: 12px; box-shadow: 0 2px 6px rgba(2,132,199,0.06);">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
-                                        <b style="color: #0369a1; font-size: 1.05em;"><i class="fa-solid fa-plane"></i> יום 11 (יום ד'): טיסת פנים מבוסאן לאי ג'ג'ו (Jeju Island) - פלאי הטבע</b>
+                                        <b style="color: #0369a1; font-size: 1.05em;"><i class="fa-solid fa-plane"></i> יום 11 (יום ד', 02/12/2026): טיסת פנים מבוסאן לאי ג'ג'ו (Jeju Island) - פלאי הטבע</b>
                                         <span style="background: #e0f2fe; color: #0284c7; font-size: 0.8em; padding: 2px 8px; border-radius: 6px; font-weight: 800;">טיסת פנים: PUS -> CJU</span>
                                     </div>
                                     <div style="font-size: 0.88em; color: #1e293b; line-height: 1.55;">
                                         • <b>טיסת פנים בוסאן -> ג'ג'ו:</b> נסיעה באוטובוס לנמל התעופה Gimhae בבוסאן (PUS), טיסה קצרה של כ-55 דקות ונחיתה בנמל התעופה הבינלאומי ג'ג'ו (CJU).<br>
-                                        • <b>סיורי היום:</b> ביקור במוזיאון התה המסורתי O'Sulloc כולל טעימת תה ירוק בגנים, ביקור בגנים הבוטניים יאומיג'י (Yeomiji), צוק עמודי הבזלת ומשושי הלבה ג'וסאנגג'אולי (Jusangjeolli), ומפל צ'אנג'יאון (Cheonjiyeon). לינה בעיר ג'ג'ו.
+                                        • <b>סיורי היום:</b> ביקור במוזיאון התה המסורתי O'Sulloc כולל טעימת תה ירוק בגנים, ביקור בגנים הבוטניים יאומיג'י (Yeomiji), צוק עמודי הבזלת ומשושי הלבה ג'וסאנגג'אולי (Jusangjeolli), ומפל צ'אנג'יאון (Cheonjiyeon).
+                                    </div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #7dd3fc; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h6', 33.5153, 126.5266, '🛏️ מלון האי ג\'ג\'ו: Jeju Whistle Lark Hotel', '26 Seobudu 2-gil, Jeju-si, Jeju-do')" style="background: #f0f9ff; border: 1.5px solid #0284c7; color: #0369a1; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(2,132,199,0.12);">
+                                            <span>🛏️ מלון ליום 11 (האי ג'ג'ו): <u>Jeju Whistle Lark Hotel</u></span>
+                                            <span style="background: #0284c7; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 26 Seobudu 2-gil, Jeju-si | whistlelark.co.kr</span>
                                     </div>
                                 </div>
 
                                 <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
-                                    <b style="color: #0284c7;">יום 12 (יום ה'): אי ג'ג'ו – כפר סאונגאפ, הנשים הצוללות וסאנרייז פיק</b>
-                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור בכפר המסורתי האותנטי סאונגאפ (Seongeup - מורשת תרבותית עם תושבים מקומיים), מופע טאקוונדו (אם מתאפשר), סיפור ומפגש בחוף "הנשים הצוללות" (Haenyeo הצוללות ללא בלוני חמצן לשליית פירות ים), לוע הר הגעש סאנרייז פיק (Seongsan Ilchulbong) עם תצפית עוצרת נשימה, ורצועת החוף המפורסמת סופג'יקוג'י (Seopjikoji). לינה בג'ג'ו.</div>
+                                    <b style="color: #0284c7;">יום 12 (יום ה', 03/12/2026): אי ג'ג'ו – כפר סאונגאפ, הנשים הצוללות וסאנרייז פיק</b>
+                                    <div style="font-size: 0.88em; color: #334155; margin-top: 4px;">ביקור בכפר המסורתי האותנטי סאונגאפ (Seongeup - מורשת תרבותית עם תושבים מקומיים), מופע טאקוונדו (אם מתאפשר), סיפור ומפגש בחוף "הנשים הצוללות" (Haenyeo הצוללות ללא בלוני חמצן לשליית פירות ים), לוע הר הגעש סאנרייז פיק (Seongsan Ilchulbong) עם תצפית עוצרת נשימה, ורצועת החוף המפורסמת סופג'יקוג'י (Seopjikoji).</div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h6', 33.5153, 126.5266, '🛏️ מלון האי ג\'ג\'ו: Jeju Whistle Lark Hotel', '26 Seobudu 2-gil, Jeju-si, Jeju-do')" style="background: #f0f9ff; border: 1.5px solid #0284c7; color: #0369a1; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(2,132,199,0.12);">
+                                            <span>🛏️ מלון ליום 12 (האי ג'ג'ו): <u>Jeju Whistle Lark Hotel (לילה שני בג'ג'ו)</u></span>
+                                            <span style="background: #0284c7; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 26 Seobudu 2-gil, Jeju-si</span>
+                                    </div>
                                 </div>
 
                                 <div style="background: white; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 12px; box-shadow: 0 2px 6px rgba(22,163,74,0.06);">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
-                                        <b style="color: #15803d; font-size: 1.05em;"><i class="fa-solid fa-plane"></i> יום 13 (יום ו' - ערב שבת שנייה): פארק האלים וטיסת פנים לסיאול</b>
+                                        <b style="color: #15803d; font-size: 1.05em;"><i class="fa-solid fa-plane"></i> יום 13 (יום ו', 04/12/2026 - ערב שבת שנייה): פארק האלים וטיסת פנים לסיאול</b>
                                         <span style="background: #dcfce7; color: #166534; font-size: 0.8em; padding: 2px 8px; border-radius: 6px; font-weight: 800;">טיסת פנים: CJU -> GMP</span>
                                     </div>
                                     <div style="font-size: 0.88em; color: #1e293b; line-height: 1.55;">
@@ -1602,18 +1682,32 @@
                                         • <b>טיסת פנים ג'ג'ו -> סיאול:</b> המראה מנמל התעופה ג'ג'ו (CJU) ונחיתה בנמל התעופה סיאול גימפו (GMP, כ-70 דקות טיסה). העברה ישירה באוטובוס למלון בסיאול.<br>
                                         • <b>התארגנות לשבת קודש שנייה:</b> <b>הדלקת נרות שבת בסיאול: 16:56</b>.
                                     </div>
+                                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #86efac; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h7', 37.5663, 126.9945, '🛏️ מלון סיאול (שבת שנייה - 2 לילות אחרונים): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="background: #f0fdf4; border: 1.5px solid #16a34a; color: #166534; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right; box-shadow: 0 2px 5px rgba(22,163,74,0.12);">
+                                            <span>🛏️ מלון ליום 13 (03–05/12 - סיאול): <u>Seoul KUKDO Hotel (מלון קוקדו סיאול)</u></span>
+                                            <span style="background: #16a34a; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #475569; font-weight: 700;" dir="ltr">📍 164 Eulji-ro, Jung-gu, Seoul | www.hotelkukdo.com</span>
+                                    </div>
                                 </div>
 
                                 <!-- SHABBAT 2: SEOUL WITH A4 PRINT -->
                                 <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
-                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> יום 14 (שבת קודש שנייה – סיאול): ארמון גיונגבוק, כפר בוקצ'ון ואינסדונג</b>
+                                        <b style="color: #166534; font-size: 1.1em;"><i class="fa-solid fa-synagogue"></i> יום 14 (שבת קודש שנייה, 05/12/2026 – סיאול): ארמון גיונגבוק, כפר בוקצ'ון ואינסדונג</b>
                                         <button onclick="openShabbatPrintModal('korea_shabbat2')" style="background: #15803d; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 900; font-size: 0.9em; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(22,101,52,0.25);">
                                             <i class="fa-solid fa-print"></i> 🖨️ הדפס דף שבת סיאול (A4)
                                         </button>
                                     </div>
                                     <div style="font-size: 0.88em; color: #14532d; line-height: 1.5; margin-bottom: 8px;">
                                         <b>שבת שנייה בסיאול:</b> הדלקת נרות: 16:56 | מוצאי שבת: 17:56. תפילות וסעודות שבת. סיור רגלי מותאם לשבת בארמון המלכותי גיונגבוקגונג (Gyeongbokgung - כניסה בתלבושות מסורתיות, חילופי משמרות ללא מדרגות), כפר הבתים המסורתיים בוקצ'ון (Bukchon Hanok), ומדרחוב האמנים והעתיקות אינסדונג (Insadong), ובמידת הזמן דונגדאמון פלאזה (DDP).
+                                    </div>
+                                    <div style="margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #86efac; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <button type="button" class="step4-hotel-btn" onclick="openStep4HotelOnMap('k_h7', 37.5663, 126.9945, '🛏️ מלון סיאול (שבת שנייה - 2 לילות אחרונים): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="background: white; border: 1.5px solid #15803d; color: #166534; padding: 7px 12px; border-radius: 8px; font-weight: 900; font-size: 0.88em; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-align: right;">
+                                            <span>🛏️ מלון השבת בסיאול (יום 14): <u>Seoul KUKDO Hotel (מלון קוקדו סיאול)</u></span>
+                                            <span style="background: #15803d; color: white; padding: 2px 7px; border-radius: 6px; font-size: 0.82em;">🗺️ הצג במפה בזמן אמת</span>
+                                        </button>
+                                        <span style="font-size: 0.78em; color: #14532d; font-weight: 700;" dir="ltr">📍 164 Eulji-ro, Jung-gu, Seoul</span>
                                     </div>
                                     <div style="font-size: 0.85em; color: #0f172a; background: white; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #86efac; line-height: 1.55;">
                                         • <b>מוצאי שבת (17:56):</b> הבדלה וחזרה למלון להתארגנות, פינוי חדרים ואריזת מזוודות.<br>
@@ -1624,7 +1718,7 @@
 
                                 <div style="background: white; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 12px; box-shadow: 0 2px 6px rgba(37,99,235,0.06);">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
-                                        <b style="color: #1e40af; font-size: 1.05em;"><i class="fa-solid fa-plane-arrival"></i> יום 15 (יום א'): טיסות חזרה ארצה ונחיתה בישראל</b>
+                                        <b style="color: #1e40af; font-size: 1.05em;"><i class="fa-solid fa-plane-arrival"></i> יום 15 (יום א', 06/12/2026): טיסות חזרה ארצה ונחיתה בישראל</b>
                                         <span style="background: #eff6ff; color: #1d4ed8; font-size: 0.8em; padding: 2px 8px; border-radius: 6px; font-weight: 800;">Ethiopian Airlines (ET)</span>
                                     </div>
                                     <div style="font-size: 0.88em; color: #1e293b; line-height: 1.55;">
@@ -1632,6 +1726,61 @@
                                         • <b>קונקשן באדיס אבבה (נמל בולה):</b> 3 שעות ו-5 דקות (07:25 עד 10:30). התרעננות קבוצתית.<br>
                                         • <b>טיסה 4 (חזור מקטע שני):</b> חברת Ethiopian Airlines טיסה <b>ET 418</b> | המראה מאדיס אבבה (ADD) בשעה <b>10:30</b> ✈️ נחיתה בנמל התעופה בן גוריון (TLV טרמינל 3) בשעה <b>13:35</b> בצהריים.<br>
                                         • <b>13:35:</b> נחיתה ברוכה בישראל! איסוף כבודה וחזרה הביתה לשדרות העצמאות 93 אשדוד. תם ונשלם מסע הקסם הקוריאני!
+                                    </div>
+                                </div>
+
+                                <!-- SUMMARY OF ALL 7 HOTELS + CUSTOMS FOOD RULES + ESIM GUIDE -->
+                                <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 14px; margin-top: 6px;">
+                                    <div style="font-weight: 900; color: #0f172a; font-size: 1.05em; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                        <span>🛏️ ריכוז מלונות המסע בקוריאה (מתוך מסמך המלונות הרשמי – לחיצה מציגה במפה בזמן אמת)</span>
+                                        <span style="background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 6px; font-size: 0.8em;">7 מקטעי לינה</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 8px; margin-bottom: 12px;">
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h1', 37.5663, 126.9945, '🛏️ מלון סיאול (לילות 1–2): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="background: white; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #1d4ed8; font-size: 0.88em;">1. סיאול (23–25/11 | ימים 2–3): Seoul KUKDO Hotel</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">164 Eulji-ro, Jung-gu, Seoul | 🗺️ לחץ למפה</div>
+                                        </button>
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h2', 38.1942, 128.5805, '🛏️ מלון סוקצ\'ו (לילה 3): Chestertons Hotel Sokcho', '109 Expo-ro, Sokcho-si')" style="background: white; border: 1.5px solid #fdba74; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #c2410c; font-size: 0.88em;">2. סוקצ'ו (25/11 | יום 4): Chestertons Hotel Sokcho</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">109 Expo-ro, Sokcho-si | 🗺️ לחץ למפה</div>
+                                        </button>
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h3', 36.9930, 128.1690, '🛏️ מלון צ\'יאונגז\'ו / ג\'צ\'און: Cheongpung Lake Resort Hotel', '1798 Cheongpungho-ro, Jecheon-si')" style="background: white; border: 1.5px solid #fdba74; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #c2410c; font-size: 0.88em;">3. צ'יאונגז'ו (26/11 | יום 5): Cheongpung Lake Resort</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">1798 Cheongpungho-ro, Jecheon-si | 🗺️ לחץ למפה</div>
+                                        </button>
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h4', 35.8577, 128.6252, '🛏️ מלון דאייגו (שבת ראשונה): Daegu Grand Hotel', '563 Dalgubeol-daero, Suseong-gu, Daegu')" style="background: white; border: 1.5px solid #86efac; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #15803d; font-size: 0.88em;">4. דאייגו (27/11 | ימים 6–7 שבת): Daegu Grand Hotel</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">563 Dalgubeol-daero, Daegu | 🗺️ לחץ למפה</div>
+                                        </button>
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h5', 35.1075, 129.0367, '🛏️ מלון בוסאן: Busan Crown Harbor Hotel', '114 Jungang-daero, Jung-gu, Busan')" style="background: white; border: 1.5px solid #c4b5fd; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #6d28d9; font-size: 0.88em;">5. בוסאן (28–30/11 | ימים 8–10): Busan Crown Hotel</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">114 Jungang-daero, Jung-gu, Busan | 🗺️ לחץ למפה</div>
+                                        </button>
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h6', 33.5153, 126.5266, '🛏️ מלון האי ג\'ג\'ו: Jeju Whistle Lark Hotel', '26 Seobudu 2-gil, Jeju-si')" style="background: white; border: 1.5px solid #7dd3fc; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #0369a1; font-size: 0.88em;">6. ג'ג'ו (30/11–03/12 | ימים 11–12): Jeju Whistle Lark</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">26 Seobudu 2-gil, Jeju-si | 🗺️ לחץ למפה</div>
+                                        </button>
+                                        <button type="button" onclick="openStep4HotelOnMap('k_h7', 37.5663, 126.9945, '🛏️ מלון סיאול (שבת שנייה): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="background: white; border: 1.5px solid #86efac; border-radius: 8px; padding: 8px 10px; text-align: right; cursor: pointer;">
+                                            <div style="font-weight: 900; color: #15803d; font-size: 0.88em;">7. סיאול (03–05/12 | ימים 13–14 שבת 2): Seoul KUKDO Hotel</div>
+                                            <div style="font-size: 0.78em; color: #475569;" dir="ltr">164 Eulji-ro, Jung-gu, Seoul | 🗺️ לחץ למפה</div>
+                                        </button>
+                                    </div>
+
+                                    <!-- KOREA CUSTOMS ALLOWED / PROHIBITED FOOD TABLE + ESIM RECOMMENDATION -->
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
+                                        <div style="background: #fffbeb; border: 1.5px solid #fcd34d; border-radius: 10px; padding: 10px 12px; font-size: 0.84em; line-height: 1.45;">
+                                            <div style="font-weight: 900; color: #92400e; margin-bottom: 4px;">🛃 הנחיות מכס קוריאה הדרומית – הכנסת מזון כשר במזוודה:</div>
+                                            <div style="color: #166534; font-weight: 700;">✅ <b>מותר להכניס (באריזה מסחרית אטומה במזוודה לבטן המטוס):</b> טונה ושימורי דגים, קרקרים, מצות, פריכיות, מנות חמות צמחוניות/פרווה (ללא רכיבי בשר), חלווה, טחינה גולמית, שוקולד, קפה, תה, אגוזים קלויים וארוזים.</div>
+                                            <div style="color: #991b1b; font-weight: 700; margin-top: 4px;">⛔ <b>אסור בתכלית האיסור (קנסות כבדים בבידוק ICN):</b> כל מוצרי הבשר והעוף (כולל נקניק יבש, קבנוס, שימורי בשר ומנות חמות בשריות), פירות וירקות טריים, זרעים וגבינות לא מפוסטרות.</div>
+                                        </div>
+                                        <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 10px 12px; font-size: 0.84em; line-height: 1.45;">
+                                            <div style="font-weight: 900; color: #1e40af; margin-bottom: 4px;">📶 המלצת תקשורת ו-eSIM ל-15 ימים בקוריאה הדרומית:</div>
+                                            <div style="color: #1e293b;">
+                                                • <b>חבילה מומלצת:</b> eSIM דאטה של <b>10GB–15GB ל-15 ימים</b> על רשתות <b>SK Telecom (SKT)</b> או <b>KT Olleh</b> (כיסוי מלא בסיאול, הר סאוראק, דאייגו, בוסאן והאי ג'ג'ו).<br>
+                                                • <b>ספקים מומלצים:</b> Airalo (חבילת Asialink / LG U+ 10GB ב-$18–$22), Mobimatter (15GB ב-$14), או SIM פיזי בדלפק KT בטרמינל 1 אינצ'און (שערים 6–10).<br>
+                                                • <b>חיסכון בסוללה ובדאטה:</b> הפעילו נדידת נתונים רק בקו הקוריאני וכבו עדכוני רקע.
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2192,7 +2341,7 @@
 
                     <!-- Ground Transit: Foreign VIP Bus & Bullet Trains (Abroad only) -->
                     <div id="ai-card-foreign-transit" style="display: none; background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 14px; margin-bottom: 14px;">
-                        <h4 style="margin: 0 0 8px 0; color: #0284c7; font-size: 1.05em;"><i class="fa-solid fa-bus-simple"></i> הסעות קרקעיות ורכבות מהירות בחו"ל</h4>
+                        <h4 style="margin: 0 0 8px 0; color: #0284c7; font-size: 1.05em;"><i class="fa-solid fa-bus-simple"></i> הסעות קרקעיות, רכבות מהירות ותקשורת בחו"ל</h4>
                         <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;">
                             <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 8px 10px;">
                                 <b style="color: #0369a1;">🚌 אוטובוס תיירות צמוד VIP (קוריאה הדרומית):</b>
@@ -2201,6 +2350,13 @@
                             <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 8px 10px;">
                                 <b style="color: #15803d;">🚆 רכבת קליע KTX (סיאול - בוסאן):</b>
                                 <div style="color: #334155; margin-top: 2px;">מקומות שמורים בקרון 3, עלייה רגועה ברציף מעליות, מהירות 300 קמ"ש ללא טלטולים.</div>
+                            </div>
+                            <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 8px; padding: 10px 12px;">
+                                <b style="color: #1e40af;">📶 המלצת חבילת תקשורת ו-eSIM ל-15 ימים בקוריאה הדרומית:</b>
+                                <div style="color: #1e293b; margin-top: 3px; line-height: 1.45;">
+                                    • <b>חבילה מומלצת:</b> eSIM דאטה של <b>10GB–15GB ל-15 ימים</b> על רשתות <b>SK Telecom (SKT)</b> או <b>KT Olleh</b> (כיסוי מלא גם בהר סאוראק ובאי ג'ג'ו).<br>
+                                    • <b>אפשרויות רכישה:</b> Airalo (חבילת Asialink / LG U+ 10GB ב-$18–$22), Mobimatter (15GB ב-$14), או SIM פיזי בדלפק KT בטרמינל 1 אינצ'און (שערים 6–10).
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2214,6 +2370,13 @@
                         <div style="font-size: 0.85em; color: #7c2d12; margin-top: 3px; line-height: 1.4;">
                             הסייען מספק מענה מותאם אישית: איתור מסעדות כשרות למהדרין (בד"ץ / גלאט), מסעדות צמחוניות וטבעוניות נקיות, וזיהוי כשרות מוצרים בסופרמרקטים בינלאומיים.
                         </div>
+                    </div>
+
+                    <!-- Korea Customs Allowed / Prohibited Food Card -->
+                    <div id="ai-food-customs-rules-card" style="background: #fffbeb; border: 1.5px solid #fcd34d; border-radius: 12px; padding: 12px; margin-bottom: 14px; font-size: 0.85em; line-height: 1.45;">
+                        <div style="font-weight: 900; color: #92400e; font-size: 1em; margin-bottom: 4px;"><i class="fa-solid fa-suitcase-rolling"></i> הנחיות מכס קוריאה הדרומית – הכנסת מזון כשר במזוודה:</div>
+                        <div style="color: #166534; font-weight: 700;">✅ <b>מותר להכניס (באריזה מסחרית אטומה במזוודה לבטן המטוס):</b> שימורי טונה ודגים, קרקרים, מצות, פריכיות, מנות חמות צמחוניות/פרווה (ללא רכיבי בשר), חלווה, טחינה, שוקולד, קפה, תה ואגוזים קלויים ארוזים.</div>
+                        <div style="color: #991b1b; font-weight: 700; margin-top: 4px;">⛔ <b>אסור בתכלית האיסור (קנסות כבדים בבידוק ICN):</b> כל מוצרי הבשר והעוף (כולל נקניק יבש, קבנוס, שימורי בשר ומנות חמות בשריות), פירות וירקות טריים, זרעים וגבינות לא מפוסטרות.</div>
                     </div>
 
                     <!-- Kosher Barcode Scanner -->
@@ -2262,7 +2425,7 @@
                     <div style="background: white; border: 1px solid #cbd5e1; border-radius: 14px; padding: 16px; margin-bottom: 16px;">
                         <h3 style="margin-top: 0; color: #1e3a8a;"><i class="fa-solid fa-bed"></i> מלונות ולינה נגישה ומאושרת</h3>
                         <p id="ai-hotels-header-desc" style="font-size: 0.88em; color: #475569; line-height: 1.4;">
-                            מקומות הלינה מותאמים אוטומטית להעדפות שהוזנו בתיק הטיול:
+                            מקומות הלינה מותאמים אוטומטית להעדפות שהוזנו בתיק הטיול (לחיצה על כל מלון פותחת אותו במפה בזמן אמת):
                         </p>
                         
                         <!-- Domestic Accommodation Container (Active in Domestic Trips) -->
@@ -2274,29 +2437,47 @@
 
                         <!-- Foreign Hotels Container (Active in Abroad Trips) -->
                         <div id="ai-hotels-foreign" style="display: none;">
-                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                                <b style="color: #0f172a; font-size: 1em;">🛏️ 1. סיאול (23-25/11 וגם שבת שנייה 04-05/12): Hotel Kukdo Seoul</b>
-                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 164 Euljiro, Jung-gu, Seoul | טל': +82-2-6263-0000 | מרחק מבית חב"ד סיאול: כ-4.2 ק"מ אווירי (כ-5.1 ק"מ הליכה רגלית, ~65 דקות).</div>
+                            <div onclick="openStep4HotelOnMap('k_h1', 37.5663, 126.9945, '🛏️ מלון סיאול (לילות 1–2): Seoul KUKDO Hotel', '164 Eulji-ro, Jung-gu, Seoul')" style="border: 1.5px solid #93c5fd; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc; cursor: pointer;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <b style="color: #0f172a; font-size: 1em;">🛏️ 1. סיאול (23–25/11 וגם שבת שנייה 03–05/12): Seoul KUKDO Hotel</b>
+                                    <span style="background:#2563eb; color:white; padding:2px 8px; border-radius:6px; font-size:0.78em; font-weight:800;">🗺️ הצג במפה בזמן אמת</span>
+                                </div>
+                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 164 Eulji-ro, Jung-gu, Seoul | אתר: www.hotelkukdo.com | טל': +82-2-6263-0000 | מרחק מבית חב"ד סיאול: כ-4.2 ק"מ אווירי.</div>
                             </div>
-                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                                <b style="color: #0f172a; font-size: 1em;">🛏️ 2. סוקצ'ו (25-26/11): Chestertons Sokcho</b>
-                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 29 Eksupo-ro, Sokcho-si, Gangwon-do | טל': +82-33-630-5500</div>
+                            <div onclick="openStep4HotelOnMap('k_h2', 38.1942, 128.5805, '🛏️ מלון סוקצ\'ו (לילה 3): Chestertons Hotel Sokcho', '109 Expo-ro, Sokcho-si, Gangwon-do')" style="border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc; cursor: pointer;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <b style="color: #0f172a; font-size: 1em;">🛏️ 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho</b>
+                                    <span style="background:#2563eb; color:white; padding:2px 8px; border-radius:6px; font-size:0.78em; font-weight:800;">🗺️ הצג במפה בזמן אמת</span>
+                                </div>
+                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 109 Expo-ro (29 Eksupo-ro), Sokcho-si, Gangwon-do | אתר: chestertonskr-sokcho.com | טל': +82-33-630-5500</div>
                             </div>
-                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                                <b style="color: #0f172a; font-size: 1em;">🛏️ 3. ג'צ'און (26-27/11): Cheongpung Resort Lake Hotel</b>
-                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 1798 Cheongpungho-ro, Jecheon-si | טל': +82-43-640-7000</div>
+                            <div onclick="openStep4HotelOnMap('k_h3', 36.9930, 128.1690, '🛏️ מלון צ\'יאונגז\'ו / ג\'צ\'און: Cheongpung Lake Resort Hotel', '1798 Cheongpungho-ro, Jecheon-si')" style="border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc; cursor: pointer;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <b style="color: #0f172a; font-size: 1em;">🛏️ 3. צ'יאונגז'ו / ג'צ'און (26/11): Cheongpung Lake Resort Hotel</b>
+                                    <span style="background:#2563eb; color:white; padding:2px 8px; border-radius:6px; font-size:0.78em; font-weight:800;">🗺️ הצג במפה בזמן אמת</span>
+                                </div>
+                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 1798 Cheongpungho-ro, Jecheon-si | אתר: cheongpungresort.co.kr | טל': +82-43-640-7000</div>
                             </div>
-                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                                <b style="color: #0f172a; font-size: 1em;">🛏️ 4. דאייגו (27-29/11 - שבת ראשונה): Daegu Grand Hotel</b>
-                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 563 Dalgubeol-daero, Suseong-gu, Daegu | טל': +82-53-742-0001 | בדאייגו אין בית חב"ד מקומי – סעודות ותפילות שבת במלון.</div>
+                            <div onclick="openStep4HotelOnMap('k_h4', 35.8577, 128.6252, '🛏️ מלון דאייגו (שבת ראשונה): Daegu Grand Hotel', '563 Dalgubeol-daero, Suseong-gu, Daegu')" style="border: 1.5px solid #86efac; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc; cursor: pointer;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <b style="color: #0f172a; font-size: 1em;">🛏️ 4. דאייגו (27/11 - שבת ראשונה): Daegu Grand Hotel</b>
+                                    <span style="background:#16a34a; color:white; padding:2px 8px; border-radius:6px; font-size:0.78em; font-weight:800;">🗺️ הצג במפה בזמן אמת</span>
+                                </div>
+                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 563 Dalgubeol-daero, Suseong-gu, Daegu | אתר: daegugrand.co.kr | טל': +82-53-742-0001 | סעודות ותפילות שבת במלון.</div>
                             </div>
-                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                                <b style="color: #0f172a; font-size: 1em;">🛏️ 5. בוסאן (29/11-02/12): Crown Harbor Hotel Busan</b>
-                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 114 Jungang-daero, Jung-gu, Busan | טל': +82-51-678-1000</div>
+                            <div onclick="openStep4HotelOnMap('k_h5', 35.1075, 129.0367, '🛏️ מלון בוסאן: Busan Crown Harbor Hotel', '114 Jungang-daero, Jung-gu, Busan')" style="border: 1.5px solid #c4b5fd; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc; cursor: pointer;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <b style="color: #0f172a; font-size: 1em;">🛏️ 5. בוסאן (28–30/11): Busan Crown Harbor Hotel</b>
+                                    <span style="background:#7c3aed; color:white; padding:2px 8px; border-radius:6px; font-size:0.78em; font-weight:800;">🗺️ הצג במפה בזמן אמת</span>
+                                </div>
+                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 114 Jungang-daero, Jung-gu, Busan | אתר: crownharborhotel.com | טל': +82-51-678-1000</div>
                             </div>
-                            <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc;">
-                                <b style="color: #0f172a; font-size: 1em;">🛏️ 6. האי ג'ג'ו (02-04/12): Hotel Whistle Lark Jeju</b>
-                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 26 Seobudu 2-gil, Jeju-si | טל': +82-64-795-7000</div>
+                            <div onclick="openStep4HotelOnMap('k_h6', 33.5153, 126.5266, '🛏️ מלון האי ג\'ג\'ו: Jeju Whistle Lark Hotel', '26 Seobudu 2-gil, Jeju-si')" style="border: 1.5px solid #7dd3fc; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #f8fafc; cursor: pointer;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <b style="color: #0f172a; font-size: 1em;">🛏️ 6. האי ג'ג'ו (30/11–03/12): Jeju Whistle Lark Hotel</b>
+                                    <span style="background:#0284c7; color:white; padding:2px 8px; border-radius:6px; font-size:0.78em; font-weight:800;">🗺️ הצג במפה בזמן אמת</span>
+                                </div>
+                                <div style="font-size: 0.84em; color: #334155; margin-top: 4px;">כתובת: 26 Seobudu 2-gil, Jeju-si | אתר: whistlelark.co.kr | טל': +82-64-795-7000</div>
                             </div>
                         </div>
 
@@ -2452,16 +2633,16 @@
 
             if (tripKey === 'korea_shabbat1') {
                 if (titleEl) titleEl.innerText = "דאייגו, קוריאה הדרומית (שבת ראשונה - יום 7 | הדלקה: 16:57, מוצאי שבת: 17:57)";
-                if (hotelNameEl) hotelNameEl.innerText = "מלון הקבוצה בדאייגו (Daegu Hotel - כניסה נגישה)";
-                if (hotelAddrEl) hotelAddrEl.innerText = "Daegu City Center (רדיוס הליכה מורחב עד 3 קמ סביב המלון)";
+                if (hotelNameEl) hotelNameEl.innerText = "Daegu Grand Hotel (מלון דאייגו גראנד - כניסה נגישה)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "563 Dalgubeol-daero, Suseong-gu, Daegu (רדיוס הליכה מורחב עד 3 ק\"מ סביב המלון)";
             } else if (tripKey === 'korea_shabbat2' || tripKey === 'korea') {
                 if (titleEl) titleEl.innerText = "סיאול, קוריאה הדרומית (שבת שנייה - יום 14 | הדלקה: 16:56, מוצאי שבת: 17:56)";
-                if (hotelNameEl) hotelNameEl.innerText = "מלון המילטון איטוואן סיאול (Hamilton Hotel Seoul)";
-                if (hotelAddrEl) hotelAddrEl.innerText = "179 Itaewon-ro, Yongsan-gu, Seoul (רדיוס הליכה מורחב עד 3 קמ סביב המלון)";
+                if (hotelNameEl) hotelNameEl.innerText = "Seoul KUKDO Hotel (מלון קוקדו סיאול)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "164 Eulji-ro, Jung-gu, Seoul (רדיוס הליכה מורחב עד 3 ק\"מ סביב המלון)";
             } else if (tripKey === 'netanya') {
                 if (titleEl) titleEl.innerText = "נתניה, ישראל (טיילת הראשונים ומעלית סירונית)";
                 if (hotelNameEl) hotelNameEl.innerText = "מלון איילנד נתניה (טיילת הראשונים)";
-                if (hotelAddrEl) hotelAddrEl.innerText = "שדרות בן עמי 10, נתניה (סיור רגלי לאורך מצוק הים ברדיוס עד 3 קמ)";
+                if (hotelAddrEl) hotelAddrEl.innerText = "שדרות בן עמי 10, נתניה (סיור רגלי לאורך מצוק הים ברדיוס עד 3 ק\"מ)";
             }
 
             modal.style.display = 'block';
@@ -2473,20 +2654,185 @@
             if (modal) modal.style.display = 'none';
         }
 
-        // ================= NAVIGATION =================
-        function switchScreen(screenId) {
+        // ================= NAVIGATION & STEP-4 <-> REAL-TIME MAP RETURN CONTROLLER (V5.3.0) =================
+        let mapReturnState = {
+            active: false,
+            screen: 'screen-home',
+            wizardStep: 1,
+            windowScrollY: 0,
+            containerScrollTop: 0
+        };
+        let pendingMapFocusCallback = null;
+
+        function updateMapBackButtonLabel() {
+            const labelEl = document.getElementById('map-top-back-label');
+            if (!labelEl) return;
+            if (mapReturnState && mapReturnState.active && mapReturnState.screen === 'screen-route') {
+                labelEl.innerText = (mapReturnState.wizardStep === 4) ? 'חזור לשלב 4 (מסלול הטיול)' : 'חזור לתיק הטיול';
+            } else if (mapReturnState && mapReturnState.active && mapReturnState.screen === 'screen-ai') {
+                labelEl.innerText = 'חזור לסייען AI ומלונות';
+            } else {
+                labelEl.innerText = 'חזור';
+            }
+        }
+
+        function handleMapBackButton() {
+            if (typeof isMapFullscreen !== 'undefined' && isMapFullscreen && typeof toggleMapFullscreen === 'function') {
+                toggleMapFullscreen(false);
+            }
+            if (mapReturnState && mapReturnState.active && mapReturnState.screen === 'screen-route') {
+                const targetStep = mapReturnState.wizardStep || 4;
+                const savedWinScroll = mapReturnState.windowScrollY || 0;
+                const savedContScroll = mapReturnState.containerScrollTop || 0;
+                mapReturnState.active = false;
+                updateMapBackButtonLabel();
+                switchScreen('screen-route', false, targetStep);
+                setTimeout(() => {
+                    const routeContent = document.querySelector('#screen-route .content-padding');
+                    if (routeContent && savedContScroll > 0) routeContent.scrollTop = savedContScroll;
+                    if (savedWinScroll > 0) window.scrollTo(0, savedWinScroll);
+                }, 40);
+                return;
+            }
+            if (mapReturnState && mapReturnState.active && mapReturnState.screen === 'screen-ai') {
+                const savedWinScroll = mapReturnState.windowScrollY || 0;
+                mapReturnState.active = false;
+                updateMapBackButtonLabel();
+                switchScreen('screen-ai');
+                setTimeout(() => {
+                    if (savedWinScroll > 0) window.scrollTo(0, savedWinScroll);
+                }, 40);
+                return;
+            }
+            mapReturnState.active = false;
+            updateMapBackButtonLabel();
+            switchScreen('screen-home');
+        }
+
+        function openStep4HotelOnMap(stationId, fallbackLat, fallbackLng, fallbackTitle, fallbackAddr) {
+            const activeScreenEl = document.querySelector('.screen.active');
+            const fromScreenId = activeScreenEl ? activeScreenEl.id : 'screen-route';
+            const routeContent = document.querySelector('#screen-route .content-padding');
+            mapReturnState = {
+                active: true,
+                screen: (fromScreenId === 'screen-ai') ? 'screen-ai' : 'screen-route',
+                wizardStep: (fromScreenId === 'screen-route') ? (currentWizardStep || 4) : 4,
+                windowScrollY: window.scrollY || document.documentElement.scrollTop || 0,
+                containerScrollTop: routeContent ? (routeContent.scrollTop || 0) : 0
+            };
+
+            pendingMapFocusCallback = () => {
+                selectedMapDay = 'all';
+                if (typeof renderMapStationMarkers === 'function') renderMapStationMarkers();
+                if (typeof renderStationQuickSelectors === 'function') renderStationQuickSelectors();
+
+                let idx = -1;
+                if (stationId && Array.isArray(STATIONS)) {
+                    idx = STATIONS.findIndex(s => s && s.id === stationId);
+                }
+                if (idx === -1 && fallbackLat && fallbackLng && Array.isArray(STATIONS)) {
+                    idx = STATIONS.findIndex(s => s && Math.abs(Number(s.lat) - Number(fallbackLat)) < 0.008 && Math.abs(Number(s.lng) - Number(fallbackLng)) < 0.008);
+                }
+                if (idx >= 0) {
+                    activeStationIndex = idx;
+                    if (typeof renderStationQuickSelectors === 'function') renderStationQuickSelectors();
+                    if (typeof updateDistancesList === 'function') updateDistancesList(currentPosition ? currentPosition.coords.latitude : null, currentPosition ? currentPosition.coords.longitude : null);
+                    if (typeof updateLiveHud === 'function' && currentPosition) updateLiveHud(currentPosition.coords.latitude, currentPosition.coords.longitude);
+                    if (dynamicMap && STATIONS[idx]) {
+                        dynamicMap.invalidateSize();
+                        dynamicMap.setView([STATIONS[idx].lat, STATIONS[idx].lng], 16, { animate: false });
+                        if (typeof openStationLivePopup === 'function') {
+                            openStationLivePopup(idx);
+                        }
+                    }
+                } else if (dynamicMap && fallbackLat && fallbackLng) {
+                    dynamicMap.invalidateSize();
+                    dynamicMap.setView([fallbackLat, fallbackLng], 16, { animate: false });
+                    const safeAddrEsc = String(fallbackAddr || '').replace(/'/g, "\\'");
+                    const safeTitleEsc = String(fallbackTitle || '🛏️ מלון במסלול').replace(/'/g, "\\'");
+                    const popupHtml = `
+                        <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:176px; max-width:214px;" dir="rtl">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
+                                <div style="font-weight:900; color:#0f172a; font-size:12.2px; line-height:1.2;">${fallbackTitle || '🛏️ מלון במסלול'}</div>
+                                <button type="button" onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:5px; padding:1px 6px; font-size:10px; font-weight:900; cursor:pointer; flex-shrink:0;">✕ סגור</button>
+                            </div>
+                            <div style="color:#0369a1; font-size:10.5px; margin:2px 0; font-weight:700;">📍 ${fallbackAddr || ''}</div>
+                            <div style="display:flex; gap:4px; margin-top:6px;">
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=${fallbackLat},${fallbackLng}&travelmode=walking" target="_blank" style="flex:1; background:#2563eb; color:white; text-decoration:none; padding:5px 6px; border-radius:6px; font-size:10.5px; font-weight:900; text-align:center;">🧭 Google</a>
+                                <button type="button" onclick="openAppleMapsNav(${fallbackLat}, ${fallbackLng}, '${safeAddrEsc}')" style="background:#0f172a; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer;">🍎 מפות</button>
+                                <button type="button" onclick="showCustomTaxiCard('${safeTitleEsc}', '${safeAddrEsc}', ${fallbackLat}, ${fallbackLng})" style="background:#f59e0b; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer;">🚖 נהג</button>
+                            </div>
+                        </div>
+                    `;
+                    const hotelPopup = L.popup({ maxWidth: 222, minWidth: 176, offset: L.point(0, -12), closeButton: false, autoPan: true })
+                        .setLatLng([fallbackLat, fallbackLng])
+                        .setContent(popupHtml);
+                    dynamicMap.openPopup(hotelPopup);
+                }
+            };
+
+            switchScreen('screen-map', true);
+        }
+
+        function openStep4StationOnMap(stationIdx) {
+            const routeContent = document.querySelector('#screen-route .content-padding');
+            mapReturnState = {
+                active: true,
+                screen: 'screen-route',
+                wizardStep: currentWizardStep || 4,
+                windowScrollY: window.scrollY || document.documentElement.scrollTop || 0,
+                containerScrollTop: routeContent ? (routeContent.scrollTop || 0) : 0
+            };
+            pendingMapFocusCallback = () => {
+                selectedMapDay = 'all';
+                if (typeof renderMapStationMarkers === 'function') renderMapStationMarkers();
+                if (typeof setTargetStation === 'function') setTargetStation(stationIdx);
+            };
+            switchScreen('screen-map', true);
+        }
+
+        function switchScreen(screenId, preserveReturnState = false, targetWizardStep = null) {
+            const prevActiveEl = document.querySelector('.screen.active');
+            const prevScreenId = prevActiveEl ? prevActiveEl.id : '';
+
+            if (screenId === 'screen-map' && !preserveReturnState) {
+                if (prevScreenId === 'screen-route') {
+                    const routeContent = document.querySelector('#screen-route .content-padding');
+                    mapReturnState = {
+                        active: true,
+                        screen: 'screen-route',
+                        wizardStep: currentWizardStep || 4,
+                        windowScrollY: window.scrollY || document.documentElement.scrollTop || 0,
+                        containerScrollTop: routeContent ? (routeContent.scrollTop || 0) : 0
+                    };
+                } else {
+                    mapReturnState.active = false;
+                }
+            } else if (screenId !== 'screen-map' && !preserveReturnState) {
+                mapReturnState.active = false;
+            }
+            updateMapBackButtonLabel();
+
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             const target = document.getElementById(screenId);
             if (target) {
                 target.classList.add('active');
-                window.scrollTo(0, 0);
+                if (targetWizardStep === null) {
+                    window.scrollTo(0, 0);
+                }
             }
             if (screenId === 'screen-map') {
                 setTimeout(() => {
-                    initDynamicMap();
+                    const hasCustomFocus = (typeof pendingMapFocusCallback === 'function');
+                    initDynamicMap(hasCustomFocus);
                     if (dynamicMap) dynamicMap.invalidateSize();
                     locateUser(false);
                     startContinuousGps();
+                    if (hasCustomFocus) {
+                        const cb = pendingMapFocusCallback;
+                        pendingMapFocusCallback = null;
+                        cb();
+                    }
                 }, 100);
             } else {
                 stopContinuousGps();
@@ -2498,7 +2844,11 @@
             if (screenId === 'screen-route') {
                 renderCustomDocsList();
                 loadTripQuestionnaire();
-                setWizardStep(1);
+                if (targetWizardStep !== null) {
+                    setWizardStep(targetWizardStep, true);
+                } else {
+                    setWizardStep(1);
+                }
             }
             if (screenId === 'screen-diary') {
                 renderDiaryFeed();
@@ -4849,7 +5199,7 @@
             if (typeof renderManualAnchorsOnMap === 'function') renderManualAnchorsOnMap();
         }
 
-        function initDynamicMap() {
+        function initDynamicMap(skipFitBounds = false) {
             if (dynamicMap) return;
 
             const activeTrip = (currentTripKey && TRIPS_DATABASE[currentTripKey]) ? TRIPS_DATABASE[currentTripKey] : null;
@@ -4894,7 +5244,9 @@
 
             renderStationQuickSelectors();
             renderMapStationMarkers();
-            fitFullRoute();
+            if (!skipFitBounds) {
+                fitFullRoute();
+            }
         }
 
         window.addEventListener('resize', () => {
@@ -7254,6 +7606,16 @@
 
         const DEFAULT_RESOLVED_FEEDBACK = [
             {
+                id: 'fb_1794329558817',
+                category: 'ניווט ומסלול',
+                note: 'הכנסתי תחת מסמכים את רשימת המלונות.\n1. תוסיף את שמות המלונות לשלב 4 תחת היום המתאים.\n2. לחיצה על שם המלון צריכה להוביל אותי למפה בזמן אמת כך שאוכל לראות את המלון.\n3. אחרי שאני עושה \'חזור\' אני אמור לחזור שוב למסלול הטיול בשלב 4',
+                time: '10.11 18:52',
+                gps: 'קוריאה',
+                battery: '97%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.0: כל 7 המלונות מתוך רשימת המלונות הרשמית (Seoul KUKDO Hotel, Chestertons Sokcho, Cheongpung Lake Resort, Daegu Grand Hotel, Busan Crown Harbor Hotel, Jeju Whistle Lark Hotel) נוספו בשלב 4 תחת כל יום מתאים (ימים 2 עד 14) ככפתורים לחיצים. לחיצה על שם המלון פותחת אותו ישירות במפה בזמן אמת עם בועת פרטים וניווט, ולחיצה על כפתור "חזור" במפה מחזירה ישירות למסלול הטיול בשלב 4 באותו מיקום גלילה.'
+            },
+            {
                 id: 'fb_1794326306917',
                 category: 'ניווט ומסלול',
                 note: 'כשאני מעלה חוויה מהשטח כתמונה ונותן לה שם, השם לא מופיע בתיקייה בגוגל דרייב',
@@ -7272,6 +7634,46 @@
                 battery: '56%',
                 status: 'fixed',
                 fixSummary: 'טופל בגרסה 5.2.9: אייקוני המלון הוחלפו בכל המפה, תבניות המסלולים, תיק הלינה, הרשימות והדפסת שבת מ-🏨 (הדומה לבית חולים) ל-🛏️ / fa-bed המובחן והברור, כולל המרה אוטומטית לא-הרסנית לטיולים שמורים בענן ובמכשיר.'
+            },
+            {
+                id: 'fb_1793181347826',
+                category: 'ניווט ומסלול',
+                note: 'ביקשתי להוסיף כפתור שיאפשר לראות את המסך של המפה בזמן אמת על כל המסך ללא כל הכיתובים שמסביב, רק מפה נטו, ולחיצה חוזרת תחזיר אותו למצב הקודם',
+                time: '28.10 11:55',
+                gps: '31.78932, 34.64180',
+                battery: '97%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.2.9: נוסף כפתור "⛶ מסך מלא" בסרגל העליון של המפה בזמן אמת המציג מפה נטו על כל המסך, ולחיצה חוזרת על "✕ צא ממסך מלא" מחזירה למצב הרגיל.'
+            },
+            {
+                id: 'fb_1793024953118',
+                category: 'כשרות ומזון',
+                note: 'נא לבדוק מה מותר ומה אסור להכניס לקוריאה מבחינת אוכל.',
+                time: '26.10 16:29',
+                gps: 'ללא קליטה / ידני',
+                battery: '90%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.0: נוספה כרטיסיית הנחיות מכס קוריאה הדרומית (מותר: שימורי דגים/טונה, קרקרים, מצות, מנות חמות פרווה, חלווה, טחינה, שוקולד, קפה באריזה אטומה במזוודה; אסור: כל מוצרי הבשר והעוף, פירות וירקות טריים וגבינות לא מפוסטרות) הן בשלב 4 והן במסך סייען AI תחת מזון וכשרות.'
+            },
+            {
+                id: 'fb_1793024417229',
+                category: 'ניווט ומסלול',
+                note: 'בנושא של קשר סלולרי למשך 15 יום בדרום קוריאה תמליץ בבקשה על חבילת תקשורת מתאימה.',
+                time: '26.10 16:20',
+                gps: 'ללא קליטה / ידני',
+                battery: '90%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.0: נוספה המלצת תקשורת ו-eSIM ל-15 ימים בקוריאה הדרומית (חבילת 10GB–15GB על רשתות SK Telecom / KT Olleh דרך Airalo, Mobimatter או דלפק KT בטרמינל 1 אינצ\'און) הן בשלב 4 והן במסך סייען AI.'
+            },
+            {
+                id: 'fb_1792092178177',
+                category: 'כשרות ומזון',
+                note: 'יש תקלה בהעלאת תמונה מהגלריה ליומן המסע',
+                time: '15.10 21:22',
+                gps: '31.78921, 34.64161',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל: תוקנה העלאת תמונות וסרטונים מהגלריה ליומן המסע עם דחיסה אוטומטית ושמירה מלאה במכשיר וב-Google Drive.'
             },
             {
                 id: 'fb_1793185775141',
@@ -8057,7 +8459,10 @@
             }
             const colors = ['#2563eb', '#059669', '#d97706', '#7c3aed', '#dc2626'];
             listEl.innerHTML = stations.map((st, idx) => {
-                const c = colors[idx % colors.length];
+                const isHotel = (st && (st.type === 'hotel' || (st.title && (st.title.includes('מלון') || st.title.includes('Hotel') || st.title.includes('🛏️')))));
+                const c = isHotel ? '#1d4ed8' : colors[idx % colors.length];
+                const bg = isHotel ? '#eff6ff' : 'white';
+                const borderCol = isHotel ? '#93c5fd' : '#e2e8f0';
                 const timeBadge = st.stayTime || st.stay || '';
                 const addrText = st.address || '';
                 const descText = st.desc || '';
@@ -8065,10 +8470,10 @@
                 const legFromPrev = (prevSt && typeof calculateInterStationLeg === 'function') ? calculateInterStationLeg(prevSt, st) : null;
                 const legHtml = legFromPrev ? `<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:4px 8px; margin-top:6px; font-size:0.8em; color:#166534; font-weight:800;">🛣️ מהאתר הקודם (${shortStationLabel(prevSt.title)}): מרחק <b>${legFromPrev.distStr}</b> | זמן הגעה משוער: <b style="color:#1d4ed8;">${legFromPrev.timeStr}</b></div>` : '';
                 return `
-                    <div onclick="switchScreen('screen-map'); setTimeout(() => setTargetStation(${idx}), 120);" style="background: white; border: 1.5px solid #e2e8f0; border-right: 4px solid ${c}; border-radius: 10px; padding: 12px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.04);" title="לחץ להצגת התחנה במפה בזמן אמת">
+                    <div onclick="openStep4StationOnMap(${idx})" style="background: ${bg}; border: 1.5px solid ${borderCol}; border-right: 4px solid ${c}; border-radius: 10px; padding: 12px; cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.04);" title="לחץ להצגת התחנה/המלון במפה בזמן אמת">
                         <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; flex-wrap: wrap;">
                             <b style="color: ${c}; font-size: 0.98em;">${st.title}</b>
-                            ${timeBadge ? `<span style="background: #f1f5f9; color: #0f172a; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">🕒 ${timeBadge}</span>` : ''}
+                            <span style="background: ${isHotel ? '#2563eb' : '#f1f5f9'}; color: ${isHotel ? 'white' : '#0f172a'}; font-size: 0.78em; font-weight: 800; padding: 2px 8px; border-radius: 6px;">${isHotel ? '🗺️ הצג מלון במפה בזמן אמת' : (timeBadge ? '🕒 ' + timeBadge : '🗺️ הצג במפה')}</span>
                         </div>
                         ${addrText ? `<div style="font-size: 0.84em; color: #0369a1; font-weight: 700; margin-top: 3px;">📍 ${addrText}</div>` : ''}
                         ${descText ? `<div style="font-size: 0.86em; color: #334155; margin-top: 4px; line-height: 1.45;">${descText}</div>` : ''}
@@ -8099,8 +8504,8 @@
             }
 
             const trip = TRIPS_DATABASE[tripKey];
-            const hasSyncedDocs = Boolean(trip && trip.docsSynced && getCustomDocs(tripKey).length > 0);
-            const isKorea = hasSyncedDocs && (tripKey === 'korea' || (trip && (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea'))));
+            const isKorea = (tripKey === 'korea' || (trip && (trip.name.includes('קוריאה') || trip.name.toLowerCase().includes('korea'))));
+            const hasSyncedDocs = Boolean(trip && (trip.docsSynced || isKorea || (Array.isArray(trip.stations) && trip.stations.length > 0) || getCustomDocs(tripKey).length > 0));
 
             let targetDoc = hasSyncedDocs ? document.getElementById('itinerary-doc-' + tripKey) : null;
             if (!targetDoc && isKorea) {
@@ -9197,7 +9602,7 @@
         // ================= 4-STEP LINEAR GUIDED WIZARD CONTROLLER =================
         let currentWizardStep = 1;
 
-        function setWizardStep(stepNum) {
+        function setWizardStep(stepNum, skipScrollReset = false) {
             currentWizardStep = stepNum;
             try { localStorage.setItem('travel_assistant_wizard_step_' + currentTripKey, stepNum); } catch(e) {}
 
@@ -9252,19 +9657,22 @@
                 restoreContactForm();
                 loadContactDetails();
                 renderStep4ArrivalChainCard();
+                if (currentTripKey) switchTripDocument(currentTripKey);
                 const readyBadge = document.getElementById('ready-trip-name-badge');
                 if (readyBadge && TRIPS_DATABASE[currentTripKey]) {
                     readyBadge.innerText = TRIPS_DATABASE[currentTripKey].name;
                 }
             }
 
-            const routeContent = document.querySelector('#screen-route .content-padding');
-            if (routeContent) {
-                routeContent.scrollTop = 0;
+            if (!skipScrollReset) {
+                const routeContent = document.querySelector('#screen-route .content-padding');
+                if (routeContent) {
+                    routeContent.scrollTop = 0;
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
         }
 
         function persistCurrentTripMetadata(skipSelectorRefresh = false) {
@@ -11089,8 +11497,8 @@ ${err.message || err}`);
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <span style="font-size:0.85em; font-weight:bold; color:#92400e;">🛏️ עוגן המלון (נקודת מוצא וחזרה):</span>
-                            <div style="font-size:1.2em; font-weight:900; color:#0f172a;" id="shabbat-hotel-name">Hamilton Hotel Seoul (מלון המילטון איטוואן)</div>
-                            <div style="font-size:0.95em; color:#1e40af; direction:ltr; text-align:right;" id="shabbat-hotel-addr">179 Itaewon-ro, Yongsan-gu, Seoul (서울 용산구 이태원로 179)</div>
+                            <div style="font-size:1.2em; font-weight:900; color:#0f172a;" id="shabbat-hotel-name">Seoul KUKDO Hotel (מלון קוקדו סיאול)</div>
+                            <div style="font-size:0.95em; color:#1e40af; direction:ltr; text-align:right;" id="shabbat-hotel-addr">164 Eulji-ro, Jung-gu, Seoul (서울 중구 을지로 164)</div>
                         </div>
                         <div style="text-align:left; font-size:0.85em; color:#78350f;">
                             <b>דלתות:</b> ידניות בצד<br>
