@@ -1,5 +1,5 @@
 {
-  "revision": 1794407056644,
+  "revision": 1794407139721,
   "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -689,6 +689,18 @@
     ],
     "korea": [
       {
+        "id": "doc_1794407139074",
+        "name": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking.",
+        "category": "organized",
+        "docType": "הודעה / מסמך מסונכרן",
+        "time": "11.11.2026 16:25",
+        "fileName": "העיפו מבט על Enford Hotel Cheongju ב-Booking..txt",
+        "textContent": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK\nהמלון בלילה הרביעי - בצ׳יונגג׳ו",
+        "isText": true,
+        "gdriveSynced": false,
+        "data": "data:text/plain;charset=utf-8,%D7%94%D7%A2%D7%99%D7%A4%D7%95%20%D7%9E%D7%91%D7%98%20%D7%A2%D7%9C%20Enford%20Hotel%20Cheongju%20%D7%91-Booking.com!%20https%3A%2F%2Fwww.booking.com%2FShare-s5yTXOK%0A%D7%94%D7%9E%D7%9C%D7%95%D7%9F%20%D7%91%D7%9C%D7%99%D7%9C%D7%94%20%D7%94%D7%A8%D7%91%D7%99%D7%A2%D7%99%20-%20%D7%91%D7%A6%D7%B3%D7%99%D7%95%D7%A0%D7%92%D7%92%D7%B3%D7%95"
+      },
+      {
         "id": "doc_1794407055313",
         "name": "הודעה / מסמך: טיסות פנימיות:",
         "category": "organized",
@@ -697,7 +709,7 @@
         "fileName": "טיסות פנימיות_.txt",
         "textContent": "טיסות פנימיות:\nטיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר.\nטיסה מג׳ג׳ו לסיאול בתאריך 3/12 תמריא ב10:35 בבוקר ותנחת ב11:50.",
         "isText": true,
-        "gdriveSynced": false,
+        "gdriveSynced": true,
         "data": "data:text/plain;charset=utf-8,%D7%98%D7%99%D7%A1%D7%95%D7%AA%20%D7%A4%D7%A0%D7%99%D7%9E%D7%99%D7%95%D7%AA%3A%0A%D7%98%D7%99%D7%A1%D7%94%20%D7%9E%D7%91%D7%95%D7%A1%D7%9F%20%D7%9C%D7%92%D7%B3%D7%92%D7%B3%D7%95%20%D7%91%D7%AA%D7%90%D7%A8%D7%99%D7%9A%201%2F12%2F26%20KE1505.%20%D7%9E%D7%9E%D7%A8%D7%99%D7%90%D7%94%20%D7%916%3A30%20%D7%95%D7%AA%D7%A0%D7%97%D7%AA%20%D7%917%3A30%20%D7%91%D7%91%D7%95%D7%A7%D7%A8.%0A%D7%98%D7%99%D7%A1%D7%94%20%D7%9E%D7%92%D7%B3%D7%92%D7%B3%D7%95%20%D7%9C%D7%A1%D7%99%D7%90%D7%95%D7%9C%20%D7%91%D7%AA%D7%90%D7%A8%D7%99%D7%9A%203%2F12%20%D7%AA%D7%9E%D7%A8%D7%99%D7%90%20%D7%9110%3A35%20%D7%91%D7%91%D7%95%D7%A7%D7%A8%20%D7%95%D7%AA%D7%A0%D7%97%D7%AA%20%D7%9111%3A50."
       },
       {
