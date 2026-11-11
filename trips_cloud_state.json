@@ -1,5 +1,5 @@
 {
-  "revision": 1794390371215,
+  "revision": 1794390385574,
   "activeTripKey": "custom_1794390370572",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -13,9 +13,9 @@
       "country": "",
       "stage": "planning",
       "stageLabel": "📋 שלב תכנון",
-      "dates": "",
+      "dates": "11",
       "departureDate": "",
-      "userExplicitlySetDate": false,
+      "userExplicitlySetDate": true,
       "docsSynced": false,
       "center": [
         31.7893,
@@ -642,7 +642,7 @@
       "character": "",
       "group": "",
       "duration": "",
-      "date": "",
+      "date": "11",
       "budget": "",
       "activities": "",
       "transit": "",
