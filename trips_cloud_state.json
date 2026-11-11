@@ -1,6 +1,6 @@
 {
-  "revision": 1794391890892,
-  "activeTripKey": "custom_1794390370572",
+  "revision": 1794398923704,
+  "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
     "custom_1793164839098"
@@ -13,7 +13,7 @@
       "country": "",
       "stage": "ready",
       "stageLabel": "🎒 ממתין ליציאה לשטח",
-      "dates": "11-12/11 2026",
+      "dates": "11-12/11 2026 (2 ימים)",
       "departureDate": "",
       "userExplicitlySetDate": true,
       "docsSynced": true,
@@ -637,15 +637,15 @@
   },
   "questionnaires": {
     "custom_1794390370572": {
-      "origin": "רח' העצמאות 93, אשדוד",
+      "origin": "יציאה: רח' העצמאות 93, אשדוד () ➔ הגעה ישירה לתחילת מסלול: קשת יהונתן",
       "destination": "קשת יהונתן",
-      "character": "",
+      "character": "[אין נתונים / לא רלוונטי]",
       "group": "",
-      "duration": "",
+      "duration": "2 ימים",
       "date": "11-12/11 2026",
-      "budget": "",
+      "budget": "[אין נתונים / לא רלוונטי]",
       "activities": "",
-      "transit": "",
+      "transit": "אוטובוס",
       "hotels": "",
       "food": "",
       "constraints": ""
