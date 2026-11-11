@@ -1,6 +1,6 @@
 {
-  "revision": 1794407366643,
-  "activeTripKey": "korea",
+  "revision": 1794426287691,
+  "activeTripKey": "custom_1794390370572",
   "homeCountry": "ישראל",
   "deletedTrips": [
     "custom_1793164839098"
@@ -13,7 +13,7 @@
       "country": "",
       "stage": "ready",
       "stageLabel": "🎒 ממתין ליציאה לשטח",
-      "dates": "11-12/11 2026 (2 ימים)",
+      "dates": "11-12/11 2026 (2 ימים) (2 ימים)",
       "departureDate": "",
       "userExplicitlySetDate": true,
       "docsSynced": true,
@@ -642,7 +642,7 @@
       "character": "[אין נתונים / לא רלוונטי]",
       "group": "",
       "duration": "2 ימים",
-      "date": "11-12/11 2026",
+      "date": "11-12/11 2026 (2 ימים)",
       "budget": "[אין נתונים / לא רלוונטי]",
       "activities": "",
       "transit": "אוטובוס",
