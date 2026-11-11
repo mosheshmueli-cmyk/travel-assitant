@@ -1,5 +1,5 @@
 {
-  "revision": 1794391793907,
+  "revision": 1794391796587,
   "activeTripKey": "custom_1794390370572",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -683,7 +683,7 @@
         "fileName": "IMG-20261111-WA0004.jpg",
         "textContent": "",
         "isText": false,
-        "gdriveSynced": false,
+        "gdriveSynced": true,
         "data": ""
       }
     ],
