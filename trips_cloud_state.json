@@ -1,5 +1,5 @@
 {
-  "revision": 1794390439192,
+  "revision": 1794391789335,
   "activeTripKey": "custom_1794390370572",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -11,12 +11,12 @@
       "id": "custom_1794390370572",
       "name": "קשת יהונתן",
       "country": "",
-      "stage": "planning",
-      "stageLabel": "📋 שלב תכנון",
+      "stage": "ready",
+      "stageLabel": "🎒 ממתין ליציאה לשטח",
       "dates": "11-12/11 2026",
       "departureDate": "",
       "userExplicitlySetDate": true,
-      "docsSynced": false,
+      "docsSynced": true,
       "center": [
         31.7893,
         34.6417
@@ -673,6 +673,20 @@
   "customWaypoints": {},
   "manualAnchors": {},
   "customDocs": {
+    "custom_1794390370572": [
+      {
+        "id": "doc_1794391788714_998",
+        "name": "IMG-20261111-WA0004.jpg",
+        "category": "organized",
+        "docType": "מסמך בתיק הטיול",
+        "time": "11.11.2026 12:09",
+        "fileName": "IMG-20261111-WA0004.jpg",
+        "textContent": "",
+        "isText": false,
+        "gdriveSynced": false,
+        "data": ""
+      }
+    ],
     "korea": [
       {
         "id": "doc_1794324773945",
