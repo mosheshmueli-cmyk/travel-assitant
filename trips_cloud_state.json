@@ -1,11 +1,29 @@
 {
-  "revision": 1794375593334,
-  "activeTripKey": "korea",
+  "revision": 1794390371215,
+  "activeTripKey": "custom_1794390370572",
   "homeCountry": "ישראל",
   "deletedTrips": [
     "custom_1793164839098"
   ],
   "customTrips": [
+    {
+      "key": "custom_1794390370572",
+      "id": "custom_1794390370572",
+      "name": "קשת יהונתן",
+      "country": "",
+      "stage": "planning",
+      "stageLabel": "📋 שלב תכנון",
+      "dates": "",
+      "departureDate": "",
+      "userExplicitlySetDate": false,
+      "docsSynced": false,
+      "center": [
+        31.7893,
+        34.6417
+      ],
+      "zoom": 13,
+      "stations": []
+    },
     {
       "key": "korea",
       "id": "korea",
@@ -585,6 +603,19 @@
     }
   ],
   "arrivalChains": {
+    "custom_1794390370572": {
+      "originAddress": "רח' העצמאות 93, אשדוד",
+      "originTime": "",
+      "originLat": 31.7893,
+      "originLng": 34.6417,
+      "hasMeetingPoint": false,
+      "meetingAddress": "",
+      "meetingTime": "",
+      "meetingLat": 31.7893,
+      "meetingLng": 34.6417,
+      "trailheadAddress": "קשת יהונתן",
+      "trailheadTime": ""
+    },
     "korea": {
       "originAddress": "רח' העצמאות 93, אשדוד",
       "originTime": "10:30 (נגזר משעת המראה 14:40 ומפגש בנתב\"ג 11:30)",
@@ -605,6 +636,20 @@
     }
   },
   "questionnaires": {
+    "custom_1794390370572": {
+      "origin": "רח' העצמאות 93, אשדוד",
+      "destination": "קשת יהונתן",
+      "character": "",
+      "group": "",
+      "duration": "",
+      "date": "",
+      "budget": "",
+      "activities": "",
+      "transit": "",
+      "hotels": "",
+      "food": "",
+      "constraints": ""
+    },
     "korea": {
       "origin": "רח' העצמאות 93, אשדוד / נתבג טרמינל 3",
       "destination": "קוריאה",
