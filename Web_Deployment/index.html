@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.1</title>
+    <title>Travel Assistant V5.3.2</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.1</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.2</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -4002,15 +4002,29 @@
                     normalizeHotelIconsInTrip(TRIPS_DATABASE.korea);
                 }
 
-                // V5.3.1 Live Upgrade: Ensure Korea has Enford Hotel Cheongju + stayDays on all hotels + KE1505 times,
+                // V5.3.2 Live Upgrade: Ensure Korea has Enford Hotel Cheongju + stayDays on all hotels + KE1505 times,
+                // restore outbound international flight arrival chain (10:30 / 11:30 for 14:40 flight),
                 // AND ensure Keshet Yehonatan (custom_1794390370572) has all 9 stations across Day 1 & Day 2 + lodging + extracted OCR text
                 if (TRIPS_DATABASE.korea && !deleted.includes('korea')) {
                     TRIPS_DATABASE.korea.stations = JSON.parse(JSON.stringify(KOREA_PARSED_STATIONS_TEMPLATE));
                     try {
                         const kChain = JSON.parse(localStorage.getItem('travel_assistant_arrival_chain_korea') || '{}');
+                        if (!kChain.originTime || String(kChain.originTime).includes('02:30') || String(kChain.originTime).includes('06:30')) {
+                            kChain.originTime = `10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30 – 60 דק' נסיעה)`;
+                        }
+                        if (!kChain.meetingTime || String(kChain.meetingTime).includes('03:30') || String(kChain.meetingTime).includes('06:30')) {
+                            kChain.meetingTime = `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`;
+                        }
+                        if (!kChain.meetingAddress || kChain.meetingAddress === 'קוריאה') {
+                            kChain.meetingAddress = `נתב"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין, שער 32)`;
+                        }
+                        if (!kChain.trailheadTime || String(kChain.trailheadTime).includes('07:30') || String(kChain.trailheadTime).includes('11:50')) {
+                            kChain.trailheadTime = `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול הקרקעי)`;
+                        }
                         kChain.domesticFlightsSummary = `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ➔ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ➔ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`;
                         localStorage.setItem('travel_assistant_arrival_chain_korea', JSON.stringify(kChain));
                         const kQ = JSON.parse(localStorage.getItem('travel_assistant_trip_korea_questionnaire') || '{}');
+                        kQ.origin = `רח' העצמאות 93, אשדוד (יציאה ב-10:30 ➔ מפגש בנתב"ג 11:30 להמראה ב-14:40)`;
                         kQ.hotels = "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel";
                         kQ.transit = "טיסות בינלאומיות Ethiopian Airlines (ET 419/672 הלוך, ET 673/418 חזור) + 2 טיסות פנים Korean Air KE1505 (01/12 בוסאן➔ג'ג'ו 06:30-07:30 | 03/12 ג'ג'ו➔גימפו 10:35-11:50) + אוטובוס תיירים צמוד";
                         localStorage.setItem('travel_assistant_trip_korea_questionnaire', JSON.stringify(kQ));
@@ -4739,19 +4753,25 @@
 
                 const koreaChain = {
                     originAddress: universalDerived.originAddress,
-                    originTime: universalDerived.originTimeDisplay || `10:30 (נגזר משעת המראה 14:40 ומפגש ב-11:30 – 60 דק' נסיעה)`,
+                    originTime: (universalDerived.originTimeDisplay && !String(universalDerived.originTimeDisplay).includes('02:30') && !String(universalDerived.originTimeDisplay).includes('06:30'))
+                        ? universalDerived.originTimeDisplay
+                        : `10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30 – 60 דק' נסיעה)`,
                     originLat: (existingChain && existingChain.originLat) ? existingChain.originLat : 31.7893,
                     originLng: (existingChain && existingChain.originLng) ? existingChain.originLng : 34.6417,
                     hasMeetingPoint: true,
-                    meetingAddress: universalDerived.meetingAddress || `נתב"ג טרמינל 3 (מפגש בדלפקי הצ'ק-אין, שער 32)`,
-                    meetingTime: universalDerived.meetingTimeDisplay || `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`,
+                    meetingAddress: universalDerived.meetingAddress || `נתב"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין, שער 32)`,
+                    meetingTime: (universalDerived.meetingTimeDisplay && !String(universalDerived.meetingTimeDisplay).includes('03:30') && !String(universalDerived.meetingTimeDisplay).includes('06:30'))
+                        ? universalDerived.meetingTimeDisplay
+                        : `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`,
                     meetingLat: 32.0055,
                     meetingLng: 34.8854,
                     connectionOutbound: universalDerived.connectionOutbound || `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`,
                     connectionReturn: universalDerived.connectionReturn || `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
                     domesticFlightsSummary: `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ➔ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ➔ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`,
                     trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול`,
-                    trailheadTime: universalDerived.landingOrStartTime ? `${universalDerived.landingOrStartTime} (נחיתה בסיאול ותחילת המסלול)` : `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
+                    trailheadTime: (universalDerived.landingOrStartTime && !String(universalDerived.landingOrStartTime).includes('07:30') && !String(universalDerived.landingOrStartTime).includes('11:50'))
+                        ? `${universalDerived.landingOrStartTime} (נחיתה בסיאול ותחילת המסלול)`
+                        : `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
                     trailheadLat: 37.4602,
                     trailheadLng: 126.4407
                 };
@@ -10017,8 +10037,23 @@
                 const raw = localStorage.getItem('travel_assistant_arrival_chain_' + k);
                 if (raw) {
                     const parsed = Object.assign({}, defaults, JSON.parse(raw));
+                    let healed = false;
+                    if (k === 'korea') {
+                        if (!parsed.originTime || String(parsed.originTime).includes('02:30') || String(parsed.originTime).includes('06:30')) {
+                            parsed.originTime = `10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30 – 60 דק' נסיעה)`;
+                            healed = true;
+                        }
+                        if (!parsed.meetingTime || String(parsed.meetingTime).includes('03:30') || String(parsed.meetingTime).includes('06:30')) {
+                            parsed.meetingTime = `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`;
+                            healed = true;
+                        }
+                        if (!parsed.trailheadTime || String(parsed.trailheadTime).includes('07:30') || String(parsed.trailheadTime).includes('11:50')) {
+                            parsed.trailheadTime = `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול הקרקעי)`;
+                            healed = true;
+                        }
+                    }
                     const syncRes = synchronizeArrivalChainCoords(parsed, k);
-                    if (syncRes.changed) {
+                    if (syncRes.changed || healed) {
                         localStorage.setItem('travel_assistant_arrival_chain_' + k, JSON.stringify(parsed));
                     }
                     return parsed;
@@ -11203,15 +11238,20 @@
                 if (singleDate) extractedDates = singleDate[1].replace(/\./g, '/');
             }
 
-            // 2. Extract Flight Departure Time (Universal patterns: Hebrew & English airlines, TLV, Departure, המראה)
+            // 2. Extract Outbound Flight Departure Time from Origin Country (Strictly ignore domestic / internal / return flights!)
+            const outboundLines = text.split(/\r?\n/).filter(line => {
+                return !/טיסת פנים|טיסות פנים|מבוסאן|לג'ג'ו|מג'ג'ו|גימפו|KE\s*1505|\bPUS\b|\bCJU\b|\bGMP\b|טיסת חזור|חזור מקטע|ET\s*673|ET\s*418|1\/12\/26|01\/12|3\/12\/26|03\/12/i.test(line);
+            });
+            const outboundText = outboundLines.join('\n');
+
             let flightTime = '';
             const flightPatterns = [
-                /(?:המראה|ממריאה|יציאת טיסה|טיסת הלוך|Departure|DEP)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i,
+                /(?:נתב"ג|נתבג|טרמינל\s*3|תל\s*אביב|TLV|Ben\s*Gurion|ET\s*419)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i,
                 /\b(?:ET|LY|IZ|6H|TK|LH|BA|AF|UA|DL|EK|FZ|W6|FR)\s*\d{2,4}[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i,
-                /(?:נתב"ג|נתבג|טרמינל\s*3|TLV|Ben\s*Gurion)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i
+                /(?:המראה|ממריאה|יציאת טיסה|טיסת הלוך|Departure|DEP)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i
             ];
             for (const pat of flightPatterns) {
-                const m = text.match(pat);
+                const m = outboundText.match(pat);
                 if (m && m[1] !== undefined && m[2] !== undefined) {
                     flightTime = `${String(m[1]).padStart(2, '0')}:${m[2]}`;
                     break;
@@ -11220,21 +11260,21 @@
 
             // 3. Extract Explicit Meeting Time & Meeting Place if stated in document
             let explicitMeetingTime = '';
-            const meetMatch = text.match(/(?:שעת מפגש|מפגש קבוצתי|מפגש בנתב"ג|התייצבות|נקודת מפגש)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
+            const meetMatch = outboundText.match(/(?:שעת מפגש|מפגש קבוצתי|מפגש בנתב"ג|התייצבות|נקודת מפגש)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
             if (meetMatch) {
                 explicitMeetingTime = `${String(meetMatch[1]).padStart(2, '0')}:${meetMatch[2]}`;
             }
 
             // 4. Extract Explicit Home Departure Time if stated in document
             let explicitOriginTime = '';
-            const origMatch = text.match(/(?:יציאה מהבית|שעת יציאה מהבית|יציאה מומלצת)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
+            const origMatch = outboundText.match(/(?:יציאה מהבית|שעת יציאה מהבית|יציאה מומלצת)[^\d\n]{0,40}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
             if (origMatch) {
                 explicitOriginTime = `${String(origMatch[1]).padStart(2, '0')}:${origMatch[2]}`;
             }
 
-            // 5. Extract Destination Landing / First Station Start Time
+            // 5. Extract Destination Landing / First Station Start Time (from outbound arrival, not domestic flight)
             let landingOrStartTime = '';
-            const landMatch = text.match(/(?:נחיתה|נחיתה ב|הגעה ליעד|תחילת מסלול|ARR|Arrival)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
+            const landMatch = outboundText.match(/(?:נחיתה בסיאול|נחיתה באינצ'ון|נחיתה|נחיתה ב|הגעה ליעד|תחילת מסלול|ARR|Arrival)[^\d\n]{0,45}\b([01]?\d|2[0-3]):([0-5]\d)\b/i);
             if (landMatch) {
                 landingOrStartTime = `${String(landMatch[1]).padStart(2, '0')}:${landMatch[2]}`;
             }
@@ -11871,6 +11911,17 @@
                     if (cloudState.arrivalChains) {
                         for (const tk in cloudState.arrivalChains) {
                             const ch = cloudState.arrivalChains[tk];
+                            if (tk === 'korea' && ch) {
+                                if (!ch.originTime || String(ch.originTime).includes('02:30') || String(ch.originTime).includes('06:30')) {
+                                    ch.originTime = `10:30 (נגזר משעת המראה 14:40 ומפגש בנתב"ג 11:30 – 60 דק' נסיעה)`;
+                                }
+                                if (!ch.meetingTime || String(ch.meetingTime).includes('03:30') || String(ch.meetingTime).includes('06:30')) {
+                                    ch.meetingTime = `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`;
+                                }
+                                if (!ch.trailheadTime || String(ch.trailheadTime).includes('07:30') || String(ch.trailheadTime).includes('11:50')) {
+                                    ch.trailheadTime = `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול הקרקעי)`;
+                                }
+                            }
                             if (ch && typeof synchronizeArrivalChainCoords === 'function') synchronizeArrivalChainCoords(ch, tk);
                             localStorage.setItem('travel_assistant_arrival_chain_' + tk, JSON.stringify(ch));
                         }
