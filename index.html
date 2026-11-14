@@ -956,6 +956,9 @@
                     <button onclick="toggleSpatialHud()" id="btn-toggle-spatial-hud" title="נתוני התמצאות במרחב: מה לפניך, מימינך ומשמאלך" style="background: #0369a1; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
                         <i class="fa-solid fa-binoculars"></i> התמצאות
                     </button>
+                    <button onclick="toggleLiveHud()" id="btn-toggle-live-hud" title="הפעל / כבה מד ניווט ליעד הפעיל" style="background: #f1f5f9; color: #334155; border: 1.5px solid #cbd5e1; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                        🎯 מד ניווט
+                    </button>
                     <button onclick="scanSurroundingAnchors(true)" id="btn-scan-surrounding" title="סרוק סביבת המסלול: מצוקים, מעיינות, תצפיות ומים" style="background: #059669; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; font-size: 0.8em; cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
                         <i class="fa-solid fa-mountain-sun"></i> עוגני סביבה
                     </button>
@@ -1026,8 +1029,8 @@
                         </div>
                     </div>
 
-                    <!-- Floating mini pill button to restore HUD when closed -->
-                    <button id="btn-reopen-hud" onclick="toggleLiveHud(true)" style="display: block; position: absolute; bottom: 12px; right: 12px; background: #2563eb; color: white; border: 2px solid white; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 998; cursor: pointer;">
+                    <!-- Floating mini pill button hidden by default (controlled via toolbar toggle) -->
+                    <button id="btn-reopen-hud" onclick="toggleLiveHud(true)" style="display: none; position: absolute; bottom: 12px; right: 12px; background: #2563eb; color: white; border: 2px solid white; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 998; cursor: pointer;">
                         🎯 הצג מד ניווט (<span id="reopen-hud-dist">--</span>)
                     </button>
                 </div>
@@ -2701,8 +2704,16 @@
         function toggleLiveHud(show) {
             const hud = document.getElementById('live-nav-hud');
             const btn = document.getElementById('btn-reopen-hud');
-            if (hud) hud.style.display = show ? 'flex' : 'none';
-            if (btn) btn.style.display = show ? 'none' : 'block';
+            const toolbarBtn = document.getElementById('btn-toggle-live-hud');
+            const isCurrentlyOpen = hud && hud.style.display === 'flex';
+            const nextState = (typeof show === 'boolean') ? show : !isCurrentlyOpen;
+            if (hud) hud.style.display = nextState ? 'flex' : 'none';
+            if (btn) btn.style.display = 'none';
+            if (toolbarBtn) {
+                toolbarBtn.style.background = nextState ? '#2563eb' : '#f1f5f9';
+                toolbarBtn.style.color = nextState ? 'white' : '#334155';
+                toolbarBtn.style.borderColor = nextState ? '#1d4ed8' : '#cbd5e1';
+            }
         }
 
 
