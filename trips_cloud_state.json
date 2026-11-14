@@ -1,5 +1,5 @@
 {
-  "revision": 1794682134972,
+  "revision": 1794691459848,
   "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -46,7 +46,7 @@
           "dayNum": 1,
           "dayTitle": "יום 1 (א' 22/11): המראה מנתב\"ג וטיסת מעבר דרך אתיופיה",
           "title": "2. טיסת מעבר (קונקשן): אדיס אבבה (ADD) – המתנה 2:40 שעות",
-          "desc": "נחיתה באדיס אבבה ב-19:55 | ⏳ זמן המתנה בקונקשן: שעתיים ו-40 דקות (ללא איסוף מזוודות) | המראה ב-22:35 בטיסה ET 672 לסיאול • [מעודכן מהזמנה] 🚃 קרון: D | 🔖 הזמנה: sFromText",
+          "desc": "נחיתה באדיס אבבה ב-19:55 | ⏳ זמן המתנה בקונקשן: שעתיים ו-40 דקות (ללא איסוף מזוודות) | המראה ב-22:35 בטיסה ET 672 לסיאול",
           "lat": 8.9779,
           "lng": 38.7993,
           "address": "Addis Ababa Bole International Airport Terminal 2 (ADD), Ethiopia",
@@ -246,7 +246,7 @@
           ],
           "dayTitle": "יום 5 (ה' 26/11): שמורת הר סוראק (רכבל), מקדש נקסאנסה וצ'יאונגז'ו",
           "title": "🛏️ 26/11: צ'יאונגז'ו - מלון אנפורד (Enford Hotel Cheongju)",
-          "desc": "מלון מפואר ומונגש בעיר צ'יאונגז'ו (לילה 4 - עודכן מתיק המסמכים | Booking.com: Share-s5yTXOK) • [מעודכן מהזמנה] 🔖 הזמנה: sFromText",
+          "desc": "מלון מפואר ומונגש בעיר צ'יאונגז'ו (לילה 4 - עודכן מתיק המסמכים | Booking.com: Share-s5yTXOK)",
           "lat": 36.6521,
           "lng": 127.4914,
           "address": "1141 Sunhwan-ro, Cheongwon-gu, Cheongju-si, Chungcheongbuk-do",
@@ -521,7 +521,7 @@
           "dayNum": 13,
           "dayTitle": "יום 13 (03-04/12 - ערב שבת 2): פארק האלים, טיסת פנים KE1505 לסיאול (GMP) והכנה לשבת",
           "title": "24. 🛬 טיסת פנים 2 (נחיתה 11:50): נמל התעופה סיאול גימפו (GMP)",
-          "desc": "נחיתה בנמל התעופה גימפו בסיאול (GMP) ב-11:50 (טיסה KE1505) ונסיעה למלון קוקדו בסיאול • [מעודכן מהזמנה] 🔖 הזמנה: sFromText",
+          "desc": "נחיתה בנמל התעופה גימפו בסיאול (GMP) ב-11:50 (טיסה KE1505) ונסיעה למלון קוקדו בסיאול",
           "lat": 37.5583,
           "lng": 126.7906,
           "address": "Gimpo International Airport (GMP), 112 Haneul-gil, Gangseo-gu, Seoul",
@@ -580,14 +580,14 @@
           "dayNum": 15,
           "dayTitle": "יום 15 (א' 06/12): טיסות חזור מסיאול דרך אדיס אבבה ונחיתה בנתב\"ג",
           "title": "25. המראה מסיאול: נמל התעופה אינצ'ון (ICN) – טיסה ET 673",
-          "desc": "יציאה מהמלון במוצ\"ש ב-20:30, הגעה לאינצ'ון ב-21:15 והמראה ב-00:10 בלילה לאדיס אבבה (משך טיסה: 12:15 שעות) • [מעודכן מהזמנה] 🔖 הזמנה: sFromText • [מעודכן מהזמנה] 🕒 שעה: 06:30 ➔ 07:30 | 🔖 הזמנה: sFromText",
+          "desc": "יציאה מהמלון במוצ\"ש ב-20:30, הגעה לאינצ'ון ב-21:15 והמראה ב-00:10 בלילה לאדיס אבבה (משך טיסה: 12:15 שעות)",
           "lat": 37.4602,
           "lng": 126.4407,
           "address": "Incheon International Airport Terminal 1 (ICN)",
           "stopCode": null,
           "type": "flight",
           "isFlight": true,
-          "stayTime": "06:30–07:30",
+          "stayTime": "ליל מוצ\"ש/א' 06/12: 21:15 צ'ק-אין | 00:10 המראה",
           "recommendedStay": "3 שעות בידוק ודיוטי פרי + 12:15 שעות טיסה",
           "transitType": "טיסה בינלאומית ET 673",
           "walkingDist": "העברת מזוודות ישירה לנתב\"ג"
@@ -608,18 +608,6 @@
           "recommendedStay": "3 שעות ו-5 דק' המתנה בקונקשן + 4:05 שעות טיסה לנתב\"ג",
           "transitType": "טיסת המשך ET 418 לנתב\"ג",
           "walkingDist": "מעבר בינלאומי בטרמינל 2"
-        },
-        {
-          "id": "bk_st_1794682134148_34",
-          "title": "🛏️ הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking.",
-          "desc": "🔖 הזמנה: sFromText",
-          "address": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking.",
-          "lat": 36.6521,
-          "lng": 127.4914,
-          "stayTime": "",
-          "dayNum": 1,
-          "isHotel": true,
-          "type": "hotel"
         }
       ]
     }
@@ -635,6 +623,8 @@
       "meetingTime": "11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)",
       "meetingLat": 32.0055,
       "meetingLng": 34.8854,
+      "trailheadAddress": "1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול",
+      "trailheadTime": "15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)",
       "connectionOutbound": "✈️ מקטע 1: נתב\"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)",
       "connectionReturn": "✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב\"ג 13:35 (יום א' 06/12)",
       "domesticFlightsSummary": "✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ➔ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ➔ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)",
@@ -655,8 +645,6 @@
           "rawLine": "טיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר."
         }
       ],
-      "trailheadAddress": "1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול",
-      "trailheadTime": "15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)",
       "trailheadLat": 37.4602,
       "trailheadLng": 126.4407
     }
@@ -671,8 +659,8 @@
       "date": "22/11/2026 - 06/12/2026 (15 ימים)",
       "budget": "5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)",
       "activities": "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול. | משקאות: קפה ללא תוספת טעם מותר לרבות קפה מגורען, נמס וקפסולות קפה. תה המ... | 22-11-2026 | קרון D",
-      "transit": "טיסות: KE 1505 (➔סיאול (ICN)) 06:30-07:30",
-      "hotels": "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel | המלון שלנו בלילה השלישי בסוקצ׳ו | 1/12/26 • הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking. | 1/12/26 • העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.co... | 1/12/26 • המלון בלילה הרביעי - בצ׳יונגג׳ו | 1/12/26 | 06:30–07:30 • המלון הזה בסיאול לשני לילות | 1/12/26 • המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים | 1/12/26",
+      "transit": "טיסות בינלאומיות Ethiopian Airlines (ET 419/672 הלוך, ET 673/418 חזור) + 2 טיסות פנים Korean Air KE1505 (01/12 בוסאן➔ג'ג'ו 06:30-07:30 | 03/12 ג'ג'ו➔גימפו 10:35-11:50) + אוטובוס תיירים צמוד",
+      "hotels": "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel",
       "food": "איתור מזון ומסעדות כשרות וטבעוניות, סריקת ברקודים, סעודות שבת מוסדרות.",
       "constraints": "2 שבתות מלאות במסלול (שבת 1 בדאייגו | שבת 2 בסיאול). התאמה לגמלאים מעל גיל 75."
     }
@@ -695,7 +683,7 @@
         "fileName": "חילוץ ומיזוג אוניברסלי (parseUniversalBooking.txt",
         "textContent": "חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק:",
         "isText": true,
-        "gdriveSynced": false,
+        "gdriveSynced": true,
         "data": "data:text/plain;charset=utf-8,%D7%97%D7%99%D7%9C%D7%95%D7%A5%20%D7%95%D7%9E%D7%99%D7%96%D7%95%D7%92%20%D7%90%D7%95%D7%A0%D7%99%D7%91%D7%A8%D7%A1%D7%9C%D7%99%20(parseUniversalBookingsFromText%2C%20mergeUniversalBookings%2C%20saveTripBookings)%3A%20%D7%9E%D7%96%D7%94%D7%94%20%D7%90%D7%95%D7%98%D7%95%D7%9E%D7%98%D7%99%D7%AA%20%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9B%D7%9C%20%D7%A7%D7%95%D7%91%D7%A5%20%D7%90%D7%95%20%D7%98%D7%A7%D7%A1%D7%98%20%D7%9E%D7%95%D7%93%D7%91%D7%A7%3A"
       },
       {
@@ -877,6 +865,162 @@
         "isText": false,
         "gdriveSynced": true,
         "data": ""
+      }
+    ]
+  },
+  "flightTickets": {
+    "korea": [
+      {
+        "flightNumber": "KE 1505",
+        "airline": "Korean Air",
+        "date": "1/12/26",
+        "departureTime": "06:30",
+        "arrivalTime": "07:30",
+        "from": "",
+        "to": "סיאול (ICN)",
+        "terminal": "",
+        "gate": "",
+        "seat": "",
+        "bookingRef": "",
+        "baggage": "",
+        "rawLine": "טיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר."
+      }
+    ]
+  },
+  "universalBookings": {
+    "korea": [
+      {
+        "id": "bk_1794682134145_0",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "המלון שלנו בלילה השלישי בסוקצ׳ו",
+        "date": "1/12/26",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "",
+        "bookingRef": "sFromText",
+        "rawText": "המלון שלנו בלילה השלישי בסוקצ׳ו"
+      },
+      {
+        "id": "bk_1794682134145_1",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking.",
+        "date": "1/12/26",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "",
+        "bookingRef": "sFromText",
+        "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
+      },
+      {
+        "id": "bk_1794682134145_2",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.co...",
+        "date": "1/12/26",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "",
+        "bookingRef": "sFromText",
+        "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
+      },
+      {
+        "id": "bk_1794682134145_3",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "המלון בלילה הרביעי - בצ׳יונגג׳ו",
+        "date": "1/12/26",
+        "time": "06:30",
+        "endTime": "07:30",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "",
+        "bookingRef": "sFromText",
+        "rawText": "המלון בלילה הרביעי - בצ׳יונגג׳ו • הודעה / מסמך: טיסות פנימיות: • טיסות פנימיות: • טיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר."
+      },
+      {
+        "id": "bk_1794682134145_4",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "המלון הזה בסיאול לשני לילות",
+        "date": "1/12/26",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "",
+        "bookingRef": "sFromText",
+        "rawText": "המלון הזה בסיאול לשני לילות • הודעה / מסמך: https://maps.app.goo.gl/jY2HVjLqvDXoTfve9?gst • https://maps.app.goo.gl/jY2HVjLqvDXoTfve9?g_st=iw • הלילה השביעי והשמיני בבוסן"
+      },
+      {
+        "id": "bk_1794682134145_5",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
+        "date": "1/12/26",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "כשר",
+        "bookingRef": "sFromText",
+        "rawText": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים • הודעה / מסמך: אוכל כשר בחו”ל: • אוכל כשר בחו”ל: • מוצרים שאפשר לקנות בלי כשרות"
+      },
+      {
+        "id": "bk_1794682134145_6",
+        "category": "restaurant",
+        "subType": "מסעדה",
+        "title": "משקאות: קפה ללא תוספת טעם מותר לרבות קפה מגורען, נמס וקפסולות קפה. תה המ...",
+        "date": "22-11-2026",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "D",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "",
+        "kosherNote": "כשר",
+        "bookingRef": "sFromText",
+        "rawText": "•\tמשקאות: קפה ללא תוספת טעם מותר לרבות קפה מגורען, נמס וקפסולות קפה. תה המכיל עלי תה בלבד מותר ואין צורך בחותמת כשרות. מים ללא טעמים מותרים במדינות מערביות. בגזרת המשקאות הקלים, מותרים סודה ללא טעמים, פפסי מקס ובירה ללא תוספות. • מלונות לטיול בקוריאה 22-11-2026.jpeg • הקסם הקוריאני - אישור מסלול החברה22-11-2026.pdf • Passportcard Receipt.pdf"
       }
     ]
   }
