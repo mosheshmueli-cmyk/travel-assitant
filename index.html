@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.2</title>
+    <title>Travel Assistant V5.3.3</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.2</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.3</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -1479,6 +1479,14 @@
 
                         <!-- Step 4 Smart Arrival Chain Summary Card (3 Geographic Anchors - Synced with 05:42 & Ashdod) -->
                         <div id="step4-arrival-chain-card" style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 2px solid #93c5fd; border-radius: 14px; padding: 12px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.08); max-width: 100%; box-sizing: border-box;">
+                        </div>
+
+                        <!-- Step 4 Dynamic Flight Tickets Card (Flight Number, Time, Seat, Gate, PNR) -->
+                        <div id="step4-flight-tickets-card" style="display: none; background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); border: 2px solid #3b82f6; border-radius: 14px; padding: 12px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.1); max-width: 100%; box-sizing: border-box;">
+                        </div>
+
+                        <!-- Step 4 Universal Bookings & Updates Hub (Restaurants, Shows, Cinema, Museums, Trains, Buses, Ships, Hotels) -->
+                        <div id="step4-bookings-hub-card" style="display: none; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 2px solid #8b5cf6; border-radius: 14px; padding: 12px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(124,58,237,0.1); max-width: 100%; box-sizing: border-box;">
                         </div>
 
                         <!-- Quick Field Actions -->
@@ -2336,6 +2344,12 @@
                         </div>
                     </div>
 
+                    <!-- Dynamic Booked Ground/Sea Transit (Trains, Buses, Ferries, Ships) -->
+                    <div id="ai-card-bookings-transit" style="display: none; background: white; border: 1.5px solid #38bdf8; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(2,132,199,0.06);"></div>
+
+                    <!-- Dynamic Booked Events (Concerts, Cinema, Museums, Shows) -->
+                    <div id="ai-card-booked-events" style="display: none; background: white; border: 1.5px solid #c084fc; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(124,58,237,0.06);"></div>
+
                     <!-- Domestic Ground Transit Card (Domestic only) -->
                     <div id="ai-card-domestic-transit" style="display: block; background: white; border: 1.5px solid #86efac; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(22,101,52,0.06);">
                         <h4 style="margin: 0 0 8px 0; color: #15803d; font-size: 1.05em;"><i class="fa-solid fa-van-shuttle"></i> תחבורה יבשתית והקפצות שטח מקומיות</h4>
@@ -2369,6 +2383,8 @@
 
                 <!-- 2. FOOD & RESTAURANTS SECTION -->
                 <div id="ai-sec-food" class="ai-category-section" style="display: none;">
+                    <!-- Dynamic Booked Restaurants & Table Reservations -->
+                    <div id="ai-card-booked-restaurants" style="display: none; background: white; border: 1.5px solid #fb923c; border-radius: 14px; padding: 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(234,88,12,0.08);"></div>
                     <!-- Assistance Prompt Card -->
                     <div style="background: #fff7ed; border: 1.5px solid #fdba74; border-radius: 12px; padding: 10px 12px; margin-bottom: 14px;">
                         <b style="color: #c2410c; font-size: 0.95em;"><i class="fa-solid fa-hand-holding-heart"></i> סיוע ייעודי באיתור מזון ומסעדות כשרות וטבעוניות:</b>
@@ -2432,6 +2448,9 @@
                         <p id="ai-hotels-header-desc" style="font-size: 0.88em; color: #475569; line-height: 1.4;">
                             מקומות הלינה מותאמים אוטומטית להעדפות שהוזנו בתיק הטיול (לחיצה על כל מלון פותחת אותו במפה בזמן אמת):
                         </p>
+
+                        <!-- Dynamic Booked Hotels & Check-in/out from Synced Docs -->
+                        <div id="ai-card-booked-hotels" style="display: none; margin-bottom: 12px;"></div>
                         
                         <!-- Domestic Accommodation Container (Active in Domestic Trips) -->
                         <div id="ai-hotels-domestic" style="display: block;">
@@ -4347,7 +4366,7 @@
                                 xmlText = decoder.decode(outBuffer);
                             }
                             if (xmlText) {
-                                return xmlText.replace(/<\/w:p>/g, '\n').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+                                return xmlText.replace(/<\/w:p>/g, '\n').replace(/<w:br[^>]*\/>/g, '\n').replace(/<[^>]+>/g, ' ').replace(/[^\S\r\n]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
                             }
                         }
                     }
@@ -4676,6 +4695,807 @@
             if (el) el.value = '';
         }
 
+        function escapeHtmlFlight(str) {
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function parseFlightTicketsFromText(rawText) {
+            const text = String(rawText || '').trim();
+            if (!text) return [];
+
+            const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            const airlineNames = {
+                ET: 'Ethiopian Airlines', LY: 'EL AL', IZ: 'Arkia', '6H': 'Israir',
+                KE: 'Korean Air', OZ: 'Asiana Airlines', TK: 'Turkish Airlines',
+                LH: 'Lufthansa', BA: 'British Airways', AF: 'Air France', KL: 'KLM',
+                UA: 'United Airlines', DL: 'Delta', AA: 'American Airlines',
+                EK: 'Emirates', FZ: 'flydubai', QR: 'Qatar Airways', EY: 'Etihad',
+                W6: 'Wizz Air', FR: 'Ryanair', U2: 'easyJet', VY: 'Vueling',
+                LX: 'SWISS', OS: 'Austrian', AZ: 'ITA Airways', LO: 'LOT', RO: 'TAROM',
+                A3: 'Aegean', PC: 'Pegasus', TP: 'TAP', IB: 'Iberia', SK: 'SAS', AY: 'Finnair'
+            };
+
+            const knownFlightRegex = /\b(ET|LY|IZ|6H|KE|OZ|TK|LH|BA|AF|KL|UA|DL|AA|EK|FZ|QR|EY|W6|FR|U2|VY|LX|OS|AZ|LO|RO|TO|PC|A3|TP|IB|SK|AY|SN|SU|CA|CX|SQ|NH|JL|BR|CI|TG)\s*-?\s*(\d{2,4})\b/i;
+            const explicitFlightRegex = /(?:טיסה|מספר\s*טיסה|Flight(?:\s*(?:No\.?|Number|#))?)\s*[:\-]?\s*([A-Z]{2}|[A-Z]\d|\d[A-Z])\s*-?\s*(\d{2,4})\b/i;
+            const seatRegex = /(?:מקום\s*ישיבה|מקומות\s*ישיבה|מושב|מושבים|כיסא|Seat(?:\s*(?:No\.?|Number|#))?)\s*[:\-]?\s*([0-9]{1,3}\s*[A-Za-z](?:\s*[,\/&]\s*[0-9]{1,3}\s*[A-Za-z])*)/i;
+            const pnrRegex = /(?:קוד\s*הזמנה|מספר\s*הזמנה|PNR|Booking(?:\s*(?:Ref|Reference|Code))?|Confirmation(?:\s*(?:Code|Number))?|Reservation)\s*[:\-]?\s*([A-Z0-9]{5,8})\b/i;
+            const gateRegex = /(?:שער|Gate)\s*[:\-]?\s*([A-Z]?\d{1,3}[A-Z]?)\b/i;
+            const terminalRegex = /(?:טרמינל|Terminal)\s*[:\-]?\s*([A-Z0-9]{1,3})\b/i;
+            const dateRegex = /\b(\d{1,2}[\/.\-]\d{1,2}(?:[\/.\-]\d{2,4})?)\b/;
+            const baggageRegex = /(\d+\s*(?:ק"ג|קג|kg|PC|מזווד(?:ה|ות)))/i;
+
+            // Global PNR fallback if mentioned once at top of ticket
+            const globalPnrMatch = text.match(pnrRegex);
+            const globalPnr = globalPnrMatch ? globalPnrMatch[1].toUpperCase() : '';
+            const globalBagMatch = text.match(baggageRegex);
+            const globalBag = globalBagMatch ? globalBagMatch[1] : '';
+
+            // Collect blocks starting at each line that contains a flight number
+            const flightStarts = [];
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const m = line.match(explicitFlightRegex) || line.match(knownFlightRegex);
+                if (m) {
+                    const code = m[1].toUpperCase();
+                    const num = m[2];
+                    flightStarts.push({ lineIdx: i, flightNumber: `${code} ${num}`, carrier: code });
+                }
+            }
+
+            const tickets = [];
+            const seenKeys = new Set();
+
+            for (let f = 0; f < flightStarts.length; f++) {
+                const start = flightStarts[f].lineIdx;
+                const end = (f + 1 < flightStarts.length) ? Math.min(flightStarts[f + 1].lineIdx, start + 6) : Math.min(lines.length, start + 6);
+                const blockLines = lines.slice(start, end);
+                const blockText = blockLines.join(' | ');
+                const firstLine = lines[start];
+
+                // Extract times from the flight line first, then block
+                const times = [];
+                const timeRe = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g;
+                let tm;
+                const timeSource = (/\b([01]?\d|2[0-3]):([0-5]\d)\b/.test(firstLine)) ? firstLine : blockText;
+                while ((tm = timeRe.exec(timeSource)) !== null) {
+                    const hhmm = `${String(tm[1]).padStart(2, '0')}:${tm[2]}`;
+                    if (!times.includes(hhmm)) times.push(hhmm);
+                }
+                if (times.length < 2 && timeSource === firstLine) {
+                    while ((tm = timeRe.exec(blockText)) !== null) {
+                        const hhmm = `${String(tm[1]).padStart(2, '0')}:${tm[2]}`;
+                        if (!times.includes(hhmm)) times.push(hhmm);
+                    }
+                }
+
+                // Extract seat(s)
+                let seat = '';
+                const seatMatch = blockText.match(seatRegex);
+                if (seatMatch && seatMatch[1]) {
+                    seat = seatMatch[1].replace(/\s+/g, '').toUpperCase().replace(/([,\/&])/g, ', ');
+                }
+
+                // Extract route (IATA -> IATA or Hebrew cities)
+                let from = '';
+                let to = '';
+                const routeArrow = blockText.match(/\b([A-Z]{3})\s*(?:->|➔|→|-|–|to|\/)\s*([A-Z]{3})\b/);
+                if (routeArrow) {
+                    from = routeArrow[1];
+                    to = routeArrow[2];
+                } else {
+                    const iataMatches = blockText.match(/\b(TLV|ADD|ICN|GMP|PUS|CJU|FCO|MXP|CDG|LHR|LGW|JFK|EWR|LAX|FRA|MUC|ZRH|VIE|ATH|IST|SAW|DXB|AUH|BKK|NRT|HND|KIX|AMS|BCN|MAD|PRG|BUD|WAW|OTP|SOF|LCA|PFO)\b/g);
+                    if (iataMatches && iataMatches.length >= 2) {
+                        from = iataMatches[0];
+                        to = iataMatches[1];
+                    } else if (iataMatches && iataMatches.length === 1) {
+                        from = iataMatches[0];
+                    }
+                }
+                if (!from && /נתב"ג|נתבג|תל אביב/i.test(blockText)) from = 'נתב"ג (TLV)';
+                if (!to && /אדיס אבבה/i.test(blockText)) to = 'אדיס אבבה (ADD)';
+                if (!to && /סיאול|אינצ'?און/i.test(blockText)) to = 'סיאול (ICN)';
+                if (!to && /ג'?ג'?ו/i.test(blockText) && from !== 'CJU') to = 'ג\'ג\'ו (CJU)';
+
+                const dateMatch = blockText.match(dateRegex);
+                const gateMatch = blockText.match(gateRegex);
+                const termMatch = blockText.match(terminalRegex);
+                const localPnrMatch = blockText.match(pnrRegex);
+                const localBagMatch = blockText.match(baggageRegex);
+
+                const ticket = {
+                    flightNumber: flightStarts[f].flightNumber,
+                    airline: airlineNames[flightStarts[f].carrier] || flightStarts[f].carrier,
+                    date: dateMatch ? dateMatch[1] : '',
+                    departureTime: times[0] || '',
+                    arrivalTime: times[1] || '',
+                    from: from,
+                    to: to,
+                    terminal: termMatch ? termMatch[1] : '',
+                    gate: gateMatch ? gateMatch[1] : '',
+                    seat: seat,
+                    bookingRef: localPnrMatch ? localPnrMatch[1].toUpperCase() : globalPnr,
+                    baggage: localBagMatch ? localBagMatch[1] : globalBag,
+                    rawLine: firstLine
+                };
+
+                const dedupKey = `${ticket.flightNumber}|${ticket.date}|${ticket.departureTime}`;
+                if (!seenKeys.has(dedupKey)) {
+                    seenKeys.add(dedupKey);
+                    tickets.push(ticket);
+                } else {
+                    const existing = tickets.find(t => `${t.flightNumber}|${t.date}|${t.departureTime}` === dedupKey);
+                    if (existing) {
+                        if (!existing.seat && ticket.seat) existing.seat = ticket.seat;
+                        if (!existing.gate && ticket.gate) existing.gate = ticket.gate;
+                        if (!existing.terminal && ticket.terminal) existing.terminal = ticket.terminal;
+                        if (!existing.arrivalTime && ticket.arrivalTime) existing.arrivalTime = ticket.arrivalTime;
+                        if (!existing.from && ticket.from) existing.from = ticket.from;
+                        if (!existing.to && ticket.to) existing.to = ticket.to;
+                    }
+                }
+            }
+
+            // Fallback: if no flight number matched, check if there is at least a seat + time
+            if (tickets.length === 0) {
+                const seatOnly = text.match(seatRegex);
+                const timeOnly = text.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
+                if (seatOnly && timeOnly) {
+                    tickets.push({
+                        flightNumber: 'טיסה מהמסמך',
+                        airline: '',
+                        date: (text.match(dateRegex) || [])[1] || '',
+                        departureTime: `${String(timeOnly[1]).padStart(2, '0')}:${timeOnly[2]}`,
+                        arrivalTime: '',
+                        from: '',
+                        to: '',
+                        terminal: (text.match(terminalRegex) || [])[1] || '',
+                        gate: (text.match(gateRegex) || [])[1] || '',
+                        seat: seatOnly[1].replace(/\s+/g, '').toUpperCase(),
+                        bookingRef: globalPnr,
+                        baggage: globalBag,
+                        rawLine: lines[0] || ''
+                    });
+                }
+            }
+
+            return tickets;
+        }
+
+        function getTripFlightTickets(tripKey) {
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k) return [];
+            const trip = TRIPS_DATABASE[k];
+            if (trip && Array.isArray(trip.flightTickets) && trip.flightTickets.length > 0) {
+                return trip.flightTickets;
+            }
+            try {
+                const saved = JSON.parse(localStorage.getItem('travel_assistant_flights_' + k) || '[]');
+                if (Array.isArray(saved) && saved.length > 0) return saved;
+            } catch (e) {}
+            const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(k) : null;
+            if (chain && Array.isArray(chain.flightTickets) && chain.flightTickets.length > 0) {
+                return chain.flightTickets;
+            }
+            return [];
+        }
+
+        function mergeFlightTickets(existingList, newList) {
+            const existing = Array.isArray(existingList) ? existingList.map(t => Object.assign({}, t)) : [];
+            const incoming = Array.isArray(newList) ? newList : [];
+            if (incoming.length === 0) return existing;
+            if (existing.length === 0) return incoming;
+
+            incoming.forEach(inc => {
+                const normNum = String(inc.flightNumber || '').replace(/\s+/g, '').toUpperCase();
+                const matchIdx = existing.findIndex(ex => {
+                    const exNum = String(ex.flightNumber || '').replace(/\s+/g, '').toUpperCase();
+                    return exNum && normNum && exNum === normNum && (!inc.date || !ex.date || inc.date === ex.date);
+                });
+                if (matchIdx !== -1) {
+                    const ex = existing[matchIdx];
+                    existing[matchIdx] = {
+                        flightNumber: inc.flightNumber || ex.flightNumber,
+                        airline: inc.airline || ex.airline,
+                        date: inc.date || ex.date,
+                        departureTime: inc.departureTime || ex.departureTime,
+                        arrivalTime: inc.arrivalTime || ex.arrivalTime,
+                        from: inc.from || ex.from,
+                        to: inc.to || ex.to,
+                        terminal: inc.terminal || ex.terminal,
+                        gate: inc.gate || ex.gate,
+                        seat: inc.seat || ex.seat,
+                        bookingRef: inc.bookingRef || ex.bookingRef,
+                        baggage: inc.baggage || ex.baggage,
+                        rawLine: inc.rawLine || ex.rawLine
+                    };
+                } else {
+                    existing.push(inc);
+                }
+            });
+            return existing;
+        }
+
+        function saveTripFlightTickets(tripKey, tickets) {
+            const k = tripKey || currentTripKey;
+            if (!k || !Array.isArray(tickets)) return;
+            if (TRIPS_DATABASE[k]) {
+                TRIPS_DATABASE[k].flightTickets = tickets;
+            }
+            try {
+                localStorage.setItem('travel_assistant_flights_' + k, JSON.stringify(tickets));
+                const chainRaw = localStorage.getItem('travel_assistant_arrival_chain_' + k);
+                if (chainRaw) {
+                    const chain = JSON.parse(chainRaw);
+                    chain.flightTickets = tickets;
+                    localStorage.setItem('travel_assistant_arrival_chain_' + k, JSON.stringify(chain));
+                }
+                let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                const idx = custom.findIndex(t => (t.key || t.id) === k);
+                if (idx !== -1) {
+                    custom[idx].flightTickets = tickets;
+                    localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                }
+            } catch (e) {}
+        }
+
+        function updateSingleFlightSeatPrompt(index) {
+            const tickets = getTripFlightTickets(currentTripKey);
+            if (!tickets[index]) return;
+            const currentSeat = tickets[index].seat || '';
+            const nextSeat = prompt(`הזן מקום ישיבה (Seat) לטיסה ${tickets[index].flightNumber}:`, currentSeat);
+            if (nextSeat === null) return;
+            tickets[index].seat = nextSeat.trim().toUpperCase();
+            saveTripFlightTickets(currentTripKey, tickets);
+            renderStep4FlightTicketsCard(currentTripKey);
+            renderAiFlightsCard(currentTripKey);
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
+        }
+
+        function renderStep4FlightTicketsCard(tripKey) {
+            const card = document.getElementById('step4-flight-tickets-card');
+            if (!card) return;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k || !TRIPS_DATABASE[k] || (typeof isDomesticTrip === 'function' && isDomesticTrip(k))) {
+                card.style.display = 'none';
+                card.innerHTML = '';
+                return;
+            }
+            const tickets = getTripFlightTickets(k);
+            if (!tickets || tickets.length === 0) {
+                card.style.display = 'none';
+                card.innerHTML = '';
+                return;
+            }
+            card.style.display = 'block';
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <span style="font-weight:900; color:#1e40af; font-size:0.98em;"><i class="fa-solid fa-ticket" style="color:#2563eb;"></i> כרטיסי טיסה מעודכנים מהמסמכים (מספר טיסה, שעה ומקום ישיבה):</span>
+                    <span style="background:#dbeafe; color:#1d4ed8; font-size:0.78em; font-weight:900; padding:2px 8px; border-radius:6px;">${tickets.length} טיסות מסונכרנות</span>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:8px;">
+                    ${tickets.map((t, idx) => `
+                        <div style="background:white; border:1.5px solid #93c5fd; border-radius:10px; padding:10px; box-shadow:0 1px 4px rgba(37,99,235,0.06);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
+                                <span style="background:#1d4ed8; color:white; font-weight:900; font-size:0.86em; padding:2px 8px; border-radius:6px;" dir="ltr">✈️ ${escapeHtmlFlight(t.flightNumber)}</span>
+                                ${t.date ? `<span style="font-size:0.78em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(t.date)}</span>` : ''}
+                            </div>
+                            ${(t.from || t.to) ? `<div style="font-weight:900; font-size:0.88em; color:#0f172a; margin-bottom:4px;">${escapeHtmlFlight(t.from || 'מוצא')} ➔ ${escapeHtmlFlight(t.to || 'יעד')}</div>` : ''}
+                            <div style="display:flex; flex-wrap:wrap; gap:6px; font-size:0.82em; color:#334155; align-items:center; margin-bottom:6px;">
+                                <span>🕒 <b>שעה:</b> ${t.departureTime ? escapeHtmlFlight(t.departureTime) : 'לא צוין'}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}</span>
+                                ${t.terminal ? `<span>| 🏢 טרמינל ${escapeHtmlFlight(t.terminal)}</span>` : ''}
+                                ${t.gate ? `<span>| 🚪 שער ${escapeHtmlFlight(t.gate)}</span>` : ''}
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; padding-top:6px; border-top:1px dashed #cbd5e1; flex-wrap:wrap;">
+                                <span style="font-size:0.85em; font-weight:900; color:${t.seat ? '#15803d' : '#b45309'}; background:${t.seat ? '#dcfce7' : '#fef3c7'}; padding:2px 8px; border-radius:6px;">
+                                    💺 מקום ישיבה: ${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}
+                                </span>
+                                <button type="button" onclick="updateSingleFlightSeatPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:800; cursor:pointer;">✏️ עדכן מושב</button>
+                            </div>
+                            ${(t.bookingRef || t.baggage) ? `<div style="font-size:0.75em; color:#64748b; margin-top:4px;">${t.bookingRef ? '🔖 הזמנה: ' + escapeHtmlFlight(t.bookingRef) : ''} ${t.baggage ? '🧳 ' + escapeHtmlFlight(t.baggage) : ''}</div>` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderAiFlightsCard(tripKey) {
+            const card = document.getElementById('ai-card-flights');
+            if (!card) return;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k || !TRIPS_DATABASE[k]) return;
+            const tickets = getTripFlightTickets(k);
+            if (!tickets || tickets.length === 0) return;
+            const airlineTitle = tickets[0].airline ? ` (${escapeHtmlFlight(tickets[0].airline)})` : '';
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 4px;">
+                    <b style="color: #1e40af; font-size: 1.05em;"><i class="fa-solid fa-plane-departure"></i> כרטיסי טיסה מסונכרנים${airlineTitle}</b>
+                    <button onclick="switchScreen('screen-alerts'); switchBaltamScenario('flight_delay');" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8em; cursor: pointer;">
+                        <i class="fa-solid fa-satellite-dish"></i> בדיקת מכ"ם עיכובים
+                    </button>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.88em; color: #334155; line-height: 1.5;">
+                    ${tickets.map(t => `
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 10px;">
+                            • <b style="color:#1d4ed8;" dir="ltr">${escapeHtmlFlight(t.flightNumber)}</b>
+                            ${t.date ? `(${escapeHtmlFlight(t.date)})` : ''}:
+                            ${(t.from || t.to) ? `<b>${escapeHtmlFlight(t.from || '')} ➔ ${escapeHtmlFlight(t.to || '')}</b> |` : ''}
+                            🕒 שעה: <b>${escapeHtmlFlight(t.departureTime || '-')}</b>${t.arrivalTime ? ' ➔ <b>' + escapeHtmlFlight(t.arrivalTime) + '</b>' : ''}
+                            | 💺 מושב: <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
+                            ${t.gate ? `| 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // ================= UNIVERSAL BOOKING & UPDATE PROPAGATION ENGINE =================
+        // Handles Restaurants, Concerts/Shows, Cinema, Museums, Trains, Buses, Ships/Ferries, Hotels, and general updates
+        function parseUniversalBookingsFromText(rawText) {
+            const text = String(rawText || '').trim();
+            if (!text) return [];
+            const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            const bookings = [];
+
+            const timeReGlobal = /\b([01]?\d|2[0-3]):([0-5]\d)\b/g;
+            const dateRe = /\b(\d{1,2}[\/.\-]\d{1,2}(?:[\/.\-]\d{2,4})?)\b/;
+            const seatRe = /(?:מקום\s*ישיבה|מקומות\s*ישיבה|מושב|מושבים|כיסא|תא|קבינה|Seat(?:\s*(?:No\.?|Number|#))?|Cabin)\s*[:\-]?\s*([A-Za-z0-9]{1,5}(?:\s*[,\/&\-]\s*[A-Za-z0-9]{1,5})*)/i;
+            const rowRe = /(?:שורה|Row)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
+            const coachRe = /(?:קרון|Coach|Car)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
+            const platformRe = /(?:רציף|Platform)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
+            const guestsRe = /(\d{1,2})\s*(?:סועדים|אורחים|אנשים|משתתפים|כרטיסים|מבוגרים|Guests|People|Persons|Tickets|Pax)/i;
+            const pnrRe = /(?:קוד\s*הזמנה|מספר\s*הזמנה|אישור\s*הזמנה|PNR|Booking(?:\s*(?:Ref|Reference|Code|ID))?|Confirmation(?:\s*(?:Code|Number))?|Reservation)\s*[:\-]?\s*([A-Z0-9\-]{4,12})\b/i;
+            const addrRe = /(?:כתובת|מיקום|אולם|באולם|במתחם|Address|Venue|Location)\s*[:\-]\s*([^\n,|]{3,60})/i;
+
+            const isTransitLine = l => /רכבת|אוטובוס|אוניה|אונייה|ספינה|מעבורת|שייט|קרוז|KTX|Train|Bus|Ferry|Cruise|Ship|Shuttle/i.test(l) && !/אוטובוס תיירים צמוד|טיסה/i.test(l);
+            const isRestaurantLine = l => /מסעדה|מסעדת|הזמנת שולחן|שולחן ל|ארוחת ערב|ארוחת צהריים|ארוחת בוקר|ביסטרו|קפה|Restaurant|Table\s*for|Dining|Dinner|Lunch|Reservation\s+at/i.test(l);
+            const isEventLine = l => /הופעה|קונצרט|מופע|קולנוע|סרט|סינמה|יס פלאנט|רב חן|מוזיאון|תערוכה|תיאטרון|הצגה|פארק|כרטיס\s*כניסה|אטרקציה|Concert|Show|Cinema|Movie|Film|Museum|Exhibition|Theater|Theatre|Event/i.test(l);
+            const isHotelLine = l => /מלון|צימר|אירוח|צ'ק[\-\s]?אין|צ'ק[\-\s]?אאוט|Check[\-\s]?in|Check[\-\s]?out|Hotel|Resort|Apartment|Hostel/i.test(l);
+
+            const globalDate = (text.match(dateRe) || [])[1] || '';
+            const globalPnr = (text.match(pnrRe) || [])[1] || '';
+
+            const seenKeys = new Set();
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                let category = '';
+                if (isRestaurantLine(line)) category = 'restaurant';
+                else if (isEventLine(line)) category = 'event';
+                else if (isTransitLine(line)) category = 'transit';
+                else if (isHotelLine(line)) category = 'hotel';
+                if (!category) continue;
+
+                // Gather context window (current line + up to 3 following non-category lines)
+                const block = [line];
+                for (let j = i + 1; j < Math.min(lines.length, i + 4); j++) {
+                    const nxt = lines[j];
+                    if (isRestaurantLine(nxt) || isEventLine(nxt) || isTransitLine(nxt) || isHotelLine(nxt)) break;
+                    block.push(nxt);
+                }
+                const blockText = block.join(' | ');
+
+                const times = [];
+                let tm;
+                timeReGlobal.lastIndex = 0;
+                while ((tm = timeReGlobal.exec(blockText)) !== null) {
+                    const hhmm = `${String(tm[1]).padStart(2, '0')}:${tm[2]}`;
+                    if (!times.includes(hhmm)) times.push(hhmm);
+                }
+
+                const date = (blockText.match(dateRe) || [])[1] || globalDate;
+                const seatM = blockText.match(seatRe);
+                const seat = seatM ? seatM[1].replace(/\s+/g, '').toUpperCase().replace(/([,\/&])/g, ', ') : '';
+                const rowM = blockText.match(rowRe);
+                const row = rowM ? rowM[1].toUpperCase() : '';
+                const coachM = blockText.match(coachRe);
+                const coach = coachM ? coachM[1].toUpperCase() : '';
+                const platM = blockText.match(platformRe);
+                const platform = platM ? platM[1].toUpperCase() : '';
+                const guestsM = blockText.match(guestsRe);
+                const guests = guestsM ? guestsM[1] : '';
+                const pnrM = blockText.match(pnrRe);
+                const bookingRef = pnrM ? pnrM[1].toUpperCase() : globalPnr;
+                const addrM = blockText.match(addrRe);
+                const address = addrM ? addrM[1].trim() : '';
+
+                // Extract clean title/name
+                let subType = '';
+                if (category === 'transit') {
+                    if (/רכבת|KTX|Train/i.test(blockText)) subType = 'רכבת';
+                    else if (/אוניה|אונייה|ספינה|מעבורת|שייט|קרוז|Ferry|Cruise|Ship/i.test(blockText)) subType = 'אוניה / שייט';
+                    else subType = 'אוטובוס';
+                } else if (category === 'event') {
+                    if (/קולנוע|סרט|סינמה|יס פלאנט|רב חן|Cinema|Movie|Film/i.test(blockText)) subType = 'קולנוע';
+                    else if (/מוזיאון|תערוכה|Museum|Exhibition/i.test(blockText)) subType = 'מוזיאון';
+                    else if (/תיאטרון|הצגה|Theater|Theatre/i.test(blockText)) subType = 'תיאטרון';
+                    else subType = 'הופעה / מופע';
+                } else if (category === 'restaurant') {
+                    subType = 'מסעדה';
+                } else if (category === 'hotel') {
+                    subType = 'לינה / מלון';
+                }
+
+                let lineNumber = '';
+                if (category === 'transit') {
+                    const lineNumM = blockText.match(/(?:קו|מספר|Train|Bus|Line|KTX|Ferry)\s*[:#\-]?\s*([A-Z0-9]{1,6})\b/i);
+                    if (lineNumM) lineNumber = lineNumM[1].toUpperCase();
+                }
+
+                // Clean title from first line
+                let cleanTitle = line
+                    .replace(/^(?:[-•*✅🎫🍽️🎭🎬🏛️🚆🚌🚢🛏️]+\s*)+/, '')
+                    .replace(/\b\d{1,2}[\/.\-]\d{1,2}(?:[\/.\-]\d{2,4})?\b/g, '')
+                    .replace(/\b([01]?\d|2[0-3]):([0-5]\d)\b/g, '')
+                    .replace(/\s{2,}/g, ' ')
+                    .trim();
+                if (cleanTitle.length > 75) cleanTitle = cleanTitle.substring(0, 72) + '...';
+                if (!cleanTitle) cleanTitle = subType;
+
+                const kosherNote = /כשר למהדרין|כשר|בשרי|חלבי|פרווה|טבעוני|צמחוני|ללא גלוטן|Kosher|Vegan/i.test(blockText)
+                    ? (blockText.match(/כשר למהדרין|כשר|בשרי|חלבי|פרווה|טבעוני|צמחוני|ללא גלוטן|Kosher|Vegan/i) || [''])[0]
+                    : '';
+
+                const dedupKey = `${category}|${cleanTitle.toLowerCase().slice(0, 28)}|${date}`;
+                if (seenKeys.has(dedupKey)) continue;
+                seenKeys.add(dedupKey);
+
+                bookings.push({
+                    id: 'bk_' + Date.now() + '_' + bookings.length,
+                    category,
+                    subType,
+                    title: cleanTitle,
+                    date,
+                    time: times[0] || '',
+                    endTime: times[1] || '',
+                    lineNumber,
+                    platform,
+                    coach,
+                    row,
+                    seat,
+                    guests,
+                    address,
+                    kosherNote,
+                    bookingRef,
+                    rawText: block.join(' • ')
+                });
+            }
+            return bookings;
+        }
+
+        function getTripBookings(tripKey) {
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k) return [];
+            const trip = TRIPS_DATABASE[k];
+            if (trip && Array.isArray(trip.bookings) && trip.bookings.length > 0) {
+                return trip.bookings;
+            }
+            try {
+                const saved = JSON.parse(localStorage.getItem('travel_assistant_bookings_' + k) || '[]');
+                if (Array.isArray(saved) && saved.length > 0) return saved;
+            } catch (e) {}
+            const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(k) : null;
+            if (chain && Array.isArray(chain.bookings) && chain.bookings.length > 0) {
+                return chain.bookings;
+            }
+            return [];
+        }
+
+        function mergeUniversalBookings(existingList, newList) {
+            const existing = Array.isArray(existingList) ? existingList.map(b => Object.assign({}, b)) : [];
+            const incoming = Array.isArray(newList) ? newList : [];
+            if (incoming.length === 0) return existing;
+            if (existing.length === 0) return incoming;
+
+            incoming.forEach(inc => {
+                const incTitleNorm = String(inc.title || '').replace(/[^\w\u0590-\u05FF]/g, '').toLowerCase().slice(0, 18);
+                const matchIdx = existing.findIndex(ex => {
+                    if (ex.category !== inc.category) return false;
+                    if (inc.lineNumber && ex.lineNumber && inc.lineNumber === ex.lineNumber && (!inc.date || !ex.date || inc.date === ex.date)) return true;
+                    const exTitleNorm = String(ex.title || '').replace(/[^\w\u0590-\u05FF]/g, '').toLowerCase().slice(0, 18);
+                    return incTitleNorm && exTitleNorm && (exTitleNorm.includes(incTitleNorm) || incTitleNorm.includes(exTitleNorm));
+                });
+                if (matchIdx !== -1) {
+                    const ex = existing[matchIdx];
+                    existing[matchIdx] = {
+                        id: ex.id || inc.id,
+                        category: inc.category,
+                        subType: inc.subType || ex.subType,
+                        title: inc.title || ex.title,
+                        date: inc.date || ex.date,
+                        time: inc.time || ex.time,
+                        endTime: inc.endTime || ex.endTime,
+                        lineNumber: inc.lineNumber || ex.lineNumber,
+                        platform: inc.platform || ex.platform,
+                        coach: inc.coach || ex.coach,
+                        row: inc.row || ex.row,
+                        seat: inc.seat || ex.seat,
+                        guests: inc.guests || ex.guests,
+                        address: inc.address || ex.address,
+                        kosherNote: inc.kosherNote || ex.kosherNote,
+                        bookingRef: inc.bookingRef || ex.bookingRef,
+                        rawText: inc.rawText || ex.rawText
+                    };
+                } else {
+                    existing.push(inc);
+                }
+            });
+            return existing;
+        }
+
+        function saveTripBookings(tripKey, bookings) {
+            const k = tripKey || currentTripKey;
+            if (!k || !Array.isArray(bookings)) return;
+            if (TRIPS_DATABASE[k]) {
+                TRIPS_DATABASE[k].bookings = bookings;
+            }
+            try {
+                localStorage.setItem('travel_assistant_bookings_' + k, JSON.stringify(bookings));
+                const chainRaw = localStorage.getItem('travel_assistant_arrival_chain_' + k);
+                if (chainRaw) {
+                    const chain = JSON.parse(chainRaw);
+                    chain.bookings = bookings;
+                    localStorage.setItem('travel_assistant_arrival_chain_' + k, JSON.stringify(chain));
+                }
+                let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                const idx = custom.findIndex(t => (t.key || t.id) === k);
+                if (idx !== -1) {
+                    custom[idx].bookings = bookings;
+                    localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                }
+            } catch (e) {}
+        }
+
+        function formatBookingCompactSummary(b) {
+            const parts = [b.title];
+            if (b.date) parts.push(b.date);
+            if (b.time) parts.push(b.time + (b.endTime ? '–' + b.endTime : ''));
+            if (b.lineNumber) parts.push(`קו ${b.lineNumber}`);
+            if (b.coach) parts.push(`קרון ${b.coach}`);
+            if (b.row) parts.push(`שורה ${b.row}`);
+            if (b.seat) parts.push(`מושב ${b.seat}`);
+            if (b.guests) parts.push(`${b.guests} סועדים`);
+            return parts.join(' | ');
+        }
+
+        async function applyBookingsToStationsAndMap(trip, bookings) {
+            if (!trip || !Array.isArray(bookings) || bookings.length === 0) return;
+            if (!Array.isArray(trip.stations)) trip.stations = [];
+            const domestic = (typeof isDomesticTrip === 'function' && currentTripKey) ? isDomesticTrip(currentTripKey) : false;
+
+            for (const b of bookings) {
+                const normTitle = String(b.title || '').replace(/[^\w\u0590-\u05FF\s]/g, '').trim().toLowerCase();
+                const keywords = normTitle.split(/\s+/).filter(w => w.length >= 3).slice(0, 3);
+                let matchedStation = trip.stations.find(st => {
+                    const stText = `${st.title || ''} ${st.desc || ''} ${st.address || ''}`.toLowerCase();
+                    return keywords.length > 0 && keywords.some(kw => stText.includes(kw));
+                });
+
+                const extraDetails = [
+                    b.time ? `🕒 שעה: ${b.time}${b.endTime ? ' ➔ ' + b.endTime : ''}` : '',
+                    b.lineNumber ? `🔢 קו/מספר: ${b.lineNumber}` : '',
+                    b.platform ? `🚉 רציף: ${b.platform}` : '',
+                    b.coach ? `🚃 קרון: ${b.coach}` : '',
+                    b.row ? `↕️ שורה: ${b.row}` : '',
+                    b.seat ? `💺 מושב: ${b.seat}` : '',
+                    b.guests ? `👥 ${b.guests} סועדים` : '',
+                    b.bookingRef ? `🔖 הזמנה: ${b.bookingRef}` : ''
+                ].filter(Boolean).join(' | ');
+
+                if (matchedStation) {
+                    if (b.time) matchedStation.stayTime = b.time + (b.endTime ? '–' + b.endTime : '');
+                    if (extraDetails && !(matchedStation.desc || '').includes(extraDetails)) {
+                        matchedStation.desc = `${matchedStation.desc ? matchedStation.desc + ' • ' : ''}[מעודכן מהזמנה] ${extraDetails}`;
+                    }
+                    if (b.address && !matchedStation.address) matchedStation.address = b.address;
+                } else if (b.address || b.title) {
+                    const placeQuery = b.address || b.title;
+                    let coords = (typeof resolveKnownAddressCoords === 'function') ? resolveKnownAddressCoords(placeQuery, false) : null;
+                    if (!coords && b.address && typeof geocodePlaceForDynamicStation === 'function') {
+                        coords = await geocodePlaceForDynamicStation(b.address, domestic);
+                    }
+                    if (!coords && trip.center && trip.center.length === 2) {
+                        coords = { lat: trip.center[0], lng: trip.center[1] };
+                    }
+                    if (coords) {
+                        const iconMap = { restaurant: '🍽️', event: '🎫', transit: '🚆', hotel: '🛏️' };
+                        const icon = iconMap[b.category] || '📍';
+                        trip.stations.push({
+                            id: 'bk_st_' + Date.now() + '_' + trip.stations.length,
+                            title: `${icon} ${b.title}`,
+                            desc: extraDetails || b.rawText || b.subType,
+                            address: b.address || b.title,
+                            lat: coords.lat,
+                            lng: coords.lng,
+                            stayTime: b.time || '',
+                            dayNum: 1,
+                            isHotel: b.category === 'hotel',
+                            type: b.category === 'hotel' ? 'hotel' : 'attraction'
+                        });
+                    }
+                }
+            }
+            STATIONS = trip.stations;
+        }
+
+        function updateSingleBookingDetailsPrompt(index) {
+            const bookings = getTripBookings(currentTripKey);
+            const b = bookings[index];
+            if (!b) return;
+            const nextTime = prompt(`עדכן שעה עבור "${b.title}":`, b.time || '');
+            if (nextTime === null) return;
+            b.time = nextTime.trim();
+            if (b.category === 'transit' || b.category === 'event') {
+                const nextSeat = prompt(`עדכן מושב / שורה עבור "${b.title}":`, b.seat || '');
+                if (nextSeat !== null) b.seat = nextSeat.trim().toUpperCase();
+            } else if (b.category === 'restaurant') {
+                const nextGuests = prompt(`עדכן מספר סועדים עבור "${b.title}":`, b.guests || '');
+                if (nextGuests !== null) b.guests = nextGuests.trim();
+            }
+            saveTripBookings(currentTripKey, bookings);
+            renderStep4BookingsHubCard(currentTripKey);
+            renderAiBookingsCards(currentTripKey);
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
+        }
+
+        function renderStep4BookingsHubCard(tripKey) {
+            const card = document.getElementById('step4-bookings-hub-card');
+            if (!card) return;
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            if (!k || !TRIPS_DATABASE[k]) {
+                card.style.display = 'none';
+                card.innerHTML = '';
+                return;
+            }
+            const bookings = getTripBookings(k);
+            if (!bookings || bookings.length === 0) {
+                card.style.display = 'none';
+                card.innerHTML = '';
+                return;
+            }
+            const catMeta = {
+                restaurant: { label: '🍽️ מסעדות והזמנות שולחן', color: '#ea580c', bg: '#fff7ed', border: '#fdba74' },
+                event: { label: '🎭 הופעות, קולנוע, מוזיאונים ואטרקציות', color: '#7c3aed', bg: '#f5f3ff', border: '#c4b5fd' },
+                transit: { label: '🚆 תחבורה (רכבת, אוטובוס, אוניה)', color: '#0284c7', bg: '#f0f9ff', border: '#7dd3fc' },
+                hotel: { label: '🛏️ לינה ומלונות', color: '#15803d', bg: '#f0fdf4', border: '#86efac' }
+            };
+            card.style.display = 'block';
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                    <span style="font-weight:900; color:#5b21b6; font-size:0.98em;"><i class="fa-solid fa-calendar-check" style="color:#7c3aed;"></i> הזמנות, כרטיסים ועדכונים מסונכרנים (${bookings.length}):</span>
+                    <span style="background:#ede9fe; color:#6d28d9; font-size:0.78em; font-weight:900; padding:2px 8px; border-radius:6px;">מעודכן בזמן אמת מהמסמכים</span>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(235px, 1fr)); gap:8px;">
+                    ${bookings.map((b, idx) => {
+                        const m = catMeta[b.category] || catMeta.event;
+                        return `
+                            <div style="background:white; border:1.5px solid ${m.border}; border-radius:10px; padding:10px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
+                                    <span style="background:${m.bg}; color:${m.color}; font-weight:900; font-size:0.76em; padding:2px 7px; border-radius:6px;">${escapeHtmlFlight(b.subType || m.label)}</span>
+                                    ${b.date ? `<span style="font-size:0.78em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(b.date)}</span>` : ''}
+                                </div>
+                                <div style="font-weight:900; font-size:0.92em; color:#0f172a; margin-bottom:4px;">${escapeHtmlFlight(b.title)}</div>
+                                <div style="font-size:0.82em; color:#334155; line-height:1.45;">
+                                    ${b.time ? `🕒 <b>שעה:</b> ${escapeHtmlFlight(b.time)}${b.endTime ? ' ➔ ' + escapeHtmlFlight(b.endTime) : ''}<br>` : ''}
+                                    ${b.lineNumber ? `🔢 <b>קו/מספר:</b> ${escapeHtmlFlight(b.lineNumber)} ` : ''}
+                                    ${b.platform ? `| 🚉 <b>רציף:</b> ${escapeHtmlFlight(b.platform)} ` : ''}
+                                    ${b.coach ? `| 🚃 <b>קרון:</b> ${escapeHtmlFlight(b.coach)} ` : ''}
+                                    ${b.row ? `↕️ <b>שורה:</b> ${escapeHtmlFlight(b.row)} ` : ''}
+                                    ${b.seat ? `💺 <b>מקום ישיבה:</b> <b style="color:#15803d;">${escapeHtmlFlight(b.seat)}</b> ` : ''}
+                                    ${b.guests ? `👥 <b>סועדים/כרטיסים:</b> ${escapeHtmlFlight(b.guests)} ` : ''}
+                                    ${b.address ? `<br>📍 ${escapeHtmlFlight(b.address)}` : ''}
+                                    ${b.kosherNote ? `<br>🥗 ${escapeHtmlFlight(b.kosherNote)}` : ''}
+                                </div>
+                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-top:6px; padding-top:5px; border-top:1px dashed #e2e8f0;">
+                                    <span style="font-size:0.75em; color:#64748b;">${b.bookingRef ? '🔖 הזמנה: ' + escapeHtmlFlight(b.bookingRef) : ''}</span>
+                                    <button type="button" onclick="updateSingleBookingDetailsPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:2px 7px; font-size:0.75em; font-weight:800; cursor:pointer;">✏️ עדכן</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderAiBookingsCards(tripKey) {
+            const k = tripKey !== undefined ? tripKey : currentTripKey;
+            const transitCard = document.getElementById('ai-card-bookings-transit');
+            const eventsCard = document.getElementById('ai-card-booked-events');
+            const restCard = document.getElementById('ai-card-booked-restaurants');
+            const hotelsCard = document.getElementById('ai-card-booked-hotels');
+            const bookings = k && TRIPS_DATABASE[k] ? getTripBookings(k) : [];
+
+            const byCat = {
+                transit: bookings.filter(b => b.category === 'transit'),
+                event: bookings.filter(b => b.category === 'event'),
+                restaurant: bookings.filter(b => b.category === 'restaurant'),
+                hotel: bookings.filter(b => b.category === 'hotel')
+            };
+
+            if (transitCard) {
+                if (byCat.transit.length === 0) { transitCard.style.display = 'none'; transitCard.innerHTML = ''; }
+                else {
+                    transitCard.style.display = 'block';
+                    transitCard.innerHTML = `<b style="color:#0369a1; font-size:1em;"><i class="fa-solid fa-train-subway"></i> כרטיסי רכבת / אוטובוס / אוניה מסונכרנים</b>
+                        <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px; font-size:0.86em;">
+                            ${byCat.transit.map(b => `<div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:7px 10px;">• <b>${escapeHtmlFlight(b.title)}</b>${b.date ? ` (${escapeHtmlFlight(b.date)})` : ''} — 🕒 <b>${escapeHtmlFlight(b.time || '-')}</b>${b.lineNumber ? ` | קו <b>${escapeHtmlFlight(b.lineNumber)}</b>` : ''}${b.coach ? ` | קרון <b>${escapeHtmlFlight(b.coach)}</b>` : ''}${b.seat ? ` | 💺 מושב <b style="color:#15803d;">${escapeHtmlFlight(b.seat)}</b>` : ''}</div>`).join('')}
+                        </div>`;
+                }
+            }
+            if (eventsCard) {
+                if (byCat.event.length === 0) { eventsCard.style.display = 'none'; eventsCard.innerHTML = ''; }
+                else {
+                    eventsCard.style.display = 'block';
+                    eventsCard.innerHTML = `<b style="color:#6d28d9; font-size:1em;"><i class="fa-solid fa-masks-theater"></i> כרטיסים להופעות, קולנוע ומוזיאונים</b>
+                        <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px; font-size:0.86em;">
+                            ${byCat.event.map(b => `<div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:8px; padding:7px 10px;">• <b>${escapeHtmlFlight(b.title)}</b>${b.date ? ` (${escapeHtmlFlight(b.date)})` : ''} — 🕒 <b>${escapeHtmlFlight(b.time || '-')}</b>${b.row ? ` | שורה <b>${escapeHtmlFlight(b.row)}</b>` : ''}${b.seat ? ` | 💺 מושב <b style="color:#15803d;">${escapeHtmlFlight(b.seat)}</b>` : ''}${b.bookingRef ? ` | 🔖 ${escapeHtmlFlight(b.bookingRef)}` : ''}</div>`).join('')}
+                        </div>`;
+                }
+            }
+            if (restCard) {
+                if (byCat.restaurant.length === 0) { restCard.style.display = 'none'; restCard.innerHTML = ''; }
+                else {
+                    restCard.style.display = 'block';
+                    restCard.innerHTML = `<b style="color:#c2410c; font-size:1em;"><i class="fa-solid fa-utensils"></i> הזמנות מסעדות ושולחנות מסונכרנות</b>
+                        <div style="display:flex; flex-direction:column; gap:6px; margin-top:8px; font-size:0.86em;">
+                            ${byCat.restaurant.map(b => `<div style="background:#fff7ed; border:1px solid #fed7aa; border-radius:8px; padding:7px 10px;">• <b>${escapeHtmlFlight(b.title)}</b>${b.date ? ` (${escapeHtmlFlight(b.date)})` : ''} — 🕒 שעה <b>${escapeHtmlFlight(b.time || '-')}</b>${b.guests ? ` | 👥 <b>${escapeHtmlFlight(b.guests)} סועדים</b>` : ''}${b.bookingRef ? ` | 🔖 ${escapeHtmlFlight(b.bookingRef)}` : ''}</div>`).join('')}
+                        </div>`;
+                }
+            }
+            if (hotelsCard) {
+                if (byCat.hotel.length === 0) { hotelsCard.style.display = 'none'; hotelsCard.innerHTML = ''; }
+                else {
+                    hotelsCard.style.display = 'block';
+                    hotelsCard.innerHTML = `<div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:10px 12px;">
+                        <b style="color:#15803d; font-size:0.95em;">🛏️ הזמנות לינה ומלונות שנקלטו מהמסמכים:</b>
+                        <div style="display:flex; flex-direction:column; gap:5px; margin-top:6px; font-size:0.85em;">
+                            ${byCat.hotel.map(b => `<div>• <b>${escapeHtmlFlight(b.title)}</b>${b.date ? ` (${escapeHtmlFlight(b.date)})` : ''}${b.time ? ` | 🕒 ${escapeHtmlFlight(b.time)}` : ''}${b.address ? ` | 📍 ${escapeHtmlFlight(b.address)}` : ''}${b.bookingRef ? ` | 🔖 ${escapeHtmlFlight(b.bookingRef)}` : ''}</div>`).join('')}
+                        </div>
+                    </div>`;
+                }
+            }
+        }
+
+        function applyBookingsToQuestionnaire(tripKey, flights, bookings) {
+            const transitParts = [];
+            if (Array.isArray(flights) && flights.length > 0) {
+                transitParts.push('טיסות: ' + flights.map(f => `${f.flightNumber}${f.from || f.to ? ` (${f.from || ''}➔${f.to || ''})` : ''} ${f.departureTime || ''}${f.arrivalTime ? '-' + f.arrivalTime : ''}${f.seat ? ` מושב ${f.seat}` : ''}`).join(' • '));
+            }
+            const groundTransit = (bookings || []).filter(b => b.category === 'transit');
+            if (groundTransit.length > 0) {
+                transitParts.push(groundTransit.map(formatBookingCompactSummary).join(' • '));
+            }
+            if (transitParts.length > 0) {
+                const qT = document.getElementById('q_transit');
+                if (qT) {
+                    qT.value = transitParts.join(' | ');
+                    if (typeof onQuestionInput === 'function') onQuestionInput('q_transit');
+                }
+            }
+
+            const actBookings = (bookings || []).filter(b => b.category === 'event' || b.category === 'restaurant');
+            if (actBookings.length > 0) {
+                const qA = document.getElementById('q_activities');
+                if (qA) {
+                    const summary = actBookings.map(formatBookingCompactSummary).join(' • ');
+                    if (!qA.value.includes(summary)) {
+                        qA.value = qA.value ? `${qA.value} | ${summary}` : summary;
+                        if (typeof onQuestionInput === 'function') onQuestionInput('q_activities');
+                    }
+                }
+            }
+
+            const hotelBookings = (bookings || []).filter(b => b.category === 'hotel');
+            if (hotelBookings.length > 0) {
+                const qH = document.getElementById('q_hotels');
+                if (qH) {
+                    const summary = hotelBookings.map(formatBookingCompactSummary).join(' • ');
+                    if (!qH.value.includes(summary)) {
+                        qH.value = qH.value ? `${qH.value} | ${summary}` : summary;
+                        if (typeof onQuestionInput === 'function') onQuestionInput('q_hotels');
+                    }
+                }
+            }
+        }
+
         async function syncAllUploadedDocsToTrip(specificDocId, fromFileUpload = false) {
             if (!currentTripKey || !TRIPS_DATABASE[currentTripKey]) {
                 alert('אין טיול פעיל כעת. לחץ על "תכנון טיול חדש" כדי לפתוח תיק טיול.');
@@ -4730,8 +5550,36 @@
             }
 
             const allUploadedText = docs.map(d => (d.name || '') + '\n' + (d.textContent || '')).join('\n') + '\n' + (pastedText || '');
+            const prioritizedText = ((doc && doc.textContent) ? (doc.name + '\n' + doc.textContent + '\n') : '') + (pastedText || '');
             const existingChain = getTripArrivalChain(currentTripKey);
             const universalDerived = deriveUniversalTimetableFromText(allUploadedText, trip, existingChain);
+
+            // Extract & merge structured flight ticket data (Flight Number, Time, Seat, Gate, PNR)
+            const flightsFromAll = parseFlightTicketsFromText(allUploadedText);
+            const flightsFromNew = prioritizedText ? parseFlightTicketsFromText(prioritizedText) : [];
+            const existingFlights = getTripFlightTickets(currentTripKey);
+            let mergedFlights = mergeFlightTickets(existingFlights, flightsFromAll);
+            if (flightsFromNew.length > 0) {
+                mergedFlights = mergeFlightTickets(mergedFlights, flightsFromNew);
+            }
+            if (mergedFlights.length > 0) {
+                saveTripFlightTickets(currentTripKey, mergedFlights);
+            }
+            const flightsSummaryText = mergedFlights.length > 0
+                ? mergedFlights.map(f => `${f.flightNumber}${f.from || f.to ? ` (${f.from || ''}➔${f.to || ''})` : ''} ${f.departureTime || ''}${f.arrivalTime ? '-' + f.arrivalTime : ''}${f.seat ? ` | מושב ${f.seat}` : ''}`).join(' • ')
+                : '';
+
+            // Universal Booking & Update Extraction (Restaurants, Concerts, Cinema, Museums, Trains, Buses, Ships, Hotels)
+            const bookingsFromAll = parseUniversalBookingsFromText(allUploadedText);
+            const bookingsFromNew = prioritizedText ? parseUniversalBookingsFromText(prioritizedText) : [];
+            const existingBookings = getTripBookings(currentTripKey);
+            let mergedBookings = mergeUniversalBookings(existingBookings, bookingsFromAll);
+            if (bookingsFromNew.length > 0) {
+                mergedBookings = mergeUniversalBookings(mergedBookings, bookingsFromNew);
+            }
+            if (mergedBookings.length > 0) {
+                saveTripBookings(currentTripKey, mergedBookings);
+            }
 
             if (isKoreaContext && trip) {
                 trip.dates = universalDerived.extractedDates || '22/11/2026 - 06/12/2026 (15 ימים)';
@@ -4765,9 +5613,12 @@
                         : `11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)`,
                     meetingLat: 32.0055,
                     meetingLng: 34.8854,
-                    connectionOutbound: universalDerived.connectionOutbound || `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`,
+                    connectionOutbound: (flightsFromNew.length > 0 && flightsSummaryText)
+                        ? `✈️ ${flightsSummaryText}`
+                        : (universalDerived.connectionOutbound || `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`),
                     connectionReturn: universalDerived.connectionReturn || `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
                     domesticFlightsSummary: `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ➔ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ➔ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`,
+                    flightTickets: mergedFlights,
                     trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול`,
                     trailheadTime: (universalDerived.landingOrStartTime && !String(universalDerived.landingOrStartTime).includes('07:30') && !String(universalDerived.landingOrStartTime).includes('11:50'))
                         ? `${universalDerived.landingOrStartTime} (נחיתה בסיאול ותחילת המסלול)`
@@ -4787,15 +5638,38 @@
                         custom[idx].departureDate = trip.departureDate;
                         custom[idx].docsSynced = true;
                         custom[idx].stations = trip.stations;
+                        custom[idx].flightTickets = mergedFlights;
                         localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
                     }
                 } catch(e) {}
 
+                if (mergedBookings.length > 0) {
+                    await applyBookingsToStationsAndMap(trip, mergedBookings);
+                    try {
+                        let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
+                        const idx = custom.findIndex(t => (t.key || t.id) === currentTripKey);
+                        if (idx !== -1) {
+                            custom[idx].stations = trip.stations;
+                            custom[idx].bookings = mergedBookings;
+                            localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
+                        }
+                    } catch(e) {}
+                }
                 if (document.getElementById('step1-dates')) document.getElementById('step1-dates').value = trip.dates;
                 syncArrivalChainUI(currentTripKey);
-                loadRecommendedDefaults();
+                const existingQRaw = localStorage.getItem('travel_assistant_trip_' + currentTripKey + '_questionnaire');
+                if (!existingQRaw) {
+                    loadRecommendedDefaults();
+                } else {
+                    loadTripQuestionnaire(currentTripKey);
+                }
+                applyBookingsToQuestionnaire(currentTripKey, mergedFlights, mergedBookings);
                 saveTripQuestionnaire(true);
                 switchTripDocument(currentTripKey);
+                renderStep4FlightTicketsCard(currentTripKey);
+                renderStep4BookingsHubCard(currentTripKey);
+                renderAiFlightsCard(currentTripKey);
+                renderAiBookingsCards(currentTripKey);
                 if (typeof renderMapDaySelector === 'function') renderMapDaySelector();
                 renderStationQuickSelectors();
                 renderStationsList();
@@ -4883,6 +5757,14 @@
                     if (universalDerived.landingOrStartTime && !existingChain.trailheadTime) {
                         existingChain.trailheadTime = `${universalDerived.landingOrStartTime} (נחיתה / תחילת מסלול)`;
                     }
+                    if (mergedFlights.length > 0) {
+                        existingChain.flightTickets = mergedFlights;
+                        existingChain.connectionOutbound = `✈️ ${flightsSummaryText}`;
+                    }
+                    if (mergedBookings.length > 0) {
+                        existingChain.bookings = mergedBookings;
+                        await applyBookingsToStationsAndMap(trip, mergedBookings);
+                    }
                     try {
                         localStorage.setItem('travel_assistant_arrival_chain_' + currentTripKey, JSON.stringify(existingChain));
                         let custom = JSON.parse(localStorage.getItem('travel_assistant_custom_trips') || '[]');
@@ -4892,6 +5774,8 @@
                             custom[idx].docsSynced = true;
                             custom[idx].stations = trip.stations;
                             custom[idx].center = trip.center;
+                            if (mergedFlights.length > 0) custom[idx].flightTickets = mergedFlights;
+                            if (mergedBookings.length > 0) custom[idx].bookings = mergedBookings;
                             localStorage.setItem('travel_assistant_custom_trips', JSON.stringify(custom));
                         }
                     } catch(e) {}
@@ -4901,7 +5785,15 @@
                     }
                     syncArrivalChainUI(currentTripKey);
                     loadTripQuestionnaire(currentTripKey);
+                    if (mergedFlights.length > 0 || mergedBookings.length > 0) {
+                        applyBookingsToQuestionnaire(currentTripKey, mergedFlights, mergedBookings);
+                        saveTripQuestionnaire(true);
+                    }
                     switchTripDocument(currentTripKey);
+                    renderStep4FlightTicketsCard(currentTripKey);
+                    renderStep4BookingsHubCard(currentTripKey);
+                    renderAiFlightsCard(currentTripKey);
+                    renderAiBookingsCards(currentTripKey);
                     if (typeof renderMapDaySelector === 'function') renderMapDaySelector();
                     renderStationQuickSelectors();
                     renderStationsList();
@@ -4928,7 +5820,13 @@
             if (ind) {
                 const activeFolderLabel = (typeof getActiveDiaryDriveFolderName === 'function') ? getActiveDiaryDriveFolderName() : (trip?.name || 'הטיול הפעיל');
                 ind.style.display = 'block';
-                ind.innerText = `✅ ${docs.length} מסמכים בתיק "${activeFolderLabel}" עובדו וסונכרנו ל-Google Drive!`;
+                const flightStatusNote = mergedFlights.length > 0
+                    ? ` | ✈️ ${mergedFlights.length} טיסות (${mergedFlights.map(f => `${f.flightNumber}${f.departureTime ? ' ' + f.departureTime : ''}${f.seat ? ' מושב ' + f.seat : ''}`).join(', ')})`
+                    : '';
+                const bookingsStatusNote = mergedBookings.length > 0
+                    ? ` | 🎫 ${mergedBookings.length} הזמנות/עדכונים (${mergedBookings.map(b => `${b.title}${b.time ? ' ' + b.time : ''}${b.seat ? ' מושב ' + b.seat : ''}`).slice(0, 3).join(', ')})`
+                    : '';
+                ind.innerText = `✅ ${docs.length} מסמכים בתיק "${activeFolderLabel}" עובדו וסונכרנו${flightStatusNote}${bookingsStatusNote}!`;
             }
         }
 
@@ -4970,6 +5868,37 @@
                     bodyEl.innerHTML = `<div style="padding:10px;">${doc.textContent || doc.name}</div>`;
                 }
                 if (copyBtn) copyBtn.style.display = 'none';
+            } else if (doc.id !== 'doc_korea_flights' && (doc.name.includes('טיס') || doc.docType?.includes('כרטיס')) && (doc.textContent || (doc.data && String(doc.data).startsWith('data:image/')))) {
+                const docFlights = doc.textContent ? parseFlightTicketsFromText(doc.textContent) : [];
+                const parsedCardsHtml = docFlights.length > 0 ? `
+                    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+                        <div style="font-weight:900; color:#1e40af; font-size:0.95em;"><i class="fa-solid fa-ticket"></i> נתונים שפוענחו מהכרטיס:</div>
+                        ${docFlights.map(t => `
+                            <div style="background:#eff6ff; border:1.5px solid #93c5fd; border-radius:10px; padding:10px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:4px;">
+                                    <b style="color:#1d4ed8; font-size:1em;" dir="ltr">✈️ ${escapeHtmlFlight(t.flightNumber)}</b>
+                                    ${t.date ? `<span style="font-size:0.82em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(t.date)}</span>` : ''}
+                                </div>
+                                <div style="font-size:0.88em; color:#1e293b; line-height:1.5;">
+                                    ${(t.from || t.to) ? `📍 <b>מסלול:</b> ${escapeHtmlFlight(t.from || 'מוצא')} ➔ ${escapeHtmlFlight(t.to || 'יעד')}<br>` : ''}
+                                    🕒 <b>שעה:</b> ${escapeHtmlFlight(t.departureTime || 'לא צוין')}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}<br>
+                                    💺 <b>מקום ישיבה:</b> <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
+                                    ${t.terminal ? ` | 🏢 טרמינל ${escapeHtmlFlight(t.terminal)}` : ''}
+                                    ${t.gate ? ` | 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
+                                    ${t.bookingRef ? `<br>🔖 <b>קוד הזמנה:</b> ${escapeHtmlFlight(t.bookingRef)}` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : '';
+                const imgHtml = (doc.data && String(doc.data).startsWith('data:image/'))
+                    ? `<img src="${doc.data}" alt="${escapeHtmlFlight(doc.name)}" style="max-width:100%; border-radius:10px; border:1px solid #cbd5e1; margin-bottom:10px;">`
+                    : '';
+                const rawTextHtml = doc.textContent
+                    ? `<pre style="white-space:pre-wrap; word-break:break-word; background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:12px; font-family:Heebo,sans-serif; font-size:0.88em; color:#0f172a; margin:0;">${escapeHtmlFlight(doc.textContent)}</pre>`
+                    : '';
+                bodyEl.innerHTML = parsedCardsHtml + imgHtml + rawTextHtml;
+                if (copyBtn) copyBtn.style.display = doc.textContent ? 'inline-block' : 'none';
             } else if (doc.id === 'doc_korea_flights' || doc.name.includes('טיס') || doc.docType?.includes('כרטיס')) {
                 bodyEl.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:12px;">
@@ -5392,6 +6321,12 @@
             if (foreignHotels) foreignHotels.style.display = isDomestic ? 'none' : 'block';
             if (domesticHotels) domesticHotels.style.display = isDomestic ? 'block' : 'none';
 
+            if (!isDomestic && typeof renderAiFlightsCard === 'function') {
+                renderAiFlightsCard(k);
+            }
+            if (typeof renderAiBookingsCards === 'function') {
+                renderAiBookingsCards(k);
+            }
             if (isDomestic) {
                 renderDomesticTransitItems(k);
                 renderDomesticHotelItems(k);
@@ -8338,6 +9273,26 @@
 
         const DEFAULT_RESOLVED_FEEDBACK = [
             {
+                id: 'fb_1794680000002',
+                category: 'נתונים וסנכרון',
+                note: 'מנוע אוניברסלי לסנכרון כל עדכון ונתון (מסעדות, הופעות, קולנוע, מוזיאון, רכבת, אוטובוס, אוניה ומלונות) בכל המקומות הרלוונטיים',
+                time: '14.11 19:45',
+                gps: '31.78921, 34.64168',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.3: הוטמע מנוע חילוץ והפצה אוניברסלי (Universal Booking & Update Propagation Engine). כל מסמך או עדכון שמועלה/מודבק בשלב 2 (טיסה, רכבת, אוטובוס, אוניה, מסעדה + שעה + סועדים, הופעה/קולנוע/מוזיאון + שורה + מושב, ומלון) מפוענח אוטומטית ומסונכרן בו-זמנית בשלב 3 (השאלון), שלב 4 (#step4-bookings-hub-card), המפה בזמן אמת (עדכון שעות/תחנות והוספת יעדים חדשים), מסך סייען AI (תחבורה, מסעדות, אירועים ומלונות), מודאל הצפייה במסמכים ובענן.'
+            },
+            {
+                id: 'fb_1794678500001',
+                category: 'נתונים וסנכרון',
+                note: 'הנתונים שאני שולח לא מתעדכנים במקומות הרלוונטיים (למשל כרטיסי הטיסה אמורים להיות במקומות של מספר טיסה, שעה ומקום ישיבה)',
+                time: '14.11 19:30',
+                gps: '31.78921, 34.64168',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.3: הוטמע מנוע פענוח כרטיסי טיסה (parseFlightTicketsFromText) המחלץ מספר טיסה, שעת המראה ונחיתה, מקום ישיבה (Seat/מושב), מסלול, טרמינל, שער וקוד הזמנה, ומעדכן אוטומטית את שלב 3 (q_transit ללא דריסת ברירת מחדל), שלב 4 (#step4-flight-tickets-card), שרשרת ההגעה, כרטיס הטיסות בסייען AI, ומודאל הצפייה במסמך (במקום HTML קשיח). כמו כן תוקן שימור מעברי שורה בקובצי DOCX.'
+            },
+            {
                 id: 'fb_1794487823162',
                 category: 'ניווט ומסלול',
                 note: 'יש משהו לא הגיוני, אני מעדכן את כל הנתונים ואז המערכת מעדכנת בדיעבד אחרי שמסתיים הטיול. אני לא נהנה מיתרונות המערכת ולא יכול להעזר בה. צריך פיתרון יצירתי.',
@@ -8769,19 +9724,24 @@
                 }
                 parsed = parsed.filter(item => item && !deletedIds.has(item.id));
                 const byId = new Map(parsed.map(x => [x.id, x]));
+                const toPrepend = [];
                 DEFAULT_RESOLVED_FEEDBACK.forEach(defItem => {
                     if (deletedIds.has(defItem.id)) return;
                     if (!byId.has(defItem.id)) {
-                        parsed.push(defItem);
+                        toPrepend.push(defItem);
                         byId.set(defItem.id, defItem);
                     } else {
                         const existing = byId.get(defItem.id);
-                        if (defItem.status === 'fixed' && existing.status !== 'fixed') {
+                        if (defItem.status === 'fixed') {
                             existing.status = 'fixed';
                             existing.fixSummary = defItem.fixSummary;
                         }
                     }
                 });
+                if (toPrepend.length > 0) {
+                    parsed = [...toPrepend, ...parsed];
+                    localStorage.setItem('travel_assistant_feedback', JSON.stringify(parsed));
+                }
                 return parsed;
             } catch(e) {
                 return DEFAULT_RESOLVED_FEEDBACK.filter(item => !deletedIds.has(item.id));
@@ -10310,6 +11270,8 @@
 
             applyMeetingToggleUI(chain.hasMeetingPoint);
             renderStep4ArrivalChainCard(chain);
+            if (typeof renderStep4FlightTicketsCard === 'function') renderStep4FlightTicketsCard(k);
+            if (typeof renderStep4BookingsHubCard === 'function') renderStep4BookingsHubCard(k);
         }
 
         function renderStep4ArrivalChainCard(chainObj) {
