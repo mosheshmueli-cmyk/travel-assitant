@@ -4981,7 +4981,10 @@
             card.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
                     <span style="font-weight:900; color:#1e40af; font-size:0.98em;"><i class="fa-solid fa-ticket" style="color:#2563eb;"></i> כרטיסי טיסה מעודכנים מהמסמכים (מספר טיסה, שעה ומקום ישיבה):</span>
-                    <span style="background:#dbeafe; color:#1d4ed8; font-size:0.78em; font-weight:900; padding:2px 8px; border-radius:6px;">${tickets.length} טיסות מסונכרנות</span>
+                    <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                        <button type="button" onclick="openFlightSeatMapModal(0)" style="background:#0f766e; color:white; border:none; border-radius:7px; padding:4px 10px; font-size:0.78em; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">💺 תרשים ישיבה במטוס</button>
+                        <span style="background:#dbeafe; color:#1d4ed8; font-size:0.78em; font-weight:900; padding:2px 8px; border-radius:6px;">${tickets.length} טיסות מסונכרנות</span>
+                    </div>
                 </div>
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:8px;">
                     ${tickets.map((t, idx) => `
@@ -5000,7 +5003,10 @@
                                 <span style="font-size:0.85em; font-weight:900; color:${t.seat ? '#15803d' : '#b45309'}; background:${t.seat ? '#dcfce7' : '#fef3c7'}; padding:2px 8px; border-radius:6px;">
                                     💺 מקום ישיבה: ${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}
                                 </span>
-                                <button type="button" onclick="updateSingleFlightSeatPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:800; cursor:pointer;">✏️ עדכן מושב</button>
+                                <div style="display:flex; gap:4px; align-items:center;">
+                                    <button type="button" onclick="openFlightSeatMapModal(${idx})" style="background:#ccfbf1; border:1px solid #5eead4; color:#0f766e; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:900; cursor:pointer;">💺 תרשים</button>
+                                    <button type="button" onclick="updateSingleFlightSeatPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:800; cursor:pointer;">✏️ עדכן מושב</button>
+                                </div>
                             </div>
                             ${(t.bookingRef || t.baggage) ? `<div style="font-size:0.75em; color:#64748b; margin-top:4px;">${t.bookingRef ? '🔖 הזמנה: ' + escapeHtmlFlight(t.bookingRef) : ''} ${t.baggage ? '🧳 ' + escapeHtmlFlight(t.baggage) : ''}</div>` : ''}
                         </div>
@@ -5020,23 +5026,230 @@
             card.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 4px;">
                     <b style="color: #1e40af; font-size: 1.05em;"><i class="fa-solid fa-plane-departure"></i> כרטיסי טיסה מסונכרנים${airlineTitle}</b>
-                    <button onclick="switchScreen('screen-alerts'); switchBaltamScenario('flight_delay');" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8em; cursor: pointer;">
-                        <i class="fa-solid fa-satellite-dish"></i> בדיקת מכ"ם עיכובים
-                    </button>
+                    <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                        <button onclick="openFlightSeatMapModal(0)" style="background: #0f766e; color: white; border: none; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8em; cursor: pointer;">
+                            💺 תרשים ישיבה
+                        </button>
+                        <button onclick="switchScreen('screen-alerts'); switchBaltamScenario('flight_delay');" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8em; cursor: pointer;">
+                            <i class="fa-solid fa-satellite-dish"></i> בדיקת מכ"ם עיכובים
+                        </button>
+                    </div>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.88em; color: #334155; line-height: 1.5;">
-                    ${tickets.map(t => `
-                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 10px;">
-                            • <b style="color:#1d4ed8;" dir="ltr">${escapeHtmlFlight(t.flightNumber)}</b>
-                            ${t.date ? `(${escapeHtmlFlight(t.date)})` : ''}:
-                            ${(t.from || t.to) ? `<b>${escapeHtmlFlight(t.from || '')} ➔ ${escapeHtmlFlight(t.to || '')}</b> |` : ''}
-                            🕒 שעה: <b>${escapeHtmlFlight(t.departureTime || '-')}</b>${t.arrivalTime ? ' ➔ <b>' + escapeHtmlFlight(t.arrivalTime) + '</b>' : ''}
-                            | 💺 מושב: <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
-                            ${t.gate ? `| 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
+                    ${tickets.map((t, idx) => `
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:7px 10px; display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                            <div>
+                                • <b style="color:#1d4ed8;" dir="ltr">${escapeHtmlFlight(t.flightNumber)}</b>
+                                ${t.date ? `(${escapeHtmlFlight(t.date)})` : ''}:
+                                ${(t.from || t.to) ? `<b>${escapeHtmlFlight(t.from || '')} ➔ ${escapeHtmlFlight(t.to || '')}</b> |` : ''}
+                                🕒 שעה: <b>${escapeHtmlFlight(t.departureTime || '-')}</b>${t.arrivalTime ? ' ➔ <b>' + escapeHtmlFlight(t.arrivalTime) + '</b>' : ''}
+                                | 💺 מושב: <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
+                                ${t.gate ? `| 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
+                            </div>
+                            <button onclick="openFlightSeatMapModal(${idx})" style="background:#ccfbf1; color:#0f766e; border:1px solid #5eead4; border-radius:6px; padding:2px 8px; font-size:0.8em; font-weight:900; cursor:pointer; white-space:nowrap;">💺 תרשים</button>
                         </div>
                     `).join('')}
                 </div>
             `;
+        }
+
+        // ================= INTERACTIVE AIRPLANE SEAT MAP MODAL =================
+        let activeSeatMapFlightIdx = 0;
+        let activeSeatMapLayout = 'auto';
+
+        function parseSeatCodes(seatStr) {
+            if (!seatStr) return [];
+            const matches = String(seatStr).toUpperCase().match(/\b([1-9]\d?)([A-K])\b/g);
+            return matches ? Array.from(new Set(matches)) : [];
+        }
+
+        function detectCabinLayoutForTicket(ticket, parsedSeats) {
+            if (activeSeatMapLayout !== 'auto') return activeSeatMapLayout;
+            const seatLetters = parsedSeats.map(s => s.slice(-1));
+            if (seatLetters.some(l => l === 'G' || l === 'H' || l === 'J' || l === 'K')) {
+                return '3-3-3';
+            }
+            const routeStr = `${ticket.flightNumber || ''} ${ticket.from || ''} ${ticket.to || ''}`.toUpperCase();
+            if (/KE15|PUS|CJU|GMP|B737|A320|A321|DOMESTIC/.test(routeStr) && !/TLV|ICN|JFK|LAX|LHR|CDG|FCO|ADD/.test(routeStr)) {
+                return '3-3';
+            }
+            if (/TLV|ICN|KE95|ET40|B777|B787|A350|A380|B747/.test(routeStr)) {
+                return '3-3-3';
+            }
+            return '3-3-3';
+        }
+
+        function getSeatPositionLabel(letter, layout) {
+            const groups = layout === '3-4-3'
+                ? [['A','B','C'], ['D','E','F','G'], ['H','J','K']]
+                : (layout === '3-3'
+                    ? [['A','B','C'], ['D','E','F']]
+                    : [['A','B','C'], ['D','E','F'], ['H','J','K']]);
+            const flat = groups.flat();
+            if (letter === flat[0] || letter === flat[flat.length - 1]) return '🪟 חלון';
+            for (const g of groups) {
+                if (g.includes(letter)) {
+                    if (g[0] === letter || g[g.length - 1] === letter) return '🚶 מעבר';
+                    return '💺 אמצע';
+                }
+            }
+            return '💺 מושב';
+        }
+
+        function openFlightSeatMapModal(flightIdx = 0) {
+            const modal = document.getElementById('flight-seat-map-modal');
+            if (!modal) return;
+            const tickets = getTripFlightTickets(currentTripKey);
+            if (!tickets || tickets.length === 0) {
+                alert('אין כרטיסי טיסה שמורים לטיול זה. העלה או הדבק כרטיס טיסה בשלב 2 כדי להציג תרשים ישיבה.');
+                return;
+            }
+            activeSeatMapFlightIdx = Math.max(0, Math.min(flightIdx || 0, tickets.length - 1));
+            activeSeatMapLayout = 'auto';
+            modal.style.display = 'block';
+            renderFlightSeatMapBody();
+        }
+
+        function closeFlightSeatMapModal() {
+            const modal = document.getElementById('flight-seat-map-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function selectSeatMapFlight(idx) {
+            activeSeatMapFlightIdx = idx;
+            activeSeatMapLayout = 'auto';
+            renderFlightSeatMapBody();
+        }
+
+        function setSeatMapLayout(layout) {
+            activeSeatMapLayout = layout;
+            renderFlightSeatMapBody();
+        }
+
+        function selectSeatOnMap(seatCode) {
+            const tickets = getTripFlightTickets(currentTripKey);
+            const t = tickets[activeSeatMapFlightIdx];
+            if (!t) return;
+            const currentSeats = parseSeatCodes(t.seat);
+            let nextSeatVal = seatCode;
+            if (currentSeats.length > 0 && !currentSeats.includes(seatCode)) {
+                const keepExisting = confirm(`מושב ${seatCode} נבחר.\nהאם להחליף את המושב הקיים (${t.seat}) ב-${seatCode}?\n(אישור = החלף, ביטול = הוסף לצד המושב הקיים)`);
+                nextSeatVal = keepExisting ? seatCode : `${t.seat}, ${seatCode}`;
+            } else if (currentSeats.includes(seatCode)) {
+                return;
+            }
+            t.seat = nextSeatVal;
+            saveTripFlightTickets(currentTripKey, tickets);
+            renderStep4FlightTicketsCard(currentTripKey);
+            renderAiFlightsCard(currentTripKey);
+            renderFlightSeatMapBody();
+            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
+        }
+
+        function renderFlightSeatMapBody() {
+            const container = document.getElementById('flight-seat-map-body');
+            if (!container) return;
+            const tickets = getTripFlightTickets(currentTripKey);
+            if (!tickets || tickets.length === 0) return;
+            const t = tickets[activeSeatMapFlightIdx] || tickets[0];
+            const parsedSeats = parseSeatCodes(t.seat);
+            const layout = detectCabinLayoutForTicket(t, parsedSeats);
+            const hasGSeat = parsedSeats.some(s => s.endsWith('G'));
+            const groups = layout === '3-4-3'
+                ? [['A','B','C'], ['D','E','F','G'], ['H','J','K']]
+                : (layout === '3-3'
+                    ? [['A','B','C'], ['D','E','F']]
+                    : (hasGSeat ? [['A','B','C'], ['D','E','G'], ['H','J','K']] : [['A','B','C'], ['D','E','F'], ['H','J','K']]));
+
+            const maxSeatRow = parsedSeats.reduce((m, s) => Math.max(m, parseInt(s.slice(0, -1), 10) || 0), 0);
+            const totalRows = Math.max(layout === '3-3' ? 32 : 42, maxSeatRow + 5);
+            const exitRows = layout === '3-3' ? new Set([1, 13, 14]) : new Set([1, 15, 29]);
+            const wingStart = layout === '3-3' ? 10 : 14;
+            const wingEnd = layout === '3-3' ? 20 : 30;
+
+            const tabsHtml = tickets.length > 1 ? `
+                <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:10px;">
+                    ${tickets.map((ft, idx) => `
+                        <button type="button" onclick="selectSeatMapFlight(${idx})" style="padding:6px 11px; border-radius:9px; border:1.5px solid ${idx === activeSeatMapFlightIdx ? '#0f766e' : '#cbd5e1'}; background:${idx === activeSeatMapFlightIdx ? '#0f766e' : '#f8fafc'}; color:${idx === activeSeatMapFlightIdx ? 'white' : '#334155'}; font-weight:900; font-size:0.82em; cursor:pointer; white-space:nowrap;">
+                            ✈️ ${escapeHtmlFlight(ft.flightNumber)} ${ft.seat ? '· 💺 ' + escapeHtmlFlight(ft.seat) : ''}
+                        </button>
+                    `).join('')}
+                </div>
+            ` : '';
+
+            const seatDetailsHtml = parsedSeats.length > 0
+                ? parsedSeats.map(sc => {
+                    const rowNum = parseInt(sc.slice(0, -1), 10);
+                    const letter = sc.slice(-1);
+                    const zone = rowNum <= 10 ? 'קדמת המטוס' : (rowNum <= wingEnd ? 'אזור הכנף (יציב יותר)' : 'חלק אחורי');
+                    return `<span style="background:#dcfce7; color:#15803d; border:1.5px solid #4ade80; padding:3px 9px; border-radius:8px; font-weight:900; font-size:0.86em;">💺 ${sc} · ${getSeatPositionLabel(letter, layout)} · ${zone}</span>`;
+                }).join(' ')
+                : `<span style="background:#fef3c7; color:#b45309; border:1px solid #fcd34d; padding:3px 9px; border-radius:8px; font-weight:900; font-size:0.84em;">לא צוין מושב בכרטיס — לחץ על מושב בתרשים לבחירה</span>`;
+
+            let rowsHtml = '';
+            for (let r = 1; r <= totalRows; r++) {
+                const isExit = exitRows.has(r);
+                const isWing = (r >= wingStart && r <= wingEnd);
+                const rowHasUserSeat = parsedSeats.some(s => parseInt(s.slice(0, -1), 10) === r);
+                rowsHtml += `
+                    ${isExit && r > 1 ? `<div style="text-align:center; font-size:0.72em; font-weight:900; color:#b45309; background:#fef3c7; border-radius:6px; padding:2px 6px; margin:4px 0;">🚪 יציאת חירום / מרווח רגליים מוגדל (שורה ${r})</div>` : ''}
+                    <div id="seat-map-row-${r}" style="display:flex; align-items:center; justify-content:center; gap:6px; padding:3px 6px; border-radius:8px; background:${rowHasUserSeat ? '#ecfdf5' : (isWing ? 'rgba(226,232,240,0.45)' : 'transparent')}; border:${rowHasUserSeat ? '1.5px solid #22c55e' : '1px solid transparent'};">
+                        <span style="width:18px; font-size:0.7em; color:#64748b; text-align:center; font-weight:800;">${isWing ? '🪽' : ''}</span>
+                        <div style="display:flex; align-items:center; gap:8px;" dir="ltr">
+                            ${groups.map((grp, gIdx) => `
+                                <div style="display:flex; gap:3px;">
+                                    ${grp.map(letter => {
+                                        const code = `${r}${letter}`;
+                                        const isMine = parsedSeats.includes(code);
+                                        return `<button type="button" onclick="selectSeatOnMap('${code}')" title="מושב ${code} (${getSeatPositionLabel(letter, layout)})" style="width:${layout === '3-4-3' ? '26px' : '30px'}; height:28px; border-radius:6px; border:1.5px solid ${isMine ? '#15803d' : '#cbd5e1'}; background:${isMine ? '#16a34a' : '#ffffff'}; color:${isMine ? '#ffffff' : '#334155'}; font-weight:${isMine ? '900' : '700'}; font-size:${layout === '3-4-3' ? '0.7em' : '0.74em'}; cursor:pointer; box-shadow:${isMine ? '0 0 0 3px rgba(34,197,94,0.35)' : 'none'}; display:flex; align-items:center; justify-content:center;">${isMine ? code : letter}</button>`;
+                                    }).join('')}
+                                </div>
+                                ${gIdx < groups.length - 1 ? `<span style="width:16px; text-align:center; font-size:0.72em; font-weight:900; color:${rowHasUserSeat ? '#15803d' : '#94a3b8'};">${r}</span>` : ''}
+                            `).join('')}
+                        </div>
+                        <span style="width:18px; font-size:0.7em; color:#64748b; text-align:center; font-weight:800;">${isWing ? '🪽' : ''}</span>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                ${tabsHtml}
+                <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:12px; padding:10px 12px; margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:6px;">
+                        <div style="font-weight:900; font-size:1em; color:#0f172a;">
+                            <span dir="ltr" style="background:#1d4ed8; color:white; padding:2px 8px; border-radius:6px; margin-left:6px;">✈️ ${escapeHtmlFlight(t.flightNumber)}</span>
+                            ${(t.from || t.to) ? `${escapeHtmlFlight(t.from || '')} ➔ ${escapeHtmlFlight(t.to || '')}` : ''}
+                        </div>
+                        <div style="font-size:0.82em; color:#475569; font-weight:800;">
+                            ${t.date ? '📅 ' + escapeHtmlFlight(t.date) + ' | ' : ''}🕒 ${escapeHtmlFlight(t.departureTime || '-')}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">${seatDetailsHtml}</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                    <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                        <button type="button" onclick="setSeatMapLayout('3-3-3')" style="padding:4px 9px; border-radius:7px; border:1px solid ${layout === '3-3-3' ? '#0f766e' : '#cbd5e1'}; background:${layout === '3-3-3' ? '#ccfbf1' : '#f8fafc'}; color:#0f172a; font-size:0.78em; font-weight:900; cursor:pointer;">3-3-3 (רחב-גוף)</button>
+                        <button type="button" onclick="setSeatMapLayout('3-4-3')" style="padding:4px 9px; border-radius:7px; border:1px solid ${layout === '3-4-3' ? '#0f766e' : '#cbd5e1'}; background:${layout === '3-4-3' ? '#ccfbf1' : '#f8fafc'}; color:#0f172a; font-size:0.78em; font-weight:900; cursor:pointer;">3-4-3 (ג'מבו/777)</button>
+                        <button type="button" onclick="setSeatMapLayout('3-3')" style="padding:4px 9px; border-radius:7px; border:1px solid ${layout === '3-3' ? '#0f766e' : '#cbd5e1'}; background:${layout === '3-3' ? '#ccfbf1' : '#f8fafc'}; color:#0f172a; font-size:0.78em; font-weight:900; cursor:pointer;">3-3 (טיסת פנים/צר)</button>
+                    </div>
+                    <span style="font-size:0.76em; color:#64748b; font-weight:700;">🟩 המושב שלך | 🪽 כנף | 🚪 יציאה | לחץ לבחירה</span>
+                </div>
+                <div id="seat-map-cabin-scroll" style="max-height:380px; overflow-y:auto; background:#f1f5f9; border:2px solid #cbd5e1; border-radius:28px 28px 16px 16px; padding:12px 6px;">
+                    <div style="text-align:center; font-size:0.8em; font-weight:900; color:#1e40af; padding-bottom:8px; border-bottom:1px dashed #94a3b8; margin-bottom:6px;">✈️ חרטום / קדמת המטוס (שורה 1)</div>
+                    ${rowsHtml}
+                    <div style="text-align:center; font-size:0.78em; font-weight:800; color:#64748b; padding-top:8px; border-top:1px dashed #94a3b8; margin-top:6px;">זנב המטוס</div>
+                </div>
+            `;
+
+            if (parsedSeats.length > 0) {
+                const firstRow = parseInt(parsedSeats[0].slice(0, -1), 10);
+                setTimeout(() => {
+                    const rowEl = document.getElementById('seat-map-row-' + firstRow);
+                    if (rowEl && typeof rowEl.scrollIntoView === 'function') {
+                        rowEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                    }
+                }, 60);
+            }
         }
 
         // ================= UNIVERSAL BOOKING & UPDATE PROPAGATION ENGINE =================
@@ -9284,6 +9497,26 @@
 
         const DEFAULT_RESOLVED_FEEDBACK = [
             {
+                id: 'fb_1794680342493',
+                category: 'ניווט ומסלול',
+                note: 'אפשר תרשים ישיבה במטוס בהתייחס לכרטיסים?',
+                time: '14.11 20:19',
+                gps: 'קוריאה',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.3: הוטמע מודאל תרשים ישיבה אינטראקטיבי במטוס (openFlightSeatMapModal) הנגיש מכל כרטיס טיסה בשלב 4 ובמסך סייען AI. התרשים מדגיש אוטומטית את המושבים מתוך הכרטיסים, מזהה חלון/מעבר/אמצע, מסמן יציאות חירום ואזורי כנף, תומך בתצורות 3-3-3, 3-4-3 ו-3-3, ומאפשר בחירה/עדכון מושב בלחיצה עם סנכרון אוטומטי.'
+            },
+            {
+                id: 'fb_1794677183727',
+                category: 'ניווט ומסלול',
+                note: 'סנכרן עכשיו. הכרטיסים לא עודכנו יש כאן פער בין הנתונים שאני מעביר לבין העדכונים.',
+                time: '14.11 19:26',
+                gps: 'קוריאה',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.3.3: תוקן שורשית הפער בסנכרון הענן – מערכי כרטיסי הטיסה (travel_assistant_flights_*) וההזמנות האוניברסליות (travel_assistant_bookings_*) נוספו במלואם אל buildLocalTripsCloudPayload ו-pullTripsStateFromCloud, נוסף פענוח והשלמה אוטומטית ממסמכי הענן בעת סנכרון, וכפתור "🔄 סנכרן עכשיו" מסנכרן כעת גם את מצב הטיול והכרטיסים ומרענן מיידית את שלב 4 וסייען AI.'
+            },
+            {
                 id: 'fb_1794680000002',
                 category: 'נתונים וסנכרון',
                 note: 'מנוע אוניברסלי לסנכרון כל עדכון ונתון (מסעדות, הופעות, קולנוע, מוזיאון, רכבת, אוטובוס, אוניה ומלונות) בכל המקומות הרלוונטיים',
@@ -9780,6 +10013,9 @@
             await syncFeedbackFromCloud(false);
             const currentEntries = getFeedbackEntries();
             await syncFeedbackToCloud(currentEntries, false);
+            if (typeof pullTripsStateFromCloud === 'function') {
+                await pullTripsStateFromCloud(true);
+            }
             renderFeedbackList();
             const nowTime = new Date().toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             setSyncBannerUI(`✅ סנכרון הושלם בהצלחה (${nowTime})! הכל מעודכן מול הענן`, '🔄 סנכרן עכשיו', '#dcfce7', '#4ade80', '#166534');
@@ -11283,6 +11519,8 @@
             renderStep4ArrivalChainCard(chain);
             if (typeof renderStep4FlightTicketsCard === 'function') renderStep4FlightTicketsCard(k);
             if (typeof renderStep4BookingsHubCard === 'function') renderStep4BookingsHubCard(k);
+            if (typeof renderAiFlightsCard === 'function') renderAiFlightsCard(k);
+            if (typeof renderAiBookingsCards === 'function') renderAiBookingsCards(k);
         }
 
         function renderStep4ArrivalChainCard(chainObj) {
@@ -12703,7 +12941,9 @@
                         docsSynced: Boolean(t.docsSynced),
                         center: t.center || [36.5000, 127.8000],
                         zoom: t.zoom || 7,
-                        stations: t.stations || []
+                        stations: t.stations || [],
+                        flightTickets: Array.isArray(t.flightTickets) ? t.flightTickets : undefined,
+                        bookings: Array.isArray(t.bookings) ? t.bookings : undefined
                     };
                 }
             }
@@ -12716,7 +12956,17 @@
             const customWaypoints = {};
             const manualAnchors = {};
             const customDocs = {};
+            const flightTicketsMap = {};
+            const universalBookingsMap = {};
             for (const tk in customMap) {
+                try {
+                    const ft = localStorage.getItem('travel_assistant_flights_' + tk);
+                    if (ft) flightTicketsMap[tk] = JSON.parse(ft);
+                } catch(e) {}
+                try {
+                    const ub = localStorage.getItem('travel_assistant_bookings_' + tk);
+                    if (ub) universalBookingsMap[tk] = JSON.parse(ub);
+                } catch(e) {}
                 try {
                     const ch = localStorage.getItem('travel_assistant_arrival_chain_' + tk);
                     if (ch) arrivalChains[tk] = JSON.parse(ch);
@@ -12780,7 +13030,9 @@
                 contacts: contacts,
                 customWaypoints: customWaypoints,
                 manualAnchors: manualAnchors,
-                customDocs: customDocs
+                customDocs: customDocs,
+                flightTickets: flightTicketsMap,
+                universalBookings: universalBookingsMap
             };
         }
 
@@ -12946,6 +13198,21 @@
                         }
                     }
 
+                    if (cloudState.flightTickets) {
+                        for (const tk in cloudState.flightTickets) {
+                            if (Array.isArray(cloudState.flightTickets[tk])) {
+                                localStorage.setItem('travel_assistant_flights_' + tk, JSON.stringify(cloudState.flightTickets[tk]));
+                            }
+                        }
+                    }
+                    if (cloudState.universalBookings) {
+                        for (const tk in cloudState.universalBookings) {
+                            if (Array.isArray(cloudState.universalBookings[tk])) {
+                                localStorage.setItem('travel_assistant_bookings_' + tk, JSON.stringify(cloudState.universalBookings[tk]));
+                            }
+                        }
+                    }
+
                     // Rebuild TRIPS_DATABASE cleanly
                     Object.keys(TRIPS_DATABASE).forEach(k => delete TRIPS_DATABASE[k]);
                     incomingTrips.forEach(ct => {
@@ -12958,8 +13225,38 @@
                                 ct.stations = JSON.parse(JSON.stringify(KESHET_YEHONATAN_STATIONS_TEMPLATE));
                                 ct.docsSynced = true;
                             }
+                            if (cloudState.flightTickets && Array.isArray(cloudState.flightTickets[tk]) && cloudState.flightTickets[tk].length > 0) {
+                                ct.flightTickets = cloudState.flightTickets[tk];
+                            }
+                            if (cloudState.universalBookings && Array.isArray(cloudState.universalBookings[tk]) && cloudState.universalBookings[tk].length > 0) {
+                                ct.bookings = cloudState.universalBookings[tk];
+                            }
                             normalizeHotelIconsInTrip(ct);
                             TRIPS_DATABASE[tk] = ct;
+
+                            // Reconcile uploaded docs from cloud so tickets/bookings never lag behind docs
+                            try {
+                                const docsArr = JSON.parse(localStorage.getItem('travel_assistant_custom_docs_' + tk) || '[]');
+                                const allText = (Array.isArray(docsArr) ? docsArr : []).map(d => (d && d.textContent) ? String(d.textContent) : '').filter(Boolean).join('\n\n');
+                                if (allText) {
+                                    if (typeof parseFlightTicketsFromText === 'function' && typeof mergeFlightTickets === 'function') {
+                                        const parsedFlights = parseFlightTicketsFromText(allText);
+                                        if (parsedFlights.length > 0) {
+                                            const mergedF = mergeFlightTickets(getTripFlightTickets(tk), parsedFlights);
+                                            saveTripFlightTickets(tk, mergedF);
+                                        }
+                                    }
+                                    if (typeof parseUniversalBookingsFromText === 'function' && typeof mergeUniversalBookings === 'function') {
+                                        const parsedBookings = parseUniversalBookingsFromText(allText);
+                                        if (parsedBookings.length > 0) {
+                                            const mergedB = mergeUniversalBookings(getTripUniversalBookings(tk), parsedBookings);
+                                            saveTripUniversalBookings(tk, mergedB);
+                                            if (typeof applyBookingsToQuestionnaire === 'function') applyBookingsToQuestionnaire(tk, mergedB);
+                                            if (typeof applyBookingsToStationsAndMap === 'function') applyBookingsToStationsAndMap(tk, mergedB);
+                                        }
+                                    }
+                                }
+                            } catch(recErr) {}
                         }
                     });
 
@@ -13609,6 +13906,20 @@ ${err.message || err}`);
                 </button>
             </div>
 
+        </div>
+    </div>
+
+    <!-- ================= AIRPLANE SEAT MAP MODAL ================= -->
+    <div id="flight-seat-map-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.72); z-index:100001; overflow-y:auto; padding:14px;" dir="rtl" onclick="if(event.target===this) closeFlightSeatMapModal();">
+        <div style="background:white; max-width:620px; margin:16px auto; padding:18px; border-radius:18px; box-shadow:0 12px 35px rgba(0,0,0,0.35); font-family:'Heebo', sans-serif;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #e2e8f0; padding-bottom:10px; margin-bottom:12px;">
+                <div style="font-weight:900; color:#0f172a; font-size:1.15em; display:flex; align-items:center; gap:8px;">
+                    <span style="background:#0f766e; color:white; width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;">💺</span>
+                    <span>תרשים ישיבה במטוס לפי הכרטיסים</span>
+                </div>
+                <button type="button" onclick="closeFlightSeatMapModal()" style="background:#f1f5f9; border:none; width:32px; height:32px; border-radius:8px; font-weight:900; cursor:pointer; color:#475569; font-size:1.1em;">✕</button>
+            </div>
+            <div id="flight-seat-map-body"></div>
         </div>
     </div>
 
