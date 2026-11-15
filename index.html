@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.0</title>
+    <title>Travel Assistant V5.4.1</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.0</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.1</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -9022,7 +9022,7 @@
                 const isFlight = st.isFlight || st.type === 'flight';
                 
                 const cBadge = (typeof getStationCanonicalBadge === 'function') ? getStationCanonicalBadge(st, idx) : { fullLabel: `יום ${info.dayNum}`, bg: '#2563eb' };
-                let anchorBadge = `<span style="background:${cBadge.bg}; color:white; font-size:0.74em; font-weight:900; padding:2px 7px; border-radius:6px; margin-left:5px; display:inline-block;">${cBadge.fullLabel}</span>`;
+                let anchorBadge = `<span style="background:${cBadge.bg}; color:white; font-size:0.74em; font-weight:900; padding:2px 8px; border-radius:6px; margin-left:6px; display:inline-block; white-space:nowrap;">${cBadge.fullLabel}</span>`;
                 if (idx === 0 && !cBadge.isHotel && !cBadge.isFlight) {
                     anchorBadge += `<span style="background:#15803d; color:white; font-size:0.7em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🚩 פתיחה</span>`;
                 } else if (idx === STATIONS.length - 1 && !cBadge.isHotel && !cBadge.isFlight) {
@@ -9047,19 +9047,22 @@
                 return `
                     ${dayHeaderHtml}
                     ${connectorTopHtml}
-                    <div id="station-row-${idx}" class="station-sync-row" style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                        <div style="flex-grow:1; cursor:pointer;" onclick="setTargetStation(${idx})">
-                            <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.25;">${anchorBadge}${st.title}</div>
-                            <div style="font-size:0.84em; color:#475569; margin-top:2px; line-height:1.25;">${st.desc || st.address || ''}</div>
-                            <div style="font-size:0.8em; color:#1e40af; font-weight:800; margin-top:3px;">
+                    <div id="station-row-${idx}" class="station-sync-row" style="${bgStyle} border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:7px; box-sizing:border-box; max-width:100%;">
+                        <div style="width:100%; min-width:0; cursor:pointer;" onclick="setTargetStation(${idx})">
+                            <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.35; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">${anchorBadge}<span>${st.title}</span></div>
+                            <div style="font-size:0.86em; color:#475569; margin-top:4px; line-height:1.4; word-break:break-word;">${st.desc || st.address || ''}</div>
+                            <div style="font-size:0.82em; color:#1e40af; font-weight:800; margin-top:4px; line-height:1.35;">
                                 🕒 שהייה מומלצת: <span style="color:#0f172a;">${info.recommendedStay}</span>
                                 ${st.stayTime ? ` | לו"ז: <span style="color:#0369a1;">${st.stayTime}</span>` : ''}
                             </div>
                         </div>
-                        <div style="text-align:left; display:flex; align-items:center; gap:5px; flex-shrink:0;">
-                            <div style="white-space:nowrap;">${legBadgeHtml}</div>
-                            <button onclick="openAppleMapsNav(${st.lat}, ${st.lng}, '${safeTitleAttr}')" title="פתח באייפון Apple Maps" style="background:#0f172a; color:white; border:none; padding:6px 8px; border-radius:8px; font-size:0.85em; font-weight:bold; cursor:pointer;">🍎</button>
-                            <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:6px 10px; border-radius:8px; font-size:0.88em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; padding-top:6px; border-top:1px dashed #cbd5e1;">
+                            <div style="flex:1 1 auto; min-width:0;">${legBadgeHtml}</div>
+                            <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+                                <button onclick="setTargetStation(${idx})" title="מיקוד וניווט במפה" style="background:#2563eb; color:white; border:none; padding:5px 9px; border-radius:8px; font-size:0.82em; font-weight:900; cursor:pointer;">🎯 נווט</button>
+                                <button onclick="openAppleMapsNav(${st.lat}, ${st.lng}, '${safeTitleAttr}')" title="פתח באייפון Apple Maps" style="background:#0f172a; color:white; border:none; padding:5px 8px; border-radius:8px; font-size:0.84em; font-weight:bold; cursor:pointer;">🍎</button>
+                                <button onclick="showTaxiCard(${idx})" title="כרטיס לנהג" style="background:#f59e0b; color:white; border:none; padding:5px 9px; border-radius:8px; font-size:0.84em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                            </div>
                         </div>
                     </div>
                     ${returnCardAfterLast}
