@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.7</title>
+    <title>Travel Assistant V5.3.8</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.7</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.8</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -4886,22 +4886,134 @@
             return tickets;
         }
 
+        function parseSeatOnlyListFromText(rawText) {
+            const lines = String(rawText || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+            const seatEntries = [];
+            const paxSeatRe = /(?:MR|MS|MRS|MISS|CHD|INF|[A-Z]{2,}\/[A-Z\s]{2,}|מושב|מקום ישיבה|Seat)\s*[:\-]\s*([1-9]\d?[A-K])\b/i;
+            const trailingColonSeatRe = /:\s*([1-9]\d?[A-K])\s*$/i;
+            lines.forEach(l => {
+                const m = l.match(paxSeatRe) || l.match(trailingColonSeatRe);
+                if (m) {
+                    const seat = m[1].toUpperCase();
+                    const paxMatch = l.match(/([A-Z]+\/[A-Z\s]+?)\s*(?:MR|MS|MRS|MISS)?\s*[:\-]/i);
+                    seatEntries.push({ seat, passenger: paxMatch ? paxMatch[1].trim() : '' });
+                }
+            });
+            if (seatEntries.length === 0) return [];
+            // Group consecutive passenger pairs if multiple passengers share the same row or alternating pax names
+            const grouped = [];
+            for (let i = 0; i < seatEntries.length; i++) {
+                const curr = seatEntries[i];
+                const next = seatEntries[i + 1];
+                if (next && curr.passenger && next.passenger && curr.passenger !== next.passenger) {
+                    grouped.push(`${curr.seat}, ${next.seat}`);
+                    i++;
+                } else {
+                    grouped.push(curr.seat);
+                }
+            }
+            return grouped;
+        }
+
+        const KOREA_DEFAULT_FLIGHT_TICKETS = [
+            {
+                flightNumber: 'ET 419',
+                airline: 'Ethiopian Airlines',
+                date: '22/11/2026',
+                departureTime: '14:40',
+                arrivalTime: '19:55',
+                from: 'TLV (טרמינל 3)',
+                to: 'ADD',
+                terminal: '3',
+                gate: '',
+                seat: '18C, 18B',
+                bookingRef: '',
+                baggage: ''
+            },
+            {
+                flightNumber: 'ET 672',
+                airline: 'Ethiopian Airlines',
+                date: '22/11/2026',
+                departureTime: '22:35',
+                arrivalTime: '15:45',
+                from: 'ADD',
+                to: 'ICN (טרמינל 1)',
+                terminal: '1',
+                gate: '',
+                seat: '46K, 46J',
+                bookingRef: '',
+                baggage: ''
+            },
+            {
+                flightNumber: 'KE1505',
+                airline: 'Korean Air',
+                date: '01/12/2026',
+                departureTime: '06:30',
+                arrivalTime: '07:30',
+                from: 'PUS',
+                to: 'CJU',
+                terminal: '',
+                gate: '',
+                seat: '46H, 46F',
+                bookingRef: '',
+                baggage: ''
+            },
+            {
+                flightNumber: 'ET 673',
+                airline: 'Ethiopian Airlines',
+                date: '06/12/2026',
+                departureTime: '00:10',
+                arrivalTime: '07:25',
+                from: 'ICN (טרמינל 1)',
+                to: 'ADD',
+                terminal: '1',
+                gate: '',
+                seat: '46K, 46J',
+                bookingRef: '',
+                baggage: ''
+            },
+            {
+                flightNumber: 'ET 418',
+                airline: 'Ethiopian Airlines',
+                date: '06/12/2026',
+                departureTime: '10:30',
+                arrivalTime: '13:35',
+                from: 'ADD',
+                to: 'TLV (טרמינל 3)',
+                terminal: '3',
+                gate: '',
+                seat: '18J, 18K',
+                bookingRef: '',
+                baggage: ''
+            }
+        ];
+
         function getTripFlightTickets(tripKey) {
             const k = tripKey !== undefined ? tripKey : currentTripKey;
             if (!k) return [];
+            let result = [];
             const trip = TRIPS_DATABASE[k];
             if (trip && Array.isArray(trip.flightTickets) && trip.flightTickets.length > 0) {
-                return trip.flightTickets;
+                result = trip.flightTickets;
+            } else {
+                try {
+                    const saved = JSON.parse(localStorage.getItem('travel_assistant_flights_' + k) || '[]');
+                    if (Array.isArray(saved) && saved.length > 0) result = saved;
+                } catch (e) {}
+                if (result.length === 0) {
+                    const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(k) : null;
+                    if (chain && Array.isArray(chain.flightTickets) && chain.flightTickets.length > 0) {
+                        result = chain.flightTickets;
+                    }
+                }
             }
-            try {
-                const saved = JSON.parse(localStorage.getItem('travel_assistant_flights_' + k) || '[]');
-                if (Array.isArray(saved) && saved.length > 0) return saved;
-            } catch (e) {}
-            const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(k) : null;
-            if (chain && Array.isArray(chain.flightTickets) && chain.flightTickets.length > 0) {
-                return chain.flightTickets;
+            if (k === 'korea') {
+                if (result.length === 0) {
+                    return JSON.parse(JSON.stringify(KOREA_DEFAULT_FLIGHT_TICKETS));
+                }
+                return mergeFlightTickets(JSON.parse(JSON.stringify(KOREA_DEFAULT_FLIGHT_TICKETS)), result);
             }
-            return [];
+            return result;
         }
 
         function mergeFlightTickets(existingList, newList) {
@@ -6030,6 +6142,16 @@
             let mergedFlights = mergeFlightTickets(existingFlights, flightsFromAll);
             if (flightsFromNew.length > 0) {
                 mergedFlights = mergeFlightTickets(mergedFlights, flightsFromNew);
+            }
+            if (typeof parseSeatOnlyListFromText === 'function' && mergedFlights.length > 0) {
+                const seatPairs = parseSeatOnlyListFromText(prioritizedText || allUploadedText);
+                if (seatPairs.length > 0) {
+                    seatPairs.forEach((seatStr, idx) => {
+                        if (mergedFlights[idx] && (!mergedFlights[idx].seat || prioritizedText)) {
+                            mergedFlights[idx].seat = seatStr;
+                        }
+                    });
+                }
             }
             if (mergedFlights.length > 0) {
                 saveTripFlightTickets(currentTripKey, mergedFlights);
