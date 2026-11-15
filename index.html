@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.4</title>
+    <title>Travel Assistant V5.4.5</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.4</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.5</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -3508,7 +3508,7 @@
                         id: "k_day13_cju_depart",
                         dayNum: 13,
                         dayTitle: "יום 13 (03-04/12 - ערב שבת 2): פארק האלים, טיסת פנים KE1505 לסיאול (GMP) והכנה לשבת",
-                        title: "23. ✈️ טיסת פנים 2 (המראה 10:35): נמל התעופה ג'ג'ו (CJU) ➔ סיאול גימפו (KE1505)",
+                        title: "23. ✈️ טיסת פנים 2 (המראה 10:35): נמל התעופה ג'ג'ו (CJU) ⬅ סיאול גימפו (KE1505)",
                         desc: "התייצבות בשדה התעופה ג'ג'ו (CJU) והמראה בטיסת Korean Air KE1505 בשעה 10:35 לסיאול גימפו (נחיתה 11:50)",
                         lat: 33.5113,
                         lng: 126.4930,
@@ -3533,7 +3533,7 @@
                         stopCode: null,
                         type: "flight",
                         isFlight: true,
-                        stayTime: "03/12/26: 11:50 נחיתה ➔ נסיעה למלון סיאול",
+                        stayTime: "03/12/26: 11:50 נחיתה ⬅ נסיעה למלון סיאול",
                         recommendedStay: "35 דק' איסוף כבודה ויציאה לאוטובוס",
                         transitType: "אוטובוס תיירים למלון בסיאול",
                         walkingDist: "מעבר קצר לאוטובוס"
@@ -3598,7 +3598,7 @@
                         id: "k_day15_add_return",
                         dayNum: 15,
                         dayTitle: "יום 15 (א' 06/12): טיסות חזור מסיאול דרך אדיס אבבה ונחיתה בנתב\"ג",
-                        title: "26. טיסת מעבר חזור: אדיס אבבה (ADD) – המתנה 3:05 שעות ➔ נתב\"ג",
+                        title: "26. טיסת מעבר חזור: אדיס אבבה (ADD) – המתנה 3:05 שעות ⬅ נתב\"ג",
                         desc: "נחיתה באדיס אבבה ב-07:25 בבוקר | ⏳ המתנה בקונקשן: 3 שעות ו-5 דקות | המראה ב-10:30 בטיסה ET 418 ונחיתה בנתב\"ג בשעה 13:35!",
                         lat: 8.9779,
                         lng: 38.7993,
@@ -3606,7 +3606,7 @@
                         stopCode: null,
                         type: "connection",
                         isFlight: true,
-                        stayTime: "יום א' 06/12: 07:25 נחיתה | 10:30 המראה ➔ 13:35 נחיתה בנתב\"ג",
+                        stayTime: "יום א' 06/12: 07:25 נחיתה | 10:30 המראה ⬅ 13:35 נחיתה בנתב\"ג",
                         recommendedStay: "3 שעות ו-5 דק' המתנה בקונקשן + 4:05 שעות טיסה לנתב\"ג",
                         transitType: "טיסת המשך ET 418 לנתב\"ג",
                         walkingDist: "מעבר בינלאומי בטרמינל 2"
@@ -3863,10 +3863,10 @@
                             meetingTime: "11:30 (3 שעות לפני המראה ב-14:40)",
                             meetingLat: 32.0055,
                             meetingLng: 34.8854,
-                            connectionOutbound: `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`,
-                            connectionReturn: `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
-                            domesticFlightsSummary: `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`,
-                            trailheadAddress: "1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול",
+                            connectionOutbound: `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ⬅ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ⬅ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`,
+                            connectionReturn: `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ⬅ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ⬅ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
+                            domesticFlightsSummary: `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ⬅ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ⬅ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`,
+                            trailheadAddress: "1. הגעה: נמל התעופה אינצ'ון (ICN) ⬅ סונגדו וסיאול",
                             trailheadTime: "15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול הקרקעי)",
                             trailheadLat: 37.4602,
                             trailheadLng: 126.4407
@@ -3906,7 +3906,7 @@
                                 meetingTime: "11:30 (3 שעות לפני המראה ב-14:40)",
                                 meetingLat: 32.0055,
                                 meetingLng: 34.8854,
-                                trailheadAddress: "1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סיאול",
+                                trailheadAddress: "1. הגעה: נמל התעופה אינצ'ון (ICN) ⬅ סיאול",
                                 trailheadTime: "15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)",
                                 trailheadLat: 37.4602,
                                 trailheadLng: 126.4407
@@ -4009,12 +4009,12 @@
                         if (!kChain.trailheadTime || String(kChain.trailheadTime).includes('07:30') || String(kChain.trailheadTime).includes('11:50')) {
                             kChain.trailheadTime = `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול הקרקעי)`;
                         }
-                        kChain.domesticFlightsSummary = `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ➔ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ➔ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`;
+                        kChain.domesticFlightsSummary = `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ⬅ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ⬅ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`;
                         localStorage.setItem('travel_assistant_arrival_chain_korea', JSON.stringify(kChain));
                         const kQ = JSON.parse(localStorage.getItem('travel_assistant_trip_korea_questionnaire') || '{}');
-                        kQ.origin = `רח' העצמאות 93, אשדוד (יציאה ב-10:30 ➔ מפגש בנתב"ג 11:30 להמראה ב-14:40)`;
+                        kQ.origin = `רח' העצמאות 93, אשדוד (יציאה ב-10:30 ⬅ מפגש בנתב"ג 11:30 להמראה ב-14:40)`;
                         kQ.hotels = "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel";
-                        kQ.transit = "טיסות בינלאומיות Ethiopian Airlines (ET 419/672 הלוך, ET 673/418 חזור) + 2 טיסות פנים Korean Air KE1505 (01/12 בוסאן➔ג'ג'ו 06:30-07:30 | 03/12 ג'ג'ו➔גימפו 10:35-11:50) + אוטובוס תיירים צמוד";
+                        kQ.transit = "טיסות בינלאומיות Ethiopian Airlines (ET 419/672 הלוך, ET 673/418 חזור) + 2 טיסות פנים Korean Air KE1505 (01/12 בוסאן⬅ג'ג'ו 06:30-07:30 | 03/12 ג'ג'ו⬅גימפו 10:35-11:50) + אוטובוס תיירים צמוד";
                         localStorage.setItem('travel_assistant_trip_korea_questionnaire', JSON.stringify(kQ));
                     } catch(e) {}
                 }
@@ -6167,11 +6167,11 @@
                     meetingLng: 34.8854,
                     connectionOutbound: (flightsFromNew.length > 0 && flightsSummaryText)
                         ? `✈️ ${flightsSummaryText}`
-                        : (universalDerived.connectionOutbound || `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`),
-                    connectionReturn: universalDerived.connectionReturn || `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ➔ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ➔ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
-                    domesticFlightsSummary: `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ➔ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ➔ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`,
+                        : (universalDerived.connectionOutbound || `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ⬅ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ⬅ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`),
+                    connectionReturn: universalDerived.connectionReturn || `✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ⬅ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ⬅ נחיתה בנתב"ג 13:35 (יום א' 06/12)`,
+                    domesticFlightsSummary: `✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ⬅ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ⬅ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)`,
                     flightTickets: mergedFlights,
-                    trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ➔ סונגדו וסיאול`,
+                    trailheadAddress: `1. הגעה: נמל התעופה אינצ'ון (ICN) ⬅ סונגדו וסיאול`,
                     trailheadTime: (universalDerived.landingOrStartTime && !String(universalDerived.landingOrStartTime).includes('07:30') && !String(universalDerived.landingOrStartTime).includes('11:50'))
                         ? `${universalDerived.landingOrStartTime} (נחיתה בסיאול ותחילת המסלול)`
                         : `15:45 (נחיתה בסיאול יום ב' 23/11 ותחילת המסלול)`,
@@ -6485,16 +6485,16 @@
                         <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:12px;">
                             <b style="color:#15803d;"><i class="fa-solid fa-plane"></i> טיסות פנים בקוריאה:</b>
                             <div style="font-size:0.88em; color:#14532d; margin-top:4px;">
-                                • <b>יום 11 (02/12):</b> בוסאן גימהאיי (PUS) ➔ האי ג'ג'ו (CJU) - 55 דקות טיסה.<br>
-                                • <b>יום 13 (04/12):</b> האי ג'ג'ו (CJU) ➔ סיאול גימפו (GMP) - 70 דקות טיסה.
+                                • <b>יום 11 (02/12):</b> בוסאן גימהאיי (PUS) ⬅ האי ג'ג'ו (CJU) - 55 דקות טיסה.<br>
+                                • <b>יום 13 (04/12):</b> האי ג'ג'ו (CJU) ⬅ סיאול גימפו (GMP) - 70 דקות טיסה.
                             </div>
                         </div>
 
                         <div style="background:white; border:1px solid #cbd5e1; border-radius:12px; padding:12px;">
                             <b style="color:#dc2626;"><i class="fa-solid fa-plane-arrival"></i> טיסות חזור לישראל (מוצ"ש 06/12/2026):</b>
                             <div style="font-size:0.88em; color:#334155; margin-top:4px;">
-                                🛫 <b>סיאול אינצ'און ➔ אדיס אבבה:</b> המראה <b>00:10</b> (טיסה ET 673) 🛬 נחיתה ב-<b>07:25</b>.<br>
-                                🛫 <b>אדיס אבבה ➔ נתב"ג טרמינל 3:</b> המראה <b>10:30</b> (טיסה ET 418) 🛬 נחיתה בישראל ב-<b>13:35</b>.
+                                🛫 <b>סיאול אינצ'און ⬅ אדיס אבבה:</b> המראה <b>00:10</b> (טיסה ET 673) 🛬 נחיתה ב-<b>07:25</b>.<br>
+                                🛫 <b>אדיס אבבה ⬅ נתב"ג טרמינל 3:</b> המראה <b>10:30</b> (טיסה ET 418) 🛬 נחיתה בישראל ב-<b>13:35</b>.
                             </div>
                         </div>
                     </div>
@@ -8783,10 +8783,10 @@
 
                 const connIdx = STATIONS.findIndex(s => s.type === 'connection');
                 const connOutbound = chain.connectionOutbound || (isIntl && currentTripKey === 'korea'
-                    ? `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`
+                    ? `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ⬅ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ⬅ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`
                     : '');
                 const domesticFlights = chain.domesticFlightsSummary || (isIntl && currentTripKey === 'korea'
-                    ? `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`
+                    ? `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ⬅ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ⬅ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`
                     : '');
                 const connHeaderTitle = (connOutbound.includes('אדיס') || currentTripKey === 'korea')
                     ? '✈️ טיסת מעבר (קונקשן באתיופיה) וזמן המתנה'
@@ -12164,10 +12164,10 @@
 
             const connIdx = STATIONS.findIndex(s => s.type === 'connection');
             const connText = chain.connectionOutbound || (isIntl && currentTripKey === 'korea'
-                ? `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ➔ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ➔ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`
+                ? `✈️ מקטע 1: נתב"ג 14:40 (ET 419) ⬅ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ⬅ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)`
                 : '');
             const domesticText = chain.domesticFlightsSummary || (isIntl && currentTripKey === 'korea'
-                ? `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ➔ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ➔ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`
+                ? `✈️ טיסת פנים 1 (יום 11 - 02/12): בוסאן גימהאיי (PUS) 09:30 ⬅ ג'ג'ו (CJU) 10:25 (55 דק' טיסה, התייצבות 08:00) | ✈️ טיסת פנים 2 (יום 13 - 04/12): ג'ג'ו (CJU) 13:00 ⬅ סיאול גימפו (GMP) 14:10 (70 דק' טיסה, התייצבות 11:30)`
                 : '');
             const connWaitSummary = currentTripKey === 'korea'
                 ? '⏳ קונקשן הלוך: 2:40 שעות המתנה | חזור: 3:05 שעות המתנה'
