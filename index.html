@@ -5284,8 +5284,9 @@
             const coachRe = /(?:קרון|Coach|Car)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
             const platformRe = /(?:רציף|Platform)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
             const guestsRe = /(\d{1,2})\s*(?:סועדים|אורחים|אנשים|משתתפים|כרטיסים|מבוגרים|Guests|People|Persons|Tickets|Pax)/i;
-            const pnrRe = /(?:קוד\s*הזמנה|מספר\s*הזמנה|אישור\s*הזמנה|PNR|Booking(?:\s*(?:Ref|Reference|Code|ID))?|Confirmation(?:\s*(?:Code|Number))?|Reservation)\s*[:\-]?\s*([A-Z0-9\-]{4,12})\b/i;
+            const pnrRe = /(?:קוד\s*הזמנה|מספר\s*הזמנה|אישור\s*הזמנה|PNR|Booking\s*(?:Ref|Reference|Code|ID)|Confirmation\s*(?:Code|Number)|Reservation\s*(?:Code|Number|ID))\s*[:#\-]\s*([A-Z0-9\-]{4,12})\b/i;
             const addrRe = /(?:כתובת|מיקום|אולם|באולם|במתחם|Address|Venue|Location)\s*[:\-]\s*([^\n,|]{3,60})/i;
+            const urlRe = /(https?:\/\/[^\s<>"')]+)/i;
 
             const isTransitLine = l => /רכבת|אוטובוס|אוניה|אונייה|ספינה|מעבורת|שייט|קרוז|KTX|Train|Bus|Ferry|Cruise|Ship|Shuttle/i.test(l) && !/אוטובוס תיירים צמוד|טיסה/i.test(l);
             const isRestaurantLine = l => /מסעדה|מסעדת|הזמנת שולחן|שולחן ל|ארוחת ערב|ארוחת צהריים|ארוחת בוקר|ביסטרו|קפה|Restaurant|Table\s*for|Dining|Dinner|Lunch|Reservation\s+at/i.test(l);
@@ -5334,9 +5335,11 @@
                 const guestsM = blockText.match(guestsRe);
                 const guests = guestsM ? guestsM[1] : '';
                 const pnrM = blockText.match(pnrRe);
-                const bookingRef = pnrM ? pnrM[1].toUpperCase() : globalPnr;
+                const bookingRef = sanitizeBookingRef(pnrM ? pnrM[1] : globalPnr);
                 const addrM = blockText.match(addrRe);
                 const address = addrM ? addrM[1].trim() : '';
+                const urlM = blockText.match(urlRe);
+                const website = urlM ? urlM[1].trim() : '';
 
                 // Extract clean title/name
                 let subType = '';
@@ -5361,15 +5364,22 @@
                     if (lineNumM) lineNumber = lineNumM[1].toUpperCase();
                 }
 
-                // Clean title from first line
+                // Clean title from first line (strip conversational WhatsApp wrappers)
                 let cleanTitle = line
                     .replace(/^(?:[-•*✅🎫🍽️🎭🎬🏛️🚆🚌🚢🛏️]+\s*)+/, '')
+                    .replace(/^(?:הודעה\s*\/\s*מסמך\s*:\s*|העיפו מבט\s*(?:על|ב)?\s*|שימו לב\s*[:\-]?\s*)/i, '')
+                    .replace(/https?:\/\/\S+/g, '')
                     .replace(/\b\d{1,2}[\/.\-]\d{1,2}(?:[\/.\-]\d{2,4})?\b/g, '')
                     .replace(/\b([01]?\d|2[0-3]):([0-5]\d)\b/g, '')
                     .replace(/\s{2,}/g, ' ')
                     .trim();
                 if (cleanTitle.length > 75) cleanTitle = cleanTitle.substring(0, 72) + '...';
                 if (!cleanTitle) cleanTitle = subType;
+
+                // Skip empty conversational "soap bubbles" that carry zero concrete booking/venue details
+                const hasConcreteDetails = Boolean(times[0] || seat || row || coach || platform || guests || address || bookingRef || website || lineNumber);
+                const looksLikeChatter = /^(?:המלון שלנו|אנחנו |נישן |יש לנו מלון|בלילה ה|כדאי |אפשר |מישהו )/.test(cleanTitle);
+                if (!hasConcreteDetails && (looksLikeChatter || cleanTitle.length < 4)) continue;
 
                 const kosherNote = /כשר למהדרין|כשר|בשרי|חלבי|פרווה|טבעוני|צמחוני|ללא גלוטן|Kosher|Vegan/i.test(blockText)
                     ? (blockText.match(/כשר למהדרין|כשר|בשרי|חלבי|פרווה|טבעוני|צמחוני|ללא גלוטן|Kosher|Vegan/i) || [''])[0]
@@ -5394,6 +5404,7 @@
                     seat,
                     guests,
                     address,
+                    website,
                     kosherNote,
                     bookingRef,
                     rawText: block.join(' • ')
@@ -5402,22 +5413,91 @@
             return bookings;
         }
 
+        function sanitizeBookingRef(ref) {
+            const s = String(ref || '').trim();
+            if (!s) return '';
+            if (/^(?:SFROMTEXT|FROMTEXT|TEXT|DETAILS|CONFIRMED|BOOKING|RESERVATION|HOTEL|CHECKIN|CHECKOUT|NONE|NULL|UNDEFINED)$/i.test(s)) return '';
+            if (/^[a-z]+[A-Z][a-zA-Z]*$/.test(s)) return ''; // reject camelCase JS tokens
+            return s.toUpperCase();
+        }
+
+        function cleanAndEnrichBookings(list, tripKey) {
+            if (!Array.isArray(list)) return [];
+            const k = tripKey || currentTripKey;
+            const stations = (k && TRIPS_DATABASE[k] && Array.isArray(TRIPS_DATABASE[k].stations)) ? TRIPS_DATABASE[k].stations : [];
+            const cleaned = [];
+            const seen = new Set();
+
+            list.forEach(rawB => {
+                if (!rawB || typeof rawB !== 'object') return;
+                const b = Object.assign({}, rawB);
+                b.bookingRef = sanitizeBookingRef(b.bookingRef);
+                b.title = String(b.title || '')
+                    .replace(/^(?:הודעה\s*\/\s*מסמך\s*:\s*|העיפו מבט\s*(?:על|ב)?\s*)/i, '')
+                    .trim();
+
+                // Try to match an existing trip station / hotel to pull real address, website, coordinates, and local name
+                let matchedIdx = -1;
+                let matchedSt = null;
+                const hay = `${b.title} ${b.address || ''} ${b.rawText || ''}`.toLowerCase();
+                for (let i = 0; i < stations.length; i++) {
+                    const st = stations[i];
+                    if (!st || !st.title) continue;
+                    const stTokens = String(st.title).toLowerCase()
+                        .replace(/[()🛏️🏨✡️🚩🏁🚏\-–]/g, ' ')
+                        .split(/\s+/)
+                        .filter(w => w.length >= 4 && !/^(hotel|resort|מלון|סיאול|seoul|בוסאן|busan|ג'ג'ו|jeju|לילה|שבת)$/.test(w));
+                    if (stTokens.some(tok => hay.includes(tok))) {
+                        matchedIdx = i;
+                        matchedSt = st;
+                        break;
+                    }
+                }
+
+                if (matchedSt) {
+                    if (!b.address && matchedSt.address) b.address = matchedSt.address;
+                    if (!b.website && matchedSt.website) b.website = matchedSt.website;
+                    if (matchedSt.lat != null && matchedSt.lng != null) {
+                        b.lat = matchedSt.lat;
+                        b.lng = matchedSt.lng;
+                    }
+                    b.stationIdx = matchedIdx;
+                    if (b.category === 'hotel' && /העיפו מבט|הודעה|בלילה השלישי/.test(b.title)) {
+                        b.title = matchedSt.title;
+                    }
+                }
+
+                const hasActionable = Boolean(b.address || b.website || b.time || b.seat || b.row || b.coach || b.guests || b.bookingRef || b.lineNumber || matchedSt);
+                if (!hasActionable) return; // drop empty soap bubbles
+
+                const dedup = `${b.category}|${(matchedIdx >= 0 ? 'st_' + matchedIdx : b.title.toLowerCase().slice(0, 26))}|${b.date || ''}`;
+                if (seen.has(dedup)) return;
+                seen.add(dedup);
+                cleaned.push(b);
+            });
+            return cleaned;
+        }
+
         function getTripBookings(tripKey) {
             const k = tripKey !== undefined ? tripKey : currentTripKey;
             if (!k) return [];
             const trip = TRIPS_DATABASE[k];
+            let raw = [];
             if (trip && Array.isArray(trip.bookings) && trip.bookings.length > 0) {
-                return trip.bookings;
+                raw = trip.bookings;
+            } else {
+                try {
+                    const saved = JSON.parse(localStorage.getItem('travel_assistant_bookings_' + k) || '[]');
+                    if (Array.isArray(saved) && saved.length > 0) raw = saved;
+                } catch (e) {}
+                if (raw.length === 0) {
+                    const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(k) : null;
+                    if (chain && Array.isArray(chain.bookings) && chain.bookings.length > 0) {
+                        raw = chain.bookings;
+                    }
+                }
             }
-            try {
-                const saved = JSON.parse(localStorage.getItem('travel_assistant_bookings_' + k) || '[]');
-                if (Array.isArray(saved) && saved.length > 0) return saved;
-            } catch (e) {}
-            const chain = (typeof getTripArrivalChain === 'function') ? getTripArrivalChain(k) : null;
-            if (chain && Array.isArray(chain.bookings) && chain.bookings.length > 0) {
-                return chain.bookings;
-            }
-            return [];
+            return cleanAndEnrichBookings(raw, k);
         }
 
         function mergeUniversalBookings(existingList, newList) {
@@ -5577,6 +5657,34 @@
             if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
         }
 
+        function openBookingOnMap(idx) {
+            const bookings = getTripBookings(currentTripKey);
+            const b = bookings[idx];
+            if (!b) return;
+            if (typeof b.stationIdx === 'number' && b.stationIdx >= 0 && STATIONS[b.stationIdx]) {
+                if (typeof openStep4HotelOnMap === 'function') {
+                    openStep4HotelOnMap(b.stationIdx);
+                } else {
+                    switchScreen('screen-map');
+                    setTimeout(() => setTargetStation(b.stationIdx), 150);
+                }
+                return;
+            }
+            const q = encodeURIComponent(b.address || b.title || '');
+            if (q) window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank', 'noopener,noreferrer');
+        }
+
+        function showBookingTaxiCard(idx) {
+            const bookings = getTripBookings(currentTripKey);
+            const b = bookings[idx];
+            if (!b) return;
+            if (typeof b.stationIdx === 'number' && b.stationIdx >= 0 && typeof showTaxiCard === 'function') {
+                showTaxiCard(b.stationIdx);
+                return;
+            }
+            alert(`🚖 כרטיס לנהג מקומי:\n\nיעד: ${b.title || ''}\nכתובת: ${b.address || 'לא צוינה כתובת מדויקת'}${b.date ? '\nתאריך: ' + b.date : ''}${b.time ? '\nשעה: ' + b.time : ''}`);
+        }
+
         function renderStep4BookingsHubCard(tripKey) {
             const card = document.getElementById('step4-bookings-hub-card');
             if (!card) return;
@@ -5602,32 +5710,39 @@
             card.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
                     <span style="font-weight:900; color:#5b21b6; font-size:0.98em;"><i class="fa-solid fa-calendar-check" style="color:#7c3aed;"></i> הזמנות, כרטיסים ועדכונים מסונכרנים (${bookings.length}):</span>
-                    <span style="background:#ede9fe; color:#6d28d9; font-size:0.78em; font-weight:900; padding:2px 8px; border-radius:6px;">מעודכן בזמן אמת מהמסמכים</span>
+                    <span style="background:#ede9fe; color:#6d28d9; font-size:0.78em; font-weight:900; padding:2px 8px; border-radius:6px;">כתובת, מפה, אתר וכרטיס נהג</span>
                 </div>
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(235px, 1fr)); gap:8px;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(245px, 1fr)); gap:8px;">
                     ${bookings.map((b, idx) => {
                         const m = catMeta[b.category] || catMeta.event;
+                        const mapLabel = (typeof b.stationIdx === 'number' && b.stationIdx >= 0) ? '🗺️ במפה' : '🗺️ מפה';
+                        const mapsFallbackUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.address || b.title || '')}`;
                         return `
-                            <div style="background:white; border:1.5px solid ${m.border}; border-radius:10px; padding:10px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
-                                    <span style="background:${m.bg}; color:${m.color}; font-weight:900; font-size:0.76em; padding:2px 7px; border-radius:6px;">${escapeHtmlFlight(b.subType || m.label)}</span>
-                                    ${b.date ? `<span style="font-size:0.78em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(b.date)}</span>` : ''}
+                            <div style="background:white; border:1.5px solid ${m.border}; border-radius:10px; padding:10px; box-shadow:0 1px 4px rgba(0,0,0,0.04); display:flex; flex-direction:column; justify-content:space-between; gap:6px;">
+                                <div>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
+                                        <span style="background:${m.bg}; color:${m.color}; font-weight:900; font-size:0.76em; padding:2px 7px; border-radius:6px;">${escapeHtmlFlight(b.subType || m.label)}</span>
+                                        ${b.date ? `<span style="font-size:0.78em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(b.date)}</span>` : ''}
+                                    </div>
+                                    <div style="font-weight:900; font-size:0.94em; color:#0f172a; margin-bottom:4px;">${escapeHtmlFlight(b.title)}</div>
+                                    <div style="font-size:0.82em; color:#334155; line-height:1.45;">
+                                        ${b.address ? `<div style="color:#0369a1; font-weight:800; margin-bottom:2px;">📍 ${escapeHtmlFlight(b.address)}</div>` : ''}
+                                        ${b.time ? `🕒 <b>שעה:</b> ${escapeHtmlFlight(b.time)}${b.endTime ? ' ➔ ' + escapeHtmlFlight(b.endTime) : ''}<br>` : ''}
+                                        ${b.lineNumber ? `🔢 <b>קו/מספר:</b> ${escapeHtmlFlight(b.lineNumber)} ` : ''}
+                                        ${b.platform ? `| 🚉 <b>רציף:</b> ${escapeHtmlFlight(b.platform)} ` : ''}
+                                        ${b.coach ? `| 🚃 <b>קרון:</b> ${escapeHtmlFlight(b.coach)} ` : ''}
+                                        ${b.row ? `↕️ <b>שורה:</b> ${escapeHtmlFlight(b.row)} ` : ''}
+                                        ${b.seat ? `💺 <b>מושב:</b> <b style="color:#15803d;">${escapeHtmlFlight(b.seat)}</b> ` : ''}
+                                        ${b.guests ? `👥 <b>סועדים/כרטיסים:</b> ${escapeHtmlFlight(b.guests)} ` : ''}
+                                        ${b.kosherNote ? `<br>🥗 ${escapeHtmlFlight(b.kosherNote)}` : ''}
+                                        ${b.bookingRef ? `<div style="font-size:0.9em; color:#475569; margin-top:2px;">🔖 <b>אישור הזמנה:</b> ${escapeHtmlFlight(b.bookingRef)}</div>` : ''}
+                                    </div>
                                 </div>
-                                <div style="font-weight:900; font-size:0.92em; color:#0f172a; margin-bottom:4px;">${escapeHtmlFlight(b.title)}</div>
-                                <div style="font-size:0.82em; color:#334155; line-height:1.45;">
-                                    ${b.time ? `🕒 <b>שעה:</b> ${escapeHtmlFlight(b.time)}${b.endTime ? ' ➔ ' + escapeHtmlFlight(b.endTime) : ''}<br>` : ''}
-                                    ${b.lineNumber ? `🔢 <b>קו/מספר:</b> ${escapeHtmlFlight(b.lineNumber)} ` : ''}
-                                    ${b.platform ? `| 🚉 <b>רציף:</b> ${escapeHtmlFlight(b.platform)} ` : ''}
-                                    ${b.coach ? `| 🚃 <b>קרון:</b> ${escapeHtmlFlight(b.coach)} ` : ''}
-                                    ${b.row ? `↕️ <b>שורה:</b> ${escapeHtmlFlight(b.row)} ` : ''}
-                                    ${b.seat ? `💺 <b>מקום ישיבה:</b> <b style="color:#15803d;">${escapeHtmlFlight(b.seat)}</b> ` : ''}
-                                    ${b.guests ? `👥 <b>סועדים/כרטיסים:</b> ${escapeHtmlFlight(b.guests)} ` : ''}
-                                    ${b.address ? `<br>📍 ${escapeHtmlFlight(b.address)}` : ''}
-                                    ${b.kosherNote ? `<br>🥗 ${escapeHtmlFlight(b.kosherNote)}` : ''}
-                                </div>
-                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-top:6px; padding-top:5px; border-top:1px dashed #e2e8f0;">
-                                    <span style="font-size:0.75em; color:#64748b;">${b.bookingRef ? '🔖 הזמנה: ' + escapeHtmlFlight(b.bookingRef) : ''}</span>
-                                    <button type="button" onclick="updateSingleBookingDetailsPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:2px 7px; font-size:0.75em; font-weight:800; cursor:pointer;">✏️ עדכן</button>
+                                <div style="display:flex; flex-wrap:wrap; gap:4px; padding-top:6px; border-top:1px dashed #e2e8f0; align-items:center;">
+                                    <button type="button" onclick="openBookingOnMap(${idx})" style="background:#2563eb; color:white; border:none; border-radius:6px; padding:4px 8px; font-size:0.76em; font-weight:900; cursor:pointer;">${mapLabel}</button>
+                                    ${b.website ? `<a href="${escapeHtmlFlight(b.website)}" target="_blank" rel="noopener noreferrer" style="background:#4f46e5; color:white; border-radius:6px; padding:4px 8px; font-size:0.76em; font-weight:900; text-decoration:none;">🌐 אתר</a>` : `<a href="${mapsFallbackUrl}" target="_blank" rel="noopener noreferrer" style="background:#f1f5f9; color:#334155; border:1px solid #cbd5e1; border-radius:6px; padding:3px 7px; font-size:0.76em; font-weight:800; text-decoration:none;">🔍 גוגל מפות</a>`}
+                                    <button type="button" onclick="showBookingTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; border-radius:6px; padding:4px 8px; font-size:0.76em; font-weight:900; cursor:pointer;">🚖 נהג</button>
+                                    <button type="button" onclick="updateSingleBookingDetailsPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:3px 7px; font-size:0.75em; font-weight:800; cursor:pointer; margin-right:auto;">✏️ עדכן</button>
                                 </div>
                             </div>
                         `;
