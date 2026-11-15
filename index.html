@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.5</title>
+    <title>Travel Assistant V5.4.6</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -500,8 +500,11 @@
             70% { transform: rotate(0); }
             100% { transform: rotate(0); }
         }
-        .ringing-bell {
-            animation: bell-ring 2.5s infinite ease-in-out;
+        #home-alerts-bell-icon {
+            animation: none;
+        }
+        .ringing-bell[data-unread="true"] {
+            animation: bell-ring 2.5s infinite ease-in-out !important;
             transform-origin: top center;
         }
     
@@ -840,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.5</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.6</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -3026,6 +3029,9 @@
                 } else {
                     setWizardStep(1);
                 }
+            }
+            if (screenId === 'screen-home' && typeof updateHomeAlertBellState === 'function') {
+                updateHomeAlertBellState();
             }
             if (screenId === 'screen-alerts' && typeof markAlertsAsRead === 'function') {
                 markAlertsAsRead();
@@ -9668,6 +9674,7 @@
             let lastRead = '';
             try { lastRead = localStorage.getItem('ta_last_read_alert_sig') || ''; } catch (e) {}
             const hasUnread = Boolean(sig && sig !== lastRead);
+            bellEl.setAttribute('data-unread', hasUnread ? 'true' : 'false');
             bellEl.classList.toggle('ringing-bell', hasUnread);
         }
         function markAlertsAsRead() {
