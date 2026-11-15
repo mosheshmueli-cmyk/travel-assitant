@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.5</title>
+    <title>Travel Assistant V5.3.6</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.5</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.6</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -7187,8 +7187,9 @@
                 const isHotel = st.isHotel || st.type === 'hotel' || (st.title && (st.title.includes('🏨') || st.title.includes('🛏️')));
                 const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
 
-                let markerColor = '#ec4899';
-                let markerHtml = `${idx + 1}`;
+                const cBadge = (typeof getStationCanonicalBadge === 'function') ? getStationCanonicalBadge(st, idx) : { siteInDay: idx + 1, fullLabel: st.title, bg: '#ec4899' };
+                let markerColor = cBadge.bg || '#ec4899';
+                let markerHtml = `${cBadge.siteInDay || (idx + 1)}`;
                 let markerBorder = '2.5px solid white';
                 let markerSize = 30;
 
@@ -7213,10 +7214,11 @@
                     markerHtml = '🏁';
                 }
 
+                const safePinTitle = `${cBadge.fullLabel}: ${st.title || ''}`.replace(/"/g, '&quot;');
                 const icon = L.divIcon({
                     className: 'custom-station-pin',
                     html: `
-                        <div style="background:${markerColor}; color:white; width:${markerSize}px; height:${markerSize}px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; border:${markerBorder}; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;">
+                        <div title="${safePinTitle}" style="background:${markerColor}; color:white; width:${markerSize}px; height:${markerSize}px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; border:${markerBorder}; box-shadow:0 2px 6px rgba(0,0,0,0.35); cursor:pointer;">
                             ${markerHtml}
                         </div>
                     `,
@@ -7583,9 +7585,63 @@
             return titleStr.replace(/^(?:🏨|🛏️)\s*\d+[-–\/\d]*:\s*/, '').replace(/^\d+\.\s*/, '').split(' - ')[0].split(' (')[0].trim();
         }
 
+        function getStationCanonicalBadge(st, idx) {
+            const info = (typeof inferStationDayInfo === 'function') ? inferStationDayInfo(st, idx) : { dayNum: 1 };
+            const dayNum = info.dayNum || 1;
+            const isHotel = Boolean(st && (st.isHotel || st.type === 'hotel' || (st.title && (st.title.includes('🏨') || st.title.includes('🛏️')))));
+            const isChabad = Boolean(st && (st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'))));
+            const isConn = Boolean(st && st.type === 'connection');
+            const isFlight = Boolean(st && (st.isFlight || st.type === 'flight' || isConn));
+
+            if (isHotel) {
+                return { dayNum, siteInDay: 0, code: `🛏️ ל${dayNum}`, fullLabel: `🛏️ לילה ${dayNum}`, bg: '#4f46e5', isHotel: true, isFlight: false };
+            }
+            if (isFlight) {
+                return { dayNum, siteInDay: 0, code: `✈️ י${dayNum}`, fullLabel: `✈️ יום ${dayNum} · טיסה`, bg: '#0284c7', isHotel: false, isFlight: true };
+            }
+            if (isChabad) {
+                return { dayNum, siteInDay: 0, code: `✡️ י${dayNum}`, fullLabel: `✡️ יום ${dayNum} · חב"ד`, bg: '#0284c7', isHotel: false, isFlight: false };
+            }
+
+            let siteInDay = 1;
+            if (Array.isArray(STATIONS)) {
+                let count = 0;
+                for (let i = 0; i <= idx && i < STATIONS.length; i++) {
+                    const s = STATIONS[i];
+                    if (!s) continue;
+                    const sInfo = (typeof inferStationDayInfo === 'function') ? inferStationDayInfo(s, i) : { dayNum: 1 };
+                    const sHotel = Boolean(s.isHotel || s.type === 'hotel' || (s.title && (s.title.includes('🏨') || s.title.includes('🛏️'))));
+                    const sFlight = Boolean(s.isFlight || s.type === 'flight' || s.type === 'connection');
+                    const sChabad = Boolean(s.isChabad || s.type === 'chabad' || (s.title && s.title.includes('✡️')));
+                    if ((sInfo.dayNum || 1) === dayNum && !sHotel && !sFlight && !sChabad) {
+                        count++;
+                    }
+                }
+                if (count > 0) siteInDay = count;
+            }
+            const bg = (idx === 0) ? '#16a34a' : (idx === STATIONS.length - 1 ? '#475569' : '#ec4899');
+            return { dayNum, siteInDay, code: `י${dayNum}·${siteInDay}`, fullLabel: `יום ${dayNum} · אתר ${siteInDay}`, bg, isHotel: false, isFlight: false };
+        }
+
+        function highlightStationRowInList(idx) {
+            document.querySelectorAll('.station-sync-row').forEach(el => {
+                el.style.outline = '';
+                el.style.boxShadow = '';
+            });
+            const row = document.getElementById('station-row-' + idx);
+            if (row) {
+                row.style.outline = '2.5px solid #2563eb';
+                row.style.boxShadow = '0 0 0 4px rgba(37,99,235,0.16)';
+                if (typeof row.scrollIntoView === 'function') {
+                    row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
+            }
+        }
+
         function openStationLivePopup(idx) {
             const st = STATIONS[idx];
             if (!st || !dynamicMap) return;
+            highlightStationRowInList(idx);
 
             const prevSt = (idx > 0) ? STATIONS[idx - 1] : null;
             const nextSt = (idx < STATIONS.length - 1) ? STATIONS[idx + 1] : null;
@@ -7654,10 +7710,14 @@
             const stayTimeHtml = `<div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; border-radius:6px; padding:4px 7px; margin:3px 0; font-size:10.5px; font-weight:800; line-height:1.35;">📅 <b>יום ${dayInfo.dayNum}</b> | ⏳ <b>שהייה מומלצת:</b> ${dayInfo.recommendedStay}${st.stayTime ? `<br>🕒 <b>לו"ז:</b> ${st.stayTime}` : ''}</div>`;
             const safePopupTitle = String(st.title || '').replace(/'/g, "\\'");
 
+            const canonicalBadge = getStationCanonicalBadge(st, idx);
             const popupContent = `
                 <div style="font-family:'Heebo',sans-serif; text-align:right;" dir="rtl">
-                    <div id="station-bubble-full-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
-                        <div style="font-weight:900; color:#0f172a; font-size:1.12em; line-height:1.2;">${st.title}</div>
+                    <div id="station-bubble-full-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px; flex-wrap:wrap;">
+                        <div style="font-weight:900; color:#0f172a; font-size:1.08em; line-height:1.25;">
+                            <span style="background:${canonicalBadge.bg}; color:white; font-size:0.78em; font-weight:900; padding:2px 7px; border-radius:6px; margin-left:5px; display:inline-block;">${canonicalBadge.fullLabel}</span>
+                            ${st.title}
+                        </div>
                     </div>
                     <div id="station-bubble-collapsible">
                         <div style="color:#0369a1; font-size:0.95em; margin:2px 0; font-weight:bold;">📍 ${st.address || st.desc || ''}</div>
@@ -8702,9 +8762,10 @@
                     const timeCol = leg ? `<b style="color:#2563eb;">${leg.timeStr}</b>` : `<span style="color:#64748b;">-</span>`;
                     const stayCol = `<div style="font-weight:800; color:#1e40af;">${info.recommendedStay}</div>${st.stayTime ? `<div style="font-size:0.75em; color:#475569;">${st.stayTime}</div>` : ''}`;
 
+                    const cBadge = (typeof getStationCanonicalBadge === 'function') ? getStationCanonicalBadge(st, idx) : { code: `י${info.dayNum}`, bg: '#4338ca' };
                     return `
                         <tr onclick="setTargetStation(${idx})" style="border-bottom:1px solid #e2e8f0; cursor:pointer; background:${activeTargetIndex === idx ? '#eff6ff' : (pos % 2 === 0 ? '#ffffff' : '#f8fafc')};" title="לחץ למיקוד המפה על תחנה זו">
-                            <td style="padding:6px 7px; font-weight:900; color:#4338ca; text-align:center; white-space:nowrap;">יום ${info.dayNum}</td>
+                            <td style="padding:6px 7px; font-weight:900; text-align:center; white-space:nowrap;"><span style="background:${cBadge.bg}; color:white; padding:2px 6px; border-radius:6px; font-size:0.86em;">${cBadge.code}</span></td>
                             <td style="padding:6px 7px; line-height:1.25;">${fromToLabel}</td>
                             <td style="padding:6px 7px; white-space:nowrap;">${distCol}</td>
                             <td style="padding:6px 7px; white-space:nowrap;">${timeCol}</td>
@@ -8808,19 +8869,12 @@
                 const isConn = st.type === 'connection';
                 const isFlight = st.isFlight || st.type === 'flight';
                 
-                let anchorBadge = '';
-                if (isConn) {
-                    anchorBadge = `<span style="background:#7c3aed; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">⏳ טיסת מעבר (קונקשן)</span>`;
-                } else if (isFlight) {
-                    anchorBadge = `<span style="background:#0284c7; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">✈️ טיסה</span>`;
-                } else if (isChabad) {
-                    anchorBadge = `<span style="background:#0284c7; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">✡️ בית חב"ד</span>`;
-                } else if (isHotel) {
-                    anchorBadge = `<span style="background:#4f46e5; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🛏️ מלון</span>`;
-                } else if (idx === 0) {
-                    anchorBadge = `<span style="background:#16a34a; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🚩 תחילת מסלול</span>`;
-                } else if (idx === STATIONS.length - 1) {
-                    anchorBadge = `<span style="background:#475569; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🏁 סיום מסלול</span>`;
+                const cBadge = (typeof getStationCanonicalBadge === 'function') ? getStationCanonicalBadge(st, idx) : { fullLabel: `יום ${info.dayNum}`, bg: '#2563eb' };
+                let anchorBadge = `<span style="background:${cBadge.bg}; color:white; font-size:0.74em; font-weight:900; padding:2px 7px; border-radius:6px; margin-left:5px; display:inline-block;">${cBadge.fullLabel}</span>`;
+                if (idx === 0 && !cBadge.isHotel && !cBadge.isFlight) {
+                    anchorBadge += `<span style="background:#15803d; color:white; font-size:0.7em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🚩 פתיחה</span>`;
+                } else if (idx === STATIONS.length - 1 && !cBadge.isHotel && !cBadge.isFlight) {
+                    anchorBadge += `<span style="background:#334155; color:white; font-size:0.7em; font-weight:900; padding:1px 6px; border-radius:5px; margin-left:4px;">🏁 סיום</span>`;
                 }
 
                 const returnCardAfterLast = (idx === STATIONS.length - 1 && returnLegObj) ? `
@@ -8841,7 +8895,7 @@
                 return `
                     ${dayHeaderHtml}
                     ${connectorTopHtml}
-                    <div style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                    <div id="station-row-${idx}" class="station-sync-row" style="${bgStyle} border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
                         <div style="flex-grow:1; cursor:pointer;" onclick="setTargetStation(${idx})">
                             <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.25;">${anchorBadge}${st.title}</div>
                             <div style="font-size:0.84em; color:#475569; margin-top:2px; line-height:1.25;">${st.desc || st.address || ''}</div>
