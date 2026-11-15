@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.4</title>
+    <title>Travel Assistant V5.3.5</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.4</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.5</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -4963,6 +4963,95 @@
             } catch (e) {}
         }
 
+        // ================= SINGLE SOURCE OF TRUTH: CENTRAL REACTIVE DISPATCHER =================
+        function broadcastTripDataChange(tripKey, options = {}) {
+            const k = tripKey || currentTripKey;
+            if (!k || !TRIPS_DATABASE[k]) return;
+
+            const flights = (typeof getTripFlightTickets === 'function') ? getTripFlightTickets(k) : [];
+            const bookings = (typeof getTripBookings === 'function') ? getTripBookings(k) : [];
+
+            if (k === currentTripKey) {
+                if (typeof applyBookingsToQuestionnaire === 'function') applyBookingsToQuestionnaire(k, flights, bookings);
+                if (typeof renderStep4FlightTicketsCard === 'function') renderStep4FlightTicketsCard(k);
+                if (typeof renderStep4BookingsHubCard === 'function') renderStep4BookingsHubCard(k);
+                if (typeof renderAiFlightsCard === 'function') renderAiFlightsCard(k);
+                if (typeof renderAiBookingsCards === 'function') renderAiBookingsCards(k);
+                if (typeof renderStep4ArrivalChainCard === 'function') renderStep4ArrivalChainCard();
+                if (typeof renderStationsList === 'function') renderStationsList();
+                if (typeof renderStationQuickSelectors === 'function') renderStationQuickSelectors();
+                if (typeof renderMapDaySelector === 'function') renderMapDaySelector();
+                if (typeof renderFoodCards === 'function') renderFoodCards();
+                if (typeof updatePipelineDisplay === 'function') updatePipelineDisplay();
+
+                if (dynamicMap) {
+                    if (typeof renderMapArrivalAndRoutePolylines === 'function') renderMapArrivalAndRoutePolylines();
+                    if (typeof renderMapStationMarkers === 'function') renderMapStationMarkers();
+                }
+
+                // If a station bubble is currently open, refresh it in-place from the same Single Source of Truth
+                const bubble = document.getElementById('station-floating-bubble');
+                if (bubble && bubble.style.display !== 'none' && typeof window._lastOpenedStationIdx === 'number' && typeof openStationLivePopup === 'function') {
+                    openStationLivePopup(window._lastOpenedStationIdx);
+                }
+            }
+
+            if (!options.skipCloudPush && typeof schedulePushTripsStateToCloud === 'function') {
+                schedulePushTripsStateToCloud();
+            }
+        }
+
+        function matchFlightTicketsForStation(st, tripKey) {
+            if (!st) return [];
+            const tickets = getTripFlightTickets(tripKey);
+            if (!tickets || tickets.length === 0) return [];
+            const stText = `${st.title || ''} ${st.desc || ''} ${st.address || ''} ${st.stayTime || ''}`.toUpperCase();
+            const isFlightOrAirport = /טיסה|המראה|נחיתה|נתב"ג|נתבג|טרמינל|שדה תעופה|AIRPORT|FLIGHT|\b(?:TLV|ADD|ICN|GMP|PUS|CJU|FCO|MXP|CDG|LHR|JFK|LAX|FRA|IST|DXB)\b/.test(stText);
+            if (!isFlightOrAirport) return [];
+
+            const matched = [];
+            tickets.forEach((t, tIdx) => {
+                const fNum = String(t.flightNumber || '').replace(/\s+/g, '').toUpperCase();
+                const fNumSpaced = String(t.flightNumber || '').toUpperCase();
+                const fromCode = (String(t.from || '').match(/\b([A-Z]{3})\b/) || [])[1] || '';
+                const toCode = (String(t.to || '').match(/\b([A-Z]{3})\b/) || [])[1] || '';
+
+                const matchesFlightNum = (fNum && (stText.replace(/\s+/g, '').includes(fNum) || stText.includes(fNumSpaced)));
+                const matchesFrom = (fromCode && stText.includes(fromCode) && /המראה|טיסה|יציאה|TERMINAL|טרמינל|נתב/.test(stText));
+                const matchesTo = (toCode && stText.includes(toCode) && /נחיתה|הגעה|ARRIVAL/.test(stText));
+
+                if (matchesFlightNum || matchesFrom || matchesTo) {
+                    matched.push({ ticket: t, idx: tIdx });
+                }
+            });
+            return matched;
+        }
+
+        function openFlightTicketOnMap(ticketIdx) {
+            const tickets = getTripFlightTickets(currentTripKey);
+            const t = tickets[ticketIdx];
+            if (!t || !Array.isArray(STATIONS)) return;
+            const fNum = String(t.flightNumber || '').replace(/\s+/g, '').toUpperCase();
+            const fromCode = (String(t.from || '').match(/\b([A-Z]{3})\b/) || [])[1] || '';
+            let targetStIdx = STATIONS.findIndex(st => {
+                const txt = `${st.title || ''} ${st.desc || ''} ${st.stayTime || ''}`.toUpperCase();
+                return (fNum && txt.replace(/\s+/g, '').includes(fNum)) || (fromCode && txt.includes(fromCode) && /המראה|טיסה|טרמינל/.test(txt));
+            });
+            if (targetStIdx === -1) {
+                targetStIdx = STATIONS.findIndex(st => /טיסה|המראה|נתב"ג|TLV|ICN|AIRPORT/i.test(`${st.title || ''} ${st.address || ''}`));
+            }
+            if (targetStIdx >= 0) {
+                if (typeof openStep4HotelOnMap === 'function') {
+                    openStep4HotelOnMap(targetStIdx);
+                } else {
+                    switchScreen('screen-map');
+                    setTimeout(() => setTargetStation(targetStIdx), 150);
+                }
+            } else {
+                openFlightSeatMapModal(ticketIdx);
+            }
+        }
+
         function updateSingleFlightSeatPrompt(index) {
             const tickets = getTripFlightTickets(currentTripKey);
             if (!tickets[index]) return;
@@ -4971,9 +5060,7 @@
             if (nextSeat === null) return;
             tickets[index].seat = nextSeat.trim().toUpperCase();
             saveTripFlightTickets(currentTripKey, tickets);
-            renderStep4FlightTicketsCard(currentTripKey);
-            renderAiFlightsCard(currentTripKey);
-            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
+            broadcastTripDataChange(currentTripKey);
         }
 
         function renderStep4FlightTicketsCard(tripKey) {
@@ -5018,6 +5105,7 @@
                                     💺 מקום ישיבה: ${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}
                                 </span>
                                 <div style="display:flex; gap:4px; align-items:center;">
+                                    <button type="button" onclick="openFlightTicketOnMap(${idx})" style="background:#dbeafe; border:1px solid #93c5fd; color:#1d4ed8; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:900; cursor:pointer;">🗺️ במפה</button>
                                     <button type="button" onclick="openFlightSeatMapModal(${idx})" style="background:#ccfbf1; border:1px solid #5eead4; color:#0f766e; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:900; cursor:pointer;">💺 תרשים</button>
                                     <button type="button" onclick="updateSingleFlightSeatPrompt(${idx})" style="background:#f8fafc; border:1px solid #cbd5e1; color:#334155; border-radius:6px; padding:2px 7px; font-size:0.76em; font-weight:800; cursor:pointer;">✏️ עדכן מושב</button>
                                 </div>
@@ -5060,7 +5148,10 @@
                                 | 💺 מושב: <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
                                 ${t.gate ? `| 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
                             </div>
-                            <button onclick="openFlightSeatMapModal(${idx})" style="background:#ccfbf1; color:#0f766e; border:1px solid #5eead4; border-radius:6px; padding:2px 8px; font-size:0.8em; font-weight:900; cursor:pointer; white-space:nowrap;">💺 תרשים</button>
+                            <div style="display:flex; gap:4px; align-items:center;">
+                                <button onclick="openFlightTicketOnMap(${idx})" style="background:#dbeafe; color:#1d4ed8; border:1px solid #93c5fd; border-radius:6px; padding:2px 8px; font-size:0.8em; font-weight:900; cursor:pointer; white-space:nowrap;">🗺️ במפה</button>
+                                <button onclick="openFlightSeatMapModal(${idx})" style="background:#ccfbf1; color:#0f766e; border:1px solid #5eead4; border-radius:6px; padding:2px 8px; font-size:0.8em; font-weight:900; cursor:pointer; white-space:nowrap;">💺 תרשים</button>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -5154,10 +5245,8 @@
             }
             t.seat = nextSeatVal;
             saveTripFlightTickets(currentTripKey, tickets);
-            renderStep4FlightTicketsCard(currentTripKey);
-            renderAiFlightsCard(currentTripKey);
+            broadcastTripDataChange(currentTripKey);
             renderFlightSeatMapBody();
-            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
         }
 
         function renderFlightSeatMapBody() {
@@ -5649,9 +5738,7 @@
                 if (nextGuests !== null) b.guests = nextGuests.trim();
             }
             saveTripBookings(currentTripKey, bookings);
-            renderStep4BookingsHubCard(currentTripKey);
-            renderAiBookingsCards(currentTripKey);
-            if (typeof schedulePushTripsStateToCloud === 'function') schedulePushTripsStateToCloud();
+            broadcastTripDataChange(currentTripKey);
         }
 
         function openBookingOnMap(idx) {
@@ -7540,6 +7627,28 @@
                 }
             }
 
+            window._lastOpenedStationIdx = idx;
+            const matchedFlights = (typeof matchFlightTicketsForStation === 'function') ? matchFlightTicketsForStation(st, currentTripKey) : [];
+            const flightTicketPopupHtml = matchedFlights.length > 0 ? matchedFlights.map(({ ticket: ft, idx: ftIdx }) => `
+                <div style="background:#eff6ff; border:1.5px solid #60a5fa; border-radius:8px; padding:6px 8px; margin:4px 0;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; margin-bottom:3px; flex-wrap:wrap;">
+                        <span style="background:#1d4ed8; color:white; font-weight:900; font-size:0.9em; padding:1px 7px; border-radius:5px;" dir="ltr">✈️ ${escapeHtmlFlight(ft.flightNumber)}</span>
+                        ${ft.date ? `<span style="font-size:0.85em; font-weight:800; color:#334155;">📅 ${escapeHtmlFlight(ft.date)}</span>` : ''}
+                    </div>
+                    <div style="font-size:0.92em; color:#0f172a; line-height:1.4;">
+                        🕒 <b>שעה:</b> ${escapeHtmlFlight(ft.departureTime || 'לא צוין')}${ft.arrivalTime ? ' ➔ ' + escapeHtmlFlight(ft.arrivalTime) : ''}
+                        ${ft.terminal ? ` | 🏢 <b>טרמינל</b> ${escapeHtmlFlight(ft.terminal)}` : ''}
+                        ${ft.gate ? ` | 🚪 <b>שער</b> ${escapeHtmlFlight(ft.gate)}` : ''}
+                        <br>💺 <b>מושב:</b> <b style="color:${ft.seat ? '#15803d' : '#b45309'};">${ft.seat ? escapeHtmlFlight(ft.seat) : 'לא צוין'}</b>
+                        ${ft.bookingRef ? ` | 🔖 <b>הזמנה:</b> ${escapeHtmlFlight(ft.bookingRef)}` : ''}
+                    </div>
+                    <div style="display:flex; gap:4px; margin-top:5px; flex-wrap:wrap;">
+                        <button type="button" onclick="openFlightSeatMapModal(${ftIdx})" style="flex:1; background:#0f766e; color:white; border:none; border-radius:5px; padding:4px 6px; font-size:0.85em; font-weight:900; cursor:pointer;">💺 תרשים ישיבה</button>
+                        <button type="button" onclick="updateSingleFlightSeatPrompt(${ftIdx})" style="background:white; border:1px solid #93c5fd; color:#1e40af; border-radius:5px; padding:4px 6px; font-size:0.85em; font-weight:800; cursor:pointer;">✏️ עדכן מושב</button>
+                    </div>
+                </div>
+            `).join('') : '';
+
             const stopCodeHtml = st.stopCode ? `<div style="background:#fff7ed; color:#c2410c; padding:1px 6px; border-radius:5px; font-weight:900; font-size:10px; margin-top:2px; display:inline-block;">🚏 קוד תחנה: ${st.stopCode}</div>` : '';
             const dayInfo = (typeof inferStationDayInfo === 'function') ? inferStationDayInfo(st, idx) : { dayNum: 1, recommendedStay: '' };
             const stayTimeHtml = `<div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; border-radius:6px; padding:4px 7px; margin:3px 0; font-size:10.5px; font-weight:800; line-height:1.35;">📅 <b>יום ${dayInfo.dayNum}</b> | ⏳ <b>שהייה מומלצת:</b> ${dayInfo.recommendedStay}${st.stayTime ? `<br>🕒 <b>לו"ז:</b> ${st.stayTime}` : ''}</div>`;
@@ -7552,6 +7661,7 @@
                     </div>
                     <div id="station-bubble-collapsible">
                         <div style="color:#0369a1; font-size:0.95em; margin:2px 0; font-weight:bold;">📍 ${st.address || st.desc || ''}</div>
+                        ${flightTicketPopupHtml}
                         ${stayTimeHtml}
                         ${stopCodeHtml}
                         ${st.shabbatInfo ? `<div style="background:#fef3c7; border:1.5px solid #f59e0b; border-radius:7px; padding:5px 8px; margin:4px 0; font-size:0.95em; color:#92400e; line-height:1.35; text-align:right;"><b>✡️ שבת ובית חב"ד:</b> ${st.shabbatInfo}</div>` : ''}
