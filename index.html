@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.6</title>
+    <title>Travel Assistant V5.4.7</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -843,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.6</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.7</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -3081,7 +3081,7 @@
                         stopCode: null,
                         type: "connection",
                         isFlight: true,
-                        stayTime: "יום א' 22/11: נחיתה 19:55 ➔ המראה 22:35",
+                        stayTime: "יום א' 22/11: נחיתה 19:55 ⬅ המראה 22:35",
                         recommendedStay: "שעתיים ו-40 דק' המתנה בטרמינל 2 + 11:10 שעות טיסת המשך",
                         transitType: "טיסת המשך ET 672 לסיאול",
                         walkingDist: "מעבר פנימי מונגש בטרמינל 2"
@@ -3789,7 +3789,7 @@
         };
 
         const KESHET_YEHONATAN_QUESTIONNAIRE = {
-            origin: "שדרות העצמאות 93, אשדוד (יציאה ב-05:45 ➔ איסוף בגינוסר ב-08:30)",
+            origin: "שדרות העצמאות 93, אשדוד (יציאה ב-05:45 ⬅ איסוף בגינוסר ב-08:30)",
             destination: "קשת יהונתן, עמק החולה, רמת הגולן וחמת גדר",
             character: "טיול תרבות, מורשת, טבע ומרחצאות בצפון הארץ (בהדרכת מוטי בר-נס)",
             group: "טיול קבוצתי מאורגן לגמלאים",
@@ -5185,9 +5185,9 @@
                                 <span style="background:#1d4ed8; color:white; font-weight:900; font-size:0.86em; padding:2px 8px; border-radius:6px;" dir="ltr">✈️ ${escapeHtmlFlight(t.flightNumber)}</span>
                                 ${t.date ? `<span style="font-size:0.78em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(t.date)}</span>` : ''}
                             </div>
-                            ${(t.from || t.to) ? `<div style="font-weight:900; font-size:0.88em; color:#0f172a; margin-bottom:4px;">${escapeHtmlFlight(t.from || 'מוצא')} ➔ ${escapeHtmlFlight(t.to || 'יעד')}</div>` : ''}
+                            ${(t.from || t.to) ? `<div style="font-weight:900; font-size:0.88em; color:#0f172a; margin-bottom:4px;"><bdi>${escapeHtmlFlight(t.from || 'מוצא')}</bdi> ⬅ <bdi>${escapeHtmlFlight(t.to || 'יעד')}</bdi></div>` : ''}
                             <div style="display:flex; flex-wrap:wrap; gap:6px; font-size:0.82em; color:#334155; align-items:center; margin-bottom:6px;">
-                                <span>🕒 <b>שעה:</b> ${t.departureTime ? escapeHtmlFlight(t.departureTime) : 'לא צוין'}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}</span>
+                                <span>🕒 <b>שעה:</b> ${t.departureTime ? escapeHtmlFlight(t.departureTime) : 'לא צוין'}${t.arrivalTime ? ' ⬅ <bdi>' + escapeHtmlFlight(t.arrivalTime) + '</bdi>' : ''}</span>
                                 ${t.terminal ? `<span>| 🏢 טרמינל ${escapeHtmlFlight(t.terminal)}</span>` : ''}
                                 ${t.gate ? `<span>| 🚪 שער ${escapeHtmlFlight(t.gate)}</span>` : ''}
                             </div>
@@ -5234,8 +5234,8 @@
                             <div>
                                 • <b style="color:#1d4ed8;" dir="ltr">${escapeHtmlFlight(t.flightNumber)}</b>
                                 ${t.date ? `(${escapeHtmlFlight(t.date)})` : ''}:
-                                ${(t.from || t.to) ? `<b>${escapeHtmlFlight(t.from || '')} ➔ ${escapeHtmlFlight(t.to || '')}</b> |` : ''}
-                                🕒 שעה: <b>${escapeHtmlFlight(t.departureTime || '-')}</b>${t.arrivalTime ? ' ➔ <b>' + escapeHtmlFlight(t.arrivalTime) + '</b>' : ''}
+                                ${(t.from || t.to) ? `<b><bdi>${escapeHtmlFlight(t.from || '')}</bdi> ⬅ <bdi>${escapeHtmlFlight(t.to || '')}</bdi></b> |` : ''}
+                                🕒 שעה: <b>${escapeHtmlFlight(t.departureTime || '-')}</b>${t.arrivalTime ? ' ⬅ <b><bdi>' + escapeHtmlFlight(t.arrivalTime) + '</bdi></b>' : ''}
                                 | 💺 מושב: <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
                                 ${t.gate ? `| 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
                             </div>
@@ -5425,10 +5425,10 @@
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:6px;">
                         <div style="font-weight:900; font-size:1em; color:#0f172a;">
                             <span dir="ltr" style="background:#1d4ed8; color:white; padding:2px 8px; border-radius:6px; margin-left:6px;">✈️ ${escapeHtmlFlight(t.flightNumber)}</span>
-                            ${(t.from || t.to) ? `${escapeHtmlFlight(t.from || '')} ➔ ${escapeHtmlFlight(t.to || '')}` : ''}
+                            ${(t.from || t.to) ? `<bdi>${escapeHtmlFlight(t.from || '')}</bdi> ⬅ <bdi>${escapeHtmlFlight(t.to || '')}</bdi>` : ''}
                         </div>
                         <div style="font-size:0.82em; color:#475569; font-weight:800;">
-                            ${t.date ? '📅 ' + escapeHtmlFlight(t.date) + ' | ' : ''}🕒 ${escapeHtmlFlight(t.departureTime || '-')}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}
+                            ${t.date ? '📅 ' + escapeHtmlFlight(t.date) + ' | ' : ''}🕒 ${escapeHtmlFlight(t.departureTime || '-')}${t.arrivalTime ? ' ⬅ <bdi>' + escapeHtmlFlight(t.arrivalTime) + '</bdi>' : ''}
                         </div>
                     </div>
                     <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:6px;">${seatDetailsHtml}</div>
@@ -5785,7 +5785,7 @@
                 });
 
                 const extraDetails = [
-                    b.time ? `🕒 שעה: ${b.time}${b.endTime ? ' ➔ ' + b.endTime : ''}` : '',
+                    b.time ? `🕒 שעה: ${b.time}${b.endTime ? ' ⬅ ' + b.endTime : ''}` : '',
                     b.lineNumber ? `🔢 קו/מספר: ${b.lineNumber}` : '',
                     b.platform ? `🚉 רציף: ${b.platform}` : '',
                     b.coach ? `🚃 קרון: ${b.coach}` : '',
@@ -5919,7 +5919,7 @@
                                     <div style="font-weight:900; font-size:0.94em; color:#0f172a; margin-bottom:4px;">${escapeHtmlFlight(b.title)}</div>
                                     <div style="font-size:0.82em; color:#334155; line-height:1.45;">
                                         ${b.address ? `<div style="color:#0369a1; font-weight:800; margin-bottom:2px;">📍 ${escapeHtmlFlight(b.address)}</div>` : ''}
-                                        ${b.time ? `🕒 <b>שעה:</b> ${escapeHtmlFlight(b.time)}${b.endTime ? ' ➔ ' + escapeHtmlFlight(b.endTime) : ''}<br>` : ''}
+                                        ${b.time ? `🕒 <b>שעה:</b> ${escapeHtmlFlight(b.time)}${b.endTime ? ' ⬅ <bdi>' + escapeHtmlFlight(b.endTime) + '</bdi>' : ''}<br>` : ''}
                                         ${b.lineNumber ? `🔢 <b>קו/מספר:</b> ${escapeHtmlFlight(b.lineNumber)} ` : ''}
                                         ${b.platform ? `| 🚉 <b>רציף:</b> ${escapeHtmlFlight(b.platform)} ` : ''}
                                         ${b.coach ? `| 🚃 <b>קרון:</b> ${escapeHtmlFlight(b.coach)} ` : ''}
@@ -6005,7 +6005,7 @@
         function applyBookingsToQuestionnaire(tripKey, flights, bookings) {
             const transitParts = [];
             if (Array.isArray(flights) && flights.length > 0) {
-                transitParts.push('טיסות: ' + flights.map(f => `${f.flightNumber}${f.from || f.to ? ` (${f.from || ''}➔${f.to || ''})` : ''} ${f.departureTime || ''}${f.arrivalTime ? '-' + f.arrivalTime : ''}${f.seat ? ` מושב ${f.seat}` : ''}`).join(' • '));
+                transitParts.push('טיסות: ' + flights.map(f => `${f.flightNumber}${f.from || f.to ? ` (${f.from || ''} ⬅ ${f.to || ''})` : ''} ${f.departureTime || ''}${f.arrivalTime ? '-' + f.arrivalTime : ''}${f.seat ? ` מושב ${f.seat}` : ''}`).join(' • '));
             }
             const groundTransit = (bookings || []).filter(b => b.category === 'transit');
             if (groundTransit.length > 0) {
@@ -6124,7 +6124,7 @@
                 saveTripFlightTickets(currentTripKey, mergedFlights);
             }
             const flightsSummaryText = mergedFlights.length > 0
-                ? mergedFlights.map(f => `${f.flightNumber}${f.from || f.to ? ` (${f.from || ''}➔${f.to || ''})` : ''} ${f.departureTime || ''}${f.arrivalTime ? '-' + f.arrivalTime : ''}${f.seat ? ` | מושב ${f.seat}` : ''}`).join(' • ')
+                ? mergedFlights.map(f => `${f.flightNumber}${f.from || f.to ? ` (${f.from || ''} ⬅ ${f.to || ''})` : ''} ${f.departureTime || ''}${f.arrivalTime ? '-' + f.arrivalTime : ''}${f.seat ? ` | מושב ${f.seat}` : ''}`).join(' • ')
                 : '';
 
             // Universal Booking & Update Extraction (Restaurants, Concerts, Cinema, Museums, Trains, Buses, Ships, Hotels)
@@ -6438,8 +6438,8 @@
                                     ${t.date ? `<span style="font-size:0.82em; font-weight:800; color:#475569;">📅 ${escapeHtmlFlight(t.date)}</span>` : ''}
                                 </div>
                                 <div style="font-size:0.88em; color:#1e293b; line-height:1.5;">
-                                    ${(t.from || t.to) ? `📍 <b>מסלול:</b> ${escapeHtmlFlight(t.from || 'מוצא')} ➔ ${escapeHtmlFlight(t.to || 'יעד')}<br>` : ''}
-                                    🕒 <b>שעה:</b> ${escapeHtmlFlight(t.departureTime || 'לא צוין')}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}<br>
+                                    ${(t.from || t.to) ? `📍 <b>מסלול:</b> <bdi>${escapeHtmlFlight(t.from || 'מוצא')}</bdi> ⬅ <bdi>${escapeHtmlFlight(t.to || 'יעד')}</bdi><br>` : ''}
+                                    🕒 <b>שעה:</b> ${escapeHtmlFlight(t.departureTime || 'לא צוין')}${t.arrivalTime ? ' ⬅ <bdi>' + escapeHtmlFlight(t.arrivalTime) + '</bdi>' : ''}<br>
                                     💺 <b>מקום ישיבה:</b> <b style="color:${t.seat ? '#15803d' : '#b45309'};">${t.seat ? escapeHtmlFlight(t.seat) : 'לא צוין'}</b>
                                     ${t.terminal ? ` | 🏢 טרמינל ${escapeHtmlFlight(t.terminal)}` : ''}
                                     ${t.gate ? ` | 🚪 שער ${escapeHtmlFlight(t.gate)}` : ''}
@@ -7780,7 +7780,7 @@
                 if (retLeg) {
                     returnMeetingPopupHtml = `
                         <div style="background:#fef3c7; border:1.5px solid #f59e0b; border-radius:7px; padding:5px 7px; margin:4px 0; font-size:10.5px;">
-                            <div style="font-weight:900; color:#92400e;">🔙 בסיום המסלול ➔ ${retLeg.targetLabel}:</div>
+                            <div style="font-weight:900; color:#92400e;">🔙 בסיום המסלול ⬅ ${retLeg.targetLabel}:</div>
                             <div style="color:#0f172a; margin-top:1px;">📏 ${retLeg.distStr} | ⏱️ <b>${retLeg.timeStr}</b>${retLeg.etaArrival ? ` | הגעה משוערת: <b>${retLeg.etaArrival}</b>` : ''}</div>
                         </div>
                     `;
@@ -7796,7 +7796,7 @@
                         ${ft.date ? `<span style="font-size:0.85em; font-weight:800; color:#334155;">📅 ${escapeHtmlFlight(ft.date)}</span>` : ''}
                     </div>
                     <div style="font-size:0.92em; color:#0f172a; line-height:1.4;">
-                        🕒 <b>שעה:</b> ${escapeHtmlFlight(ft.departureTime || 'לא צוין')}${ft.arrivalTime ? ' ➔ ' + escapeHtmlFlight(ft.arrivalTime) : ''}
+                        🕒 <b>שעה:</b> ${escapeHtmlFlight(ft.departureTime || 'לא צוין')}${ft.arrivalTime ? ' ⬅ <bdi>' + escapeHtmlFlight(ft.arrivalTime) + '</bdi>' : ''}
                         ${ft.terminal ? ` | 🏢 <b>טרמינל</b> ${escapeHtmlFlight(ft.terminal)}` : ''}
                         ${ft.gate ? ` | 🚪 <b>שער</b> ${escapeHtmlFlight(ft.gate)}` : ''}
                         <br>💺 <b>מושב:</b> <b style="color:${ft.seat ? '#15803d' : '#b45309'};">${ft.seat ? escapeHtmlFlight(ft.seat) : 'לא צוין'}</b>
@@ -8985,7 +8985,7 @@
                 const returnCardAfterLast = (idx === STATIONS.length - 1 && returnLegObj) ? `
                     <div id="return-to-meeting-summary-card" style="background:#fffbeb; border:1.5px solid #f59e0b; border-radius:10px; padding:8px 12px; margin-top:4px; display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer;" onclick="focusArrivalAnchor('${returnLegObj.anchorType}')">
                         <div style="flex-grow:1;">
-                            <div style="font-weight:900; font-size:0.94em; color:#92400e;">🔙 בתום המסלול ➔ חזרה אל ${returnLegObj.targetLabel}</div>
+                            <div style="font-weight:900; font-size:0.94em; color:#92400e;">🔙 בתום המסלול ⬅ חזרה אל ${returnLegObj.targetLabel}</div>
                             <div style="font-size:0.8em; color:#334155; margin-top:2px;">📍 ${returnLegObj.targetAddress}</div>
                         </div>
                         <div style="text-align:left; white-space:nowrap;">
@@ -11880,6 +11880,12 @@
                             healed = true;
                         }
                     }
+                    ['connectionOutbound', 'connectionReturn', 'domesticFlightsSummary', 'trailheadAddress', 'originTime', 'meetingTime', 'trailheadTime'].forEach(field => {
+                        if (parsed[field] && typeof parsed[field] === 'string' && parsed[field].includes('➔')) {
+                            parsed[field] = parsed[field].replace(/\s*➔\s*/g, ' ⬅ ');
+                            healed = true;
+                        }
+                    });
                     const syncRes = synchronizeArrivalChainCoords(parsed, k);
                     if (syncRes.changed || healed) {
                         localStorage.setItem('travel_assistant_arrival_chain_' + k, JSON.stringify(parsed));
@@ -12104,8 +12110,8 @@
             const qOrigin = document.getElementById('q_origin');
             if (qOrigin) {
                 qOrigin.value = chain.hasMeetingPoint
-                    ? `יציאה: ${chain.originAddress} (${chain.originTime}) ➔ נק' מפגש: ${chain.meetingAddress} (${chain.meetingTime}) ➔ תחילת מסלול: ${chain.trailheadAddress}`
-                    : `יציאה: ${chain.originAddress} (${chain.originTime}) ➔ הגעה ישירה לתחילת מסלול: ${chain.trailheadAddress}`;
+                    ? `יציאה: ${chain.originAddress} (${chain.originTime}) ⬅ נק' מפגש: ${chain.meetingAddress} (${chain.meetingTime}) ⬅ תחילת מסלול: ${chain.trailheadAddress}`
+                    : `יציאה: ${chain.originAddress} (${chain.originTime}) ⬅ הגעה ישירה לתחילת מסלול: ${chain.trailheadAddress}`;
             }
 
             renderStep4ArrivalChainCard(chain);
@@ -13418,7 +13424,7 @@
                 trip.dates = dateVal;
                 trip.center = [venueCoords.lat, venueCoords.lng];
                 trip.stations = derivedStations;
-                trip.description = `${titleVal} ב-${venueVal} (${dateVal}) | יציאה מהבית: ${originTimeVal.split('(')[0].trim()} ➔ התחלה: ${startTimeVal} ➔ חופה/שיא: ${chuppahTimeVal}`;
+                trip.description = `${titleVal} ב-${venueVal} (${dateVal}) | יציאה מהבית: ${originTimeVal.split('(')[0].trim()} ⬅ התחלה: ${startTimeVal} ⬅ חופה/שיא: ${chuppahTimeVal}`;
                 STATIONS = derivedStations;
 
                 if (currentTripKey.startsWith('custom_')) {
@@ -13439,14 +13445,14 @@
 
             // 5. Populate All 12 Questionnaire Fields (Step 3 -> 12/12 Complete!)
             const derivedQuestionnaire = {
-                origin: `יציאה מ-${originAddrVal} בשעה ${originTimeVal} ➔ הגעה ישירה אל ${venueVal}`,
+                origin: `יציאה מ-${originAddrVal} בשעה ${originTimeVal} ⬅ הגעה ישירה אל ${venueVal}`,
                 destination: `${titleVal} – ${venueVal}`,
                 character: isEvent ? `אירוע משפחתי / חתונה (קבלת פנים ב-${startTimeVal}, חופה ב-${chuppahTimeVal})` : `טיול / סיור מתוכנן (${titleVal})`,
                 group: isEvent ? 'משפחה ומוזמנים לאירוע' : 'משפחה / חברים',
                 duration: isEvent ? `ערב אחד (${startTimeVal} עד ${endTimeVal})` : 'יום אחד מרוכז',
                 date: dateVal,
                 budget: isEvent ? 'מתנה לאירוע (צ\'ק / העברה / אשראי) + הוצאות דלק/נסיעה' : 'לפי תכנון',
-                activities: `1. יציאה מהבית (${originTimeVal.split('(')[0].trim()}) ➔ 2. הגעה וקבלת פנים ב-${venueVal} (${startTimeVal}) ➔ 3. חופה/טקס וסעודה (${chuppahTimeVal}) ➔ 4. חזרה הביתה (${endTimeVal})`,
+                activities: `1. יציאה מהבית (${originTimeVal.split('(')[0].trim()}) ⬅ 2. הגעה וקבלת פנים ב-${venueVal} (${startTimeVal}) ⬅ 3. חופה/טקס וסעודה (${chuppahTimeVal}) ⬅ 4. חזרה הביתה (${endTimeVal})`,
                 transit: `הגעה ישירה ברכב פרטי / מונית מ-${originAddrVal.split('(')[0].trim()} אל ${venueVal} (כולל חניה צמודה למתחם)`,
                 hotels: 'לא רלוונטי (חזרה הביתה לאשדוד בסיום האירוע)',
                 food: kashrutVal,
