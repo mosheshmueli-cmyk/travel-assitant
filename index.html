@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.9</title>
+    <title>Travel Assistant V5.5.0</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -843,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.9</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.5.0</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -7332,7 +7332,7 @@
                     markerHtml = '🏁';
                 }
 
-                const safePinTitle = `${cBadge.fullLabel}: ${st.title || ''}`.replace(/"/g, '&quot;');
+                const safePinTitle = `${cBadge.fullLabel}: ${getCleanStationTitle(st.title)}`.replace(/"/g, '&quot;');
                 const icon = L.divIcon({
                     className: 'custom-station-pin',
                     html: `
@@ -7689,6 +7689,10 @@
             return titleStr.replace(/^(?:🏨|🛏️)\s*\d+[-–\/\d]*:\s*/, '').replace(/^\d+\.\s*/, '').split(' - ')[0].split(' (')[0].trim();
         }
 
+        function getCleanStationTitle(title) {
+            return String(title || '').replace(/^\d+\.\s*/, '').trim();
+        }
+
         function getStationCanonicalBadge(st, idx) {
             const info = (typeof inferStationDayInfo === 'function') ? inferStationDayInfo(st, idx) : { dayNum: 1 };
             const dayNum = info.dayNum || 1;
@@ -7757,7 +7761,7 @@
             if (legFromPrev) {
                 interSiteScheduleHtml += `
                     <div style="margin-bottom:${legToNext ? '5px' : '0'}; padding-bottom:${legToNext ? '4px' : '0'}; border-bottom:${legToNext ? '1px dashed #bbf7d0' : 'none'};">
-                        <div style="font-size:10px; color:#15803d; font-weight:800;">⏮️ מהאתר הקודם (${shortStationLabel(prevSt.title)}):</div>
+                        <div style="font-size:10px; color:#15803d; font-weight:800;">⏮️ מהאתר הקודם (#${idx} · ${getCleanStationTitle(prevSt.title).split(' - ')[0]}):</div>
                         <div style="font-size:11px; color:#0f172a; margin-top:1px;">📏 מרחק: <b style="color:#16a34a;">${legFromPrev.distStr}</b> | ⏱️ הגעה: <b style="color:#2563eb;">${legFromPrev.timeStr}</b></div>
                     </div>
                 `;
@@ -7765,7 +7769,7 @@
             if (legToNext) {
                 interSiteScheduleHtml += `
                     <div>
-                        <div style="font-size:10px; color:#0369a1; font-weight:800;">⏭️ לאתר הבא (${shortStationLabel(nextSt.title)}):</div>
+                        <div style="font-size:10px; color:#0369a1; font-weight:800;">⏭️ לאתר הבא (#${idx + 2} · ${getCleanStationTitle(nextSt.title).split(' - ')[0]}):</div>
                         <div style="font-size:11px; color:#0f172a; margin-top:1px;">📏 מרחק: <b style="color:#16a34a;">${legToNext.distStr}</b> | ⏱️ הגעה: <b style="color:#2563eb;">${legToNext.timeStr}</b></div>
                     </div>
                 `;
@@ -7821,7 +7825,7 @@
                     <div id="station-bubble-full-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px; flex-wrap:wrap;">
                         <div style="font-weight:900; color:#0f172a; font-size:1.08em; line-height:1.25;">
                             <span style="background:${canonicalBadge.bg}; color:white; font-size:0.78em; font-weight:900; padding:2px 7px; border-radius:6px; margin-left:5px; display:inline-block;">${canonicalBadge.fullLabel}</span>
-                            ${st.title}
+                            ${getCleanStationTitle(st.title)}
                         </div>
                     </div>
                     <div id="station-bubble-collapsible">
@@ -7851,7 +7855,7 @@
                         ${(idx < STATIONS.length - 1) ? `
                             <div style="margin-top:4px;">
                                 <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:0.95em; font-weight:900; cursor:pointer; line-height:1.2;">
-                                    ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
+                                    ⏭️ המשך לתחנה הבאה: #${idx + 2} · ${getCleanStationTitle(STATIONS[idx+1].title).split(' - ')[0]}
                                 </button>
                             </div>
                         ` : ''}
@@ -9007,7 +9011,7 @@
                     ${connectorTopHtml}
                     <div id="station-row-${idx}" class="station-sync-row" style="${bgStyle} border-radius:10px; padding:10px 12px; display:flex; flex-direction:column; gap:7px; box-sizing:border-box; max-width:100%;">
                         <div style="width:100%; min-width:0; cursor:pointer;" onclick="setTargetStation(${idx})">
-                            <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.35; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">${anchorBadge}<span>${st.title}</span></div>
+                            <div style="font-weight:900; font-size:1.02em; color:#0f172a; line-height:1.35; display:flex; align-items:center; flex-wrap:wrap; gap:4px;">${anchorBadge}<span>${getCleanStationTitle(st.title)}</span></div>
                             <div style="font-size:0.86em; color:#475569; margin-top:4px; line-height:1.4; word-break:break-word;">${st.desc || st.address || ''}</div>
                             <div style="font-size:0.82em; color:#1e40af; font-weight:800; margin-top:4px; line-height:1.35;">
                                 🕒 שהייה מומלצת: <span style="color:#0f172a;">${info.recommendedStay}</span>
