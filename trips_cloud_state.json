@@ -1,5 +1,5 @@
 {
-  "revision": 1794767594385,
+  "revision": 1794768792573,
   "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -608,93 +608,6 @@
           "recommendedStay": "3 שעות ו-5 דק' המתנה בקונקשן + 4:05 שעות טיסה לנתב\"ג",
           "transitType": "טיסת המשך ET 418 לנתב\"ג",
           "walkingDist": "מעבר בינלאומי בטרמינל 2"
-        }
-      ],
-      "flightTickets": [
-        {
-          "flightNumber": "ET 419",
-          "airline": "Ethiopian Airlines",
-          "date": "22/11/2026",
-          "departureTime": "14:40",
-          "arrivalTime": "19:55",
-          "from": "TLV (טרמינל 3)",
-          "to": "ADD",
-          "terminal": "3",
-          "gate": "",
-          "seat": "18C, 18B",
-          "bookingRef": "",
-          "baggage": ""
-        },
-        {
-          "flightNumber": "ET 672",
-          "airline": "Ethiopian Airlines",
-          "date": "22/11/2026",
-          "departureTime": "22:35",
-          "arrivalTime": "15:45",
-          "from": "ADD",
-          "to": "ICN (טרמינל 1)",
-          "terminal": "1",
-          "gate": "",
-          "seat": "46K, 46J, 18F",
-          "bookingRef": "",
-          "baggage": ""
-        },
-        {
-          "flightNumber": "KE1505",
-          "airline": "Korean Air",
-          "date": "01/12/2026",
-          "departureTime": "06:30",
-          "arrivalTime": "07:30",
-          "from": "PUS",
-          "to": "CJU",
-          "terminal": "",
-          "gate": "",
-          "seat": "46H, 46F",
-          "bookingRef": "",
-          "baggage": ""
-        },
-        {
-          "flightNumber": "ET 673",
-          "airline": "Ethiopian Airlines",
-          "date": "06/12/2026",
-          "departureTime": "00:10",
-          "arrivalTime": "07:25",
-          "from": "ICN (טרמינל 1)",
-          "to": "ADD",
-          "terminal": "1",
-          "gate": "",
-          "seat": "46K, 46J",
-          "bookingRef": "",
-          "baggage": ""
-        },
-        {
-          "flightNumber": "ET 418",
-          "airline": "Ethiopian Airlines",
-          "date": "06/12/2026",
-          "departureTime": "10:30",
-          "arrivalTime": "13:35",
-          "from": "ADD",
-          "to": "TLV (טרמינל 3)",
-          "terminal": "3",
-          "gate": "",
-          "seat": "18J, 18K",
-          "bookingRef": "",
-          "baggage": ""
-        },
-        {
-          "flightNumber": "KE 1505",
-          "airline": "Korean Air",
-          "date": "1/12/26",
-          "departureTime": "06:30",
-          "arrivalTime": "07:30",
-          "from": "",
-          "to": "סיאול (ICN)",
-          "terminal": "",
-          "gate": "",
-          "seat": "",
-          "bookingRef": "",
-          "baggage": "",
-          "rawLine": "טיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר."
         }
       ]
     }
