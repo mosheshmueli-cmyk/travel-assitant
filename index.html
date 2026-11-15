@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.7</title>
+    <title>Travel Assistant V5.4.8</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -843,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.7</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.8</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -8766,19 +8766,21 @@
                 }
 
                 const meetingCardHtml = chain.hasMeetingPoint ? `
-                    <div style="background:#fffbeb; border:1.5px solid #fde68a; border-radius:10px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                        <div style="flex-grow:1; cursor:pointer;" onclick="focusArrivalAnchor('meeting')">
+                    <div style="background:#fffbeb; border:1.5px solid #fde68a; border-radius:10px; padding:8px 10px; display:flex; flex-direction:column; gap:7px; box-sizing:border-box; max-width:100%;">
+                        <div style="cursor:pointer;" onclick="focusArrivalAnchor('meeting')">
                             <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                                <span style="background:#f59e0b; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px;">🤝 נק' מפגש</span>
+                                <span style="background:#f59e0b; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; white-space:nowrap;">🤝 נק' מפגש</span>
                                 ${chain.meetingTime ? `<span style="font-size:0.76em; font-weight:800; color:#b45309;">🕒 ${chain.meetingTime}</span>` : ''}
                             </div>
-                            <div style="font-weight:900; font-size:0.95em; color:#0f172a; margin-top:2px; line-height:1.25;">${chain.meetingAddress || 'נקודת מפגש קבוצתית / איסוף'}</div>
+                            <div style="font-weight:900; font-size:0.95em; color:#0f172a; margin-top:3px; line-height:1.3;">${chain.meetingAddress || 'נקודת מפגש קבוצתית / איסוף'}</div>
                         </div>
-                        <div style="text-align:left; display:flex; align-items:center; gap:5px; flex-shrink:0;">
-                            <div style="font-size:0.88em; font-weight:bold; white-space:nowrap;">${meetingDistHtml}</div>
-                            <button type="button" onclick="openGoogleMapsArrivalNav('meeting')" title="ניווט ב-Google Maps אל נקודת המפגש" style="background:#16a34a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-diamond-turn-right"></i></button>
-                            <button type="button" onclick="openAppleMapsNav(${chain.meetingLat || 'null'}, ${chain.meetingLng || 'null'}, '${(chain.meetingAddress || 'נקודת מפגש').replace(/'/g, "\\'")}')" title="ניווט ב-Apple Maps באייפון" style="background:#0f172a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;">🍎</button>
-                            <button type="button" onclick="showArrivalTaxiCard('meeting')" title="כרטיס לנהג לנקודת המפגש" style="background:#f59e0b; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; border-top:1px dashed #fde68a; padding-top:6px;">
+                            <div style="font-size:0.86em; font-weight:bold;">${meetingDistHtml}</div>
+                            <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+                                <button type="button" onclick="openGoogleMapsArrivalNav('meeting')" title="ניווט ב-Google Maps אל נקודת המפגש" style="background:#16a34a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-diamond-turn-right"></i></button>
+                                <button type="button" onclick="openAppleMapsNav(${chain.meetingLat || 'null'}, ${chain.meetingLng || 'null'}, '${(chain.meetingAddress || 'נקודת מפגש').replace(/'/g, "\\'")}')" title="ניווט ב-Apple Maps באייפון" style="background:#0f172a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;">🍎</button>
+                                <button type="button" onclick="showArrivalTaxiCard('meeting')" title="כרטיס לנהג לנקודת המפגש" style="background:#f59e0b; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                            </div>
                         </div>
                     </div>
                 ` : `
@@ -8818,19 +8820,21 @@
                             <span style="font-size:0.78em; font-weight:900; color:#334155;"><i class="fa-solid fa-compass" style="color:#2563eb;"></i> מעטפת הגעה, נק' מפגש ${isIntl ? 'וטיסת מעבר' : 'והתחלת המסלול'}:</span>
                             <button type="button" onclick="switchScreen('screen-route'); setWizardStep(1);" style="background:white; border:1px solid #cbd5e1; color:#2563eb; border-radius:6px; padding:2px 7px; font-size:0.72em; font-weight:800; cursor:pointer;">✏️ ערוך</button>
                         </div>
-                        <div style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                            <div style="flex-grow:1; cursor:pointer;" onclick="focusArrivalAnchor('origin')">
+                        <div style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; padding:8px 10px; display:flex; flex-direction:column; gap:7px; box-sizing:border-box; max-width:100%;">
+                            <div style="cursor:pointer;" onclick="focusArrivalAnchor('origin')">
                                 <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-                                    <span style="background:#2563eb; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px;">🏠 יציאה מבית/מלון</span>
+                                    <span style="background:#2563eb; color:white; font-size:0.72em; font-weight:900; padding:1px 6px; border-radius:5px; white-space:nowrap;">🏠 יציאה מבית/מלון</span>
                                     ${chain.originTime ? `<span style="font-size:0.76em; font-weight:800; color:#1e40af;">🕒 ${chain.originTime}</span>` : ''}
                                 </div>
-                                <div style="font-weight:900; font-size:0.95em; color:#0f172a; margin-top:2px; line-height:1.25;">${chain.originAddress || 'נקודת יציאה אישית'}</div>
+                                <div style="font-weight:900; font-size:0.95em; color:#0f172a; margin-top:3px; line-height:1.3;">${chain.originAddress || 'נקודת יציאה אישית'}</div>
                             </div>
-                            <div style="text-align:left; display:flex; align-items:center; gap:5px; flex-shrink:0;">
-                                <div style="font-size:0.88em; font-weight:bold; white-space:nowrap;">${originDistHtml}</div>
-                                <button type="button" onclick="openGoogleMapsArrivalNav('origin')" title="הצג את נקודת היציאה ב-Google Maps" style="background:#0284c7; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-diamond-turn-right"></i></button>
-                                <button type="button" onclick="openAppleMapsNav(${chain.originLat || 'null'}, ${chain.originLng || 'null'}, '${(chain.originAddress || 'נקודת יציאה').replace(/'/g, "\\'")}')" title="ניווט ב-Apple Maps באייפון" style="background:#0f172a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;">🍎</button>
-                                <button type="button" onclick="showArrivalTaxiCard('origin')" title="כרטיס לנהג לנקודת היציאה/מלון" style="background:#2563eb; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; border-top:1px dashed #bfdbfe; padding-top:6px;">
+                                <div style="font-size:0.86em; font-weight:bold;">${originDistHtml}</div>
+                                <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+                                    <button type="button" onclick="openGoogleMapsArrivalNav('origin')" title="הצג את נקודת היציאה ב-Google Maps" style="background:#0284c7; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-diamond-turn-right"></i></button>
+                                    <button type="button" onclick="openAppleMapsNav(${chain.originLat || 'null'}, ${chain.originLng || 'null'}, '${(chain.originAddress || 'נקודת יציאה').replace(/'/g, "\\'")}')" title="ניווט ב-Apple Maps באייפון" style="background:#0f172a; color:white; border:none; padding:5px 8px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;">🍎</button>
+                                    <button type="button" onclick="showArrivalTaxiCard('origin')" title="כרטיס לנהג לנקודת היציאה/מלון" style="background:#2563eb; color:white; border:none; padding:5px 9px; border-radius:7px; font-size:0.82em; font-weight:bold; cursor:pointer;"><i class="fa-solid fa-taxi"></i></button>
+                                </div>
                             </div>
                         </div>
                         ${meetingCardHtml}
