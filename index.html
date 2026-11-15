@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.5.0</title>
+    <title>Travel Assistant V5.5.1</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -843,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.5.0</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.5.1</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -2474,63 +2474,71 @@
 
                 <!-- ================= CATEGORY 4: GENERAL QUESTIONS & CURRENCY CONVERTER ================= -->
                 <div id="ai-sec-general" class="ai-category-section" style="display: none;">
-                    <!-- Currency Converter Card -->
+                    <!-- Currency Converter Card (3-Way Mutual Table: Local | ILS | USD) -->
                     <div class="card" style="border-top: 5px solid #7c3aed; background: #faf5ff;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
-                            <h3 style="margin: 0; color: #5b21b6; font-size: 1.12em;"><i class="fa-solid fa-coins"></i> מחשבון המרת מטבעות חכם (עובד גם ללא אינטרנט)</h3>
-                            <span style="background: #ede9fe; color: #6d28d9; padding: 3px 9px; border-radius: 8px; font-size: 0.78em; font-weight: 800;">חישוב דו-כיווני מיידי</span>
+                            <h3 style="margin: 0; color: #5b21b6; font-size: 1.12em;"><i class="fa-solid fa-coins"></i> מחשבון המרות הדדי (ללא אינטרנט)</h3>
+                            <span style="background: #ede9fe; color: #6d28d9; padding: 3px 9px; border-radius: 8px; font-size: 0.78em; font-weight: 800;">הקלד בכל עמודה ⇄</span>
                         </div>
 
-                        <div style="background: white; border: 1.5px solid #c4b5fd; border-radius: 12px; padding: 12px; margin-bottom: 10px;">
-                            <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-bottom: 10px;">
-                                <div>
-                                    <label style="display: block; font-size: 0.8em; font-weight: 800; color: #475569; margin-bottom: 4px;">סכום להמרה:</label>
-                                    <input type="number" id="ai-fx-amount" value="10000" min="0" step="any" oninput="convertAiCurrency()" style="width: 100%; padding: 9px 10px; border: 2px solid #7c3aed; border-radius: 9px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #0f172a;" dir="ltr">
+                        <div style="background: white; border: 1.5px solid #c4b5fd; border-radius: 12px; padding: 10px; margin-bottom: 10px;">
+                            <!-- 3-Column Mutual Table -->
+                            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1.5px solid #8b5cf6; border-radius: 10px; overflow: hidden; margin-bottom: 10px;">
+                                <!-- Column 1: Local Currency -->
+                                <div style="border-left: 1px solid #cbd5e1; display: flex; flex-direction: column;">
+                                    <div style="background: #ede9fe; padding: 6px 4px; text-align: center; border-bottom: 1px solid #cbd5e1;">
+                                        <div style="font-size: 0.85em; font-weight: 900; color: #4c1d95;">מטבע מקומי</div>
+                                        <select id="ai-fx-local-currency" onchange="onTripleLocalCurrencyChange()" style="margin-top: 3px; width: 92%; padding: 3px 2px; border: 1px solid #a78bfa; border-radius: 6px; font-family: 'Heebo', sans-serif; font-size: 0.76em; font-weight: 800; background: white; color: #1e1b4b; text-align: center;">
+                                            <option value="KRW" selected>🇰🇷 ₩ וון</option>
+                                            <option value="EUR">🇪🇺 € אירו</option>
+                                            <option value="JPY">🇯🇵 ¥ ין</option>
+                                        </select>
+                                    </div>
+                                    <div style="padding: 8px 5px; background: white;">
+                                        <input type="number" id="ai-fx-triple-local" value="10000" min="0" step="any" oninput="updateTripleCurrency('local')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #7c3aed; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #0f172a; text-align: center;" dir="ltr">
+                                    </div>
                                 </div>
-                                <div>
-                                    <label style="display: block; font-size: 0.8em; font-weight: 800; color: #475569; margin-bottom: 4px;">ממטבע:</label>
-                                    <select id="ai-fx-from" onchange="convertAiCurrency()" style="width: 100%; padding: 9px 8px; border: 1.5px solid #94a3b8; border-radius: 9px; font-family: 'Heebo', sans-serif; font-size: 0.92em; font-weight: 800; background: #f8fafc; color: #0f172a;">
-                                        <option value="KRW" selected>🇰🇷 וון קוריאני (₩ KRW)</option>
-                                        <option value="ILS">🇮🇱 שקל חדש (₪ ILS)</option>
-                                        <option value="USD">🇺🇸 דולר אמריקאי ($ USD)</option>
-                                        <option value="EUR">🇪🇺 אירו (€ EUR)</option>
-                                        <option value="JPY">🇯🇵 ין יפני (¥ JPY)</option>
-                                    </select>
+
+                                <!-- Column 2: ILS -->
+                                <div style="border-left: 1px solid #cbd5e1; display: flex; flex-direction: column;">
+                                    <div style="background: #dcfce7; padding: 6px 4px; text-align: center; border-bottom: 1px solid #cbd5e1; display: flex; flex-direction: column; justify-content: center; flex: 1;">
+                                        <div style="font-size: 0.88em; font-weight: 900; color: #166534;">שקל (₪)</div>
+                                        <div style="font-size: 0.72em; font-weight: 800; color: #15803d; margin-top: 2px;">ILS</div>
+                                    </div>
+                                    <div style="padding: 8px 5px; background: white;">
+                                        <input type="number" id="ai-fx-triple-ils" value="27" min="0" step="any" oninput="updateTripleCurrency('ils')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #22c55e; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #166534; text-align: center;" dir="ltr">
+                                    </div>
+                                </div>
+
+                                <!-- Column 3: USD -->
+                                <div style="display: flex; flex-direction: column;">
+                                    <div style="background: #dbeafe; padding: 6px 4px; text-align: center; border-bottom: 1px solid #cbd5e1; display: flex; flex-direction: column; justify-content: center; flex: 1;">
+                                        <div style="font-size: 0.88em; font-weight: 900; color: #1e40af;">דולר ($)</div>
+                                        <div style="font-size: 0.72em; font-weight: 800; color: #1d4ed8; margin-top: 2px;">USD</div>
+                                    </div>
+                                    <div style="padding: 8px 5px; background: white;">
+                                        <input type="number" id="ai-fx-triple-usd" value="7.26" min="0" step="any" oninput="updateTripleCurrency('usd')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #3b82f6; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #1e40af; text-align: center;" dir="ltr">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
-                                <button type="button" onclick="swapAiCurrency()" title="החלף כיוון המרה" style="background: #7c3aed; color: white; border: none; padding: 8px 12px; border-radius: 9px; font-weight: 900; font-size: 0.86em; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
-                                    <i class="fa-solid fa-right-left"></i> החלף כיוון ⇄
-                                </button>
-                                <div style="flex: 1;">
-                                    <select id="ai-fx-to" onchange="convertAiCurrency()" style="width: 100%; padding: 9px 8px; border: 1.5px solid #94a3b8; border-radius: 9px; font-family: 'Heebo', sans-serif; font-size: 0.92em; font-weight: 800; background: #f8fafc; color: #0f172a;">
-                                        <option value="ILS" selected>🇮🇱 שקל חדש (₪ ILS)</option>
-                                        <option value="KRW">🇰🇷 וון קוריאני (₩ KRW)</option>
-                                        <option value="USD">🇺🇸 דולר אמריקאי ($ USD)</option>
-                                        <option value="EUR">🇪🇺 אירו (€ EUR)</option>
-                                        <option value="JPY">🇯🇵 ין יפני (¥ JPY)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Live Result Display -->
-                            <div id="ai-fx-result-box" style="background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%); border: 2px solid #8b5cf6; border-radius: 10px; padding: 10px 14px; text-align: center;">
-                                <div id="ai-fx-result-main" style="font-size: 1.3em; font-weight: 900; color: #4c1d95;" dir="ltr">10,000 ₩ = 27.00 ₪</div>
-                                <div id="ai-fx-result-sub" style="font-size: 0.8em; color: #5b21b6; font-weight: 700; margin-top: 3px;">שער ייחוס מהיר לשטח: 1,000 וון ≈ 2.70 ₪ | 1 $ ≈ 1,380 ₩ ≈ 3.72 ₪</div>
+                            <!-- Live Result Summary Display -->
+                            <div id="ai-fx-result-box" style="background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%); border: 1.5px solid #c4b5fd; border-radius: 10px; padding: 8px 12px; text-align: center;">
+                                <div id="ai-fx-result-main" style="font-size: 1.08em; font-weight: 900; color: #4c1d95;" dir="ltr">10,000 ₩ = 27.00 ₪ = 7.26 $</div>
+                                <div id="ai-fx-result-sub" style="font-size: 0.78em; color: #5b21b6; font-weight: 700; margin-top: 2px;">שער ייחוס מהיר לשטח: 1,000 ₩ ≈ 2.70 ₪ | 1 $ ≈ 1,378 ₩ ≈ 3.72 ₪</div>
                             </div>
 
                             <!-- Quick Amount Buttons -->
                             <div style="margin-top: 10px;">
                                 <div style="font-size: 0.78em; font-weight: 800; color: #475569; margin-bottom: 5px;">לחיצה מהירה לסכומים נפוצים בקניות ומוניות:</div>
                                 <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                                    <button type="button" onclick="setQuickFxAmount(1000, 'KRW', 'ILS')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">1,000 ₩</button>
-                                    <button type="button" onclick="setQuickFxAmount(5000, 'KRW', 'ILS')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">5,000 ₩</button>
-                                    <button type="button" onclick="setQuickFxAmount(10000, 'KRW', 'ILS')" style="background:#ede9fe; border:1px solid #8b5cf6; border-radius:7px; padding:5px 9px; font-weight:900; font-size:0.8em; cursor:pointer; color:#5b21b6;">10,000 ₩</button>
-                                    <button type="button" onclick="setQuickFxAmount(50000, 'KRW', 'ILS')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">50,000 ₩</button>
-                                    <button type="button" onclick="setQuickFxAmount(100000, 'KRW', 'ILS')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">100,000 ₩</button>
-                                    <button type="button" onclick="setQuickFxAmount(100, 'ILS', 'KRW')" style="background:#dcfce7; border:1px solid #22c55e; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#166534;">100 ₪ ➔ ₩</button>
-                                    <button type="button" onclick="setQuickFxAmount(100, 'USD', 'KRW')" style="background:#dbeafe; border:1px solid #3b82f6; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#1e40af;">100 $ ➔ ₩</button>
+                                    <button type="button" onclick="setQuickFxAmount(1000, 'KRW')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">1,000 ₩</button>
+                                    <button type="button" onclick="setQuickFxAmount(5000, 'KRW')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">5,000 ₩</button>
+                                    <button type="button" onclick="setQuickFxAmount(10000, 'KRW')" style="background:#ede9fe; border:1px solid #8b5cf6; border-radius:7px; padding:5px 9px; font-weight:900; font-size:0.8em; cursor:pointer; color:#5b21b6;">10,000 ₩</button>
+                                    <button type="button" onclick="setQuickFxAmount(50000, 'KRW')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">50,000 ₩</button>
+                                    <button type="button" onclick="setQuickFxAmount(100000, 'KRW')" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#0f172a;">100,000 ₩</button>
+                                    <button type="button" onclick="setQuickFxAmount(100, 'ILS')" style="background:#dcfce7; border:1px solid #22c55e; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#166534;">100 ₪</button>
+                                    <button type="button" onclick="setQuickFxAmount(100, 'USD')" style="background:#dbeafe; border:1px solid #3b82f6; border-radius:7px; padding:5px 9px; font-weight:800; font-size:0.8em; cursor:pointer; color:#1e40af;">100 $</button>
                                 </div>
                             </div>
                         </div>
@@ -2744,57 +2752,91 @@
             JPY: '¥'
         };
 
-        function convertAiCurrency() {
-            const amtEl = document.getElementById('ai-fx-amount');
-            const fromEl = document.getElementById('ai-fx-from');
-            const toEl = document.getElementById('ai-fx-to');
+        let lastTripleFxSource = 'local';
+
+        function formatFxInputVal(val, curr) {
+            if (!isFinite(val) || val <= 0) return '0';
+            if (curr === 'KRW' || curr === 'JPY') return String(Math.round(val));
+            return Number(val.toFixed(2)).toString();
+        }
+
+        function updateTripleCurrency(source) {
+            const localSel = document.getElementById('ai-fx-local-currency');
+            const localEl = document.getElementById('ai-fx-triple-local');
+            const ilsEl = document.getElementById('ai-fx-triple-ils');
+            const usdEl = document.getElementById('ai-fx-triple-usd');
             const mainEl = document.getElementById('ai-fx-result-main');
             const subEl = document.getElementById('ai-fx-result-sub');
-            if (!amtEl || !fromEl || !toEl || !mainEl) return;
+            if (!localSel || !localEl || !ilsEl || !usdEl) return;
 
-            const rawAmt = parseFloat(amtEl.value);
-            const amount = isFinite(rawAmt) && rawAmt >= 0 ? rawAmt : 0;
-            const fromCurr = fromEl.value || 'KRW';
-            const toCurr = toEl.value || 'ILS';
+            lastTripleFxSource = source || lastTripleFxSource || 'local';
+            const localCurr = localSel.value || 'KRW';
+            const localRate = AI_FX_TO_ILS[localCurr] || 0.0027;
+            const usdRate = AI_FX_TO_ILS.USD || 3.72;
 
-            const fromRate = AI_FX_TO_ILS[fromCurr] || 1;
-            const toRate = AI_FX_TO_ILS[toCurr] || 1;
-            const inIls = amount * fromRate;
-            const converted = inIls / toRate;
+            let inIls = 0;
+            if (source === 'local') {
+                const v = parseFloat(localEl.value);
+                inIls = (isFinite(v) && v >= 0 ? v : 0) * localRate;
+            } else if (source === 'ils') {
+                const v = parseFloat(ilsEl.value);
+                inIls = isFinite(v) && v >= 0 ? v : 0;
+            } else if (source === 'usd') {
+                const v = parseFloat(usdEl.value);
+                inIls = (isFinite(v) && v >= 0 ? v : 0) * usdRate;
+            }
 
-            const fmtFrom = amount.toLocaleString('en-US', { maximumFractionDigits: 2 });
-            const fmtTo = (toCurr === 'KRW' || toCurr === 'JPY')
-                ? Math.round(converted).toLocaleString('en-US')
-                : converted.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const localVal = inIls / localRate;
+            const ilsVal = inIls;
+            const usdVal = inIls / usdRate;
 
-            mainEl.innerText = `${fmtFrom} ${AI_FX_SYMBOLS[fromCurr] || fromCurr} = ${fmtTo} ${AI_FX_SYMBOLS[toCurr] || toCurr}`;
+            if (source !== 'local') localEl.value = formatFxInputVal(localVal, localCurr);
+            if (source !== 'ils') ilsEl.value = formatFxInputVal(ilsVal, 'ILS');
+            if (source !== 'usd') usdEl.value = formatFxInputVal(usdVal, 'USD');
+
+            const symLocal = AI_FX_SYMBOLS[localCurr] || localCurr;
+            const fmtLocal = (localCurr === 'KRW' || localCurr === 'JPY')
+                ? Math.round(localVal).toLocaleString('en-US')
+                : localVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const fmtIls = ilsVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const fmtUsd = usdVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            if (mainEl) {
+                mainEl.innerText = `${fmtLocal} ${symLocal} = ${fmtIls} ₪ = ${fmtUsd} $`;
+            }
             if (subEl) {
-                const unitRatio = fromRate / toRate;
-                const unitDesc = (fromCurr === 'KRW' || fromCurr === 'JPY')
-                    ? `1,000 ${AI_FX_SYMBOLS[fromCurr]} ≈ ${(unitRatio * 1000).toFixed(2)} ${AI_FX_SYMBOLS[toCurr]}`
-                    : `1 ${AI_FX_SYMBOLS[fromCurr]} ≈ ${(toCurr === 'KRW' || toCurr === 'JPY') ? Math.round(unitRatio).toLocaleString('en-US') : unitRatio.toFixed(2)} ${AI_FX_SYMBOLS[toCurr]}`;
-                subEl.innerText = `שער ייחוס מהיר לשטח: ${unitDesc} | 1 $ ≈ 1,380 ₩ ≈ 3.72 ₪`;
+                const oneUsdInLocal = Math.round(usdRate / localRate).toLocaleString('en-US');
+                const unitDesc = (localCurr === 'KRW' || localCurr === 'JPY')
+                    ? `1,000 ${symLocal} ≈ ${(localRate * 1000).toFixed(2)} ₪`
+                    : `1 ${symLocal} ≈ ${localRate.toFixed(2)} ₪`;
+                subEl.innerText = `שער ייחוס מהיר לשטח: ${unitDesc} | 1 $ ≈ ${oneUsdInLocal} ${symLocal} ≈ ${usdRate.toFixed(2)} ₪`;
             }
         }
 
-        function swapAiCurrency() {
-            const fromEl = document.getElementById('ai-fx-from');
-            const toEl = document.getElementById('ai-fx-to');
-            if (!fromEl || !toEl) return;
-            const tmp = fromEl.value;
-            fromEl.value = toEl.value;
-            toEl.value = tmp;
-            convertAiCurrency();
+        function onTripleLocalCurrencyChange() {
+            updateTripleCurrency(lastTripleFxSource === 'ils' || lastTripleFxSource === 'usd' ? lastTripleFxSource : 'local');
         }
 
-        function setQuickFxAmount(amt, fromCurr, toCurr) {
-            const amtEl = document.getElementById('ai-fx-amount');
-            const fromEl = document.getElementById('ai-fx-from');
-            const toEl = document.getElementById('ai-fx-to');
-            if (amtEl) amtEl.value = amt;
-            if (fromEl && fromCurr) fromEl.value = fromCurr;
-            if (toEl && toCurr) toEl.value = toCurr;
-            convertAiCurrency();
+        function convertAiCurrency() {
+            updateTripleCurrency(lastTripleFxSource || 'local');
+        }
+
+        function setQuickFxAmount(amt, fromCurr) {
+            const localSel = document.getElementById('ai-fx-local-currency');
+            const localEl = document.getElementById('ai-fx-triple-local');
+            const ilsEl = document.getElementById('ai-fx-triple-ils');
+            const usdEl = document.getElementById('ai-fx-triple-usd');
+            if (fromCurr === 'ILS' && ilsEl) {
+                ilsEl.value = amt;
+                updateTripleCurrency('ils');
+            } else if (fromCurr === 'USD' && usdEl) {
+                usdEl.value = amt;
+                updateTripleCurrency('usd');
+            } else if (localEl) {
+                if (localSel && fromCurr && AI_FX_TO_ILS[fromCurr]) localSel.value = fromCurr;
+                localEl.value = amt;
+                updateTripleCurrency('local');
+            }
         }
 
         function filterGeneralFaqCards(query) {
