@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.8</title>
+    <title>Travel Assistant V5.3.9</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.8</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.9</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -5406,10 +5406,23 @@
                     : (hasGSeat ? [['A','B','C'], ['D','E','G'], ['H','J','K']] : [['A','B','C'], ['D','E','F'], ['H','J','K']]));
 
             const maxSeatRow = parsedSeats.reduce((m, s) => Math.max(m, parseInt(s.slice(0, -1), 10) || 0), 0);
-            const totalRows = Math.max(layout === '3-3' ? 32 : 42, maxSeatRow + 5);
-            const exitRows = layout === '3-3' ? new Set([1, 13, 14]) : new Set([1, 15, 29]);
+            const totalRows = Math.max(layout === '3-3' ? 32 : 48, maxSeatRow + 4);
+            const fNorm = String(t.flightNumber || '').replace(/\s+/g, '').toUpperCase();
+            let estimatedAircraftNote = 'דגם המטוס לא צוין בכרטיס';
+            let verifySeatUrl = `https://www.google.com/search?q=${encodeURIComponent((t.airline || '') + ' ' + (t.flightNumber || '') + ' seat map')}`;
+            if (/^ET67[23]$/.test(fNorm)) {
+                estimatedAircraftNote = 'משוער לפי קו: Airbus A350-900 (שורה 46 היא יציאת חירום ב-A350 של Ethiopian)';
+                verifySeatUrl = 'https://www.aerolopa.com/et-359';
+            } else if (/^ET41[89]$/.test(fNorm)) {
+                estimatedAircraftNote = 'משוער לפי קו: Boeing 737 MAX 8 או 787 (יש לוודא דגם מדויק באתר Ethiopian)';
+                verifySeatUrl = 'https://www.ethiopianairlines.com';
+            } else if (/^KE1505$/.test(fNorm)) {
+                estimatedAircraftNote = 'טיסת פנים Korean Air (יש לוודא דגם מטוס ומושב סופי בהזמנה)';
+                verifySeatUrl = 'https://www.koreanair.com';
+            }
+            const exitRows = /^ET67[23]$/.test(fNorm) ? new Set([46]) : new Set();
             const wingStart = layout === '3-3' ? 10 : 14;
-            const wingEnd = layout === '3-3' ? 20 : 30;
+            const wingEnd = layout === '3-3' ? 20 : 32;
 
             const tabsHtml = tickets.length > 1 ? `
                 <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:10px;">
@@ -5468,7 +5481,11 @@
                             ${t.date ? '📅 ' + escapeHtmlFlight(t.date) + ' | ' : ''}🕒 ${escapeHtmlFlight(t.departureTime || '-')}${t.arrivalTime ? ' ➔ ' + escapeHtmlFlight(t.arrivalTime) : ''}
                         </div>
                     </div>
-                    <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">${seatDetailsHtml}</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:6px;">${seatDetailsHtml}</div>
+                    <div style="background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; padding:6px 8px; font-size:0.78em; color:#92400e; display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span>✈️ <b>${estimatedAircraftNote}</b> — תרשים זה הוא המחשה כללית בלבד; דגם סופי ויציאות חירום נקבעים ע"י חברת התעופה.</span>
+                        <a href="${verifySeatUrl}" target="_blank" rel="noopener noreferrer" style="background:#0f766e; color:white; padding:3px 8px; border-radius:6px; font-weight:900; text-decoration:none; white-space:nowrap;">🔍 מפת מטוס רשמית</a>
+                    </div>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
                     <div style="display:flex; gap:5px; flex-wrap:wrap;">
