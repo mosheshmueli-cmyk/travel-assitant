@@ -1033,6 +1033,23 @@
                     <button id="btn-reopen-hud" onclick="toggleLiveHud(true)" style="display: none; position: absolute; bottom: 12px; right: 12px; background: #2563eb; color: white; border: 2px solid white; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 998; cursor: pointer;">
                         🎯 הצג מד ניווט (<span id="reopen-hud-dist">--</span>)
                     </button>
+
+                    <!-- Draggable & Resizable Floating Station Bubble -->
+                    <div id="station-floating-bubble" dir="rtl" style="display: none; position: absolute; top: 46px; right: 10px; width: 255px; max-width: calc(100% - 20px); max-height: calc(100% - 62px); background: rgba(255,255,255,0.97); border: 2px solid #2563eb; border-radius: 14px; box-shadow: 0 8px 26px rgba(15,23,42,0.28); z-index: 1005; flex-direction: column; overflow: hidden; font-family: 'Heebo', sans-serif; touch-action: none;">
+                        <div id="station-bubble-drag-bar" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom: 1.5px solid #bfdbfe; padding: 5px 8px; display: flex; justify-content: space-between; align-items: center; gap: 4px; cursor: move; user-select: none; -webkit-user-select: none; flex-shrink: 0;">
+                            <span style="font-size: 11px; font-weight: 900; color: #1e40af; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                                ✋ גרור להזזה
+                            </span>
+                            <div style="display: flex; align-items: center; gap: 3px;" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+                                <button type="button" onclick="adjustStationBubbleScale(-0.1)" title="הקטן בועה" style="background: white; border: 1px solid #93c5fd; color: #1e40af; border-radius: 5px; width: 22px; height: 22px; font-weight: 900; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">➖</button>
+                                <button type="button" onclick="adjustStationBubbleScale(0.1)" title="הגדל בועה" style="background: white; border: 1px solid #93c5fd; color: #1e40af; border-radius: 5px; width: 22px; height: 22px; font-weight: 900; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">➕</button>
+                                <button type="button" id="btn-bubble-minimize" onclick="toggleMinimizeStationBubble()" title="מזער / הרחב בועה" style="background: white; border: 1px solid #93c5fd; color: #0f172a; border-radius: 5px; padding: 0 6px; height: 22px; font-weight: 900; font-size: 11px; cursor: pointer;">🔽</button>
+                                <button type="button" onclick="closeStationFloatingBubble()" title="סגור בועה" style="background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; border-radius: 5px; width: 22px; height: 22px; font-weight: 900; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+                            </div>
+                        </div>
+                        <div id="station-bubble-content" style="padding: 8px 10px; overflow-y: auto; flex: 1; touch-action: pan-y; font-size: 11px;"></div>
+                        <div id="station-bubble-resize-handle" title="גרור לשינוי גודל הבועה" style="position: absolute; bottom: 0; left: 0; width: 22px; height: 22px; cursor: nesw-resize; display: flex; align-items: flex-end; justify-content: flex-start; padding: 2px 3px; font-size: 12px; color: #2563eb; background: linear-gradient(135deg, rgba(219,234,254,0.9) 0%, transparent 65%); border-top-right-radius: 8px; user-select: none; -webkit-user-select: none;">↘</div>
+                    </div>
                 </div>
 
                 <!-- Route Stations & Distances Drawer / Side-Panel -->
@@ -6962,6 +6979,9 @@
             stationMarkers = [];
 
             const visibleSet = new Set(getStationsForSelectedDay().map(item => item.idx));
+            if (typeof activeLegTargetIdx === 'number' && activeLegTargetIdx >= 0 && typeof activeLegPolyline !== 'undefined' && activeLegPolyline) {
+                visibleSet.add(activeLegTargetIdx);
+            }
             STATIONS.forEach((st, idx) => {
                 if (selectedMapDay !== 'all' && !visibleSet.has(idx)) return;
                 const isBus = st.stopCode !== null && st.stopCode !== undefined;
@@ -7414,59 +7434,204 @@
             const safePopupTitle = String(st.title || '').replace(/'/g, "\\'");
 
             const popupContent = `
-                <div style="font-family:'Heebo',sans-serif; font-size:11px; text-align:right; min-width:190px; max-width:230px;" dir="rtl">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
-                        <div style="font-weight:900; color:#0f172a; font-size:12.2px; line-height:1.2;">${st.title}</div>
-                        <button onclick="if(dynamicMap) dynamicMap.closePopup();" style="background:#f1f5f9; border:1px solid #cbd5e1; color:#475569; border-radius:5px; padding:1px 6px; font-size:10px; font-weight:900; cursor:pointer; flex-shrink:0;" title="סגור חלונית (או לחץ על המפה)">✕ סגור</button>
+                <div style="font-family:'Heebo',sans-serif; text-align:right;" dir="rtl">
+                    <div id="station-bubble-full-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:5px; border-bottom:1px solid #e2e8f0; padding-bottom:4px; margin-bottom:4px;">
+                        <div style="font-weight:900; color:#0f172a; font-size:1.12em; line-height:1.2;">${st.title}</div>
                     </div>
-                    <div style="color:#0369a1; font-size:10.5px; margin:2px 0; font-weight:bold;">📍 ${st.address || st.desc || ''}</div>
-                    ${stayTimeHtml}
-                    ${stopCodeHtml}
-                    ${st.shabbatInfo ? `<div style="background:#fef3c7; border:1.5px solid #f59e0b; border-radius:7px; padding:5px 8px; margin:4px 0; font-size:10.5px; color:#92400e; line-height:1.35; text-align:right;"><b>✡️ שבת ובית חב"ד:</b> ${st.shabbatInfo}</div>` : ''}
-                    
-                    <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:7px; padding:6px 8px; margin:4px 0;">
-                        ${interSiteScheduleHtml}
-                    </div>
-                    ${returnMeetingPopupHtml}
-
-                    <div style="display:flex; gap:4px; margin-top:5px; flex-wrap:wrap;">
-                        <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:10.2px; font-weight:900; cursor:pointer; white-space:nowrap;">
-                            🎯 נווט
-                        </button>
-                        <button onclick="openAppleMapsNav(${st.lat}, ${st.lng}, '${safePopupTitle}')" style="background:#0f172a; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:10.2px; font-weight:900; cursor:pointer; white-space:nowrap;" title="פתח באייפון Apple Maps">
-                            🍎 מפות
-                        </button>
-                        <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:10.2px; font-weight:900; cursor:pointer; white-space:nowrap;">
-                            🚖 נהג
-                        </button>
-                        ${st.website ? `<a href="${st.website}" target="_blank" rel="noopener noreferrer" style="background:#4f46e5; color:white; padding:5px 6px; border-radius:6px; font-size:10.2px; font-weight:900; text-decoration:none; text-align:center; white-space:nowrap; display:inline-flex; align-items:center; gap:3px;">🌐 אתר</a>` : ''}
-                    </div>
-                    ${(idx < STATIONS.length - 1) ? `
-                        <div style="margin-top:4px;">
-                            <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:10.5px; font-weight:900; cursor:pointer; line-height:1.2;">
-                                ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
-                            </button>
+                    <div id="station-bubble-collapsible">
+                        <div style="color:#0369a1; font-size:0.95em; margin:2px 0; font-weight:bold;">📍 ${st.address || st.desc || ''}</div>
+                        ${stayTimeHtml}
+                        ${stopCodeHtml}
+                        ${st.shabbatInfo ? `<div style="background:#fef3c7; border:1.5px solid #f59e0b; border-radius:7px; padding:5px 8px; margin:4px 0; font-size:0.95em; color:#92400e; line-height:1.35; text-align:right;"><b>✡️ שבת ובית חב"ד:</b> ${st.shabbatInfo}</div>` : ''}
+                        
+                        <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:7px; padding:6px 8px; margin:4px 0;">
+                            ${interSiteScheduleHtml}
                         </div>
-                    ` : ''}
+                        ${returnMeetingPopupHtml}
+
+                        <div style="display:flex; gap:4px; margin-top:5px; flex-wrap:wrap;">
+                            <button onclick="setTargetStation(${idx})" style="flex:1; background:#2563eb; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:0.92em; font-weight:900; cursor:pointer; white-space:nowrap;">
+                                🎯 נווט
+                            </button>
+                            <button onclick="openAppleMapsNav(${st.lat}, ${st.lng}, '${safePopupTitle}')" style="background:#0f172a; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:0.92em; font-weight:900; cursor:pointer; white-space:nowrap;" title="פתח באייפון Apple Maps">
+                                🍎 מפות
+                            </button>
+                            <button onclick="showTaxiCard(${idx})" style="background:#f59e0b; color:white; border:none; padding:5px 6px; border-radius:6px; font-size:0.92em; font-weight:900; cursor:pointer; white-space:nowrap;">
+                                🚖 נהג
+                            </button>
+                            ${st.website ? `<a href="${st.website}" target="_blank" rel="noopener noreferrer" style="background:#4f46e5; color:white; padding:5px 6px; border-radius:6px; font-size:0.92em; font-weight:900; text-decoration:none; text-align:center; white-space:nowrap; display:inline-flex; align-items:center; gap:3px;">🌐 אתר</a>` : ''}
+                        </div>
+                        ${(idx < STATIONS.length - 1) ? `
+                            <div style="margin-top:4px;">
+                                <button onclick="routeToNextStation(${idx})" style="width:100%; background:#059669; color:white; border:none; padding:5px 7px; border-radius:6px; font-size:0.95em; font-weight:900; cursor:pointer; line-height:1.2;">
+                                    ⏭️ המשך לתחנה הבאה: ${STATIONS[idx+1].title.split(' - ')[0]}
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
                 </div>
             `;
 
-            // Open standalone popup directly on dynamicMap so it never conflicts with marker bindPopup toggling
-            const popup = L.popup({
-                maxWidth: 225,
-                minWidth: 175,
-                offset: L.point(0, -10),
-                closeButton: false,
-                closeOnClick: true,
-                autoClose: true,
-                autoPan: true,
-                autoPanPaddingTopLeft: L.point(16, 28),
-                autoPanPaddingBottomRight: L.point(16, 16)
-            })
-            .setLatLng([st.lat, st.lng])
-            .setContent(popupContent);
+            const bubble = document.getElementById('station-floating-bubble');
+            const bodyEl = document.getElementById('station-bubble-content');
+            if (bubble && bodyEl) {
+                if (dynamicMap) dynamicMap.closePopup();
+                bodyEl.innerHTML = popupContent;
+                bubble.style.display = 'flex';
+                applySavedStationBubbleScale();
+                applyStationBubbleMinimizedState();
+                initStationBubbleInteractions();
+                clampStationBubbleToViewport();
+            }
+        }
 
-            dynamicMap.openPopup(popup);
+        let stationBubbleInteractionsBound = false;
+        let stationBubbleMinimized = false;
+        let stationBubbleScale = parseFloat(localStorage.getItem('travel_assistant_bubble_scale') || '1') || 1;
+        let activeLegTargetIdx = null;
+        let activeLegTargetMarker = null;
+
+        function applySavedStationBubbleScale() {
+            const bubble = document.getElementById('station-floating-bubble');
+            const bodyEl = document.getElementById('station-bubble-content');
+            if (!bubble || !bodyEl) return;
+            const s = Math.max(0.75, Math.min(1.45, stationBubbleScale));
+            bodyEl.style.fontSize = `${(11 * s).toFixed(1)}px`;
+            if (!bubble.dataset.customWidth) {
+                bubble.style.width = `${Math.round(250 * s)}px`;
+            }
+        }
+
+        function adjustStationBubbleScale(delta) {
+            stationBubbleScale = Math.max(0.75, Math.min(1.45, +(stationBubbleScale + delta).toFixed(2)));
+            try { localStorage.setItem('travel_assistant_bubble_scale', String(stationBubbleScale)); } catch (e) {}
+            const bubble = document.getElementById('station-floating-bubble');
+            if (bubble) {
+                delete bubble.dataset.customWidth;
+                bubble.style.height = '';
+            }
+            if (stationBubbleMinimized) {
+                stationBubbleMinimized = false;
+                applyStationBubbleMinimizedState();
+            }
+            applySavedStationBubbleScale();
+            clampStationBubbleToViewport();
+        }
+
+        function applyStationBubbleMinimizedState() {
+            const collapsible = document.getElementById('station-bubble-collapsible');
+            const minBtn = document.getElementById('btn-bubble-minimize');
+            const resizeHandle = document.getElementById('station-bubble-resize-handle');
+            const bubble = document.getElementById('station-floating-bubble');
+            if (collapsible) collapsible.style.display = stationBubbleMinimized ? 'none' : 'block';
+            if (resizeHandle) resizeHandle.style.display = stationBubbleMinimized ? 'none' : 'flex';
+            if (bubble && stationBubbleMinimized) bubble.style.height = 'auto';
+            if (minBtn) {
+                minBtn.innerText = stationBubbleMinimized ? '🔼' : '🔽';
+                minBtn.title = stationBubbleMinimized ? 'הרחב בועה' : 'מזער בועה';
+            }
+        }
+
+        function toggleMinimizeStationBubble() {
+            stationBubbleMinimized = !stationBubbleMinimized;
+            applyStationBubbleMinimizedState();
+            clampStationBubbleToViewport();
+        }
+
+        function closeStationFloatingBubble() {
+            const bubble = document.getElementById('station-floating-bubble');
+            if (bubble) bubble.style.display = 'none';
+            if (dynamicMap) dynamicMap.closePopup();
+        }
+
+        function clampStationBubbleToViewport() {
+            const bubble = document.getElementById('station-floating-bubble');
+            const vp = document.getElementById('map-viewport');
+            if (!bubble || !vp || bubble.style.display === 'none') return;
+            const vpRect = vp.getBoundingClientRect();
+            const bRect = bubble.getBoundingClientRect();
+            if (vpRect.width <= 0 || vpRect.height <= 0) return;
+
+            if (bubble.style.left) {
+                let left = parseFloat(bubble.style.left) || 0;
+                let top = parseFloat(bubble.style.top) || 0;
+                left = Math.max(4, Math.min(vpRect.width - Math.min(bRect.width, vpRect.width - 8) - 4, left));
+                top = Math.max(4, Math.min(vpRect.height - Math.min(bRect.height, vpRect.height - 8) - 4, top));
+                bubble.style.left = `${left}px`;
+                bubble.style.top = `${top}px`;
+                bubble.style.right = 'auto';
+            }
+        }
+
+        function initStationBubbleInteractions() {
+            if (stationBubbleInteractionsBound) return;
+            const bubble = document.getElementById('station-floating-bubble');
+            const dragBar = document.getElementById('station-bubble-drag-bar');
+            const resizeHandle = document.getElementById('station-bubble-resize-handle');
+            const vp = document.getElementById('map-viewport');
+            if (!bubble || !dragBar || !resizeHandle || !vp) return;
+            stationBubbleInteractionsBound = true;
+
+            let dragMode = null; // 'move' | 'resize'
+            let startX = 0, startY = 0, origLeft = 0, origTop = 0, origW = 0, origH = 0;
+
+            const getPt = (ev) => (ev.touches && ev.touches.length > 0) ? ev.touches[0] : ev;
+
+            const startDrag = (ev, mode) => {
+                if (ev.target && ev.target.closest('button')) return;
+                ev.preventDefault();
+                ev.stopPropagation();
+                const pt = getPt(ev);
+                const vpRect = vp.getBoundingClientRect();
+                const bRect = bubble.getBoundingClientRect();
+                dragMode = mode;
+                startX = pt.clientX;
+                startY = pt.clientY;
+                origLeft = bRect.left - vpRect.left;
+                origTop = bRect.top - vpRect.top;
+                origW = bRect.width;
+                origH = bRect.height;
+                bubble.style.left = `${origLeft}px`;
+                bubble.style.top = `${origTop}px`;
+                bubble.style.right = 'auto';
+            };
+
+            const onMove = (ev) => {
+                if (!dragMode) return;
+                ev.preventDefault();
+                const pt = getPt(ev);
+                const dx = pt.clientX - startX;
+                const dy = pt.clientY - startY;
+                const vpRect = vp.getBoundingClientRect();
+
+                if (dragMode === 'move') {
+                    const maxLeft = Math.max(4, vpRect.width - bubble.offsetWidth - 4);
+                    const maxTop = Math.max(4, vpRect.height - bubble.offsetHeight - 4);
+                    bubble.style.left = `${Math.max(4, Math.min(maxLeft, origLeft + dx))}px`;
+                    bubble.style.top = `${Math.max(4, Math.min(maxTop, origTop + dy))}px`;
+                } else if (dragMode === 'resize') {
+                    // Handle is at bottom-left: dragging left (dx < 0) widens bubble, dragging down (dy > 0) heightens it
+                    const newW = Math.max(185, Math.min(vpRect.width - 16, origW - dx));
+                    const newLeft = Math.max(4, origLeft + (origW - newW));
+                    const newH = Math.max(120, Math.min(vpRect.height - origTop - 8, origH + dy));
+                    bubble.style.width = `${Math.round(newW)}px`;
+                    bubble.style.left = `${Math.round(newLeft)}px`;
+                    bubble.style.height = `${Math.round(newH)}px`;
+                    bubble.dataset.customWidth = '1';
+                }
+            };
+
+            const endDrag = () => { dragMode = null; };
+
+            dragBar.addEventListener('mousedown', (e) => startDrag(e, 'move'));
+            dragBar.addEventListener('touchstart', (e) => startDrag(e, 'move'), { passive: false });
+            resizeHandle.addEventListener('mousedown', (e) => startDrag(e, 'resize'));
+            resizeHandle.addEventListener('touchstart', (e) => startDrag(e, 'resize'), { passive: false });
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('touchmove', onMove, { passive: false });
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
         }
 
         function fitFullRoute() {
@@ -7528,9 +7693,14 @@
             const nextSt = STATIONS[nextIdx];
 
             activeTargetIndex = nextIdx;
+            activeLegTargetIdx = nextIdx;
 
             if (activeLegPolyline && dynamicMap) {
                 dynamicMap.removeLayer(activeLegPolyline);
+            }
+            if (activeLegTargetMarker && dynamicMap) {
+                dynamicMap.removeLayer(activeLegTargetMarker);
+                activeLegTargetMarker = null;
             }
 
             if (dynamicMap) {
@@ -7544,10 +7714,25 @@
                     dashArray: '6, 6'
                 }).addTo(dynamicMap);
 
+                // Ensure the target site at the end of the green line is always visible & clearly labeled
+                renderMapStationMarkers();
+                const shortName = (typeof shortStationLabel === 'function') ? shortStationLabel(nextSt.title) : (nextSt.title || `תחנה ${nextIdx + 1}`);
+                const targetBadgeIcon = L.divIcon({
+                    className: 'active-leg-target-label',
+                    html: `<div style="background:#059669; color:white; border:2px solid white; border-radius:999px; padding:3px 9px; font-family:'Heebo',sans-serif; font-size:11px; font-weight:900; white-space:nowrap; box-shadow:0 3px 10px rgba(5,150,105,0.45); transform:translate(-50%, -140%); cursor:pointer;">🎯 ${shortName}</div>`,
+                    iconSize: [0, 0],
+                    iconAnchor: [0, 0]
+                });
+                activeLegTargetMarker = L.marker([nextSt.lat, nextSt.lng], { icon: targetBadgeIcon, zIndexOffset: 1800 }).addTo(dynamicMap);
+                activeLegTargetMarker.on('click', (e) => {
+                    if (e && e.originalEvent) L.DomEvent.stopPropagation(e.originalEvent);
+                    openStationLivePopup(nextIdx);
+                });
+
                 dynamicMap.fitBounds(L.latLngBounds([
                     [currSt.lat, currSt.lng],
                     [nextSt.lat, nextSt.lng]
-                ]), { padding: [60, 60] });
+                ]), { padding: [70, 70] });
             }
 
             openStationLivePopup(nextIdx);
