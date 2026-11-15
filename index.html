@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.8</title>
+    <title>Travel Assistant V5.4.9</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -843,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.8</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.9</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -7307,7 +7307,7 @@
 
                 const cBadge = (typeof getStationCanonicalBadge === 'function') ? getStationCanonicalBadge(st, idx) : { siteInDay: idx + 1, fullLabel: st.title, bg: '#ec4899' };
                 let markerColor = cBadge.bg || '#ec4899';
-                let markerHtml = `${cBadge.siteInDay || (idx + 1)}`;
+                let markerHtml = `${idx + 1}`;
                 let markerBorder = '2.5px solid white';
                 let markerSize = 30;
 
@@ -7697,14 +7697,15 @@
             const isConn = Boolean(st && st.type === 'connection');
             const isFlight = Boolean(st && (st.isFlight || st.type === 'flight' || isConn));
 
+            const seqNum = idx + 1;
             if (isHotel) {
-                return { dayNum, siteInDay: 0, code: `🛏️ ל${dayNum}`, fullLabel: `🛏️ לילה ${dayNum}`, bg: '#4f46e5', isHotel: true, isFlight: false };
+                return { dayNum, seqNum, siteInDay: 0, code: `#${seqNum} 🛏️ ל${dayNum}`, fullLabel: `#${seqNum} · 🛏️ לילה ${dayNum}`, bg: '#4f46e5', isHotel: true, isFlight: false };
             }
             if (isFlight) {
-                return { dayNum, siteInDay: 0, code: `✈️ י${dayNum}`, fullLabel: `✈️ יום ${dayNum} · טיסה`, bg: '#0284c7', isHotel: false, isFlight: true };
+                return { dayNum, seqNum, siteInDay: 0, code: `#${seqNum} ✈️ י${dayNum}`, fullLabel: `#${seqNum} · ✈️ יום ${dayNum} · טיסה`, bg: '#0284c7', isHotel: false, isFlight: true };
             }
             if (isChabad) {
-                return { dayNum, siteInDay: 0, code: `✡️ י${dayNum}`, fullLabel: `✡️ יום ${dayNum} · חב"ד`, bg: '#0284c7', isHotel: false, isFlight: false };
+                return { dayNum, seqNum, siteInDay: 0, code: `#${seqNum} ✡️ י${dayNum}`, fullLabel: `#${seqNum} · ✡️ יום ${dayNum} · חב"ד`, bg: '#0284c7', isHotel: false, isFlight: false };
             }
 
             let siteInDay = 1;
@@ -7724,7 +7725,7 @@
                 if (count > 0) siteInDay = count;
             }
             const bg = (idx === 0) ? '#16a34a' : (idx === STATIONS.length - 1 ? '#475569' : '#ec4899');
-            return { dayNum, siteInDay, code: `י${dayNum}·${siteInDay}`, fullLabel: `יום ${dayNum} · אתר ${siteInDay}`, bg, isHotel: false, isFlight: false };
+            return { dayNum, seqNum, siteInDay, code: `#${seqNum} · י${dayNum}`, fullLabel: `#${seqNum} · יום ${dayNum} · אתר ${siteInDay}`, bg, isHotel: false, isFlight: false };
         }
 
         function highlightStationRowInList(idx) {
@@ -8717,9 +8718,9 @@
 
                 if (typeof updateSpatialOrientationHud === 'function') updateSpatialOrientationHud();
 
-                // Anti-flicker throttle: do NOT rebuild entire bottom station list on every sub-6s GPS tick
+                // Anti-flicker throttle: only refresh station list if forced, first render, or user actually moved >= 25m (min 15s apart)
                 const nowTs = Date.now();
-                if (forceRedraw || centerMap || (nowTs - lastGpsStationsRenderTs) > 6000) {
+                if (forceRedraw || centerMap || lastGpsStationsRenderTs === 0 || (movedMeters >= 25 && (nowTs - lastGpsStationsRenderTs) > 15000)) {
                     lastGpsStationsRenderTs = nowTs;
                     renderStationsList();
                 }
@@ -8987,7 +8988,7 @@
                 }
 
                 const returnCardAfterLast = (idx === STATIONS.length - 1 && returnLegObj) ? `
-                    <div id="return-to-meeting-summary-card" style="background:#fffbeb; border:1.5px solid #f59e0b; border-radius:10px; padding:8px 12px; margin-top:4px; display:flex; justify-content:space-between; align-items:center; gap:8px; cursor:pointer;" onclick="focusArrivalAnchor('${returnLegObj.anchorType}')">
+                    <div id="return-to-meeting-summary-card" style="background:#fffbeb; border:1.5px solid #f59e0b; border-radius:10px; padding:8px 12px; margin-top:4px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; cursor:pointer;" onclick="focusArrivalAnchor('${returnLegObj.anchorType}')">
                         <div style="flex-grow:1;">
                             <div style="font-weight:900; font-size:0.94em; color:#92400e;">🔙 בתום המסלול ⬅ חזרה אל ${returnLegObj.targetLabel}</div>
                             <div style="font-size:0.8em; color:#334155; margin-top:2px;">📍 ${returnLegObj.targetAddress}</div>
