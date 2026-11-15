@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.4.3</title>
+    <title>Travel Assistant V5.4.4</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.3</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.4.4</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -980,8 +980,8 @@
                 </div>
             </div>
 
-            <!-- Station Quick Selector (Populated dynamically per active trip) -->
-            <div id="station-quick-selector-bar" style="background: #f8fafc; padding: 6px 12px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 6px; overflow-x: auto;">
+            <!-- Station Quick Selector (Anchor-only bar: Origin, Meeting, Connection, Route Start) -->
+            <div id="station-quick-selector-bar" style="background: #f8fafc; padding: 6px 12px; border-bottom: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; gap: 6px;">
                 <!-- Populated dynamically by renderStationQuickSelectors() -->
             </div>
             
@@ -12692,46 +12692,17 @@
                 }
             }
 
-            const stationPillsHtml = STATIONS.map((st, idx) => {
-                const isBus = st.stopCode !== null && st.stopCode !== undefined;
-                const isHotel = st.isHotel || st.type === 'hotel' || (st.title && (st.title.includes('🏨') || st.title.includes('🛏️')));
-                const isChabad = st.isChabad || st.type === 'chabad' || (st.title && st.title.includes('✡️'));
-
-                let shortTitle = st.title.split(' - ')[0].replace('🚏 ', '').replace(/🏨/g, '🛏️');
-                let bg = '#f0fdf4';
-                let border = '#bbf7d0';
-                let text = '#166534';
-                let prefix = '';
-
-                if (isChabad) {
-                    bg = '#fef3c7';
-                    border = '#f59e0b';
-                    text = '#92400e';
-                    shortTitle = (st.title && st.title.includes('סיאול')) ? '✡️ בית חב"ד סיאול' : shortTitle;
-                } else if (isHotel) {
-                    bg = '#f5f3ff';
-                    border = '#c4b5fd';
-                    text = '#5b21b6';
-                } else if (idx === 0) {
-                    bg = '#dcfce7';
-                    border = '#4ade80';
-                    text = '#166534';
-                    prefix = '🚩 תחילת מסלול: ';
-                } else if (isBus) {
-                    bg = '#fff7ed';
-                    border = '#fed7aa';
-                    text = '#c2410c';
-                    prefix = '🚏 ';
-                }
-
-                return `
-                    <button onclick="setTargetStation(${idx})" style="background:${bg}; border:1.5px solid ${border}; color:${text}; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:bold; white-space:nowrap; cursor:pointer;">
-                        ${prefix}${shortTitle}
+            let startAnchorHtml = '';
+            if (STATIONS.length > 0) {
+                const firstTitle = (STATIONS[0].title || '').split(' - ')[0].replace('🚏 ', '').replace(/🏨/g, '🛏️');
+                startAnchorHtml = `
+                    <button onclick="setTargetStation(0)" style="background:#dcfce7; border:1.5px solid #4ade80; color:#166534; padding:4px 9px; border-radius:6px; font-size:0.78em; font-weight:900; white-space:nowrap; cursor:pointer;" title="${firstTitle.replace(/"/g, '&quot;')}">
+                        🚩 תחילת מסלול
                     </button>
                 `;
-            }).join('');
+            }
 
-            const nextSig = anchorPillsHtml + stationPillsHtml;
+            const nextSig = anchorPillsHtml + startAnchorHtml;
             if (lastQuickBarSignature === nextSig && container.innerHTML) {
                 return;
             }
