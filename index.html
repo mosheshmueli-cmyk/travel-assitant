@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.3.6</title>
+    <title>Travel Assistant V5.3.7</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -840,7 +840,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.6</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.3.7</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -5052,6 +5052,35 @@
             }
         }
 
+        function buildSyncedFlightsInlineStripHtml(tripKey) {
+            const k = tripKey || currentTripKey;
+            const tickets = (typeof getTripFlightTickets === 'function') ? getTripFlightTickets(k) : [];
+            if (!tickets || tickets.length === 0) {
+                return `
+                    <div style="margin-top:6px; padding-top:6px; border-top:1px dashed #c4b5fd; display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap;">
+                        <span style="font-size:0.78em; font-weight:800; color:#6d28d9;">💺 מקום ישיבה: טרם הוזן / הועלה כרטיס טיסה</span>
+                        <button type="button" onclick="event.stopPropagation(); switchScreen('screen-route'); setWizardStep(2);" style="background:white; border:1px solid #c4b5fd; color:#5b21b6; border-radius:6px; padding:2px 8px; font-size:0.74em; font-weight:900; cursor:pointer;">📄 העלה כרטיס</button>
+                    </div>
+                `;
+            }
+            return `
+                <div style="margin-top:6px; padding-top:6px; border-top:1px dashed #c4b5fd; display:flex; flex-direction:column; gap:4px;">
+                    <div style="font-size:0.76em; font-weight:900; color:#5b21b6;">💺 מקומות ישיבה ושערים מסונכרנים מהכרטיסים:</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center;">
+                        ${tickets.map((ft, idx) => `
+                            <div onclick="event.stopPropagation();" style="background:white; border:1px solid #c4b5fd; border-radius:7px; padding:3px 7px; display:inline-flex; align-items:center; gap:5px; font-size:0.77em;">
+                                <b dir="ltr" style="color:#1d4ed8;">${escapeHtmlFlight(ft.flightNumber)}</b>
+                                <span style="font-weight:900; color:${ft.seat ? '#15803d' : '#b45309'}; background:${ft.seat ? '#dcfce7' : '#fef3c7'}; padding:1px 6px; border-radius:5px;">💺 ${ft.seat ? escapeHtmlFlight(ft.seat) : 'לא צוין'}</span>
+                                ${ft.gate ? `<span style="color:#475569; font-weight:800;">🚪 ${escapeHtmlFlight(ft.gate)}</span>` : ''}
+                                <button type="button" onclick="event.stopPropagation(); openFlightSeatMapModal(${idx});" style="background:#ccfbf1; color:#0f766e; border:1px solid #5eead4; border-radius:5px; padding:1px 6px; font-size:0.92em; font-weight:900; cursor:pointer;" title="תרשים ישיבה במטוס">💺 תרשים</button>
+                                <button type="button" onclick="event.stopPropagation(); updateSingleFlightSeatPrompt(${idx});" style="background:#f8fafc; color:#334155; border:1px solid #cbd5e1; border-radius:5px; padding:1px 5px; font-size:0.9em; font-weight:800; cursor:pointer;" title="עדכן מושב">✏️</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
         function updateSingleFlightSeatPrompt(index) {
             const tickets = getTripFlightTickets(currentTripKey);
             if (!tickets[index]) return;
@@ -8704,6 +8733,7 @@
                         </div>
                         <div style="font-size:0.82em; font-weight:800; color:#1e1b4b; line-height:1.35;">${connOutbound}</div>
                         ${domesticFlights ? `<div style="margin-top:4px; padding-top:4px; border-top:1px dashed #c4b5fd; font-size:0.79em; font-weight:800; color:#0369a1; line-height:1.35;">${domesticFlights}</div>` : ''}
+                        ${typeof buildSyncedFlightsInlineStripHtml === 'function' ? buildSyncedFlightsInlineStripHtml(currentTripKey) : ''}
                     </div>
                 ` : '';
 
@@ -12047,6 +12077,7 @@
                     </div>
                     <div style="font-size:0.84em; font-weight:800; color:#1e1b4b; line-height:1.45;">${connText}</div>
                     ${domesticText ? `<div style="margin-top:5px; padding-top:5px; border-top:1px dashed #c4b5fd; font-size:0.82em; font-weight:800; color:#0369a1; line-height:1.4;">${domesticText}</div>` : ''}
+                    ${typeof buildSyncedFlightsInlineStripHtml === 'function' ? buildSyncedFlightsInlineStripHtml(currentTripKey) : ''}
                 </div>
             ` : '';
 
