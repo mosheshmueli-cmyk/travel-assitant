@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Travel Assistant V5.5.1</title>
+    <title>Travel Assistant V5.5.2</title>
     <!-- PWA settings -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -843,7 +843,7 @@
     <header class="header">
         <div style="display: flex; align-items: center; gap: 8px;" dir="ltr">
             <i class="fa-solid fa-compass" style="font-size: 24px; color: #2563eb;"></i>
-            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.5.1</span></span>
+            <span style="font-weight: 900; font-size: 19px; letter-spacing: -0.3px; color: #0f172a;">Travel Assistant <span id="header-version-inline" style="color: #2563eb; font-weight: 900;">V5.5.2</span></span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px;">
             <div style="display: flex; align-items: center; background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 10px; padding: 3px 6px; gap: 4px;">
@@ -1889,15 +1889,28 @@
                     </div>
                 </div>
 
-                <!-- Two-way Voice Emergency Interpreter (Abroad Only) -->
+                <!-- Two-way Voice Emergency Interpreter (Real-Time Location & Trip-Aware Engine V5.5.2) -->
                 <div id="emergency-voice-interpreter-card" style="display: none; background: white; border: 2px solid #ef4444; border-radius: 16px; padding: 16px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(239,68,68,0.12);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fee2e2; padding-bottom: 8px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fee2e2; padding-bottom: 8px; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
                         <h3 style="margin: 0; color: #991b1b; font-size: 1.15em;"><i class="fa-solid fa-headset"></i> מתורגמן חירום קולי דו-כיווני</h3>
-                        <span style="background: #fee2e2; color: #b91c1c; font-size: 0.75em; font-weight: 900; padding: 3px 8px; border-radius: 12px;">🌐 תרגום קולי בזמן אמת</span>
+                        <span id="interpreter-active-lang-badge" style="background: #fee2e2; color: #b91c1c; font-size: 0.76em; font-weight: 900; padding: 3px 9px; border-radius: 12px;">🇰🇷 שפת יעד בזמן אמת: קוריאנית (한국어)</span>
                     </div>
 
-                    <p style="font-size: 0.85em; color: #475569; line-height: 1.45; margin-top: 0; margin-bottom: 14px;">
-                        <b>תיווך שטח מבצעי:</b> המטייל מדבר בעברית ➔ המערכת מתרגמת ומשמיעה בקול בערבית למקומי. המקומי עונה בערבית ➔ המערכת מתרגמת ומשמיעה בעברית למטייל!
+                    <!-- Real-Time Location & Transit Stop Language Switcher -->
+                    <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 8px 10px; margin-bottom: 12px;">
+                        <div style="font-size: 0.78em; font-weight: 900; color: #1e3a8a; margin-bottom: 6px;">
+                            📍 התאמת שפה אוטומטית למיקום הטיול ועצירות הביניים (GPS / תחנה פעילה):
+                        </div>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button type="button" id="interp-lang-btn-auto" onclick="setInterpreterLangMode('auto')" style="background: #2563eb; color: white; border: 1.5px solid #1d4ed8; padding: 5px 10px; border-radius: 8px; font-size: 0.78em; font-weight: 900; cursor: pointer;">🛰️ אוטומטי לפי מיקום/תחנה</button>
+                            <button type="button" id="interp-lang-btn-ko" onclick="setInterpreterLangMode('ko')" style="background: white; color: #1e293b; border: 1.5px solid #cbd5e1; padding: 5px 10px; border-radius: 8px; font-size: 0.78em; font-weight: 900; cursor: pointer;">🇰🇷 קוריאה (קוריאנית)</button>
+                            <button type="button" id="interp-lang-btn-am" onclick="setInterpreterLangMode('am')" style="background: white; color: #1e293b; border: 1.5px solid #cbd5e1; padding: 5px 10px; border-radius: 8px; font-size: 0.78em; font-weight: 900; cursor: pointer;">🇪🇹 קונקשן אדיס אבבה (אתיופית/אנגלית)</button>
+                            <button type="button" id="interp-lang-btn-ar" onclick="setInterpreterLangMode('ar')" style="background: white; color: #1e293b; border: 1.5px solid #cbd5e1; padding: 5px 10px; border-radius: 8px; font-size: 0.78em; font-weight: 800; cursor: pointer;">🇲🇦 ערבית</button>
+                        </div>
+                    </div>
+
+                    <p id="interpreter-desc-banner" style="font-size: 0.85em; color: #475569; line-height: 1.45; margin-top: 0; margin-bottom: 14px;">
+                        <b>תיווך שטח מבצעי:</b> המטייל מדבר בעברית ⬅ המערכת מתרגמת ומשמיעה בקול ב<b>קוריאנית (한국어)</b> למקומי. המקומי עונה בקוריאנית ⬅ המערכת מתרגמת ומשמיעה בעברית למטייל!
                     </p>
 
                     <!-- Two Big Voice Mic Buttons -->
@@ -1905,11 +1918,11 @@
                         <button id="btn-mic-hebrew" onclick="triggerVoiceInterpreter('he')" style="background: #2563eb; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 0.95em; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(37,99,235,0.3);">
                             <i class="fa-solid fa-microphone-lines" style="font-size: 1.6em;"></i>
                             <span>🎙️ דבר בעברית</span>
-                            <span style="font-size: 0.72em; opacity: 0.9; font-weight: normal;">(ישמיע בערבית למקומי)</span>
+                            <span id="btn-mic-hebrew-sub" style="font-size: 0.72em; opacity: 0.9; font-weight: normal;">(ישמיע בקוריאנית למקומי)</span>
                         </button>
-                        <button id="btn-mic-arabic" onclick="triggerVoiceInterpreter('ar')" style="background: #16a34a; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 0.95em; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(22,163,74,0.3);" dir="rtl">
+                        <button id="btn-mic-local" onclick="triggerVoiceInterpreter('local')" style="background: #16a34a; color: white; border: none; padding: 14px 10px; border-radius: 12px; font-weight: 900; font-size: 0.95em; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(22,163,74,0.3);">
                             <i class="fa-solid fa-microphone-lines" style="font-size: 1.6em;"></i>
-                            <span>🎙️ تحدث بالعربية</span>
+                            <span id="btn-mic-local-title">🎙️ 한국어로 말하기 (קוריאנית)</span>
                             <span style="font-size: 0.72em; opacity: 0.9; font-weight: normal;">(ישמיע בעברית למטייל)</span>
                         </button>
                     </div>
@@ -1921,34 +1934,17 @@
                         </span>
                     </div>
 
-                    <!-- Instant Test Phrase Buttons (Guaranteed 100% operation in any browser) -->
+                    <!-- Instant Test Phrase Buttons (Dynamically rendered per active destination/transit language) -->
                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
                         <div style="font-size: 0.82em; font-weight: 900; color: #334155; margin-bottom: 8px;">
-                            ⚡ לחץ לבדיקה מיידית בלחיצה אחת (סימולציית מצוקה בשטח):
+                            ⚡ לחץ להשמעה מיידית בשפת המקום (משפטי חירום ושטח):
                         </div>
                         
-                        <div style="font-size: 0.78em; color: #2563eb; font-weight: bold; margin-bottom: 4px;">🇮🇱 משפטי מטייל לדוגמה (המערכת תדבר בערבית):</div>
-                        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
-                            <button onclick="simulateInterpreterScenario('he', 'אני זקוק לסיוע רפואי דחוף!')" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a;">
-                                🚑 "אני זקוק לסיוע רפואי דחוף!"
-                            </button>
-                            <button onclick="simulateInterpreterScenario('he', 'איפה המרפאה או בית החולים הקרוב ביותר?')" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a;">
-                                🏥 "איפה המרפאה או בית החולים הקרוב ביותר?"
-                            </button>
-                            <button onclick="simulateInterpreterScenario('he', 'איבדתי את הדרך, עזור לי בבקשה להגיע למלון')" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a;">
-                                🛏️ "איבדתי את הדרך, עזור לי בבקשה להגיע למלון"
-                            </button>
-                        </div>
+                        <div id="interp-traveler-phrases-hdr" style="font-size: 0.78em; color: #2563eb; font-weight: bold; margin-bottom: 4px;">🇮🇱 משפטי מטייל (המערכת תשמיע בקוריאנית + תעתיק):</div>
+                        <div id="interp-traveler-phrases-list" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;"></div>
 
-                        <div style="font-size: 0.78em; color: #16a34a; font-weight: bold; margin-bottom: 4px;">🗣️ תשובות מקומי לדוגמה (המערכת תדבר בעברית):</div>
-                        <div style="display: flex; flex-direction: column; gap: 6px;">
-                            <button onclick="simulateInterpreterScenario('ar', 'العيادة الطبية في نهاية هذا الشارع إلى اليمين')" style="text-align: right; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #14532d;" dir="rtl">
-                                🧭 "العيادة الطبية في نهاية هذا الشارع إلى اليمين"
-                            </button>
-                            <button onclick="simulateInterpreterScenario('ar', 'سأتصل بالإسعاف الآن، ابق هنا واسترح')" style="text-align: right; background: white; border: 1px solid #bbf7d0; padding: 6px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #14532d;" dir="rtl">
-                                🚑 "سأتصل بالإسعاف الآن، ابق هنا واسترح"
-                            </button>
-                        </div>
+                        <div id="interp-local-phrases-hdr" style="font-size: 0.78em; color: #16a34a; font-weight: bold; margin-bottom: 4px;">🗣️ תשובות מקומי לדוגמה (המערכת תתרגם ותשמיע בעברית):</div>
+                        <div id="interp-local-phrases-list" style="display: flex; flex-direction: column; gap: 6px;"></div>
                     </div>
 
                     <!-- Live Dialogue Feed Container -->
@@ -1959,14 +1955,14 @@
                         </div>
                         <div id="interpreter-chat-box" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px; max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
                             <div style="text-align: center; color: #94a3b8; font-size: 0.78em; padding: 12px;">
-                                טרם החלה שיחה. לחץ על אחד מכפתורי המיקרופון או על משפט לבדיקה.
+                                טרם החלה שיחה. לחץ על אחד מכפתורי המיקרופון או על משפט להשמעה מיידית.
                             </div>
                         </div>
                     </div>
 
                     <!-- Free Text Manual Input -->
                     <div style="display: flex; gap: 6px;">
-                        <input type="text" id="interpreter-custom-input" placeholder="או הקלד כאן משפט בעברית / ערבית..." style="flex-grow: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85em;">
+                        <input type="text" id="interpreter-custom-input" placeholder="או הקלד כאן משפט בעברית או בשפת המקום..." style="flex-grow: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85em;">
                         <button onclick="sendCustomInterpreterText()" style="background: #0f172a; color: white; border: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 0.85em; cursor: pointer; white-space: nowrap;">
                             תרגם והשמע
                         </button>
@@ -2357,6 +2353,47 @@
                         </div>
                     </div>
 
+                    <!-- Korea Supermarkets & Kosher-Without-Certification Guide Card (Synced from Trip Docs 18/11/2026) -->
+                    <div id="ai-food-korea-supermarkets-card" style="background: #f0f9ff; border: 2px solid #38bdf8; border-radius: 14px; padding: 14px; margin-bottom: 14px; font-size: 0.85em; line-height: 1.5; box-shadow: 0 3px 8px rgba(2,132,199,0.08);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px; border-bottom:1px solid #bae6fd; padding-bottom:6px;">
+                            <span style="font-weight: 900; color: #0369a1; font-size: 1.05em;"><i class="fa-solid fa-cart-shopping"></i> סופרים גדולים עם אוכל כשר בסיאול, בוסאן וג'ג'ו + מוצרים ללא הכשר</span>
+                            <span style="background:#0284c7; color:white; font-size:0.75em; font-weight:900; padding:2px 8px; border-radius:6px;">📄 מסונכרן מתיק המסמכים</span>
+                        </div>
+
+                        <div style="background:white; border:1px solid #bae6fd; border-radius:10px; padding:10px; margin-bottom:8px;">
+                            <div style="font-weight:900; color:#0f172a; margin-bottom:4px;">🏪 רשתות וסופרים גדולים מומלצים לפי ערי המסלול בקוריאה:</div>
+                            <div style="color:#1e293b;">
+                                • <b>בסיאול (Seoul – ליד מלון Kukdo):</b><br>
+                                &nbsp;&nbsp;1. <b>E-Mart Cheonggyecheon</b> (כ-8 דק' הליכה/נסיעה ממלון קוקדו, `400 Cheonggyecheon-ro`) – סופר ענק להצטיידות יומית ולקראת שבת.<br>
+                                &nbsp;&nbsp;2. <b>Lotte Mart ZETTAPLEX Seoul Station</b> (בתחנת סיאול המרכזית, `405 Hangang-daero`) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע"מ מיידי בקופה.<br>
+                                &nbsp;&nbsp;3. <b>Costco Wholesale Seoul</b> (סניפי `Yangjae` / `Sangbong`) – המבחר הגדול ביותר של מוצרים מיובאים מארה"ב עם חותמות <b>OU / OK / Star-K / Kof-K</b> (קרקרים, דגנים, חטיפים, שמן זית, סלמון מעושן ואגוזים).<br>
+                                &nbsp;&nbsp;4. <b>מכולת בית חב"ד סיאול (Itaewon):</b> מוצרי מהדרין, יין, חלות ומנות מוכנות לשבת בתיאום מראש.<br>
+                                • <b>בבוסאן (Busan – ליד מלון Crown Harbor):</b><br>
+                                &nbsp;&nbsp;1. <b>Lotte Mart Gwangbok</b> (`2 Jungang-daero, Jung-gu` – כ-10 דק' הליכה ממלון קראון הארבור!) – סופר ענק עם מחלקת יבוא, פירות וירקות, פסטות, אורז, אגוזים ושתייה.<br>
+                                &nbsp;&nbsp;2. <b>Costco Busan (Suyeong) & E-Mart / Homeplus Busan</b> – מוצרים אמריקאיים מסומני `OU`/`OK`.<br>
+                                • <b>באי ג'ג'ו (Jeju – ליד מלון Whistle Lark):</b><br>
+                                &nbsp;&nbsp;1. <b>E-Mart Shin-Jeju & Lotte Mart Jeju</b> (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה.
+                            </div>
+                        </div>
+
+                        <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:10px; padding:10px;">
+                            <div style="font-weight:900; color:#166534; margin-bottom:4px;">✅ מוצרים שאפשר לקנות בסופרים בחו"ל גם ללא תעודת הכשר (מתוך מסמך הכשרות שהעלית):</div>
+                            <div style="color:#14532d; font-size:0.94em; display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:4px 12px;">
+                                <div>🥛 <b>חלב פרה ניגר:</b> במדינות עם פיקוח שמקורו פרה בלבד (למקלים בחלב נוכרי; חלב ניגר בלבד ולא גבינות).</div>
+                                <div>🍎 <b>פירות וירקות טריים:</b> שלמים ללא כל חשש (זהירות מפירות מיובאים מישראל).</div>
+                                <div>🥦 <b>ירקות קפואים:</b> כשרים (למעט סוגים עם חשש חרקים המחייבים בדיקה).</div>
+                                <div>🥜 <b>אגוזים ופיצוחים:</b> שלמים, טבעיים, <b>לא קלויים</b> וללא תוספות.</div>
+                                <div>🌾 <b>דגנים וקטניות:</b> מרבית הקטניות והדגנים הנקיים (למעט עדשים כתומות החייבות הכשר).</div>
+                                <div>🌿 <b>תבלינים שלמים:</b> שאינם טחונים וללא חומרי טעם וריח.</div>
+                                <div>🫒 <b>שמנים:</b> שמן זית (מותג מוכר וגדול), שמן קנולה (ברוקלמן) ושמן שומשום בכבישה קרה.</div>
+                                <div>🍯 <b>דבש:</b> מותגים גדולים עם סימון <b>100% דבש טהור</b> בלבד.</div>
+                                <div>🍝 <b>פסטה רגילה:</b> ברשימת רכיבים של <b>קמח ומים בלבד</b> ללא תוספות.</div>
+                                <div>🥣 <b>טחינה וקמחים:</b> טחינה גולמית טהורה (100% שומשום); קמח תירס, טפיוקה, תפו"א וחיטה טהורים.</div>
+                                <div>☕ <b>משקאות מותרים:</b> קפה טהור ללא טעמים (מגורען/נמס/קפסולות), תה מעלי תה בלבד, מים וסודה ללא טעמים, פפסי מקס ובירה ללא תוספות.</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Korea Customs Allowed / Prohibited Food Card -->
                     <div id="ai-food-customs-rules-card" style="background: #fffbeb; border: 1.5px solid #fcd34d; border-radius: 12px; padding: 12px; margin-bottom: 14px; font-size: 0.85em; line-height: 1.45;">
                         <div style="font-weight: 900; color: #92400e; font-size: 1em; margin-bottom: 4px;"><i class="fa-solid fa-suitcase-rolling"></i> הנחיות מכס קוריאה הדרומית – הכנסת מזון כשר במזוודה:</div>
@@ -2506,7 +2543,7 @@
                                         <div style="font-size: 0.72em; font-weight: 800; color: #15803d; margin-top: 2px;">ILS</div>
                                     </div>
                                     <div style="padding: 8px 5px; background: white;">
-                                        <input type="number" id="ai-fx-triple-ils" value="27" min="0" step="any" oninput="updateTripleCurrency('ils')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #22c55e; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #166534; text-align: center;" dir="ltr">
+                                        <input type="number" id="ai-fx-triple-ils" value="24.26" min="0" step="any" oninput="updateTripleCurrency('ils')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #22c55e; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #166534; text-align: center;" dir="ltr">
                                     </div>
                                 </div>
 
@@ -2517,15 +2554,25 @@
                                         <div style="font-size: 0.72em; font-weight: 800; color: #1d4ed8; margin-top: 2px;">USD</div>
                                     </div>
                                     <div style="padding: 8px 5px; background: white;">
-                                        <input type="number" id="ai-fx-triple-usd" value="7.26" min="0" step="any" oninput="updateTripleCurrency('usd')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #3b82f6; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #1e40af; text-align: center;" dir="ltr">
+                                        <input type="number" id="ai-fx-triple-usd" value="7.44" min="0" step="any" oninput="updateTripleCurrency('usd')" style="width: 100%; box-sizing: border-box; padding: 8px 4px; border: 2px solid #3b82f6; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1.05em; font-weight: 900; color: #1e40af; text-align: center;" dir="ltr">
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Representative USD Rate Control Bar -->
+                            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:6px 10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; font-size:0.8em;">
+                                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-weight:900; color:#1e3a8a;">🏦 שער יציג דולר ($ ⬅ ₪):</span>
+                                    <input type="number" id="ai-fx-usd-rep-rate" value="3.261" min="1" max="10" step="0.001" oninput="onCustomUsdRepRateInput(this.value)" style="width:72px; padding:3px 6px; border:1.5px solid #2563eb; border-radius:6px; font-weight:900; color:#0f172a; text-align:center;" dir="ltr">
+                                    <span id="ai-fx-live-badge" style="font-size:0.9em; color:#15803d; font-weight:800;">(בנק ישראל 18/11: 3.261 ₪ | 1$ ≈ 1,344 ₩)</span>
+                                </div>
+                                <button type="button" onclick="fetchLiveExchangeRates(true)" style="background:#eff6ff; border:1px solid #93c5fd; color:#1d4ed8; border-radius:6px; padding:3px 8px; font-weight:800; font-size:0.92em; cursor:pointer;">🔄 עדכן שער חי</button>
+                            </div>
+
                             <!-- Live Result Summary Display -->
                             <div id="ai-fx-result-box" style="background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%); border: 1.5px solid #c4b5fd; border-radius: 10px; padding: 8px 12px; text-align: center;">
-                                <div id="ai-fx-result-main" style="font-size: 1.08em; font-weight: 900; color: #4c1d95;" dir="ltr">10,000 ₩ = 27.00 ₪ = 7.26 $</div>
-                                <div id="ai-fx-result-sub" style="font-size: 0.78em; color: #5b21b6; font-weight: 700; margin-top: 2px;">שער ייחוס מהיר לשטח: 1,000 ₩ ≈ 2.70 ₪ | 1 $ ≈ 1,378 ₩ ≈ 3.72 ₪</div>
+                                <div id="ai-fx-result-main" style="font-size: 1.08em; font-weight: 900; color: #4c1d95;" dir="ltr">10,000 ₩ = 24.26 ₪ = 7.44 $</div>
+                                <div id="ai-fx-result-sub" style="font-size: 0.78em; color: #5b21b6; font-weight: 700; margin-top: 2px;">שער יציג מעודכן: 1,000 ₩ ≈ 2.43 ₪ | 1 $ ≈ 1,344 ₩ ≈ 3.261 ₪</div>
                             </div>
 
                             <!-- Quick Amount Buttons -->
@@ -2545,8 +2592,8 @@
 
                         <!-- Quick Reference Cheat-Sheet -->
                         <div style="background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; font-size: 0.83em; color: #334155;">
-                            <div style="font-weight: 900; color: #0f172a; margin-bottom: 4px;">📌 כלל אצבע לחישוב בראש בקוריאה:</div>
-                            הורד שלושה אפסים מהמחיר בוון והכפל ב-<b>2.7</b>: למשל מוצר שעולה <b>10,000 ₩</b> הוא כ-<b>27 ₪</b> (או <b>7.2 $</b>). שטר של <b>50,000 ₩</b> שווה כ-<b>135 ₪</b>.
+                            <div style="font-weight: 900; color: #0f172a; margin-bottom: 4px;">📌 כלל אצבע לחישוב בראש בקוריאה (לפי שער יציג 3.261 ₪ לדולר):</div>
+                            הורד שלושה אפסים מהמחיר בוון והכפל ב-<b>2.43</b>: למשל מוצר שעולה <b>10,000 ₩</b> הוא כ-<b>24.3 ₪</b> (או <b>7.44 $</b>). שטר של <b>50,000 ₩</b> שווה כ-<b>121.3 ₪</b>.
                         </div>
                     </div>
 
@@ -2735,15 +2782,16 @@
             }
         }
 
-        // ================= CURRENCY CONVERTER & GENERAL FAQ ENGINE (V5.3.1) =================
-        // Rates expressed in ILS per 1 unit of currency (offline-ready field reference rates)
+        // ================= CURRENCY CONVERTER & GENERAL FAQ ENGINE (V5.5.2 REPRESENTATIVE & LIVE RATES) =================
+        // Rates expressed in ILS per 1 unit of currency (Bank of Israel Representative Rates 18/11/2026 + Live Sync)
         const AI_FX_TO_ILS = {
             ILS: 1.0,
-            KRW: 0.0027,
-            USD: 3.72,
-            EUR: 4.02,
-            JPY: 0.0245
+            USD: 3.2610,
+            KRW: 3.2610 / 1344, // ~0.0024263 ILS per 1 KRW (1,000 KRW ≈ 2.43 ILS)
+            EUR: 3.5700,
+            JPY: 0.0218
         };
+        let AI_USD_TO_KRW = 1344;
         const AI_FX_SYMBOLS = {
             ILS: '₪',
             KRW: '₩',
@@ -2751,6 +2799,61 @@
             EUR: '€',
             JPY: '¥'
         };
+
+        (function initSavedFxRates() {
+            try {
+                const raw = localStorage.getItem('travel_assistant_live_fx_rates_v2');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && parsed.USD && isFinite(parsed.USD)) {
+                        Object.assign(AI_FX_TO_ILS, parsed.rates || {});
+                        if (parsed.usdToKrw) AI_USD_TO_KRW = parsed.usdToKrw;
+                    }
+                }
+            } catch (e) {}
+            setTimeout(() => { fetchLiveExchangeRates(false); }, 1200);
+        })();
+
+        function onCustomUsdRepRateInput(val) {
+            const num = parseFloat(val);
+            if (!isFinite(num) || num <= 0.5 || num > 20) return;
+            AI_FX_TO_ILS.USD = num;
+            AI_FX_TO_ILS.KRW = num / (AI_USD_TO_KRW || 1344);
+            updateTripleCurrency(lastTripleFxSource || 'local');
+        }
+
+        async function fetchLiveExchangeRates(manualTrigger = false) {
+            const badge = document.getElementById('ai-fx-live-badge');
+            try {
+                if (manualTrigger && badge) badge.innerText = '(מעדכן שער יציג מרשת...)';
+                const res = await fetch('https://open.er-api.com/v6/latest/USD');
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const data = await res.json();
+                if (data && data.rates && data.rates.ILS) {
+                    const usdIls = Number(data.rates.ILS.toFixed(4));
+                    const usdKrw = data.rates.KRW ? Math.round(data.rates.KRW) : 1344;
+                    AI_USD_TO_KRW = usdKrw;
+                    AI_FX_TO_ILS.USD = usdIls;
+                    AI_FX_TO_ILS.KRW = usdIls / usdKrw;
+                    if (data.rates.EUR) AI_FX_TO_ILS.EUR = Number((usdIls / data.rates.EUR).toFixed(4));
+                    if (data.rates.JPY) AI_FX_TO_ILS.JPY = Number((usdIls / data.rates.JPY).toFixed(5));
+                    localStorage.setItem('travel_assistant_live_fx_rates_v2', JSON.stringify({
+                        USD: usdIls,
+                        usdToKrw: usdKrw,
+                        rates: AI_FX_TO_ILS,
+                        updatedAt: Date.now()
+                    }));
+                    const inp = document.getElementById('ai-fx-usd-rep-rate');
+                    if (inp) inp.value = usdIls.toFixed(3);
+                    if (badge) badge.innerText = `(שער יציג חי: ${usdIls.toFixed(3)} ₪ | 1$ ≈ ${usdKrw.toLocaleString('en-US')} ₩)`;
+                    updateTripleCurrency(lastTripleFxSource || 'local');
+                }
+            } catch (e) {
+                if (manualTrigger && badge) {
+                    badge.innerText = `(ללא חיבור – שער יציג שמור: ${AI_FX_TO_ILS.USD.toFixed(3)} ₪ | 1$ ≈ ${AI_USD_TO_KRW.toLocaleString('en-US')} ₩)`;
+                }
+            }
+        }
 
         let lastTripleFxSource = 'local';
 
@@ -3074,6 +3177,9 @@
             }
             if (screenId === 'screen-home' && typeof updateHomeAlertBellState === 'function') {
                 updateHomeAlertBellState();
+            }
+            if (screenId === 'screen-emergency' && typeof syncInterpreterLanguageWithContext === 'function') {
+                syncInterpreterLanguageWithContext();
             }
             if (screenId === 'screen-alerts' && typeof markAlertsAsRead === 'function') {
                 markAlertsAsRead();
@@ -5517,7 +5623,7 @@
             const dateRe = /\b(\d{1,2}[\/.\-]\d{1,2}(?:[\/.\-]\d{2,4})?)\b/;
             const seatRe = /(?:מקום\s*ישיבה|מקומות\s*ישיבה|מושב|מושבים|כיסא|תא|קבינה|Seat(?:\s*(?:No\.?|Number|#))?|Cabin)\s*[:\-]?\s*([A-Za-z0-9]{1,5}(?:\s*[,\/&\-]\s*[A-Za-z0-9]{1,5})*)/i;
             const rowRe = /(?:שורה|Row)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
-            const coachRe = /(?:קרון|Coach|Car)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
+            const coachRe = /\b(?:קרון|Coach|Car)\b\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
             const platformRe = /(?:רציף|Platform)\s*[:\-]?\s*([A-Za-z0-9]{1,4})\b/i;
             const guestsRe = /(\d{1,2})\s*(?:סועדים|אורחים|אנשים|משתתפים|כרטיסים|מבוגרים|Guests|People|Persons|Tickets|Pax)/i;
             const pnrRe = /(?:קוד\s*הזמנה|מספר\s*הזמנה|אישור\s*הזמנה|PNR|Booking\s*(?:Ref|Reference|Code|ID)|Confirmation\s*(?:Code|Number)|Reservation\s*(?:Code|Number|ID))\s*[:#\-]\s*([A-Z0-9\-]{4,12})\b/i;
@@ -5525,7 +5631,7 @@
             const urlRe = /(https?:\/\/[^\s<>"')]+)/i;
 
             const isTransitLine = l => /רכבת|אוטובוס|אוניה|אונייה|ספינה|מעבורת|שייט|קרוז|KTX|Train|Bus|Ferry|Cruise|Ship|Shuttle/i.test(l) && !/אוטובוס תיירים צמוד|טיסה/i.test(l);
-            const isRestaurantLine = l => /מסעדה|מסעדת|הזמנת שולחן|שולחן ל|ארוחת ערב|ארוחת צהריים|ארוחת בוקר|ביסטרו|קפה|Restaurant|Table\s*for|Dining|Dinner|Lunch|Reservation\s+at/i.test(l);
+            const isRestaurantLine = l => /מסעדה|מסעדת|הזמנת שולחן|שולחן ל|ארוחת ערב|ארוחת צהריים|ארוחת בוקר|ביסטרו|Restaurant|Table\s*for|Dining|Dinner|Lunch|Reservation\s+at/i.test(l) && !/מוצרים שאפשר|לא חייב לעבור|משקאות:|קפה ללא תוספת|אוכל כשר בחו/i.test(l);
             const isEventLine = l => /הופעה|קונצרט|מופע|קולנוע|סרט|סינמה|יס פלאנט|רב חן|מוזיאון|תערוכה|תיאטרון|הצגה|פארק|כרטיס\s*כניסה|אטרקציה|Concert|Show|Cinema|Movie|Film|Museum|Exhibition|Theater|Theatre|Event/i.test(l);
             const isHotelLine = l => /מלון|צימר|אירוח|צ'ק[\-\s]?אין|צ'ק[\-\s]?אאוט|Check[\-\s]?in|Check[\-\s]?out|Hotel|Resort|Apartment|Hostel/i.test(l);
 
@@ -6852,6 +6958,7 @@
 
             syncBaltamScenarios(isDomestic, k);
             syncAiScreenGeoContext(isDomestic, k);
+            if (typeof syncInterpreterLanguageWithContext === 'function') syncInterpreterLanguageWithContext();
         }
 
         function syncBaltamScenarios(isDomestic, tripKey) {
@@ -10169,6 +10276,26 @@
 
         const DEFAULT_RESOLVED_FEEDBACK = [
             {
+                id: 'fb_1794806292654',
+                category: 'נתונים וסנכרון',
+                note: 'שער יציג של הדולר צריך בדיקה',
+                time: '16.11 07:18',
+                gps: '31.7892, 34.6418',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.5.2: שער הדולר היציג עודכן לשער בנק ישראל המדויק (3.261 ₪ לדולר | 1$ ≈ 1,344 ₩ | 1,000 ₩ ≈ 2.43 ₪), נוסף סנכרון שער יציג חי אוטומטי מהרשת עם שמירה למצב ללא אינטרנט, ונוספה תיבת בקרה לעדכון/עריכת השער היציג בטבלת ההמרות ההדדית.'
+            },
+            {
+                id: 'fb_1794681841097',
+                category: 'ניווט ומסלול',
+                note: 'המרת השפה תותאם לשפת המקום בו מטיילים למשל בנסיעה לקוריאה השפה תהיה קוריאני. (בדרך עוצרים באדיססבבא השפה תהיה אתיופית) זו המשמעות של מערכת זמן אמת.',
+                time: '14.11 20:44',
+                gps: '31.7893, 34.6413',
+                battery: '100%',
+                status: 'fixed',
+                fixSummary: 'טופל בגרסה 5.5.2: מתורגמן החירום והשטח הדו-כיווני שודרג למנוע תלוי-מיקום בזמן אמת (Location-Aware Multi-Language Voice Engine). בטיול לקוריאה השפה מוגדרת אוטומטית לקוריאנית (한국어, ko-KR) עם הקראה קולית ותעתיק עברי, ובעת עצירת הקונקשן באדיס אבבה (לפי GPS או בחירת תחנת המעבר ADD) השפה עוברת אוטומטית לאמהרית/אנגלית לשדה התעופה בולה.'
+            },
+            {
                 id: 'fb_1794680342493',
                 category: 'ניווט ומסלול',
                 note: 'אפשר תרשים ישיבה במטוס בהתייחס לכרטיסים?',
@@ -12774,22 +12901,156 @@
             container.innerHTML = nextSig;
         }
 
-        // ================= EMERGENCY TWO-WAY VOICE INTERPRETER (MOROCCO SIMULATION) =================
+        // ================= EMERGENCY TWO-WAY VOICE INTERPRETER (REAL-TIME LOCATION & TRIP-AWARE ENGINE V5.5.2) =================
         let interpreterChatHistory = [];
         let speechRecognitionInstance = null;
+        let interpreterLangMode = 'auto'; // 'auto' | 'ko' | 'am' | 'ar' | 'it' | 'ja'
+        let activeInterpreterLangKey = 'ko';
 
-        const INTERPRETER_DICTIONARY = {
-            // Hebrew to Arabic
-            'אני זקוק לסיוע רפואי דחוף!': { ar: 'أنا بحاجة إلى مساعدة طبية عاجلة!', heDesc: 'אני זקוק לסיוע רפואי דחוף!' },
-            'איפה המרפאה או בית החולים הקרוב ביותר?': { ar: 'أين تقع أقرب عيادة أو مستشفى؟', heDesc: 'איפה המרפאה או בית החולים הקרוב ביותר?' },
-            'איבדתי את הדרך, עזור לי בבקשה להגיע למלון': { ar: 'لقد ضللت الطريق، ساعدني من فضلك للوصول إلى الفندق', heDesc: 'איבדתי את הדרך, עזור לי בבקשה להגיע למלון' },
-            'עזור לי בבקשה': { ar: 'ساعدني من فضلك، أنا بحاجة إلى المساعدة', heDesc: 'עזור לי בבקשה' },
-            'משטרה': { ar: 'يرجى استدعاء الشرطة فوراً', heDesc: 'בבקשה קרא למשטרה מיד' },
-            // Arabic to Hebrew
-            'العيادة الطبية في نهاية هذا الشارع إلى اليمين': { he: 'המרפאה הרפואית בסוף הרחוב הזה מצד ימין', arDesc: 'العيادة الطبية في نهاية هذا الشارع إلى اليمين' },
-            'سأتصل بالإسعاف الآن، ابق هنا واسترح': { he: 'אתקשר לאמבולנס עכשיו, הישאר כאן ותנוח', arDesc: 'سأتصل بالإسعاف الآن، ابق هنا واسترح' },
-            'محطة الشرطة على بعد 200 متر': { he: 'תחנת המשטרה במרחק 200 מטר ממש כאן', arDesc: 'محطة الشرطة على بعد 200 متر' }
+        const INTERPRETER_PROFILES = {
+            ko: {
+                key: 'ko',
+                flag: '🇰🇷',
+                nameHe: 'קוריאנית (한국어)',
+                shortHe: 'קוריאנית',
+                badgeText: '🇰🇷 שפת יעד בזמן אמת: קוריאנית (한국어)',
+                ttsLang: 'ko-KR',
+                sttLang: 'ko-KR',
+                micLocalTitle: '🎙️ 한국어로 말하기 (קוריאנית)',
+                listeningLocalText: '🔴 מקשיב עכשיו למקומי בקוריאנית (한국어)...',
+                travelerPhrases: [
+                    { icon: '🚑', he: 'אני זקוק לסיוע רפואי דחוף!', local: '응급 의료 도움이 필요합니다! (אึנג-גופ אילו דואומי פיריו-האמנידה!)', speak: '응급 의료 도움이 필요합니다' },
+                    { icon: '🏥', he: 'איפה המרפאה או בית החולים הקרוב ביותר?', local: '가장 가까운 병원이 어디에 있습니까? (קא-ג\'אנג גאקאון ביונג-ווני אודייה איסומניקה?)', speak: '가장 가까운 병원이 어디에 있습니까' },
+                    { icon: '🛏️', he: 'איבדתי את הדרך, עזור לי בבקשה להגיע למלון', local: '길을 잃었습니다. 호텔로 가는 길을 도와주세요 (קירול איר-אוסומנידה. הוטל-לו קאנון קירול דווה-ג\'וסיו)', speak: '길을 잃었습니다 호텔로 가는 길을 도와주세요' },
+                    { icon: '🍽️', he: 'אני אוכל רק אוכל כשר ללא בשר ודגים מעורבים', local: '저는 코셔 음식만 먹습니다. 고기와 해산물을 빼주세요 (ג\'ונון קו-שו אומשיק-מאן מוקסומנידה)', speak: '저는 코셔 음식만 먹습니다 고기와 해산물을 빼주세요' }
+                ],
+                localPhrases: [
+                    { icon: '🧭', local: '병원은 이 길 끝 오른쪽에 있습니다', speakHe: 'בית החולים נמצא בסוף הרחוב הזה מצד ימין' },
+                    { icon: '🚑', local: '지금 119 구급차를 부르겠습니다. 여기서 기다리세요', speakHe: 'אני מזמין עכשיו אמבולנס 119, הישאר כאן והמתן' },
+                    { icon: '🚖', local: '택시를 불러 드릴까요? 호텔 주소를 보여주세요', speakHe: 'האם להזמין לך מונית? הראה לי בבקשה את כתובת המלון' }
+                ]
+            },
+            am: {
+                key: 'am',
+                flag: '🇪🇹',
+                nameHe: 'אתיופית - אמהרית / אנגלית (אדיס אבבה ADD)',
+                shortHe: 'אמהרית/אנגלית',
+                badgeText: '🇪🇹 תחנת מעבר בזמן אמת: אדיס אבבה (אמהרית / אנגלית)',
+                ttsLang: 'en-US',
+                sttLang: 'en-US',
+                micLocalTitle: '🎙️ አማርኛ / English (אדיס אבבה)',
+                listeningLocalText: '🔴 מקשיב לצוות שדה התעופה באדיס אבבה (אמהרית/אנגלית)...',
+                travelerPhrases: [
+                    { icon: '✈️', he: 'איפה שער העלייה למטוס לטיסת ההמשך לסיאול ET 672?', local: 'የሴኡል በረራ ET 672 መግቢያ በር የት ነው? / Where is the boarding gate for flight ET 672 to Seoul? (יֶסיאול בֶּרֶרה ET 672 מֶגבייה בֶּר יֶת נֶאו?)', speak: 'Where is the boarding gate for Ethiopian Airlines flight E T 6 7 2 to Seoul?' },
+                    { icon: '🚑', he: 'אני זקוק לסיוע רפואי דחוף בשדה התעופה!', local: 'አስቸኳይ የህክምና እርዳታ እፈልጋለሁ! / I need urgent medical assistance! (אַסצ\'קוואי יֶהיקמינה אירדאטה איפֶלגאלהו!)', speak: 'I need urgent medical assistance at the airport clinic please' },
+                    { icon: '🧳', he: 'אנחנו בטיסת קונקשן, האם הכבודה עוברת ישירות לסיאול?', local: 'እቃችን በቀጥታ ወደ ሴኡል ይሄዳል? / Is our luggage checked straight through to Seoul?', speak: 'We are on a connecting flight, is our luggage checked straight through to Seoul Incheon?' }
+                ],
+                localPhrases: [
+                    { icon: '🚪', local: 'Your flight ET 672 to Seoul boards at Gate A12 on the upper level', speakHe: 'טיסת ההמשך שלכם ET 672 לסיאול יוצאת משער A12 בקומה העליונה' },
+                    { icon: '🧳', local: 'Your bags are transferred automatically to Seoul, no need to collect them in Addis', speakHe: 'המזוודות שלכם עוברות אוטומטית לסיאול, אין צורך לאסוף אותן באדיס אבבה' },
+                    { icon: '🏥', local: 'The airport medical clinic is next to the transfer desk, follow me', speakHe: 'המרפאה של שדה התעופה נמצאת ליד דלפק המעבר, בוא אחריי' }
+                ]
+            },
+            ar: {
+                key: 'ar',
+                flag: '🇲🇦',
+                nameHe: 'ערבית (العربية)',
+                shortHe: 'ערבית',
+                badgeText: '🇲🇦 שפת יעד: ערבית (العربية)',
+                ttsLang: 'ar-SA',
+                sttLang: 'ar-SA',
+                micLocalTitle: '🎙️ تحدث بالعربية (ערבית)',
+                listeningLocalText: '🔴 جاري الاستماع للمحلي بالعربية... تحدث الآن',
+                travelerPhrases: [
+                    { icon: '🚑', he: 'אני זקוק לסיוע רפואי דחוף!', local: 'أنا بحاجة إلى مساعدة طبية عاجلة!', speak: 'أنا بحاجة إلى مساعدة طبية عاجلة!' },
+                    { icon: '🏥', he: 'איפה המרפאה או בית החולים הקרוב ביותר?', local: 'أين تقع أقرب عيادة أو مستشفى؟', speak: 'أين تقع أقرب عيادة أو مستشفى؟' },
+                    { icon: '🛏️', he: 'איבדתי את הדרך, עזור לי בבקשה להגיע למלון', local: 'لقد ضللت الطريق، ساعدني من فضلك للوصول إلى الفندق', speak: 'لقد ضللت الطريق، ساعدني من فضلك للوصول إلى الفندق' }
+                ],
+                localPhrases: [
+                    { icon: '🧭', local: 'العيادة الطبية في نهاية هذا الشارع إلى اليمين', speakHe: 'המרפאה הרפואית בסוף הרחוב הזה מצד ימין' },
+                    { icon: '🚑', local: 'سأتصل بالإسعاف الآن، ابق هنا واسترح', speakHe: 'אתקשר לאמבולנס עכשיו, הישאר כאן ותנוח' }
+                ]
+            }
         };
+
+        function detectAutoInterpreterLangKey() {
+            // 1. Check real-time GPS if inside Ethiopia (Addis Ababa transit) or Korea
+            if (currentPosition && currentPosition.coords && !currentPosition.isSyntheticFallback) {
+                const lat = currentPosition.coords.latitude;
+                const lng = currentPosition.coords.longitude;
+                if (lat >= 3 && lat <= 15 && lng >= 33 && lng <= 48) return 'am'; // Ethiopia / Addis Ababa
+                if (lat >= 33 && lat <= 39.5 && lng >= 124 && lng <= 132) return 'ko'; // South Korea
+            }
+            // 2. Check currently selected map station (e.g. station #2 Addis Ababa connection)
+            if (activeTargetIndex !== null && Array.isArray(STATIONS) && STATIONS[activeTargetIndex]) {
+                const st = STATIONS[activeTargetIndex];
+                const tStr = `${st.title || ''} ${st.address || ''} ${st.desc || ''}`;
+                if (/אדיס|Addis|ADD|אתיופיה|Ethiopia/i.test(tStr)) return 'am';
+            }
+            // 3. Check active trip country
+            const country = (typeof getTripCountry === 'function') ? getTripCountry(currentTripKey) : '';
+            if (country.includes('קוריאה') || currentTripKey === 'korea') return 'ko';
+            if (country.includes('אתיופיה')) return 'am';
+            return 'ko';
+        }
+
+        function setInterpreterLangMode(mode) {
+            interpreterLangMode = mode || 'auto';
+            syncInterpreterLanguageWithContext();
+        }
+
+        function syncInterpreterLanguageWithContext() {
+            activeInterpreterLangKey = (interpreterLangMode === 'auto')
+                ? detectAutoInterpreterLangKey()
+                : (INTERPRETER_PROFILES[interpreterLangMode] ? interpreterLangMode : 'ko');
+            const prof = INTERPRETER_PROFILES[activeInterpreterLangKey] || INTERPRETER_PROFILES.ko;
+
+            ['auto', 'ko', 'am', 'ar'].forEach(k => {
+                const btn = document.getElementById('interp-lang-btn-' + k);
+                if (!btn) return;
+                const isSelected = (interpreterLangMode === k) || (interpreterLangMode === 'auto' && k === 'auto');
+                btn.style.background = isSelected ? '#2563eb' : 'white';
+                btn.style.color = isSelected ? 'white' : '#1e293b';
+                btn.style.borderColor = isSelected ? '#1d4ed8' : '#cbd5e1';
+            });
+
+            const badgeEl = document.getElementById('interpreter-active-lang-badge');
+            if (badgeEl) badgeEl.innerText = prof.badgeText + (interpreterLangMode === 'auto' ? ' (אוטומטי)' : '');
+
+            const descEl = document.getElementById('interpreter-desc-banner');
+            if (descEl) {
+                descEl.innerHTML = `<b>תיווך שטח מבצעי:</b> המטייל מדבר בעברית ⬅ המערכת מתרגמת ומשמיעה בקול ב<b>${prof.nameHe}</b> למקומי. המקומי עונה ב${prof.shortHe} ⬅ המערכת מתרגמת ומשמיעה בעברית למטייל!`;
+            }
+
+            const heSub = document.getElementById('btn-mic-hebrew-sub');
+            if (heSub) heSub.innerText = `(ישמיע ב${prof.shortHe} למקומי)`;
+
+            const locTitle = document.getElementById('btn-mic-local-title');
+            if (locTitle) locTitle.innerText = prof.micLocalTitle;
+
+            const travHdr = document.getElementById('interp-traveler-phrases-hdr');
+            if (travHdr) travHdr.innerText = `🇮🇱 משפטי מטייל (המערכת תשמיע ב${prof.shortHe} + תעתיק):`;
+
+            const travList = document.getElementById('interp-traveler-phrases-list');
+            if (travList) {
+                travList.innerHTML = prof.travelerPhrases.map((p, idx) => `
+                    <button type="button" onclick="simulateInterpreterPhrase('he', ${idx})" style="text-align: right; background: white; border: 1px solid #bfdbfe; padding: 7px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #1e3a8a; line-height: 1.35;">
+                        ${p.icon} <b>"${p.he}"</b><br>
+                        <span style="font-size: 0.9em; color: #475569;">🗣️ ${p.local}</span>
+                    </button>
+                `).join('');
+            }
+
+            const locList = document.getElementById('interp-local-phrases-list');
+            if (locList) {
+                locList.innerHTML = prof.localPhrases.map((p, idx) => `
+                    <button type="button" onclick="simulateInterpreterPhrase('local', ${idx})" style="text-align: right; background: white; border: 1px solid #bbf7d0; padding: 7px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer; color: #14532d; line-height: 1.35;">
+                        ${p.icon} <b>"${p.local}"</b><br>
+                        <span style="font-size: 0.9em; color: #166534;">🇮🇱 תרגום: ${p.speakHe}</span>
+                    </button>
+                `).join('');
+            }
+        }
 
         function speakVoiceText(text, langCode) {
             if ('speechSynthesis' in window) {
@@ -12801,35 +13062,51 @@
             }
         }
 
+        function simulateInterpreterPhrase(speakerType, phraseIdx) {
+            const prof = INTERPRETER_PROFILES[activeInterpreterLangKey] || INTERPRETER_PROFILES.ko;
+            if (speakerType === 'he') {
+                const p = prof.travelerPhrases[phraseIdx] || prof.travelerPhrases[0];
+                if (p) processInterpreterUtterance('he', p.he, p.local, p.speak, prof.ttsLang);
+            } else {
+                const p = prof.localPhrases[phraseIdx] || prof.localPhrases[0];
+                if (p) processInterpreterUtterance('local', p.local, p.speakHe, p.speakHe, 'he-IL');
+            }
+        }
+
+        function simulateInterpreterScenario(speakerLang, phraseText) {
+            processInterpreterUtterance(speakerLang === 'he' ? 'he' : 'local', phraseText);
+        }
+
         function triggerVoiceInterpreter(speakerLang) {
+            const prof = INTERPRETER_PROFILES[activeInterpreterLangKey] || INTERPRETER_PROFILES.ko;
+            const isHe = (speakerLang === 'he');
             const pulseBar = document.getElementById('interpreter-pulse-bar');
             const pulseText = document.getElementById('interpreter-pulse-text');
 
             if (pulseBar) pulseBar.style.display = 'block';
             if (pulseText) {
-                pulseText.innerText = speakerLang === 'he' ? 
-                    '🔴 מקשיב עכשיו למטייל בעברית... דבר בבירור' : 
-                    '🔴 جاري الاستماع للمحلي بالعربية... تحدث الآن';
+                pulseText.innerText = isHe
+                    ? '🔴 מקשיב עכשיו למטייל בעברית... דבר בבירור'
+                    : prof.listeningLocalText;
             }
 
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (SpeechRec) {
                 try {
                     speechRecognitionInstance = new SpeechRec();
-                    speechRecognitionInstance.lang = speakerLang === 'he' ? 'he-IL' : 'ar-SA';
+                    speechRecognitionInstance.lang = isHe ? 'he-IL' : prof.sttLang;
                     speechRecognitionInstance.interimResults = false;
                     speechRecognitionInstance.maxAlternatives = 1;
 
                     speechRecognitionInstance.onresult = function(event) {
                         const recognizedText = event.results[0][0].transcript;
                         if (pulseBar) pulseBar.style.display = 'none';
-                        processInterpreterUtterance(speakerLang, recognizedText);
+                        processInterpreterUtterance(isHe ? 'he' : 'local', recognizedText);
                     };
 
-                    speechRecognitionInstance.onerror = function(event) {
+                    speechRecognitionInstance.onerror = function() {
                         if (pulseBar) pulseBar.style.display = 'none';
-                        const fallbackPhrase = speakerLang === 'he' ? 'אני זקוק לסיוע רפואי דחוף!' : 'العيادة الطبية في نهاية هذا الشارع إلى הيمين';
-                        processInterpreterUtterance(speakerLang, fallbackPhrase);
+                        simulateInterpreterPhrase(isHe ? 'he' : 'local', 0);
                     };
 
                     speechRecognitionInstance.onend = function() {
@@ -12839,20 +13116,14 @@
                     speechRecognitionInstance.start();
                 } catch (err) {
                     if (pulseBar) pulseBar.style.display = 'none';
-                    const fallbackPhrase = speakerLang === 'he' ? 'אני זקוק לסיוע רפואי דחוף!' : 'العيادة الطبية في نهاية هذا الشارع إلى اليمين';
-                    processInterpreterUtterance(speakerLang, fallbackPhrase);
+                    simulateInterpreterPhrase(isHe ? 'he' : 'local', 0);
                 }
             } else {
                 setTimeout(() => {
                     if (pulseBar) pulseBar.style.display = 'none';
-                    const fallbackPhrase = speakerLang === 'he' ? 'אני זקוק לסיוע רפואי דחוף!' : 'العيادة الطبية في نهاية هذا الشارع إلى הيمين';
-                    processInterpreterUtterance(speakerLang, fallbackPhrase);
-                }, 1200);
+                    simulateInterpreterPhrase(isHe ? 'he' : 'local', 0);
+                }, 900);
             }
-        }
-
-        function simulateInterpreterScenario(speakerLang, phraseText) {
-            processInterpreterUtterance(speakerLang, phraseText);
         }
 
         function sendCustomInterpreterText() {
@@ -12860,28 +13131,36 @@
             if (!input || !input.value.trim()) return;
             const text = input.value.trim();
             input.value = '';
-            // Auto detect if Arabic or Hebrew
-            const isArabic = /[\u0600-\u06FF]/.test(text);
-            processInterpreterUtterance(isArabic ? 'ar' : 'he', text);
+            const isHebrew = /[\u0590-\u05FF]/.test(text);
+            processInterpreterUtterance(isHebrew ? 'he' : 'local', text);
         }
 
-        function processInterpreterUtterance(speakerLang, originalText) {
-            let translatedText = '';
-            let targetVoiceCode = '';
+        function processInterpreterUtterance(speakerLang, originalText, explicitDisplayTranslation, explicitSpeakText, explicitVoiceCode) {
+            const prof = INTERPRETER_PROFILES[activeInterpreterLangKey] || INTERPRETER_PROFILES.ko;
+            const isHe = (speakerLang === 'he');
+            let translatedText = explicitDisplayTranslation || '';
+            let speakText = explicitSpeakText || '';
+            let targetVoiceCode = explicitVoiceCode || (isHe ? prof.ttsLang : 'he-IL');
 
-            if (speakerLang === 'he') {
-                targetVoiceCode = 'ar-SA';
-                if (INTERPRETER_DICTIONARY[originalText] && INTERPRETER_DICTIONARY[originalText].ar) {
-                    translatedText = INTERPRETER_DICTIONARY[originalText].ar;
+            if (!translatedText) {
+                if (isHe) {
+                    const matched = prof.travelerPhrases.find(p => p.he === originalText || originalText.includes(p.he.slice(0, 10)));
+                    if (matched) {
+                        translatedText = matched.local;
+                        speakText = matched.speak;
+                    } else {
+                        translatedText = `[${prof.shortHe}] ${originalText}`;
+                        speakText = originalText;
+                    }
                 } else {
-                    translatedText = 'أنا بحاجة إلى مساعدة: ' + originalText;
-                }
-            } else {
-                targetVoiceCode = 'he-IL';
-                if (INTERPRETER_DICTIONARY[originalText] && INTERPRETER_DICTIONARY[originalText].he) {
-                    translatedText = INTERPRETER_DICTIONARY[originalText].he;
-                } else {
-                    translatedText = 'תרגום מענה המקומי: ' + originalText;
+                    const matched = prof.localPhrases.find(p => p.local === originalText);
+                    if (matched) {
+                        translatedText = matched.speakHe;
+                        speakText = matched.speakHe;
+                    } else {
+                        translatedText = `תרגום מענה מקומי (${prof.shortHe}): ${originalText}`;
+                        speakText = translatedText;
+                    }
                 }
             }
 
@@ -12890,16 +13169,18 @@
 
             const entry = {
                 id: Date.now(),
-                speakerLang: speakerLang,
+                speakerLang: isHe ? 'he' : 'local',
+                langLabel: prof.shortHe,
                 originalText: originalText,
                 translatedText: translatedText,
+                speakText: speakText || translatedText,
                 targetVoiceCode: targetVoiceCode,
                 time: timeStr
             };
 
             interpreterChatHistory.push(entry);
             renderInterpreterChat();
-            speakVoiceText(translatedText, targetVoiceCode);
+            speakVoiceText(entry.speakText, targetVoiceCode);
         }
 
         function renderInterpreterChat() {
@@ -12909,7 +13190,7 @@
             if (interpreterChatHistory.length === 0) {
                 box.innerHTML = `
                     <div style="text-align: center; color: #94a3b8; font-size: 0.78em; padding: 12px;">
-                        טרם החלה שיחה. לחץ על אחד מכפתורי המיקרופון או על משפט לבדיקה.
+                        טרם החלה שיחה. לחץ על אחד מכפתורי המיקרופון או על משפט להשמעה מיידית.
                     </div>
                 `;
                 return;
@@ -12919,11 +13200,10 @@
                 const isHe = item.speakerLang === 'he';
                 const bg = isHe ? '#eff6ff' : '#f0fdf4';
                 const border = isHe ? '#bfdbfe' : '#bbf7d0';
-                const speakerBadge = isHe ? '🇮🇱 המטייל (עברית ➔ שפה מקומית)' : '🗣️ מענה מקומי (תרגום לעברית)';
+                const speakerBadge = isHe ? `🇮🇱 המטייל (עברית ⬅ ${item.langLabel || 'שפה מקומית'})` : `🗣️ מענה מקומי (${item.langLabel || 'מקומי'} ⬅ עברית)`;
                 const badgeColor = isHe ? '#1d4ed8' : '#166534';
 
-                // Escape single quotes in item.translatedText for speech onclick
-                const cleanSpeechText = item.translatedText.split(String.fromCharCode(39)).join("");
+                const cleanSpeechText = String(item.speakText || item.translatedText).replace(/['"\\]/g, '');
 
                 return `
                     <div style="background:${bg}; border:1px solid ${border}; border-radius:10px; padding:8px 10px; font-size:0.82em;" dir="rtl">
@@ -12953,6 +13233,7 @@
             interpreterChatHistory = [];
             renderInterpreterChat();
         }
+        setTimeout(() => { if (typeof syncInterpreterLanguageWithContext === 'function') syncInterpreterLanguageWithContext(); }, 400);
 
         // ================= DYNAMIC EMERGENCY CALL HANDLER =================
         function handleEmergencyCall(type) {
