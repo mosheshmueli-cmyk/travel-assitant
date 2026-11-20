@@ -1,5 +1,5 @@
 {
-  "revision": 1795177204071,
+  "revision": 1795177264366,
   "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -610,19 +610,7 @@
           "walkingDist": "מעבר בינלאומי בטרמינל 2"
         },
         {
-          "id": "bk_st_1795177203105_34",
-          "title": "🛏️ E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
-          "desc": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש.",
-          "address": "400 Cheonggyecheon-ro",
-          "lat": 37.5708778,
-          "lng": 127.0214175,
-          "stayTime": "",
-          "dayNum": 1,
-          "isHotel": true,
-          "type": "hotel"
-        },
-        {
-          "id": "bk_st_1795177203391_35",
+          "id": "bk_st_1795177263732_34",
           "title": "🛏️ Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ...",
           "desc": "• Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממלון קראון הארבור!) – סופר ענק עם מחלקת יבוא, פירות וירקות, פסטות, אורז, אגוזים ושתייה.",
           "address": "2 Jungang-daero",
@@ -806,7 +794,7 @@
           "row": "N",
           "seat": "",
           "guests": "",
-          "address": "",
+          "address": "2 Jungang-daero",
           "kosherNote": "",
           "bookingRef": "",
           "rawText": "• Costco Busan (Suyeong) & E-Mart / Homeplus Busan – מוצרים אמריקאיים מסומני OU / OK."
@@ -869,7 +857,26 @@
           "rawText": "המלון בלילה הרביעי - בצ׳יונגג׳ו • הודעה / מסמך: טיסות פנימיות: • טיסות פנימיות: • טיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר."
         },
         {
-          "id": "bk_1795177202809_1",
+          "id": "bk_1795177262393_6",
+          "category": "hotel",
+          "subType": "לינה / מלון",
+          "title": "E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו...",
+          "date": "1/12/26",
+          "time": "",
+          "endTime": "",
+          "lineNumber": "",
+          "platform": "",
+          "coach": "",
+          "row": "",
+          "seat": "",
+          "guests": "",
+          "address": "2 Jungang-daero",
+          "kosherNote": "",
+          "bookingRef": "",
+          "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
+        },
+        {
+          "id": "bk_1795177263666_1",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
@@ -889,27 +896,7 @@
           "rawText": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש."
         },
         {
-          "id": "bk_1795177202810_6",
-          "category": "hotel",
-          "subType": "לינה / מלון",
-          "title": "E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו...",
-          "date": "1/12/26",
-          "time": "",
-          "endTime": "",
-          "lineNumber": "",
-          "platform": "",
-          "coach": "",
-          "row": "",
-          "seat": "",
-          "guests": "",
-          "address": "",
-          "website": "",
-          "kosherNote": "",
-          "bookingRef": "",
-          "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
-        },
-        {
-          "id": "bk_1795177202810_7",
+          "id": "bk_1795177263666_7",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.",
@@ -929,7 +916,7 @@
           "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
         },
         {
-          "id": "bk_1795177202810_8",
+          "id": "bk_1795177263666_8",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "Enford Hotel Cheongju ב-Booking.com!",
@@ -949,7 +936,7 @@
           "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
         },
         {
-          "id": "bk_1795177202810_10",
+          "id": "bk_1795177263666_10",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
@@ -1116,7 +1103,7 @@
       "budget": "5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)",
       "activities": "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול. | משקאות: קפה ללא תוספת טעם מותר לרבות קפה מגורען, נמס וקפסולות קפה. תה המ... | 22-11-2026 | קרון D",
       "transit": "טיסות: ET 419 (TLV (טרמינל 3) ⬅ ADD) 14:40-19:55 מושב 18C, 18B • ET 672 (ADD ⬅ ICN (טרמינל 1)) 22:35-15:45 מושב 46K, 46J • KE1505 (PUS ⬅ CJU) 06:30-07:30 מושב זו טיסת פנים עדיין אין • ET 673 (ICN (טרמינל 1) ⬅ ADD) 00:10-07:25 מושב 46K, 46J • ET 418 (ADD ⬅ TLV (טרמינל 3)) 10:30-13:35 מושב 18J, 18K • KE1505 (בוסאן ⬅ ג'ג'ו) (PUS ⬅ CJU) 06:30-07:30 מושב 46H, 46F • KE1505 (ג'ג'ו ⬅ סיאול) (CJU ⬅ GMP) 10:35-11:50 מושב 46K, 46J • KE 1505 ( ⬅ סיאול (ICN)) 06:30-07:30 | Costco Busan (Suyeong) & E-Mart / Homeplus Busan – מוצרים אמריקאיים מסומ... | 1/12/26 | קו AN | שורה N",
-      "hotels": "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel | 🛏️ 26/11: צ'יאונגז'ו - מלון אנפורד (Enford Hotel Cheongju) | 1/12/26 • 1. בסיאול (Seoul – ליד מלון קוקדו Kukdo): | 1/12/26 • E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו... | 1/12/26 • Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ... | 1/12/26 • 3. באי ג'ג'ו (Jeju – ליד מלון Whistle Lark): | 1/12/26 • E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו... | 1/12/26 • העיפו מבט על Enford Hotel Cheongju ב-Booking. | 1/12/26 • Enford Hotel Cheongju ב-Booking.com! | 1/12/26 • המלון בלילה הרביעי - בצ׳יונגג׳ו | 1/12/26 | 06:30–07:30 • המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים | 1/12/26 | 🛏️ 26/11: צ'יאונגז'ו - מלון אנפורד (Enford Hotel Cheongju) | 1/12/26 • 1. בסיאול (Seoul – ליד מלון קוקדו Kukdo): | 1/12/26 • Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ... | 1/12/26 • 3. באי ג'ג'ו (Jeju – ליד מלון Whistle Lark): | 1/12/26 • המלון בלילה הרביעי - בצ׳יונגג׳ו | 1/12/26 | 06:30–07:30 • E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו... | 1/12/26 • E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו... | 1/12/26 • העיפו מבט על Enford Hotel Cheongju ב-Booking. | 1/12/26 • Enford Hotel Cheongju ב-Booking.com! | 1/12/26 • המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים | 1/12/26",
+      "hotels": "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel | 🛏️ 26/11: צ'יאונגז'ו - מלון אנפורד (Enford Hotel Cheongju) | 1/12/26 • 1. בסיאול (Seoul – ליד מלון קוקדו Kukdo): | 1/12/26 • Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ... | 1/12/26 • 3. באי ג'ג'ו (Jeju – ליד מלון Whistle Lark): | 1/12/26 • המלון בלילה הרביעי - בצ׳יונגג׳ו | 1/12/26 | 06:30–07:30 • E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו... | 1/12/26 • E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו... | 1/12/26 • העיפו מבט על Enford Hotel Cheongju ב-Booking. | 1/12/26 • Enford Hotel Cheongju ב-Booking.com! | 1/12/26 • המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים | 1/12/26 | 🛏️ 26/11: צ'יאונגז'ו - מלון אנפורד (Enford Hotel Cheongju) | 1/12/26 • 1. בסיאול (Seoul – ליד מלון קוקדו Kukdo): | 1/12/26 • Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ... | 1/12/26 • 3. באי ג'ג'ו (Jeju – ליד מלון Whistle Lark): | 1/12/26 • המלון בלילה הרביעי - בצ׳יונגג׳ו | 1/12/26 | 06:30–07:30 • E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו... | 1/12/26 • E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו... | 1/12/26 • העיפו מבט על Enford Hotel Cheongju ב-Booking. | 1/12/26 • Enford Hotel Cheongju ב-Booking.com! | 1/12/26 • המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים | 1/12/26",
       "food": "איתור מזון ומסעדות כשרות וטבעוניות, סריקת ברקודים, סעודות שבת מוסדרות.",
       "constraints": "2 שבתות מלאות במסלול (שבת 1 בדאייגו | שבת 2 בסיאול). התאמה לגמלאים מעל גיל 75."
     }
@@ -1139,7 +1126,7 @@
         "fileName": "מסמך לסופרים גדולים עם אוכל כשר בסיאול בוסאן .txt",
         "textContent": "מסמך לסופרים גדולים עם אוכל כשר בסיאול, בוסאן וג'ג'ו + מוצרים מותרים ללא הכשר:\n\n1. בסיאול (Seoul – ליד מלון קוקדו Kukdo):\n• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת.\n• Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה.\n• Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים).\n• מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש.\n\n2. בבוסאן (Busan – ליד מלון קראון הארבור Crown Harbor):\n• Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממלון קראון הארבור!) – סופר ענק עם מחלקת יבוא, פירות וירקות, פסטות, אורז, אגוזים ושתייה.\n• Costco Busan (Suyeong) & E-Mart / Homeplus Busan – מוצרים אמריקאיים מסומני OU / OK.\n\n3. באי ג'ג'ו (Jeju – ליד מלון Whistle Lark):\n• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה.",
         "isText": true,
-        "gdriveSynced": false,
+        "gdriveSynced": true,
         "data": "data:text/plain;charset=utf-8,%D7%9E%D7%A1%D7%9E%D7%9A%20%D7%9C%D7%A1%D7%95%D7%A4%D7%A8%D7%99%D7%9D%20%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D%20%D7%A2%D7%9D%20%D7%90%D7%95%D7%9B%D7%9C%20%D7%9B%D7%A9%D7%A8%20%D7%91%D7%A1%D7%99%D7%90%D7%95%D7%9C%2C%20%D7%91%D7%95%D7%A1%D7%90%D7%9F%20%D7%95%D7%92%27%D7%92%27%D7%95%20%2B%20%D7%9E%D7%95%D7%A6%D7%A8%D7%99%D7%9D%20%D7%9E%D7%95%D7%AA%D7%A8%D7%99%D7%9D%20%D7%9C%D7%9C%D7%90%20%D7%94%D7%9B%D7%A9%D7%A8%3A%0A%0A1.%20%D7%91%D7%A1%D7%99%D7%90%D7%95%D7%9C%20%28Seoul%20%E2%80%93%20%D7%9C%D7%99%D7%93%20%D7%9E%D7%9C%D7%95%D7%9F%20%D7%A7%D7%95%D7%A7%D7%93%D7%95%20Kukdo%29%3A%0A%E2%80%A2%20E-Mart%20Cheonggyecheon%20%28%D7%9B%D7%AA%D7%95%D7%91%D7%AA%3A%20400%20Cheonggyecheon-ro%2C%20%D7%9B-8%20%D7%93%D7%A7%27%20%D7%9E%D7%9E%D7%9C%D7%95%D7%9F%20%D7%A7%D7%95%D7%A7%D7%93%D7%95%29%20%E2%80%93%20%D7%A1%D7%95%D7%A4%D7%A8%20%D7%A2%D7%A0%D7%A7%20%D7%9C%D7%94%D7%A6%D7%98%D7%99%D7%99%D7%93%D7%95%D7%AA%20%D7%99%D7%95%D7%9E%D7%99%D7%AA%20%D7%95%D7%9C%D7%A7%D7%A8%D7%90%D7%AA%20%D7%A9%D7%91%D7%AA.%0A%E2%80%A2%20Lotte%20Mart%20ZETTAPLEX%20Seoul%20Station%20%28%D7%9B%D7%AA%D7%95%D7%91%D7%AA%3A%20405%20Hangang-daero%2C%20%D7%AA%D7%97%D7%A0%D7%AA%20%D7%A1%D7%99%D7%90%D7%95%D7%9C%29%20%E2%80%93%20%D7%94%D7%A1%D7%95%D7%A4%D7%A8%D7%9E%D7%A8%D7%A7%D7%98%20%D7%94%D7%AA%D7%99%D7%99%D7%A8%D7%95%D7%AA%D7%99%20%D7%94%D7%92%D7%93%D7%95%D7%9C%20%D7%91%D7%A1%D7%99%D7%90%D7%95%D7%9C%20%D7%A2%D7%9D%20%D7%9E%D7%97%D7%9C%D7%A7%D7%AA%20%D7%99%D7%91%D7%95%D7%90%20%D7%91%D7%99%D7%A0%D7%9C%D7%90%D7%95%D7%9E%D7%99%D7%AA%20%D7%A8%D7%97%D7%91%D7%94%20%D7%95%D7%94%D7%97%D7%96%D7%A8%20%D7%9E%D7%A2%22%D7%9E%20%D7%9E%D7%99%D7%99%D7%93%D7%99%20%D7%91%D7%A7%D7%95%D7%A4%D7%94.%0A%E2%80%A2%20Costco%20Wholesale%20Seoul%20%28%D7%A1%D7%A0%D7%99%D7%A4%D7%99%20Yangjae%20/%20Sangbong%29%20%E2%80%93%20%D7%94%D7%9E%D7%91%D7%97%D7%A8%20%D7%94%D7%92%D7%93%D7%95%D7%9C%20%D7%91%D7%99%D7%95%D7%AA%D7%A8%20%D7%A9%D7%9C%20%D7%9E%D7%95%D7%A6%D7%A8%D7%99%D7%9D%20%D7%9E%D7%99%D7%95%D7%91%D7%90%D7%99%D7%9D%20%D7%9E%D7%90%D7%A8%D7%94%22%D7%91%20%D7%A2%D7%9D%20%D7%97%D7%95%D7%AA%D7%9E%D7%95%D7%AA%20%D7%9B%D7%A9%D7%A8%D7%95%D7%AA%20OU%20/%20OK%20/%20Star-K%20/%20Kof-K%20%28%D7%A7%D7%A8%D7%A7%D7%A8%D7%99%D7%9D%2C%20%D7%93%D7%92%D7%A0%D7%99%20%D7%91%D7%95%D7%A7%D7%A8%2C%20%D7%97%D7%98%D7%99%D7%A4%D7%99%D7%9D%2C%20%D7%A9%D7%9E%D7%9F%20%D7%96%D7%99%D7%AA%2C%20%D7%A1%D7%9C%D7%9E%D7%95%D7%9F%20%D7%9E%D7%A2%D7%95%D7%A9%D7%9F%20%D7%95%D7%90%D7%92%D7%95%D7%96%D7%99%D7%9D%29.%0A%E2%80%A2%20%D7%9E%D7%9B%D7%95%D7%9C%D7%AA%20%D7%91%D7%99%D7%AA%20%D7%97%D7%91%22%D7%93%20%D7%A1%D7%99%D7%90%D7%95%D7%9C%20%28Itaewon%2C%2029%20Jangmun-ro%29%20%E2%80%93%20%D7%9E%D7%95%D7%A6%D7%A8%D7%99%20%D7%9E%D7%94%D7%93%D7%A8%D7%99%D7%9F%2C%20%D7%99%D7%99%D7%9F%2C%20%D7%97%D7%9C%D7%95%D7%AA%20%D7%95%D7%9E%D7%A0%D7%95%D7%AA%20%D7%A9%D7%91%D7%AA%20%D7%91%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%9E%D7%A8%D7%90%D7%A9.%0A%0A2.%20%D7%91%D7%91%D7%95%D7%A1%D7%90%D7%9F%20%28Busan%20%E2%80%93%20%D7%9C%D7%99%D7%93%20%D7%9E%D7%9C%D7%95%D7%9F%20%D7%A7%D7%A8%D7%90%D7%95%D7%9F%20%D7%94%D7%90%D7%A8%D7%91%D7%95%D7%A8%20Crown%20Harbor%29%3A%0A%E2%80%A2%20Lotte%20Mart%20Gwangbok%20%28%D7%9B%D7%AA%D7%95%D7%91%D7%AA%3A%202%20Jungang-daero%2C%20Jung-gu%20%E2%80%93%20%D7%9B-10%20%D7%93%D7%A7%27%20%D7%94%D7%9C%D7%99%D7%9B%D7%94%20%D7%9E%D7%9E%D7%9C%D7%95%D7%9F%20%D7%A7%D7%A8%D7%90%D7%95%D7%9F%20%D7%94%D7%90%D7%A8%D7%91%D7%95%D7%A8%21%29%20%E2%80%93%20%D7%A1%D7%95%D7%A4%D7%A8%20%D7%A2%D7%A0%D7%A7%20%D7%A2%D7%9D%20%D7%9E%D7%97%D7%9C%D7%A7%D7%AA%20%D7%99%D7%91%D7%95%D7%90%2C%20%D7%A4%D7%99%D7%A8%D7%95%D7%AA%20%D7%95%D7%99%D7%A8%D7%A7%D7%95%D7%AA%2C%20%D7%A4%D7%A1%D7%98%D7%95%D7%AA%2C%20%D7%90%D7%95%D7%A8%D7%96%2C%20%D7%90%D7%92%D7%95%D7%96%D7%99%D7%9D%20%D7%95%D7%A9%D7%AA%D7%99%D7%99%D7%94.%0A%E2%80%A2%20Costco%20Busan%20%28Suyeong%29%20%26%20E-Mart%20/%20Homeplus%20Busan%20%E2%80%93%20%D7%9E%D7%95%D7%A6%D7%A8%D7%99%D7%9D%20%D7%90%D7%9E%D7%A8%D7%99%D7%A7%D7%90%D7%99%D7%99%D7%9D%20%D7%9E%D7%A1%D7%95%D7%9E%D7%A0%D7%99%20OU%20/%20OK.%0A%0A3.%20%D7%91%D7%90%D7%99%20%D7%92%27%D7%92%27%D7%95%20%28Jeju%20%E2%80%93%20%D7%9C%D7%99%D7%93%20%D7%9E%D7%9C%D7%95%D7%9F%20Whistle%20Lark%29%3A%0A%E2%80%A2%20E-Mart%20Shin-Jeju%20%26%20Lotte%20Mart%20Jeju%20%28%D7%91%D7%A2%D7%99%D7%A8%20%D7%92%27%D7%92%27%D7%95%2C%20%D7%9B-10%E2%80%9315%20%D7%93%D7%A7%27%20%D7%9E%D7%94%D7%9E%D7%9C%D7%95%D7%9F%29%20%E2%80%93%20%D7%A1%D7%95%D7%A4%D7%A8%D7%99%D7%9D%20%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D%20%D7%9C%D7%A4%D7%99%D7%A8%D7%95%D7%AA%20%D7%95%D7%99%D7%A8%D7%A7%D7%95%D7%AA%20%D7%98%D7%A8%D7%99%D7%99%D7%9D%2C%20%D7%93%D7%92%D7%A0%D7%99%D7%9D%2C%20%D7%A9%D7%9E%D7%9F%20%D7%96%D7%99%D7%AA%2C%20%D7%93%D7%91%D7%A9%20100%25%2C%20%D7%98%D7%95%D7%A0%D7%94%20%D7%95%D7%A9%D7%AA%D7%99%D7%99%D7%94."
       },
       {
@@ -1511,7 +1498,7 @@
         "row": "N",
         "seat": "",
         "guests": "",
-        "address": "",
+        "address": "2 Jungang-daero",
         "kosherNote": "",
         "bookingRef": "",
         "rawText": "• Costco Busan (Suyeong) & E-Mart / Homeplus Busan – מוצרים אמריקאיים מסומני OU / OK."
@@ -1574,7 +1561,26 @@
         "rawText": "המלון בלילה הרביעי - בצ׳יונגג׳ו • הודעה / מסמך: טיסות פנימיות: • טיסות פנימיות: • טיסה מבוסן לג׳ג׳ו בתאריך 1/12/26 KE1505. ממריאה ב6:30 ותנחת ב7:30 בבוקר."
       },
       {
-        "id": "bk_1795177202809_1",
+        "id": "bk_1795177262393_6",
+        "category": "hotel",
+        "subType": "לינה / מלון",
+        "title": "E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו...",
+        "date": "1/12/26",
+        "time": "",
+        "endTime": "",
+        "lineNumber": "",
+        "platform": "",
+        "coach": "",
+        "row": "",
+        "seat": "",
+        "guests": "",
+        "address": "2 Jungang-daero",
+        "kosherNote": "",
+        "bookingRef": "",
+        "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
+      },
+      {
+        "id": "bk_1795177263666_1",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
@@ -1594,27 +1600,7 @@
         "rawText": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש."
       },
       {
-        "id": "bk_1795177202810_6",
-        "category": "hotel",
-        "subType": "לינה / מלון",
-        "title": "E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו...",
-        "date": "1/12/26",
-        "time": "",
-        "endTime": "",
-        "lineNumber": "",
-        "platform": "",
-        "coach": "",
-        "row": "",
-        "seat": "",
-        "guests": "",
-        "address": "",
-        "website": "",
-        "kosherNote": "",
-        "bookingRef": "",
-        "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
-      },
-      {
-        "id": "bk_1795177202810_7",
+        "id": "bk_1795177263666_7",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.",
@@ -1634,7 +1620,7 @@
         "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
       },
       {
-        "id": "bk_1795177202810_8",
+        "id": "bk_1795177263666_8",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "Enford Hotel Cheongju ב-Booking.com!",
@@ -1654,7 +1640,7 @@
         "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
       },
       {
-        "id": "bk_1795177202810_10",
+        "id": "bk_1795177263666_10",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
