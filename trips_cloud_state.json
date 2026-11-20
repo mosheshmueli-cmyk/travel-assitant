@@ -1,5 +1,5 @@
 {
-  "revision": 1795177301434,
+  "revision": 1795177321913,
   "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -610,7 +610,7 @@
           "walkingDist": "מעבר בינלאומי בטרמינל 2"
         },
         {
-          "id": "bk_st_1795177300797_34",
+          "id": "bk_st_1795177321275_34",
           "title": "🛏️ Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ...",
           "desc": "• Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממלון קראון הארבור!) – סופר ענק עם מחלקת יבוא, פירות וירקות, פסטות, אורז, אגוזים ושתייה.",
           "address": "2 Jungang-daero",
@@ -873,10 +873,10 @@
           "address": "2 Jungang-daero",
           "kosherNote": "",
           "bookingRef": "",
-          "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה."
+          "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
         },
         {
-          "id": "bk_1795177300561_1",
+          "id": "bk_1795177321059_1",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
@@ -890,12 +890,13 @@
           "seat": "",
           "guests": "",
           "address": "400 Cheonggyecheon-ro",
+          "website": "",
           "kosherNote": "כשר",
           "bookingRef": "",
           "rawText": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש."
         },
         {
-          "id": "bk_1795177300562_7",
+          "id": "bk_1795177321060_7",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.",
@@ -915,7 +916,7 @@
           "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
         },
         {
-          "id": "bk_1795177300562_8",
+          "id": "bk_1795177321060_8",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "Enford Hotel Cheongju ב-Booking.com!",
@@ -935,7 +936,7 @@
           "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
         },
         {
-          "id": "bk_1795177300562_10",
+          "id": "bk_1795177321060_10",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
@@ -1576,10 +1577,10 @@
         "address": "2 Jungang-daero",
         "kosherNote": "",
         "bookingRef": "",
-        "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה."
+        "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
       },
       {
-        "id": "bk_1795177300561_1",
+        "id": "bk_1795177321059_1",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
@@ -1593,12 +1594,13 @@
         "seat": "",
         "guests": "",
         "address": "400 Cheonggyecheon-ro",
+        "website": "",
         "kosherNote": "כשר",
         "bookingRef": "",
         "rawText": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש."
       },
       {
-        "id": "bk_1795177300562_7",
+        "id": "bk_1795177321060_7",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.",
@@ -1618,7 +1620,7 @@
         "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
       },
       {
-        "id": "bk_1795177300562_8",
+        "id": "bk_1795177321060_8",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "Enford Hotel Cheongju ב-Booking.com!",
@@ -1638,7 +1640,7 @@
         "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
       },
       {
-        "id": "bk_1795177300562_10",
+        "id": "bk_1795177321060_10",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
