@@ -1,5 +1,5 @@
 {
-  "revision": 1795180383918,
+  "revision": 1795180435159,
   "activeTripKey": "korea",
   "homeCountry": "ישראל",
   "deletedTrips": [
@@ -610,7 +610,7 @@
           "walkingDist": "מעבר בינלאומי בטרמינל 2"
         },
         {
-          "id": "bk_st_1795180383288_34",
+          "id": "bk_st_1795180434536_34",
           "title": "🛏️ Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ...",
           "desc": "• Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממלון קראון הארבור!) – סופר ענק עם מחלקת יבוא, פירות וירקות, פסטות, אורז, אגוזים ושתייה.",
           "address": "2 Jungang-daero",
@@ -627,29 +627,31 @@
           "flightNumber": "ET 419",
           "airline": "Ethiopian Airlines",
           "date": "22/11/2026",
-          "departureTime": "14:40",
-          "arrivalTime": "19:55",
-          "from": "TLV (טרמינל 3)",
+          "departureTime": "13:55",
+          "arrivalTime": "14:40",
+          "from": "TLV",
           "to": "ADD",
           "terminal": "3",
-          "gate": "",
-          "seat": "18C, 18B",
+          "gate": "3",
+          "seat": "18C",
           "bookingRef": "",
-          "baggage": ""
+          "baggage": "",
+          "rawLine": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00007 MS MAZAL TOV SHMUEL   TLV   ADD  to Addis Ababa, Bole International Flight  ET 419  Sun, Nov 22, 2026 Terminal/Gate  3/B4  Boarding Time  13:55  Departure Time: 14:40 Seat  18C  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  4  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900"
         },
         {
           "flightNumber": "ET 672",
           "airline": "Ethiopian Airlines",
           "date": "22/11/2026",
-          "departureTime": "22:35",
-          "arrivalTime": "15:45",
+          "departureTime": "21:50",
+          "arrivalTime": "22:35",
           "from": "ADD",
-          "to": "ICN (טרמינל 1)",
+          "to": "ICN",
           "terminal": "1",
-          "gate": "",
-          "seat": "46K, 46J",
+          "gate": "2",
+          "seat": "46K",
           "bookingRef": "",
-          "baggage": ""
+          "baggage": "",
+          "rawLine": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00013 MS MAZAL TOV SHMUEL  ADD   ICN  Addis Ababa, Bole International to Incheon International Airport Flight  ET 672  Sun, Nov 22, 2026 Terminal/Gate  2/C2  Boarding Time  21:50  Departure Time: 22:35 Seat  46K  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  3  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900"
         },
         {
           "flightNumber": "KE1505",
@@ -873,10 +875,10 @@
           "address": "2 Jungang-daero",
           "kosherNote": "",
           "bookingRef": "",
-          "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה."
+          "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
         },
         {
-          "id": "bk_1795180382820_1",
+          "id": "bk_1795180434403_1",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
@@ -890,12 +892,13 @@
           "seat": "",
           "guests": "",
           "address": "400 Cheonggyecheon-ro",
+          "website": "",
           "kosherNote": "כשר",
           "bookingRef": "",
           "rawText": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש."
         },
         {
-          "id": "bk_1795180382820_7",
+          "id": "bk_1795180434403_7",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.",
@@ -915,7 +918,7 @@
           "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
         },
         {
-          "id": "bk_1795180382820_8",
+          "id": "bk_1795180434403_8",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "Enford Hotel Cheongju ב-Booking.com!",
@@ -935,7 +938,7 @@
           "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
         },
         {
-          "id": "bk_1795180382820_10",
+          "id": "bk_1795180434403_10",
           "category": "hotel",
           "subType": "לינה / מלון",
           "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
@@ -959,15 +962,15 @@
   "arrivalChains": {
     "korea": {
       "originAddress": "רח' העצמאות 93, אשדוד",
-      "originTime": "10:30 (נגזר משעת המראה 14:40 ומפגש בנתב\"ג 11:30 – 60 דק' נסיעה)",
+      "originTime": "10:40 (נגזר משעת המראה 14:40 ומפגש ב-11:40 – 60 דק' נסיעה)",
       "originLat": 31.7893,
       "originLng": 34.6417,
       "hasMeetingPoint": true,
       "meetingAddress": "נתב\"ג טרמינל 3 (מפגש קבוצתי בדלפקי הצ'ק-אין, שער 32)",
-      "meetingTime": "11:30 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)",
+      "meetingTime": "11:40 (נגזר משעת המראה 14:40 – 3 שעות לפני הטיסה)",
       "meetingLat": 32.0055,
       "meetingLng": 34.8854,
-      "connectionOutbound": "✈️ מקטע 1: נתב\"ג 14:40 (ET 419) ⬅ אדיס אבבה 19:55 (4:15 ש') | ⏳ המתנה בקונקשן באדיס אבבה (ADD): שעתיים ו-40 דק' (19:55–22:35, ללא איסוף כבודה) | ✈️ מקטע 2: המראה 22:35 (ET 672) ⬅ נחיתה בסיאול אינצ'ון 15:45 (יום ב' 23/11)",
+      "connectionOutbound": "✈️ ET 419 (TLV ⬅ ADD) 13:55-14:40 | מושב 18C • ET 672 (ADD ⬅ ICN) 21:50-22:35 | מושב 46K • KE1505 (PUS ⬅ CJU) 06:30-07:30 | מושב זו טיסת פנים עדיין אין • ET 673 (ICN (טרמינל 1) ⬅ ADD) 00:10-07:25 | מושב 46K, 46J • ET 418 (ADD ⬅ TLV (טרמינל 3)) 10:30-13:35 | מושב 18J, 18K • KE1505 (בוסאן ⬅ ג'ג'ו) (PUS ⬅ CJU) 06:30-07:30 | מושב 46H, 46F • KE1505 (ג'ג'ו ⬅ סיאול) (CJU ⬅ GMP) 10:35-11:50 | מושב 46K, 46J • KE 1505 ( ⬅ סיאול (ICN)) 06:30-07:30",
       "connectionReturn": "✈️ חזור מקטע 1: סיאול אינצ'ון 00:10 (ET 673) ⬅ אדיס אבבה 07:25 | ⏳ המתנה בקונקשן: 3 שעות ו-5 דק' (07:25–10:30) | ✈️ מקטע 2: אדיס אבבה 10:30 (ET 418) ⬅ נחיתה בנתב\"ג 13:35 (יום א' 06/12)",
       "domesticFlightsSummary": "✈️ טיסת פנים 1 (01/12/26): בוסאן (PUS) 06:30 ⬅ ג'ג'ו (CJU) 07:30 (Korean Air KE1505) | ✈️ טיסת פנים 2 (03/12/26): ג'ג'ו (CJU) 10:35 ⬅ סיאול גימפו (GMP) 11:50 (Korean Air KE1505)",
       "flightTickets": [
@@ -975,29 +978,31 @@
           "flightNumber": "ET 419",
           "airline": "Ethiopian Airlines",
           "date": "22/11/2026",
-          "departureTime": "14:40",
-          "arrivalTime": "19:55",
-          "from": "TLV (טרמינל 3)",
+          "departureTime": "13:55",
+          "arrivalTime": "14:40",
+          "from": "TLV",
           "to": "ADD",
           "terminal": "3",
-          "gate": "",
-          "seat": "18C, 18B",
+          "gate": "3",
+          "seat": "18C",
           "bookingRef": "",
-          "baggage": ""
+          "baggage": "",
+          "rawLine": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00007 MS MAZAL TOV SHMUEL   TLV   ADD  to Addis Ababa, Bole International Flight  ET 419  Sun, Nov 22, 2026 Terminal/Gate  3/B4  Boarding Time  13:55  Departure Time: 14:40 Seat  18C  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  4  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900"
         },
         {
           "flightNumber": "ET 672",
           "airline": "Ethiopian Airlines",
           "date": "22/11/2026",
-          "departureTime": "22:35",
-          "arrivalTime": "15:45",
+          "departureTime": "21:50",
+          "arrivalTime": "22:35",
           "from": "ADD",
-          "to": "ICN (טרמינל 1)",
+          "to": "ICN",
           "terminal": "1",
-          "gate": "",
-          "seat": "46K, 46J",
+          "gate": "2",
+          "seat": "46K",
           "bookingRef": "",
-          "baggage": ""
+          "baggage": "",
+          "rawLine": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00013 MS MAZAL TOV SHMUEL  ADD   ICN  Addis Ababa, Bole International to Incheon International Airport Flight  ET 672  Sun, Nov 22, 2026 Terminal/Gate  2/C2  Boarding Time  21:50  Departure Time: 22:35 Seat  46K  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  3  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900"
         },
         {
           "flightNumber": "KE1505",
@@ -1101,7 +1106,7 @@
       "date": "22/11/2026 - 06/12/2026 (15 ימים)",
       "budget": "5,075 $ לאדם בחדר זוגי (תוספת יחיד: 1,380 $)",
       "activities": "סיאול, סואון, כפר הפולקלור גוסון, שמורת הר סאוראק, מקדש ביאופגוסה, האינסה, דאייגו (שבת ראשונה), גיונגגו, בוסאן, אי גגו, DMZ, שבת שנייה בסיאול. | משקאות: קפה ללא תוספת טעם מותר לרבות קפה מגורען, נמס וקפסולות קפה. תה המ... | 22-11-2026 | קרון D",
-      "transit": "טיסות: ET 419 (TLV (טרמינל 3) ⬅ ADD) 14:40-19:55 מושב 18C, 18B • ET 672 (ADD ⬅ ICN (טרמינל 1)) 22:35-15:45 מושב 46K, 46J • KE1505 (PUS ⬅ CJU) 06:30-07:30 מושב זו טיסת פנים עדיין אין • ET 673 (ICN (טרמינל 1) ⬅ ADD) 00:10-07:25 מושב 46K, 46J • ET 418 (ADD ⬅ TLV (טרמינל 3)) 10:30-13:35 מושב 18J, 18K • KE1505 (בוסאן ⬅ ג'ג'ו) (PUS ⬅ CJU) 06:30-07:30 מושב 46H, 46F • KE1505 (ג'ג'ו ⬅ סיאול) (CJU ⬅ GMP) 10:35-11:50 מושב 46K, 46J • KE 1505 ( ⬅ סיאול (ICN)) 06:30-07:30 | Costco Busan (Suyeong) & E-Mart / Homeplus Busan – מוצרים אמריקאיים מסומ... | 1/12/26 | קו AN | שורה N",
+      "transit": "טיסות: ET 419 (TLV ⬅ ADD) 13:55-14:40 מושב 18C • ET 672 (ADD ⬅ ICN) 21:50-22:35 מושב 46K • KE1505 (PUS ⬅ CJU) 06:30-07:30 מושב זו טיסת פנים עדיין אין • ET 673 (ICN (טרמינל 1) ⬅ ADD) 00:10-07:25 מושב 46K, 46J • ET 418 (ADD ⬅ TLV (טרמינל 3)) 10:30-13:35 מושב 18J, 18K • KE1505 (בוסאן ⬅ ג'ג'ו) (PUS ⬅ CJU) 06:30-07:30 מושב 46H, 46F • KE1505 (ג'ג'ו ⬅ סיאול) (CJU ⬅ GMP) 10:35-11:50 מושב 46K, 46J • KE 1505 ( ⬅ סיאול (ICN)) 06:30-07:30 | Costco Busan (Suyeong) & E-Mart / Homeplus Busan – מוצרים אמריקאיים מסומ... | 1/12/26 | קו AN | שורה N",
       "hotels": "7 מלונות מוזמנים: 1. סיאול (23–25/11): Seoul KUKDO Hotel | 2. סוקצ'ו (25/11): Chestertons Hotel Sokcho | 3. צ'יאונגז'ו (26/11 - לילה 4 מעודכן): Enford Hotel Cheongju | 4. דאייגו (27–29/11 שבת 1): Daegu Grand Hotel | 5. בוסאן (29/11–01/12): Busan Crown Harbor Hotel | 6. ג'ג'ו (01–03/12): Jeju Whistle Lark Hotel | 7. סיאול (03–05/12 שבת 2): Seoul KUKDO Hotel | 🛏️ 26/11: צ'יאונגז'ו - מלון אנפורד (Enford Hotel Cheongju) | 1/12/26 • 1. בסיאול (Seoul – ליד מלון קוקדו Kukdo): | 1/12/26 • Lotte Mart Gwangbok (כתובת: 2 Jungang-daero, Jung-gu – כ-10 דק' הליכה ממ... | 1/12/26 • 3. באי ג'ג'ו (Jeju – ליד מלון Whistle Lark): | 1/12/26 • המלון בלילה הרביעי - בצ׳יונגג׳ו | 1/12/26 | 06:30–07:30 • E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סו... | 1/12/26 • E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו... | 1/12/26 • העיפו מבט על Enford Hotel Cheongju ב-Booking. | 1/12/26 • Enford Hotel Cheongju ב-Booking.com! | 1/12/26 • המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים | 1/12/26",
       "food": "איתור מזון ומסעדות כשרות וטבעוניות, סריקת ברקודים, סעודות שבת מוסדרות.",
       "constraints": "2 שבתות מלאות במסלול (שבת 1 בדאייגו | שבת 2 בסיאול). התאמה לגמלאים מעל גיל 75."
@@ -1116,6 +1121,18 @@
   "manualAnchors": {},
   "customDocs": {
     "korea": [
+      {
+        "id": "doc_1795180434395_816",
+        "name": "כרטיסי טיסה.pdf",
+        "category": "organized",
+        "docType": "מסמך בתיק הטיול",
+        "time": "20.11.2026 15:13",
+        "fileName": "כרטיסי טיסה.pdf",
+        "textContent": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00007 MS MAZAL TOV SHMUEL   TLV   ADD  to Addis Ababa, Bole International Flight  ET 419  Sun, Nov 22, 2026 Terminal/Gate  3/B4  Boarding Time  13:55  Departure Time: 14:40 Seat  18C  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  4  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900\nIMPORTANT NOTES  The Boarding Gate closes 15 minutes before departure. Don't forget about the Security Control at the airport as well as Customs and Immigration Formalities if you take an international   fl ight. At the airport, verify the departure gate. Please be aware of your timing. At the boarding gate, you are requested to provide both parts of this boarding pass as well as your passport and entry documents for your destination (transit) country.  PASSENGER COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00007 MS MAZAL TOV SHMUEL   TLV   ADD  to Addis Ababa, Bole International Flight  ET 419  Sun, Nov 22, 2026 Terminal/Gate  3/B4  Boarding Time  13:55  Departure Time: 14:40 Seat  18C  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  4  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900\nAGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00013 MS MAZAL TOV SHMUEL  ADD   ICN  Addis Ababa, Bole International to Incheon International Airport Flight  ET 672  Sun, Nov 22, 2026 Terminal/Gate  2/C2  Boarding Time  21:50  Departure Time: 22:35 Seat  46K  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  3  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900\nIMPORTANT NOTES  The Boarding Gate closes 15 minutes before departure. Don't forget about the Security Control at the airport as well as Customs and Immigration Formalities if you take an international   fl ight. At the airport, verify the departure gate. Please be aware of your timing. At the boarding gate, you are requested to provide both parts of this boarding pass as well as your passport and entry documents for your destination (transit) country.  PASSENGER COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00013 MS MAZAL TOV SHMUEL  ADD   ICN  Addis Ababa, Bole International to Incheon International Airport Flight  ET 672  Sun, Nov 22, 2026 Terminal/Gate  2/C2  Boarding Time  21:50  Departure Time: 22:35 Seat  46K  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  3  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900",
+        "isText": true,
+        "gdriveSynced": false,
+        "data": ""
+      },
       {
         "id": "doc_1794994609796",
         "name": "הודעה / מסמך: מסמך לסופרים גדולים עם אוכל כשר בסיאול בוסאן ",
@@ -1328,29 +1345,31 @@
         "flightNumber": "ET 419",
         "airline": "Ethiopian Airlines",
         "date": "22/11/2026",
-        "departureTime": "14:40",
-        "arrivalTime": "19:55",
-        "from": "TLV (טרמינל 3)",
+        "departureTime": "13:55",
+        "arrivalTime": "14:40",
+        "from": "TLV",
         "to": "ADD",
         "terminal": "3",
-        "gate": "",
-        "seat": "18C, 18B",
+        "gate": "3",
+        "seat": "18C",
         "bookingRef": "",
-        "baggage": ""
+        "baggage": "",
+        "rawLine": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00007 MS MAZAL TOV SHMUEL   TLV   ADD  to Addis Ababa, Bole International Flight  ET 419  Sun, Nov 22, 2026 Terminal/Gate  3/B4  Boarding Time  13:55  Departure Time: 14:40 Seat  18C  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  4  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900"
       },
       {
         "flightNumber": "ET 672",
         "airline": "Ethiopian Airlines",
         "date": "22/11/2026",
-        "departureTime": "22:35",
-        "arrivalTime": "15:45",
+        "departureTime": "21:50",
+        "arrivalTime": "22:35",
         "from": "ADD",
-        "to": "ICN (טרמינל 1)",
+        "to": "ICN",
         "terminal": "1",
-        "gate": "",
-        "seat": "46K, 46J",
+        "gate": "2",
+        "seat": "46K",
         "bookingRef": "",
-        "baggage": ""
+        "baggage": "",
+        "rawLine": "AGENT COPY  BOARDING PASS   Record Locator: MYXZTK eTicket: 0712164355360 Seq No: 00013 MS MAZAL TOV SHMUEL  ADD   ICN  Addis Ababa, Bole International to Incheon International Airport Flight  ET 672  Sun, Nov 22, 2026 Terminal/Gate  2/C2  Boarding Time  21:50  Departure Time: 22:35 Seat  46K  Checked Bags:  Pieces   Checked Weight   Unchecked Weight Priority Boarding  Boarding Zone  3  For   fl ight status, please check with us at https://www.ethiopianairlines.com/aa/book/booking/ fl ight-status or call: +251 116 179 900"
       },
       {
         "flightNumber": "KE1505",
@@ -1576,10 +1595,10 @@
         "address": "2 Jungang-daero",
         "kosherNote": "",
         "bookingRef": "",
-        "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה."
+        "rawText": "• E-Mart Shin-Jeju & Lotte Mart Jeju (בעיר ג'ג'ו, כ-10–15 דק' מהמלון) – סופרים גדולים לפירות וירקות טריים, דגנים, שמן זית, דבש 100%, טונה ושתייה. • הודעה / מסמך: חילוץ ומיזוג אוניברסלי (parseUniversalBooking • חילוץ ומיזוג אוניברסלי (parseUniversalBookingsFromText, mergeUniversalBookings, saveTripBookings): מזהה אוטומטית מתוך כל קובץ או טקסט מודבק: • image.png"
       },
       {
-        "id": "bk_1795180382820_1",
+        "id": "bk_1795180434403_1",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו...",
@@ -1593,12 +1612,13 @@
         "seat": "",
         "guests": "",
         "address": "400 Cheonggyecheon-ro",
+        "website": "",
         "kosherNote": "כשר",
         "bookingRef": "",
         "rawText": "• E-Mart Cheonggyecheon (כתובת: 400 Cheonggyecheon-ro, כ-8 דק' ממלון קוקדו) – סופר ענק להצטיידות יומית ולקראת שבת. • • Lotte Mart ZETTAPLEX Seoul Station (כתובת: 405 Hangang-daero, תחנת סיאול) – הסופרמרקט התיירותי הגדול בסיאול עם מחלקת יבוא בינלאומית רחבה והחזר מע\"מ מיידי בקופה. • • Costco Wholesale Seoul (סניפי Yangjae / Sangbong) – המבחר הגדול ביותר של מוצרים מיובאים מארה\"ב עם חותמות כשרות OU / OK / Star-K / Kof-K (קרקרים, דגני בוקר, חטיפים, שמן זית, סלמון מעושן ואגוזים). • • מכולת בית חב\"ד סיאול (Itaewon, 29 Jangmun-ro) – מוצרי מהדרין, יין, חלות ומנות שבת בתיאום מראש."
       },
       {
-        "id": "bk_1795180382820_7",
+        "id": "bk_1795180434403_7",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "העיפו מבט על Enford Hotel Cheongju ב-Booking.",
@@ -1618,7 +1638,7 @@
         "rawText": "הודעה / מסמך: העיפו מבט על Enford Hotel Cheongju ב-Booking."
       },
       {
-        "id": "bk_1795180382820_8",
+        "id": "bk_1795180434403_8",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "Enford Hotel Cheongju ב-Booking.com!",
@@ -1638,7 +1658,7 @@
         "rawText": "העיפו מבט על Enford Hotel Cheongju ב-Booking.com! https://www.booking.com/Share-s5yTXOK"
       },
       {
-        "id": "bk_1795180382820_10",
+        "id": "bk_1795180434403_10",
         "category": "hotel",
         "subType": "לינה / מלון",
         "title": "המלון הזה בסיאול לשני לילות ראשונים ולשני לילות אחרונים",
